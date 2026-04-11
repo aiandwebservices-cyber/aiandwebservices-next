@@ -23,7 +23,8 @@
   --border-dk:rgba(255,255,255,.1);
   --panel-count:9;
 }
-html,body{width:100%;height:100%;overflow:hidden;font-family:'Inter',sans-serif;background:var(--white);color:var(--text)}
+html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(--white);color:var(--text)}
+@media(min-width:769px){html,body{overflow:hidden}}
 a{color:inherit;text-decoration:none}
 button{font-family:inherit;cursor:pointer}
 
