@@ -281,7 +281,7 @@ button{font-family:inherit;cursor:pointer}
   font-size:18px;font-weight:800;color:var(--text);letter-spacing:-.3px;
 }
 .cat-outcome{font-size:11px;color:var(--muted);margin-top:3px;line-height:1.4;font-style:italic}
-.cat-list{list-style:none;display:flex;flex-direction:column;justify-content:space-between;flex:1;gap:0}
+.cat-list{list-style:none;display:flex;flex-direction:column;gap:0}
 .cat-list li{
   font-size:13px;color:var(--muted);padding:6px 0 6px 16px;
   position:relative;line-height:1.4;
