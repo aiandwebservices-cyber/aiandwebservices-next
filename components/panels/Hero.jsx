@@ -1,0 +1,84 @@
+'use client';
+
+export default function Hero() {
+  return (
+    <section className="panel" id="p0" aria-label="AI automation and web services for small businesses">
+      <div className="hero-bg"></div>
+      <div className="hero-grid"></div>
+      <div className="hero-inner">
+        <div className="hero-left">
+          <div className="hero-eyebrow"><span className="edot"></span> AI Automation &amp; Web Services for Small Businesses</div>
+          <div className="hero-slogan">Intelligent solutions. Personal service.</div>
+          <h1 className="hero-h1">
+            Stop losing leads to<br/>
+            businesses with <span className="accent">better<br/>tech than you.</span>
+          </h1>
+          <p className="hero-sub">
+            I build you a <strong>chatbot that answers inquiries at 3am</strong>, a <strong>website that ranks on Google</strong>, and <strong>automations that follow up so you don&apos;t have to</strong> — all connected, all done for you.
+          </p>
+          <div className="hero-btns">
+            <button className="btn-primary" onClick={() => window.go(6)}>Get a Free AI Audit →</button>
+            <button className="btn-ghost-w" onClick={() => window.go(1)}>See What I Build</button>
+          </div>
+          <div className="hero-stats">
+            <div className="hs"><span className="hs-n">No contracts</span><span className="hs-l">Cancel or pause anytime</span></div>
+            <div className="hs"><span className="hs-n">Direct access</span><span className="hs-l">You work with David, not a team</span></div>
+            <div className="hs"><span className="hs-n">Free audit</span><span className="hs-l">Start with a no-obligation review</span></div>
+          </div>
+          <div className="hero-data">
+            <div className="hd-stat">
+              <div className="hd-n">66<em>%</em></div>
+              <div className="hd-l">of SMBs using AI save $500–$2,000/month</div>
+              <div className="hd-src">Source: <a href="https://uplyftcapital.com/small-business-blog/small-businesses-using-ai-scale-2026" target="_blank" rel="noopener noreferrer">Uplyft Capital</a></div>
+            </div>
+            <div className="hd-stat">
+              <div className="hd-n">91<em>%</em></div>
+              <div className="hd-l">of small businesses say AI boosts their revenue</div>
+              <div className="hd-src">Source: <a href="https://neuwark.com/blog/ai-for-small-business-2026-complete-guide" target="_blank" rel="noopener noreferrer">Neuwark</a></div>
+            </div>
+            <div className="hd-stat">
+              <div className="hd-n">$20<em>B</em></div>
+              <div className="hd-l">global AI market for small businesses in 2026</div>
+              <div className="hd-src">Source: <a href="https://allgreatthings.io/blog/ai-tools-marketing-automation/ai-agents-smb-2026-guide" target="_blank" rel="noopener noreferrer">AllGreatThings</a></div>
+            </div>
+            <div className="hd-stat">
+              <div className="hd-n">35<em>%</em></div>
+              <div className="hd-l">average reduction in operational costs in year one of AI adoption</div>
+              <div className="hd-src">Source: <a href="https://adai.news/resources/statistics/ai-automation-statistics-2026/" target="_blank" rel="noopener noreferrer">McKinsey, 2025</a></div>
+            </div>
+          </div>
+        </div>
+        <div className="hero-right">
+          <div className="funnel-card fc-ai">
+            <div className="fc-icon">🤖</div>
+            <div className="fc-body"><div className="fc-title">A chatbot that handles your inquiries &amp; books calls</div><div className="fc-desc">So you stop losing leads who don&apos;t want to wait for a reply</div></div>
+          </div>
+          <div className="funnel-arrow">↓</div>
+          <div className="funnel-card fc-web">
+            <div className="fc-icon">🌐</div>
+            <div className="fc-body"><div className="fc-title">A fast website that converts visitors into customers</div><div className="fc-desc">Built to rank on Google and built to close — not just look good</div></div>
+          </div>
+          <div className="funnel-arrow">↓</div>
+          <div className="funnel-card fc-seo">
+            <div className="fc-icon">📈</div>
+            <div className="fc-body"><div className="fc-title">SEO that brings the right people to your door</div><div className="fc-desc">Consistent organic traffic without paying for every click</div></div>
+          </div>
+          <div className="funnel-arrow">↓</div>
+          <div className="funnel-card fc-mkt">
+            <div className="fc-icon">🎯</div>
+            <div className="fc-body"><div className="fc-title">Automated follow-up that nurtures leads while you work</div><div className="fc-desc">Email sequences and CRM workflows that close deals on autopilot</div></div>
+          </div>
+          <div className="funnel-arrow">↓</div>
+          <div className="funnel-card fc-cs">
+            <div className="fc-icon">🧠</div>
+            <div className="fc-body"><div className="fc-title">A clear AI roadmap for your specific business</div><div className="fc-desc">No generic advice — a real plan for where AI saves you the most time &amp; money</div></div>
+          </div>
+        </div>
+      </div>
+      <div id="scroll-hint" aria-hidden="true">
+        <div className="sh-arrow">→</div>
+        <div className="sh-label">scroll to explore</div>
+      </div>
+    </section>
+  );
+}
