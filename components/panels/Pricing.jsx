@@ -37,7 +37,7 @@ export default function Pricing() {
             <div className="cs-setup-lbl">One-time setup</div>
             <div className="cs-amount"><sup>$</sup>997</div>
             <div className="cs-mo">then <strong>$97/month</strong></div>
-            <button className="cs-btn" onClick={() => window.go(6)} aria-label="Get started with standalone AI Chatbot">Get Started →</button>
+            <button className="cs-btn" onClick={() => window.go(7)} aria-label="Get started with standalone AI Chatbot">Get Started →</button>
           </div>
         </div>
 
@@ -63,7 +63,7 @@ export default function Pricing() {
                 {plan.features.map(f => <li key={f}>{f}</li>)}
               </ul>
               <div className="pr-best">Best for: {plan.best}</div>
-              <button className="pr-btn" onClick={() => window.go(6)}>Get Started →</button>
+              <button className="pr-btn" onClick={() => window.go(7)}>Get Started →</button>
             </div>
           ))}
           <div className="pr-card">
@@ -80,7 +80,7 @@ export default function Pricing() {
               <li>Fractional AI advisor (ongoing)</li>
             </ul>
             <div className="pr-best">Best for: Businesses that want expert guidance before committing to a full build</div>
-            <button className="pr-btn" onClick={() => window.go(6)}>Get Started →</button>
+            <button className="pr-btn" onClick={() => window.go(7)}>Get Started →</button>
           </div>
         </div>
 

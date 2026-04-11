@@ -17,7 +17,7 @@ export default function Hero() {
             I build you a <strong>chatbot that answers inquiries at 3am</strong>, a <strong>website that ranks on Google</strong>, and <strong>automations that follow up so you don&apos;t have to</strong> — all connected, all done for you.
           </p>
           <div className="hero-btns">
-            <button className="btn-primary" onClick={() => window.go(6)}>Get a Free AI Audit →</button>
+            <button className="btn-primary" onClick={() => window.go(7)}>Get a Free AI Audit →</button>
             <button className="btn-ghost-w" onClick={() => window.go(1)}>See What I Build</button>
           </div>
           <div className="hero-stats">
