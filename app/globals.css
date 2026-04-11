@@ -109,7 +109,7 @@ button{font-family:inherit;cursor:pointer}
   color:var(--text);font-size:18px;
 }
 .arr:hover{background:#fff;box-shadow:0 4px 20px rgba(0,0,0,.12);transform:translateY(-50%) scale(1.05)}
-#arr-l{left:20px;transform:translateY(-50%)}
+#arr-l{left:20px;top:58%;transform:translateY(-50%)}
 #arr-r{right:20px;transform:translateY(-50%)}
 #arr-l:hover{transform:translateY(-50%) scale(1.05) translateX(-2px)}
 #arr-r:hover{transform:translateY(-50%) scale(1.05) translateX(2px)}

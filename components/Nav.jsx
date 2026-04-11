@@ -21,7 +21,7 @@ export default function Nav() {
           <button className="nav-pill" onClick={() => window.go(7)} role="menuitem">Contact</button>
         </div>
         <button className="nav-cta" id="nav-cta-desktop" onClick={() => window.go(7)} aria-label="Get a free AI audit — go to contact form">Get a Free Audit →</button>
-        <button className="arr hide" id="arr-l" onClick={() => window.go(window._cur - 1)} aria-label="Previous section">&#8592;</button>
+        <button className="arr hide" id="arr-l" onClick={() => window.goPrev()} aria-label="Previous section">&#8592;</button>
         <button id="hamburger" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open navigation menu" onClick={() => window.toggleMenu()}>
           <span className="hb-line" aria-hidden="true"></span>
           <span className="hb-line" aria-hidden="true"></span>
@@ -41,7 +41,7 @@ export default function Nav() {
         <button className="mob-cta" onClick={() => window.mobileGo(7)}>Get a Free Audit — It&apos;s Free →</button>
       </div>
 
-      <button className="arr" id="arr-r" onClick={() => window.go(window._cur + 1)} aria-label="Next section">&#8594;</button>
+      <button className="arr" id="arr-r" onClick={() => window.goNext()} aria-label="Next section">&#8594;</button>
 
       <div id="dots" role="tablist" aria-label="Navigate to section">
         {['Home','Services','How It Works','About','Pricing','Blog','FAQ','Contact'].map((label, i) => (

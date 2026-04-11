@@ -93,6 +93,8 @@ export function useHorizontalScroll() {
 
     // Expose functions globally so onclick attributes work
     window.go = go;
+    window.goNext = () => go(cur + 1);
+    window.goPrev = () => go(cur - 1);
     window.mobileGo = scrollToPanel;
     window.toggleMenu = toggleMenu;
 
@@ -165,6 +167,8 @@ export function useHorizontalScroll() {
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleResize);
       delete window.go;
+      delete window.goNext;
+      delete window.goPrev;
       delete window.mobileGo;
       delete window.toggleMenu;
     };
