@@ -369,8 +369,9 @@ button{font-family:inherit;cursor:pointer}
 /* ── PANEL 3: ABOUT ── */
 #p3{background:var(--off)}
 .about-inner{
-  height:100%;display:grid;grid-template-columns:minmax(0,600px) minmax(0,600px);
-  padding:84px 6vw 40px;gap:48px;align-items:start;justify-content:center;
+  height:100%;display:grid;grid-template-columns:minmax(0,520px) minmax(0,580px);
+  grid-template-rows:auto auto;
+  padding:60px 6vw 40px;gap:40px;align-items:start;justify-content:center;
   overflow-y:auto;
 }
 .about-left{}
@@ -427,9 +428,10 @@ button{font-family:inherit;cursor:pointer}
 
 /* ── CORE VALUES STRIP ── */
 .cv-strip{
-  padding:40px 6vw 48px;
+  grid-column:1 / -1;
+  padding:32px 0 16px;
   border-top:1px solid var(--border);
-  margin-top:8px;
+  margin-top:0;
 }
 .cv-eyebrow{
   font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
