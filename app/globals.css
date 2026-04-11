@@ -303,7 +303,7 @@ button{font-family:inherit;cursor:pointer}
 /* ── PANEL 2: FULL FUNNEL ── */
 #p2{background:var(--navy2)}
 .funnel-inner{
-  height:100%;display:flex;align-items:center;
+  height:100%;display:flex;align-items:center;justify-content:center;
   padding:100px 8vw 80px;gap:80px;
 }
 .funnel-left{flex:1;max-width:520px}
@@ -370,8 +370,8 @@ button{font-family:inherit;cursor:pointer}
 /* ── PANEL 3: ABOUT ── */
 #p3{background:var(--off)}
 .about-inner{
-  height:100%;display:grid;grid-template-columns:1fr 1fr;
-  padding:84px 6vw 40px;gap:48px;align-items:start;
+  height:100%;display:grid;grid-template-columns:minmax(0,600px) minmax(0,600px);
+  padding:84px 6vw 40px;gap:48px;align-items:start;justify-content:center;
   overflow-y:auto;
 }
 .about-left{}
@@ -686,8 +686,8 @@ button{font-family:inherit;cursor:pointer}
 }
 .contact-inner{
   position:relative;z-index:2;
-  height:100%;display:grid;grid-template-columns:1fr 1fr;
-  padding:84px 6vw 48px;gap:60px;align-items:start;
+  height:100%;display:grid;grid-template-columns:minmax(0,560px) minmax(0,560px);
+  padding:84px 6vw 48px;gap:60px;align-items:start;justify-content:center;
 }
 .contact-left .panel-h2{color:#fff}
 .contact-left .panel-sub{color:rgba(255,255,255,.45)}
