@@ -845,7 +845,7 @@ button{font-family:inherit;cursor:pointer}
     overflow:auto!important;
     overflow-x:hidden!important;
     height:auto!important;
-    overscroll-behavior:none!important;   /* prevents pull-to-refresh */
+    overscroll-behavior-x:none!important;
     -webkit-overflow-scrolling:touch;
   }
   body{
@@ -853,7 +853,7 @@ button{font-family:inherit;cursor:pointer}
     overflow:auto!important;
     overflow-x:hidden!important;
     height:auto!important;
-    overscroll-behavior:none!important;
+    overscroll-behavior-x:none!important;
     background:var(--white);             /* no white flash between panels */
   }
   #track{
