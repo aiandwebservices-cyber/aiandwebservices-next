@@ -11,10 +11,21 @@ export default function CrispChat() {
     const s = document.createElement('script');
     s.src = 'https://client.crisp.chat/l.js';
     s.async = true;
+    // Inject CSS to hide operator name label in Crisp widget
+    const style = document.createElement('style');
+    style.textContent = `
+      .crisp-client .cc-tlfw ul li .cc-yvvc span[data-id],
+      .crisp-client [data-id="operator-name"],
+      .crisp-client .cc-1nvc,
+      .crisp-client .cc-yvvc > span:last-child {
+        display: none !important;
+      }
+    `;
+    document.head.appendChild(style);
+
     s.onload = function () {
       window.$crisp.push(['on', 'session:loaded', function () {
         setTimeout(function () {
-          window.$crisp.push(['set', 'session:data', [[['operator_name', ' ']]]]);
           window.$crisp.push(['do', 'message:show', ['text', '👋 Hi! I\'m David, the owner — got questions?\nI reply within minutes.']]);
         }, 5000);
       }]);
