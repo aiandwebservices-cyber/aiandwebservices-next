@@ -14,7 +14,7 @@ export default function Pricing() {
         <div className="pricing-header">
           <div>
             <div className="panel-eyebrow">Pricing</div>
-            <h2 className="panel-h2" style={{marginBottom:0}}>Transparent pricing. No surprises.</h2>
+            <h2 className="panel-h2" style={{marginBottom:0,marginTop:'28px'}}>Transparent pricing. No surprises.</h2>
           </div>
           <div className="no-contract">No contracts — cancel or pause anytime</div>
         </div>

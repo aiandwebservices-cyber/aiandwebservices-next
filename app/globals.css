@@ -497,7 +497,7 @@ a{touch-action:manipulation}
   padding:72px 5vw 12px;
   overflow-y:auto;overflow-x:hidden;
 }
-.pricing-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:48px;flex-wrap:wrap;gap:12px}
+.pricing-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:12px}
 .no-contract{
   font-size:12px;color:var(--muted);
   display:flex;align-items:center;gap:6px;
