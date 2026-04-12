@@ -369,12 +369,11 @@ a{touch-action:manipulation}
 .fn4 .fnode-metric{color:var(--am-lt)}
 
 /* ── PANEL 3: ABOUT ── */
-#p3{background:var(--off)}
+#p3{background:var(--off);overflow-y:auto;}
 .about-inner{
-  height:100%;display:grid;grid-template-columns:minmax(0,520px) minmax(0,580px);
+  min-height:100%;display:grid;grid-template-columns:minmax(0,520px) minmax(0,580px);
   grid-template-rows:auto auto;
-  padding:60px 6vw 40px;gap:40px;align-items:start;justify-content:center;
-  overflow-y:auto;
+  padding:60px 6vw 60px;gap:40px;align-items:start;justify-content:center;
 }
 .about-left{}
 .about-card{
