@@ -259,7 +259,7 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
   font-family:'Plus Jakarta Sans',sans-serif;
   font-size:clamp(28px,3vw,44px);
   font-weight:800;letter-spacing:-1px;line-height:1.1;
-  color:var(--text);margin-bottom:10px;text-align:center;
+  color:var(--text);margin-top:50px;margin-bottom:10px;text-align:center;
 }
 .panel-sub{font-size:14px;color:var(--muted);line-height:1.6;max-width:580px;margin-bottom:28px;text-align:center;margin-left:auto;margin-right:auto;}
 .svc-cols{display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(3,auto);gap:20px;align-content:center;flex:1;max-width:640px;width:100%;margin:0 auto}
@@ -399,7 +399,7 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
   grid-column:1 / -1;text-align:center;
   padding-bottom:28px;
 }
-.about-heading .panel-h2{margin-top:0;margin-bottom:0;text-align:center}
+.about-heading .panel-h2{margin-top:14px;margin-bottom:0;text-align:center}
 .about-left{display:flex;flex-direction:column;}
 .about-left .about-card{flex:1;display:flex;flex-direction:column;}
 .about-card{

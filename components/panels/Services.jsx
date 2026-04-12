@@ -3,7 +3,7 @@ export default function Services() {
     <section className="panel" id="p1">
       <div className="svc-panel">
         <div className="panel-eyebrow">Services</div>
-        <h2 className="panel-h2" style={{marginTop:'38px',marginBottom:'6px'}}>Pick one. Or let us connect all six.</h2>
+        <h2 className="panel-h2" style={{marginBottom:'6px'}}>Pick one. Or let us connect all six.</h2>
         <p className="panel-sub" style={{marginBottom:'16px'}}>Each service works standalone — but they&apos;re designed to feed each other. Most clients start with one and expand as they see results.</p>
         <div className="svc-cols">
           <div className="svc-cat cat-ai" aria-label="AI automation systems and chatbot development services">
