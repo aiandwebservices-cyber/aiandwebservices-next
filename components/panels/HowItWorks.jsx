@@ -37,15 +37,7 @@ export default function HowItWorks() {
         {/* ── HEADER ── */}
         <div className="funnel-header">
           <div className="panel-eyebrow" style={{color:'#60A5FA'}}>
-            <span style={{display:'inline-flex',alignItems:'center',gap:'8px'}}>
-              <span style={{width:'24px',height:'2px',background:'#60A5FA',borderRadius:'2px',display:'inline-block'}}></span>
-              The&nbsp;
-              <span style={{color:'#fff',fontWeight:800}}>AI</span>
-              <span style={{color:'#2AA5A0',fontWeight:800}}>and</span>
-              <span style={{color:'#fff',fontWeight:800}}>WEB</span>
-              <span style={{color:'#2AA5A0',fontWeight:800}}>services</span>
-              &nbsp;Difference
-            </span>
+            The&nbsp;<span style={{color:'#fff',fontWeight:800}}>AI</span><span style={{color:'#2AA5A0',fontWeight:800}}>and</span><span style={{color:'#fff',fontWeight:800}}>WEB</span><span style={{color:'#2AA5A0',fontWeight:800}}>services</span>&nbsp;Difference
           </div>
           <h2 className="panel-h2" style={{color:'#fff'}}>Why hire three agencies when one does it all?</h2>
           <p className="panel-sub" style={{color:'rgba(255,255,255,.55)',maxWidth:'100%'}}>Most businesses pay separately for a web designer, an SEO agency, and a marketing tool — and none of them talk to each other. I build one connected system where every piece feeds the next.</p>

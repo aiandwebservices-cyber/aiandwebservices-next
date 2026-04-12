@@ -27,13 +27,10 @@ export default function Contact() {
         {/* ── HEADER ── */}
         <div className="contact-header">
           <div className="panel-eyebrow" style={{color:'#60A5FA'}}>
-            <span style={{display:'inline-flex',alignItems:'center',gap:'8px'}}>
-              <span style={{width:'24px',height:'2px',background:'#60A5FA',borderRadius:'2px',display:'inline-block'}}></span>
-              Free AI Audit
-            </span>
+            Free AI Audit
           </div>
           <h2 className="panel-h2" style={{fontSize:'clamp(20px,2.4vw,30px)',marginBottom:'6px',color:'#2AA5A0'}}>Tell me about your business. I&apos;ll tell you exactly where AI can help.</h2>
-          <p className="panel-sub" style={{fontSize:'14px',lineHeight:'1.6',maxWidth:'680px'}}>Fill in your details or book a call — David personally responds within 24 hours, no pitch, no obligation.</p>
+          <p className="panel-sub" style={{fontSize:'14px',lineHeight:'1.6',maxWidth:'680px'}}>Fill in your details or book a call — David personally responds within 6 hours, no pitch, no obligation.</p>
         </div>
 
         {/* ── STEPS 2×2 ── */}
