@@ -11,6 +11,14 @@ export default function CrispChat() {
     const s = document.createElement('script');
     s.src = 'https://client.crisp.chat/l.js';
     s.async = true;
+    s.onload = function () {
+      window.$crisp.push(['on', 'session:loaded', function () {
+        setTimeout(function () {
+          window.$crisp.push(['set', 'session:data', [[['operator_name', ' ']]]]);
+          window.$crisp.push(['do', 'message:show', ['text', '👋 Hi! I\'m David, the owner — got questions?\nI reply within minutes.']]);
+        }, 5000);
+      }]);
+    };
     document.head.appendChild(s);
 
     // Close chat when hamburger opens
