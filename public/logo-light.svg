@@ -1,18 +1,11 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 60" width="320" height="60">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 300 56" width="300" height="56">
   <defs>
     <style>
       @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@600;800&amp;display=swap');
-      text { font-family: 'Plus Jakarta Sans', sans-serif; }
     </style>
   </defs>
-  <!-- Light background -->
-  <rect width="320" height="60" fill="#FFFFFF" rx="10"/>
-  <!-- AI -->
-  <text x="20" y="40" font-size="28" font-weight="800" fill="#1B2A4A" letter-spacing="-0.5">AI</text>
-  <!-- and -->
-  <text x="63" y="38" font-size="18" font-weight="600" fill="#2AA5A0">and</text>
-  <!-- WEB -->
-  <text x="103" y="40" font-size="28" font-weight="800" fill="#1B2A4A" letter-spacing="-0.5">WEB</text>
-  <!-- services -->
-  <text x="181" y="40" font-size="22" font-weight="600" fill="#2AA5A0">services</text>
+  <rect width="300" height="56" fill="#FFFFFF" rx="10"/>
+  <text x="16" y="38" font-family="'Plus Jakarta Sans', sans-serif" font-size="26" letter-spacing="-0.3">
+    <tspan font-weight="800" fill="#1B2A4A">AI</tspan><tspan font-weight="600" fill="#2AA5A0" font-size="18" dy="2">and</tspan><tspan font-weight="800" fill="#1B2A4A" font-size="26" dy="-2">WEB</tspan><tspan font-weight="600" fill="#2AA5A0" font-size="20" dy="1">services</tspan>
+  </text>
 </svg>
