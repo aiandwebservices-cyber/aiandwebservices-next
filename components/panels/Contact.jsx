@@ -112,16 +112,18 @@ export default function Contact() {
 
         {/* ── RIGHT: Calendly ── */}
         <div className="contact-right">
-          <div className="contact-form calendly-wrap">
+          <div className="contact-form calendly-wrap" style={{display:'flex',flexDirection:'column'}}>
             <div style={{textAlign:'center',marginBottom:'12px'}}>
               <div style={{fontSize:'20px',fontWeight:'800',color:'#fff',marginBottom:'4px'}}>Let&apos;s Talk!</div>
               <div style={{fontSize:'13px',color:'rgba(255,255,255,.5)'}}>Pick a time that works — 30 minutes, no pressure.</div>
             </div>
-            <div
-              className="calendly-inline-widget"
-              data-url="https://calendly.com/aiandwebservices/30min?primary_color=2aa5a0&hide_event_type_details=1&hide_gdpr_banner=1&background_color=111827&text_color=ffffff"
-              style={{minWidth:'280px',width:'100%',height:'520px',borderRadius:'12px',overflow:'hidden'}}
-            />
+            <div style={{flex:1,display:'flex',alignItems:'center',justifyContent:'center'}}>
+              <div
+                className="calendly-inline-widget"
+                data-url="https://calendly.com/aiandwebservices/30min?primary_color=2aa5a0&hide_event_type_details=1&hide_gdpr_banner=1&background_color=111827&text_color=ffffff"
+                style={{minWidth:'280px',width:'100%',height:'520px',borderRadius:'12px',overflow:'hidden'}}
+              />
+            </div>
           </div>
         </div>
 
