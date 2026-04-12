@@ -4,9 +4,11 @@ export default function About() {
   return (
     <section className="panel" id="p3" aria-label="About David Pulis, founder of AIandWEBservices">
       <div className="about-inner">
-        <div className="about-right">
+        <div className="about-heading">
           <div className="panel-eyebrow">Who This Is For</div>
           <h2 className="panel-h2">You might be in the right place if...</h2>
+        </div>
+        <div className="about-right">
           <div className="value-grid">
             <div className="val-card">
               <div className="val-icon">🔍</div>
