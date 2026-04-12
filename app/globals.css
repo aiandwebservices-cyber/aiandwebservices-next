@@ -189,21 +189,20 @@ a{touch-action:manipulation}
   transition:all .22s;
 }
 .btn-ghost-w:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25)}
-.hero-stats{display:flex;gap:36px;flex-wrap:wrap;padding-left:18px}
-.hs{display:flex;flex-direction:column}
+.hero-bottom{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  gap:0;margin-top:20px;
+}
+.hb-col{display:flex;flex-direction:column}
+.hs{display:flex;flex-direction:column;padding:10px 14px 10px 0}
+.hs-empty{min-height:52px}
 .hs-n{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;color:#fff;line-height:1.2}
 .hs-n span{font-size:14px;color:#60A5FA}
-.hs-l{font-size:11px;color:rgba(255,255,255,.35);letter-spacing:.5px;margin-top:3px}
-.hero-data{
-  display:flex;gap:0;margin-top:28px;
-  background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.08);
-  border-radius:12px;overflow:hidden;flex-wrap:wrap;
-}
+.hs-l{font-size:11px;color:rgba(255,255,255,.35);letter-spacing:.5px;margin-top:3px;line-height:1.4}
 .hd-stat{
-  flex:1;min-width:160px;padding:14px 18px;
-  border-right:1px solid rgba(255,255,255,.07);
+  flex:1;padding:12px 14px 12px 0;
+  border-top:1px solid rgba(255,255,255,.08);
 }
-.hd-stat:last-child{border-right:none}
 .hd-n{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:#fff;line-height:1;margin-bottom:3px}
 .hd-n em{font-style:normal;color:#60A5FA}
 .hd-l{font-size:11px;color:rgba(255,255,255,.5);line-height:1.4}
@@ -238,7 +237,7 @@ a{touch-action:manipulation}
 
 /* ── PANEL 1: SERVICES ── */
 #p1{background:var(--white)}
-.svc-panel{height:100%;display:flex;flex-direction:column;padding:84px 6vw 40px}
+.svc-panel{height:100%;display:flex;flex-direction:column;padding:72px 6vw 32px}
 .panel-eyebrow{
   display:inline-flex;align-items:center;gap:8px;
   font-size:10px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;
@@ -305,7 +304,7 @@ a{touch-action:manipulation}
 #p2{background:var(--navy2)}
 .funnel-inner{
   height:100%;display:flex;align-items:center;justify-content:center;
-  padding:100px 8vw 80px;gap:80px;
+  padding:80px 8vw 60px;gap:80px;
 }
 .funnel-left{flex:1;max-width:520px}
 .funnel-left .panel-h2{color:#fff}
@@ -327,9 +326,9 @@ a{touch-action:manipulation}
 .fstep-body h4{font-size:14px;font-weight:700;color:#fff;margin-bottom:4px}
 .fstep-body p{font-size:12px;color:rgba(255,255,255,.4);line-height:1.6}
 .funnel-right{
-  flex:0 0 420px;
+  flex:0 0 500px;
   display:grid;grid-template-rows:repeat(4,1fr);gap:0;
-  height:380px;
+  height:460px;
 }
 .fnode{
   display:flex;align-items:center;gap:16px;
@@ -354,14 +353,14 @@ a{touch-action:manipulation}
 .fn4 .fnode-dot{background:var(--am-lt)}
 .fnode-card{
   flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
-  border-radius:12px;padding:14px 16px;
+  border-radius:12px;padding:18px 20px;
 }
-.fnode-card h4{font-size:13px;font-weight:700;color:#fff;margin-bottom:3px}
-.fnode-card p{font-size:11px;color:rgba(255,255,255,.38)}
+.fnode-card h4{font-size:15px;font-weight:700;color:#fff;margin-bottom:4px}
+.fnode-card p{font-size:12px;color:rgba(255,255,255,.38)}
 .fnode-metric{
   font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:22px;font-weight:800;
-  min-width:60px;text-align:right;line-height:1;
+  font-size:26px;font-weight:800;
+  min-width:72px;text-align:right;line-height:1;
 }
 .fn1 .fnode-metric{color:#60A5FA}
 .fn2 .fnode-metric{color:#34D399}
@@ -371,9 +370,9 @@ a{touch-action:manipulation}
 /* ── PANEL 3: ABOUT ── */
 #p3{background:var(--off);overflow-y:auto;}
 .about-inner{
-  min-height:100%;display:grid;grid-template-columns:minmax(0,520px) minmax(0,580px);
+  min-height:100%;display:grid;grid-template-columns:minmax(0,600px) minmax(0,420px);
   grid-template-rows:auto auto;
-  padding:80px 6vw 48px;gap:32px;align-items:start;justify-content:center;
+  padding:80px 6vw 32px;gap:40px;align-items:start;justify-content:center;
 }
 .about-left{}
 .about-card{
@@ -382,8 +381,8 @@ a{touch-action:manipulation}
   box-shadow:0 8px 32px rgba(0,0,0,.06);
 }
 .founder-photo{
-  width:100%;height:150px;border-radius:16px;
-  overflow:hidden;margin-bottom:14px;
+  width:100%;height:240px;border-radius:16px;
+  overflow:hidden;margin-bottom:20px;
   background:var(--off2);flex-shrink:0;
 }
 .founder-photo img{
@@ -399,7 +398,7 @@ a{touch-action:manipulation}
 .fp-hint{font-size:10px;color:var(--border);letter-spacing:.3px}
 .about-name{
   font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:22px;font-weight:800;color:var(--text);margin-bottom:2px;
+  font-size:22px;font-weight:800;color:var(--text);margin-bottom:4px;margin-top:4px;
 }
 .about-title{font-size:13px;color:var(--blue);font-weight:600;margin-bottom:12px}
 .about-bio{font-size:13px;color:var(--muted);line-height:1.7;margin-bottom:10px}
@@ -430,7 +429,7 @@ a{touch-action:manipulation}
 /* ── CORE VALUES STRIP ── */
 .cv-strip{
   grid-column:1 / -1;
-  padding:20px 0 12px;
+  padding:48px 0 12px;
   border-top:1px solid var(--border);
   margin-top:0;
 }
@@ -498,7 +497,7 @@ a{touch-action:manipulation}
   padding:72px 5vw 32px;
   overflow-y:auto;overflow-x:hidden;
 }
-.pricing-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:20px;flex-wrap:wrap;gap:12px}
+.pricing-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:48px;flex-wrap:wrap;gap:12px}
 .no-contract{
   font-size:12px;color:var(--muted);
   display:flex;align-items:center;gap:6px;
@@ -512,7 +511,7 @@ a{touch-action:manipulation}
   background:linear-gradient(120deg,var(--navy) 0%,#1e3a8a 100%);
   border-radius:14px;padding:20px 28px;
   display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;
-  margin-bottom:20px;position:relative;overflow:hidden;
+  margin-bottom:48px;position:relative;overflow:hidden;
 }
 .chatbot-solo::after{
   content:'';position:absolute;right:-60px;top:-60px;
@@ -543,7 +542,7 @@ a{touch-action:manipulation}
 .cs-btn:hover{background:var(--blue-lt);transform:translateY(-1px)}
 
 /* 5-tier grid */
-.pricing-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:20px}
+.pricing-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:48px}
 .pr-card{
   background:var(--white);border:1px solid var(--border);
   border-radius:14px;padding:16px 14px 14px;
@@ -679,7 +678,7 @@ a{touch-action:manipulation}
 
 /* ── PANEL 7: CONTACT ── */
 #p6{background:var(--off)}
-#p8{background:var(--navy)}
+#p8{background:var(--navy);overflow-y:auto}
 .contact-bg{
   position:absolute;inset:0;pointer-events:none;
   background:
@@ -688,8 +687,13 @@ a{touch-action:manipulation}
 }
 .contact-inner{
   position:relative;z-index:2;
-  height:100%;display:grid;grid-template-columns:minmax(0,480px) minmax(0,640px);
-  padding:84px 6vw 48px;gap:60px;align-items:start;justify-content:center;
+  height:100%;display:grid;
+  grid-template-columns:minmax(0,440px) minmax(0,560px);
+  grid-template-rows:auto 1fr;
+  padding:72px 6vw 40px;gap:0 52px;align-items:start;justify-content:center;
+}
+.contact-header{
+  grid-column:1/-1;margin-bottom:20px;
 }
 .contact-left .panel-h2{color:#fff}
 .contact-left .panel-sub{color:rgba(255,255,255,.45)}
@@ -708,7 +712,7 @@ a{touch-action:manipulation}
 .contact-form{
   background:rgba(255,255,255,.04);
   border:1px solid rgba(255,255,255,.08);
-  border-radius:20px;padding:40px;
+  border-radius:20px;padding:28px 32px;
   backdrop-filter:blur(12px);
 }
 .form-row{margin-bottom:18px}
@@ -731,7 +735,7 @@ a{touch-action:manipulation}
 }
 .form-row input::placeholder,.form-row textarea::placeholder{color:rgba(255,255,255,.2)}
 .form-row select option{background:var(--navy2);color:#fff}
-.form-row textarea{resize:vertical;min-height:160px}
+.form-row textarea{resize:vertical;min-height:100px}
 .form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .form-submit{
   width:100%;padding:14px;border-radius:50px;
@@ -741,6 +745,27 @@ a{touch-action:manipulation}
   transition:all .25s;margin-top:4px;
 }
 .form-submit:hover{background:var(--blue-lt);transform:translateY(-2px);box-shadow:0 8px 28px rgba(37,99,235,.5)}
+
+/* ── CONTACT TABS ── */
+.contact-tabs{
+  display:flex;gap:8px;margin-bottom:16px;
+  background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);
+  border-radius:50px;padding:4px;
+}
+.ctab{
+  flex:1;padding:9px 16px;border-radius:50px;border:none;
+  background:transparent;color:rgba(255,255,255,.5);
+  font-size:13px;font-weight:600;cursor:pointer;
+  transition:all .2s;white-space:nowrap;
+}
+.ctab-active{
+  background:var(--blue);color:#fff;
+  box-shadow:0 4px 16px rgba(42,165,160,.35);
+}
+.ctab:not(.ctab-active):hover{color:#fff;background:rgba(255,255,255,.07)}
+.calendly-wrap{padding:20px 24px!important}
+.calendly-inline-widget iframe{border-radius:12px}
+
 .form-note{
   font-size:11px;color:rgba(255,255,255,.25);
   text-align:center;margin-top:12px;line-height:1.5;
@@ -927,8 +952,8 @@ a{touch-action:manipulation}
 
   /* about */
   .about-inner{display:flex;flex-direction:column;padding:56px 5vw 60px;gap:32px}
-  .about-right{width:100%;order:-1}
-  .about-left{order:0}
+  .about-right{width:100%;order:0}
+  .about-left{order:1}
   .value-grid{grid-template-columns:1fr}
   .founder-photo{height:auto}
 
@@ -946,7 +971,8 @@ a{touch-action:manipulation}
   .pr-addons-grid{grid-template-columns:1fr}
 
   /* contact */
-  .contact-inner{grid-template-columns:1fr;padding:56px 5vw 60px;gap:36px}
+  .contact-inner{grid-template-columns:1fr;grid-template-rows:auto;padding:56px 5vw 60px;gap:28px}
+  .contact-header{margin-bottom:0}
   .contact-form{padding:24px 20px}
   .form-row-2{grid-template-columns:1fr}
 
@@ -963,9 +989,10 @@ a{touch-action:manipulation}
   .faq-q{font-size:13px}
   .faq-cta-strip{margin-top:12px;padding:12px 16px}
 
-  /* hero data strip */
-  .hero-data{grid-template-columns:1fr 1fr}
-  .hd-stat{min-width:0;padding:12px 14px}
+  /* hero bottom grid */
+  .hero-bottom{grid-template-columns:1fr 1fr}
+  .hd-stat{padding:10px 10px 10px 0}
+  .hs{padding:8px 10px 8px 0}
   .hd-n{font-size:18px}
 
   /* hero right — hide funnel cards on mobile to save space */

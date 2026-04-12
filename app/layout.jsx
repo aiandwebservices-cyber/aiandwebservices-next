@@ -64,6 +64,11 @@ export default function RootLayout({ children }) {
       <body>
         {children}
         <Script
+          id="calendly"
+          src="https://assets.calendly.com/assets/external/widget.js"
+          strategy="lazyOnload"
+        />
+        <Script
           id="crisp"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{__html: `

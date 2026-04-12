@@ -3,6 +3,7 @@ import { useState } from 'react';
 
 export default function Contact() {
   const [status, setStatus] = useState('idle');
+  const [tab, setTab] = useState('book');
 
   async function handleSubmit(e) {
     e.preventDefault();
@@ -22,21 +23,24 @@ export default function Contact() {
   return (
     <section className="panel" id="p8">
       <div className="contact-bg"></div>
-      <div className="contact-inner" style={{alignItems:'center'}}>
+      <div className="contact-inner">
 
-        {/* ── LEFT: pitch + steps ── */}
-        <div className="contact-left" style={{order:1}}>
+        {/* ── HEADER ── */}
+        <div className="contact-header">
           <div className="panel-eyebrow" style={{color:'#60A5FA'}}>
             <span style={{display:'inline-flex',alignItems:'center',gap:'8px'}}>
               <span style={{width:'24px',height:'2px',background:'#60A5FA',borderRadius:'2px',display:'inline-block'}}></span>
               Free AI Audit
             </span>
           </div>
-          <h2 className="panel-h2" style={{fontSize:'clamp(22px,2.8vw,34px)',marginBottom:'12px'}}>Tell me about your business.<br/>I&apos;ll tell you exactly where AI can help.</h2>
-          <p className="panel-sub" style={{marginBottom:'20px',lineHeight:'1.7'}}>Fill in your details and David will personally come back with a plain-English breakdown of your biggest opportunities — no pitch, no obligation, no agency fluff.</p>
+          <h2 className="panel-h2" style={{fontSize:'clamp(20px,2.4vw,30px)',marginBottom:'6px'}}>Tell me about your business. I&apos;ll tell you exactly where AI can help.</h2>
+          <p className="panel-sub" style={{fontSize:'14px',lineHeight:'1.6',maxWidth:'680px'}}>Fill in your details and David will personally come back with a plain-English breakdown — no pitch, no obligation.</p>
+        </div>
 
+        {/* ── LEFT: steps + contact ── */}
+        <div className="contact-left">
           {/* 3-step process */}
-          <div style={{display:'flex',flexDirection:'column',gap:'12px',margin:'0 0 20px'}}>
+          <div style={{display:'flex',flexDirection:'column',gap:'10px',margin:'0 0 16px'}}>
             {[
               { n:'1', title:'Fill out the form — takes 2 minutes', desc:"Tell David about your business, your biggest challenge, and what you're looking to achieve." },
               { n:'2', title:'Get your free audit — within 24 hours', desc:'David personally reviews your business and identifies where AI, SEO, or a better website would have the biggest revenue impact.' },
@@ -52,7 +56,7 @@ export default function Contact() {
             ))}
           </div>
 
-          {/* Contact info — tappable links */}
+          {/* Contact info */}
           <div style={{display:'flex',flexDirection:'column',gap:'6px',borderTop:'1px solid rgba(255,255,255,.08)',paddingTop:'16px'}}>
             <a href="mailto:david@aiandwebservices.com" className="ci-row" style={{textDecoration:'none'}}>
               <div className="ci-icon">📧</div>
@@ -73,59 +77,93 @@ export default function Contact() {
           </div>
         </div>
 
-        {/* ── RIGHT: form ── */}
-        <div className="contact-right" style={{order:2}}>
-          {status === 'success' ? (
-            <div className="contact-form" style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'16px',minHeight:'300px',textAlign:'center'}} role="alert" aria-live="polite">
-              <div style={{fontSize:'48px'}}>✅</div>
-              <div style={{fontSize:'18px',fontWeight:'700',color:'#fff'}}>You&apos;re all set!</div>
-              <div style={{fontSize:'14px',color:'rgba(255,255,255,.6)',lineHeight:'1.7'}}>David will review your details and get back to you personally — guaranteed within 24 hours, usually much sooner.</div>
+        {/* ── RIGHT: tabs ── */}
+        <div className="contact-right">
+
+          {/* Tab switcher */}
+          <div className="contact-tabs">
+            <button
+              className={`ctab${tab === 'book' ? ' ctab-active' : ''}`}
+              onClick={() => setTab('book')}
+            >
+              📅 Book a Call
+            </button>
+            <button
+              className={`ctab${tab === 'message' ? ' ctab-active' : ''}`}
+              onClick={() => setTab('message')}
+            >
+              ✉️ Send a Message
+            </button>
+          </div>
+
+          {/* Book a Call */}
+          {tab === 'book' && (
+            <div className="contact-form calendly-wrap">
+              <div style={{textAlign:'center',marginBottom:'12px'}}>
+                <div style={{fontSize:'20px',fontWeight:'800',color:'#fff',marginBottom:'4px'}}>Let&apos;s Talk!</div>
+                <div style={{fontSize:'13px',color:'rgba(255,255,255,.5)'}}>Pick a time that works for you — 30 minutes, no pressure.</div>
+              </div>
+              <div
+                className="calendly-inline-widget"
+                data-url="https://calendly.com/aiandwebservices/30min?primary_color=2aa5a0&hide_event_type_details=1&hide_gdpr_banner=1&background_color=111827&text_color=ffffff"
+                style={{minWidth:'280px',height:'580px',borderRadius:'12px',overflow:'hidden'}}
+              />
             </div>
-          ) : (
-            <form className="contact-form" id="contact-form" onSubmit={handleSubmit}>
-              <div style={{marginBottom:'20px'}}>
-                <div style={{fontSize:'16px',fontWeight:'700',color:'#fff',marginBottom:'4px'}}>Claim your free audit</div>
-                <div style={{fontSize:'12px',color:'rgba(255,255,255,.45)'}}>Takes 2 minutes. No credit card. No obligation.</div>
+          )}
+
+          {/* Send a Message */}
+          {tab === 'message' && (
+            status === 'success' ? (
+              <div className="contact-form" style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'16px',minHeight:'300px',textAlign:'center'}} role="alert" aria-live="polite">
+                <div style={{fontSize:'48px'}}>✅</div>
+                <div style={{fontSize:'18px',fontWeight:'700',color:'#fff'}}>You&apos;re all set!</div>
+                <div style={{fontSize:'14px',color:'rgba(255,255,255,.6)',lineHeight:'1.7'}}>David will review your details and get back to you personally — guaranteed within 24 hours, usually much sooner.</div>
               </div>
-              <div className="form-row-2">
-                <div className="form-row">
-                  <label htmlFor="first_name">First Name <span aria-hidden="true" style={{color:'#f87171'}}>*</span></label>
-                  <input type="text" id="first_name" name="first_name" placeholder="Jane" required aria-required="true" autoComplete="given-name"/>
+            ) : (
+              <form className="contact-form" id="contact-form" onSubmit={handleSubmit}>
+                <div style={{marginBottom:'16px'}}>
+                  <div style={{fontSize:'12px',color:'rgba(255,255,255,.45)'}}>Takes 2 minutes. No credit card. No obligation.</div>
+                </div>
+                <div className="form-row-2">
+                  <div className="form-row">
+                    <label htmlFor="first_name">First Name <span aria-hidden="true" style={{color:'#f87171'}}>*</span></label>
+                    <input type="text" id="first_name" name="first_name" placeholder="Jane" required aria-required="true" autoComplete="given-name"/>
+                  </div>
+                  <div className="form-row">
+                    <label htmlFor="last_name">Last Name <span aria-hidden="true" style={{color:'#f87171'}}>*</span></label>
+                    <input type="text" id="last_name" name="last_name" placeholder="Smith" required aria-required="true" autoComplete="family-name"/>
+                  </div>
                 </div>
                 <div className="form-row">
-                  <label htmlFor="last_name">Last Name <span aria-hidden="true" style={{color:'#f87171'}}>*</span></label>
-                  <input type="text" id="last_name" name="last_name" placeholder="Smith" required aria-required="true" autoComplete="family-name"/>
+                  <label htmlFor="email">Business Email <span aria-hidden="true" style={{color:'#f87171'}}>*</span></label>
+                  <input type="email" id="email" name="email" placeholder="jane@company.com" required aria-required="true" autoComplete="email"/>
                 </div>
-              </div>
-              <div className="form-row">
-                <label htmlFor="email">Business Email <span aria-hidden="true" style={{color:'#f87171'}}>*</span></label>
-                <input type="email" id="email" name="email" placeholder="jane@company.com" required aria-required="true" autoComplete="email"/>
-              </div>
-              <div className="form-row">
-                <label htmlFor="phone">Phone <span style={{color:'rgba(255,255,255,.35)',fontWeight:400}}>(optional)</span></label>
-                <input type="tel" id="phone" name="phone" placeholder="(555) 000-0000" autoComplete="tel"/>
-              </div>
-              <div className="form-row">
-                <label htmlFor="service">What are you most interested in?</label>
-                <select id="service" name="service">
-                  <option value="" disabled defaultValue="">Select a service...</option>
-                  <option>AI Automation Starter</option>
-                  <option>Presence Package</option>
-                  <option>Growth Package</option>
-                  <option>Revenue Engine Package</option>
-                  <option>Consulting &amp; AI Strategy</option>
-                  <option>Custom / Let&apos;s Talk</option>
-                </select>
-              </div>
-              <div className="form-row">
-                <label htmlFor="message">Tell us about your business</label>
-                <textarea id="message" name="message" placeholder="What does your business do, and what's your biggest challenge right now?"></textarea>
-              </div>
-              <button type="submit" className="form-submit" disabled={status === 'sending'}>
-                {status === 'sending' ? 'Sending...' : status === 'error' ? 'Error — email david@aiandwebservices.com' : 'Get My Free Audit →'}
-              </button>
-              <p className="form-note" role="note">🔒 Your info is never shared or sold. Response guaranteed within 24 hours.</p>
-            </form>
+                <div className="form-row">
+                  <label htmlFor="phone">Phone <span style={{color:'rgba(255,255,255,.35)',fontWeight:400}}>(optional)</span></label>
+                  <input type="tel" id="phone" name="phone" placeholder="(555) 000-0000" autoComplete="tel"/>
+                </div>
+                <div className="form-row">
+                  <label htmlFor="service">What are you most interested in?</label>
+                  <select id="service" name="service">
+                    <option value="" disabled defaultValue="">Select a service...</option>
+                    <option>AI Automation Starter</option>
+                    <option>Presence Package</option>
+                    <option>Growth Package</option>
+                    <option>Revenue Engine Package</option>
+                    <option>Consulting &amp; AI Strategy</option>
+                    <option>Custom / Let&apos;s Talk</option>
+                  </select>
+                </div>
+                <div className="form-row">
+                  <label htmlFor="message">Tell us about your business</label>
+                  <textarea id="message" name="message" placeholder="What does your business do, and what's your biggest challenge right now?"></textarea>
+                </div>
+                <button type="submit" className="form-submit" disabled={status === 'sending'}>
+                  {status === 'sending' ? 'Sending...' : status === 'error' ? 'Error — email david@aiandwebservices.com' : 'Get My Free Audit →'}
+                </button>
+                <p className="form-note" role="note">🔒 Your info is never shared or sold. Response guaranteed within 24 hours.</p>
+              </form>
+            )
           )}
         </div>
 

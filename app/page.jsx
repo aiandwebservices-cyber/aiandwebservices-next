@@ -22,13 +22,13 @@ export default function Home() {
       <main id="main-content">
         <div id="track">
           <Hero />
-          <Services />
           <HowItWorks />
-          <About />
+          <Services />
           {/* Testimonials panel hidden until real reviews collected */}
           <Pricing />
-          <Blog />
+          <About />
           <FAQ />
+          <Blog />
           <Contact />
         </div>
       </main>

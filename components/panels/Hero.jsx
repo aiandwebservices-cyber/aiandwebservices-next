@@ -20,31 +20,38 @@ export default function Hero() {
             <button className="btn-primary" onClick={() => window.go(7)}>Get a Free AI Audit →</button>
             <button className="btn-ghost-w" onClick={() => window.go(1)}>See What I Build</button>
           </div>
-          <div className="hero-stats">
-            <div className="hs"><span className="hs-n">No contracts</span><span className="hs-l">Cancel or pause anytime</span></div>
-            <div className="hs"><span className="hs-n">Direct access</span><span className="hs-l">You work with David, not a team</span></div>
-            <div className="hs"><span className="hs-n">Free audit</span><span className="hs-l">Start with a no-obligation review</span></div>
-          </div>
-          <div className="hero-data">
-            <div className="hd-stat">
-              <div className="hd-n">66<em>%</em></div>
-              <div className="hd-l">of SMBs using AI save $500–$2,000/month</div>
-              <div className="hd-src">Source: <a href="https://uplyftcapital.com/small-business-blog/small-businesses-using-ai-scale-2026" target="_blank" rel="noopener noreferrer">Uplyft Capital</a></div>
+          <div className="hero-bottom">
+            <div className="hb-col">
+              <div className="hs"><span className="hs-n">No contracts</span><span className="hs-l">Cancel or pause anytime</span></div>
+              <div className="hd-stat">
+                <div className="hd-n">66<em>%</em></div>
+                <div className="hd-l">of SMBs using AI save $500–$2,000/month</div>
+                <div className="hd-src">Source: <a href="https://uplyftcapital.com/small-business-blog/small-businesses-using-ai-scale-2026" target="_blank" rel="noopener noreferrer">Uplyft Capital</a></div>
+              </div>
             </div>
-            <div className="hd-stat">
-              <div className="hd-n">91<em>%</em></div>
-              <div className="hd-l">of small businesses say AI boosts their revenue</div>
-              <div className="hd-src">Source: <a href="https://neuwark.com/blog/ai-for-small-business-2026-complete-guide" target="_blank" rel="noopener noreferrer">Neuwark</a></div>
+            <div className="hb-col">
+              <div className="hs"><span className="hs-n">Direct access</span><span className="hs-l">You work with David,<br/>not a team</span></div>
+              <div className="hd-stat">
+                <div className="hd-n">91<em>%</em></div>
+                <div className="hd-l">of small businesses say AI boosts their revenue</div>
+                <div className="hd-src">Source: <a href="https://neuwark.com/blog/ai-for-small-business-2026-complete-guide" target="_blank" rel="noopener noreferrer">Neuwark</a></div>
+              </div>
             </div>
-            <div className="hd-stat">
-              <div className="hd-n">$20<em>B</em></div>
-              <div className="hd-l">global AI market for small businesses in 2026</div>
-              <div className="hd-src">Source: <a href="https://allgreatthings.io/blog/ai-tools-marketing-automation/ai-agents-smb-2026-guide" target="_blank" rel="noopener noreferrer">AllGreatThings</a></div>
+            <div className="hb-col">
+              <div className="hs"><span className="hs-n">Free audit</span><span className="hs-l">Start with a no-obligation review</span></div>
+              <div className="hd-stat">
+                <div className="hd-n">$20<em>B</em></div>
+                <div className="hd-l">global AI market for small businesses in 2026</div>
+                <div className="hd-src">Source: <a href="https://allgreatthings.io/blog/ai-tools-marketing-automation/ai-agents-smb-2026-guide" target="_blank" rel="noopener noreferrer">AllGreatThings</a></div>
+              </div>
             </div>
-            <div className="hd-stat">
-              <div className="hd-n">35<em>%</em></div>
-              <div className="hd-l">average reduction in operational costs in year one of AI adoption</div>
-              <div className="hd-src">Source: <a href="https://adai.news/resources/statistics/ai-automation-statistics-2026/" target="_blank" rel="noopener noreferrer">McKinsey, 2025</a></div>
+            <div className="hb-col">
+              <div className="hs hs-empty"></div>
+              <div className="hd-stat">
+                <div className="hd-n">35<em>%</em></div>
+                <div className="hd-l">reduction in operational costs in year one of AI</div>
+                <div className="hd-src">Source: <a href="https://adai.news/resources/statistics/ai-automation-statistics-2026/" target="_blank" rel="noopener noreferrer">McKinsey, 2025</a></div>
+              </div>
             </div>
           </div>
         </div>

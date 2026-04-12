@@ -59,8 +59,9 @@ export function useHorizontalScroll() {
       updateUI();
     }
 
-    // Map nav index → panel IDs (p4 removed from DOM, so skip it)
-    const panelIds = ['p0','p1','p2','p3','p5','p6','p7','p8'];
+    // Map nav index → panel IDs (order: Home, HowItWorks, Services, Pricing, About, Blog, FAQ, Contact)
+    // Order: Home, HowItWorks, Services, Pricing, About, FAQ, Blog, Contact
+    const panelIds = ['p0','p2','p1','p5','p3','p7','p6','p8'];
 
     function scrollToPanel(n) {
       n = Math.max(0, Math.min(TOTAL - 1, n));
