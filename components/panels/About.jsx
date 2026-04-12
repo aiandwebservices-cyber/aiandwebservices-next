@@ -27,7 +27,7 @@ export default function About() {
             <div className="about-contact">
               <div className="ac-row">
                 <div className="ac-icon">📧</div>
-                <a href="mailto:AIandWEBservices@gmail.com">AIandWEBservices@gmail.com</a>
+                <a href="mailto:david@aiandwebservices.com">david@aiandwebservices.com</a>
               </div>
               <div className="ac-row">
                 <div className="ac-icon">📞</div>

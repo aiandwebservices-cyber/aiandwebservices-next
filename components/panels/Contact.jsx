@@ -54,9 +54,9 @@ export default function Contact() {
 
           {/* Contact info — tappable links */}
           <div style={{display:'flex',flexDirection:'column',gap:'10px',borderTop:'1px solid rgba(255,255,255,.08)',paddingTop:'20px'}}>
-            <a href="mailto:AIandWEBservices@gmail.com" className="ci-row" style={{textDecoration:'none'}}>
+            <a href="mailto:david@aiandwebservices.com" className="ci-row" style={{textDecoration:'none'}}>
               <div className="ci-icon">📧</div>
-              <span style={{color:'#60A5FA',fontWeight:500}}>AIandWEBservices@gmail.com</span>
+              <span style={{color:'#60A5FA',fontWeight:500}}>david@aiandwebservices.com</span>
             </a>
             <a href="tel:+13155720710" className="ci-row" style={{textDecoration:'none'}}>
               <div className="ci-icon">📞</div>
@@ -122,7 +122,7 @@ export default function Contact() {
                 <textarea id="message" name="message" placeholder="What does your business do, and what's your biggest challenge right now?"></textarea>
               </div>
               <button type="submit" className="form-submit" disabled={status === 'sending'}>
-                {status === 'sending' ? 'Sending...' : status === 'error' ? 'Error — email AIandWEBservices@gmail.com' : 'Get My Free Audit →'}
+                {status === 'sending' ? 'Sending...' : status === 'error' ? 'Error — email david@aiandwebservices.com' : 'Get My Free Audit →'}
               </button>
               <p className="form-note" role="note">🔒 Your info is never shared or sold. Response guaranteed within 24 hours.</p>
             </form>

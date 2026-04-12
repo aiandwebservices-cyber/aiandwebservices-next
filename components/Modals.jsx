@@ -37,9 +37,9 @@ export default function Modals() {
             <h3>Third-Party Services</h3>
             <p>Contact form submissions are processed by Formspree (formspree.io). We do not sell, trade, or share your information with any other third parties.</p>
             <h3>Data Retention</h3>
-            <p>Contact form submissions are retained only as long as necessary to respond to your enquiry. You may request deletion at any time by emailing AIandWEBservices@gmail.com.</p>
+            <p>Contact form submissions are retained only as long as necessary to respond to your enquiry. You may request deletion at any time by emailing david@aiandwebservices.com.</p>
             <h3>Contact</h3>
-            <p>Questions? Email <a href="mailto:AIandWEBservices@gmail.com">AIandWEBservices@gmail.com</a></p>
+            <p>Questions? Email <a href="mailto:david@aiandwebservices.com">david@aiandwebservices.com</a></p>
           </div>
         </div>
       </div>
@@ -65,7 +65,7 @@ export default function Modals() {
             <h3>Governing Law</h3>
             <p>These terms are governed by the laws of the State of New York, United States.</p>
             <h3>Contact</h3>
-            <p>Questions? Email <a href="mailto:AIandWEBservices@gmail.com">AIandWEBservices@gmail.com</a></p>
+            <p>Questions? Email <a href="mailto:david@aiandwebservices.com">david@aiandwebservices.com</a></p>
           </div>
         </div>
       </div>
