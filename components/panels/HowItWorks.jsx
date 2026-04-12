@@ -1,39 +1,40 @@
 export default function HowItWorks() {
-  const steps = [
+  const rows = [
     {
-      n:'01', color:'#60A5FA',
-      title:'SEO brings people who are already looking for you',
-      desc:'We optimise your site and publish AI-assisted content so you rank for searches your customers actually make.',
+      color:'var(--blue)', metricColor:'#60A5FA', dotBg:'var(--blue)',
+      stepTitle:'SEO brings people who are already looking for you',
+      stepDesc:'We optimise your site and publish AI-assisted content so you rank for searches your customers actually make.',
+      nodeTitle:'SEO & Content', nodeSub:'Rank for searches your buyers make', metric:'More\nvisitors',
+      nodeCls:'fn1',
     },
     {
-      n:'02', color:'#34D399',
-      title:'Your website turns visitors into leads — not bounces',
-      desc:'Fast load times, clear messaging, and tested page layouts that make it easy to say yes.',
+      color:'var(--emerald)', metricColor:'#34D399', dotBg:'var(--emerald)',
+      stepTitle:'Your website turns visitors into leads — not bounces',
+      stepDesc:'Fast load times, clear messaging, and tested page layouts that make it easy to say yes.',
+      nodeTitle:'Web & CRO', nodeSub:'Visitors become leads, not bounces', metric:'More\nleads',
+      nodeCls:'fn2',
     },
     {
-      n:'03', color:'#A78BFA',
-      title:'Your AI chatbot handles inquiries before you even wake up',
-      desc:'Answers questions, qualifies leads, and books calls — so you talk to people who are already interested.',
+      color:'var(--violet)', metricColor:'#A78BFA', dotBg:'var(--violet)',
+      stepTitle:'Your AI chatbot handles inquiries before you even wake up',
+      stepDesc:'Answers questions, qualifies leads, and books calls — so you talk to people who are already interested.',
+      nodeTitle:'AI Chatbot / Voice', nodeSub:'Answers, qualifies, books — at 3am', metric:'Less\nadmin',
+      nodeCls:'fn3',
     },
     {
-      n:'04', color:'#F59E0B',
-      title:'Automated follow-up closes deals while you focus on the work',
-      desc:'Email sequences and CRM workflows that keep leads warm without you lifting a finger.',
+      color:'var(--am-lt)', metricColor:'#F59E0B', dotBg:'var(--am-lt)',
+      stepTitle:'Automated follow-up closes deals while you focus on the work',
+      stepDesc:'Email sequences and CRM workflows that keep leads warm without you lifting a finger.',
+      nodeTitle:'Automation & CRM', nodeSub:'Follow-up happens without you', metric:'More\nrevenue',
+      nodeCls:'fn4',
     },
-  ];
-
-  const nodes = [
-    { cls:'fn1', title:'SEO & Content',       sub:'Rank for searches your buyers make',    metric:'More visitors' },
-    { cls:'fn2', title:'Web & CRO',            sub:'Visitors become leads, not bounces',    metric:'More leads'    },
-    { cls:'fn3', title:'AI Chatbot / Voice',   sub:'Answers, qualifies, books — at 3am',   metric:'Less admin'    },
-    { cls:'fn4', title:'Automation & CRM',     sub:'Follow-up happens without you',         metric:'More revenue'  },
   ];
 
   return (
     <section className="panel" id="p2" style={{background:'var(--navy2)'}}>
       <div className="funnel-inner">
 
-        {/* ── HEADER spans full width ── */}
+        {/* ── HEADER ── */}
         <div className="funnel-header">
           <div className="panel-eyebrow" style={{color:'#60A5FA'}}>
             <span style={{display:'inline-flex',alignItems:'center',gap:'8px'}}>
@@ -50,24 +51,26 @@ export default function HowItWorks() {
           <p className="panel-sub" style={{color:'rgba(255,255,255,.55)',maxWidth:'100%'}}>Most businesses pay separately for a web designer, an SEO agency, and a marketing tool — and none of them talk to each other. I build one connected system where every piece feeds the next.</p>
         </div>
 
-        {/* ── ALIGNED GRID ── */}
+        {/* ── INTERLEAVED GRID: step | node, step | node ... ── */}
         <div className="funnel-grid">
-          {steps.map((s, i) => (
-            <div key={s.n} className={`fstep fstep-${i+1}`} style={{borderColor:'rgba(255,255,255,.06)'}}>
-              <div className="fstep-n" style={{color:s.color}}>{s.n}</div>
-              <div className="fstep-body">
-                <h4 style={{color:s.color}}>{s.title}</h4>
-                <p>{s.desc}</p>
+          {rows.map((r, i) => (
+            <>
+              {/* LEFT: step */}
+              <div key={`step-${i}`} className="fstep">
+                <div className="fstep-dot" style={{background:r.dotBg}}>{i+1}</div>
+                <div className="fstep-body">
+                  <h4 style={{color:r.metricColor}}>{r.stepTitle}</h4>
+                  <p>{r.stepDesc}</p>
+                </div>
               </div>
-            </div>
-          ))}
-          {nodes.map((node, i) => (
-            <div key={node.cls} className={`fnode ${node.cls}`}>
-              <div className="fnode-dot">{i+1}</div>
-              <div className="fnode-card"><h4>{node.title}</h4><p>{node.sub}</p></div>
-              <div className="fnode-metric">{node.metric.split(' ')[0]}<br/>{node.metric.split(' ')[1]}</div>
-              {i < nodes.length - 1 && <div className="fnode-line"></div>}
-            </div>
+              {/* RIGHT: node */}
+              <div key={`node-${i}`} className={`fnode ${r.nodeCls}`}>
+                <div className="fnode-dot">{i+1}</div>
+                <div className="fnode-card"><h4>{r.nodeTitle}</h4><p>{r.nodeSub}</p></div>
+                <div className="fnode-metric" style={{color:r.metricColor}}>{r.metric.split('\n')[0]}<br/>{r.metric.split('\n')[1]}</div>
+                {i < rows.length - 1 && <div className="fnode-line"></div>}
+              </div>
+            </>
           ))}
         </div>
 
