@@ -78,7 +78,7 @@ export default function About() {
               </a>
               <div className="ac-row">
                 <div className="ac-icon">⚡</div>
-                <span>Response <strong>guaranteed within 24 hours</strong> — usually within the first hour</span>
+                <span>Guaranteed response <strong>within 6 hours</strong> — usually within minutes</span>
               </div>
             </div>
           </div>
