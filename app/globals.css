@@ -83,6 +83,15 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
   transition:all .22s;
 }
 .nav-cta:hover{background:var(--blue-lt);transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,99,235,.45)}
+.nav-book{
+  color:rgba(255,255,255,.75);font-size:13px;font-weight:600;
+  padding:10px 16px;border-radius:50px;text-decoration:none;
+  border:1px solid rgba(255,255,255,.25);
+  transition:all .22s;white-space:nowrap;
+}
+.nav-book:hover{color:#fff;border-color:rgba(255,255,255,.6);background:rgba(255,255,255,.08)}
+#nav.light .nav-book{color:var(--text-lt);border-color:var(--border)}
+#nav.light .nav-book:hover{color:var(--text);background:var(--off2)}
 
 /* ── BOTTOM NAV DOTS ── */
 #dots{
@@ -888,8 +897,15 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
 }
 .mob-link:hover,.mob-link:focus-visible{background:var(--off2)}
 .mob-link.active{color:var(--blue);background:var(--blue-xlt)}
+.mob-book{
+  display:block;margin-top:12px;width:100%;padding:14px;
+  color:var(--blue);background:transparent;
+  border:2px solid var(--blue);border-radius:50px;
+  font-size:15px;font-weight:700;text-align:center;text-decoration:none;
+  font-family:'Inter',sans-serif;
+}
 .mob-cta{
-  margin-top:12px;width:100%;padding:15px;
+  margin-top:10px;width:100%;padding:15px;
   background:var(--blue);color:#fff;
   border-radius:50px;font-size:15px;font-weight:700;
   border:none;cursor:pointer;font-family:'Inter',sans-serif;
@@ -969,6 +985,7 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
   #nav{padding:0 16px;height:60px}
   .nav-center{display:none}
   #nav-cta-desktop{display:none}
+  .nav-book{display:none}
   #arr-l,#arr-r,#dots{display:none}
   #hamburger{display:flex}
   #mobile-menu{display:flex}
