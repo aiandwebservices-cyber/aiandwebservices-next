@@ -33,8 +33,10 @@ export default function Blog() {
           ))}
         </div>
         <div className="blog-cta">
-          <div className="blog-cta-text"><strong>More articles on the way.</strong> Deep dives into AI automation, SEO, and growth strategies — all written for small business owners, not developers.</div>
-          <a href="https://blog.aiandwebservices.com" target="_blank" rel="noopener noreferrer" className="blog-btn">Visit the Blog →</a>
+          <div className="blog-cta-box">
+            <div className="blog-cta-text"><strong>More articles on the way.</strong> Deep dives into AI automation, SEO, and growth strategies — all written for small business owners, not developers.</div>
+            <a href="https://blog.aiandwebservices.com" target="_blank" rel="noopener noreferrer" className="blog-btn">Visit the Blog →</a>
+          </div>
         </div>
       </div>
     </section>

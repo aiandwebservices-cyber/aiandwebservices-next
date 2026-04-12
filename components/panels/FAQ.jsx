@@ -28,13 +28,15 @@ export default function FAQ() {
           {faqs.map((faq, i) => (
             <div key={i} className="faq-item faq-item--open" onClick={toggleFaq}>
               <div className="faq-q">{faq.q}</div>
-              <div className="faq-a faq-a--visible">{faq.a}</div>
+              <div className="faq-a--visible">{faq.a}</div>
             </div>
           ))}
         </div>
         <div className="faq-cta-strip">
-          <p><strong>Still have questions?</strong> The free audit is the easiest way to get real answers for your specific situation.</p>
-          <button className="blog-btn" onClick={() => window.go(7)}>Get a Free Audit →</button>
+          <div className="faq-cta-inner">
+            <p><strong>Still have questions?</strong> The free audit is the easiest way to get real answers for your specific situation.</p>
+            <button className="blog-btn" onClick={() => window.go(7)}>Get a Free Audit →</button>
+          </div>
         </div>
       </div>
     </section>
