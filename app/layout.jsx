@@ -76,7 +76,7 @@ export default function RootLayout({ children }) {
             window.$crisp.push(["config", "container:index", [1]]);
             setTimeout(function(){
               if(window.$crisp && !sessionStorage.getItem('crisp_nudged')){
-                window.$crisp.push(["do","message:show",["text","👋 Hi! I'm David, the owner — got questions?\nI reply within the hour."]]);
+                window.$crisp.push(["do","message:show",["text","👋 Hi! I'm David, the owner — got questions?\nI reply within minutes."]]);
                 sessionStorage.setItem('crisp_nudged','1');
               }
             }, 5000);
