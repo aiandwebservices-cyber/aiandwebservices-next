@@ -74,13 +74,18 @@ export default function RootLayout({ children }) {
           id="crisp"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{__html: `
-            window.$crisp=[];window.CRISP_WEBSITE_ID="e76e44c0-a38a-4d5e-ab6a-41a380e83c69";
-            window.$crisp.push(["config", "container:index", [1]]);
-            window.CRISP_READY_TRIGGER=function(){
+            window.$crisp=[];
+            window.CRISP_WEBSITE_ID="e76e44c0-a38a-4d5e-ab6a-41a380e83c69";
+            var _crispMsgShown=false;
+            function _showCrispMsg(){
+              if(_crispMsgShown)return;
+              _crispMsgShown=true;
               setTimeout(function(){
                 window.$crisp.push(["do","message:show",["text","👋 Hi! I'm David, the owner — got questions?\nI reply within minutes."]]);
               },5000);
-            };
+            }
+            window.$crisp.push(["on","session:loaded",_showCrispMsg]);
+            window.CRISP_READY_TRIGGER=_showCrispMsg;
             (function(){var d=document,s=d.createElement("script");
             s.src="https://client.crisp.chat/l.js";s.async=1;
             d.getElementsByTagName("head")[0].appendChild(s);})();
@@ -90,7 +95,6 @@ export default function RootLayout({ children }) {
                 if (window.$crisp) window.$crisp.push(['do', 'chat:close']);
               }
             });
-            // Close Crisp on pull-to-refresh attempt (touchstart near top of screen)
             document.addEventListener('touchstart', function(e) {
               if (window.scrollY === 0 && e.touches[0].clientY < 60) {
                 if (window.$crisp) window.$crisp.push(['do', 'chat:close']);
