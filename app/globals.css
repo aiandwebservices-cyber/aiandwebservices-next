@@ -657,8 +657,8 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
 }
 .blog-header{margin-bottom:14px}
 .blog-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);
-  gap:16px;flex:1;align-content:start;
+  display:grid;grid-template-columns:repeat(2,1fr);
+  gap:16px;max-width:680px;width:100%;margin:0 auto;align-content:center;flex:1;
 }
 .blog-card{
   background:var(--white);border:1px solid var(--border);
