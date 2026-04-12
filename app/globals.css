@@ -1116,10 +1116,10 @@ a{touch-action:manipulation}
   gap:12px;padding:4px 0;user-select:none;
 }
 .faq-q:hover{color:var(--blue)}
-.faq-icon{font-size:20px;color:var(--muted);flex-shrink:0;transition:transform .25s;line-height:1}
+.faq-icon{font-size:26px;color:var(--blue);flex-shrink:0;transition:transform .25s;line-height:1}
 .faq-item.open .faq-icon{transform:rotate(45deg);color:var(--blue)}
 .faq-a{
-  font-size:15px;color:var(--muted);line-height:1.8;
+  font-size:15px;color:var(--blue);line-height:1.8;
   max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;
 }
 .faq-item.open .faq-a{max-height:300px;padding-top:10px}
