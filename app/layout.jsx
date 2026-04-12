@@ -71,6 +71,12 @@ export default function RootLayout({ children }) {
             (function(){var d=document,s=d.createElement("script");
             s.src="https://client.crisp.chat/l.js";s.async=1;
             d.getElementsByTagName("head")[0].appendChild(s);})();
+            document.addEventListener('click', function(e) {
+              var hamburger = document.getElementById('hamburger');
+              if (hamburger && (hamburger === e.target || hamburger.contains(e.target))) {
+                if (window.$crisp) window.$crisp.push(['do', 'chat:close']);
+              }
+            });
           `}}
         />
       </body>
