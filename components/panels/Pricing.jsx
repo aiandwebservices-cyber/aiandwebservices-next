@@ -12,10 +12,8 @@ export default function Pricing() {
     <section className="panel" id="p5" aria-label="AIandWEBservices pricing — AI automation and web development packages for small business">
       <div className="pricing-inner">
         <div className="pricing-header">
-          <div>
-            <div className="panel-eyebrow">Pricing</div>
-            <h2 className="panel-h2" style={{marginBottom:0,marginTop:'28px'}}>Transparent pricing. No surprises.</h2>
-          </div>
+          <div className="panel-eyebrow">Pricing</div>
+          <h2 className="panel-h2" style={{marginBottom:0}}>Transparent pricing. No surprises.</h2>
           <div className="no-contract">No contracts — cancel or pause anytime</div>
         </div>
 

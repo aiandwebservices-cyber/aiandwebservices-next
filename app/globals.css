@@ -502,7 +502,7 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
   padding:88px 5vw 12px;
   overflow-y:auto;overflow-x:hidden;
 }
-.pricing-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:12px}
+.pricing-header{display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:32px;gap:8px}
 .no-contract{
   font-size:12px;color:var(--muted);
   display:flex;align-items:center;gap:6px;
@@ -997,7 +997,7 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
 
   /* pricing */
   .pricing-inner{padding:56px 5vw 40px}
-  .pricing-header{flex-direction:column;align-items:flex-start;margin-bottom:14px}
+  .pricing-header{align-items:flex-start;text-align:left;margin-bottom:14px}
   .chatbot-solo{grid-template-columns:auto 1fr;gap:14px}
   .cs-price-block{grid-column:1/-1;display:flex;align-items:center;gap:16px;text-align:left}
   .cs-btn{margin-top:0}
