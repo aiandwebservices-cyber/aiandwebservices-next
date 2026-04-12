@@ -324,12 +324,12 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
   display:grid;
   grid-template-columns:1fr 1fr;
   grid-template-rows:repeat(4,auto);
-  gap:0 60px;
+  gap:8px 60px;
   max-width:860px;margin:auto;width:100%;
 }
 .fstep{
   grid-column:1;
-  display:flex;gap:16px;padding:12px 0;
+  display:flex;gap:16px;padding:20px 0;
   border-bottom:1px solid rgba(255,255,255,.06);
   align-items:center;
 }
@@ -349,7 +349,7 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
 .fnode{
   grid-column:2;
   display:flex;align-items:center;gap:16px;
-  padding:12px 0;position:relative;
+  padding:20px 0;position:relative;
 }
 .fnode-line{
   position:absolute;left:13px;top:calc(50% + 14px);
