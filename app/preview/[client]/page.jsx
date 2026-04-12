@@ -8,7 +8,7 @@ import { notFound } from 'next/navigation';
 const CLIENTS = {
   mrs: {
     name: 'Mitigation Restoration Services',
-    url: 'http://localhost:3000',   // swap for deployed URL when ready
+    url: 'https://mrs-website-nine.vercel.app',
   },
   // Add more clients like:
   // 'next-client': { name: 'Next Client Name', url: 'http://localhost:3001' },
