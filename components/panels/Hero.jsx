@@ -15,7 +15,7 @@ export default function Hero() {
             I build the systems that <strong>capture leads</strong>, <strong>convert visitors</strong>, and <strong>follow up automatically</strong> — all connected, all done for you.
           </p>
           <div className="hero-btns">
-            <button className="btn-primary" onClick={() => window.go(7)}>Get a Free AI Audit →</button>
+            <button className="btn-primary" onClick={() => window.go(7)}>Get a Free AI Audit</button>
             <button className="btn-ghost-w" onClick={() => window.go(1)}>How It Works</button>
           </div>
           <div className="hero-bottom">

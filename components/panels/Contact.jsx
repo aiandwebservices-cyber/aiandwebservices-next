@@ -100,7 +100,7 @@ export default function Contact() {
                 <textarea id="message" name="message" placeholder="What does your business do, and what's your biggest challenge right now?"></textarea>
               </div>
               <button type="submit" className="form-submit" disabled={status === 'sending'} aria-busy={status === 'sending'} aria-live="polite">
-                {status === 'sending' ? 'Sending...' : status === 'error' ? 'Error — email david@aiandwebservices.com' : 'Get My Free Audit →'}
+                {status === 'sending' ? 'Sending...' : status === 'error' ? 'Error — email david@aiandwebservices.com' : 'Get My Free Audit'}
               </button>
               <p className="form-note" role="note">🔒 Your info is never shared or sold. Guaranteed response within 6 hours — usually within minutes.</p>
             </form>

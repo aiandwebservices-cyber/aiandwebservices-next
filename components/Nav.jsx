@@ -45,7 +45,7 @@ export default function Nav() {
           <button className="nav-pill" onClick={() => go(7)} role="menuitem">Contact</button>
         </div>
         <a className="nav-book" href="https://calendly.com/aiandwebservices/30min" target="_blank" rel="noopener noreferrer" aria-label="Book a call with David">Book a Call</a>
-        <button className="nav-cta" id="nav-cta-desktop" onClick={() => go(7)} aria-label="Get a free AI audit">Get Your Free Audit →</button>
+        <button className="nav-cta" id="nav-cta-desktop" onClick={() => go(7)} aria-label="Get a free AI audit">Get Your Free Audit</button>
         <button id="hamburger" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open navigation menu"
           onClick={() => window.toggleMenu && window.toggleMenu()}>
           <span className="hb-line" aria-hidden="true"></span>
@@ -64,7 +64,7 @@ export default function Nav() {
         <button className="mob-link" onClick={() => mGo(6)}>Blog</button>
         <button className="mob-link" onClick={() => mGo(7)}>Contact</button>
         <a className="mob-book" href="https://calendly.com/aiandwebservices/30min" target="_blank" rel="noopener noreferrer">Book a Call</a>
-        <button className="mob-cta" onClick={() => mGo(7)}>Get Your Free Audit →</button>
+        <button className="mob-cta" onClick={() => mGo(7)}>Get Your Free Audit</button>
       </div>
 
       <button className="arr hide" id="arr-l" onClick={() => window.goPrev && window.goPrev()} aria-label="Previous section">&#8592;</button>
