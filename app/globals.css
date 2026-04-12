@@ -523,7 +523,7 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
 }
 .pricing-header{display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:24px;gap:0}
 .pricing-header .panel-eyebrow{margin-bottom:14px}
-.pricing-header .panel-h2{margin-bottom:20px}
+.pricing-header .panel-h2{margin-bottom:36px}
 .pricing-header .no-contract{margin-bottom:0}
 .no-contract{
   font-size:12px;color:var(--muted);
