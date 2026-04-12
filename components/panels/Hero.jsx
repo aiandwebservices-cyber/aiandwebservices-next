@@ -20,12 +20,6 @@ export default function Hero() {
             <button className="btn-ghost-w" onClick={() => window.go(1)}>See What I Build</button>
           </div>
           <div className="hero-bottom">
-            {/* Row 1: labels */}
-            <div className="hs"><span className="hs-n">No contracts</span><span className="hs-l">Cancel or pause anytime</span></div>
-            <div className="hs"><span className="hs-n">Direct access</span><span className="hs-l">You work with David, not a team</span></div>
-            <div className="hs"><span className="hs-n">Free audit</span><span className="hs-l">Start with a no-obligation review</span></div>
-            <div className="hs"></div>
-            {/* Row 2: stats */}
             <div className="hd-stat">
               <div className="hd-n">66<em>%</em></div>
               <div className="hd-l">of SMBs using AI save $500–$2,000/month</div>
