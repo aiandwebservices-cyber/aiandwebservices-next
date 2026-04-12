@@ -784,6 +784,8 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
   border-radius:10px;color:#fff;font-size:16px;
   font-family:'Inter',sans-serif;
   transition:all .2s;outline:none;
+  touch-action:auto;-webkit-user-select:text;user-select:text;
+  pointer-events:auto;position:relative;z-index:1;
 }
 .form-row input:focus,.form-row textarea:focus,.form-row select:focus{
   border-color:rgba(37,99,235,.5);background:rgba(37,99,235,.06);

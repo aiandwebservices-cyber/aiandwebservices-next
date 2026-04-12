@@ -102,8 +102,11 @@ export function useHorizontalScroll() {
     window.mobileGo = scrollToPanel;
     window.toggleMenu = toggleMenu;
 
-    // Click outside closes menu
+    // Click outside closes menu — but never interfere with form fields
     const handleOutsideClick = (e) => {
+      const tag = e.target.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || tag === 'BUTTON') return;
+      if (e.target.closest('form')) return;
       if (!nav.contains(e.target) && !mobileMenu.contains(e.target)) closeMenu();
     };
     document.addEventListener('click', handleOutsideClick);
@@ -140,6 +143,7 @@ export function useHorizontalScroll() {
       if (window._faqToggling) return;
       const tag = document.activeElement && document.activeElement.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+      if (document.activeElement && document.activeElement.closest('form')) return;
       clearTimeout(scrollTimer);
       scrollTimer = setTimeout(() => {
         let active = 0;
