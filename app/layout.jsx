@@ -45,6 +45,18 @@ export default function RootLayout({ children }) {
       <head>
         <meta name="geo.region" content="US" />
         <meta name="geo.placename" content="United States" />
+        <script dangerouslySetInnerHTML={{__html: `
+          window.$crisp=[];
+          window.CRISP_WEBSITE_ID="e76e44c0-a38a-4d5e-ab6a-41a380e83c69";
+          window.CRISP_READY_TRIGGER=function(){
+            setTimeout(function(){
+              window.$crisp.push(["do","message:show",["text","👋 Hi! I'm David, the owner — got questions?\nI reply within minutes."]]);
+            },5000);
+          };
+          (function(){var d=document,s=d.createElement("script");
+          s.src="https://client.crisp.chat/l.js";s.async=1;
+          d.getElementsByTagName("head")[0].appendChild(s);})();
+        `}} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{__html: JSON.stringify({
@@ -71,27 +83,12 @@ export default function RootLayout({ children }) {
           strategy="lazyOnload"
         />
         <Script
-          id="crisp"
+          id="crisp-ui"
           strategy="afterInteractive"
           dangerouslySetInnerHTML={{__html: `
-            window.$crisp=[];
-            window.CRISP_WEBSITE_ID="e76e44c0-a38a-4d5e-ab6a-41a380e83c69";
-            var _crispMsgShown=false;
-            function _showCrispMsg(){
-              if(_crispMsgShown)return;
-              _crispMsgShown=true;
-              setTimeout(function(){
-                window.$crisp.push(["do","message:show",["text","👋 Hi! I'm David, the owner — got questions?\nI reply within minutes."]]);
-              },5000);
-            }
-            window.$crisp.push(["on","session:loaded",_showCrispMsg]);
-            window.CRISP_READY_TRIGGER=_showCrispMsg;
-            (function(){var d=document,s=d.createElement("script");
-            s.src="https://client.crisp.chat/l.js";s.async=1;
-            d.getElementsByTagName("head")[0].appendChild(s);})();
             document.addEventListener('click', function(e) {
-              var hamburger = document.getElementById('hamburger');
-              if (hamburger && (hamburger === e.target || hamburger.contains(e.target))) {
+              var h = document.getElementById('hamburger');
+              if (h && (h === e.target || h.contains(e.target))) {
                 if (window.$crisp) window.$crisp.push(['do', 'chat:close']);
               }
             });
