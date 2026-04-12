@@ -33,10 +33,6 @@ export default function About() {
                 <div className="ac-icon">📞</div>
                 <a href="tel:3155720710">(315) 572-0710</a>
               </div>
-              <div className="ac-row">
-                <div className="ac-icon">💼</div>
-                <a href="mailto:AIandWEBservices@gmail.com">Email David directly</a>
-              </div>
             </div>
           </div>
         </div>
