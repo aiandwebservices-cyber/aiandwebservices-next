@@ -189,7 +189,7 @@ a{touch-action:manipulation}
   transition:all .22s;
 }
 .btn-ghost-w:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25)}
-.hero-stats{display:flex;gap:36px;flex-wrap:wrap}
+.hero-stats{display:flex;gap:36px;flex-wrap:wrap;padding-left:18px}
 .hs{display:flex;flex-direction:column}
 .hs-n{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;color:#fff;line-height:1.2}
 .hs-n span{font-size:14px;color:#60A5FA}
