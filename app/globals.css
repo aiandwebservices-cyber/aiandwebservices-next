@@ -373,7 +373,7 @@ a{touch-action:manipulation}
 .about-inner{
   min-height:100%;display:grid;grid-template-columns:minmax(0,520px) minmax(0,580px);
   grid-template-rows:auto auto;
-  padding:60px 6vw 60px;gap:40px;align-items:start;justify-content:center;
+  padding:48px 6vw 32px;gap:28px;align-items:start;justify-content:center;
 }
 .about-left{}
 .about-card{
@@ -430,26 +430,26 @@ a{touch-action:manipulation}
 /* ── CORE VALUES STRIP ── */
 .cv-strip{
   grid-column:1 / -1;
-  padding:32px 0 16px;
+  padding:20px 0 12px;
   border-top:1px solid var(--border);
   margin-top:0;
 }
 .cv-eyebrow{
   font-size:11px;font-weight:700;letter-spacing:2px;text-transform:uppercase;
-  color:var(--blue);margin-bottom:20px;
+  color:var(--blue);margin-bottom:12px;
 }
 .cv-grid{
-  display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+  display:grid;grid-template-columns:repeat(6,1fr);gap:10px;
 }
 .cv-card{
   background:var(--white);border:1px solid var(--border);
-  border-radius:12px;padding:20px 18px;
+  border-radius:12px;padding:14px 12px;
   transition:all .25s;
 }
 .cv-card:hover{border-color:var(--blue);box-shadow:0 4px 20px rgba(37,99,235,.08)}
-.cv-icon{font-size:20px;margin-bottom:8px}
-.cv-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:5px}
-.cv-desc{font-size:12px;color:var(--muted);line-height:1.6}
+.cv-icon{font-size:18px;margin-bottom:6px}
+.cv-title{font-size:12px;font-weight:700;color:var(--text);margin-bottom:4px}
+.cv-desc{font-size:11px;color:var(--muted);line-height:1.5}
 @media(max-width:768px){
   .cv-grid{grid-template-columns:1fr 1fr}
   .cv-strip{padding:32px 5vw 40px}
