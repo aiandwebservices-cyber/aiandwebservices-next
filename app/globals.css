@@ -206,6 +206,7 @@ a{touch-action:manipulation}
 .hero-right{
   flex:0 0 420px;
   display:flex;flex-direction:column;gap:10px;
+  justify-content:center;
 }
 .funnel-card{
   background:rgba(255,255,255,.04);

@@ -7,7 +7,6 @@ export default function Hero() {
       <div className="hero-grid"></div>
       <div className="hero-inner">
         <div className="hero-left">
-          <div className="hero-eyebrow"><span className="edot"></span> AI Automation &amp; Web Services for Small Businesses</div>
           <h1 className="hero-h1">
             Stop losing leads to<br/>
             businesses with <span className="accent">better<br/>tech than you.</span>
@@ -43,6 +42,7 @@ export default function Hero() {
           </div>
         </div>
         <div className="hero-right">
+          <div className="hero-eyebrow" style={{marginBottom:'16px'}}><span className="edot"></span> AI Automation &amp; Web Services for Small Businesses</div>
           <div className="funnel-card fc-ai">
             <div className="fc-icon">🤖</div>
             <div className="fc-body"><div className="fc-title">A chatbot that handles your inquiries &amp; books calls</div><div className="fc-desc">So you stop losing leads who don&apos;t want to wait for a reply</div></div>
