@@ -494,10 +494,10 @@ a{touch-action:manipulation}
 #p5{background:var(--off)}
 .pricing-inner{
   height:100%;display:flex;flex-direction:column;
-  padding:64px 5vw 20px;
+  padding:72px 5vw 12px;
   overflow-y:auto;overflow-x:hidden;
 }
-.pricing-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:12px}
+.pricing-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:48px;flex-wrap:wrap;gap:12px}
 .no-contract{
   font-size:12px;color:var(--muted);
   display:flex;align-items:center;gap:6px;
@@ -511,7 +511,7 @@ a{touch-action:manipulation}
   background:linear-gradient(120deg,var(--navy) 0%,#1e3a8a 100%);
   border-radius:14px;padding:20px 28px;
   display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;
-  margin-bottom:28px;position:relative;overflow:hidden;
+  margin-bottom:48px;position:relative;overflow:hidden;
 }
 .chatbot-solo::after{
   content:'';position:absolute;right:-60px;top:-60px;
@@ -542,7 +542,7 @@ a{touch-action:manipulation}
 .cs-btn:hover{background:var(--blue-lt);transform:translateY(-1px)}
 
 /* 5-tier grid */
-.pricing-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:28px}
+.pricing-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:48px}
 .pr-card{
   background:var(--white);border:1px solid var(--border);
   border-radius:14px;padding:16px 14px 14px;
