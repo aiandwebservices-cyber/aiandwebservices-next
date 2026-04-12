@@ -21,11 +21,21 @@ export default function CrispChat() {
     };
     document.head.appendChild(s);
 
-    // Close chat when hamburger opens
+    // Close chat when clicking outside the widget or hamburger
     document.addEventListener('click', function (e) {
+      if (!window.$crisp) return;
+
+      // Close on hamburger click
       const h = document.getElementById('hamburger');
       if (h && (h === e.target || h.contains(e.target))) {
-        if (window.$crisp) window.$crisp.push(['do', 'chat:close']);
+        window.$crisp.push(['do', 'chat:close']);
+        return;
+      }
+
+      // Close when clicking the main page (outside Crisp iframe/widget)
+      const crispEl = document.getElementById('crisp-chatbox');
+      if (crispEl && !crispEl.contains(e.target)) {
+        window.$crisp.push(['do', 'chat:close']);
       }
     });
   }, []);
