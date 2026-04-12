@@ -105,7 +105,7 @@ export default function Contact() {
               <button type="submit" className="form-submit" disabled={status === 'sending'}>
                 {status === 'sending' ? 'Sending...' : status === 'error' ? 'Error — email david@aiandwebservices.com' : 'Get My Free Audit →'}
               </button>
-              <p className="form-note" role="note">🔒 Your info is never shared or sold. Response guaranteed within 24 hours.</p>
+              <p className="form-note" role="note">🔒 Your info is never shared or sold. Guaranteed response within 6 hours — usually within minutes.</p>
             </form>
           )}
         </div>
