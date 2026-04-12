@@ -688,12 +688,18 @@ a{touch-action:manipulation}
 .contact-inner{
   position:relative;z-index:2;
   height:100%;display:grid;
-  grid-template-columns:minmax(0,440px) minmax(0,560px);
-  grid-template-rows:auto 1fr;
-  padding:72px 6vw 40px;gap:0 52px;align-items:start;justify-content:center;
+  grid-template-columns:minmax(0,480px) minmax(0,480px);
+  grid-template-rows:auto 1fr auto;
+  padding:64px 6vw 24px;gap:0 48px;align-items:start;justify-content:center;
 }
 .contact-header{
   grid-column:1/-1;margin-bottom:20px;
+}
+.contact-footer{
+  grid-column:1/-1;
+  display:flex;flex-wrap:wrap;justify-content:center;gap:24px 40px;
+  padding-top:20px;margin-top:16px;
+  border-top:1px solid rgba(255,255,255,.08);
 }
 .contact-left .panel-h2{color:#fff}
 .contact-left .panel-sub{color:rgba(255,255,255,.45)}
@@ -971,8 +977,9 @@ a{touch-action:manipulation}
   .pr-addons-grid{grid-template-columns:1fr}
 
   /* contact */
-  .contact-inner{grid-template-columns:1fr;grid-template-rows:auto;padding:56px 5vw 60px;gap:28px}
+  .contact-inner{grid-template-columns:1fr;grid-template-rows:auto;padding:56px 5vw 40px;gap:24px}
   .contact-header{margin-bottom:0}
+  .contact-footer{gap:16px 24px;padding-top:16px}
   .contact-form{padding:24px 20px}
   .form-row-2{grid-template-columns:1fr}
 
