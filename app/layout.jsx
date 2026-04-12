@@ -3,6 +3,7 @@ import { Inter } from 'next/font/google';
 import Script from 'next/script';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import CrispChat from '@/components/CrispChat';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -45,18 +46,6 @@ export default function RootLayout({ children }) {
       <head>
         <meta name="geo.region" content="US" />
         <meta name="geo.placename" content="United States" />
-        <script dangerouslySetInnerHTML={{__html: `
-          window.$crisp=[];
-          window.CRISP_WEBSITE_ID="e76e44c0-a38a-4d5e-ab6a-41a380e83c69";
-          window.CRISP_READY_TRIGGER=function(){
-            setTimeout(function(){
-              window.$crisp.push(["do","message:show",["text","👋 Hi! I'm David, the owner — got questions?\nI reply within minutes."]]);
-            },5000);
-          };
-          (function(){var d=document,s=d.createElement("script");
-          s.src="https://client.crisp.chat/l.js";s.async=1;
-          d.getElementsByTagName("head")[0].appendChild(s);})();
-        `}} />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{__html: JSON.stringify({
@@ -82,23 +71,7 @@ export default function RootLayout({ children }) {
           src="https://assets.calendly.com/assets/external/widget.js"
           strategy="lazyOnload"
         />
-        <Script
-          id="crisp-ui"
-          strategy="afterInteractive"
-          dangerouslySetInnerHTML={{__html: `
-            document.addEventListener('click', function(e) {
-              var h = document.getElementById('hamburger');
-              if (h && (h === e.target || h.contains(e.target))) {
-                if (window.$crisp) window.$crisp.push(['do', 'chat:close']);
-              }
-            });
-            document.addEventListener('touchstart', function(e) {
-              if (window.scrollY === 0 && e.touches[0].clientY < 60) {
-                if (window.$crisp) window.$crisp.push(['do', 'chat:close']);
-              }
-            }, { passive: true });
-          `}}
-        />
+        <CrispChat />
         <Analytics />
         <SpeedInsights />
       </body>
