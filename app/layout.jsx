@@ -75,9 +75,8 @@ export default function RootLayout({ children }) {
             window.$crisp=[];window.CRISP_WEBSITE_ID="e76e44c0-a38a-4d5e-ab6a-41a380e83c69";
             window.$crisp.push(["config", "container:index", [1]]);
             setTimeout(function(){
-              if(window.$crisp && !sessionStorage.getItem('crisp_nudged')){
+              if(window.$crisp){
                 window.$crisp.push(["do","message:show",["text","👋 Hi! I'm David, the owner — got questions?\nI reply within minutes."]]);
-                sessionStorage.setItem('crisp_nudged','1');
               }
             }, 5000);
             (function(){var d=document,s=d.createElement("script");
