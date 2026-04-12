@@ -77,6 +77,12 @@ export default function RootLayout({ children }) {
                 if (window.$crisp) window.$crisp.push(['do', 'chat:close']);
               }
             });
+            // Close Crisp on pull-to-refresh attempt (touchstart near top of screen)
+            document.addEventListener('touchstart', function(e) {
+              if (window.scrollY === 0 && e.touches[0].clientY < 60) {
+                if (window.$crisp) window.$crisp.push(['do', 'chat:close']);
+              }
+            }, { passive: true });
           `}}
         />
       </body>
