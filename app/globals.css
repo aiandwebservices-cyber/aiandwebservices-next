@@ -381,7 +381,7 @@ a{touch-action:manipulation}
   box-shadow:0 8px 32px rgba(0,0,0,.06);
 }
 .founder-photo{
-  width:100%;height:240px;border-radius:16px;
+  width:100%;height:300px;border-radius:16px;
   overflow:hidden;margin-bottom:20px;
   background:var(--off2);flex-shrink:0;
 }
@@ -415,7 +415,7 @@ a{touch-action:manipulation}
 .about-right{}
 .about-right .panel-h2{margin-bottom:16px}
 .mission-text{font-size:15px;color:var(--muted);line-height:1.9;margin-bottom:32px}
-.value-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.value-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .val-card{
   background:var(--white);border:1px solid var(--border);
   border-radius:12px;padding:18px;

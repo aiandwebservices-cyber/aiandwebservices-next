@@ -9,24 +9,34 @@ export default function About() {
           <h2 className="panel-h2">You might be in the right place if...</h2>
           <div className="value-grid">
             <div className="val-card">
-              <div className="val-icon">📞</div>
-              <div className="val-title">You&apos;re missing leads after hours</div>
-              <div className="val-desc">An AI automation system qualifies and books leads while you sleep. You wake up to booked calls, not missed messages.</div>
-            </div>
-            <div className="val-card">
               <div className="val-icon">🔍</div>
-              <div className="val-title">Your competitors rank higher than you</div>
-              <div className="val-desc">If customers can&apos;t find you on Google, they&apos;re finding someone else. I fix the technical issues and build content that moves you up.</div>
+              <div className="val-title">Your competitors rank higher on Google</div>
+              <div className="val-desc">If customers can&apos;t find you, they&apos;re finding someone else. I fix the technical issues and build content that moves you up.</div>
             </div>
             <div className="val-card">
               <div className="val-icon">🐌</div>
-              <div className="val-title">Your website is slow or outdated</div>
-              <div className="val-desc">A slow site loses customers and tanks your SEO. I rebuild or optimise it so it loads fast, looks professional, and converts.</div>
+              <div className="val-title">Your website is slow or not converting</div>
+              <div className="val-desc">A slow, outdated site kills your SEO and drives buyers to competitors. I rebuild it to load fast, look sharp, and close.</div>
+            </div>
+            <div className="val-card">
+              <div className="val-icon">📞</div>
+              <div className="val-title">You&apos;re losing leads outside business hours</div>
+              <div className="val-desc">An AI assistant answers questions, qualifies leads, and books calls at 3am — so you wake up to opportunities, not missed messages.</div>
             </div>
             <div className="val-card">
               <div className="val-icon">🔁</div>
               <div className="val-title">You&apos;re doing the same tasks manually every week</div>
-              <div className="val-desc">If it&apos;s repetitive — follow-ups, scheduling, reporting — it can be automated. I map it and build it for you.</div>
+              <div className="val-desc">If it&apos;s repetitive — follow-ups, scheduling, reporting — it can be automated. I map it and build it so it runs without you.</div>
+            </div>
+            <div className="val-card">
+              <div className="val-icon">💸</div>
+              <div className="val-title">You&apos;re paying for ads but can&apos;t track what&apos;s working</div>
+              <div className="val-desc">I connect your ads, analytics, and CRM so every dollar is tracked and every lead is attributed.</div>
+            </div>
+            <div className="val-card">
+              <div className="val-icon">🧠</div>
+              <div className="val-title">You know AI could help but don&apos;t know where to start</div>
+              <div className="val-desc">No jargon, no guesswork. I give you a clear roadmap for where AI saves you the most time and money.</div>
             </div>
           </div>
         </div>
