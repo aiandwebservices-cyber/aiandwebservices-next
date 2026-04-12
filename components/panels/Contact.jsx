@@ -141,7 +141,7 @@ export default function Contact() {
           </a>
           <div className="ci-row">
             <div className="ci-icon">⚡</div>
-            <span>Response <strong style={{color:'#fff'}}>within 24 hours</strong> — usually within the hour</span>
+            <span>Guaranteed response <strong style={{color:'#fff'}}>within 6 hours</strong> — usually within minutes</span>
           </div>
         </div>
 
