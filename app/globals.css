@@ -1013,7 +1013,9 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
   .svc-cat{padding:16px 18px 16px}
 
   /* funnel */
-  .funnel-inner{padding:56px 5vw 60px}
+  .funnel-inner{padding:32px 5vw 60px}
+  .funnel-header{margin-bottom:36px}
+  .funnel-header .panel-sub{margin-bottom:32px}
   .funnel-grid{grid-template-columns:1fr;grid-template-rows:auto}
   .fstep{grid-column:1}
   .fnode{grid-column:1;padding:10px 0}
