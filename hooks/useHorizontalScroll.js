@@ -59,16 +59,16 @@ export function useHorizontalScroll() {
       updateUI();
     }
 
-    const visiblePanels = () =>
-      Array.from(document.querySelectorAll('.panel')).filter(p => getComputedStyle(p).display !== 'none');
+    // Map nav index → panel IDs (p4 removed from DOM, so skip it)
+    const panelIds = ['p0','p1','p2','p3','p5','p6','p7','p8'];
 
     function scrollToPanel(n) {
       n = Math.max(0, Math.min(TOTAL - 1, n));
       cur = n;
       curRef.current = cur;
-      const panels = visiblePanels();
-      if (panels[n]) {
-        const offset = panels[n].getBoundingClientRect().top + window.scrollY - 60;
+      const panel = document.getElementById(panelIds[n]);
+      if (panel) {
+        const offset = panel.getBoundingClientRect().top + window.scrollY - 60;
         window.scrollTo({ top: offset, behavior: 'smooth' });
       }
       closeMenu();
@@ -132,10 +132,13 @@ export function useHorizontalScroll() {
     // Mobile scroll spy
     const handleScroll = () => {
       if (!isMobile()) return;
-      const panels = visiblePanels();
+      // Don't update nav if user is focused on a form field (keyboard open)
+      const tag = document.activeElement && document.activeElement.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
       let active = 0;
-      panels.forEach((p, i) => {
-        if (p.getBoundingClientRect().top <= 80) active = i;
+      panelIds.forEach((id, i) => {
+        const p = document.getElementById(id);
+        if (p && p.getBoundingClientRect().top <= 80) active = i;
       });
       if (active !== cur) { cur = active; curRef.current = cur; updateUI(); }
     };
