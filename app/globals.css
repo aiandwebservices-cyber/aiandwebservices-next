@@ -302,42 +302,40 @@ a{touch-action:manipulation}
 /* ── PANEL 2: FULL FUNNEL ── */
 #p2{background:var(--navy2)}
 .funnel-inner{
-  height:100%;display:flex;align-items:center;justify-content:center;
-  padding:80px 8vw 60px;gap:80px;
+  height:100%;display:flex;flex-direction:column;
+  padding:72px 8vw 40px;
 }
-.funnel-left{flex:1;max-width:520px}
-.funnel-left .panel-h2{color:#fff}
-.funnel-left .panel-sub{color:rgba(255,255,255,.5)}
-.funnel-steps{display:flex;flex-direction:column;gap:0;margin-top:8px}
+.funnel-header{margin-bottom:20px}
+.funnel-header .panel-h2{color:#fff;margin-bottom:8px}
+.funnel-header .panel-sub{color:rgba(255,255,255,.55);max-width:100%;margin-bottom:0}
+.funnel-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:repeat(4,1fr);
+  gap:0 60px;flex:1;
+}
 .fstep{
-  display:flex;gap:20px;padding:16px 0;
-  border-bottom:1px solid rgba(255,255,255,.05);
-  transition:all .2s;
+  grid-column:1;
+  display:flex;gap:16px;padding:14px 0;
+  border-bottom:1px solid rgba(255,255,255,.06);
+  align-items:flex-start;
 }
 .fstep:last-child{border:none}
-.fstep:hover .fstep-n{color:var(--blue-lt)}
 .fstep-n{
   font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:11px;font-weight:800;color:rgba(255,255,255,.15);
-  letter-spacing:1px;min-width:24px;padding-top:2px;
-  transition:color .2s;
+  font-size:22px;font-weight:800;line-height:1;min-width:40px;padding-top:2px;
 }
-.fstep-body h4{font-size:14px;font-weight:700;color:#fff;margin-bottom:4px}
-.fstep-body p{font-size:12px;color:rgba(255,255,255,.4);line-height:1.6}
-.funnel-right{
-  flex:0 0 500px;
-  display:grid;grid-template-rows:repeat(4,1fr);gap:0;
-  height:460px;
-}
+.fstep-body h4{font-size:14px;font-weight:700;margin-bottom:4px}
+.fstep-body p{font-size:12px;color:rgba(255,255,255,.55);line-height:1.6}
 .fnode{
+  grid-column:2;
   display:flex;align-items:center;gap:16px;
-  padding:0 24px;position:relative;
+  padding:14px 0 14px 0;position:relative;
 }
 .fnode-line{
-  position:absolute;left:24px;bottom:-1px;top:auto;
+  position:absolute;left:13px;top:calc(50% + 14px);
   width:2px;height:calc(100% - 28px);
-  background:linear-gradient(to bottom,var(--blue),var(--em-lt));
-  transform-origin:top;
+  background:linear-gradient(to bottom,rgba(255,255,255,.15),rgba(255,255,255,.05));
 }
 .fnode:last-child .fnode-line{display:none}
 .fnode-dot{
@@ -963,9 +961,10 @@ a{touch-action:manipulation}
   .svc-cat{padding:16px 18px 16px}
 
   /* funnel */
-  .funnel-inner{flex-direction:column;padding:56px 5vw 60px;gap:40px}
-  .funnel-right{flex:none;width:100%;height:auto;grid-template-rows:auto;gap:12px}
-  .fnode{padding:0}
+  .funnel-inner{padding:56px 5vw 60px}
+  .funnel-grid{grid-template-columns:1fr;grid-template-rows:auto}
+  .fstep{grid-column:1}
+  .fnode{grid-column:1;padding:10px 0}
   .fnode-line{display:none}
   .fnode-metric{font-size:14px}
 
