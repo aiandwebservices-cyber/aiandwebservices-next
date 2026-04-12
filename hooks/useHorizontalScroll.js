@@ -115,11 +115,12 @@ export function useHorizontalScroll() {
     window.mobileGo = scrollToPanel;
     window.toggleMenu = toggleMenu;
 
-    // Click outside closes menu — but never interfere with form fields or Calendly
+    // Click outside closes menu — but never interfere with form fields, links, or Calendly
     const handleOutsideClick = (e) => {
       if (formFocused) return;
       const tag = e.target.tagName;
-      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || tag === 'BUTTON' || tag === 'IFRAME' || tag === 'LABEL') return;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || tag === 'BUTTON' || tag === 'IFRAME' || tag === 'LABEL' || tag === 'A') return;
+      if (e.target.closest('a')) return;
       if (e.target.closest('form')) return;
       if (e.target.closest('.calendly-inline-widget')) return;
       if (e.target.closest('.calendly-wrap')) return;
