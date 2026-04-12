@@ -25,6 +25,8 @@ export default function CrispChat() {
 
     s.onload = function () {
       window.$crisp.push(['on', 'session:loaded', function () {
+        if (window._crispMessageShown) return;
+        window._crispMessageShown = true;
         setTimeout(function () {
           window.$crisp.push(['do', 'message:show', ['text', '👋 Hi! I\'m David, the owner — got questions?\nI reply within minutes.']]);
         }, 5000);
