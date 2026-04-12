@@ -40,7 +40,7 @@ export default function Contact() {
             { n:'2', cls:'csn-2', title:'Get your free audit — within 6 hours', desc:'David personally reviews your business and identifies where AI, SEO, or a better website would have the biggest revenue impact.' },
             { n:'3', cls:'csn-3', title:'Decide with zero pressure', desc:"You get real, actionable advice — whether you work with David or not. No hard sell, ever." },
             { n:'4', cls:'csn-4', title:'Book a call to talk it through', desc:"Prefer to discuss live? Use the calendar to pick a time that works — 30 minutes, your questions answered." },
-          ].map(({ n, title, desc }) => (
+          ].map(({ n, cls, title, desc }) => (
             <div key={n} className="contact-step">
               <div className={`contact-step-n ${cls}`}>{n}</div>
               <div>
