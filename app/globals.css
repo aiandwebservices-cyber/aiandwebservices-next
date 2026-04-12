@@ -873,7 +873,7 @@ button{font-family:inherit;cursor:pointer}
   .panel{
     width:100%!important;
     height:auto!important;
-    min-height:0!important;              /* kill the 100vh floor */
+    min-height:100svh;
     overflow:visible!important;
     position:relative!important;
     flex-shrink:unset!important;
