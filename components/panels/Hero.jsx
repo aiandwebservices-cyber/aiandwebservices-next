@@ -21,15 +21,24 @@ export default function Hero() {
           <div className="hero-bottom">
             <div className="trust-badge">
               <div className="tb-icon">✅</div>
-              <div className="tb-label">No Contracts</div>
+              <div className="tb-text">
+                <div className="tb-main">No Contracts</div>
+                <div className="tb-sub">Cancel Anytime</div>
+              </div>
             </div>
             <div className="trust-badge">
               <div className="tb-icon">🤝</div>
-              <div className="tb-label">Direct Access to David</div>
+              <div className="tb-text">
+                <div className="tb-main">Direct Access</div>
+                <div className="tb-sub">to David</div>
+              </div>
             </div>
             <div className="trust-badge">
               <div className="tb-icon">🎯</div>
-              <div className="tb-label">Free Audit Included</div>
+              <div className="tb-text">
+                <div className="tb-main">Free Audit</div>
+                <div className="tb-sub">Included</div>
+              </div>
             </div>
           </div>
         </div>
