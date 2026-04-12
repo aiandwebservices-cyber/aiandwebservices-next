@@ -35,7 +35,7 @@ export default function About() {
               </div>
               <div className="ac-row">
                 <div className="ac-icon">💼</div>
-                <a href="https://linkedin.com/in/YOUR_LINKEDIN" target="_blank" rel="noopener noreferrer">Connect on LinkedIn</a>
+                <a href="mailto:AIandWEBservices@gmail.com">Email David directly</a>
               </div>
             </div>
           </div>

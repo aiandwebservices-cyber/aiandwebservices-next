@@ -34,7 +34,7 @@ export default function Blog() {
         </div>
         <div className="blog-cta">
           <div className="blog-cta-text"><strong>More articles on the way.</strong> Deep dives into AI automation, SEO, and growth strategies — all written for small business owners, not developers.</div>
-          <a href="https://aiandwebservices.hashnode.dev" target="_blank" rel="noopener noreferrer" className="blog-btn">Visit the Blog →</a>
+          <button className="blog-btn" onClick={() => window.go && window.go(7)}>Get a Free Audit →</button>
         </div>
       </div>
     </section>

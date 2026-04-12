@@ -129,18 +129,21 @@ export function useHorizontalScroll() {
     };
     window.addEventListener('keydown', handleKeyDown);
 
-    // Mobile scroll spy
+    // Mobile scroll spy — debounced to avoid flicker during smooth scroll
+    let scrollTimer = null;
     const handleScroll = () => {
       if (!isMobile()) return;
-      // Don't update nav if user is focused on a form field (keyboard open)
       const tag = document.activeElement && document.activeElement.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
-      let active = 0;
-      panelIds.forEach((id, i) => {
-        const p = document.getElementById(id);
-        if (p && p.getBoundingClientRect().top <= 80) active = i;
-      });
-      if (active !== cur) { cur = active; curRef.current = cur; updateUI(); }
+      clearTimeout(scrollTimer);
+      scrollTimer = setTimeout(() => {
+        let active = 0;
+        panelIds.forEach((id, i) => {
+          const p = document.getElementById(id);
+          if (p && p.getBoundingClientRect().top <= 80) active = i;
+        });
+        if (active !== cur) { cur = active; curRef.current = cur; updateUI(); }
+      }, 80);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
 

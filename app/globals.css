@@ -1028,6 +1028,10 @@ button{font-family:inherit;cursor:pointer}
   transition:width .35s ease;pointer-events:none;
 }
 
+/* ── CRISP WIDGET OFFSET (above cookie banner) ── */
+.crisp-client .cc-tlyw{bottom:72px!important}
+.crisp-client .cc-kxkl{bottom:72px!important}
+
 /* ── COOKIE BANNER ── */
 #cookie-banner{
   position:fixed;bottom:0;left:0;right:0;z-index:9998;
