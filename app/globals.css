@@ -302,7 +302,7 @@ a{touch-action:manipulation}
 #p2{background:var(--navy2)}
 .funnel-inner{
   height:100%;display:flex;flex-direction:column;
-  padding:72px 8vw 40px;
+  padding:88px 8vw 40px;
 }
 .funnel-header{margin-bottom:48px}
 .funnel-header .panel-eyebrow{margin-bottom:14px}
@@ -375,10 +375,10 @@ a{touch-action:manipulation}
 #p3{background:var(--off);overflow-y:auto;}
 .about-inner{
   min-height:100%;display:grid;grid-template-columns:minmax(0,600px) minmax(0,420px);
-  grid-template-rows:auto auto;
-  padding:72px 6vw 64px;gap:40px;align-items:start;justify-content:center;
+  grid-template-rows:1fr auto;
+  padding:88px 6vw 40px;gap:40px;align-items:stretch;justify-content:center;
 }
-.about-left{padding-top:48px}
+.about-left{}
 .about-card{
   background:var(--white);border:1px solid var(--border);
   border-radius:20px;padding:20px 24px;
@@ -416,11 +416,11 @@ a{touch-action:manipulation}
 }
 .ac-row a{color:var(--blue);font-weight:500}
 .ac-row a:hover{text-decoration:underline}
-.about-right{display:flex;flex-direction:column;justify-content:space-between}
-.about-right .panel-eyebrow{justify-content:center}
+.about-right{display:flex;flex-direction:column;align-items:center}
+.about-right .panel-eyebrow{justify-content:center;width:100%}
 .about-right .panel-h2{margin-bottom:16px;text-align:center;margin-top:20px}
 .mission-text{font-size:15px;color:var(--muted);line-height:1.9;margin-bottom:32px}
-.value-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px;flex:1;align-content:center}
+.value-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:0;flex:1;width:100%;align-content:space-between}
 .val-card{
   background:var(--white);border:1px solid var(--border);
   border-radius:12px;padding:18px;
@@ -465,7 +465,7 @@ a{touch-action:manipulation}
 #p4{background:var(--off)}
 .testi-inner{
   height:100%;display:flex;flex-direction:column;
-  padding:84px 6vw 48px;
+  padding:88px 6vw 48px;
 }
 .testi-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;flex:1;margin-top:8px}
 .testi-card{
@@ -498,7 +498,7 @@ a{touch-action:manipulation}
 #p5{background:var(--off)}
 .pricing-inner{
   height:100%;display:flex;flex-direction:column;
-  padding:72px 5vw 12px;
+  padding:88px 5vw 12px;
   overflow-y:auto;overflow-x:hidden;
 }
 .pricing-header{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:32px;flex-wrap:wrap;gap:12px}
@@ -636,7 +636,7 @@ a{touch-action:manipulation}
 /* ── PANEL 6: BLOG ── */
 .blog-inner{
   height:100%;display:flex;flex-direction:column;
-  padding:72px 6vw 24px;
+  padding:88px 6vw 24px;
   overflow:hidden;
 }
 .blog-header{margin-bottom:14px}
@@ -694,7 +694,7 @@ a{touch-action:manipulation}
   height:100%;display:grid;
   grid-template-columns:minmax(0,480px) minmax(0,480px);
   grid-template-rows:auto auto 1fr auto;
-  padding:72px 6vw 80px;gap:0 48px;align-items:stretch;justify-content:center;
+  padding:88px 6vw 80px;gap:0 48px;align-items:stretch;justify-content:center;
 }
 .contact-header{
   grid-column:1/-1;margin-bottom:16px;
@@ -1167,7 +1167,7 @@ a{touch-action:manipulation}
 #p7{background:var(--off2)}
 .faq-inner{
   height:100%;display:flex;flex-direction:column;
-  padding:72px 8vw 60px;
+  padding:88px 8vw 60px;
 }
 .faq-cols{display:grid;grid-template-columns:1fr 1fr;gap:0 80px;margin-top:24px}
 .faq-item{border-bottom:1px solid var(--border);padding:12px 0}
