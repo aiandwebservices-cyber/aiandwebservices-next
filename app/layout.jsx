@@ -74,6 +74,12 @@ export default function RootLayout({ children }) {
           dangerouslySetInnerHTML={{__html: `
             window.$crisp=[];window.CRISP_WEBSITE_ID="e76e44c0-a38a-4d5e-ab6a-41a380e83c69";
             window.$crisp.push(["config", "container:index", [1]]);
+            setTimeout(function(){
+              if(window.$crisp && !sessionStorage.getItem('crisp_nudged')){
+                window.$crisp.push(["do","message:show",["text","👋 Hi! I'm David — got questions? I reply fast."]]);
+                sessionStorage.setItem('crisp_nudged','1');
+              }
+            }, 10000);
             (function(){var d=document,s=d.createElement("script");
             s.src="https://client.crisp.chat/l.js";s.async=1;
             d.getElementsByTagName("head")[0].appendChild(s);})();
