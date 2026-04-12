@@ -82,6 +82,7 @@ export function useHorizontalScroll() {
       hamburger.classList.toggle('open', isOpen);
       hamburger.setAttribute('aria-expanded', isOpen);
       hamburger.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
+      mobileMenu.setAttribute('aria-modal', isOpen ? 'true' : 'false');
       if (!isMobile()) document.body.style.overflow = isOpen ? 'hidden' : '';
     }
 
@@ -90,6 +91,7 @@ export function useHorizontalScroll() {
       hamburger.classList.remove('open');
       hamburger.setAttribute('aria-expanded', 'false');
       hamburger.setAttribute('aria-label', 'Open navigation menu');
+      mobileMenu.setAttribute('aria-modal', 'false');
       if (!isMobile()) document.body.style.overflow = '';
     }
 

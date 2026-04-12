@@ -557,7 +557,7 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
 .pr-card{
   background:var(--white);border:1px solid var(--border);
   border-radius:14px;padding:16px 14px 14px;
-  display:flex;flex-direction:column;
+  display:flex;flex-direction:column;align-items:center;text-align:center;
   position:relative;overflow:hidden;transition:all .3s;
 }
 .pr-card:hover{transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.08)}
@@ -571,7 +571,7 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
 .pr-emoji{font-size:20px;margin-bottom:6px;line-height:1}
 .pr-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;color:var(--text);margin-bottom:2px}
 .pr-tagline{font-size:10px;color:var(--blue);font-weight:600;margin-bottom:8px;line-height:1.4}
-.pr-price{display:flex;align-items:baseline;gap:2px;margin-bottom:2px}
+.pr-price{display:flex;align-items:baseline;gap:2px;margin-bottom:2px;justify-content:center}
 .pr-price-n{font-family:'Plus Jakarta Sans',sans-serif;font-size:26px;font-weight:800;color:var(--text);line-height:1}
 .pr-price-n sup{font-size:12px;vertical-align:top;margin-top:4px;display:inline-block}
 .pr-price-per{font-size:11px;color:var(--muted)}
@@ -607,7 +607,7 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
 @media(max-width:768px){#scroll-hint{display:none}}
 
 /* setup tooltip */
-.pr-setup-wrap{margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--border)}
+.pr-setup-wrap{margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid var(--border);text-align:center;width:100%}
 .pr-setup{font-size:10px;color:var(--muted)}
 .pr-setup-toggle{font-size:10px;color:var(--blue);text-decoration:underline;cursor:pointer;background:none;border:none;padding:0;font-family:inherit;margin-left:4px}
 .pr-setup-toggle:hover{color:var(--blue-lt)}
@@ -626,10 +626,10 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
 #site-footer a:hover{color:rgba(255,255,255,.7)}
 #site-footer .footer-links{margin-top:6px;font-size:11px;color:rgba(255,255,255,.35)}
 @media(max-width:768px){#site-footer{display:block}}
-.pr-list{list-style:none;display:flex;flex-direction:column;gap:8px;flex:1;margin-bottom:14px}
-.pr-list li{font-size:11px;color:var(--muted);padding-left:15px;position:relative;line-height:1.6}
-.pr-list li::before{content:'✓';position:absolute;left:0;color:var(--emerald);font-weight:800;font-size:10px;top:2px}
-.pr-best{font-size:10px;color:var(--muted);font-style:italic;line-height:1.5;margin-bottom:14px;border-top:1px solid var(--border);padding-top:10px}
+.pr-list{list-style:none;display:flex;flex-direction:column;gap:8px;flex:1;margin-bottom:14px;width:100%;align-items:center}
+.pr-list li{font-size:11px;color:var(--muted);line-height:1.6;display:flex;align-items:flex-start;gap:6px;text-align:left}
+.pr-list li::before{content:'✓';color:var(--emerald);font-weight:800;font-size:10px;flex-shrink:0;margin-top:2px}
+.pr-best{font-size:10px;color:var(--muted);font-style:italic;line-height:1.5;margin-bottom:14px;border-top:1px solid var(--border);padding-top:10px;text-align:center;width:100%}
 .pr-btn{
   width:100%;padding:10px;border-radius:50px;
   font-size:12px;font-weight:700;border:1.5px solid var(--border);
@@ -894,16 +894,25 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
   box-shadow:0 4px 14px rgba(37,99,235,.35);
 }
 
-/* ── IMPROVED CONTRAST (ADA) ── */
-/* Bump semi-transparent text to meet WCAG AA on dark backgrounds */
-.hero-sub{color:rgba(255,255,255,.72)!important}
+/* ── IMPROVED CONTRAST (ADA / WCAG AA) ── */
+/* Bump semi-transparent text to ≥4.5:1 on dark backgrounds */
+.hero-sub{color:rgba(255,255,255,.8)!important}
 .hero-sub strong{color:#fff!important}
-.panel-sub[style*="rgba(255,255,255,.45)"]{color:rgba(255,255,255,.7)!important}
-.fstep-body p{color:rgba(255,255,255,.65)!important}
-.fnode-card p{color:rgba(255,255,255,.65)!important}
-.ci-row{color:rgba(255,255,255,.8)!important}
-.form-note{color:rgba(255,255,255,.5)!important}
-.hs-l{color:rgba(255,255,255,.55)!important}
+.panel-sub[style*="rgba(255,255,255,.45)"]{color:rgba(255,255,255,.75)!important}
+.fstep-body p{color:rgba(255,255,255,.75)!important}
+.fnode-card p{color:rgba(255,255,255,.75)!important}
+.ci-row{color:rgba(255,255,255,.85)!important}
+.form-note{color:rgba(255,255,255,.7)!important}
+.hs-l{color:rgba(255,255,255,.7)!important}
+.fnode-card p,.fnode-card h4{color:rgba(255,255,255,.8)!important}
+/* Form labels on dark contact bg */
+.form-row label{color:rgba(255,255,255,.85)!important}
+/* Footer text */
+#site-footer p,#site-footer a,#site-footer .footer-links button{color:rgba(255,255,255,.7)!important}
+/* cs-desc on pricing dark bg */
+.cs-desc{color:rgba(255,255,255,.75)!important}
+/* faq focus ring */
+.faq-item:focus-visible{outline:2px solid #2AA5A0;outline-offset:4px;border-radius:4px}
 
 /* ── MOBILE RESPONSIVE ── */
 @media(max-width:768px){

@@ -18,6 +18,9 @@ export default function FAQ() {
     window._faqToggling = true;
     setTimeout(() => { window._faqToggling = false; }, 400);
   }
+  function handleFaqKey(e) {
+    if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleFaq(e); }
+  }
 
   return (
     <section className="panel" id="p7" aria-label="Frequently asked questions about AIandWEBservices">
@@ -26,7 +29,7 @@ export default function FAQ() {
         <h2 className="panel-h2">Questions people always ask</h2>
         <div className="faq-cols">
           {faqs.map((faq, i) => (
-            <div key={i} className="faq-item faq-item--open" onClick={toggleFaq}>
+            <div key={i} className="faq-item faq-item--open" onClick={toggleFaq} onKeyDown={handleFaqKey} role="button" tabIndex={0} aria-expanded="true">
               <div className="faq-q">{faq.q}</div>
               <div className="faq-a--visible">{faq.a}</div>
             </div>

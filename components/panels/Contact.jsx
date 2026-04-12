@@ -20,7 +20,7 @@ export default function Contact() {
   }
 
   return (
-    <section className="panel" id="p8">
+    <section className="panel" id="p8" aria-label="Contact David Pulis — Get a Free AI Audit">
       <div className="contact-bg"></div>
       <div className="contact-inner">
 
@@ -99,7 +99,7 @@ export default function Contact() {
                 <label htmlFor="message">Tell us about your business</label>
                 <textarea id="message" name="message" placeholder="What does your business do, and what's your biggest challenge right now?"></textarea>
               </div>
-              <button type="submit" className="form-submit" disabled={status === 'sending'}>
+              <button type="submit" className="form-submit" disabled={status === 'sending'} aria-busy={status === 'sending'} aria-live="polite">
                 {status === 'sending' ? 'Sending...' : status === 'error' ? 'Error — email david@aiandwebservices.com' : 'Get My Free Audit →'}
               </button>
               <p className="form-note" role="note">🔒 Your info is never shared or sold. Guaranteed response within 6 hours — usually within minutes.</p>
@@ -134,7 +134,7 @@ export default function Contact() {
             <div className="ci-icon">📞</div>
             <span style={{color:'#60A5FA',fontWeight:500}}>(315) 572-0710</span>
           </a>
-          <a href="https://t.me/aiandwebservices" target="_blank" rel="noopener noreferrer" className="ci-row" style={{textDecoration:'none'}}>
+          <a href="https://t.me/aiandwebservices" target="_blank" rel="noopener noreferrer" className="ci-row" style={{textDecoration:'none'}} aria-label="@aiandwebservices on Telegram (opens in new tab)">
             <div className="ci-icon">✈️</div>
             <span style={{color:'#60A5FA',fontWeight:500}}>@aiandwebservices</span>
           </a>

@@ -19,14 +19,14 @@ export default function Blog() {
         <div className="blog-grid">
           {posts.map((post) => (
             <div key={post.title} className="blog-card">
-              <div className="blog-card-img">{post.emoji}</div>
+              <div className="blog-card-img" aria-hidden="true">{post.emoji}</div>
               <div className="blog-card-body">
                 <div className="blog-card-tag">{post.tag}</div>
                 <div className="blog-card-title">{post.title}</div>
                 <div className="blog-card-desc">{post.desc}</div>
                 <div className="blog-card-footer">
                   <span className="blog-card-date">{post.date}</span>
-                  <a href={post.url} target="_blank" rel="noopener noreferrer" className="blog-card-link">Read →</a>
+                  <a href={post.url} target="_blank" rel="noopener noreferrer" className="blog-card-link" aria-label={`Read: ${post.title} (opens in new tab)`}>Read →</a>
                 </div>
               </div>
             </div>
