@@ -36,7 +36,7 @@ export default function Contact() {
           <p className="panel-sub" style={{fontSize:'14px',lineHeight:'1.6',maxWidth:'680px'}}>Fill in your details or book a call — David personally responds within 24 hours, no pitch, no obligation.</p>
         </div>
 
-        {/* ── STEPS ── */}
+        {/* ── STEPS 2×2 ── */}
         <div className="contact-steps">
           {[
             { n:'1', title:'Fill out the form — takes 2 minutes', desc:"Tell David about your business, your biggest challenge, and what you're looking to achieve." },
@@ -54,23 +54,8 @@ export default function Contact() {
           ))}
         </div>
 
-        {/* ── LEFT: Calendly ── */}
+        {/* ── LEFT: Form ── */}
         <div className="contact-left">
-          <div className="contact-form calendly-wrap">
-            <div style={{textAlign:'center',marginBottom:'12px'}}>
-              <div style={{fontSize:'20px',fontWeight:'800',color:'#fff',marginBottom:'4px'}}>Let&apos;s Talk!</div>
-              <div style={{fontSize:'13px',color:'rgba(255,255,255,.5)'}}>Pick a time that works — 30 minutes, no pressure.</div>
-            </div>
-            <div
-              className="calendly-inline-widget"
-              data-url="https://calendly.com/aiandwebservices/30min?primary_color=2aa5a0&hide_event_type_details=1&hide_gdpr_banner=1&background_color=111827&text_color=ffffff"
-              style={{minWidth:'280px',height:'520px',borderRadius:'12px',overflow:'hidden'}}
-            />
-          </div>
-        </div>
-
-        {/* ── RIGHT: Form ── */}
-        <div className="contact-right">
           {status === 'success' ? (
             <div className="contact-form" style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'16px',minHeight:'300px',textAlign:'center'}} role="alert" aria-live="polite">
               <div style={{fontSize:'48px'}}>✅</div>
@@ -123,6 +108,21 @@ export default function Contact() {
               <p className="form-note" role="note">🔒 Your info is never shared or sold. Response guaranteed within 24 hours.</p>
             </form>
           )}
+        </div>
+
+        {/* ── RIGHT: Calendly ── */}
+        <div className="contact-right">
+          <div className="contact-form calendly-wrap">
+            <div style={{textAlign:'center',marginBottom:'12px'}}>
+              <div style={{fontSize:'20px',fontWeight:'800',color:'#fff',marginBottom:'4px'}}>Let&apos;s Talk!</div>
+              <div style={{fontSize:'13px',color:'rgba(255,255,255,.5)'}}>Pick a time that works — 30 minutes, no pressure.</div>
+            </div>
+            <div
+              className="calendly-inline-widget"
+              data-url="https://calendly.com/aiandwebservices/30min?primary_color=2aa5a0&hide_event_type_details=1&hide_gdpr_banner=1&background_color=111827&text_color=ffffff"
+              style={{minWidth:'280px',height:'520px',borderRadius:'12px',overflow:'hidden'}}
+            />
+          </div>
         </div>
 
         {/* ── FOOTER: contact info centered ── */}
