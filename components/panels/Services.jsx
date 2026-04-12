@@ -3,7 +3,7 @@ export default function Services() {
     <section className="panel" id="p1">
       <div className="svc-panel">
         <div className="panel-eyebrow">Services</div>
-        <h2 className="panel-h2" style={{marginBottom:'6px'}}>Pick one. Or let us connect all six.</h2>
+        <h2 className="panel-h2" style={{marginTop:'8px',marginBottom:'6px'}}>Pick one. Or let us connect all six.</h2>
         <p className="panel-sub" style={{marginBottom:'16px'}}>Each service works standalone — but they&apos;re designed to feed each other. Most clients start with one and expand as they see results.</p>
         <div className="svc-cols">
           <div className="svc-cat cat-ai" aria-label="AI automation systems and chatbot development services">
@@ -26,17 +26,6 @@ export default function Services() {
               <li>Speed &amp; performance optimization</li>
               <li>Maintenance &amp; hosting management</li>
               <li>Accessibility compliance (WCAG)</li>
-            </ul>
-          </div>
-          <div className="svc-cat cat-crypto" style={{borderColor:'rgba(37,99,235,.12)'}} aria-label="Crypto payment gateway integration services">
-            <div className="cat-header"><div className="cat-icon">💳</div><div><div className="cat-name">Crypto Payments</div><div className="cat-outcome">Accept crypto without the technical headache</div></div></div>
-            <ul className="cat-list">
-              <li>Crypto payment gateway integration</li>
-              <li>Multi-chain wallet support</li>
-              <li>Stablecoin checkout flows</li>
-              <li>On/off ramp implementation</li>
-              <li>NFT gating &amp; token access</li>
-              <li>Payment analytics &amp; reconciliation</li>
             </ul>
           </div>
           <div className="svc-cat cat-seo" aria-label="SEO and content marketing services">
@@ -70,6 +59,17 @@ export default function Services() {
               <li>Staff AI training &amp; workshops</li>
               <li>Full-funnel growth planning</li>
               <li>Fractional AI advisor (ongoing)</li>
+            </ul>
+          </div>
+          <div className="svc-cat cat-crypto" style={{borderColor:'rgba(37,99,235,.12)'}} aria-label="Crypto payment gateway integration services">
+            <div className="cat-header"><div className="cat-icon">💳</div><div><div className="cat-name">Crypto Payments</div><div className="cat-outcome">Accept crypto without the technical headache</div></div></div>
+            <ul className="cat-list">
+              <li>Crypto payment gateway integration</li>
+              <li>Multi-chain wallet support</li>
+              <li>Stablecoin checkout flows</li>
+              <li>On/off ramp implementation</li>
+              <li>NFT gating &amp; token access</li>
+              <li>Payment analytics &amp; reconciliation</li>
             </ul>
           </div>
         </div>
