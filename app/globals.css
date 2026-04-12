@@ -688,7 +688,7 @@ a{touch-action:manipulation}
 }
 .contact-inner{
   position:relative;z-index:2;
-  height:100%;display:grid;grid-template-columns:minmax(0,560px) minmax(0,560px);
+  height:100%;display:grid;grid-template-columns:minmax(0,480px) minmax(0,640px);
   padding:84px 6vw 48px;gap:60px;align-items:start;justify-content:center;
 }
 .contact-left .panel-h2{color:#fff}
@@ -731,7 +731,7 @@ a{touch-action:manipulation}
 }
 .form-row input::placeholder,.form-row textarea::placeholder{color:rgba(255,255,255,.2)}
 .form-row select option{background:var(--navy2);color:#fff}
-.form-row textarea{resize:vertical;min-height:100px}
+.form-row textarea{resize:vertical;min-height:160px}
 .form-row-2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
 .form-submit{
   width:100%;padding:14px;border-radius:50px;
