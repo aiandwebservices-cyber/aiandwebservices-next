@@ -13,7 +13,7 @@ export default function Pricing() {
       <div className="pricing-inner">
         <div className="pricing-header">
           <div className="panel-eyebrow">Pricing</div>
-          <h2 className="panel-h2" style={{marginBottom:0}}>Transparent pricing.<br/>No surprises.</h2>
+          <h2 className="panel-h2" style={{marginBottom:'24px'}}>Transparent pricing.<br/>No surprises.</h2>
           <div className="no-contract">No contracts — cancel or pause anytime</div>
         </div>
 
