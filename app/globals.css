@@ -235,10 +235,10 @@ a{touch-action:manipulation}
 .panel-eyebrow{
   display:flex;align-items:center;justify-content:center;gap:10px;
   font-size:10px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;
-  color:var(--blue);margin-bottom:14px;
+  color:#60A5FA;margin-bottom:14px;
 }
 .panel-eyebrow::before,.panel-eyebrow::after{
-  content:'';width:24px;height:2px;background:currentColor;
+  content:'';width:28px;height:2px;background:#60A5FA;
   border-radius:2px;flex-shrink:0;
 }
 .panel-h2{

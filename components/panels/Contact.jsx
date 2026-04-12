@@ -26,7 +26,7 @@ export default function Contact() {
 
         {/* ── HEADER ── */}
         <div className="contact-header">
-          <div className="panel-eyebrow" style={{color:'#60A5FA'}}>
+          <div className="panel-eyebrow">
             Free AI Audit
           </div>
           <h2 className="panel-h2" style={{fontSize:'clamp(20px,2.4vw,30px)',marginBottom:'6px',color:'#2AA5A0'}}>Tell me about your business. I&apos;ll tell you exactly where AI can help.</h2>

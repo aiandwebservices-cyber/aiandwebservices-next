@@ -36,7 +36,7 @@ export default function HowItWorks() {
 
         {/* ── HEADER ── */}
         <div className="funnel-header">
-          <div className="panel-eyebrow" style={{color:'#60A5FA'}}>
+          <div className="panel-eyebrow">
             The&nbsp;<span style={{color:'#fff',fontWeight:800}}>AI</span><span style={{color:'#2AA5A0',fontWeight:800}}>and</span><span style={{color:'#fff',fontWeight:800}}>WEB</span><span style={{color:'#2AA5A0',fontWeight:800}}>services</span>&nbsp;Difference
           </div>
           <h2 className="panel-h2" style={{color:'#fff'}}>Why hire three agencies when one does it all?</h2>
