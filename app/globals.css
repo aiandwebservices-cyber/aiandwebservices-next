@@ -907,26 +907,26 @@ a{touch-action:manipulation}
 
   /* hero */
   #p0{padding-top:60px}
-  .hero-inner{flex-direction:column;padding:80px 5vw 60px;gap:36px}
+  .hero-inner{flex-direction:column;padding:56px 5vw 60px;gap:36px}
   .hero-h1{font-size:clamp(36px,9vw,56px)}
   .hero-sub{font-size:16px}
   .hero-right{flex:none;width:100%}
   .hero-stats{gap:20px}
 
   /* services */
-  .svc-panel{padding:68px 5vw 48px}
+  .svc-panel{padding:56px 5vw 48px}
   .svc-cols{grid-template-columns:1fr;grid-template-rows:auto}
   .svc-cat{padding:16px 18px 16px}
 
   /* funnel */
-  .funnel-inner{flex-direction:column;padding:68px 5vw 60px;gap:40px}
+  .funnel-inner{flex-direction:column;padding:56px 5vw 60px;gap:40px}
   .funnel-right{flex:none;width:100%;height:auto;grid-template-rows:auto;gap:12px}
   .fnode{padding:0}
   .fnode-line{display:none}
   .fnode-metric{font-size:14px}
 
   /* about */
-  .about-inner{display:flex;flex-direction:column;padding:68px 5vw 60px;gap:32px}
+  .about-inner{display:flex;flex-direction:column;padding:56px 5vw 60px;gap:32px}
   .about-right{width:100%;order:-1}
   .about-left{order:0}
   .value-grid{grid-template-columns:1fr}
@@ -937,7 +937,7 @@ a{touch-action:manipulation}
   .testi-grid{grid-template-columns:1fr}
 
   /* pricing */
-  .pricing-inner{padding:68px 5vw 40px}
+  .pricing-inner{padding:56px 5vw 40px}
   .pricing-header{flex-direction:column;align-items:flex-start;margin-bottom:14px}
   .chatbot-solo{grid-template-columns:auto 1fr;gap:14px}
   .cs-price-block{grid-column:1/-1;display:flex;align-items:center;gap:16px;text-align:left}
@@ -946,18 +946,18 @@ a{touch-action:manipulation}
   .pr-addons-grid{grid-template-columns:1fr}
 
   /* contact */
-  .contact-inner{grid-template-columns:1fr;padding:68px 5vw 60px;gap:36px}
+  .contact-inner{grid-template-columns:1fr;padding:56px 5vw 60px;gap:36px}
   .contact-form{padding:24px 20px}
   .form-row-2{grid-template-columns:1fr}
 
   /* blog */
-  .blog-inner{padding:68px 5vw 40px}
+  .blog-inner{padding:56px 5vw 40px}
   .blog-grid{grid-template-columns:1fr;gap:12px}
   .blog-card-img{height:60px;font-size:24px}
   .blog-cta{flex-direction:column;gap:12px}
 
   /* faq */
-  .faq-inner{padding:68px 5vw 48px}
+  .faq-inner{padding:56px 5vw 48px}
   .faq-cols{grid-template-columns:1fr;gap:0}
 
   /* hero data strip */
