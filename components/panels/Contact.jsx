@@ -32,28 +32,28 @@ export default function Contact() {
               Free AI Audit
             </span>
           </div>
-          <h2 className="panel-h2">Tell me about your business.<br/>I&apos;ll tell you exactly where AI can help.</h2>
-          <p className="panel-sub">Fill in your details and David will personally come back with a plain-English breakdown of your biggest opportunities — no pitch, no obligation, no agency fluff.</p>
+          <h2 className="panel-h2" style={{fontSize:'clamp(22px,2.8vw,34px)',marginBottom:'12px'}}>Tell me about your business.<br/>I&apos;ll tell you exactly where AI can help.</h2>
+          <p className="panel-sub" style={{marginBottom:'20px',lineHeight:'1.7'}}>Fill in your details and David will personally come back with a plain-English breakdown of your biggest opportunities — no pitch, no obligation, no agency fluff.</p>
 
           {/* 3-step process */}
-          <div style={{display:'flex',flexDirection:'column',gap:'14px',margin:'20px 0 24px'}}>
+          <div style={{display:'flex',flexDirection:'column',gap:'12px',margin:'0 0 20px'}}>
             {[
               { n:'1', title:'Fill out the form — takes 2 minutes', desc:"Tell David about your business, your biggest challenge, and what you're looking to achieve." },
-              { n:'2', title:'Get your free audit — guaranteed within 24 hours', desc:'David personally reviews your business and identifies where AI, SEO, or a better website would have the biggest revenue impact.' },
+              { n:'2', title:'Get your free audit — within 24 hours', desc:'David personally reviews your business and identifies where AI, SEO, or a better website would have the biggest revenue impact.' },
               { n:'3', title:'Decide with zero pressure', desc:"You get real, actionable advice — whether you work with David or not. No hard sell, ever." },
             ].map(({ n, title, desc }) => (
-              <div key={n} style={{display:'flex',alignItems:'flex-start',gap:'14px'}}>
-                <div style={{width:'30px',height:'30px',minWidth:'30px',borderRadius:'50%',background:'rgba(42,165,160,.2)',border:'1px solid rgba(42,165,160,.4)',display:'flex',alignItems:'center',justifyContent:'center',fontWeight:'800',color:'#2AA5A0',fontSize:'13px',flexShrink:0}}>{n}</div>
+              <div key={n} style={{display:'flex',alignItems:'flex-start',gap:'12px'}}>
+                <div style={{width:'28px',height:'28px',minWidth:'28px',borderRadius:'50%',background:'rgba(42,165,160,.2)',border:'1px solid rgba(42,165,160,.4)',display:'flex',alignItems:'center',justifyContent:'center',fontWeight:'800',color:'#2AA5A0',fontSize:'12px',flexShrink:0}}>{n}</div>
                 <div>
-                  <div style={{fontSize:'13px',fontWeight:'700',color:'#fff',marginBottom:'3px'}}>{title}</div>
-                  <div style={{fontSize:'12px',color:'rgba(255,255,255,.55)',lineHeight:'1.6'}}>{desc}</div>
+                  <div style={{fontSize:'13px',fontWeight:'700',color:'#fff',marginBottom:'2px'}}>{title}</div>
+                  <div style={{fontSize:'12px',color:'rgba(255,255,255,.55)',lineHeight:'1.5'}}>{desc}</div>
                 </div>
               </div>
             ))}
           </div>
 
           {/* Contact info — tappable links */}
-          <div style={{display:'flex',flexDirection:'column',gap:'10px',borderTop:'1px solid rgba(255,255,255,.08)',paddingTop:'20px'}}>
+          <div style={{display:'flex',flexDirection:'column',gap:'6px',borderTop:'1px solid rgba(255,255,255,.08)',paddingTop:'16px'}}>
             <a href="mailto:david@aiandwebservices.com" className="ci-row" style={{textDecoration:'none'}}>
               <div className="ci-icon">📧</div>
               <span style={{color:'#60A5FA',fontWeight:500}}>david@aiandwebservices.com</span>
