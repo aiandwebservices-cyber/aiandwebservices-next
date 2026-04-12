@@ -525,6 +525,7 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
 .pricing-header{display:flex;flex-direction:column;align-items:center;text-align:center;margin-bottom:24px;gap:0}
 .pricing-header .panel-eyebrow{margin-bottom:14px}
 .pricing-header .panel-h2{margin-bottom:46px}
+.pricing-br{display:none}
 .pricing-header .no-contract{margin-bottom:0}
 .no-contract{
   font-size:12px;color:var(--muted);
@@ -1049,6 +1050,7 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
   .pricing-inner{padding:28px 5vw 40px}
   .pricing-header{align-items:center;text-align:center;margin-bottom:14px}
   .pricing-header .panel-h2{margin-bottom:32px}
+  .pricing-br{display:inline}
   .no-contract{text-align:center;margin:0 auto}
   .chatbot-solo{grid-template-columns:auto 1fr;gap:14px}
   .cs-price-block{grid-column:1/-1;display:flex;align-items:center;gap:16px;text-align:left}
