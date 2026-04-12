@@ -208,7 +208,7 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
   padding:10px 14px;
   background:rgba(255,255,255,.06);
   border:1px solid rgba(255,255,255,.12);
-  border-radius:12px;
+  border-radius:50px;
   flex:1;
 }
 .tb-icon{font-size:15px;line-height:1;flex-shrink:0}
