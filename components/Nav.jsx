@@ -44,7 +44,7 @@ export default function Nav() {
           <button className="nav-pill" onClick={() => go(6)} role="menuitem">Blog</button>
           <button className="nav-pill" onClick={() => go(7)} role="menuitem">Contact</button>
         </div>
-<button className="nav-cta" id="nav-cta-desktop" onClick={() => go(7)} aria-label="Get a free AI audit">Get Your Free Audit</button>
+        <button className="nav-cta" id="nav-cta-desktop" onClick={() => go(7)} aria-label="Get a free AI audit">Get Your Free Audit</button>
         <button id="hamburger" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open navigation menu"
           onClick={() => window.toggleMenu && window.toggleMenu()}>
           <span className="hb-line" aria-hidden="true"></span>
