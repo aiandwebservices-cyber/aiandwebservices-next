@@ -302,7 +302,7 @@ a{touch-action:manipulation}
 #p2{background:var(--navy2)}
 .funnel-inner{
   height:100%;display:flex;flex-direction:column;
-  padding:72px 8vw 40px;justify-content:center;
+  padding:72px 8vw 40px;
 }
 .funnel-header{margin-bottom:48px}
 .funnel-header .panel-eyebrow{margin-bottom:14px}
