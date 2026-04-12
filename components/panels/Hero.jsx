@@ -8,7 +8,6 @@ export default function Hero() {
       <div className="hero-inner">
         <div className="hero-left">
           <div className="hero-eyebrow"><span className="edot"></span> AI Automation &amp; Web Services for Small Businesses</div>
-          <div className="hero-slogan">Intelligent solutions. Personal service.</div>
           <h1 className="hero-h1">
             Stop losing leads to<br/>
             businesses with <span className="accent">better<br/>tech than you.</span>

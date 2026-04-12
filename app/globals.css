@@ -138,16 +138,16 @@ a{touch-action:manipulation}
 .hero-inner{
   position:relative;z-index:2;
   height:100%;display:flex;align-items:center;justify-content:center;
-  padding:0 10vw;
-  gap:80px;
+  padding:0 8vw;
+  gap:60px;
 }
-.hero-left{flex:1;max-width:600px}
+.hero-left{flex:1;max-width:580px}
 .hero-eyebrow{
   display:inline-flex;align-items:center;gap:8px;
   background:rgba(37,99,235,.15);border:1px solid rgba(37,99,235,.3);
   border-radius:50px;padding:6px 16px;
   font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
-  color:rgba(255,255,255,.75);margin-bottom:28px;
+  color:rgba(255,255,255,.75);margin-bottom:20px;
 }
 .edot{width:6px;height:6px;border-radius:50%;background:#60A5FA;box-shadow:0 0 8px #60A5FA;animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
@@ -168,9 +168,9 @@ a{touch-action:manipulation}
   text-transform:uppercase;color:#60A5FA;
   margin-bottom:14px;
 }
-.hero-sub{font-size:17px;color:rgba(255,255,255,.5);line-height:1.8;max-width:480px;margin-bottom:40px;font-weight:400}
+.hero-sub{font-size:17px;color:rgba(255,255,255,.5);line-height:1.8;max-width:480px;margin-bottom:28px;font-weight:400}
 .hero-sub strong{color:rgba(255,255,255,.8);font-weight:600}
-.hero-btns{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:52px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;align-items:center;margin-bottom:36px}
 .btn-primary{
   display:inline-flex;align-items:center;gap:8px;
   background:var(--blue);color:#fff;
@@ -209,13 +209,13 @@ a{touch-action:manipulation}
 .hd-src a{color:rgba(255,255,255,.3);text-decoration:underline}
 .hd-src a:hover{color:rgba(255,255,255,.6)}
 .hero-right{
-  flex:0 0 380px;
-  display:flex;flex-direction:column;gap:12px;
+  flex:0 0 420px;
+  display:flex;flex-direction:column;gap:10px;
 }
 .funnel-card{
   background:rgba(255,255,255,.04);
   border:1px solid rgba(255,255,255,.08);
-  border-radius:14px;padding:18px 20px;
+  border-radius:14px;padding:20px 22px;
   display:flex;align-items:center;gap:16px;
   transition:all .3s;
 }
@@ -230,8 +230,8 @@ a{touch-action:manipulation}
 .fc-mkt .fc-icon{background:rgba(124,58,237,.2)}
 .fc-cs .fc-icon{background:rgba(225,29,72,.15)}
 .fc-body{}
-.fc-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:2px}
-.fc-desc{font-size:11px;color:rgba(255,255,255,.38)}
+.fc-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:3px}
+.fc-desc{font-size:12px;color:rgba(255,255,255,.42)}
 .funnel-arrow{text-align:center;color:rgba(255,255,255,.12);font-size:18px;line-height:1}
 
 /* ── PANEL 1: SERVICES ── */
