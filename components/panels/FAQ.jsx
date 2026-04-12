@@ -12,8 +12,12 @@ const faqs = [
 ];
 
 export default function FAQ() {
-  function toggleFaq(item) {
-    item.classList.toggle('open');
+  function toggleFaq(e) {
+    e.stopPropagation();
+    e.currentTarget.classList.toggle('open');
+    // Pause scroll spy briefly so layout reflow doesn't trigger panel jump
+    window._faqToggling = true;
+    setTimeout(() => { window._faqToggling = false; }, 400);
   }
 
   return (
@@ -23,7 +27,7 @@ export default function FAQ() {
         <h2 className="panel-h2">Questions people always ask</h2>
         <div className="faq-cols">
           {faqs.map((faq, i) => (
-            <div key={i} className="faq-item" onClick={(e) => toggleFaq(e.currentTarget)}>
+            <div key={i} className="faq-item" onClick={toggleFaq}>
               <div className="faq-q">
                 {faq.q}
                 <span className="faq-icon" aria-hidden="true">+</span>

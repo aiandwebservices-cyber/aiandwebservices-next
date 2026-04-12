@@ -133,6 +133,7 @@ export function useHorizontalScroll() {
     let scrollTimer = null;
     const handleScroll = () => {
       if (!isMobile()) return;
+      if (window._faqToggling) return;
       const tag = document.activeElement && document.activeElement.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
       clearTimeout(scrollTimer);
