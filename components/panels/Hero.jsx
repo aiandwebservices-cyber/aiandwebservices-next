@@ -16,7 +16,7 @@ export default function Hero() {
           </p>
           <div className="hero-btns">
             <button className="btn-primary" onClick={() => window.go(7)}>Get a Free AI Audit →</button>
-            <button className="btn-ghost-w" onClick={() => window.go(1)}>See What I Build</button>
+            <button className="btn-ghost-w" onClick={() => window.go(1)}>How It Works</button>
           </div>
           <div className="hero-bottom">
             <div className="hd-stat">
