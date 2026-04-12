@@ -79,7 +79,7 @@ export default function RootLayout({ children }) {
                 window.$crisp.push(["do","message:show",["text","👋 Hi! I'm David — got questions? I reply fast."]]);
                 sessionStorage.setItem('crisp_nudged','1');
               }
-            }, 10000);
+            }, 5000);
             (function(){var d=document,s=d.createElement("script");
             s.src="https://client.crisp.chat/l.js";s.async=1;
             d.getElementsByTagName("head")[0].appendChild(s);})();
