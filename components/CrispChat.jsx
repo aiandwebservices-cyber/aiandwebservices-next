@@ -38,6 +38,12 @@ export default function CrispChat() {
     document.addEventListener('click', function (e) {
       if (!window.$crisp) return;
 
+      // Only act if chat is actually open
+      const isChatOpen = () => {
+        const box = document.getElementById('crisp-chatbox');
+        return box && box.querySelector('[data-visible="true"], .cc-nsge, iframe') !== null;
+      };
+
       // Close on hamburger click
       const h = document.getElementById('hamburger');
       if (h && (h === e.target || h.contains(e.target))) {
@@ -50,11 +56,12 @@ export default function CrispChat() {
       if (e.target.tagName === 'IFRAME') return;
       if (e.target.closest('.calendly-inline-widget') || e.target.closest('.calendly-wrap')) return;
       if (e.target.closest('form')) return;
+
       const crispEl = document.getElementById('crisp-chatbox');
       if (crispEl && !crispEl.contains(e.target)) {
         window.$crisp.push(['do', 'chat:close']);
       }
-    });
+    }, true); // use capture so it fires before other handlers
   }, []);
 
   return null;
