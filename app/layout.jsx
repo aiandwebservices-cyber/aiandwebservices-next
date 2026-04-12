@@ -10,14 +10,14 @@ const inter = Inter({
 });
 
 export const metadata = {
-  title: 'AIandWEBservices | AI Agents, Chatbots, Automation & Web Services for Small Business — David Pulis',
+  title: 'AIandWEBservices | AI Automation, Agents & Chatbots for Small Business — David Pulis',
   description: 'I build AI agents, AI chatbots, and automation systems that grow your small business 24/7 — plus SEO, web design, and digital marketing. No agency markup. Direct personal service from David Pulis at AIandWEBservices.',
   keywords: 'AI agents, AI chatbot, AI automation, chatbot development, web design, SEO, small business, David Pulis, AIandWEBservices',
   authors: [{ name: 'David Pulis — AIandWEBservices' }],
   robots: 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
   alternates: { canonical: 'https://www.aiandwebservices.com' },
   openGraph: {
-    title: 'AIandWEBservices | AI Agents, Chatbots & Automation for Small Business',
+    title: 'AIandWEBservices | AI Automation, Agents & Chatbots for Small Business',
     description: 'AI agents, AI chatbots, automation, SEO, and web design built personally by David Pulis. Enterprise-grade intelligence at startup-friendly pricing.',
     type: 'website',
     url: 'https://www.aiandwebservices.com',
@@ -27,7 +27,7 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'AIandWEBservices | AI Agents, Chatbots & Automation for Small Business',
+    title: 'AIandWEBservices | AI Automation, Agents & Chatbots for Small Business',
     description: 'AI agents, chatbots, automation systems, SEO, and web design for small businesses. Personal service by David Pulis.',
     images: ['https://www.aiandwebservices.com/og-image.jpg'],
   },
