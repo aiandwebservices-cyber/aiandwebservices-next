@@ -19,25 +19,17 @@ export default function Hero() {
             <button className="btn-ghost-w" onClick={() => window.go(1)}>How It Works</button>
           </div>
           <div className="hero-bottom">
-            <div className="hd-stat">
-              <div className="hd-n">66<em>%</em></div>
-              <div className="hd-l">of SMBs using AI save $500–$2,000/month</div>
-              <div className="hd-src">Source: <a href="https://uplyftcapital.com/small-business-blog/small-businesses-using-ai-scale-2026" target="_blank" rel="noopener noreferrer" aria-label="Uplyft Capital (opens in new tab)">Uplyft Capital</a></div>
+            <div className="trust-badge">
+              <div className="tb-icon">✅</div>
+              <div className="tb-label">No Contracts</div>
             </div>
-            <div className="hd-stat">
-              <div className="hd-n">91<em>%</em></div>
-              <div className="hd-l">of small businesses say AI boosts their revenue</div>
-              <div className="hd-src">Source: <a href="https://neuwark.com/blog/ai-for-small-business-2026-complete-guide" target="_blank" rel="noopener noreferrer" aria-label="Neuwark (opens in new tab)">Neuwark</a></div>
+            <div className="trust-badge">
+              <div className="tb-icon">🤝</div>
+              <div className="tb-label">Direct Access to David</div>
             </div>
-            <div className="hd-stat">
-              <div className="hd-n">$20<em>B</em></div>
-              <div className="hd-l">global AI market for small businesses in 2026</div>
-              <div className="hd-src">Source: <a href="https://allgreatthings.io/blog/ai-tools-marketing-automation/ai-agents-smb-2026-guide" target="_blank" rel="noopener noreferrer" aria-label="AllGreatThings (opens in new tab)">AllGreatThings</a></div>
-            </div>
-            <div className="hd-stat">
-              <div className="hd-n">35<em>%</em></div>
-              <div className="hd-l">reduction in operational costs in year one of AI</div>
-              <div className="hd-src">Source: <a href="https://adai.news/resources/statistics/ai-automation-statistics-2026/" target="_blank" rel="noopener noreferrer" aria-label="McKinsey 2025 via ADAI (opens in new tab)">McKinsey, 2025</a></div>
+            <div className="trust-badge">
+              <div className="tb-icon">🎯</div>
+              <div className="tb-label">Free Audit Included</div>
             </div>
           </div>
         </div>

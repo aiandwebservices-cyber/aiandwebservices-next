@@ -200,19 +200,18 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
 }
 .btn-ghost-w:hover{background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.25)}
 .hero-bottom{
-  display:grid;grid-template-columns:repeat(4,auto);
-  gap:0 24px;margin-top:24px;width:fit-content;
+  display:flex;flex-wrap:wrap;
+  gap:10px;margin-top:24px;
 }
-.hd-stat{
-  padding:14px 14px 0 0;
-  border-top:1px solid rgba(255,255,255,.08);
+.trust-badge{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 16px;
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.12);
+  border-radius:50px;
 }
-.hd-n{font-family:'Plus Jakarta Sans',sans-serif;font-size:22px;font-weight:800;color:#fff;line-height:1;margin-bottom:3px}
-.hd-n em{font-style:normal;color:#60A5FA}
-.hd-l{font-size:11px;color:rgba(255,255,255,.5);line-height:1.4}
-.hd-src{font-size:9px;color:rgba(255,255,255,.25);margin-top:4px}
-.hd-src a{color:rgba(255,255,255,.3);text-decoration:underline}
-.hd-src a:hover{color:rgba(255,255,255,.6)}
+.tb-icon{font-size:16px;line-height:1}
+.tb-label{font-size:13px;font-weight:600;color:rgba(255,255,255,.85);white-space:nowrap}
 .hero-right{
   flex:0 0 420px;
   display:flex;flex-direction:column;gap:10px;
@@ -1063,11 +1062,10 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
   .faq-cta-strip{margin-top:12px}
   .faq-cta-inner{padding:12px 16px}
 
-  /* hero bottom grid */
-  .hero-bottom{grid-template-columns:1fr 1fr}
-  .hd-stat{padding:10px 10px 10px 0}
-  .hs{padding:8px 10px 8px 0}
-  .hd-n{font-size:18px}
+  /* hero bottom trust badges */
+  .hero-bottom{gap:8px}
+  .trust-badge{padding:8px 12px}
+  .tb-label{font-size:12px}
 
   /* hero right — hide funnel cards on mobile to save space */
   .hero-right{display:none}
