@@ -689,12 +689,26 @@ a{touch-action:manipulation}
   position:relative;z-index:2;
   height:100%;display:grid;
   grid-template-columns:minmax(0,480px) minmax(0,480px);
-  grid-template-rows:auto 1fr auto;
-  padding:64px 6vw 24px;gap:0 48px;align-items:start;justify-content:center;
+  grid-template-rows:auto auto 1fr auto;
+  padding:64px 6vw 80px;gap:0 48px;align-items:start;justify-content:center;
 }
 .contact-header{
-  grid-column:1/-1;margin-bottom:20px;
+  grid-column:1/-1;margin-bottom:16px;
 }
+.contact-steps{
+  grid-column:1/-1;
+  display:grid;grid-template-columns:1fr 1fr;gap:10px 40px;
+  margin-bottom:20px;
+}
+.contact-step{display:flex;align-items:flex-start;gap:12px}
+.contact-step-n{
+  width:28px;height:28px;min-width:28px;border-radius:50%;
+  background:rgba(42,165,160,.2);border:1px solid rgba(42,165,160,.4);
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;color:#2AA5A0;font-size:12px;flex-shrink:0;
+}
+.contact-step-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:2px}
+.contact-step-desc{font-size:12px;color:rgba(255,255,255,.5);line-height:1.5}
 .contact-footer{
   grid-column:1/-1;
   display:flex;flex-wrap:wrap;justify-content:center;gap:24px 40px;
