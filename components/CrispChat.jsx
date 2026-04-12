@@ -44,6 +44,10 @@ export default function CrispChat() {
       }
 
       // Close when clicking the main page (outside Crisp iframe/widget)
+      // But never interfere with Calendly, forms, or iframes
+      if (e.target.tagName === 'IFRAME') return;
+      if (e.target.closest('.calendly-inline-widget') || e.target.closest('.calendly-wrap')) return;
+      if (e.target.closest('form')) return;
       const crispEl = document.getElementById('crisp-chatbox');
       if (crispEl && !crispEl.contains(e.target)) {
         window.$crisp.push(['do', 'chat:close']);
