@@ -60,7 +60,7 @@ export function useHorizontalScroll() {
     }
 
     const visiblePanels = () =>
-      Array.from(document.querySelectorAll('.panel')).filter(p => p.style.display !== 'none');
+      Array.from(document.querySelectorAll('.panel')).filter(p => getComputedStyle(p).display !== 'none');
 
     function scrollToPanel(n) {
       n = Math.max(0, Math.min(TOTAL - 1, n));
