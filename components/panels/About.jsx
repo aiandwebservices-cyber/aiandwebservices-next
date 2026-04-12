@@ -60,10 +60,10 @@ export default function About() {
               <span style={{color:'#111827',fontWeight:800}}>AI</span><span style={{color:'#2AA5A0',fontWeight:800}}>and</span><span style={{color:'#111827',fontWeight:800}}>WEB</span><span style={{color:'#2AA5A0',fontWeight:800}}>services</span>
             </div>
             <p className="about-bio">
-              Most small businesses are invisible online, slow to respond, and leaving money on the table every single day. I built AIandWEBservices to fix that. I work directly with business owners to deploy AI automation and intelligent assistant systems that never miss a lead, websites that turn visitors into customers, and automated marketing pipelines that grow your revenue on autopilot.
+              Most small businesses are invisible online, slow to respond, and leaving money on the table every day. I built AIandWEBservices to fix that — working directly with business owners to deploy AI systems that never miss a lead, websites that convert, and automated pipelines that grow revenue on autopilot.
             </p>
             <p className="about-bio about-personal">
-              When I&apos;m not building systems for clients, I&apos;m spending time with family, keeping a close eye on Bitcoin and the crypto markets, or testing whatever AI tool dropped this week. I started this business because I kept watching small businesses lose to bigger competitors who just had better tech — not better service. That felt wrong. So I decided to do something about it.
+              I started this business because I kept watching small businesses lose to bigger competitors who just had better tech — not better service. That felt wrong. So I decided to do something about it.
             </p>
             <div className="about-contact">
               <a href="mailto:david@aiandwebservices.com" className="ac-row" style={{textDecoration:'none'}}>
