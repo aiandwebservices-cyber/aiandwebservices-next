@@ -12,7 +12,7 @@ export default function Hero() {
             businesses with <span className="accent">better<br/>tech than you.</span>
           </h1>
           <p className="hero-sub">
-            I build you a <strong>chatbot that answers inquiries at 3am</strong>, a <strong>website that ranks on Google</strong>, and <strong>automations that follow up so you don&apos;t have to</strong> — all connected, all done for you.
+            I build the systems that <strong>capture leads</strong>, <strong>convert visitors</strong>, and <strong>follow up automatically</strong> — all connected, all done for you.
           </p>
           <div className="hero-btns">
             <button className="btn-primary" onClick={() => window.go(7)}>Get a Free AI Audit →</button>
