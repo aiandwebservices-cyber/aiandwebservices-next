@@ -15,7 +15,6 @@ export default function FAQ() {
   function toggleFaq(e) {
     e.stopPropagation();
     e.currentTarget.classList.toggle('open');
-    // Pause scroll spy briefly so layout reflow doesn't trigger panel jump
     window._faqToggling = true;
     setTimeout(() => { window._faqToggling = false; }, 400);
   }
@@ -27,12 +26,9 @@ export default function FAQ() {
         <h2 className="panel-h2">Questions people always ask</h2>
         <div className="faq-cols">
           {faqs.map((faq, i) => (
-            <div key={i} className="faq-item" onClick={toggleFaq}>
-              <div className="faq-q">
-                {faq.q}
-                <span className="faq-icon" aria-hidden="true">+</span>
-              </div>
-              <div className="faq-a">{faq.a}</div>
+            <div key={i} className="faq-item faq-item--open" onClick={toggleFaq}>
+              <div className="faq-q">{faq.q}</div>
+              <div className="faq-a faq-a--visible">{faq.a}</div>
             </div>
           ))}
         </div>

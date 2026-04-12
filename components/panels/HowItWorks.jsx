@@ -8,7 +8,7 @@ export default function HowItWorks() {
       nodeCls:'fn1',
     },
     {
-      color:'var(--emerald)', metricColor:'#34D399', dotBg:'var(--emerald)',
+      color:'#2AA5A0', metricColor:'#2AA5A0', dotBg:'#2AA5A0',
       stepTitle:'Your website turns visitors into leads — not bounces',
       stepDesc:'Fast load times, clear messaging, and tested page layouts that make it easy to say yes.',
       nodeTitle:'Web & CRO', nodeSub:'Visitors become leads, not bounces', metric:'More\nleads',
@@ -16,9 +16,9 @@ export default function HowItWorks() {
     },
     {
       color:'var(--violet)', metricColor:'#A78BFA', dotBg:'var(--violet)',
-      stepTitle:'Your AI chatbot handles inquiries before you even wake up',
+      stepTitle:'Your AI automation handles inquiries before you even wake up',
       stepDesc:'Answers questions, qualifies leads, and books calls — so you talk to people who are already interested.',
-      nodeTitle:'AI Chatbot / Voice', nodeSub:'Answers, qualifies, books — at 3am', metric:'Less\nadmin',
+      nodeTitle:'AI Automation / Chatbot', nodeSub:'Answers, qualifies, books — at 3am', metric:'Less\nadmin',
       nodeCls:'fn3',
     },
     {
