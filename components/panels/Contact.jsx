@@ -39,13 +39,13 @@ export default function Contact() {
         {/* ── STEPS 2×2 ── */}
         <div className="contact-steps">
           {[
-            { n:'1', title:'Fill out the form — takes 2 minutes', desc:"Tell David about your business, your biggest challenge, and what you're looking to achieve." },
-            { n:'2', title:'Get your free audit — within 24 hours', desc:'David personally reviews your business and identifies where AI, SEO, or a better website would have the biggest revenue impact.' },
-            { n:'3', title:'Decide with zero pressure', desc:"You get real, actionable advice — whether you work with David or not. No hard sell, ever." },
-            { n:'4', title:'Book a call to talk it through', desc:"Prefer to discuss live? Use the calendar to pick a time that works — 30 minutes, your questions answered." },
+            { n:'1', cls:'csn-1', title:'Fill out the form — takes 2 minutes', desc:"Tell David about your business, your biggest challenge, and what you're looking to achieve." },
+            { n:'2', cls:'csn-2', title:'Get your free audit — within 6 hours', desc:'David personally reviews your business and identifies where AI, SEO, or a better website would have the biggest revenue impact.' },
+            { n:'3', cls:'csn-3', title:'Decide with zero pressure', desc:"You get real, actionable advice — whether you work with David or not. No hard sell, ever." },
+            { n:'4', cls:'csn-4', title:'Book a call to talk it through', desc:"Prefer to discuss live? Use the calendar to pick a time that works — 30 minutes, your questions answered." },
           ].map(({ n, title, desc }) => (
             <div key={n} className="contact-step">
-              <div className="contact-step-n">{n}</div>
+              <div className={`contact-step-n ${cls}`}>{n}</div>
               <div>
                 <div className="contact-step-title">{title}</div>
                 <div className="contact-step-desc">{desc}</div>

@@ -703,10 +703,14 @@ a{touch-action:manipulation}
 .contact-step{display:flex;align-items:flex-start;gap:12px}
 .contact-step-n{
   width:28px;height:28px;min-width:28px;border-radius:50%;
-  background:rgba(42,165,160,.2);border:1px solid rgba(42,165,160,.4);
   display:flex;align-items:center;justify-content:center;
-  font-weight:800;color:#2AA5A0;font-size:12px;flex-shrink:0;
+  font-weight:800;color:#fff;font-size:12px;flex-shrink:0;
+  box-shadow:0 0 0 4px rgba(255,255,255,.04);
 }
+.csn-1{background:var(--blue)}
+.csn-2{background:var(--emerald)}
+.csn-3{background:var(--violet)}
+.csn-4{background:var(--am-lt)}
 .contact-step-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:2px}
 .contact-step-desc{font-size:12px;color:rgba(255,255,255,.5);line-height:1.5}
 .contact-footer{
