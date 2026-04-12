@@ -8,15 +8,16 @@ export default function CrispChat() {
     window.$crisp = [];
     window.CRISP_WEBSITE_ID = 'e76e44c0-a38a-4d5e-ab6a-41a380e83c69';
 
-    window.CRISP_READY_TRIGGER = function () {
-      setTimeout(function () {
-        window.$crisp.push(['do', 'message:show', ['text', '👋 Hi! I\'m David, the owner — got questions?\nI reply within minutes.']]);
-      }, 5000);
-    };
-
     const s = document.createElement('script');
     s.src = 'https://client.crisp.chat/l.js';
     s.async = true;
+    s.onload = function () {
+      window.$crisp.push(['on', 'session:loaded', function () {
+        setTimeout(function () {
+          window.$crisp.push(['do', 'message:show', ['text', '👋 Hi! I\'m David, the owner — got questions?\nI reply within minutes.']]);
+        }, 5000);
+      }]);
+    };
     document.head.appendChild(s);
 
     // Close chat when hamburger opens
