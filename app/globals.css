@@ -1017,8 +1017,8 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
   .funnel-header{margin-bottom:36px}
   .funnel-header .panel-sub{margin-bottom:32px}
   .funnel-grid{grid-template-columns:1fr;grid-template-rows:auto}
-  .fstep{grid-column:1}
-  .fnode{grid-column:1;padding:10px 0}
+  .fstep{grid-column:1;order:1}
+  .fnode{grid-column:1;padding:10px 0;order:2}
   .fnode-line{display:none}
   .fnode-metric{font-size:14px}
 
