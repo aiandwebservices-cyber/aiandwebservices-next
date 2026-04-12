@@ -12,7 +12,20 @@ export function useHorizontalScroll() {
     const TOTAL = 8;
     let cur = 0;
     let locked = false;
+    let formFocused = false;
     const isMobile = () => window.innerWidth <= 768;
+
+    // Track form focus globally so scroll/click handlers never interfere
+    const onFormFocus = () => { formFocused = true; };
+    const onFormBlur = () => { setTimeout(() => { formFocused = false; }, 200); };
+    document.addEventListener('focusin', (e) => {
+      const tag = e.target.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') onFormFocus();
+    });
+    document.addEventListener('focusout', (e) => {
+      const tag = e.target.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') onFormBlur();
+    });
 
     const track = document.getElementById('track');
     const dotsEl = document.querySelectorAll('.dot');
@@ -104,8 +117,9 @@ export function useHorizontalScroll() {
 
     // Click outside closes menu — but never interfere with form fields or Calendly
     const handleOutsideClick = (e) => {
+      if (formFocused) return;
       const tag = e.target.tagName;
-      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || tag === 'BUTTON' || tag === 'IFRAME') return;
+      if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || tag === 'BUTTON' || tag === 'IFRAME' || tag === 'LABEL') return;
       if (e.target.closest('form')) return;
       if (e.target.closest('.calendly-inline-widget')) return;
       if (e.target.closest('.calendly-wrap')) return;
@@ -143,6 +157,7 @@ export function useHorizontalScroll() {
     const handleScroll = () => {
       if (!isMobile()) return;
       if (window._faqToggling) return;
+      if (formFocused) return;
       const tag = document.activeElement && document.activeElement.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
       if (document.activeElement && document.activeElement.closest('form')) return;
