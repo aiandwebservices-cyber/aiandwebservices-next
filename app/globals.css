@@ -375,7 +375,7 @@ a{touch-action:manipulation}
 .about-inner{
   min-height:100%;display:grid;grid-template-columns:minmax(0,600px) minmax(0,420px);
   grid-template-rows:auto auto;
-  padding:72px 6vw 32px;gap:40px;align-items:start;justify-content:center;
+  padding:72px 6vw 64px;gap:40px;align-items:start;justify-content:center;
 }
 .about-left{padding-top:48px}
 .about-card{
@@ -415,10 +415,11 @@ a{touch-action:manipulation}
 }
 .ac-row a{color:var(--blue);font-weight:500}
 .ac-row a:hover{text-decoration:underline}
-.about-right{}
-.about-right .panel-h2{margin-bottom:16px}
+.about-right{display:flex;flex-direction:column;}
+.about-right .panel-eyebrow{justify-content:center}
+.about-right .panel-h2{margin-bottom:16px;text-align:left;margin-top:20px}
 .mission-text{font-size:15px;color:var(--muted);line-height:1.9;margin-bottom:32px}
-.value-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}
+.value-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px;flex:1;align-content:center}
 .val-card{
   background:var(--white);border:1px solid var(--border);
   border-radius:12px;padding:18px;
@@ -432,7 +433,7 @@ a{touch-action:manipulation}
 /* ── CORE VALUES STRIP ── */
 .cv-strip{
   grid-column:1 / -1;
-  padding:48px 0 12px;
+  padding:32px 0 0;
   border-top:1px solid var(--border);
   margin-top:0;
 }
