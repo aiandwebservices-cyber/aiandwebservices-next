@@ -374,7 +374,7 @@ a{touch-action:manipulation}
   grid-template-rows:auto auto;
   padding:80px 6vw 32px;gap:40px;align-items:start;justify-content:center;
 }
-.about-left{}
+.about-left{padding-top:48px}
 .about-card{
   background:var(--white);border:1px solid var(--border);
   border-radius:20px;padding:20px 24px;
@@ -415,7 +415,7 @@ a{touch-action:manipulation}
 .about-right{}
 .about-right .panel-h2{margin-bottom:16px}
 .mission-text{font-size:15px;color:var(--muted);line-height:1.9;margin-bottom:32px}
-.value-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.value-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:20px}
 .val-card{
   background:var(--white);border:1px solid var(--border);
   border-radius:12px;padding:18px;
@@ -953,7 +953,7 @@ a{touch-action:manipulation}
   /* about */
   .about-inner{display:flex;flex-direction:column;padding:56px 5vw 60px;gap:32px}
   .about-right{width:100%;order:0}
-  .about-left{order:1}
+  .about-left{order:1;padding-top:0}
   .value-grid{grid-template-columns:1fr}
   .founder-photo{height:auto}
 
