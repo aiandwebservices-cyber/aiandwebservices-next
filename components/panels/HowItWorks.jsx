@@ -1,28 +1,28 @@
 export default function HowItWorks() {
   const rows = [
     {
-      color:'var(--blue)', metricColor:'#60A5FA', dotBg:'var(--blue)',
+      color:'#2AA5A0', metricColor:'#2AA5A0', dotBg:'#2AA5A0',
       stepTitle:'SEO brings people who are already looking for you',
       stepDesc:'We optimise your site and publish AI-assisted content so you rank for searches your customers actually make.',
       nodeTitle:'SEO & Content', nodeSub:'Rank for searches your buyers make', metric:'More\nvisitors',
       nodeCls:'fn1',
     },
     {
-      color:'#2AA5A0', metricColor:'#2AA5A0', dotBg:'#2AA5A0',
+      color:'var(--am-lt)', metricColor:'#F59E0B', dotBg:'var(--am-lt)',
       stepTitle:'Your website turns visitors into leads — not bounces',
       stepDesc:'Fast load times, clear messaging, and tested page layouts that make it easy to say yes.',
       nodeTitle:'Web & CRO', nodeSub:'Visitors become leads, not bounces', metric:'More\nleads',
       nodeCls:'fn2',
     },
     {
-      color:'var(--violet)', metricColor:'#A78BFA', dotBg:'var(--violet)',
+      color:'#2AA5A0', metricColor:'#2AA5A0', dotBg:'#2AA5A0',
       stepTitle:'Your AI automation handles inquiries before you even wake up',
       stepDesc:'Answers questions, qualifies leads, and books calls — so you talk to people who are already interested.',
       nodeTitle:'AI Automation / Chatbot', nodeSub:'Answers, qualifies, books — at 3am', metric:'Less\nadmin',
       nodeCls:'fn3',
     },
     {
-      color:'var(--am-lt)', metricColor:'#F59E0B', dotBg:'var(--am-lt)',
+      color:'var(--violet)', metricColor:'#A78BFA', dotBg:'var(--violet)',
       stepTitle:'Automated follow-up closes deals while you focus on the work',
       stepDesc:'Email sequences and CRM workflows that keep leads warm without you lifting a finger.',
       nodeTitle:'Automation & CRM', nodeSub:'Follow-up happens without you', metric:'More\nrevenue',
