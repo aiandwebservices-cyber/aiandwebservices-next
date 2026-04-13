@@ -3,12 +3,20 @@ import { useEffect } from 'react';
 
 export default function CrispChat() {
   useEffect(() => {
-    // Hard guard — our own flag, never touched by Crisp's SDK
     if (window._crispInitialized) return;
     window._crispInitialized = true;
 
     window.$crisp = [];
     window.CRISP_WEBSITE_ID = 'e76e44c0-a38a-4d5e-ab6a-41a380e83c69';
+
+    // Official Crisp SDK method — fires exactly once when fully ready & session established
+    window.CRISP_READY_TRIGGER = function () {
+      if (window._crispMessageShown) return;
+      window._crispMessageShown = true;
+      setTimeout(function () {
+        window.$crisp.push(['do', 'message:show', ['text', '👋 Hi! I\'m David, the owner — have questions?\nI reply within minutes.']]);
+      }, 5000);
+    };
 
     const style = document.createElement('style');
     style.textContent = `
@@ -24,13 +32,6 @@ export default function CrispChat() {
     const s = document.createElement('script');
     s.src = 'https://client.crisp.chat/l.js';
     s.async = true;
-    s.onload = function () {
-      setTimeout(function () {
-        if (window._crispMessageShown) return;
-        window._crispMessageShown = true;
-        window.$crisp.push(['do', 'message:show', ['text', '👋 Hi! I\'m David, the owner — have questions?\nI reply within minutes.']]);
-      }, 5000);
-    };
     document.head.appendChild(s);
 
     document.addEventListener('click', function (e) {
