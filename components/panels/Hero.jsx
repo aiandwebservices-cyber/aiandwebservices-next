@@ -7,6 +7,7 @@ export default function Hero() {
       <div className="hero-grid"></div>
       <div className="hero-inner">
         <div className="hero-left">
+          <div className="hero-left-top">
           <h1 className="hero-h1">
             Stop losing leads to<br/>
             businesses with <span className="accent">better<br/>tech than you.</span>
@@ -17,6 +18,7 @@ export default function Hero() {
           <div className="hero-btns">
             <button className="btn-primary" onClick={() => window.go(7)}>Get a Free AI Audit</button>
             <button className="btn-ghost-w" onClick={() => window.go(1)}>How It Works</button>
+          </div>
           </div>
           <div className="hero-bottom">
             <div className="trust-badge">

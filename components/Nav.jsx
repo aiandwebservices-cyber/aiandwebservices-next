@@ -1,7 +1,6 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import Image from 'next/image';
 
 export default function Nav() {
   const go = (n) => window.go && window.go(n);
@@ -21,7 +20,8 @@ export default function Nav() {
     : '/logo-gradient-light.svg';
 
   const LogoInner = () => (
-    <Image src={logoSrc} alt="AIandWEBservices" width={260} height={52} priority />
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={logoSrc} alt="AIandWEBservices" width={260} height={52} style={{display:'block'}} />
   );
 
   return (

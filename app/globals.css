@@ -55,9 +55,9 @@ a{touch-action:manipulation}
 }
 #nav.light{background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
 #nav.dark{background:rgba(27,42,74,.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.08)}
-.logo{display:flex;align-items:center;gap:0;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:17px;letter-spacing:-.3px}
-button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
-.logo,.logo-link{display:flex;align-items:center;height:100%}
+.logo{display:flex;align-items:center;gap:0;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:17px;letter-spacing:-.3px;line-height:0;position:relative;top:8px;}
+button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;line-height:0;position:relative;top:8px;}
+.logo,.logo-link{display:flex;align-items:center;}
 .logo-ai{color:var(--navy)}
 .logo-and{color:var(--blue);font-weight:600;font-size:14px;margin:0 2px}
 .logo-web{color:var(--navy)}
@@ -138,11 +138,11 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
 }
 .hero-inner{
   position:relative;z-index:2;
-  height:100%;display:flex;align-items:center;justify-content:center;
-  padding:0 8vw;
+  height:100%;display:flex;align-items:stretch;justify-content:center;
+  padding:88px 8vw 48px;
   gap:60px;
 }
-.hero-left{flex:1;max-width:580px;margin-top:-80px}
+.hero-left{flex:1;max-width:580px;display:flex;flex-direction:column;justify-content:space-between;}
 .hero-eyebrow{
   display:flex;align-items:center;justify-content:center;gap:8px;
   background:rgba(42,165,160,.15);border:1px solid rgba(42,165,160,.3);
@@ -210,8 +210,7 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
 .hero-right{
   flex:0 0 420px;
   display:flex;flex-direction:column;gap:10px;
-  justify-content:center;
-  margin-top:40px;
+  justify-content:space-between;
 }
 .funnel-card{
   background:rgba(255,255,255,.04);
@@ -309,8 +308,8 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
   height:100%;display:flex;flex-direction:column;
   padding:88px 8vw 40px;
 }
-.funnel-header{margin-bottom:16px}
-.funnel-header .panel-eyebrow{margin-bottom:14px}
+.funnel-header{margin-bottom:6px}
+.funnel-header .panel-eyebrow{margin-bottom:28px}
 .funnel-header .panel-h2{color:#fff;margin-bottom:12px;text-align:center}
 .funnel-header .panel-sub{color:rgba(255,255,255,.55);max-width:780px;margin:0 auto;text-align:center}
 .funnel-grid{
@@ -400,7 +399,7 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
   box-shadow:0 8px 32px rgba(0,0,0,.06);
 }
 .founder-photo{
-  width:75%;border-radius:16px;
+  width:55%;border-radius:16px;
   overflow:hidden;margin-bottom:20px;
   background:var(--off2);flex-shrink:0;margin-left:auto;margin-right:auto;
 }
@@ -433,11 +432,11 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
 .ac-row a:hover{text-decoration:underline}
 .about-right{display:flex;flex-direction:column;height:100%;}
 .mission-text{font-size:15px;color:var(--muted);line-height:1.9;margin-bottom:32px}
-.value-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;flex:1;width:100%;align-content:start;row-gap:20px}
+.value-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;flex:1;width:100%;align-content:stretch;row-gap:20px}
 .val-card{
   background:var(--white);border:1px solid var(--border);
   border-radius:12px;padding:22px;
-  transition:all .25s;
+  transition:all .25s;align-self:stretch;
 }
 .val-card:hover{border-color:var(--blue);box-shadow:0 4px 20px rgba(37,99,235,.08)}
 .val-icon{font-size:22px;margin-bottom:8px}

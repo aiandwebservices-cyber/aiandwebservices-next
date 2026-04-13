@@ -62,9 +62,6 @@ export default function About() {
             <p className="about-bio">
               Most small businesses are invisible online, slow to respond, and leaving money on the table every day. I built AIandWEBservices to fix that — working directly with business owners to deploy AI systems that never miss a lead, websites that convert, and automated pipelines that grow revenue on autopilot.
             </p>
-            <p className="about-bio about-personal">
-              I started this business because I kept watching small businesses lose to bigger competitors who just had better tech — not better service. That felt wrong. So I decided to do something about it.
-            </p>
             <div className="about-contact">
               <a href="mailto:david@aiandwebservices.com" className="ac-row" style={{textDecoration:'none'}}>
                 <div className="ac-icon">📧</div>
