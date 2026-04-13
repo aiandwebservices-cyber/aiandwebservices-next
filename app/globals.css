@@ -1148,11 +1148,11 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   .cat-list li{padding:2px 0 2px 16px}
 
   .pricing-header{margin-bottom:12px}
-  .pricing-header .panel-h2{margin-bottom:20px;margin-top:-8px}
+  .pricing-header .panel-h2{margin-bottom:20px;margin-top:12px}
   .chatbot-solo{padding:14px 20px;margin-bottom:24px}
   .pricing-grid{gap:8px;margin-bottom:24px}
   .pr-card{padding:12px 10px 10px}
-  .pr-addons-lbl{margin-top:20px}
+  .pr-addons-lbl{margin-top:35px}
   .pr-addons-grid{gap:8px}
   .pr-addon-card{padding:14px 16px}
 
@@ -1191,11 +1191,11 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   .svc-cols{gap:14px 16px}
   .svc-cat{padding:6px 8px}
 
-  .pricing-header .panel-h2{margin-bottom:12px}
+  .pricing-header .panel-h2{margin-bottom:12px;margin-top:20px}
   .chatbot-solo{padding:10px 16px;margin-bottom:16px}
   .pricing-grid{gap:6px;margin-bottom:16px}
   .pr-card{padding:10px 8px 8px}
-  .pr-addons-lbl{margin-top:12px}
+  .pr-addons-lbl{margin-top:27px}
 
   .hero-h1{font-size:clamp(32px,4vw,52px)}
   .hero-sub{font-size:14px;margin-bottom:14px}
