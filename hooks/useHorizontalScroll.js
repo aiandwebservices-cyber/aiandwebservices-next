@@ -193,7 +193,7 @@ export function useHorizontalScroll() {
       '.hero-inner','.svc-panel','.funnel-inner','.pricing-inner',
       '.about-inner','.testi-inner','.blog-inner','.faq-inner','.contact-inner'
     ].join(',');
-    const BASE_HEIGHT = 960; // design height panels were built for
+    const BASE_HEIGHT = 1100; // design height panels were built for
     const NAV_H = 64;
 
     function scalePanels() {
