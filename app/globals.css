@@ -1134,6 +1134,84 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
   .blog-btn{width:100%;text-align:center}
 }
 
+/* ── HEIGHT SCALING: 1080p monitors (max-height: 1100px) ── */
+@media (min-width:769px) and (max-height:1100px) {
+  .svc-panel,.blog-inner,.testi-inner{padding-top:52px;padding-bottom:32px}
+  .funnel-inner{padding-top:52px;padding-bottom:24px}
+  .pricing-inner{padding-top:52px;padding-bottom:8px}
+  .about-inner{padding-top:52px;padding-bottom:40px}
+  .contact-inner{padding-top:52px;padding-bottom:48px}
+  .faq-inner{padding-top:52px;padding-bottom:32px}
+
+  .panel-h2{font-size:clamp(22px,2.4vw,34px);margin-top:20px;margin-bottom:6px}
+  .panel-sub{font-size:13px;margin-bottom:16px}
+  .panel-eyebrow{margin-bottom:8px}
+
+  .funnel-header{margin-bottom:12px}
+  .funnel-grid{gap:16px 48px}
+  .fstep{padding:12px 0}
+  .fnode{padding:12px 0}
+  .fnode-card{padding:12px 16px}
+
+  .svc-cols{gap:20px 20px}
+  .svc-cat{padding:8px 10px}
+  .cat-list li{padding:2px 0 2px 16px}
+
+  .pricing-header{margin-bottom:12px}
+  .pricing-header .panel-h2{margin-bottom:20px}
+  .chatbot-solo{padding:14px 20px;margin-bottom:24px}
+  .pricing-grid{gap:8px;margin-bottom:24px}
+  .pr-card{padding:12px 10px 10px}
+  .pr-addons-lbl{margin-top:20px}
+  .pr-addons-grid{gap:8px}
+  .pr-addon-card{padding:14px 16px}
+
+  .about-heading .panel-h2{margin-top:20px}
+  .value-grid{gap:8px;row-gap:10px}
+  .value-card{padding:12px}
+  .mission-text{margin-bottom:16px;font-size:14px}
+
+  .contact-steps{margin-bottom:12px}
+  .contact-form{padding:20px 24px}
+  .form-row{margin-bottom:12px}
+
+  .hero-h1{font-size:clamp(38px,4.5vw,62px)}
+  .hero-sub{font-size:15px;margin-bottom:20px}
+  .hero-right{gap:6px}
+  .funnel-card{padding:14px 16px}
+}
+
+/* ── HEIGHT SCALING: laptops (max-height: 860px) ── */
+@media (min-width:769px) and (max-height:860px) {
+  .svc-panel,.blog-inner,.testi-inner{padding-top:36px;padding-bottom:20px}
+  .funnel-inner{padding-top:36px;padding-bottom:16px}
+  .pricing-inner{padding-top:36px;padding-bottom:4px}
+  .about-inner{padding-top:36px;padding-bottom:24px}
+  .contact-inner{padding-top:36px;padding-bottom:24px}
+  .faq-inner{padding-top:36px;padding-bottom:16px}
+
+  .panel-h2{font-size:clamp(20px,2.2vw,28px);margin-top:12px}
+  .panel-sub{font-size:12px;margin-bottom:10px}
+
+  .funnel-header{margin-bottom:8px}
+  .funnel-grid{gap:10px 40px}
+  .fstep{padding:8px 0}
+  .fnode{padding:8px 0}
+
+  .svc-cols{gap:14px 16px}
+  .svc-cat{padding:6px 8px}
+
+  .pricing-header .panel-h2{margin-bottom:12px}
+  .chatbot-solo{padding:10px 16px;margin-bottom:16px}
+  .pricing-grid{gap:6px;margin-bottom:16px}
+  .pr-card{padding:10px 8px 8px}
+  .pr-addons-lbl{margin-top:12px}
+
+  .hero-h1{font-size:clamp(32px,4vw,52px)}
+  .hero-sub{font-size:14px;margin-bottom:14px}
+  .funnel-card{padding:10px 12px}
+}
+
 /* ── MODALS ── */
 .modal-overlay{
   display:none;position:fixed;inset:0;z-index:9999;
