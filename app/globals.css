@@ -1201,6 +1201,16 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
   .funnel-card{padding:10px 12px}
 }
 
+/* ── LARGE MONITOR: boost How It Works font sizes ── */
+@media (min-width:769px) and (min-height:1200px) {
+  .fstep-body h4{font-size:17px}
+  .fstep-body p{font-size:15px}
+  .fnode-card h4{font-size:18px}
+  .fnode-card p{font-size:14px}
+  .fnode-metric{font-size:32px}
+  .fstep-dot{font-size:26px;min-width:48px}
+}
+
 /* ── MODALS ── */
 .modal-overlay{
   display:none;position:fixed;inset:0;z-index:9999;
