@@ -142,7 +142,7 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
   padding:0 8vw;
   gap:60px;
 }
-.hero-left{flex:1;max-width:580px;margin-top:-120px}
+.hero-left{flex:1;max-width:580px;margin-top:-80px}
 .hero-eyebrow{
   display:flex;align-items:center;justify-content:center;gap:8px;
   background:rgba(42,165,160,.15);border:1px solid rgba(42,165,160,.3);
@@ -211,6 +211,7 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
   flex:0 0 420px;
   display:flex;flex-direction:column;gap:10px;
   justify-content:center;
+  margin-top:40px;
 }
 .funnel-card{
   background:rgba(255,255,255,.04);
