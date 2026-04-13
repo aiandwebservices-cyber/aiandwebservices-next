@@ -155,7 +155,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
 .hero-h1{
   font-family:'Plus Jakarta Sans',sans-serif;
-  font-size:clamp(44px,5.5vw,78px);
+  font-size:clamp(50px,6vw,84px);
   font-weight:800;line-height:1.05;
   letter-spacing:-1.5px;
   color:#fff;margin-bottom:12px;
