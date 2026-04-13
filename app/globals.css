@@ -241,8 +241,8 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
 .fc-mkt .fc-icon{background:rgba(124,58,237,.2)}
 .fc-cs .fc-icon{background:rgba(225,29,72,.15)}
 .fc-body{}
-.fc-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:3px}
-.fc-desc{font-size:12px;color:rgba(255,255,255,.42)}
+.fc-title{font-size:14px;font-weight:700;color:#fff;margin-bottom:3px;text-align:center}
+.fc-desc{font-size:12px;color:rgba(255,255,255,.42);text-align:center}
 .funnel-arrow{text-align:center;color:rgba(255,255,255,.12);font-size:18px;line-height:1}
 
 /* ── PANEL 1: SERVICES ── */
