@@ -155,11 +155,12 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
 }
 .hero-left{flex:1;max-width:580px}
 .hero-eyebrow{
-  display:inline-flex;align-items:center;gap:8px;
+  display:flex;align-items:center;justify-content:center;gap:8px;
   background:rgba(42,165,160,.15);border:1px solid rgba(42,165,160,.3);
   border-radius:50px;padding:6px 16px;
   font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
   color:rgba(255,255,255,.75);margin-bottom:20px;
+  width:fit-content;margin-left:auto;margin-right:auto;
 }
 .edot{width:6px;height:6px;border-radius:50%;background:#2AA5A0;box-shadow:0 0 8px #2AA5A0;animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
@@ -1098,7 +1099,7 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
 
   /* hero right — show funnel cards on mobile, full width */
   .hero-right{display:flex;width:100%;flex-direction:column;gap:8px}
-  .hero-eyebrow{font-size:12px}
+  .hero-eyebrow{font-size:12px;text-align:center;justify-content:center}
   .funnel-card{padding:12px 14px;gap:10px}
   .fc-icon{font-size:18px}
   .fc-title{font-size:13px}
