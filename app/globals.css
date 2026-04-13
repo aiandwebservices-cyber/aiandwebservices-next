@@ -138,11 +138,10 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 }
 .hero-inner{
   position:relative;z-index:2;
-  height:100%;display:flex;align-items:stretch;justify-content:center;
-  padding:88px 8vw 48px;
-  gap:60px;
+  height:100%;display:flex;align-items:center;justify-content:center;
+  padding:0 8vw;gap:60px;
 }
-.hero-left{flex:1;max-width:580px;display:flex;flex-direction:column;justify-content:space-between;}
+.hero-left{flex:1;max-width:580px;margin-top:-80px}
 .hero-eyebrow{
   display:flex;align-items:center;justify-content:center;gap:8px;
   background:rgba(42,165,160,.15);border:1px solid rgba(42,165,160,.3);
@@ -210,7 +209,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 .hero-right{
   flex:0 0 420px;
   display:flex;flex-direction:column;gap:10px;
-  justify-content:space-between;
+  justify-content:center;margin-top:40px;
 }
 .funnel-card{
   background:rgba(255,255,255,.04);
