@@ -26,18 +26,18 @@ export default function Hero() {
                 <div className="tb-sub">Cancel Anytime</div>
               </div>
             </div>
-            <div className="trust-badge">
+            <button className="trust-badge trust-badge--btn" onClick={() => window.go(8)}>
               <div className="tb-icon">🤝</div>
               <div className="tb-text">
                 <div className="tb-main">Direct Access</div>
-                <div className="tb-sub">to David</div>
+                <div className="tb-sub">to David →</div>
               </div>
-            </div>
+            </button>
             <div className="trust-badge">
-              <div className="tb-icon">🎯</div>
+              <div className="tb-icon">⚡</div>
               <div className="tb-text">
-                <div className="tb-main">Free Audit</div>
-                <div className="tb-sub">Included</div>
+                <div className="tb-main">Fast Turnaround</div>
+                <div className="tb-sub">6hr Response</div>
               </div>
             </div>
           </div>
