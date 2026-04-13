@@ -128,10 +128,24 @@ export function useHorizontalScroll() {
     };
     document.addEventListener('click', handleOutsideClick);
 
-    // Desktop wheel → horizontal
+    // Desktop wheel → horizontal (but allow vertical scroll within overflowing panels)
     let wheelBuf = 0, wheelTimer = null;
     const handleWheel = (e) => {
       if (isMobile()) return;
+
+      // If current panel overflows vertically, let it scroll until the boundary
+      const panelEl = document.getElementById(panelIds[cur]);
+      if (panelEl) {
+        const { scrollTop, scrollHeight, clientHeight } = panelEl;
+        const overflows = scrollHeight > clientHeight + 5;
+        if (overflows) {
+          const atBottom = scrollTop + clientHeight >= scrollHeight - 5;
+          const atTop = scrollTop <= 5;
+          if (e.deltaY > 0 && !atBottom) return; // not at bottom yet — let panel scroll
+          if (e.deltaY < 0 && !atTop) return;    // not at top yet — let panel scroll
+        }
+      }
+
       e.preventDefault();
       wheelBuf += e.deltaY + e.deltaX;
       clearTimeout(wheelTimer);
