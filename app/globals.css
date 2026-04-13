@@ -982,7 +982,7 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
   .panel{
     width:100%!important;
     height:auto!important;
-    min-height:100svh;
+    min-height:0;
     overflow:visible!important;
     position:relative!important;
     flex-shrink:unset!important;
@@ -1013,10 +1013,12 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
   .logo-and{font-size:11px}
 
   /* hero */
-  #p0{padding-top:60px}
-  .hero-inner{flex-direction:column;padding:78px 5vw 60px;gap:36px}
-  .hero-h1{font-size:clamp(36px,9vw,56px);margin-bottom:40px}
-  .hero-sub{font-size:16px;margin-bottom:60px}
+  #p0{padding-top:60px;min-height:100svh;display:flex;align-items:center}
+  .hero-inner{flex-direction:column;padding:32px 5vw 48px;gap:24px}
+  .hero-h1{font-size:clamp(32px,9vw,48px);line-height:1.15;margin-bottom:16px}
+  .hero-sub{font-size:15px;margin-bottom:24px;line-height:1.7}
+  .hero-btns{flex-direction:column;gap:12px;max-width:100%}
+  .hero-btns .btn-primary,.hero-btns .btn-ghost-w{width:100%;justify-content:center;text-align:center;font-size:16px;padding:14px 20px}
   .hero-right{flex:none;width:100%}
   .hero-stats{gap:20px}
 
@@ -1085,13 +1087,18 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
   .faq-cta-inner{padding:12px 16px}
 
   /* hero bottom trust badges */
-  .hero-bottom{gap:6px}
-  .trust-badge{padding:8px 10px}
-  .tb-main{font-size:11px}
-  .tb-sub{font-size:10px}
+  .hero-bottom{gap:8px;flex-wrap:wrap;justify-content:center;margin-top:28px}
+  .trust-badge{flex:1;min-width:120px;max-width:160px;padding:10px 12px;border-radius:10px;flex-direction:column;text-align:center;align-items:center}
+  .tb-icon{font-size:20px;margin-bottom:4px}
+  .tb-main{font-size:12px;font-weight:700}
+  .tb-sub{font-size:11px}
 
-  /* hero right — hide funnel cards on mobile to save space */
+  /* hero right — hide funnel cards, show a compact value strip instead */
   .hero-right{display:none}
+  .hero-mobile-value{display:flex;flex-direction:column;gap:10px;width:100%}
+  .hmv-item{display:flex;align-items:center;gap:12px;background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.1);border-radius:10px;padding:12px 14px}
+  .hmv-icon{font-size:20px;flex-shrink:0}
+  .hmv-text{font-size:13px;color:rgba(255,255,255,.8);line-height:1.4}
 
   /* typography minimums */
   .panel-sub{font-size:15px}

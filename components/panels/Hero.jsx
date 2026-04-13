@@ -42,6 +42,21 @@ export default function Hero() {
             </div>
           </div>
         </div>
+        {/* Mobile-only value strip — shown instead of funnel cards */}
+        <div className="hero-mobile-value">
+          {[
+            { icon: "🤖", text: "AI chatbot that captures leads & books calls 24/7" },
+            { icon: "🌐", text: "Fast website that ranks on Google and converts visitors" },
+            { icon: "📈", text: "SEO that brings the right customers to your door" },
+            { icon: "🎯", text: "Automated follow-up that closes deals while you work" },
+          ].map(({ icon, text }) => (
+            <div key={text} className="hmv-item">
+              <span className="hmv-icon">{icon}</span>
+              <span className="hmv-text">{text}</span>
+            </div>
+          ))}
+        </div>
+
         <div className="hero-right">
           <div className="hero-eyebrow" style={{marginBottom:'16px'}}><span className="edot"></span> AI Automation &amp; Web Services for Small Businesses</div>
           <div className="funnel-card fc-ai">
