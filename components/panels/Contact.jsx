@@ -93,6 +93,7 @@ export default function Contact() {
                   <option>Revenue Engine Package</option>
                   <option>Consulting &amp; AI Strategy</option>
                   <option>Custom / Let&apos;s Talk</option>
+                  <option>Other</option>
                 </select>
               </div>
               <div className="form-row">
