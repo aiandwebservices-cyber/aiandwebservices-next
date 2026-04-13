@@ -44,14 +44,16 @@ export default function Nav() {
           <button className="nav-pill" onClick={() => go(6)} role="menuitem">Blog</button>
           <button className="nav-pill" onClick={() => go(7)} role="menuitem">Contact</button>
         </div>
-        <a className="nav-book" href="https://calendly.com/aiandwebservices/30min" target="_blank" rel="noopener noreferrer" aria-label="Book a call with David">Book a Call</a>
-        <button className="nav-cta" id="nav-cta-desktop" onClick={() => go(7)} aria-label="Get a free AI audit">Get Your Free Audit</button>
-        <button id="hamburger" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open navigation menu"
-          onClick={() => window.toggleMenu && window.toggleMenu()}>
-          <span className="hb-line" aria-hidden="true"></span>
-          <span className="hb-line" aria-hidden="true"></span>
-          <span className="hb-line" aria-hidden="true"></span>
-        </button>
+        <div className="nav-right">
+          <a className="nav-book" href="https://calendly.com/aiandwebservices/30min" target="_blank" rel="noopener noreferrer" aria-label="Book a call with David">Book a Call</a>
+          <button className="nav-cta" id="nav-cta-desktop" onClick={() => go(7)} aria-label="Get a free AI audit">Get Your Free Audit</button>
+          <button id="hamburger" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open navigation menu"
+            onClick={() => window.toggleMenu && window.toggleMenu()}>
+            <span className="hb-line" aria-hidden="true"></span>
+            <span className="hb-line" aria-hidden="true"></span>
+            <span className="hb-line" aria-hidden="true"></span>
+          </button>
+        </div>
       </nav>
 
       <div id="mobile-menu" role="dialog" aria-label="Navigation menu" aria-modal="false">
