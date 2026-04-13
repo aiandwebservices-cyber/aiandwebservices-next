@@ -45,7 +45,7 @@ export default function Hero() {
         {/* Mobile-only value strip — shown instead of funnel cards */}
         <div className="hero-mobile-value">
           {[
-            { icon: "🤖", text: "AI chatbot that captures leads & books calls 24/7" },
+            { icon: "🤖", text: "AI Automation that handles your busywork while you focus on growth" },
             { icon: "🌐", text: "Fast website that ranks on Google and converts visitors" },
             { icon: "📈", text: "SEO that brings the right customers to your door" },
             { icon: "🎯", text: "Automated follow-up that closes deals while you work" },

@@ -28,7 +28,7 @@ export default function CrispChat() {
       setTimeout(function () {
         if (window._crispMessageShown) return;
         window._crispMessageShown = true;
-        window.$crisp.push(['do', 'message:show', ['text', '👋 Hi! I\'m David, the owner — got questions?\nI reply within minutes.']]);
+        window.$crisp.push(['do', 'message:show', ['text', '👋 Hi! I\'m David, the owner — have questions?\nI reply within minutes.']]);
       }, 5000);
     };
     document.head.appendChild(s);
