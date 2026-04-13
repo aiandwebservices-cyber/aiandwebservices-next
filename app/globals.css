@@ -253,7 +253,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   color:var(--text);margin-top:40px;margin-bottom:10px;text-align:center;
 }
 .panel-sub{font-size:14px;color:var(--muted);line-height:1.6;max-width:580px;margin-bottom:28px;text-align:center;margin-left:auto;margin-right:auto;}
-.svc-cols{display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(3,auto);gap:35px 20px;align-content:center;flex:1;max-width:640px;width:100%;margin:0 auto}
+.svc-cols{display:grid;grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(3,auto);column-gap:20px;row-gap:52px;align-content:center;flex:1;max-width:640px;width:100%;margin:0 auto}
 .svc-cat{
   background:var(--off);border:1px solid var(--border);
   border-radius:12px;padding:10px 12px;
