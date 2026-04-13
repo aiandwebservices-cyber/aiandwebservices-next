@@ -666,6 +666,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   display:flex;flex-direction:column;
   transition:all .3s;cursor:pointer;
 }
+.blog-card:nth-child(3n+2){zoom:1.1;}
 .blog-card:hover{transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.09);border-color:transparent}
 .blog-card-img{
   width:100%;height:52px;background:var(--off2);
