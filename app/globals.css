@@ -1149,7 +1149,7 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
   .cat-list li{padding:2px 0 2px 16px}
 
   .pricing-header{margin-bottom:12px}
-  .pricing-header .panel-h2{margin-bottom:20px}
+  .pricing-header .panel-h2{margin-bottom:20px;margin-top:-8px}
   .chatbot-solo{padding:14px 20px;margin-bottom:24px}
   .pricing-grid{gap:8px;margin-bottom:24px}
   .pr-card{padding:12px 10px 10px}
