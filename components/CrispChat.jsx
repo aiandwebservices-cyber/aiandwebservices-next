@@ -24,13 +24,12 @@ export default function CrispChat() {
     document.head.appendChild(style);
 
     s.onload = function () {
-      window.$crisp.push(['on', 'session:loaded', function () {
+      // Single one-shot timer — never tied to session events that can re-fire
+      setTimeout(function () {
         if (window._crispMessageShown) return;
         window._crispMessageShown = true;
-        setTimeout(function () {
-          window.$crisp.push(['do', 'message:show', ['text', '👋 Hi! I\'m David, the owner — got questions?\nI reply within minutes.']]);
-        }, 5000);
-      }]);
+        window.$crisp.push(['do', 'message:show', ['text', '👋 Hi! I\'m David, the owner — got questions?\nI reply within minutes.']]);
+      }, 5000);
     };
     document.head.appendChild(s);
 
