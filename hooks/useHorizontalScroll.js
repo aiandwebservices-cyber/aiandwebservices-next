@@ -188,6 +188,27 @@ export function useHorizontalScroll() {
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
 
+    // Scale panel inner containers to fit any monitor height
+    const INNER_SELECTORS = [
+      '.hero-inner','.svc-panel','.funnel-inner','.pricing-inner',
+      '.about-inner','.testi-inner','.blog-inner','.faq-inner','.contact-inner'
+    ].join(',');
+    const BASE_HEIGHT = 960; // design height panels were built for
+    const NAV_H = 64;
+
+    function scalePanels() {
+      if (isMobile()) {
+        document.querySelectorAll(INNER_SELECTORS).forEach(el => { el.style.zoom = ''; });
+        return;
+      }
+      const avail = window.innerHeight - NAV_H;
+      const scale = Math.min(1, avail / BASE_HEIGHT);
+      document.querySelectorAll(INNER_SELECTORS).forEach(el => {
+        el.style.zoom = scale;
+      });
+    }
+    scalePanels();
+
     // Resize handler
     let _lastW = window.innerWidth;
     const handleResize = () => {
@@ -202,6 +223,7 @@ export function useHorizontalScroll() {
       } else {
         track.style.transform = `translateX(-${cur * 100}vw)`;
       }
+      scalePanels();
     };
     window.addEventListener('resize', handleResize);
 

@@ -42,8 +42,7 @@ a{touch-action:manipulation}
   width:100vw;height:100vh;
   flex-shrink:0;
   position:relative;
-  overflow-x:hidden;
-  overflow-y:auto;
+  overflow:hidden;
 }
 
 /* ── TOP NAV ── */
