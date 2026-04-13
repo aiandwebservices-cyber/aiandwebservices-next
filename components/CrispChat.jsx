@@ -20,14 +20,29 @@ export default function CrispChat() {
 
     const style = document.createElement('style');
     style.textContent = `
+      /* Hide operator name label below messages — targets all known Crisp class patterns */
       .crisp-client .cc-tlfw ul li .cc-yvvc span[data-id],
       .crisp-client [data-id="operator-name"],
       .crisp-client .cc-1nvc,
-      .crisp-client .cc-yvvc > span:last-child {
+      .crisp-client .cc-yvvc > span:last-child,
+      .crisp-client span[class*="nickname"],
+      .crisp-client span[class*="operator"],
+      .crisp-client span[class*="author"],
+      .crisp-client [class*="message-author"],
+      .crisp-client [class*="message__author"],
+      .crisp-client [class*="operator-name"],
+      .crisp-client li[class*="message"] > span:last-of-type,
+      .crisp-client .cc-yvvc span:not([class]) {
         display: none !important;
+        visibility: hidden !important;
+        height: 0 !important;
+        overflow: hidden !important;
       }
     `;
     document.head.appendChild(style);
+
+    // Also clear via SDK once ready
+    window.$crisp.push(['set', 'user:nickname', ['']]);
 
     const s = document.createElement('script');
     s.src = 'https://client.crisp.chat/l.js';
