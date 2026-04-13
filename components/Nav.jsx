@@ -1,6 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 export default function Nav() {
   const go = (n) => window.go && window.go(n);
@@ -13,13 +14,14 @@ export default function Nav() {
     return () => window.removeEventListener('panelchange', handler);
   }, []);
 
+  // Panels 0, 2, 7 have dark (navy) backgrounds — use white text logo
+  const darkPanels = new Set([0, 2, 7]);
+  const logoSrc = darkPanels.has(currentPanel)
+    ? '/logo-gradient-test.svg'
+    : '/logo-gradient-light.svg';
+
   const LogoInner = () => (
-    <>
-      <span className="logo-ai" aria-hidden="true">AI</span>
-      <span className="logo-and" aria-hidden="true">and</span>
-      <span className="logo-web" aria-hidden="true">WEB</span>
-      <span className="logo-svc" aria-hidden="true">services</span>
-    </>
+    <Image src={logoSrc} alt="AIandWEBservices" width={260} height={52} priority />
   );
 
   return (
