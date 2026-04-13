@@ -714,7 +714,7 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
   height:100%;display:grid;
   grid-template-columns:minmax(0,480px) minmax(0,480px);
   grid-template-rows:auto auto 1fr auto;
-  padding:88px 6vw 120px;gap:0 48px;align-items:stretch;justify-content:center;
+  padding:88px 6vw 40px;gap:0 48px;align-items:stretch;justify-content:center;
 }
 .contact-header{
   grid-column:1/-1;margin-bottom:16px;
