@@ -3,15 +3,13 @@ import { useEffect } from 'react';
 
 export default function CrispChat() {
   useEffect(() => {
-    if (window.$crisp) return; // already loaded
+    // Hard guard — our own flag, never touched by Crisp's SDK
+    if (window._crispInitialized) return;
+    window._crispInitialized = true;
 
     window.$crisp = [];
     window.CRISP_WEBSITE_ID = 'e76e44c0-a38a-4d5e-ab6a-41a380e83c69';
 
-    const s = document.createElement('script');
-    s.src = 'https://client.crisp.chat/l.js';
-    s.async = true;
-    // Inject CSS to hide operator name label in Crisp widget
     const style = document.createElement('style');
     style.textContent = `
       .crisp-client .cc-tlfw ul li .cc-yvvc span[data-id],
@@ -23,8 +21,10 @@ export default function CrispChat() {
     `;
     document.head.appendChild(style);
 
+    const s = document.createElement('script');
+    s.src = 'https://client.crisp.chat/l.js';
+    s.async = true;
     s.onload = function () {
-      // Single one-shot timer — never tied to session events that can re-fire
       setTimeout(function () {
         if (window._crispMessageShown) return;
         window._crispMessageShown = true;
@@ -33,34 +33,21 @@ export default function CrispChat() {
     };
     document.head.appendChild(s);
 
-    // Close chat when clicking outside the widget or hamburger
     document.addEventListener('click', function (e) {
       if (!window.$crisp) return;
-
-      // Only act if chat is actually open
-      const isChatOpen = () => {
-        const box = document.getElementById('crisp-chatbox');
-        return box && box.querySelector('[data-visible="true"], .cc-nsge, iframe') !== null;
-      };
-
-      // Close on hamburger click
       const h = document.getElementById('hamburger');
       if (h && (h === e.target || h.contains(e.target))) {
         window.$crisp.push(['do', 'chat:close']);
         return;
       }
-
-      // Close when clicking the main page (outside Crisp iframe/widget)
-      // But never interfere with Calendly, forms, or iframes
       if (e.target.tagName === 'IFRAME') return;
       if (e.target.closest('.calendly-inline-widget') || e.target.closest('.calendly-wrap')) return;
       if (e.target.closest('form')) return;
-
       const crispEl = document.getElementById('crisp-chatbox');
       if (crispEl && !crispEl.contains(e.target)) {
         window.$crisp.push(['do', 'chat:close']);
       }
-    }, true); // use capture so it fires before other handlers
+    }, true);
   }, []);
 
   return null;
