@@ -1209,6 +1209,9 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
   .fnode-card p{font-size:14px}
   .fnode-metric{font-size:32px}
   .fstep-dot{font-size:26px;min-width:48px}
+  .blog-inner{padding-top:68px}
+  .blog-grid{margin-top:-20px}
+  .blog-cta{padding-top:0}
 }
 
 /* ── MODALS ── */
