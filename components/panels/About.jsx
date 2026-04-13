@@ -50,7 +50,7 @@ export default function About() {
                 alt="David Pulis, founder of AIandWEBservices — AI automation and web development specialist for small businesses"
                 width={400}
                 height={200}
-                style={{width:'100%',height:'100%',objectFit:'cover',borderRadius:'16px'}}
+                style={{width:'100%',height:'auto',display:'block',borderRadius:'16px'}}
                 priority
               />
             </div>
