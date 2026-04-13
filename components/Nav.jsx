@@ -45,7 +45,7 @@ export default function Nav() {
           <button className="nav-pill" onClick={() => go(7)} role="menuitem">Contact</button>
         </div>
         <div className="nav-right">
-          <a className="nav-book" href="https://calendly.com/aiandwebservices/30min" target="_blank" rel="noopener noreferrer" aria-label="Book a call with David">Book a Call</a>
+          <button className="nav-book" onClick={() => go(7)} aria-label="Book a call with David">Book a Call</button>
           <button className="nav-cta" id="nav-cta-desktop" onClick={() => go(7)} aria-label="Get a free AI audit">Get Your Free Audit</button>
           <button id="hamburger" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open navigation menu"
             onClick={() => window.toggleMenu && window.toggleMenu()}>
@@ -65,7 +65,7 @@ export default function Nav() {
         <button className="mob-link" onClick={() => mGo(5)}>FAQ</button>
         <button className="mob-link" onClick={() => mGo(6)}>Blog</button>
         <button className="mob-link" onClick={() => mGo(7)}>Contact</button>
-        <a className="mob-book" href="https://calendly.com/aiandwebservices/30min" target="_blank" rel="noopener noreferrer">Book a Call</a>
+        <button className="mob-book" onClick={() => mGo(7)}>Book a Call</button>
         <button className="mob-cta" onClick={() => mGo(7)}>Get Your Free Audit</button>
       </div>
 

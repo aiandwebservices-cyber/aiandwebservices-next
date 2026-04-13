@@ -26,7 +26,7 @@ export default function Hero() {
                 <div className="tb-sub">Cancel Anytime</div>
               </div>
             </div>
-            <button className="trust-badge trust-badge--btn" onClick={() => window.go(8)}>
+            <button className="trust-badge trust-badge--btn" onClick={() => window.go(7)}>
               <div className="tb-icon">🤝</div>
               <div className="tb-text">
                 <div className="tb-main">Direct Access</div>
