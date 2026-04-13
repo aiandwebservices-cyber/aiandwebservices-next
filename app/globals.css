@@ -64,6 +64,8 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
 .logo-svc{color:var(--blue);font-weight:600}
 #nav.dark .logo-ai,#nav.dark .logo-web{color:#FFFFFF}
 #nav.dark .logo-and,#nav.dark .logo-svc{color:var(--blue)}
+/* TEST: gradient logo */
+#nav .logo-and,#nav .logo-svc{background:linear-gradient(135deg,#2AA5A0,#3B82F6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;color:transparent}
 .nav-center{display:flex;align-items:center;gap:8px;position:absolute;left:50%;transform:translateX(-50%)}
 .nav-pill{
   font-size:11px;font-weight:600;letter-spacing:.4px;
