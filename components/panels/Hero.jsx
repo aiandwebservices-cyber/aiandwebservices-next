@@ -43,7 +43,7 @@ export default function Hero() {
           </div>
         </div>
         <div className="hero-right">
-          <div className="hero-eyebrow" style={{marginBottom:'16px'}}><span className="edot"></span> AI Automation &amp; Web Services for Small Businesses</div>
+          <div className="hero-eyebrow" style={{marginBottom:'16px'}}>AI Automation &amp; Web Services for Small Businesses</div>
           <div className="funnel-card fc-ai">
             <div className="fc-icon">🤖</div>
             <div className="fc-body"><div className="fc-title">A chatbot that handles your inquiries &amp; books calls</div><div className="fc-desc">So you stop losing leads who don&apos;t want to wait for a reply</div></div>
