@@ -1015,13 +1015,22 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
   .logo-and{font-size:11px}
 
   /* hero */
-  #p0{padding-top:60px;min-height:100svh;display:flex;align-items:center}
-  .hero-inner{flex-direction:column;padding:28px 5vw 44px;gap:20px}
-  .hero-h1{font-size:clamp(36px,10vw,52px);line-height:1.12;margin-bottom:12px}
-  .hero-sub{font-size:15px;margin-bottom:20px;line-height:1.7}
-  .hero-btns{flex-direction:column;gap:10px;max-width:100%}
+  #p0{padding-top:60px;height:auto!important;min-height:100svh;overflow:visible!important;display:block}
+  .hero-inner{flex-direction:column;padding:0;gap:0}
+  .hero-left{
+    min-height:calc(100svh - 60px);
+    display:flex;flex-direction:column;
+    padding:28px 5vw 24px;
+  }
+  .hero-left .hero-h1{flex:1 0 auto}
+  .hero-left .hero-sub{flex:0 0 auto}
+  .hero-left .hero-btns{flex:0 0 auto}
+  .hero-left .hero-bottom{margin-top:auto;padding-bottom:8px}
+  .hero-h1{font-size:clamp(42px,11vw,60px);line-height:1.1;margin-bottom:14px}
+  .hero-sub{font-size:16px;margin-bottom:20px;line-height:1.7}
+  .hero-btns{flex-direction:column;gap:10px;max-width:100%;margin-bottom:0}
   .hero-btns .btn-primary,.hero-btns .btn-ghost-w{width:100%;justify-content:center;text-align:center;font-size:16px;padding:14px 20px}
-  .hero-right{flex:none;width:100%}
+  .hero-right{flex:none;width:100%;padding:28px 5vw 40px}
   .hero-stats{gap:20px}
 
   /* services */
