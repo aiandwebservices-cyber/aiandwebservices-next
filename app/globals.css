@@ -317,9 +317,9 @@ button.logo-link{background:none;border:none;padding:0;cursor:pointer;}
 #p2{background:var(--navy2)}
 .funnel-inner{
   height:100%;display:flex;flex-direction:column;
-  padding:88px 8vw 40px;
+  padding:52px 8vw 40px;
 }
-.funnel-header{margin-bottom:48px}
+.funnel-header{margin-bottom:32px}
 .funnel-header .panel-eyebrow{margin-bottom:14px}
 .funnel-header .panel-h2{color:#fff;margin-bottom:12px;text-align:center}
 .funnel-header .panel-sub{color:rgba(255,255,255,.55);max-width:780px;margin:0 auto;text-align:center}
