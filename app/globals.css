@@ -170,9 +170,9 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   text-transform:uppercase;color:#60A5FA;
   margin-bottom:14px;
 }
-.hero-sub{font-size:17px;color:rgba(255,255,255,.5);line-height:1.8;max-width:480px;margin-bottom:28px;font-weight:400}
+.hero-sub{font-size:17px;color:rgba(255,255,255,.5);line-height:1.8;max-width:480px;margin-top:10px;margin-bottom:28px;font-weight:400}
 .hero-sub strong{color:rgba(255,255,255,.8);font-weight:600}
-.hero-btns{display:flex;justify-content:space-between;align-items:center;margin-bottom:36px;max-width:480px}
+.hero-btns{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;max-width:480px}
 .btn-primary{
   display:inline-flex;align-items:center;gap:8px;
   background:var(--blue);color:#fff;
