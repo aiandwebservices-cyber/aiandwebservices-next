@@ -6,6 +6,7 @@ export default function Hero() {
       <div className="hero-bg"></div>
       <div className="hero-grid"></div>
       <div className="hero-inner">
+        <div className="hero-columns">
         <div className="hero-left">
           <h1 className="hero-h1">
             Stop losing leads to<br/>
@@ -68,6 +69,7 @@ export default function Hero() {
             <div className="fc-icon">🧠</div>
             <div className="fc-body"><div className="fc-title">A clear AI roadmap for your specific business</div><div className="fc-desc">No generic advice — a real plan for where AI saves you the most time &amp; money</div></div>
           </div>
+        </div>
         </div>
       </div>
       <div id="scroll-hint" aria-hidden="true">

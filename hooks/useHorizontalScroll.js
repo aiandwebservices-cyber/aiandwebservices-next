@@ -5,12 +5,14 @@ export function useHorizontalScroll() {
   const curRef = useRef(0);
 
   useEffect(() => {
-    // Always start at top
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-    window.scrollTo(0, 0);
 
     const TOTAL = 8;
-    let cur = 0;
+    const hashNames = ['home','how-it-works','services','pricing','about','faq','blog','contact'];
+    const hashToPanel = Object.fromEntries(hashNames.map((h,i) => [h,i]));
+    const startHash = window.location.hash.replace('#','');
+    let cur = hashToPanel[startHash] ?? 0;
+    window.scrollTo(0, 0);
     let locked = false;
     let formFocused = false;
     const isMobile = () => window.innerWidth <= 768;
@@ -39,9 +41,15 @@ export function useHorizontalScroll() {
     const scrollHint = document.getElementById('scroll-hint');
     const darkPanels = new Set([0, 2, 7]);
 
-    if (isMobile() && track) track.style.transform = '';
+    if (isMobile() && track) {
+      track.style.transform = '';
+    } else if (track && cur > 0) {
+      track.style.transform = `translateX(-${cur * 100}vw)`;
+    }
 
     function updateUI() {
+      const hash = hashNames[cur] ?? 'home';
+      history.replaceState(null, '', cur === 0 ? '/' : `#${hash}`);
       window.dispatchEvent(new CustomEvent('panelchange', { detail: cur }));
       const panelMap = [0, 1, 2, 3, 4, 5, 6, 7];
       dotsEl.forEach((d, i) => {
