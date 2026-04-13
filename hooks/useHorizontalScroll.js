@@ -198,13 +198,20 @@ export function useHorizontalScroll() {
 
     function scalePanels() {
       if (isMobile()) {
-        document.querySelectorAll(INNER_SELECTORS).forEach(el => { el.style.zoom = ''; });
+        document.querySelectorAll(INNER_SELECTORS).forEach(el => {
+          el.style.zoom = '';
+          el.style.paddingTop = '';
+        });
         return;
       }
       const avail = window.innerHeight - NAV_H;
       const scale = Math.min(1, avail / BASE_HEIGHT);
+      // After zoom, padding-top is also scaled down — compensate so heading
+      // always renders at least 88px below the top (clearing the 64px nav)
+      const compensatedPadding = Math.ceil(88 / scale);
       document.querySelectorAll(INNER_SELECTORS).forEach(el => {
         el.style.zoom = scale;
+        el.style.paddingTop = compensatedPadding + 'px';
       });
     }
     scalePanels();
