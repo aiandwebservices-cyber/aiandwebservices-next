@@ -47,9 +47,14 @@ export function useHorizontalScroll() {
       track.style.transform = `translateX(-${cur * 100}vw)`;
     }
 
-    function updateUI() {
+    function updateUI(push = false) {
       const hash = hashNames[cur] ?? 'home';
-      history.replaceState(null, '', cur === 0 ? '/' : `#${hash}`);
+      const url = cur === 0 ? '/' : `#${hash}`;
+      if (push) {
+        history.pushState({ panel: cur }, '', url);
+      } else {
+        history.replaceState({ panel: cur }, '', url);
+      }
       window.dispatchEvent(new CustomEvent('panelchange', { detail: cur }));
       const panelMap = [0, 1, 2, 3, 4, 5, 6, 7];
       dotsEl.forEach((d, i) => {
@@ -68,7 +73,7 @@ export function useHorizontalScroll() {
       if (scrollHint) scrollHint.classList.toggle('hidden', cur !== 0);
     }
 
-    function go(n) {
+    function go(n, pushHistory = true) {
       if (isMobile()) { scrollToPanel(n); return; }
       if (locked) return;
       n = Math.max(0, Math.min(TOTAL - 1, n));
@@ -78,14 +83,14 @@ export function useHorizontalScroll() {
       locked = true;
       track.style.transform = `translateX(-${cur * 100}vw)`;
       setTimeout(() => { locked = false; }, 750);
-      updateUI();
+      updateUI(pushHistory);
     }
 
     // Map nav index → panel IDs (order: Home, HowItWorks, Services, Pricing, About, Blog, FAQ, Contact)
     // Order: Home, HowItWorks, Services, Pricing, About, FAQ, Blog, Contact
     const panelIds = ['p0','p2','p1','p5','p3','p7','p6','p8'];
 
-    function scrollToPanel(n) {
+    function scrollToPanel(n, pushHistory = true) {
       n = Math.max(0, Math.min(TOTAL - 1, n));
       cur = n;
       curRef.current = cur;
@@ -95,7 +100,7 @@ export function useHorizontalScroll() {
         window.scrollTo({ top: offset, behavior: 'smooth' });
       }
       closeMenu();
-      updateUI();
+      updateUI(pushHistory);
     }
 
     function toggleMenu() {
@@ -115,6 +120,13 @@ export function useHorizontalScroll() {
       mobileMenu.setAttribute('aria-modal', 'false');
       if (!isMobile()) document.body.style.overflow = '';
     }
+
+    // Handle browser back/forward buttons
+    const handlePopState = (e) => {
+      const panel = e.state?.panel ?? 0;
+      go(panel, false); // navigate without pushing another entry
+    };
+    window.addEventListener('popstate', handlePopState);
 
     // Expose functions globally so onclick attributes work
     window.go = go;
@@ -254,6 +266,7 @@ export function useHorizontalScroll() {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('scroll', handleScroll);
       window.removeEventListener('resize', handleResize);
+      window.removeEventListener('popstate', handlePopState);
       delete window.go;
       delete window.goNext;
       delete window.goPrev;
