@@ -119,7 +119,7 @@ export default function Contact() {
               <div
                 className="calendly-inline-widget"
                 data-url="https://calendly.com/aiandwebservices/30min?primary_color=2aa5a0&hide_event_type_details=1&hide_gdpr_banner=1&background_color=111827&text_color=ffffff"
-                style={{minWidth:'280px',width:'100%',height:'100%',minHeight:'420px',borderRadius:'12px',overflow:'hidden'}}
+                style={{minWidth:'280px',width:'100%',height:'100%',minHeight:'0',borderRadius:'12px',overflow:'hidden'}}
               />
             </div>
           </div>
