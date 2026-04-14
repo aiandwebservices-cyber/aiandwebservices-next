@@ -15,9 +15,7 @@ export default function Blog() {
           {posts.map((post) => (
             <div key={post.title} className={`blog-card${post.source === 'AIandWEBservices' ? ' blog-card--ours' : ''}`}>
               <div className="blog-card-img" aria-hidden="true">
-                {post.source === 'AIandWEBservices'
-                  ? <Image src="/logo-icon.jpg" alt="AIandWEBservices" width={180} height={180} style={{objectFit:'contain',height:'100%',width:'auto'}} />
-                  : post.emoji}
+                <Image src="/logo-icon-transparent.svg" alt="AIandWEBservices" width={180} height={180} style={{objectFit:'contain',height:'100%',width:'auto'}} />
               </div>
               <div className="blog-card-body">
                 <div className="blog-card-tag">{post.tag}</div>
