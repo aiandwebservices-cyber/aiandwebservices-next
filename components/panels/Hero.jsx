@@ -17,7 +17,6 @@ export default function Hero() {
           </p>
           <div className="hero-btns">
             <button className="btn-primary" onClick={() => window.go(7)}>Get a Free AI Audit</button>
-            <button className="btn-ghost-w" onClick={() => window.go(1)}>How It Works</button>
           </div>
           <div className="hero-bottom">
             <div className="trust-badge">
@@ -34,7 +33,7 @@ export default function Hero() {
                 <div className="tb-sub">to David →</div>
               </div>
             </button>
-            <div className="trust-badge">
+            <div className="trust-badge trust-badge--turnaround">
               <div className="tb-icon">⚡</div>
               <div className="tb-text">
                 <div className="tb-main">Fast Turnaround</div>
