@@ -309,7 +309,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   height:100%;display:flex;flex-direction:column;
   padding:88px 8vw 40px;
 }
-.funnel-header{margin-bottom:-29px}
+.funnel-header{margin-bottom:-48px}
 .funnel-header .panel-eyebrow{margin-bottom:28px}
 .funnel-header .panel-h2{color:#fff;margin-top:35px;margin-bottom:12px;text-align:center}
 .funnel-header .panel-sub{color:rgba(255,255,255,.55);max-width:780px;margin:0 auto;text-align:center}
@@ -532,7 +532,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   background:linear-gradient(120deg,var(--navy) 0%,#1e3a8a 100%);
   border-radius:14px;padding:20px 28px;
   display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;
-  margin-bottom:48px;position:relative;overflow:hidden;
+  margin-bottom:60px;position:relative;overflow:hidden;
 }
 .chatbot-solo::after{
   content:'';position:absolute;right:-60px;top:-60px;
@@ -563,7 +563,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 .cs-btn:hover{background:var(--blue-lt);transform:translateY(-1px)}
 
 /* 5-tier grid */
-.pricing-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:48px}
+.pricing-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:40px}
 .pr-card{
   background:var(--white);border:1px solid var(--border);
   border-radius:14px;padding:16px 14px 14px;
@@ -600,7 +600,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 .pr-addon-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:5px}
 .pr-addon-desc{font-size:12px;color:var(--muted);line-height:1.55}
 .pr-addon-price{font-size:15px;font-weight:800;color:var(--blue);white-space:nowrap;flex-shrink:0;margin-top:2px}
-.pr-addons-lbl{font-size:13px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;text-align:center;margin-top:40px}
+.pr-addons-lbl{font-size:13px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:var(--muted);margin-bottom:10px;text-align:center;margin-top:20px}
 /* screen-reader only */
 .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0}
 
@@ -1167,10 +1167,10 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 
   .pricing-header{margin-bottom:12px}
   .pricing-header .panel-h2{margin-bottom:20px;margin-top:12px}
-  .chatbot-solo{padding:14px 20px;margin-bottom:24px}
-  .pricing-grid{gap:8px;margin-bottom:24px}
+  .chatbot-solo{padding:14px 20px;margin-bottom:36px}
+  .pricing-grid{gap:8px;margin-bottom:20px}
   .pr-card{padding:12px 10px 10px}
-  .pr-addons-lbl{margin-top:35px}
+  .pr-addons-lbl{margin-top:16px}
   .pr-addons-grid{gap:8px}
   .pr-addon-card{padding:14px 16px}
 
@@ -1224,10 +1224,10 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   .svc-cat{padding:6px 8px}
 
   .pricing-header .panel-h2{margin-bottom:12px;margin-top:20px}
-  .chatbot-solo{padding:10px 16px;margin-bottom:16px}
-  .pricing-grid{gap:6px;margin-bottom:16px}
+  .chatbot-solo{padding:10px 16px;margin-bottom:24px}
+  .pricing-grid{gap:6px;margin-bottom:14px}
   .pr-card{padding:10px 8px 8px}
-  .pr-addons-lbl{margin-top:27px}
+  .pr-addons-lbl{margin-top:10px}
 
   .hero-h1{font-size:clamp(48px,6vw,82px)}
   .hero-sub{font-size:17px;margin-top:22px;margin-bottom:28px}
