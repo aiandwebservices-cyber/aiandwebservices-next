@@ -170,7 +170,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   text-transform:uppercase;color:#60A5FA;
   margin-bottom:14px;
 }
-.hero-sub{font-size:17px;color:rgba(255,255,255,.5);line-height:1.8;max-width:480px;margin-top:0;margin-bottom:28px;font-weight:400}
+.hero-sub{font-size:17px;color:rgba(255,255,255,.5);line-height:1.8;max-width:480px;margin-top:22px;margin-bottom:28px;font-weight:400}
 .hero-sub strong{color:rgba(255,255,255,.8);font-weight:600}
 .hero-btns{display:flex;justify-content:center;align-items:center;margin-bottom:4px;margin-top:-12px;max-width:480px}
 .btn-primary{
@@ -1022,7 +1022,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   .hero-left .hero-btns{flex:0 0 auto}
   .hero-left .hero-bottom{margin-top:auto;padding-bottom:8px}
   .hero-h1{font-size:clamp(50px,11vw,68px);line-height:1.1;margin-bottom:2px}
-  .hero-sub{font-size:16px;margin-top:10px;margin-bottom:14px;line-height:1.7}
+  .hero-sub{font-size:16px;margin-top:0;margin-bottom:14px;line-height:1.7}
   .hero-btns{flex-direction:column;gap:10px;max-width:100%;margin-bottom:0;margin-top:-18px}
   .hero-btns .btn-primary,.hero-btns .btn-ghost-w{width:100%;justify-content:center;text-align:center;font-size:16px;padding:14px 20px}
   .hero-right{flex:none;width:100%;padding:28px 5vw 40px}
