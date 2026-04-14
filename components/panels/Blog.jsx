@@ -9,7 +9,7 @@ export default function Blog() {
         <div className="blog-header">
           <div className="panel-eyebrow">Blog</div>
           <h2 className="panel-h2">AI &amp; growth tips for small businesses</h2>
-          <p className="panel-sub">Plain-English guides on AI automation, SEO, and web strategy — written for business owners, not developers.</p>
+          <p className="panel-sub">Easy to understand guides on AI automation, SEO, and web strategy — written for business owners, not developers.</p>
         </div>
         <div className="blog-grid">
           {posts.map((post) => (
