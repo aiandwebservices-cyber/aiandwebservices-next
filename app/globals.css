@@ -744,7 +744,6 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   grid-column:1/-1;
   display:flex;flex-wrap:wrap;justify-content:center;gap:24px 40px;
   padding-top:16px;padding-bottom:8px;
-  border-top:1px solid rgba(255,255,255,.08);
 }
 .contact-left .panel-h2{color:#fff}
 .contact-left .panel-sub{color:rgba(255,255,255,.45)}

@@ -136,7 +136,7 @@ export default function Contact() {
             <span style={{color:'#60A5FA',fontWeight:500}}>(315) 572-0710</span>
           </a>
           <a href="https://t.me/aiandwebservices" target="_blank" rel="noopener noreferrer" className="ci-row" style={{textDecoration:'none'}} aria-label="@aiandwebservices on Telegram (opens in new tab)">
-            <div className="ci-icon">✈️</div>
+            <div className="ci-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.19 13.668l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.957.891z" fill="#29B6F6"/></svg></div>
             <span style={{color:'#60A5FA',fontWeight:500}}>@aiandwebservices</span>
           </a>
           <div className="ci-row">
