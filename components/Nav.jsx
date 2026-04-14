@@ -36,7 +36,7 @@ export default function Nav() {
             <LogoInner />
           </button>
         )}
-        <div className="nav-center" role="menubar" aria-label="Site sections">
+        {currentPanel !== 7 && <div className="nav-center" role="menubar" aria-label="Site sections">
           <button className="nav-pill active" onClick={() => go(0)} role="menuitem" aria-current="true">Home</button>
           <button className="nav-pill" onClick={() => go(1)} role="menuitem">How It Works</button>
           <button className="nav-pill" onClick={() => go(2)} role="menuitem">Services</button>
@@ -45,10 +45,10 @@ export default function Nav() {
           <button className="nav-pill" onClick={() => go(5)} role="menuitem">FAQ</button>
           <button className="nav-pill" onClick={() => go(6)} role="menuitem">Blog</button>
           <button className="nav-pill" onClick={() => go(7)} role="menuitem">Contact</button>
-        </div>
+        </div>}
         <div className="nav-right">
-          <button className="nav-book" onClick={() => go(7)} aria-label="Book a call with David">Book a Call</button>
-          <button className="nav-cta" id="nav-cta-desktop" onClick={() => go(7)} aria-label="Get a free AI audit">Get Your Free Audit</button>
+          {currentPanel !== 7 && <><button className="nav-book" onClick={() => go(7)} aria-label="Book a call with David">Book a Call</button>
+          <button className="nav-cta" id="nav-cta-desktop" onClick={() => go(7)} aria-label="Get a free AI audit">Get Your Free Audit</button></>}
           <button id="hamburger" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open navigation menu"
             onClick={() => window.toggleMenu && window.toggleMenu()}>
             <span className="hb-line" aria-hidden="true"></span>
