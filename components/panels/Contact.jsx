@@ -49,17 +49,23 @@ export default function Contact() {
 
         {/* ── LEFT: Tally Form ── */}
         <div className="contact-left">
-          <div className="contact-form" style={{padding:'0',overflow:'hidden'}}>
+          <div className="contact-form">
+            <div style={{marginBottom:'16px'}}>
+              <div style={{fontSize:'15px',fontWeight:'700',color:'#fff',marginBottom:'4px'}}>Send a Message</div>
+              <div style={{fontSize:'12px',color:'rgba(255,255,255,.45)'}}>Takes 2 minutes. No credit card. No obligation.</div>
+            </div>
             <iframe
               data-tally-src="https://tally.so/embed/9qEV1Q?alignLeft=1&hideTitle=1&transparentBackground=1&dynamicHeight=1"
               loading="lazy"
               width="100%"
-              height="821"
+              height="760"
               frameBorder="0"
               marginHeight={0}
               marginWidth={0}
               title="Contact David Pulis — Get a Free AI Audit"
+              style={{display:'block'}}
             />
+            <p className="form-note" role="note">🔒 Your info is never shared or sold. Guaranteed response within 6 hours — usually within minutes.</p>
           </div>
         </div>
 
