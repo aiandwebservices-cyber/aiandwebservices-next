@@ -6,11 +6,12 @@
   </linearGradient>
 </defs>
 <rect width="180" height="180" rx="40" fill="#0D1B2E"/>
-<circle cx="90" cy="90" r="28" fill="url(#grad)"/>
-<circle cx="145" cy="52" r="18" fill="url(#grad)" opacity="0.7"/>
-<circle cx="145" cy="128" r="18" fill="url(#grad)" opacity="0.7"/>
-<circle cx="35" cy="128" r="14" fill="url(#grad)" opacity="0.5"/>
-<line x1="90" y1="90" x2="145" y2="52" stroke="#2AA5A0" stroke-width="3" opacity="0.5"/>
-<line x1="90" y1="90" x2="145" y2="128" stroke="#3B82F6" stroke-width="3" opacity="0.5"/>
-<line x1="90" y1="90" x2="35" y2="128" stroke="#2AA5A0" stroke-width="3" opacity="0.5"/>
+<!-- Exact logo symbol scaled 4x and centered -->
+<circle cx="90" cy="90" r="24" fill="url(#grad)"/>
+<circle cx="154" cy="54" r="18" fill="url(#grad)" opacity="0.7"/>
+<circle cx="154" cy="126" r="18" fill="url(#grad)" opacity="0.7"/>
+<circle cx="34" cy="126" r="14" fill="url(#grad)" opacity="0.5"/>
+<line x1="90" y1="90" x2="154" y2="54" stroke="#2AA5A0" stroke-width="4" opacity="0.5"/>
+<line x1="90" y1="90" x2="154" y2="126" stroke="#3B82F6" stroke-width="4" opacity="0.5"/>
+<line x1="90" y1="90" x2="34" y2="126" stroke="#2AA5A0" stroke-width="4" opacity="0.5"/>
 </svg>
