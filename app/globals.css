@@ -1177,6 +1177,10 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   .contact-steps{margin-bottom:12px}
   .contact-form{padding:20px 24px}
   .form-row{margin-bottom:12px}
+  .contact-info{gap:10px;margin-top:20px}
+  .ci-icon{width:34px;height:34px;min-width:34px;font-size:14px}
+  .ci-row{font-size:13px}
+  .contact-footer{padding-top:10px;padding-bottom:4px;gap:16px 28px}
 
   .hero-h1{font-size:clamp(48px,6vw,82px)}
   .hero-sub{font-size:17px;margin-top:22px;margin-bottom:28px}
@@ -1200,7 +1204,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   .funnel-inner{padding-top:36px;padding-bottom:16px}
   .pricing-inner{padding-top:36px;padding-bottom:4px}
   .about-inner{padding-top:36px;padding-bottom:24px}
-  .contact-inner{padding-top:36px;padding-bottom:24px}
+  .contact-inner{padding-top:36px;padding-bottom:8px;gap:0 32px}
   .faq-inner{padding-top:36px;padding-bottom:16px}
 
   .panel-h2{font-size:clamp(20px,2.2vw,28px);margin-top:12px}
@@ -1224,6 +1228,23 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   .hero-sub{font-size:17px;margin-top:22px;margin-bottom:28px}
   .hero-btns{margin-bottom:4px}
   .funnel-card{padding:10px 12px}
+
+  /* contact shrink */
+  .contact-steps{margin-bottom:8px;gap:6px 28px}
+  .contact-step-n{width:24px;height:24px;min-width:24px;font-size:11px}
+  .contact-step-title{font-size:12px}
+  .contact-step-desc{font-size:11px}
+  .contact-form{padding:14px 18px}
+  .form-row{margin-bottom:9px}
+  .form-row label{font-size:10px;margin-bottom:4px}
+  .form-row input,.form-row select,.form-row textarea{padding:8px 12px;font-size:13px}
+  .form-row textarea{min-height:60px}
+  .contact-info{gap:8px;margin-top:12px}
+  .ci-icon{width:30px;height:30px;min-width:30px;font-size:13px;border-radius:8px}
+  .ci-row{font-size:12px;gap:10px}
+  .contact-footer{padding-top:8px;padding-bottom:2px;gap:12px 20px;font-size:11px}
+  .calendly-wrap{padding:10px 14px!important}
+  .calendly-inline-widget{height:380px!important}
 }
 
 @media (min-width:769px) and (max-height:740px) {
@@ -1242,6 +1263,26 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   .blog-cta-box{padding:8px 14px}
   .blog-cta-text{font-size:11px}
   .blog-btn{padding:7px 16px;font-size:11px}
+
+  /* contact aggressive shrink */
+  .contact-inner{padding-top:28px;padding-bottom:4px;gap:0 24px}
+  .contact-header{margin-bottom:6px}
+  .contact-steps{margin-bottom:6px;gap:4px 20px}
+  .contact-step-n{width:20px;height:20px;min-width:20px;font-size:10px}
+  .contact-step-title{font-size:11px;margin-bottom:1px}
+  .contact-step-desc{font-size:10px;line-height:1.4}
+  .contact-form{padding:10px 14px;border-radius:14px}
+  .form-row{margin-bottom:7px}
+  .form-row label{font-size:9px;margin-bottom:3px}
+  .form-row input,.form-row select,.form-row textarea{padding:6px 10px;font-size:12px}
+  .form-row textarea{min-height:48px}
+  .form-row-2{gap:8px}
+  .contact-info{gap:6px;margin-top:8px}
+  .ci-icon{width:26px;height:26px;min-width:26px;font-size:12px;border-radius:6px}
+  .ci-row{font-size:11px;gap:8px}
+  .contact-footer{padding-top:6px;padding-bottom:0;gap:8px 16px;font-size:10px}
+  .calendly-wrap{padding:6px 10px!important}
+  .calendly-inline-widget{height:340px!important}
 }
 
 /* ── LARGE MONITOR: blog shifts ── */
