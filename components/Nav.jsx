@@ -36,11 +36,11 @@ export default function Nav() {
             <LogoInner />
           </button>
         )}
-        {currentPanel !== 7 && <div className="nav-center" role="menubar" aria-label="Site sections">
+        <div className="nav-center" role="menubar" aria-label="Site sections">
           {['Home','How It Works','Services','Pricing','About','FAQ','Blog','Contact'].map((label, i) => (
             <button key={i} className={`nav-pill${currentPanel === i ? ' active' : ''}`} onClick={() => go(i)} role="menuitem" aria-current={currentPanel === i ? 'true' : undefined}>{label}</button>
           ))}
-        </div>}
+        </div>
         <div className="nav-right">
           {currentPanel !== 7 && <><button className="nav-book" onClick={() => go(7)} aria-label="Book a call with David">Book a Call</button>
           <button className="nav-cta" id="nav-cta-desktop" onClick={() => go(7)} aria-label="Get a free AI audit">Get Your Free Audit</button></>}
