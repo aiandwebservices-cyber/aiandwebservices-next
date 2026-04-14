@@ -7,24 +7,26 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata({ params }) {
-  const post = getPostBySlug(params.slug);
+  const { slug } = await params;
+  const post = getPostBySlug(slug);
   if (!post) return {};
   return {
     title: `${post.title} | AIandWEBservices Blog`,
     description: post.desc,
-    alternates: { canonical: `https://www.aiandwebservices.com/blog/${post.slug}` },
+    alternates: { canonical: `https://www.aiandwebservices.com/blog/${slug}` },
     openGraph: {
       title: post.title,
       description: post.desc,
-      url: `https://www.aiandwebservices.com/blog/${post.slug}`,
+      url: `https://www.aiandwebservices.com/blog/${slug}`,
       siteName: 'AIandWEBservices',
       type: 'article',
     },
   };
 }
 
-export default function BlogPost({ params }) {
-  const post = getPostBySlug(params.slug);
+export default async function BlogPost({ params }) {
+  const { slug } = await params;
+  const post = getPostBySlug(slug);
   if (!post) notFound();
 
   const paragraphs = post.content.split('\n\n');

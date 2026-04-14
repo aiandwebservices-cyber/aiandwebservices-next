@@ -37,14 +37,9 @@ export default function Nav() {
           </button>
         )}
         {currentPanel !== 7 && <div className="nav-center" role="menubar" aria-label="Site sections">
-          <button className="nav-pill active" onClick={() => go(0)} role="menuitem" aria-current="true">Home</button>
-          <button className="nav-pill" onClick={() => go(1)} role="menuitem">How It Works</button>
-          <button className="nav-pill" onClick={() => go(2)} role="menuitem">Services</button>
-          <button className="nav-pill" onClick={() => go(3)} role="menuitem">Pricing</button>
-          <button className="nav-pill" onClick={() => go(4)} role="menuitem">About</button>
-          <button className="nav-pill" onClick={() => go(5)} role="menuitem">FAQ</button>
-          <button className="nav-pill" onClick={() => go(6)} role="menuitem">Blog</button>
-          <button className="nav-pill" onClick={() => go(7)} role="menuitem">Contact</button>
+          {['Home','How It Works','Services','Pricing','About','FAQ','Blog','Contact'].map((label, i) => (
+            <button key={i} className={`nav-pill${currentPanel === i ? ' active' : ''}`} onClick={() => go(i)} role="menuitem" aria-current={currentPanel === i ? 'true' : undefined}>{label}</button>
+          ))}
         </div>}
         <div className="nav-right">
           {currentPanel !== 7 && <><button className="nav-book" onClick={() => go(7)} aria-label="Book a call with David">Book a Call</button>
@@ -59,14 +54,9 @@ export default function Nav() {
       </nav>
 
       <div id="mobile-menu" role="dialog" aria-label="Navigation menu" aria-modal="false">
-        <button className="mob-link active" onClick={() => mGo(0)}>Home</button>
-        <button className="mob-link" onClick={() => mGo(1)}>How It Works</button>
-        <button className="mob-link" onClick={() => mGo(2)}>Services</button>
-        <button className="mob-link" onClick={() => mGo(3)}>Pricing</button>
-        <button className="mob-link" onClick={() => mGo(4)}>About</button>
-        <button className="mob-link" onClick={() => mGo(5)}>FAQ</button>
-        <button className="mob-link" onClick={() => mGo(6)}>Blog</button>
-        <button className="mob-link" onClick={() => mGo(7)}>Contact</button>
+        {['Home','How It Works','Services','Pricing','About','FAQ','Blog','Contact'].map((label, i) => (
+          <button key={i} className={`mob-link${currentPanel === i ? ' active' : ''}`} onClick={() => mGo(i)}>{label}</button>
+        ))}
         <button className="mob-book" onClick={() => mGo(7)}>Book a Call</button>
         <button className="mob-cta" onClick={() => mGo(7)}>Get Your Free Audit</button>
       </div>
@@ -76,9 +66,9 @@ export default function Nav() {
 
       <div id="dots" role="tablist" aria-label="Navigate to section">
         {['Home','How It Works','Services','Pricing','About','FAQ','Blog','Contact'].map((label, i) => (
-          <button key={i} className={`dot${i === 0 ? ' on' : ''}`}
+          <button key={i} className={`dot${i === currentPanel ? ' on' : ''}`}
             onClick={() => go(i)}
-            aria-label={`Go to ${label}`} aria-selected={i === 0 ? 'true' : 'false'} role="tab">
+            aria-label={`Go to ${label}`} aria-selected={i === currentPanel ? 'true' : 'false'} role="tab">
           </button>
         ))}
       </div>

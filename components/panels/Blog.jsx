@@ -12,7 +12,7 @@ export default function Blog() {
         </div>
         <div className="blog-grid">
           {posts.map((post) => (
-            <div key={post.title} className="blog-card">
+            <div key={post.title} className={`blog-card${post.source === 'AIandWEBservices' ? ' blog-card--ours' : ''}`}>
               <div className="blog-card-img" aria-hidden="true">{post.emoji}</div>
               <div className="blog-card-body">
                 <div className="blog-card-tag">{post.tag}</div>
