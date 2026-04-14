@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { posts } from '@/lib/posts';
 
 export default function Blog() {
@@ -13,7 +14,11 @@ export default function Blog() {
         <div className="blog-grid">
           {posts.map((post) => (
             <div key={post.title} className={`blog-card${post.source === 'AIandWEBservices' ? ' blog-card--ours' : ''}`}>
-              <div className="blog-card-img" aria-hidden="true">{post.emoji}</div>
+              <div className="blog-card-img" aria-hidden="true">
+                {post.source === 'AIandWEBservices'
+                  ? <Image src="/icon-with-text.svg" alt="AIandWEBservices" width={180} height={180} style={{objectFit:'contain',height:'100%',width:'auto'}} />
+                  : post.emoji}
+              </div>
               <div className="blog-card-body">
                 <div className="blog-card-tag">{post.tag}</div>
                 <div className="blog-card-title">{post.title}</div>
