@@ -71,8 +71,8 @@ export default function Contact() {
                   <input type="text" id="first_name" name="first_name" placeholder="Jane" required aria-required="true" autoComplete="given-name"/>
                 </div>
                 <div className="form-row">
-                  <label htmlFor="last_name">Last Name <span aria-hidden="true" style={{color:'#f87171'}}>*</span></label>
-                  <input type="text" id="last_name" name="last_name" placeholder="Smith" required aria-required="true" autoComplete="family-name"/>
+                  <label htmlFor="last_name">Last Name</label>
+                  <input type="text" id="last_name" name="last_name" placeholder="Smith" autoComplete="family-name"/>
                 </div>
               </div>
               <div className="form-row">
