@@ -91,7 +91,7 @@ export function useHorizontalScroll() {
       curRef.current = cur;
       const panel = document.getElementById(panelIds[n]);
       if (panel) {
-        const offset = panel.getBoundingClientRect().top + window.scrollY - 64;
+        const offset = Math.round(panel.getBoundingClientRect().top + window.scrollY) - 60;
         window.scrollTo({ top: offset, behavior: 'smooth' });
       }
       closeMenu();
