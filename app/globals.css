@@ -95,6 +95,9 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 #nav.light .nav-book:hover{color:var(--text);background:var(--off2)}
 .nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
 @media(max-width:1200px){.nav-book{display:none}}
+@media(max-width:1100px){.nav-pill{font-size:10px;padding:5px 10px;gap:4px}}
+@media(max-width:980px){.nav-pill{font-size:9px;padding:5px 8px}}
+@media(max-width:900px){.nav-cta{display:none}}
 
 /* ── BOTTOM NAV DOTS ── */
 #dots{display:none!important}
@@ -719,56 +722,56 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   height:100%;display:grid;
   grid-template-columns:minmax(0,480px) minmax(0,480px);
   grid-template-rows:auto auto 1fr auto;
-  padding:88px 6vw clamp(4px,1.5vh,40px);gap:0 clamp(16px,3vw,48px);align-items:stretch;justify-content:center;
+  padding:88px 6vw 24px;gap:0 48px;align-items:stretch;justify-content:center;
 }
 .contact-header{
-  grid-column:1/-1;margin-bottom:clamp(4px,1vh,16px);
+  grid-column:1/-1;margin-bottom:14px;
 }
 .contact-steps{
   grid-column:1/-1;
-  display:grid;grid-template-columns:1fr 1fr;gap:clamp(4px,.6vh,10px) 40px;
-  margin-bottom:clamp(4px,.8vh,20px);
+  display:grid;grid-template-columns:1fr 1fr;gap:8px 40px;
+  margin-bottom:16px;
 }
 .contact-step{display:flex;align-items:flex-start;gap:12px}
 .contact-step-n{
-  width:clamp(20px,2.4vh,28px);height:clamp(20px,2.4vh,28px);min-width:clamp(20px,2.4vh,28px);border-radius:50%;
+  width:28px;height:28px;min-width:28px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
-  font-weight:800;color:#fff;font-size:clamp(9px,1vh,12px);flex-shrink:0;
+  font-weight:800;color:#fff;font-size:12px;flex-shrink:0;
   box-shadow:0 0 0 4px rgba(255,255,255,.04);
 }
 .csn-1{background:var(--blue)}
 .csn-2{background:var(--emerald)}
 .csn-3{background:var(--violet)}
 .csn-4{background:var(--am-lt)}
-.contact-step-title{font-size:clamp(10px,1.1vh,13px);font-weight:700;color:#fff;margin-bottom:clamp(1px,.2vh,2px)}
-.contact-step-desc{font-size:clamp(9px,1vh,12px);color:rgba(255,255,255,.5);line-height:1.4}
+.contact-step-title{font-size:13px;font-weight:700;color:#fff;margin-bottom:2px}
+.contact-step-desc{font-size:12px;color:rgba(255,255,255,.5);line-height:1.5}
 .contact-footer{
   grid-column:1/-1;
-  display:flex;flex-wrap:wrap;justify-content:center;gap:clamp(3px,.5vh,24px) clamp(10px,2vw,40px);
-  padding-top:clamp(3px,.6vh,16px);padding-bottom:clamp(2px,.4vh,8px);
+  display:flex;flex-wrap:wrap;justify-content:center;gap:8px 28px;
+  padding-top:10px;padding-bottom:4px;
 }
 .contact-footer>*:last-child{flex-basis:100%;justify-content:center}
 .contact-left .panel-h2{color:#fff}
 .contact-left .panel-sub{color:rgba(255,255,255,.45)}
 .contact-info{display:flex;flex-direction:column;gap:16px;margin-top:36px}
 .ci-row{
-  display:flex;align-items:center;gap:clamp(5px,.8vh,14px);
-  font-size:clamp(10px,1.1vh,14px);color:rgba(255,255,255,.6);
+  display:flex;align-items:center;gap:12px;
+  font-size:13px;color:rgba(255,255,255,.6);
 }
 .ci-icon{
-  width:clamp(22px,2.8vh,40px);height:clamp(22px,2.8vh,40px);min-width:clamp(22px,2.8vh,40px);border-radius:10px;
+  width:36px;height:36px;min-width:36px;border-radius:10px;
   background:rgba(37,99,235,.2);border:1px solid rgba(37,99,235,.3);
-  display:flex;align-items:center;justify-content:center;font-size:clamp(12px,1.4vh,16px);
+  display:flex;align-items:center;justify-content:center;font-size:16px;
 }
 .ci-row a{color:#60A5FA;font-weight:500}
 .ci-row a:hover{text-decoration:underline}
 .contact-form{
   background:rgba(255,255,255,.04);
   border:1px solid rgba(255,255,255,.08);
-  border-radius:20px;padding:clamp(10px,1.8vh,28px) clamp(12px,2.4vw,32px);
+  border-radius:20px;padding:20px 28px;
   backdrop-filter:blur(12px);
 }
-.form-row{margin-bottom:clamp(6px,1vh,18px)}
+.form-row{margin-bottom:14px}
 .form-row label{
   display:block;font-size:11px;font-weight:700;
   letter-spacing:.8px;text-transform:uppercase;
@@ -776,10 +779,10 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   touch-action:auto;cursor:pointer;
 }
 .form-row input,.form-row textarea,.form-row select{
-  width:100%;padding:clamp(5px,.8vh,12px) 16px;
+  width:100%;padding:10px 14px;
   background:rgba(255,255,255,.06);
   border:1px solid rgba(255,255,255,.1);
-  border-radius:10px;color:#fff;font-size:clamp(12px,1.3vh,16px);
+  border-radius:10px;color:#fff;font-size:14px;
   font-family:'Inter',sans-serif;
   transition:all .2s;outline:none;
   touch-action:auto;-webkit-user-select:text;user-select:text;
@@ -819,8 +822,8 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   box-shadow:0 4px 16px rgba(42,165,160,.35);
 }
 .ctab:not(.ctab-active):hover{color:#fff;background:rgba(255,255,255,.07)}
-.calendly-wrap{padding:clamp(6px,1.5vh,20px) clamp(10px,1.8vw,24px)!important;height:100%;box-sizing:border-box;display:flex;flex-direction:column}
-.calendly-inline-widget{height:clamp(240px,28vh,520px)!important;min-height:0!important}
+.calendly-wrap{padding:16px 20px!important;height:100%;box-sizing:border-box;display:flex;flex-direction:column}
+.calendly-inline-widget{height:580px!important;min-height:0!important;flex:1}
 .calendly-inline-widget iframe{border-radius:12px}
 
 .form-note{
@@ -1148,6 +1151,8 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   .contact-steps{margin-bottom:10px}
   .contact-form{padding:16px 20px}
   .form-row{margin-bottom:10px}
+  .calendly-wrap{padding:12px 16px!important}
+  .calendly-inline-widget{height:480px!important}
   .faq-inner{padding-top:52px;padding-bottom:32px}
 
   .panel-h2{font-size:clamp(22px,2.4vw,34px);margin-top:20px;margin-bottom:6px}
@@ -1248,6 +1253,8 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   .ci-icon{width:26px;height:26px;min-width:26px;font-size:12px;border-radius:7px}
   .ci-row{font-size:11px;gap:7px}
   .contact-footer{padding-top:6px;padding-bottom:0;gap:5px 14px;font-size:11px}
+  .calendly-wrap{padding:8px 12px!important}
+  .calendly-inline-widget{height:360px!important}
 }
 
 @media (min-width:769px) and (max-height:740px) {
@@ -1284,6 +1291,8 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   .ci-icon{width:22px;height:22px;min-width:22px;font-size:10px;border-radius:5px}
   .ci-row{font-size:10px;gap:5px}
   .contact-footer{padding-top:3px;padding-bottom:0;gap:3px 10px;font-size:10px}
+  .calendly-wrap{padding:6px 10px!important}
+  .calendly-inline-widget{height:300px!important}
 }
 
 /* ── LARGE MONITOR: blog shifts ── */
