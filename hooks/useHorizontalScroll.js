@@ -140,6 +140,10 @@ export function useHorizontalScroll() {
     let wheelBuf = 0, wheelTimer = null;
     const handleWheel = (e) => {
       if (isMobile()) return;
+      // Don't hijack scroll when Crisp chat is open
+      if (window.$crisp && window.$crisp.is && window.$crisp.is('chat:opened')) return;
+      const crispBox = document.getElementById('crisp-chatbox');
+      if (crispBox && crispBox.contains(e.target)) return;
 
       // If current panel overflows vertically, let it scroll until the boundary
       const panelEl = document.getElementById(panelIds[cur]);
