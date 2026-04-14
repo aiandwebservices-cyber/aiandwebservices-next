@@ -747,6 +747,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   display:flex;flex-wrap:wrap;justify-content:center;gap:24px 40px;
   padding-top:16px;padding-bottom:8px;
 }
+.contact-footer>*:last-child{flex-basis:100%;justify-content:center}
 .contact-left .panel-h2{color:#fff}
 .contact-left .panel-sub{color:rgba(255,255,255,.45)}
 .contact-info{display:flex;flex-direction:column;gap:16px;margin-top:36px}
@@ -1240,11 +1241,11 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   .form-row input,.form-row select,.form-row textarea{padding:8px 12px;font-size:13px}
   .form-row textarea{min-height:60px}
   .contact-info{gap:8px;margin-top:12px}
-  .ci-icon{width:30px;height:30px;min-width:30px;font-size:13px;border-radius:8px}
-  .ci-row{font-size:12px;gap:10px}
-  .contact-footer{padding-top:8px;padding-bottom:2px;gap:12px 20px;font-size:11px}
-  .calendly-wrap{padding:10px 14px!important}
-  .calendly-inline-widget{height:380px!important}
+  .ci-icon{width:28px;height:28px;min-width:28px;font-size:13px;border-radius:8px}
+  .ci-row{font-size:12px;gap:8px}
+  .contact-footer{padding-top:8px;padding-bottom:2px;gap:6px 18px;font-size:11px}
+  .calendly-wrap{padding:8px 12px!important}
+  .calendly-inline-widget{height:360px!important;min-height:360px!important}
 }
 
 @media (min-width:769px) and (max-height:740px) {
@@ -1278,11 +1279,11 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   .form-row textarea{min-height:48px}
   .form-row-2{gap:8px}
   .contact-info{gap:6px;margin-top:8px}
-  .ci-icon{width:26px;height:26px;min-width:26px;font-size:12px;border-radius:6px}
-  .ci-row{font-size:11px;gap:8px}
-  .contact-footer{padding-top:6px;padding-bottom:0;gap:8px 16px;font-size:10px}
-  .calendly-wrap{padding:6px 10px!important}
-  .calendly-inline-widget{height:340px!important}
+  .ci-icon{width:24px;height:24px;min-width:24px;font-size:11px;border-radius:6px}
+  .ci-row{font-size:10px;gap:6px}
+  .contact-footer{padding-top:4px;padding-bottom:0;gap:4px 14px;font-size:10px}
+  .calendly-wrap{padding:4px 8px!important}
+  .calendly-inline-widget{height:310px!important;min-height:310px!important}
 }
 
 /* ── LARGE MONITOR: blog shifts ── */
