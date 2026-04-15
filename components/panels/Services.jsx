@@ -1,77 +1,137 @@
+'use client';
+import { Bot, Globe, TrendingUp, Zap, Brain, Target } from 'lucide-react';
+
+const CARDS = [
+  {
+    id: 'service-ai-starter',
+    Icon: Bot,
+    name: 'AI Automation Starter',
+    outcome: 'Your first AI system — handling leads while you sleep',
+    highlights: [
+      'Custom AI chatbot trained on your business',
+      'Calendar booking + CRM integration',
+      'FAQ handling + lead qualification',
+      'Monthly updates & monitoring',
+    ],
+    perfectFor: 'Service businesses losing leads to voicemail and email delays',
+    price: '$997 setup + $97/mo',
+    pricingAnchor: '#pricing-ai-starter',
+  },
+  {
+    id: 'service-presence',
+    Icon: Globe,
+    name: 'Presence',
+    outcome: 'Get found online — the foundation every business needs',
+    highlights: [
+      'Professional 5-page website',
+      'Local SEO + Google Business Profile',
+      'Basic AI inquiry assistant',
+      'Monthly performance reports',
+    ],
+    perfectFor: 'New businesses that need a professional online foundation',
+    price: '$297/mo + $997 setup',
+    pricingAnchor: '#pricing-presence',
+  },
+  {
+    id: 'service-growth',
+    Icon: TrendingUp,
+    name: 'Growth',
+    outcome: 'Turn visitors into leads automatically',
+    highlights: [
+      'Everything in Presence, plus:',
+      'Full AI automation + email marketing',
+      'SEO content (2 articles/month)',
+      'Conversion-optimized landing pages',
+    ],
+    perfectFor: 'Established businesses ready for consistent lead generation',
+    price: '$597/mo + $2,497 setup',
+    pricingAnchor: '#pricing-growth',
+  },
+  {
+    id: 'service-revenue-engine',
+    Icon: Zap,
+    name: 'Revenue Engine',
+    outcome: 'Automate your entire sales process',
+    highlights: [
+      'Everything in Growth, plus:',
+      'Full sales funnel + workflow automation',
+      'Paid ads setup (Google or Meta)',
+      'Monthly strategy calls with David',
+    ],
+    perfectFor: 'Businesses scaling revenue without scaling headcount',
+    price: '$997/mo + $3,997 setup',
+    pricingAnchor: '#pricing-revenue-engine',
+  },
+  {
+    id: 'service-ai-first',
+    Icon: Brain,
+    name: 'AI-First',
+    outcome: 'Run a bigger business with the same team',
+    highlights: [
+      'Everything in Revenue Engine, plus:',
+      'Voice AI (answering + booking)',
+      'Programmatic SEO at scale',
+      'Social media AI scheduling + full analytics dashboard',
+    ],
+    perfectFor: 'Owners replacing manual work with advanced AI systems',
+    price: '$1,497/mo + $5,497 setup',
+    pricingAnchor: '#pricing-ai-first',
+  },
+  {
+    id: 'service-consulting',
+    Icon: Target,
+    name: 'Consulting & Strategy',
+    outcome: 'Know exactly where to start before you spend',
+    highlights: [
+      'AI readiness audit + transformation roadmap',
+      'Tool stack recommendations',
+      'Staff AI training & workshops',
+      'Optional fractional AI advisor (ongoing)',
+    ],
+    perfectFor: 'Businesses wanting expert guidance before committing to a build',
+    price: '$497 once or $1,497/mo fractional',
+    pricingAnchor: '#pricing-consulting',
+  },
+];
+
 export default function Services() {
   return (
-    <section className="panel" id="p1">
+    <section className="panel" id="services">
       <div className="svc-panel">
         <div className="panel-eyebrow">Services</div>
-        <h2 className="panel-h2" style={{marginBottom:'6px'}}>Pick one. Or let us connect all six.</h2>
-        <p className="panel-sub" style={{marginBottom:'16px'}}>Each service works standalone — but they&apos;re designed to feed each other. Most clients start with one and expand as they see results.</p>
-        <div className="svc-cols">
-          <div className="svc-cat cat-ai" aria-label="AI automation systems and chatbot development services">
-            <div className="cat-header"><div className="cat-icon">🤖</div><div><div className="cat-name">AI &amp; Automation</div><div className="cat-outcome">Stop answering the same questions manually</div></div></div>
-            <ul className="cat-list">
-              <li>AI agents &amp; custom chatbots</li>
-              <li>Voice AI (answering, booking)</li>
-              <li>Workflow automation (Zapier/Make)</li>
-              <li>AI-powered CRM (HubSpot, Salesforce)</li>
-              <li>Content generation pipelines</li>
-              <li>AI data dashboards &amp; reporting</li>
-            </ul>
-          </div>
-          <div className="svc-cat cat-web" aria-label="Web development and website design services">
-            <div className="cat-header"><div className="cat-icon">🌐</div><div><div className="cat-name">Web Development</div><div className="cat-outcome">A site that ranks, loads fast, and converts</div></div></div>
-            <ul className="cat-list">
-              <li>Web app / SaaS MVP development</li>
-              <li>E-commerce (Shopify, WooCommerce)</li>
-              <li>Landing page optimization (CRO)</li>
-              <li>Speed &amp; performance optimization</li>
-              <li>Maintenance &amp; hosting management</li>
-              <li>Accessibility compliance (WCAG)</li>
-            </ul>
-          </div>
-          <div className="svc-cat cat-seo" aria-label="SEO and content marketing services">
-            <div className="cat-header"><div className="cat-icon">📈</div><div><div className="cat-name">SEO &amp; Content</div><div className="cat-outcome">Show up when your customers search for you</div></div></div>
-            <ul className="cat-list">
-              <li>Technical SEO audits</li>
-              <li>Local SEO &amp; Google Business Profile</li>
-              <li>AI-assisted content strategy</li>
-              <li>Programmatic SEO at scale</li>
-              <li>YouTube &amp; video SEO</li>
-              <li>Link building &amp; digital PR</li>
-            </ul>
-          </div>
-          <div className="svc-cat cat-mkt" aria-label="Marketing automation and lead generation services">
-            <div className="cat-header"><div className="cat-icon">🎯</div><div><div className="cat-name">Marketing &amp; Lead Gen</div><div className="cat-outcome">Turn strangers into paying customers automatically</div></div></div>
-            <ul className="cat-list">
-              <li>Email marketing automation</li>
-              <li>Sales funnel design &amp; build</li>
-              <li>Paid ads (Google, Meta)</li>
-              <li>Social media AI scheduling</li>
-              <li>Analytics setup (GA4, heatmaps)</li>
-              <li>Attribution &amp; conversion tracking</li>
-            </ul>
-          </div>
-          <div className="svc-cat cat-cs" aria-label="AI consulting and digital strategy services">
-            <div className="cat-header"><div className="cat-icon">🧠</div><div><div className="cat-name">Consulting &amp; Strategy</div><div className="cat-outcome">Know exactly where AI fits before you spend a dollar</div></div></div>
-            <ul className="cat-list">
-              <li>AI readiness audits</li>
-              <li>Digital transformation consulting</li>
-              <li>AI tool stack recommendations</li>
-              <li>Staff AI training &amp; workshops</li>
-              <li>Full-funnel growth planning</li>
-              <li>Fractional AI advisor (ongoing)</li>
-            </ul>
-          </div>
-          <div className="svc-cat cat-crypto" style={{borderColor:'rgba(37,99,235,.12)'}} aria-label="Crypto payment gateway integration services">
-            <div className="cat-header"><div className="cat-icon">💳</div><div><div className="cat-name">Crypto Payments</div><div className="cat-outcome">Accept crypto without the technical headache</div></div></div>
-            <ul className="cat-list">
-              <li>Crypto payment gateway integration</li>
-              <li>Multi-chain wallet support</li>
-              <li>Stablecoin checkout flows</li>
-              <li>On/off ramp implementation</li>
-              <li>NFT gating &amp; token access</li>
-              <li>Payment analytics &amp; reconciliation</li>
-            </ul>
-          </div>
+        <h2 className="panel-h2" style={{ marginBottom: '8px' }}>
+          Everything you need to get found, get leads, and get paid.
+        </h2>
+        <p className="panel-sub" style={{ marginBottom: '40px' }}>
+          Each tier is a complete system — not a menu of disconnected services. Start where it makes sense and scale when you&apos;re ready.
+        </p>
+
+        <div className="svc-tier-grid">
+          {CARDS.map(({ id, Icon, name, outcome, highlights, perfectFor, price, pricingAnchor }) => (
+            <div key={id} id={id} className="svc-tier-card" style={{ scrollMarginTop: '100px' }}>
+              <div className="svc-tier-top">
+                <div className="svc-tier-icon">
+                  <Icon size={30} color="#00D9FF" strokeWidth={1.75} />
+                </div>
+                <h3 className="svc-tier-name">{name}</h3>
+                <p className="svc-tier-outcome">{outcome}</p>
+                <ul className="svc-tier-list">
+                  {highlights.map((h, i) => <li key={i}>{h}</li>)}
+                </ul>
+                <p className="svc-tier-perfect"><em>Perfect for: {perfectFor}</em></p>
+                <p className="svc-tier-price">{price}</p>
+              </div>
+              <div className="svc-tier-ctas">
+                <a href={pricingAnchor} className="btn-ghost-w svc-tier-btn-ghost">See Pricing ↓</a>
+                <a href="#contact" className="btn-primary svc-tier-btn-solid">Get Started</a>
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="svc-tier-bottom-cta">
+          <p><strong>Not sure which tier fits?</strong> The free audit is the easiest way to get a personalized recommendation.</p>
+          <a href="#contact" className="btn-primary" style={{ marginTop: '16px', display: 'inline-flex' }}>Get a Free Audit →</a>
         </div>
       </div>
     </section>

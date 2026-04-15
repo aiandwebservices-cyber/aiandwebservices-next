@@ -89,10 +89,12 @@ export default function Contact() {
                 <select id="service" name="service">
                   <option value="" disabled defaultValue="">Select a service...</option>
                   <option>AI Automation Starter</option>
-                  <option>Presence Package</option>
-                  <option>Growth Package</option>
-                  <option>Revenue Engine Package</option>
-                  <option>Consulting &amp; AI Strategy</option>
+                  <option>Presence</option>
+                  <option>Growth</option>
+                  <option>Revenue Engine</option>
+                  <option>AI-First</option>
+                  <option>Consulting &amp; Strategy</option>
+                  <option>Add-On Services</option>
                   <option>Custom / Let&apos;s Talk</option>
                   <option>Other</option>
                 </select>

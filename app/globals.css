@@ -584,6 +584,47 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 }
 .cs-btn:hover{background:var(--blue-lt);transform:translateY(-1px)}
 
+/* ── SERVICE TIER GRID ── */
+.svc-tier-grid{
+  display:grid;
+  grid-template-columns:1fr;
+  gap:24px;
+  width:100%;
+  align-items:stretch;
+}
+.svc-tier-card{
+  display:flex;flex-direction:column;
+  background:rgba(255,255,255,.04);
+  border:1.5px solid rgba(255,255,255,.08);
+  border-radius:16px;
+  padding:28px 24px 24px;
+  transition:transform .22s,box-shadow .22s,border-color .22s;
+  height:100%;
+}
+.svc-tier-card:hover{transform:translateY(-4px);box-shadow:0 16px 48px rgba(0,0,0,.18);border-color:rgba(0,217,255,.2)}
+.svc-tier-top{flex:1;display:flex;flex-direction:column}
+.svc-tier-icon{margin-bottom:14px}
+.svc-tier-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:800;color:#fff;margin:0 0 6px}
+.svc-tier-outcome{font-size:13px;color:rgba(255,255,255,.55);line-height:1.5;margin:0 0 14px;font-style:italic}
+.svc-tier-list{list-style:none;padding:0;margin:0 0 12px;display:flex;flex-direction:column;gap:6px}
+.svc-tier-list li{font-size:13px;color:rgba(255,255,255,.75);padding-left:16px;position:relative;line-height:1.45}
+.svc-tier-list li::before{content:'';position:absolute;left:0;top:7px;width:6px;height:6px;border-radius:50%;background:#00D9FF;flex-shrink:0}
+.svc-tier-perfect{font-size:12px;color:rgba(255,255,255,.4);margin:0 0 8px;line-height:1.5}
+.svc-tier-perfect em{font-style:italic}
+.svc-tier-price{font-size:12px;font-weight:700;color:rgba(255,255,255,.35);letter-spacing:.3px;margin:0 0 20px}
+.svc-tier-ctas{display:flex;flex-direction:column;gap:10px;margin-top:auto}
+.svc-tier-btn-ghost,.svc-tier-btn-solid{width:100%;justify-content:center;text-align:center;font-size:13px;padding:10px 18px}
+@media(min-width:640px){
+  .svc-tier-grid{grid-template-columns:repeat(2,1fr)}
+  .svc-tier-ctas{flex-direction:row}
+  .svc-tier-btn-ghost,.svc-tier-btn-solid{width:auto;flex:1}
+}
+@media(min-width:1024px){
+  .svc-tier-grid{grid-template-columns:repeat(3,1fr)}
+}
+.svc-tier-bottom-cta{text-align:center;margin-top:48px;color:rgba(255,255,255,.6);font-size:15px;line-height:1.7}
+.svc-tier-bottom-cta strong{color:#fff}
+
 /* 5-tier grid */
 .pricing-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:50px}
 .pr-card{
