@@ -4,12 +4,13 @@ import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 
 const SERVICE_LINKS = [
-  { label: 'AI Automation Starter', href: '/#service-ai-starter' },
-  { label: 'Presence',              href: '/#service-presence' },
-  { label: 'Growth',                href: '/#service-growth' },
-  { label: 'Revenue Engine',        href: '/#service-revenue-engine' },
-  { label: 'AI-First',              href: '/#service-ai-first' },
-  { label: 'Consulting & Strategy', href: '/#service-consulting' },
+  { label: 'AI Automation Starter', href: '/services/ai-automation-starter' },
+  { label: 'Presence',              href: '/services/presence' },
+  { label: 'Growth',                href: '/services/growth' },
+  { label: 'Revenue Engine',        href: '/services/revenue-engine' },
+  { label: 'AI-First',              href: '/services/ai-first' },
+  { label: 'Consulting & Strategy', href: '/services/consulting' },
+  { label: 'Add-On Services',       href: '/services/add-ons' },
 ];
 
 export default function Nav() {
