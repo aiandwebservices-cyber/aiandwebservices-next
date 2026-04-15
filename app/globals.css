@@ -25,6 +25,10 @@
 }
 html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(--white);color:var(--text)}
 @media(min-width:769px){html,body{overflow:hidden}}
+/* Smooth scrolling (active on mobile where page is a normal scroll document) */
+@media(max-width:768px){html{scroll-behavior:smooth}}
+/* Anchor offset — clear fixed navbar (64px) + buffer */
+[id^="service-"],[id^="pricing-"],#services,#pricing,#contact,#faq,#about{scroll-margin-top:100px}
 a{color:inherit;text-decoration:none}
 button{font-family:inherit;cursor:pointer;touch-action:manipulation}
 a{touch-action:manipulation}
@@ -113,6 +117,9 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   text-decoration:none;transition:all .15s;white-space:nowrap;
 }
 .nav-svc-item:hover{background:rgba(42,165,160,.15);color:#fff}
+.nav-svc-divider{height:1px;background:rgba(255,255,255,.1);margin:6px 8px}
+.nav-svc-item-compare{color:#2AA5A0;font-weight:600}
+.nav-svc-item-compare:hover{color:#fff}
 @media(max-width:1200px){.nav-book{display:none}}
 @media(max-width:1100px){.nav-pill{font-size:10px;padding:5px 10px;gap:4px}}
 @media(max-width:980px){.nav-pill{font-size:9px;padding:5px 8px}}
@@ -548,6 +555,12 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   border-radius:50px;padding:6px 14px;white-space:nowrap;
 }
 .no-contract::before{content:'✓';color:var(--emerald);font-weight:800}
+.pricing-crosslinks{font-size:12px;color:var(--muted);margin-top:10px;text-align:center}
+.pricing-crosslinks a{color:#2AA5A0;text-decoration:underline;text-underline-offset:2px}
+.pricing-toggle-link{background:none;border:none;cursor:pointer;font-size:13px;font-weight:600;color:rgba(255,255,255,.45);font-family:'Inter',sans-serif;padding:0;transition:color .15s}
+.pricing-toggle-link:hover{color:#2AA5A0}
+.pr-whats-included{display:block;font-size:11px;color:rgba(255,255,255,.45);text-decoration:none;margin-bottom:10px;transition:color .15s}
+.pr-whats-included:hover{color:#2AA5A0;text-decoration:underline}
 
 /* chatbot standalone */
 .chatbot-solo{
@@ -974,6 +987,12 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 }
 .mob-link:hover,.mob-link:focus-visible{background:var(--off2)}
 .mob-link.active{color:var(--blue);background:var(--blue-xlt)}
+.mob-svc-toggle{display:flex;justify-content:space-between;align-items:center}
+.mob-svc-caret{font-size:10px;opacity:.6}
+.mob-svc-sub{background:rgba(0,0,0,.15);border-left:2px solid rgba(42,165,160,.3);margin-left:16px}
+.mob-svc-item{display:block;padding:11px 16px;font-size:14px;font-weight:500;color:rgba(255,255,255,.6);text-decoration:none;transition:color .15s}
+.mob-svc-item:hover{color:#fff}
+.mob-svc-item-compare{color:#2AA5A0;font-weight:600}
 .mob-book{
   display:block;margin-top:12px;width:100%;padding:14px;
   color:var(--blue);background:transparent;
