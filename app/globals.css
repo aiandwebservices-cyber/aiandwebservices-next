@@ -150,9 +150,9 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   display:flex;align-items:center;justify-content:center;gap:8px;
   background:rgba(42,165,160,.15);border:1px solid rgba(42,165,160,.3);
   border-radius:50px;padding:6px 16px;
-  font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  font-size:13px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
   color:rgba(255,255,255,.75);margin-bottom:20px;
-  width:fit-content;margin-left:auto;margin-right:auto;
+  width:fit-content;margin-left:auto;margin-right:auto;text-align:center;
 }
 .edot{width:6px;height:6px;border-radius:50%;background:#2AA5A0;box-shadow:0 0 8px #2AA5A0;animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
@@ -751,6 +751,8 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   padding-top:10px;padding-bottom:4px;
 }
 .contact-footer>*:last-child{flex-basis:100%;justify-content:center}
+.contact-left{display:flex;flex-direction:column}
+.contact-left .contact-form{flex:1}
 .contact-left .panel-h2{color:#fff}
 .contact-left .panel-sub{color:rgba(255,255,255,.45)}
 .contact-info{display:flex;flex-direction:column;gap:16px;margin-top:36px}
@@ -823,7 +825,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 }
 .ctab:not(.ctab-active):hover{color:#fff;background:rgba(255,255,255,.07)}
 .calendly-wrap{padding:16px 20px!important;height:100%;box-sizing:border-box;display:flex;flex-direction:column;justify-content:flex-start;align-self:stretch}
-.calendly-inline-widget{height:460px!important;min-height:0!important;flex:1;margin-top:-10px}
+.calendly-inline-widget{height:460px!important;min-height:0!important;flex:1;margin-top:0}
 .calendly-inline-widget iframe{border-radius:12px}
 
 .form-note{
@@ -1109,7 +1111,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 
   /* hero right — show funnel cards on mobile, full width */
   .hero-right{display:flex;width:100%;flex-direction:column;gap:8px}
-  .hero-eyebrow{font-size:12px;text-align:center;justify-content:center}
+  .hero-eyebrow{font-size:12px;text-align:center;justify-content:center;width:fit-content}
   .funnel-card{padding:12px 14px;gap:10px}
   .fc-icon{font-size:18px}
   .fc-title{font-size:13px}
@@ -1152,7 +1154,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   .contact-form{padding:16px 20px}
   .form-row{margin-bottom:10px}
   .calendly-wrap{padding:12px 16px!important}
-  .calendly-inline-widget{height:400px!important;margin-top:-10px}
+  .calendly-inline-widget{height:400px!important;margin-top:0}
   .faq-inner{padding-top:52px;padding-bottom:32px}
 
   .panel-h2{font-size:clamp(22px,2.4vw,34px);margin-top:20px;margin-bottom:6px}
@@ -1254,7 +1256,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   .ci-row{font-size:11px;gap:7px}
   .contact-footer{padding-top:6px;padding-bottom:0;gap:5px 14px;font-size:11px}
   .calendly-wrap{padding:8px 12px!important}
-  .calendly-inline-widget{height:320px!important;margin-top:-10px}
+  .calendly-inline-widget{height:320px!important;margin-top:0}
 }
 
 @media (min-width:769px) and (max-height:740px) {
@@ -1445,7 +1447,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 .faq-cta-strip{
   margin-top:24px;padding-top:0;
 }
-.hiw-cta-strip{display:block}
+.hiw-cta-strip{display:block;margin-top:9px}
 @media(max-width:768px){.hiw-cta-strip{display:none}}
 .faq-cta-inner{
   padding:20px 28px;
@@ -1455,7 +1457,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   max-width:960px;width:100%;margin:0 auto;
 }
 .faq-cta-strip p{font-size:13px;color:var(--muted);margin:0}
-.faq-cta-strip strong{color:var(--text)}
+.faq-cta-strip strong{color:#2AA5A0}
 
 /* ── TOOL LOGOS ── */
 .tool-logos{
