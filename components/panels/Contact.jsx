@@ -67,15 +67,9 @@ export default function Contact() {
                 <div style={{fontSize:'15px',fontWeight:'700',color:'#fff',marginBottom:'4px'}}>Send a Message</div>
                 <div style={{fontSize:'12px',color:'rgba(255,255,255,.45)'}}>Takes 2 minutes. No credit card. No obligation.</div>
               </div>
-              <div className="form-row-2">
-                <div className="form-row">
-                  <label htmlFor="first_name">First Name <span aria-hidden="true" style={{color:'#f87171'}}>*</span></label>
-                  <input type="text" id="first_name" name="first_name" placeholder="Jane" required aria-required="true" autoComplete="given-name"/>
-                </div>
-                <div className="form-row">
-                  <label htmlFor="last_name">Last Name</label>
-                  <input type="text" id="last_name" name="last_name" placeholder="Smith" autoComplete="family-name"/>
-                </div>
+              <div className="form-row">
+                <label htmlFor="name">Your Name <span aria-hidden="true" style={{color:'#f87171'}}>*</span></label>
+                <input type="text" id="name" name="name" placeholder="Jane Smith" required aria-required="true" autoComplete="name"/>
               </div>
               <div className="form-row">
                 <label htmlFor="email">Business Email <span aria-hidden="true" style={{color:'#f87171'}}>*</span></label>

@@ -63,7 +63,7 @@ export default function Modals() {
             <h3>Cancellation</h3>
             <p>Monthly retainers may be cancelled with 30 days written notice. No contracts or lock-in periods apply unless specified in a separate service agreement.</p>
             <h3>Governing Law</h3>
-            <p>These terms are governed by the laws of the State of New York, United States.</p>
+            <p>These terms are governed by the laws of the State of Florida, United States.</p>
             <h3>Contact</h3>
             <p>Questions? Email <a href="mailto:david@aiandwebservices.com">david@aiandwebservices.com</a></p>
           </div>
