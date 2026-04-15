@@ -1,6 +1,7 @@
 import { posts, getPostBySlug } from '@/lib/posts';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
+import { BlogPostingSchema } from '@/components/Schema';
 
 export async function generateStaticParams() {
   return posts.map(p => ({ slug: p.slug }));
@@ -33,6 +34,7 @@ export default async function BlogPost({ params }) {
 
   return (
     <div style={{background:'#f8fafc',minHeight:'100vh'}}>
+      <BlogPostingSchema post={post} slug={slug} />
       {/* Nav */}
       <header style={{position:'sticky',top:0,zIndex:100,background:'rgba(255,255,255,.95)',backdropFilter:'blur(12px)',borderBottom:'1px solid #e5e7eb',padding:'0 5vw',height:'64px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
         <Link href="/" style={{textDecoration:'none',fontFamily:"'Plus Jakarta Sans',sans-serif",fontWeight:800,fontSize:'17px',color:'#0D1B2E'}}>

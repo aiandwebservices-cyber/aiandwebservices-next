@@ -1,5 +1,6 @@
 'use client';
 import Nav from '@/components/Nav';
+import { LocalBusinessSchema, HomepageFAQSchema, HomepageServiceSchema } from '@/components/Schema';
 import Hero from '@/components/panels/Hero';
 import Services from '@/components/panels/Services';
 import HowItWorks from '@/components/panels/HowItWorks';
@@ -15,6 +16,11 @@ import ScrollInit from '@/components/ScrollInit';
 export default function Home() {
   return (
     <>
+      {/* ── Structured data: homepage-specific schemas ── */}
+      <LocalBusinessSchema />
+      <HomepageFAQSchema />
+      <HomepageServiceSchema />
+
       <a href="#main-content" className="skip-nav">Skip to main content</a>
 
       <Nav />

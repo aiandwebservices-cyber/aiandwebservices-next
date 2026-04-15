@@ -4,6 +4,7 @@ import Script from 'next/script';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import CrispChat from '@/components/CrispChat';
+import { OrganizationSchema } from '@/components/Schema';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -52,23 +53,7 @@ export default function RootLayout({ children }) {
       <head>
         <meta name="geo.region" content="US" />
         <meta name="geo.placename" content="United States" />
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{__html: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "ProfessionalService",
-            "name": "AIandWEBservices",
-            "founder": { "@type": "Person", "name": "David Pulis", "jobTitle": "Founder & AI Systems Specialist", "email": "david@aiandwebservices.com", "telephone": "+13155720710" },
-            "description": "AIandWEBservices builds AI automation systems, intelligent assistant chatbots, high-converting websites, SEO strategies, and automated marketing pipelines for small and mid-sized businesses.",
-            "url": "https://www.aiandwebservices.com",
-            "email": "david@aiandwebservices.com",
-            "telephone": "+13155720710",
-            "areaServed": { "@type": "Country", "name": "United States" },
-            "slogan": "Intelligent solutions. Personal service.",
-            "priceRange": "$997 - $4497 setup",
-            "paymentAccepted": ["Credit Card", "Bank Transfer", "Cryptocurrency"],
-          })}}
-        />
+        <OrganizationSchema />
       </head>
       <body>
         {children}
