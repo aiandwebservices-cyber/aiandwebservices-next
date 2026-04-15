@@ -110,10 +110,6 @@ export default function ConsultingPage() {
           <h1 className="svc-page-h1">Know Exactly Where to Start<br />Before You Spend</h1>
           <p className="svc-page-lead">A clear, honest assessment of where AI fits in your business — what will save you money, what&apos;s hype, and what order to tackle things in.</p>
           <div className="svc-price-badge">$497 one-time or $1,497/mo fractional advisory</div>
-          <div className="svc-page-hero-cta">
-            <Link href="/#contact" className="svc-btn-primary">Get Your Free Audit →</Link>
-            <Link href="#pricing-section" className="svc-btn-ghost">See Pricing Details</Link>
-          </div>
         </section>
 
         <section className="svc-page-section">

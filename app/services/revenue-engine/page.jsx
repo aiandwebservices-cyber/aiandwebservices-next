@@ -137,10 +137,6 @@ export default function RevenueEnginePage() {
           <h1 className="svc-page-h1">Automate Your<br />Entire Sales Process</h1>
           <p className="svc-page-lead">Full sales funnel, workflow automation, CRM integration, and paid ads. Stop trading time for revenue.</p>
           <div className="svc-price-badge">$997/month + $3,997 one-time setup</div>
-          <div className="svc-page-hero-cta">
-            <Link href="/#contact" className="svc-btn-primary">Get Your Free Audit →</Link>
-            <Link href="#pricing-section" className="svc-btn-ghost">See Pricing Details</Link>
-          </div>
         </section>
 
         <section className="svc-page-section">

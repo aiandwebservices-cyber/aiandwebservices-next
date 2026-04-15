@@ -133,10 +133,6 @@ export default function GrowthPage() {
           <h1 className="svc-page-h1">Turn Visitors Into<br />Leads Automatically</h1>
           <p className="svc-page-lead">Everything in Presence — plus AI automation, email marketing, SEO content, and landing pages that convert.</p>
           <div className="svc-price-badge">$597/month + $2,497 one-time setup</div>
-          <div className="svc-page-hero-cta">
-            <Link href="/#contact" className="svc-btn-primary">Get Your Free Audit →</Link>
-            <Link href="#pricing-section" className="svc-btn-ghost">See Pricing Details</Link>
-          </div>
         </section>
 
         <section className="svc-page-section">

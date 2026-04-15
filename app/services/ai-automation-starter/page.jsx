@@ -171,10 +171,6 @@ export default function AIAutomationStarterPage() {
             A custom AI chatbot trained on your business. Handles inquiries, qualifies leads, books calls — 24/7, without you.
           </p>
           <div className="svc-price-badge">$997 one-time setup + $97/month</div>
-          <div className="svc-page-hero-cta">
-            <Link href="/#contact" className="svc-btn-primary">Get Your Free Audit →</Link>
-            <Link href="#pricing-section" className="svc-btn-ghost">See Pricing Details</Link>
-          </div>
         </section>
 
         {/* ── 3. What This Is ── */}

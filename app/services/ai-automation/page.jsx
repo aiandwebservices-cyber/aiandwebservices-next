@@ -99,10 +99,6 @@ export default function AIAutomationPage() {
           <p className="svc-page-lead">
             Every hour you spend answering the same questions, manually following up with leads, or jumping between disconnected tools is an hour your competitors are using to pull ahead. AI automation isn&apos;t just for enterprise companies anymore — it&apos;s the most efficient way for a small business to do more without hiring more.
           </p>
-          <div className="svc-page-hero-cta">
-            <Link href="/#contact" className="svc-btn-primary">Get a Free AI Audit →</Link>
-            <Link href="/#pricing" className="svc-btn-ghost">View Pricing</Link>
-          </div>
         </section>
 
         {/* ── What It Looks Like ── */}

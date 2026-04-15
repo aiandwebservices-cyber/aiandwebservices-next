@@ -133,10 +133,6 @@ export default function PresencePage() {
           <h1 className="svc-page-h1">Get Found Online —<br />The Foundation Every Business Needs</h1>
           <p className="svc-page-lead">A professional website, local SEO, and basic AI assistant to make sure customers can find you, trust you, and reach you.</p>
           <div className="svc-price-badge">$297/month + $997 one-time setup</div>
-          <div className="svc-page-hero-cta">
-            <Link href="/#contact" className="svc-btn-primary">Get Your Free Audit →</Link>
-            <Link href="#pricing-section" className="svc-btn-ghost">See Pricing Details</Link>
-          </div>
         </section>
 
         <section className="svc-page-section">

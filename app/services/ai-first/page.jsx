@@ -133,10 +133,6 @@ export default function AIFirstPage() {
           <h1 className="svc-page-h1">Run a Bigger Business<br />With the Same Team</h1>
           <p className="svc-page-lead">Voice AI, programmatic SEO, social media automation, and a full analytics dashboard — on top of everything in Revenue Engine.</p>
           <div className="svc-price-badge">$1,497/month + $5,497 one-time setup</div>
-          <div className="svc-page-hero-cta">
-            <Link href="/#contact" className="svc-btn-primary">Get Your Free Audit →</Link>
-            <Link href="#pricing-section" className="svc-btn-ghost">See Pricing Details</Link>
-          </div>
         </section>
 
         <section className="svc-page-section">
