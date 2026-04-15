@@ -954,7 +954,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   box-shadow:0 4px 16px rgba(42,165,160,.35);
 }
 .ctab:not(.ctab-active):hover{color:#fff;background:rgba(255,255,255,.07)}
-.calendly-wrap{padding:16px 20px!important;height:auto;box-sizing:border-box;display:flex;flex-direction:column;justify-content:flex-start;align-self:stretch}
+.calendly-wrap{padding:16px 20px!important;height:auto;box-sizing:border-box;display:flex;flex-direction:column;justify-content:flex-start;align-self:start}
 .calendly-inline-widget{height:clamp(480px,55vh,700px)!important;min-height:0!important;width:100%;margin-top:0}
 @media(min-width:769px) and (min-height:900px){.calendly-inline-widget{height:clamp(580px,62vh,780px)!important}}
 .calendly-inline-widget iframe{border-radius:12px}
