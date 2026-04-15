@@ -162,16 +162,6 @@ export default function AIAutomationStarterPage() {
 
       <div className="svc-page-wrap">
 
-        {/* ── 1. Breadcrumb ── */}
-        <nav className="svc-breadcrumb" aria-label="Breadcrumb">
-          <ol>
-            <li><Link href="/">Home</Link></li>
-            <li aria-hidden="true">›</li>
-            <li><Link href="/#services">Services</Link></li>
-            <li aria-hidden="true">›</li>
-            <li aria-current="page">AI Automation Starter</li>
-          </ol>
-        </nav>
 
         {/* ── 2. Hero ── */}
         <section className="svc-page-hero">

@@ -92,17 +92,6 @@ export default function AIAutomationPage() {
 
       <div className="svc-page-wrap">
 
-        {/* ── Breadcrumb ── */}
-        <nav className="svc-breadcrumb" aria-label="Breadcrumb">
-          <ol>
-            <li><Link href="/">Home</Link></li>
-            <li aria-hidden="true">›</li>
-            <li><Link href="/#services">Services</Link></li>
-            <li aria-hidden="true">›</li>
-            <li aria-current="page">AI Automation</li>
-          </ol>
-        </nav>
-
         {/* ── Hero ── */}
         <section className="svc-page-hero">
           <div className="svc-page-eyebrow"><Bot size={14} style={{display:'inline',verticalAlign:'middle',marginRight:'6px'}} />AI &amp; Automation</div>

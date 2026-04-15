@@ -127,15 +127,6 @@ export default function PresencePage() {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }} />
       <div className="svc-page-wrap">
 
-        <nav className="svc-breadcrumb" aria-label="Breadcrumb">
-          <ol>
-            <li><Link href="/">Home</Link></li>
-            <li aria-hidden="true">›</li>
-            <li><Link href="/#services">Services</Link></li>
-            <li aria-hidden="true">›</li>
-            <li aria-current="page">Presence</li>
-          </ol>
-        </nav>
 
         <section className="svc-page-hero">
           <div className="svc-page-eyebrow">Presence</div>
