@@ -1321,9 +1321,9 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   .ci-row{font-size:13px}
   .contact-footer{padding-top:10px;padding-bottom:4px;gap:16px 28px}
 
-  .hero-h1{font-size:clamp(64px,8vw,96px)}
-  .hero-sub{font-size:17px;margin-top:22px;margin-bottom:28px}
-  .hero-btns{margin-bottom:14px}
+  .hero-h1{font-size:clamp(42px,5vw,72px)}
+  .hero-sub{font-size:15px;margin-top:14px;margin-bottom:18px}
+  .hero-btns{margin-bottom:8px}
   .hero-right{gap:10px}
   .funnel-card{padding:14px 16px}
 }
@@ -1363,9 +1363,9 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   .pr-card{padding:10px 8px 8px}
   .pr-addons-lbl{margin-top:14px}
 
-  .hero-h1{font-size:clamp(54px,6vw,88px)}
-  .hero-sub{font-size:17px;margin-top:22px;margin-bottom:28px}
-  .hero-btns{margin-bottom:4px}
+  .hero-h1{font-size:clamp(34px,4vw,58px)}
+  .hero-sub{font-size:13px;margin-top:10px;margin-bottom:12px;line-height:1.6}
+  .hero-btns{margin-bottom:2px}
   .funnel-card{padding:10px 12px}
 
   /* contact shrink */

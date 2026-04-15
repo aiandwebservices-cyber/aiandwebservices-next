@@ -18,7 +18,6 @@ export default function Hero() {
           </p>
           <div className="hero-btns">
             <button className="btn-primary hero-btn-primary" onClick={() => window.go(7)}>Get Your Free Audit</button>
-            <button className="hero-btn-secondary" onClick={() => window.go(7)}>Book a Call</button>
           </div>
           <div className="hero-bottom">
             <div className="trust-badge">
