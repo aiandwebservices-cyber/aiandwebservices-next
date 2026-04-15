@@ -12,6 +12,8 @@ import Contact from '@/components/panels/Contact';
 import Modals from '@/components/Modals';
 import CookieBanner from '@/components/CookieBanner';
 import ScrollInit from '@/components/ScrollInit';
+import Testimonials from '@/components/panels/Testimonials';
+import FloatingCTA from '@/components/FloatingCTA';
 
 export default function Home() {
   return (
@@ -29,8 +31,8 @@ export default function Home() {
         <div id="track">
           <Hero />
           <HowItWorks />
+          <Testimonials />
           <Services />
-          {/* Testimonials panel hidden until real reviews collected */}
           <Pricing />
           <About />
           <FAQ />
@@ -49,6 +51,7 @@ export default function Home() {
       </footer>
 
       <div id="progress-bar"></div>
+      <FloatingCTA />
       <Modals />
       <CookieBanner />
       <ScrollInit />
