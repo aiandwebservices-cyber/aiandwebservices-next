@@ -30,7 +30,7 @@ export default function Hero() {
               <div className="tb-icon">🤝</div>
               <div className="tb-text">
                 <div className="tb-main">Direct Access</div>
-                <div className="tb-sub">to David →</div>
+                <div className="tb-sub">to David</div>
               </div>
             </button>
             <div className="trust-badge mob-only">
