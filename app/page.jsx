@@ -14,6 +14,7 @@ import CookieBanner from '@/components/CookieBanner';
 import ScrollInit from '@/components/ScrollInit';
 import Testimonials from '@/components/panels/Testimonials';
 import FloatingCTA from '@/components/FloatingCTA';
+import Comparison from '@/components/panels/Comparison';
 
 export default function Home() {
   return (
@@ -35,6 +36,7 @@ export default function Home() {
           <Services />
           <Pricing />
           <About />
+          <Comparison />
           <FAQ />
           <Blog />
           <Contact />
