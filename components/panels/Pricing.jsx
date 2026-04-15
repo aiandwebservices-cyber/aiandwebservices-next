@@ -1,4 +1,14 @@
 'use client';
+import Link from 'next/link';
+
+// Map each pricing plan to its service detail page (add hrefs as pages are built)
+const PLAN_HREFS = {
+  'Presence':       '/services/web-development',
+  'Growth':         '/services/web-development',
+  'Revenue Engine': '/services/ai-automation',
+  'AI-First':       '/services/ai-automation',
+  'Consulting':     '/services/consulting-strategy',
+};
 
 function toggleSetup(btn) {
   const detail = btn.nextElementSibling;
@@ -35,7 +45,7 @@ export default function Pricing() {
             <div className="cs-setup-lbl">One-time setup</div>
             <div className="cs-amount"><sup>$</sup>997</div>
             <div className="cs-mo">then <strong>$97/month</strong></div>
-            <button className="cs-btn" onClick={() => window.go(7)} aria-label="Get started with standalone AI Chatbot">Get Started</button>
+            <Link href="/services/ai-automation" className="cs-btn cs-btn-link" aria-label="Get more info about AI Automation Starter">Get More Info</Link>
           </div>
         </div>
 
@@ -61,7 +71,10 @@ export default function Pricing() {
                 {plan.features.map(f => <li key={f}>{f}</li>)}
               </ul>
               <div className="pr-best">Best for: {plan.best}</div>
-              <button className="pr-btn" onClick={() => window.go(7)}>Get Started</button>
+              {PLAN_HREFS[plan.name]
+                ? <Link href={PLAN_HREFS[plan.name]} className="pr-btn pr-btn-link">Get More Info</Link>
+                : <button className="pr-btn" onClick={() => window.go(7)}>Get More Info</button>
+              }
             </div>
           ))}
           <div className="pr-card">
@@ -78,7 +91,7 @@ export default function Pricing() {
               <li>Fractional AI advisor (ongoing)</li>
             </ul>
             <div className="pr-best">Best for: Businesses that want expert guidance before committing to a full build</div>
-            <button className="pr-btn" onClick={() => window.go(7)}>Get Started</button>
+            <Link href="/services/consulting-strategy" className="pr-btn pr-btn-link">Get More Info</Link>
           </div>
         </div>
 

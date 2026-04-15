@@ -94,6 +94,25 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 #nav.light .nav-book{color:var(--text-lt);border-color:var(--border)}
 #nav.light .nav-book:hover{color:var(--text);background:var(--off2)}
 .nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
+/* ── Services dropdown ── */
+.nav-svc-wrap{position:relative}
+.nav-svc-btn .nav-svc-caret{font-size:9px;opacity:.6;transition:transform .2s;display:inline-block;margin-left:2px}
+.nav-svc-btn.nav-svc-open .nav-svc-caret{transform:rotate(180deg)}
+.nav-svc-dropdown{
+  position:absolute;top:calc(100% + 8px);left:50%;transform:translateX(-50%);
+  background:#0f172a;border:1px solid rgba(255,255,255,.1);
+  border-radius:14px;padding:8px;
+  min-width:220px;z-index:200;
+  box-shadow:0 16px 48px rgba(0,0,0,.5);
+  animation:dropIn .15s ease;
+}
+@keyframes dropIn{from{opacity:0;transform:translateX(-50%) translateY(-6px)}to{opacity:1;transform:translateX(-50%) translateY(0)}}
+.nav-svc-item{
+  display:block;padding:9px 14px;border-radius:9px;
+  font-size:13px;font-weight:500;color:rgba(255,255,255,.65);
+  text-decoration:none;transition:all .15s;white-space:nowrap;
+}
+.nav-svc-item:hover{background:rgba(42,165,160,.15);color:#fff}
 @media(max-width:1200px){.nav-book{display:none}}
 @media(max-width:1100px){.nav-pill{font-size:10px;padding:5px 10px;gap:4px}}
 @media(max-width:980px){.nav-pill{font-size:9px;padding:5px 8px}}
@@ -652,6 +671,10 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 .pr-btn:hover{background:var(--off2);border-color:var(--muted)}
 .pr-card.popular .pr-btn{background:var(--blue);color:#fff;border-color:var(--blue);box-shadow:0 3px 12px rgba(37,99,235,.3)}
 .pr-card.popular .pr-btn:hover{background:var(--blue-lt)}
+/* Link variant of pr-btn — same visual, but renders as <a> */
+.pr-btn-link{display:block;text-align:center;text-decoration:none}
+/* cs-btn as link */
+.cs-btn-link{display:inline-flex;align-items:center;justify-content:center;text-decoration:none}
 
 /* ── PANEL 6: BLOG ── */
 .blog-inner{
@@ -1515,3 +1538,182 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 .contact-pref{display:flex;gap:16px;flex-wrap:wrap;margin-top:6px}
 .cp-opt{display:flex;align-items:center;gap:6px;font-size:13px;color:rgba(255,255,255,.7);cursor:pointer}
 .cp-opt input{accent-color:var(--blue)}
+
+/* ═══════════════════════════════════════════════════════════════
+   SERVICE PAGES  (/services/*)
+   ═══════════════════════════════════════════════════════════════ */
+
+/* ── Service page nav ── */
+.svc-page-nav{
+  position:sticky;top:0;z-index:100;
+  display:flex;align-items:center;justify-content:space-between;
+  padding:0 6vw;height:64px;
+  background:var(--navy);border-bottom:1px solid rgba(255,255,255,.07);
+  backdrop-filter:blur(12px);
+}
+.svc-page-logo img{display:block}
+.svc-page-links{display:flex;gap:28px}
+.svc-page-links a{
+  font-size:14px;font-weight:500;color:rgba(255,255,255,.6);
+  text-decoration:none;transition:color .18s;
+}
+.svc-page-links a:hover{color:#fff}
+.svc-page-cta{
+  display:inline-flex;align-items:center;
+  background:var(--blue);color:#fff;
+  padding:9px 20px;border-radius:50px;
+  font-size:13px;font-weight:700;text-decoration:none;
+  transition:all .2s;white-space:nowrap;
+}
+.svc-page-cta:hover{background:var(--blue-lt);transform:translateY(-1px)}
+@media(max-width:640px){
+  .svc-page-links{display:none}
+  .svc-page-nav{padding:0 4vw}
+}
+
+/* ── Page wrapper ── */
+.svc-page-wrap{
+  max-width:860px;margin:0 auto;
+  padding:40px 6vw 80px;
+  color:rgba(255,255,255,.85);
+}
+
+/* ── Breadcrumb ── */
+.svc-breadcrumb ol{
+  display:flex;flex-wrap:wrap;align-items:center;gap:6px;
+  list-style:none;padding:0;margin:0 0 32px;
+  font-size:13px;color:rgba(255,255,255,.4);
+}
+.svc-breadcrumb a{color:rgba(255,255,255,.5);text-decoration:none}
+.svc-breadcrumb a:hover{color:var(--blue)}
+.svc-breadcrumb [aria-current="page"]{color:rgba(255,255,255,.75)}
+
+/* ── Hero block ── */
+.svc-page-hero{margin-bottom:56px}
+.svc-page-eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  background:rgba(42,165,160,.15);border:1px solid rgba(42,165,160,.3);
+  border-radius:50px;padding:6px 16px;
+  font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;
+  color:rgba(255,255,255,.75);margin-bottom:20px;
+}
+.svc-page-h1{
+  font-size:clamp(32px,5vw,52px);font-weight:800;
+  line-height:1.1;letter-spacing:-1px;color:#fff;margin:0 0 20px;
+}
+.svc-page-lead{
+  font-size:17px;line-height:1.8;color:rgba(255,255,255,.65);
+  max-width:720px;margin:0 0 28px;
+}
+.svc-page-hero-cta{display:flex;gap:14px;flex-wrap:wrap;align-items:center}
+
+/* ── Section content ── */
+.svc-page-section{
+  margin-bottom:48px;
+  padding-bottom:48px;
+  border-bottom:1px solid rgba(255,255,255,.06);
+}
+.svc-page-section:last-of-type{border-bottom:none}
+.svc-page-section h2{
+  font-size:clamp(22px,3vw,30px);font-weight:800;color:#fff;
+  margin:0 0 16px;letter-spacing:-.4px;line-height:1.2;
+}
+.svc-page-section h3{
+  font-size:18px;font-weight:700;color:var(--blue);
+  margin:28px 0 10px;
+}
+.svc-page-section p{
+  font-size:16px;line-height:1.8;color:rgba(255,255,255,.7);
+  margin:0 0 16px;
+}
+.svc-page-section em{color:rgba(255,255,255,.85);font-style:normal;font-weight:600}
+
+/* ── Example cards ── */
+.svc-example-grid{
+  display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:16px;margin:20px 0 24px;
+}
+.svc-example{
+  background:rgba(42,165,160,.07);border:1px solid rgba(42,165,160,.2);
+  border-radius:14px;padding:20px;
+}
+.svc-example-icon{font-size:24px;margin-bottom:10px}
+.svc-example p{font-size:14px;margin:0;color:rgba(255,255,255,.7)}
+
+/* ── Process list ── */
+.svc-process-list{
+  padding:0;margin:16px 0 0;list-style:none;
+  display:flex;flex-direction:column;gap:16px;
+}
+.svc-process-list li{
+  display:flex;gap:14px;
+  font-size:15px;line-height:1.7;color:rgba(255,255,255,.7);
+  counter-increment:step;
+  padding:16px 20px;
+  background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);
+  border-radius:12px;
+}
+.svc-process-list li::before{
+  content:counter(step);
+  display:flex;align-items:center;justify-content:center;
+  min-width:28px;height:28px;border-radius:50%;
+  background:var(--blue);color:#fff;
+  font-size:12px;font-weight:800;flex-shrink:0;margin-top:2px;
+}
+.svc-process-list{counter-reset:step}
+.svc-process-list li strong{color:#fff}
+
+/* ── FAQ ── */
+.svc-faq-section{}
+.svc-faq-list{display:flex;flex-direction:column;gap:0}
+.svc-faq-item{
+  border-bottom:1px solid rgba(255,255,255,.07);
+  padding:20px 0;
+}
+.svc-faq-item:first-child{border-top:1px solid rgba(255,255,255,.07)}
+.svc-faq-item dt{
+  font-size:16px;font-weight:700;color:#fff;margin:0 0 8px;
+}
+.svc-faq-item dd{
+  margin:0;font-size:15px;line-height:1.75;color:rgba(255,255,255,.65);
+}
+
+/* ── Buttons ── */
+.svc-btn-primary{
+  display:inline-flex;align-items:center;gap:6px;
+  background:var(--blue);color:#fff;
+  padding:13px 28px;border-radius:50px;
+  font-weight:700;font-size:15px;text-decoration:none;
+  box-shadow:0 4px 20px rgba(42,165,160,.4);
+  transition:all .22s;
+}
+.svc-btn-primary:hover{background:var(--blue-lt);transform:translateY(-2px);box-shadow:0 8px 28px rgba(42,165,160,.5)}
+.svc-btn-ghost{
+  display:inline-flex;align-items:center;gap:6px;
+  background:transparent;color:rgba(255,255,255,.7);
+  padding:12px 24px;border-radius:50px;
+  font-weight:600;font-size:15px;text-decoration:none;
+  border:1.5px solid rgba(255,255,255,.18);
+  transition:all .22s;
+}
+.svc-btn-ghost:hover{background:rgba(255,255,255,.07);border-color:rgba(255,255,255,.35);color:#fff}
+
+/* ── Bottom CTA box ── */
+.svc-page-cta-section{margin-top:16px}
+.svc-cta-box{
+  background:linear-gradient(135deg,rgba(42,165,160,.12) 0%,rgba(37,99,235,.08) 100%);
+  border:1px solid rgba(42,165,160,.25);
+  border-radius:20px;padding:40px 36px;text-align:center;
+}
+.svc-cta-box h2{font-size:clamp(20px,2.5vw,26px);font-weight:800;color:#fff;margin:0 0 12px}
+.svc-cta-box p{font-size:15px;color:rgba(255,255,255,.6);margin:0 0 24px;line-height:1.7}
+.svc-cta-btns{display:flex;justify-content:center;gap:14px;flex-wrap:wrap}
+
+/* ── Service page footer ── */
+.svc-page-footer{
+  background:var(--navy);border-top:1px solid rgba(255,255,255,.07);
+  padding:20px 6vw;text-align:center;
+  font-size:13px;color:rgba(255,255,255,.35);
+}
+.svc-page-footer a{color:rgba(255,255,255,.45);text-decoration:none}
+.svc-page-footer a:hover{color:var(--blue)}

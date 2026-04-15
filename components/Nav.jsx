@@ -1,16 +1,35 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
+import Link from 'next/link';
+
+const SERVICE_LINKS = [
+  { label: '🤖 AI & Automation',      href: '/services/ai-automation' },
+  { label: '🌐 Web Development',       href: '/#services' },
+  { label: '📈 SEO & Content',         href: '/#services' },
+  { label: '🎯 Marketing & Lead Gen',  href: '/#services' },
+  { label: '🧠 Consulting & Strategy', href: '/#services' },
+  { label: '💳 Crypto Payments',       href: '/#services' },
+];
 
 export default function Nav() {
   const go = (n) => window.go && window.go(n);
   const mGo = (n) => window.mobileGo && window.mobileGo(n);
   const [currentPanel, setCurrentPanel] = useState(0);
+  const [svcOpen, setSvcOpen] = useState(false);
+  const svcRef = useRef(null);
 
   useEffect(() => {
     const handler = (e) => setCurrentPanel(e.detail ?? 0);
     window.addEventListener('panelchange', handler);
     return () => window.removeEventListener('panelchange', handler);
+  }, []);
+
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    const handler = (e) => { if (svcRef.current && !svcRef.current.contains(e.target)) setSvcOpen(false); };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
   }, []);
 
   // Panels 0, 2, 7 have dark (navy) backgrounds — use white text logo
@@ -37,9 +56,36 @@ export default function Nav() {
           </button>
         )}
         <div className="nav-center" role="menubar" aria-label="Site sections">
-          {['Home','How It Works','Services','Pricing','About','FAQ','Blog','Contact'].map((label, i) => (
-            <button key={i} className={`nav-pill${currentPanel === i ? ' active' : ''}`} onClick={() => go(i)} role="menuitem" aria-current={currentPanel === i ? 'true' : undefined}>{label}</button>
-          ))}
+          {['Home','How It Works','Services','Pricing','About','FAQ','Blog','Contact'].map((label, i) => {
+            if (label === 'Services') {
+              return (
+                <div key={i} className="nav-svc-wrap" ref={svcRef}>
+                  <button
+                    className={`nav-pill nav-svc-btn${currentPanel === i ? ' active' : ''}${svcOpen ? ' nav-svc-open' : ''}`}
+                    onClick={() => { setSvcOpen(o => !o); go(i); }}
+                    onMouseEnter={() => setSvcOpen(true)}
+                    aria-haspopup="true"
+                    aria-expanded={svcOpen}
+                    role="menuitem"
+                  >
+                    Services <span className="nav-svc-caret" aria-hidden="true">▾</span>
+                  </button>
+                  {svcOpen && (
+                    <div className="nav-svc-dropdown" role="menu" onMouseLeave={() => setSvcOpen(false)}>
+                      {SERVICE_LINKS.map(({ label: sLabel, href }) => (
+                        <Link key={sLabel} href={href} className="nav-svc-item" role="menuitem" onClick={() => setSvcOpen(false)}>
+                          {sLabel}
+                        </Link>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              );
+            }
+            return (
+              <button key={i} className={`nav-pill${currentPanel === i ? ' active' : ''}`} onClick={() => go(i)} role="menuitem" aria-current={currentPanel === i ? 'true' : undefined}>{label}</button>
+            );
+          })}
         </div>
         <div className="nav-right">
           {currentPanel !== 7 && <><button className="nav-book" onClick={() => go(7)} aria-label="Book a call with David">Book a Call</button>
