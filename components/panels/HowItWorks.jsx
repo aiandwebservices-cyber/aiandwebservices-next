@@ -66,6 +66,14 @@ export default function HowItWorks() {
           ))}
         </div>
 
+        {/* ── STILL HAVE QUESTIONS — desktop only ── */}
+        <div className="faq-cta-strip hiw-cta-strip">
+          <div className="faq-cta-inner">
+            <p><strong>Still have questions?</strong> The free audit is the easiest way to get real answers for your specific situation.</p>
+            <button className="blog-btn" onClick={() => window.go(7)}>Get a Free Audit</button>
+          </div>
+        </div>
+
       </div>
     </section>
   );
