@@ -1,4 +1,5 @@
 'use client';
+import Link from 'next/link';
 import { Bot, Globe, TrendingUp, Zap, Brain, Target } from 'lucide-react';
 
 const CARDS = [
@@ -16,6 +17,7 @@ const CARDS = [
     perfectFor: 'Service businesses losing leads to voicemail and email delays',
     price: '$997 setup + $97/mo',
     pricingAnchor: '#pricing-ai-starter',
+    serviceHref: '/services/ai-automation-starter',
   },
   {
     id: 'service-presence',
@@ -31,6 +33,7 @@ const CARDS = [
     perfectFor: 'New businesses that need a professional online foundation',
     price: '$297/mo + $997 setup',
     pricingAnchor: '#pricing-presence',
+    serviceHref: '/services/presence',
   },
   {
     id: 'service-growth',
@@ -46,6 +49,7 @@ const CARDS = [
     perfectFor: 'Established businesses ready for consistent lead generation',
     price: '$597/mo + $2,497 setup',
     pricingAnchor: '#pricing-growth',
+    serviceHref: '/services/growth',
   },
   {
     id: 'service-revenue-engine',
@@ -61,6 +65,7 @@ const CARDS = [
     perfectFor: 'Businesses scaling revenue without scaling headcount',
     price: '$997/mo + $3,997 setup',
     pricingAnchor: '#pricing-revenue-engine',
+    serviceHref: '/services/revenue-engine',
   },
   {
     id: 'service-ai-first',
@@ -76,6 +81,7 @@ const CARDS = [
     perfectFor: 'Owners replacing manual work with advanced AI systems',
     price: '$1,497/mo + $5,497 setup',
     pricingAnchor: '#pricing-ai-first',
+    serviceHref: '/services/ai-first',
   },
   {
     id: 'service-consulting',
@@ -91,6 +97,7 @@ const CARDS = [
     perfectFor: 'Businesses wanting expert guidance before committing to a build',
     price: '$497 once or $1,497/mo fractional',
     pricingAnchor: '#pricing-consulting',
+    serviceHref: '/services/consulting',
   },
 ];
 
@@ -107,7 +114,7 @@ export default function Services() {
         </p>
 
         <div className="svc-tier-grid">
-          {CARDS.map(({ id, Icon, name, outcome, highlights, perfectFor, price, pricingAnchor }) => (
+          {CARDS.map(({ id, Icon, name, outcome, highlights, perfectFor, price, pricingAnchor, serviceHref }) => (
             <div key={id} id={id} className="svc-tier-card svc-tier-card--light" style={{ scrollMarginTop: '100px' }}>
               <div className="svc-tier-top">
                 <div className="svc-tier-icon">
@@ -123,7 +130,7 @@ export default function Services() {
               </div>
               <div className="svc-tier-ctas">
                 <a href={pricingAnchor} className="btn-ghost-dark svc-tier-btn-ghost">See Pricing ↓</a>
-                <a href="#contact" className="btn-primary svc-tier-btn-solid">Get Started</a>
+                <Link href={serviceHref} className="btn-primary svc-tier-btn-solid">Get More Info</Link>
               </div>
             </div>
           ))}
