@@ -68,12 +68,12 @@ export default function Contact() {
                 <div style={{fontSize:'12px',color:'rgba(255,255,255,.45)'}}>Takes 2 minutes. No credit card. No obligation.</div>
               </div>
 
-              <div className="form-row-2">
-                <div>
+              <div className="form-row-2" style={{marginBottom:'14px'}}>
+                <div className="form-row" style={{marginBottom:0}}>
                   <label htmlFor="first_name">First Name <span aria-hidden="true" style={{color:'#f87171'}}>*</span></label>
                   <input type="text" id="first_name" name="first_name" placeholder="Jane" required aria-required="true" autoComplete="given-name"/>
                 </div>
-                <div>
+                <div className="form-row" style={{marginBottom:0}}>
                   <label htmlFor="last_name">Last Name</label>
                   <input type="text" id="last_name" name="last_name" placeholder="Smith" autoComplete="family-name"/>
                 </div>
