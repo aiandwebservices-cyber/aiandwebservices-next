@@ -1235,7 +1235,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   .blog-inner{padding:28px 5vw 40px}
   .blog-grid{grid-template-columns:1fr;gap:12px}
   .blog-card-img{height:60px;font-size:24px}
-  .blog-cta-box{flex-direction:column;gap:12px}
+  .blog-cta-box{flex-direction:column;gap:12px;margin-top:24px}
 
   /* faq — mobile: collapse answers, show + toggle */
   .faq-inner{padding:28px 5vw 16px}
