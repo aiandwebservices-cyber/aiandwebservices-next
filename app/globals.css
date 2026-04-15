@@ -68,7 +68,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 .logo-svc{color:var(--blue);font-weight:600}
 #nav.dark .logo-ai,#nav.dark .logo-web{color:#FFFFFF}
 #nav.dark .logo-and,#nav.dark .logo-svc{color:var(--blue)}
-.nav-center{display:flex;align-items:center;gap:8px;position:absolute;left:50%;transform:translateX(-50%)}
+.nav-center{display:flex;align-items:center;gap:8px;position:absolute;left:50%;transform:translateX(-50%);z-index:1;white-space:nowrap}
 .nav-pill{
   font-size:11px;font-weight:600;letter-spacing:.4px;
   padding:5px 14px;border-radius:20px;
