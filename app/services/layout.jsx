@@ -41,22 +41,19 @@ export default function ServicesLayout({ children }) {
         <nav className="svc-page-links" aria-label="Site navigation">
           {NAV_LINKS.map(({ label, href, dropdown }) =>
             dropdown ? (
-              <div key={label} className="svc-nav-svc-wrap"
-                onMouseEnter={() => setSvcOpen(true)}
-                onMouseLeave={() => setSvcOpen(false)}
-              >
+              <div key={label} className="svc-nav-svc-wrap">
                 <Link href={href} className="svc-nav-svc-btn">
                   Services <span aria-hidden="true">▾</span>
                 </Link>
-                {svcOpen && (
-                  <div className="svc-nav-dropdown">
+                <div className="svc-nav-dropdown">
+                  <div className="svc-nav-dropdown-inner">
                     {SERVICE_LINKS.map(({ label: sl, href: sh }) => (
-                      <Link key={sl} href={sh} className="svc-nav-dropdown-item" onClick={() => setSvcOpen(false)}>{sl}</Link>
+                      <Link key={sl} href={sh} className="svc-nav-dropdown-item">{sl}</Link>
                     ))}
                     <div className="svc-nav-divider" />
-                    <Link href="/#pricing" className="svc-nav-dropdown-item svc-nav-compare" onClick={() => setSvcOpen(false)}>Compare All Plans</Link>
+                    <Link href="/#pricing" className="svc-nav-dropdown-item svc-nav-compare">Compare All Plans</Link>
                   </div>
-                )}
+                </div>
               </div>
             ) : (
               <Link key={label} href={href}>{label}</Link>
