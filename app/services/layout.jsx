@@ -39,7 +39,7 @@ export default function ServicesLayout({ children }) {
       <header className="svc-page-nav">
         <Link href="/" className="svc-page-logo" aria-label="AIandWEBservices — home">
           {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/logo-gradient-test.svg" alt="AIandWEBservices" width={200} height={40} />
+          <img src="/logo-gradient-test.svg" alt="AIandWEBservices" width={260} height={52} />
         </Link>
 
         {/* Desktop nav */}
