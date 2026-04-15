@@ -51,7 +51,7 @@ export default function Contact() {
               <div style={{fontSize:'12px',color:'rgba(255,255,255,.45)'}}>Takes 2 minutes. No credit card. No obligation.</div>
             </div>
             <div
-              style={{width:'100%',height:'420px',overflow:'hidden'}}
+              style={{width:'100%',height:'360px',overflow:'hidden'}}
               data-fillout-id="uFPQgfBkBcus"
               data-fillout-embed-type="standard"
               data-fillout-inherit-parameters
