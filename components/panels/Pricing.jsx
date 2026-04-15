@@ -1,15 +1,16 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
+import { Bot, Sprout, TrendingUp, Zap, Brain, Target, Wallet, ShoppingCart, Eye } from 'lucide-react';
 
 const ALWAYS_VISIBLE = [
-  { emoji:'🚀', name:'Growth', tagline:'Turn visitors into leads', price:'597', setup:'$2,497', features:['Everything in Presence','AI automation & smart assistant','Email marketing + welcome sequence','SEO content (2 articles/month)','Conversion-optimized landing page'], best:'Established businesses ready to generate consistent leads', serviceAnchor:'#service-growth' },
-  { emoji:'⚡', name:'Revenue Engine', tagline:'Automate your sales process', price:'997', setup:'$3,997', popular:true, features:['Everything in Growth','Full sales funnel design & build','Workflow automation (Zapier/Make)','Paid ads setup (Google or Meta)','AI-powered CRM integration','Monthly strategy call with David'], best:'Businesses serious about scaling revenue without scaling headcount', serviceAnchor:'#service-revenue-engine' },
-  { emoji:'🧠', name:'AI-First', tagline:'Replace manual work with AI', price:'1,497', setup:'$5,497', features:['Everything in Revenue Engine','Advanced AI automation pipelines','Voice AI (answering + booking)','Programmatic SEO at scale','Social media AI scheduling','Full analytics dashboard'], best:'Owners who want to run a bigger business with the same size team', serviceAnchor:'#service-ai-first' },
+  { Icon: TrendingUp, iconColor:'#34d399', name:'Growth', tagline:'Turn visitors into leads', price:'597', setup:'$2,497', features:['Everything in Presence','AI automation & smart assistant','Email marketing + welcome sequence','SEO content (2 articles/month)','Conversion-optimized landing page'], best:'Established businesses ready to generate consistent leads', serviceAnchor:'#service-growth' },
+  { Icon: Zap, iconColor:'#a78bfa', name:'Revenue Engine', tagline:'Automate your sales process', price:'997', setup:'$3,997', popular:true, features:['Everything in Growth','Full sales funnel design & build','Workflow automation (Zapier/Make)','Paid ads setup (Google or Meta)','AI-powered CRM integration','Monthly strategy call with David'], best:'Businesses serious about scaling revenue without scaling headcount', serviceAnchor:'#service-revenue-engine' },
+  { Icon: Brain, iconColor:'#60a5fa', name:'AI-First', tagline:'Replace manual work with AI', price:'1,497', setup:'$5,497', features:['Everything in Revenue Engine','Advanced AI automation pipelines','Voice AI (answering + booking)','Programmatic SEO at scale','Social media AI scheduling','Full analytics dashboard'], best:'Owners who want to run a bigger business with the same size team', serviceAnchor:'#service-ai-first' },
 ];
 
 const EXTRA_PLANS = [
-  { emoji:'🌱', name:'Presence', tagline:'Get found online', price:'297', setup:'$997', features:['Professional website (5 pages)','Local SEO + Google Business Profile','Basic AI inquiry assistant','Monthly performance report'], best:'Brand new businesses that need a professional foundation', serviceAnchor:'#service-presence' },
+  { Icon: Sprout, iconColor:'#34d399', name:'Presence', tagline:'Get found online', price:'297', setup:'$997', features:['Professional website (5 pages)','Local SEO + Google Business Profile','Basic AI inquiry assistant','Monthly performance report'], best:'Brand new businesses that need a professional foundation', serviceAnchor:'#service-presence' },
 ];
 
 function PrCard({ plan }) {
@@ -19,10 +20,11 @@ function PrCard({ plan }) {
     'AI-First': 'pricing-ai-first',
     'Presence': 'pricing-presence',
   };
+  const { Icon, iconColor } = plan;
   return (
     <div id={idMap[plan.name]} className={`pr-card${plan.popular ? ' popular' : ''}`} style={{scrollMarginTop:'100px'}}>
       {plan.popular && <div className="pr-pop-badge">Most Popular</div>}
-      <div className="pr-emoji">{plan.emoji}</div>
+      <div className="pr-emoji"><Icon size={20} color={iconColor || '#00D9FF'} strokeWidth={1.75} /></div>
       <div className="pr-name">{plan.name}</div>
       <div className="pr-tagline">{plan.tagline}</div>
       <div className="pr-price"><div className="pr-price-n"><sup>$</sup>{plan.price}</div><div className="pr-price-per">/mo</div></div>
@@ -65,7 +67,7 @@ export default function Pricing() {
         {showAll && (
           <>
             <div id="pricing-ai-starter" className="chatbot-solo" style={{scrollMarginTop:'100px'}}>
-              <div className="cs-emoji">🤖</div>
+              <div className="cs-emoji"><Bot size={32} color="#60a5fa" strokeWidth={1.75} /></div>
               <div className="cs-body">
                 <div className="cs-eyebrow">Standalone · Just the chatbot</div>
                 <div className="cs-title">AI Automation Starter — Your First AI System</div>
@@ -101,7 +103,7 @@ export default function Pricing() {
         {/* Consulting — always visible */}
         <div className="pricing-grid" style={{marginTop:'0'}}>
           <div id="pricing-consulting" className="pr-card" style={{scrollMarginTop:'100px'}}>
-            <div className="pr-emoji">🎯</div>
+            <div className="pr-emoji"><Target size={20} color="#f87171" strokeWidth={1.75} /></div>
             <div className="pr-name">Consulting</div>
             <div className="pr-tagline">Know exactly where to start</div>
             <div className="pr-price"><div className="pr-price-n"><sup>$</sup>497</div><div className="pr-price-per"> once</div></div>
@@ -124,7 +126,7 @@ export default function Pricing() {
           <div className="pr-addons-lbl">Add-on Services</div>
           <div className="pr-addons-grid">
             <div className="pr-addon-card">
-              <div className="pr-addon-icon">💳</div>
+              <div className="pr-addon-icon"><Wallet size={28} color="#00D9FF" strokeWidth={1.75} /></div>
               <div className="pr-addon-body">
                 <div className="pr-addon-name">Crypto Payment Infrastructure</div>
                 <div className="pr-addon-desc">Accept Bitcoin, stablecoins &amp; multi-chain payments on your site</div>
@@ -132,7 +134,7 @@ export default function Pricing() {
               <div className="pr-addon-price">$997 setup</div>
             </div>
             <div className="pr-addon-card">
-              <div className="pr-addon-icon">🛒</div>
+              <div className="pr-addon-icon"><ShoppingCart size={28} color="#00D9FF" strokeWidth={1.75} /></div>
               <div className="pr-addon-body">
                 <div className="pr-addon-name">E-commerce Integration</div>
                 <div className="pr-addon-desc">Shopify or WooCommerce store built and connected to your site</div>
@@ -140,7 +142,7 @@ export default function Pricing() {
               <div className="pr-addon-price">from $1,497</div>
             </div>
             <div className="pr-addon-card">
-              <div className="pr-addon-icon">♿</div>
+              <div className="pr-addon-icon"><Eye size={28} color="#00D9FF" strokeWidth={1.75} /></div>
               <div className="pr-addon-body">
                 <div className="pr-addon-name">Accessibility Audit (WCAG)</div>
                 <div className="pr-addon-desc">Full WCAG 2.1 AA compliance audit and remediation report</div>

@@ -201,7 +201,21 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 }
 .hero-sub{font-size:17px;color:rgba(255,255,255,.5);line-height:1.8;max-width:480px;margin-top:22px;margin-bottom:28px;font-weight:400}
 .hero-sub strong{color:rgba(255,255,255,.8);font-weight:600}
-.hero-btns{display:flex;justify-content:center;align-items:center;margin-bottom:4px;margin-top:-12px;max-width:480px}
+.hero-btns{display:flex;flex-direction:column;gap:12px;margin-bottom:4px;margin-top:-12px;max-width:480px;align-items:flex-start}
+.hero-btn-primary{width:100%}
+.hero-btn-secondary{
+  display:inline-flex;align-items:center;justify-content:center;
+  background:transparent;color:rgba(255,255,255,.6);
+  border:1px solid rgba(255,255,255,.2);border-radius:50px;
+  padding:9px 22px;font-size:13px;font-weight:600;cursor:pointer;
+  font-family:'Inter',sans-serif;transition:all .2s;width:100%;
+}
+.hero-btn-secondary:hover{color:#fff;border-color:rgba(255,255,255,.5);background:rgba(255,255,255,.06)}
+@media(min-width:769px){
+  .hero-btns{flex-direction:row;align-items:center}
+  .hero-btn-primary{width:auto}
+  .hero-btn-secondary{width:auto}
+}
 .btn-primary{
   display:inline-flex;align-items:center;gap:8px;
   background:var(--blue);color:#fff;
@@ -232,7 +246,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   border-radius:50px;
   flex:1;
 }
-.tb-icon{font-size:15px;line-height:1;flex-shrink:0}
+.tb-icon{font-size:15px;line-height:1;flex-shrink:0;display:flex;align-items:center;justify-content:center}
 .tb-text{display:flex;flex-direction:column;gap:1px}
 .tb-main{font-size:12px;font-weight:700;color:rgba(255,255,255,.9);white-space:nowrap}
 .tb-sub{font-size:11px;font-weight:400;color:rgba(255,255,255,.5);white-space:nowrap}
@@ -469,7 +483,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   transition:all .25s;align-self:stretch;
 }
 .val-card:hover{border-color:var(--blue);box-shadow:0 4px 20px rgba(37,99,235,.08)}
-.val-icon{font-size:22px;margin-bottom:8px}
+.val-icon{font-size:22px;margin-bottom:8px;display:flex;align-items:center}
 .val-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:4px}
 .val-desc{font-size:11px;color:var(--muted);line-height:1.5}
 
@@ -492,7 +506,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   transition:all .25s;
 }
 .cv-card:hover{border-color:var(--blue);box-shadow:0 4px 20px rgba(37,99,235,.08)}
-.cv-icon{font-size:18px;margin-bottom:6px}
+.cv-icon{font-size:18px;margin-bottom:6px;display:flex;align-items:center}
 .cv-title{font-size:12px;font-weight:700;color:var(--text);margin-bottom:4px}
 .cv-desc{font-size:11px;color:var(--muted);line-height:1.5}
 @media(max-width:768px){
@@ -574,7 +588,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   width:220px;height:220px;border-radius:50%;
   background:rgba(37,99,235,.15);pointer-events:none;
 }
-.cs-emoji{font-size:32px;line-height:1}
+.cs-emoji{font-size:32px;line-height:1;display:flex;align-items:center;justify-content:center}
 .cs-body{text-align:center}
 .cs-eyebrow{font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#60A5FA;margin-bottom:4px}
 .cs-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:17px;font-weight:800;color:#fff;margin-bottom:3px}
@@ -654,7 +668,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   font-size:8px;font-weight:800;letter-spacing:1.2px;text-transform:uppercase;
   padding:3px 10px;border-radius:0 0 7px 7px;
 }
-.pr-emoji{font-size:20px;margin-bottom:6px;line-height:1}
+.pr-emoji{font-size:20px;margin-bottom:6px;line-height:1;display:flex;align-items:center}
 .pr-name{font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;color:var(--text);margin-bottom:2px}
 .pr-tagline{font-size:10px;color:var(--blue);font-weight:600;margin-bottom:8px;line-height:1.4}
 .pr-price{display:flex;align-items:baseline;gap:2px;margin-bottom:2px;justify-content:center}
@@ -671,7 +685,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   transition:all .25s;
 }
 .pr-addon-card:hover{border-color:var(--blue);box-shadow:0 6px 24px rgba(37,99,235,.1);transform:translateY(-2px)}
-.pr-addon-icon{font-size:30px;flex-shrink:0;line-height:1;margin-top:2px}
+.pr-addon-icon{font-size:30px;flex-shrink:0;line-height:1;margin-top:2px;display:flex;align-items:center}
 .pr-addon-body{flex:1}
 .pr-addon-name{font-size:14px;font-weight:700;color:var(--text);margin-bottom:5px}
 .pr-addon-desc{font-size:12px;color:var(--muted);line-height:1.55}

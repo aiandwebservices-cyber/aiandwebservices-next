@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { Mail, Phone, Zap } from 'lucide-react';
 
 export default function Contact() {
   const [status, setStatus] = useState('idle');
@@ -131,11 +132,11 @@ export default function Contact() {
         {/* ── FOOTER: contact info centered ── */}
         <div className="contact-footer">
           <a href="mailto:david@aiandwebservices.com" className="ci-row" style={{textDecoration:'none'}}>
-            <div className="ci-icon">📧</div>
+            <div className="ci-icon"><Mail size={20} color="#60A5FA" strokeWidth={1.75} /></div>
             <span style={{color:'#60A5FA',fontWeight:500}}>david@aiandwebservices.com</span>
           </a>
           <a href="tel:+13155720710" className="ci-row" style={{textDecoration:'none'}}>
-            <div className="ci-icon">📞</div>
+            <div className="ci-icon"><Phone size={20} color="#60A5FA" strokeWidth={1.75} /></div>
             <span style={{color:'#60A5FA',fontWeight:500}}>(315) 572-0710</span>
           </a>
           <a href="https://t.me/aiandwebservices" target="_blank" rel="noopener noreferrer" className="ci-row" style={{textDecoration:'none'}} aria-label="@aiandwebservices on Telegram (opens in new tab)">
@@ -143,7 +144,7 @@ export default function Contact() {
             <span style={{color:'#60A5FA',fontWeight:500}}>@aiandwebservices</span>
           </a>
           <div className="ci-row">
-            <div className="ci-icon">⚡</div>
+            <div className="ci-icon"><Zap size={20} color="#f59e0b" strokeWidth={1.75} /></div>
             <span style={{textAlign:'center'}}>Guaranteed response <strong style={{color:'#fff'}}>within 6 hours</strong><br/><span className="ci-minutes">— usually within minutes</span></span>
           </div>
         </div>
