@@ -20,7 +20,6 @@ const NAV_LINKS = [
   { label: 'Home',         href: '/' },
   { label: 'How It Works', href: '/#how-it-works' },
   { label: 'Services',     href: '/#services', dropdown: true },
-  { label: 'Pricing',      href: '/#pricing' },
   { label: 'About',        href: '/#about' },
   { label: 'FAQ',          href: '/#faq' },
   { label: 'Blog',         href: '/#blog' },
@@ -56,7 +55,7 @@ export default function ServicesLayout({ children }) {
                       <Link key={sl} href={sh} className="svc-nav-dropdown-item">{sl}</Link>
                     ))}
                     <div className="svc-nav-divider" />
-                    <Link href="/#pricing" className="svc-nav-dropdown-item svc-nav-compare">Compare All Plans</Link>
+                    <Link href="/#services" className="svc-nav-dropdown-item svc-nav-compare">Compare All Plans</Link>
                   </div>
                 </div>
               </div>
@@ -93,7 +92,7 @@ export default function ServicesLayout({ children }) {
                     {SERVICE_LINKS.map(({ label: sl, href: sh }) => (
                       <Link key={sl} href={sh} className="svc-mob-sub-item" onClick={() => { setSvcOpen(false); setMenuOpen(false); }}>{sl}</Link>
                     ))}
-                    <Link href="/#pricing" className="svc-mob-sub-item svc-mob-compare" onClick={() => { setSvcOpen(false); setMenuOpen(false); }}>Compare All Plans</Link>
+                    <Link href="/#services" className="svc-mob-sub-item svc-mob-compare" onClick={() => { setSvcOpen(false); setMenuOpen(false); }}>Compare All Plans</Link>
                   </div>
                 )}
               </div>

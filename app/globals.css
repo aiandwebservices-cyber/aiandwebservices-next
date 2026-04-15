@@ -1177,9 +1177,9 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   .hero-left .hero-sub{flex:0 0 auto}
   .hero-left .hero-btns{flex:0 0 auto}
   .hero-left .hero-bottom{margin-top:auto;padding-bottom:8px}
-  .hero-h1{font-size:clamp(38px,10vw,64px);line-height:1.1;margin-bottom:16px}
-  .hero-sub{font-size:15px;margin-top:0;margin-bottom:20px;line-height:1.7}
-  .hero-btns{flex-direction:column;gap:10px;max-width:100%;margin-bottom:20px;margin-top:0}
+  .hero-h1{font-size:clamp(44px,12vw,72px);line-height:1.05;margin-bottom:12px}
+  .hero-sub{font-size:15px;margin-top:0;margin-bottom:14px;line-height:1.7}
+  .hero-btns{flex-direction:column;gap:10px;max-width:100%;margin-bottom:16px;margin-top:0}
   .hero-btns .btn-primary,.hero-btns .btn-ghost-w{width:100%;justify-content:center;text-align:center;font-size:16px;padding:14px 20px}
   .hero-right{flex:none;width:100%;padding:28px 5vw 40px}
   .hero-stats{gap:20px}
