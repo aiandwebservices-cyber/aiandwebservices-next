@@ -35,10 +35,10 @@ export default function Home() {
           <Services />
           <Pricing />
           <About />
-          <Comparison />
           <FAQ />
           <Blog />
           <Contact />
+          <Comparison />
         </div>
       </main>
 
