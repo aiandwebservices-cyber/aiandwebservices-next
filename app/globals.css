@@ -347,15 +347,15 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 .cat-crypto:hover{box-shadow:0 12px 36px rgba(14,165,233,.12)}
 
 /* ── PANEL 2: FULL FUNNEL ── */
-#p2{background:var(--navy2)}
+#p2{background:#fff}
 .funnel-inner{
   height:100%;display:flex;flex-direction:column;
   padding:88px 8vw 40px;
 }
 .funnel-header{margin-bottom:-48px}
 .funnel-header .panel-eyebrow{margin-bottom:28px}
-.funnel-header .panel-h2{color:#fff;margin-top:35px;margin-bottom:12px;text-align:center}
-.funnel-header .panel-sub{color:rgba(255,255,255,.55);max-width:780px;margin:0 auto;text-align:center}
+.funnel-header .panel-h2{color:#111827;margin-top:35px;margin-bottom:12px;text-align:center}
+.funnel-header .panel-sub{color:#6b7280;max-width:780px;margin:0 auto;text-align:center}
 .funnel-grid{
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -366,7 +366,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 .fstep{
   grid-column:1;
   display:flex;gap:16px;padding:20px 0;
-  border-bottom:1px solid rgba(255,255,255,.06);
+  border-bottom:1px solid rgba(0,0,0,.07);
   align-items:center;
 }
 .fstep:last-child{border:none}
@@ -378,10 +378,10 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   width:28px;height:28px;min-width:28px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
   font-size:12px;font-weight:800;color:#fff;z-index:1;
-  box-shadow:0 0 0 4px rgba(255,255,255,.04);flex-shrink:0;
+  box-shadow:0 0 0 4px rgba(0,0,0,.04);flex-shrink:0;
 }
-.fstep-body h4{font-size:17px;font-weight:700;margin-bottom:4px}
-.fstep-body p{font-size:14px;color:rgba(255,255,255,.55);line-height:1.6}
+.fstep-body h4{font-size:17px;font-weight:700;margin-bottom:4px;color:#111827}
+.fstep-body p{font-size:14px;color:#6b7280;line-height:1.6}
 .fnode{
   grid-column:2;
   display:flex;align-items:center;gap:16px;
@@ -390,14 +390,14 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 .fnode-line{
   position:absolute;left:13px;top:calc(50% + 14px);
   width:2px;height:calc(100% - 14px);
-  background:linear-gradient(to bottom,rgba(255,255,255,.2),rgba(255,255,255,.05));
+  background:linear-gradient(to bottom,rgba(0,0,0,.12),rgba(0,0,0,.03));
 }
 .fnode:last-child .fnode-line{display:none}
 .fnode-dot{
   width:28px;height:28px;min-width:28px;border-radius:50%;
   display:flex;align-items:center;justify-content:center;
   font-size:12px;font-weight:800;color:#fff;z-index:1;
-  box-shadow:0 0 0 4px rgba(255,255,255,.04);
+  box-shadow:0 0 0 4px rgba(0,0,0,.04);
 }
 .fn1 .fnode-dot{background:#2AA5A0}
 .fn2 .fnode-dot{background:var(--am-lt)}
@@ -408,11 +408,11 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 .fn3 .fnode-card h4{color:#2AA5A0}
 .fn4 .fnode-card h4{color:#A78BFA}
 .fnode-card{
-  flex:1;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);
+  flex:1;background:#f9fafb;border:1px solid #e5e7eb;
   border-radius:12px;padding:18px 20px;
 }
-.fnode-card h4{font-size:18px;font-weight:700;color:#fff;margin-bottom:4px}
-.fnode-card p{font-size:14px;color:rgba(255,255,255,.38)}
+.fnode-card h4{font-size:18px;font-weight:700;color:#111827;margin-bottom:4px}
+.fnode-card p{font-size:14px;color:#6b7280}
 .fnode-metric{
   font-family:'Plus Jakarta Sans',sans-serif;
   font-size:26px;font-weight:800;
@@ -1078,12 +1078,12 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 .hero-sub{color:rgba(255,255,255,.8)!important}
 .hero-sub strong{color:#fff!important}
 .panel-sub[style*="rgba(255,255,255,.45)"]{color:rgba(255,255,255,.75)!important}
-.fstep-body p{color:rgba(255,255,255,.75)!important}
-.fnode-card p{color:rgba(255,255,255,.75)!important}
+.fstep-body p{color:#6b7280!important}
+.fnode-card p{color:#6b7280!important}
 .ci-row{color:rgba(255,255,255,.85)!important}
 .form-note{color:rgba(255,255,255,.7)!important}
 .hs-l{color:rgba(255,255,255,.7)!important}
-.fnode-card p{color:rgba(255,255,255,.8)!important}
+.fnode-card p{color:#6b7280!important}
 .fn1 .fnode-card h4{color:#2AA5A0!important}
 .fn2 .fnode-card h4{color:#F59E0B!important}
 .fn3 .fnode-card h4{color:#2AA5A0!important}
