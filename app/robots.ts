@@ -9,6 +9,6 @@ export default function robots(): MetadataRoute.Robots {
         disallow: '/preview/',
       },
     ],
-    sitemap: 'https://aiandwebservices.com/sitemap.xml',
+    sitemap: 'https://www.aiandwebservices.com/sitemap.xml',
   };
 }
