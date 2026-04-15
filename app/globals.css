@@ -1191,9 +1191,9 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   .ci-row{font-size:13px}
   .contact-footer{padding-top:10px;padding-bottom:4px;gap:16px 28px}
 
-  .hero-h1{font-size:clamp(48px,6vw,82px)}
+  .hero-h1{font-size:clamp(56px,7vw,88px)}
   .hero-sub{font-size:17px;margin-top:22px;margin-bottom:28px}
-  .hero-btns{margin-bottom:4px}
+  .hero-btns{margin-bottom:14px}
   .hero-right{gap:10px}
   .funnel-card{padding:14px 16px}
 }
