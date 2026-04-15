@@ -13,10 +13,11 @@ const faqs = [
 
 export default function FAQ() {
   function toggleFaq(e) {
+    e.preventDefault();
     e.stopPropagation();
     e.currentTarget.classList.toggle('faq-item--open');
     window._faqToggling = true;
-    setTimeout(() => { window._faqToggling = false; }, 400);
+    setTimeout(() => { window._faqToggling = false; }, 700);
   }
   function handleFaqKey(e) {
     if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleFaq(e); }
