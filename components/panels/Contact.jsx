@@ -111,7 +111,7 @@ export default function Contact() {
 
         {/* ── RIGHT: Calendly ── */}
         <div className="contact-right">
-          <div className="contact-form calendly-wrap" style={{display:'flex',flexDirection:'column'}}>
+          <div className="contact-form calendly-wrap" style={{display:'flex',flexDirection:'column',height:'100%'}}>
             <div style={{textAlign:'center',marginBottom:'12px'}}>
               <div style={{fontSize:'20px',fontWeight:'800',color:'#fff',marginBottom:'4px'}}>Let&apos;s Talk!</div>
               <div style={{fontSize:'13px',color:'rgba(255,255,255,.5)'}}>Pick a time that works — 30 minutes, no pressure.</div>
