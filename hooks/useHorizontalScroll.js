@@ -7,8 +7,8 @@ export function useHorizontalScroll() {
   useEffect(() => {
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
-    const TOTAL = 8;
-    const hashNames = ['home','how-it-works','services','pricing','about','faq','blog','contact'];
+    const TOTAL = 9;
+    const hashNames = ['home','how-it-works','services','pricing','about','comparison','faq','blog','contact'];
     const hashToPanel = Object.fromEntries(hashNames.map((h,i) => [h,i]));
     const startHash = window.location.hash.replace('#','');
     let cur = hashToPanel[startHash] ?? 0;
@@ -39,7 +39,7 @@ export function useHorizontalScroll() {
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobile-menu');
     const scrollHint = document.getElementById('scroll-hint');
-    const darkPanels = new Set([0, 2, 7]);
+    const darkPanels = new Set([0, 2, 5, 8]);
 
     if (isMobile() && track) {
       track.style.transform = '';
@@ -86,9 +86,9 @@ export function useHorizontalScroll() {
       updateUI(pushHistory);
     }
 
-    // Map nav index → panel IDs (order: Home, HowItWorks, Services, Pricing, About, Blog, FAQ, Contact)
-    // Order: Home, HowItWorks, Services, Pricing, About, FAQ, Blog, Contact
-    const panelIds = ['p0','p2','p1','p5','p3','p7','p6','p8'];
+    // Map nav index → panel IDs
+    // Order: Home(0), HowItWorks(1), Services(2), Pricing(3), About(4), Comparison(5), FAQ(6), Blog(7), Contact(8)
+    const panelIds = ['p0','p2','services','pricing','p3','comparison','p7','p6','p8'];
 
     function scrollToPanel(n, pushHistory = true) {
       n = Math.max(0, Math.min(TOTAL - 1, n));
