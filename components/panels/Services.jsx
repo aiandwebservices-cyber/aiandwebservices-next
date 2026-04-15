@@ -96,7 +96,7 @@ const CARDS = [
 
 export default function Services() {
   return (
-    <section className="panel" id="services" style={{background:'var(--navy2)'}}>
+    <section className="panel services-light-panel" id="services">
       <div className="svc-panel">
         <div className="panel-eyebrow">Services</div>
         <h2 className="panel-h2" style={{ marginBottom: '8px' }}>
@@ -108,7 +108,7 @@ export default function Services() {
 
         <div className="svc-tier-grid">
           {CARDS.map(({ id, Icon, name, outcome, highlights, perfectFor, price, pricingAnchor }) => (
-            <div key={id} id={id} className="svc-tier-card" style={{ scrollMarginTop: '100px' }}>
+            <div key={id} id={id} className="svc-tier-card svc-tier-card--light" style={{ scrollMarginTop: '100px' }}>
               <div className="svc-tier-top">
                 <div className="svc-tier-icon">
                   <Icon size={30} color="#00D9FF" strokeWidth={1.75} />
@@ -122,14 +122,14 @@ export default function Services() {
                 <p className="svc-tier-price">{price}</p>
               </div>
               <div className="svc-tier-ctas">
-                <a href={pricingAnchor} className="btn-ghost-w svc-tier-btn-ghost">See Pricing ↓</a>
+                <a href={pricingAnchor} className="btn-ghost-dark svc-tier-btn-ghost">See Pricing ↓</a>
                 <a href="#contact" className="btn-primary svc-tier-btn-solid">Get Started</a>
               </div>
             </div>
           ))}
         </div>
 
-        <div className="svc-tier-bottom-cta">
+        <div className="svc-tier-bottom-cta svc-tier-bottom-cta--light">
           <p><strong>Not sure which tier fits?</strong> The free audit is the easiest way to get a personalized recommendation.</p>
           <a href="#contact" className="btn-primary" style={{ marginTop: '16px', display: 'inline-flex' }}>Get a Free Audit →</a>
         </div>
