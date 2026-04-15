@@ -1831,8 +1831,10 @@ html:has(.svc-page-main){overflow:auto!important}
 
 @media(max-width:768px){
   .svc-page-links{display:none}
+  .svc-page-cta{display:none}
   .svc-hamburger{display:flex}
   .svc-page-nav{padding:0 4vw}
+  .svc-hamburger span{background:#fff;width:22px}
 }
 
 /* ── Page wrapper ── */
