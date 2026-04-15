@@ -20,14 +20,13 @@ const PANELS = [
   { idx: 1, label: 'How It Works', nav: true },
   { idx: 2, label: 'Comparison',   nav: true },
   { idx: 3, label: 'Services',     nav: true },
-  { idx: 4, label: 'Pricing',      nav: true },
-  { idx: 5, label: 'About',        nav: true },
-  { idx: 6, label: 'FAQ',          nav: true },
-  { idx: 7, label: 'Blog',         nav: true },
-  { idx: 8, label: 'Contact',      nav: true },
+  { idx: 4, label: 'About',        nav: true },
+  { idx: 5, label: 'FAQ',          nav: true },
+  { idx: 6, label: 'Blog',         nav: true },
+  { idx: 7, label: 'Contact',      nav: true },
 ];
 const NAV_PANELS = PANELS.filter(p => p.nav);
-const CONTACT_IDX = 8;
+const CONTACT_IDX = 7;
 
 export default function Nav() {
   const go = (n) => window.go && window.go(n);
@@ -50,8 +49,8 @@ export default function Nav() {
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  // Panels 0, 2, 8 have dark (navy) backgrounds — use white text logo
-  const darkPanels = new Set([0, 2, 8]);
+  // Panels 0, 2, 7 have dark (navy) backgrounds — use white text logo
+  const darkPanels = new Set([0, 2, 7]);
   const logoSrc = darkPanels.has(currentPanel)
     ? '/logo-gradient-test.svg'
     : '/logo-gradient-light.svg';

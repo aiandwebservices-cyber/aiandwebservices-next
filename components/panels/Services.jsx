@@ -1,145 +1,116 @@
 'use client';
 import Link from 'next/link';
-import { Bot, Globe, TrendingUp, Zap, Brain, Target } from 'lucide-react';
+import { Bot, Sprout, TrendingUp, Zap, Brain, Target, Wallet, ShoppingCart, Eye } from 'lucide-react';
 
-const CARDS = [
-  {
-    id: 'service-ai-starter',
-    Icon: Bot,
-    name: 'AI Automation Starter',
-    outcome: 'Your first AI system — handling leads while you sleep',
-    highlights: [
-      'Custom AI chatbot trained on your business',
-      'Calendar booking + CRM integration',
-      'FAQ handling + lead qualification',
-      'Monthly updates & monitoring',
-    ],
-    perfectFor: 'Service businesses losing leads to voicemail and email delays',
-    price: '$997 setup + $97/mo',
-    pricingAnchor: '#pricing-ai-starter',
-    serviceHref: '/services/ai-automation-starter',
-  },
-  {
-    id: 'service-presence',
-    Icon: Globe,
-    name: 'Presence',
-    outcome: 'Get found online — the foundation every business needs',
-    highlights: [
-      'Professional 5-page website',
-      'Local SEO + Google Business Profile',
-      'Basic AI inquiry assistant',
-      'Monthly performance reports',
-    ],
-    perfectFor: 'New businesses that need a professional online foundation',
-    price: '$297/mo + $997 setup',
-    pricingAnchor: '#pricing-presence',
-    serviceHref: '/services/presence',
-  },
-  {
-    id: 'service-growth',
-    Icon: TrendingUp,
-    name: 'Growth',
-    outcome: 'Turn visitors into leads automatically',
-    highlights: [
-      'Everything in Presence, plus:',
-      'Full AI automation + email marketing',
-      'SEO content (2 articles/month)',
-      'Conversion-optimized landing pages',
-    ],
-    perfectFor: 'Established businesses ready for consistent lead generation',
-    price: '$597/mo + $2,497 setup',
-    pricingAnchor: '#pricing-growth',
-    serviceHref: '/services/growth',
-  },
-  {
-    id: 'service-revenue-engine',
-    Icon: Zap,
-    name: 'Revenue Engine',
-    outcome: 'Automate your entire sales process',
-    highlights: [
-      'Everything in Growth, plus:',
-      'Full sales funnel + workflow automation',
-      'Paid ads setup (Google or Meta)',
-      'Monthly strategy calls with David',
-    ],
-    perfectFor: 'Businesses scaling revenue without scaling headcount',
-    price: '$997/mo + $3,997 setup',
-    pricingAnchor: '#pricing-revenue-engine',
-    serviceHref: '/services/revenue-engine',
-  },
-  {
-    id: 'service-ai-first',
-    Icon: Brain,
-    name: 'AI-First',
-    outcome: 'Run a bigger business with the same team',
-    highlights: [
-      'Everything in Revenue Engine, plus:',
-      'Voice AI (answering + booking)',
-      'Programmatic SEO at scale',
-      'Social media AI scheduling + full analytics dashboard',
-    ],
-    perfectFor: 'Owners replacing manual work with advanced AI systems',
-    price: '$1,497/mo + $5,497 setup',
-    pricingAnchor: '#pricing-ai-first',
-    serviceHref: '/services/ai-first',
-  },
-  {
-    id: 'service-consulting',
-    Icon: Target,
-    name: 'Consulting & Strategy',
-    outcome: 'Know exactly where to start before you spend',
-    highlights: [
-      'AI readiness audit + transformation roadmap',
-      'Tool stack recommendations',
-      'Staff AI training & workshops',
-      'Optional fractional AI advisor (ongoing)',
-    ],
-    perfectFor: 'Businesses wanting expert guidance before committing to a build',
-    price: '$497 once or $1,497/mo fractional',
-    pricingAnchor: '#pricing-consulting',
-    serviceHref: '/services/consulting',
-  },
+const MAIN_PLANS = [
+  { Icon: Sprout, iconColor:'#34d399', name:'Presence', tagline:'Get found online', price:'297', setup:'$997', features:['Professional website (5 pages)','Local SEO + Google Business Profile','Basic AI inquiry assistant','Monthly performance report'], best:'Brand new businesses that need a professional foundation', serviceHref:'/services/presence', pricingId:'pricing-presence' },
+  { Icon: TrendingUp, iconColor:'#34d399', name:'Growth', tagline:'Turn visitors into leads', price:'597', setup:'$2,497', features:['Everything in Presence','AI automation & smart assistant','Email marketing + welcome sequence','SEO content (2 articles/month)','Conversion-optimized landing page'], best:'Established businesses ready to generate consistent leads', serviceHref:'/services/growth', pricingId:'pricing-growth' },
+  { Icon: Zap, iconColor:'#a78bfa', name:'Revenue Engine', tagline:'Automate your sales process', price:'997', setup:'$3,997', popular:true, features:['Everything in Growth','Full sales funnel design & build','Workflow automation (Zapier/Make)','Paid ads setup (Google or Meta)','AI-powered CRM integration','Monthly strategy call with David'], best:'Businesses serious about scaling revenue without scaling headcount', serviceHref:'/services/revenue-engine', pricingId:'pricing-revenue-engine' },
+  { Icon: Brain, iconColor:'#60a5fa', name:'AI-First', tagline:'Replace manual work with AI', price:'1,497', setup:'$5,497', features:['Everything in Revenue Engine','Advanced AI automation pipelines','Voice AI (answering + booking)','Programmatic SEO at scale','Social media AI scheduling','Full analytics dashboard'], best:'Owners who want to run a bigger business with the same size team', serviceHref:'/services/ai-first', pricingId:'pricing-ai-first' },
+  { Icon: Target, iconColor:'#f87171', name:'Consulting', tagline:'Know exactly where to start', price:'497', priceLabel:' once', setup:'or $1,497/mo fractional', features:['AI readiness audit','Digital transformation roadmap','Tool stack recommendations','Staff AI training & workshops','Fractional AI advisor (ongoing)'], best:'Businesses that want expert guidance before committing to a full build', serviceHref:'/services/consulting', pricingId:'pricing-consulting', consultingLink:'/services/consulting' },
 ];
+
+function PrCard({ plan }) {
+  const { Icon, iconColor } = plan;
+  return (
+    <div id={plan.pricingId} className={`pr-card${plan.popular ? ' popular' : ''}`} style={{scrollMarginTop:'100px'}}>
+      {plan.popular && <div className="pr-pop-badge">Most Popular</div>}
+      <div className="pr-emoji"><Icon size={20} color={iconColor || '#00D9FF'} strokeWidth={1.75} /></div>
+      <div className="pr-name">{plan.name}</div>
+      <div className="pr-tagline">{plan.tagline}</div>
+      <div className="pr-price">
+        <div className="pr-price-n"><sup>$</sup>{plan.price}</div>
+        <div className="pr-price-per">{plan.priceLabel || '/mo'}</div>
+      </div>
+      <div className="pr-setup-wrap">
+        <span className="pr-setup">+ {plan.setup}{plan.priceLabel ? '' : ' one-time setup'}</span>
+      </div>
+      <ul className="pr-list">
+        {plan.features.map(f => <li key={f}>{f}</li>)}
+      </ul>
+      <div className="pr-best">Best for: {plan.best}</div>
+      <Link href={plan.serviceHref} className="pr-whats-included">What&apos;s included? →</Link>
+      {plan.consultingLink
+        ? <Link href={plan.consultingLink} className="pr-btn pr-btn-link">Get More Info</Link>
+        : <button className="pr-btn" onClick={() => window.go && window.go(7)}>Get Started</button>
+      }
+    </div>
+  );
+}
 
 export default function Services() {
   return (
-    <section className="panel services-light-panel" id="services">
-      <div className="svc-panel">
-        <div className="panel-eyebrow">Services</div>
-        <h2 className="panel-h2" style={{ marginBottom: '8px' }}>
-          Everything you need to get found, get leads, and get paid.
-        </h2>
-        <p className="panel-sub" style={{ marginBottom: '40px' }}>
-          Each tier is a complete system — not a menu of disconnected services. Start where it makes sense and scale when you&apos;re ready.
-        </p>
+    <section className="panel" id="services" style={{scrollMarginTop:'100px'}} aria-label="AIandWEBservices pricing — AI automation and web development packages for small business">
+      <div className="pricing-inner">
+        <div className="pricing-header">
+          <div className="panel-eyebrow">Pricing</div>
+          <h2 className="panel-h2" style={{marginBottom:'24px'}}>Transparent pricing.<span className="pricing-br"><br/></span> No surprises.</h2>
+          <div className="no-contract">No contracts — cancel or pause anytime</div>
+          <p className="pricing-crosslinks">
+            <a href="/services/consulting">Not sure which plan fits?</a> Get a <a href="#contact">free audit</a> for a personalized recommendation.
+          </p>
+        </div>
 
-        <div className="svc-tier-grid">
-          {CARDS.map(({ id, Icon, name, outcome, highlights, perfectFor, price, pricingAnchor, serviceHref }) => (
-            <div key={id} id={id} className="svc-tier-card svc-tier-card--light" style={{ scrollMarginTop: '100px' }}>
-              <div className="svc-tier-top">
-                <div className="svc-tier-icon">
-                  <Icon size={30} color="#00D9FF" strokeWidth={1.75} />
-                </div>
-                <h3 className="svc-tier-name">{name}</h3>
-                <p className="svc-tier-outcome">{outcome}</p>
-                <ul className="svc-tier-list">
-                  {highlights.map((h, i) => <li key={i}>{h}</li>)}
-                </ul>
-                <p className="svc-tier-perfect"><em>Perfect for: {perfectFor}</em></p>
-                <p className="svc-tier-price">{price}</p>
-              </div>
-              <div className="svc-tier-ctas">
-                <a href={pricingAnchor} className="btn-ghost-dark svc-tier-btn-ghost">See Pricing ↓</a>
-                <Link href={serviceHref} className="btn-primary svc-tier-btn-solid">Get More Info</Link>
-              </div>
+        {/* AI Automation Starter — standalone chatbot card */}
+        <div id="pricing-ai-starter" className="chatbot-solo" style={{scrollMarginTop:'100px'}}>
+          <div className="cs-emoji"><Bot size={32} color="#60a5fa" strokeWidth={1.75} /></div>
+          <div className="cs-body">
+            <div className="cs-eyebrow">Standalone · Just the chatbot</div>
+            <div className="cs-title">AI Automation Starter — Your First AI System</div>
+            <div className="cs-desc">A custom AI automation and smart assistant system trained on your business, deployed on your website. Handles enquiries, qualifies leads, books calls, and answers FAQs — 24/7, without you.</div>
+            <div className="cs-feats">
+              <span className="cs-feat">Trained on your business</span>
+              <span className="cs-feat">Books calls to your calendar</span>
+              <span className="cs-feat">CRM integration</span>
+              <span className="cs-feat">FAQ handling</span>
+              <span className="cs-feat">Monthly updates included</span>
             </div>
-          ))}
+            <Link href="/services/ai-automation-starter" className="pr-whats-included" style={{display:'inline-block',marginTop:'8px'}}>What&apos;s included? →</Link>
+          </div>
+          <div className="cs-price-block">
+            <div className="cs-setup-lbl">One-time setup</div>
+            <div className="cs-amount"><sup>$</sup>997</div>
+            <div className="cs-mo">then <strong>$97/month</strong></div>
+            <Link href="/services/ai-automation-starter" className="cs-btn cs-btn-link" aria-label="Get more info about AI Automation Starter">Get More Info</Link>
+          </div>
         </div>
 
-        <div className="svc-tier-bottom-cta svc-tier-bottom-cta--light">
-          <p><strong>Not sure which tier fits?</strong> The free audit is the easiest way to get a personalized recommendation.</p>
-          <a href="#contact" className="btn-primary" style={{ marginTop: '16px', display: 'inline-flex' }}>Get a Free Audit →</a>
+        {/* All 5 main plans — always visible */}
+        <div className="pricing-grid">
+          {MAIN_PLANS.map(plan => <PrCard key={plan.name} plan={plan} />)}
         </div>
+
+        {/* Add-on Services */}
+        <div id="pricing-addons" style={{scrollMarginTop:'100px'}}>
+          <div className="pr-addons-lbl">Add-on Services</div>
+          <div className="pr-addons-grid">
+            <div className="pr-addon-card">
+              <div className="pr-addon-icon"><Wallet size={28} color="#00D9FF" strokeWidth={1.75} /></div>
+              <div className="pr-addon-body">
+                <div className="pr-addon-name">Crypto Payment Infrastructure</div>
+                <div className="pr-addon-desc">Accept Bitcoin, stablecoins &amp; multi-chain payments on your site</div>
+              </div>
+              <div className="pr-addon-price">$997 setup</div>
+            </div>
+            <div className="pr-addon-card">
+              <div className="pr-addon-icon"><ShoppingCart size={28} color="#00D9FF" strokeWidth={1.75} /></div>
+              <div className="pr-addon-body">
+                <div className="pr-addon-name">E-commerce Integration</div>
+                <div className="pr-addon-desc">Shopify or WooCommerce store built and connected to your site</div>
+              </div>
+              <div className="pr-addon-price">from $1,497</div>
+            </div>
+            <div className="pr-addon-card">
+              <div className="pr-addon-icon"><Eye size={28} color="#00D9FF" strokeWidth={1.75} /></div>
+              <div className="pr-addon-body">
+                <div className="pr-addon-name">Accessibility Audit (WCAG)</div>
+                <div className="pr-addon-desc">Full WCAG 2.1 AA compliance audit and remediation report</div>
+              </div>
+              <div className="pr-addon-price">$497</div>
+            </div>
+          </div>
+        </div>
+
       </div>
     </section>
   );

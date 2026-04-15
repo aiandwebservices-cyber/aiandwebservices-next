@@ -5,7 +5,6 @@ import Hero from '@/components/panels/Hero';
 import Services from '@/components/panels/Services';
 import HowItWorks from '@/components/panels/HowItWorks';
 import About from '@/components/panels/About';
-import Pricing from '@/components/panels/Pricing';
 import Blog from '@/components/panels/Blog';
 import FAQ from '@/components/panels/FAQ';
 import Contact from '@/components/panels/Contact';
@@ -34,7 +33,6 @@ export default function Home() {
           <Comparison />
           <Testimonials />
           <Services />
-          <Pricing />
           <About />
           <FAQ />
           <Blog />

@@ -239,7 +239,7 @@ export default function Comparison() {
           </p>
           <button
             className="btn-primary"
-            onClick={() => window.go && window.go(8)}
+            onClick={() => window.go && window.go(7)}
             style={{ display: 'inline-flex' }}
           >
             Get Your Free Audit →
