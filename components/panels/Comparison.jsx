@@ -218,17 +218,32 @@ export default function Comparison() {
         </div>
 
         {/* Bottom CTA */}
-        <div style={{ textAlign: 'center', marginTop: '40px' }}>
-          <p style={{ color: 'rgba(255,255,255,.6)', fontSize: '1rem', marginBottom: '20px', lineHeight: '1.6' }}>
-            Ready to work with someone who actually builds and maintains your systems?
+        <div style={{
+          marginTop: '55px',
+          padding: '20px 28px',
+          background: 'rgba(42,165,160,.08)',
+          border: '1px solid rgba(42,165,160,.3)',
+          borderRadius: '14px',
+          maxWidth: '960px',
+          width: '100%',
+          marginLeft: 'auto',
+          marginRight: 'auto',
+          textAlign: 'center',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          gap: '14px',
+        }}>
+          <p style={{ color: 'rgba(255,255,255,.7)', fontSize: '15px', margin: 0, lineHeight: '1.6' }}>
+            <strong style={{ color: '#fff' }}>Ready to work with someone who actually builds and maintains your systems?</strong>
           </p>
-          <a
-            href="#contact"
-            className="hero-btn"
-            onClick={(e) => { e.preventDefault(); document.getElementById('p8')?.scrollIntoView({ behavior: 'smooth' }); }}
+          <button
+            className="btn-primary"
+            onClick={() => window.go && window.go(8)}
+            style={{ display: 'inline-flex' }}
           >
-            Get Your Free Audit
-          </a>
+            Get Your Free Audit →
+          </button>
         </div>
 
       </div>
