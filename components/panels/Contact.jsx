@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Mail, Phone, Zap, ShieldCheck, CreditCard } from 'lucide-react';
+import { Mail, Phone, Zap } from 'lucide-react';
 
 export default function Contact() {
   const [status, setStatus] = useState('idle');
@@ -68,15 +68,15 @@ export default function Contact() {
                 <div style={{fontSize:'12px',color:'rgba(255,255,255,.45)'}}>Takes 2 minutes. No credit card. No obligation.</div>
               </div>
 
-              {/* Trust badges */}
-              <div className="trust-badges">
-                <span className="trust-badge"><ShieldCheck size={16} /><span>SSL Secured</span></span>
-                <span className="trust-badge"><CreditCard size={16} /><span>No Credit Card Required</span></span>
-                <span className="trust-badge"><Zap size={16} /><span>Response in 6 Hours</span></span>
-              </div>
-              <div className="form-row">
-                <label htmlFor="name">Your Name <span aria-hidden="true" style={{color:'#f87171'}}>*</span></label>
-                <input type="text" id="name" name="name" placeholder="Jane Smith" required aria-required="true" autoComplete="name"/>
+              <div className="form-row-2">
+                <div>
+                  <label htmlFor="first_name">First Name <span aria-hidden="true" style={{color:'#f87171'}}>*</span></label>
+                  <input type="text" id="first_name" name="first_name" placeholder="Jane" required aria-required="true" autoComplete="given-name"/>
+                </div>
+                <div>
+                  <label htmlFor="last_name">Last Name</label>
+                  <input type="text" id="last_name" name="last_name" placeholder="Smith" autoComplete="family-name"/>
+                </div>
               </div>
               <div className="form-row">
                 <label htmlFor="email">Business Email <span aria-hidden="true" style={{color:'#f87171'}}>*</span></label>

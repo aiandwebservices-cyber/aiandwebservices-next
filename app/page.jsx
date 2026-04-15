@@ -13,7 +13,6 @@ import Modals from '@/components/Modals';
 import CookieBanner from '@/components/CookieBanner';
 import ScrollInit from '@/components/ScrollInit';
 import Testimonials from '@/components/panels/Testimonials';
-import FloatingCTA from '@/components/FloatingCTA';
 import Comparison from '@/components/panels/Comparison';
 
 export default function Home() {
@@ -53,7 +52,6 @@ export default function Home() {
       </footer>
 
       <div id="progress-bar"></div>
-      <FloatingCTA />
       <Modals />
       <CookieBanner />
       <ScrollInit />

@@ -96,7 +96,7 @@ const CARDS = [
 
 export default function Services() {
   return (
-    <section className="panel" id="services">
+    <section className="panel" id="services" style={{background:'var(--navy2)'}}>
       <div className="svc-panel">
         <div className="panel-eyebrow">Services</div>
         <h2 className="panel-h2" style={{ marginBottom: '8px' }}>

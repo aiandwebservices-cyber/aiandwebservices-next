@@ -110,7 +110,8 @@ export default function Nav() {
           })}
         </div>
         <div className="nav-right">
-          {currentPanel !== CONTACT_IDX && <button className="nav-cta" id="nav-cta-desktop" onClick={() => go(CONTACT_IDX)} aria-label="Get a free AI audit">Get Your Free Audit</button>}
+          {currentPanel !== CONTACT_IDX && <><button className="nav-book" onClick={() => go(CONTACT_IDX)} aria-label="Book a call with David">Book a Call</button>
+          <button className="nav-cta" id="nav-cta-desktop" onClick={() => go(CONTACT_IDX)} aria-label="Get a free AI audit">Get Your Free Audit</button></>}
           <button id="hamburger" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open navigation menu"
             onClick={() => window.toggleMenu && window.toggleMenu()}>
             <span className="hb-line" aria-hidden="true"></span>
@@ -160,6 +161,7 @@ export default function Nav() {
             <button key={idx} className={`mob-link${currentPanel === idx ? ' active' : ''}`} onClick={() => mGo(idx)}>{label}</button>
           );
         })}
+        <button className="mob-book" onClick={() => mGo(CONTACT_IDX)}>Book a Call</button>
         <button className="mob-cta" onClick={() => mGo(CONTACT_IDX)}>Get Your Free Audit</button>
       </div>
 
