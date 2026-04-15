@@ -1,6 +1,16 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { posts } from '@/lib/posts';
+import { DollarSign, TrendingUp, Globe, Settings, Zap, Clock } from 'lucide-react';
+
+const TAG_ICON = {
+  'AI ROI':              <DollarSign  size={22} color="#2AA5A0" strokeWidth={1.75} />,
+  'Revenue Growth':      <TrendingUp  size={22} color="#2AA5A0" strokeWidth={1.75} />,
+  'Market Trends':       <Globe       size={22} color="#2AA5A0" strokeWidth={1.75} />,
+  'Cost Savings':        <Settings    size={22} color="#2AA5A0" strokeWidth={1.75} />,
+  'Growth vs Decline':   <Zap         size={22} color="#2AA5A0" strokeWidth={1.75} />,
+  'Competitive Pressure':<Clock       size={22} color="#2AA5A0" strokeWidth={1.75} />,
+};
 
 export default function Blog() {
   return (
@@ -17,7 +27,7 @@ export default function Blog() {
               <div className="blog-card-img" aria-hidden="true">
                 {post.source === 'AIandWEBservices'
                   ? <Image src="/logo-icon-transparent.svg" alt="AIandWEBservices" width={180} height={180} style={{objectFit:'contain',height:'100%',width:'auto'}} />
-                  : post.emoji}
+                  : (TAG_ICON[post.tag] ?? <Zap size={22} color="#2AA5A0" strokeWidth={1.75} />)}
               </div>
               <div className="blog-card-body">
                 <div className="blog-card-tag">{post.tag}</div>

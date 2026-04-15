@@ -1,6 +1,6 @@
 'use client';
 import { useState } from 'react';
-import { Mail, Phone, Zap } from 'lucide-react';
+import { Mail, Phone, Zap, CheckCircle2, Lock } from 'lucide-react';
 
 export default function Contact() {
   const [status, setStatus] = useState('idle');
@@ -57,7 +57,7 @@ export default function Contact() {
         <div className="contact-left">
           {status === 'success' ? (
             <div className="contact-form" style={{display:'flex',flexDirection:'column',alignItems:'center',justifyContent:'center',gap:'16px',minHeight:'300px',textAlign:'center'}} role="alert" aria-live="polite">
-              <div style={{fontSize:'48px'}}>✅</div>
+              <CheckCircle2 size={48} color="#10b981" strokeWidth={1.5} />
               <div style={{fontSize:'18px',fontWeight:'700',color:'#fff'}}>You&apos;re all set!</div>
               <div style={{fontSize:'14px',color:'rgba(255,255,255,.6)',lineHeight:'1.7'}}>David will review your details and get back to you personally — guaranteed within 24 hours, usually much sooner.</div>
             </div>
@@ -108,7 +108,7 @@ export default function Contact() {
               <button type="submit" className="form-submit" disabled={status === 'sending'} aria-busy={status === 'sending'} aria-live="polite">
                 {status === 'sending' ? 'Sending...' : status === 'error' ? 'Error — email david@aiandwebservices.com' : 'Get My Free Audit →'}
               </button>
-              <p className="form-note" role="note">🔒 Your info is never shared or sold. Guaranteed response within 6 hours — usually within minutes.</p>
+              <p className="form-note" role="note"><Lock size={13} style={{display:'inline',verticalAlign:'middle',marginRight:'4px'}} /> Your info is never shared or sold. Guaranteed response within 6 hours — usually within minutes.</p>
             </form>
           )}
         </div>
