@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { Bot, Phone, Clock, ClipboardList } from 'lucide-react';
 
 export const metadata = {
   title: 'AI Automation & Chatbots for Small Business | AIandWEBservices',
@@ -104,7 +105,7 @@ export default function AIAutomationPage() {
 
         {/* ── Hero ── */}
         <section className="svc-page-hero">
-          <div className="svc-page-eyebrow">🤖 AI &amp; Automation</div>
+          <div className="svc-page-eyebrow"><Bot size={14} style={{display:'inline',verticalAlign:'middle',marginRight:'6px'}} />AI &amp; Automation</div>
           <h1 className="svc-page-h1">Stop Doing Manually<br />What AI Can Do 24/7</h1>
           <p className="svc-page-lead">
             Every hour you spend answering the same questions, manually following up with leads, or jumping between disconnected tools is an hour your competitors are using to pull ahead. AI automation isn&apos;t just for enterprise companies anymore — it&apos;s the most efficient way for a small business to do more without hiring more.
@@ -123,15 +124,15 @@ export default function AIAutomationPage() {
           </p>
           <div className="svc-example-grid">
             <div className="svc-example">
-              <div className="svc-example-icon">🕐</div>
+              <div className="svc-example-icon"><Clock size={28} color="#2AA5A0" strokeWidth={1.75} /></div>
               <p>A customer asks about your pricing at 11 PM. Your AI assistant answers instantly, qualifies their budget, and books a discovery call for Tuesday morning — all without you lifting a finger.</p>
             </div>
             <div className="svc-example">
-              <div className="svc-example-icon">📋</div>
+              <div className="svc-example-icon"><ClipboardList size={28} color="#2AA5A0" strokeWidth={1.75} /></div>
               <p>A new lead fills out your contact form. Within seconds they receive a personalized follow-up email, get added to your CRM, and are tagged for a specific nurture sequence based on what they selected.</p>
             </div>
             <div className="svc-example">
-              <div className="svc-example-icon">📞</div>
+              <div className="svc-example-icon"><Phone size={28} color="#2AA5A0" strokeWidth={1.75} /></div>
               <p>You finish a client call. Your AI system transcribes it, extracts action items, creates follow-up tasks in your project tool, and drafts a summary email — ready to review in two minutes.</p>
             </div>
           </div>
