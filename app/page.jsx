@@ -31,6 +31,7 @@ export default function Home() {
         <div id="track">
           <Hero />
           <HowItWorks />
+          <Comparison />
           <Testimonials />
           <Services />
           <Pricing />
@@ -38,7 +39,6 @@ export default function Home() {
           <FAQ />
           <Blog />
           <Contact />
-          <Comparison />
         </div>
       </main>
 

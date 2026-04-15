@@ -17,6 +17,7 @@ const Cross = () => <X size={18} color="rgba(255,255,255,.3)" strokeWidth={2} ar
 export default function Comparison() {
   return (
     <section className="panel" id="comparison" aria-label="How AIandWEBservices compares" style={{ background: 'var(--navy)' }}>
+      <div className="comparison-inner">
       <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px', width: '100%' }}>
 
         {/* Header */}
@@ -230,6 +231,7 @@ export default function Comparison() {
           </a>
         </div>
 
+      </div>
       </div>
     </section>
   );

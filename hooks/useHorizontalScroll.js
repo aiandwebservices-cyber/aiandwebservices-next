@@ -8,7 +8,7 @@ export function useHorizontalScroll() {
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
     const TOTAL = 9;
-    const hashNames = ['home','how-it-works','services','pricing','about','faq','blog','contact','comparison'];
+    const hashNames = ['home','how-it-works','comparison','services','pricing','about','faq','blog','contact'];
     const hashToPanel = Object.fromEntries(hashNames.map((h,i) => [h,i]));
     const startHash = window.location.hash.replace('#','');
     let cur = hashToPanel[startHash] ?? 0;
@@ -39,7 +39,7 @@ export function useHorizontalScroll() {
     const hamburger = document.getElementById('hamburger');
     const mobileMenu = document.getElementById('mobile-menu');
     const scrollHint = document.getElementById('scroll-hint');
-    const darkPanels = new Set([0, 2, 7, 8]);
+    const darkPanels = new Set([0, 2, 8]);
 
     if (isMobile() && track) {
       track.style.transform = '';
@@ -56,8 +56,8 @@ export function useHorizontalScroll() {
         history.replaceState({ panel: cur }, '', url);
       }
       window.dispatchEvent(new CustomEvent('panelchange', { detail: cur }));
-      // Maps nav pill index → panel index. 8 nav items (0-7), Comparison at 8 has no pill.
-      const panelMap = [0, 1, 2, 3, 4, 5, 6, 7];
+      // Maps nav pill index → panel index. 9 nav items (0-8), all visible.
+      const panelMap = [0, 1, 2, 3, 4, 5, 6, 7, 8];
       dotsEl.forEach((d, i) => {
         d.classList.toggle('on', i === cur);
         d.setAttribute('aria-selected', i === cur ? 'true' : 'false');
@@ -88,8 +88,8 @@ export function useHorizontalScroll() {
     }
 
     // Map nav index → panel IDs
-    // Order: Home(0), HowItWorks(1), Services(2), Pricing(3), About(4), Comparison(5), FAQ(6), Blog(7), Contact(8)
-    const panelIds = ['p0','p2','services','pricing','p3','p7','p6','p8','comparison'];
+    // Order: Home(0), HowItWorks(1), Comparison(2), Services(3), Pricing(4), About(5), FAQ(6), Blog(7), Contact(8)
+    const panelIds = ['p0','p2','comparison','services','pricing','p3','p7','p6','p8'];
 
     function scrollToPanel(n, pushHistory = true) {
       n = Math.max(0, Math.min(TOTAL - 1, n));
@@ -216,7 +216,7 @@ export function useHorizontalScroll() {
     // Scale panel inner containers to fit any monitor height
     const INNER_SELECTORS = [
       '.hero-inner','.svc-panel','.funnel-inner','.pricing-inner',
-      '.about-inner','.testi-inner','.blog-inner','.faq-inner','.contact-inner'
+      '.about-inner','.testi-inner','.blog-inner','.faq-inner','.contact-inner','.comparison-inner'
     ].join(',');
     const BASE_HEIGHT = 1100; // design height panels were built for
     const NAV_H = 64;

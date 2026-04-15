@@ -32,7 +32,7 @@ function PrCard({ plan }) {
       <a href={plan.serviceAnchor} className="pr-whats-included">What&apos;s included? ↑</a>
       {plan.consultingLink
         ? <Link href={plan.consultingLink} className="pr-btn pr-btn-link">Get More Info</Link>
-        : <button className="pr-btn" onClick={() => window.go && window.go(7)}>Get Started</button>
+        : <button className="pr-btn" onClick={() => window.go && window.go(8)}>Get Started</button>
       }
     </div>
   );

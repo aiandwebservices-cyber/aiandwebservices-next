@@ -17,7 +17,7 @@ export default function Hero() {
             I build the systems that <strong>capture leads</strong>, <strong>convert visitors</strong>, and <strong>follow up automatically</strong> — all connected, all done for you.
           </p>
           <div className="hero-btns">
-            <button className="btn-primary hero-btn-primary" onClick={() => window.go(7)}>Get Your Free Audit</button>
+            <button className="btn-primary hero-btn-primary" onClick={() => window.go(8)}>Get Your Free Audit</button>
           </div>
           <div className="hero-bottom">
             <div className="trust-badge">
@@ -27,7 +27,7 @@ export default function Hero() {
                 <div className="tb-sub">Cancel Anytime</div>
               </div>
             </div>
-            <button className="trust-badge trust-badge--btn mob-hide" onClick={() => window.go(7)}>
+            <button className="trust-badge trust-badge--btn mob-hide" onClick={() => window.go(8)}>
               <div className="tb-icon"><UserCheck size={15} color="#2AA5A0" strokeWidth={2} /></div>
               <div className="tb-text">
                 <div className="tb-main">Direct Access</div>
