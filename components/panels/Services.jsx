@@ -29,11 +29,7 @@ function PrCard({ plan }) {
         {plan.features.map(f => <li key={f}>{f}</li>)}
       </ul>
       <div className="pr-best">Best for: {plan.best}</div>
-      <Link href={plan.serviceHref} className="pr-whats-included">What&apos;s included? →</Link>
-      {plan.consultingLink
-        ? <Link href={plan.consultingLink} className="pr-btn pr-btn-link">Get More Info</Link>
-        : <button className="pr-btn" onClick={() => window.go && window.go(7)}>Get Started</button>
-      }
+      <Link href={plan.serviceHref} className="pr-btn pr-btn-link">Get More Info</Link>
     </div>
   );
 }
