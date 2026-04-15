@@ -2,6 +2,9 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import Script from 'next/script';
+import { usePathname } from 'next/navigation';
+
+const LIGHT_PAGES = ['/services/presence', '/services/revenue-engine', '/services/consulting'];
 
 const SERVICE_LINKS = [
   { label: 'AI Automation Starter', href: '/services/ai-automation-starter' },
@@ -25,6 +28,8 @@ const NAV_LINKS = [
 ];
 
 export default function ServicesLayout({ children }) {
+  const pathname = usePathname();
+  const isLight = LIGHT_PAGES.includes(pathname);
   const [menuOpen, setMenuOpen] = useState(false);
   const [svcOpen, setSvcOpen] = useState(false);
 
@@ -100,7 +105,7 @@ export default function ServicesLayout({ children }) {
         </div>
       )}
 
-      <main className="svc-page-main">{children}</main>
+      <main className={`svc-page-main${isLight ? ' svc-page-main--light' : ''}`}>{children}</main>
 
       <footer className="svc-page-footer">
         <p>© 2026 <Link href="/">AIandWEBservices</Link>. Built personally by David Pulis.</p>

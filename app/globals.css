@@ -1747,6 +1747,66 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 body:has(.svc-page-main){overflow:auto!important}
 html:has(.svc-page-main){overflow:auto!important}
 
+/* ── Light theme service pages ── */
+.svc-page-main--light{background:#f9fafb}
+
+/* Hero */
+.svc-page-main--light .svc-page-eyebrow{color:#2AA5A0;background:rgba(42,165,160,.1);border-color:rgba(42,165,160,.3)}
+.svc-page-main--light .svc-page-h1{color:#111827}
+.svc-page-main--light .svc-page-lead{color:#4b5563}
+
+/* Section headings & text */
+.svc-page-main--light .svc-page-section{border-bottom-color:rgba(0,0,0,.08)}
+.svc-page-main--light .svc-page-section h2{color:#111827}
+.svc-page-main--light .svc-page-section h3{color:#2AA5A0}
+.svc-page-main--light .svc-page-section p{color:#374151}
+.svc-page-main--light .svc-page-section em{color:#111827;font-weight:600}
+.svc-page-main--light .svc-page-section strong{color:#111827}
+.svc-page-main--light .svc-page-section li{color:#374151}
+.svc-page-main--light .svc-page-section ol li{color:#374151}
+
+/* Example cards */
+.svc-page-main--light .svc-example{background:rgba(42,165,160,.07);border-color:rgba(42,165,160,.2)}
+.svc-page-main--light .svc-example p{color:#374151}
+
+/* Process list */
+.svc-page-main--light .svc-process-list li{color:#374151}
+.svc-page-main--light .svc-process-list strong{color:#111827}
+
+/* FAQ */
+.svc-page-main--light .svc-faq-item{border-bottom-color:rgba(0,0,0,.08)}
+.svc-page-main--light .svc-faq-item:first-child{border-top-color:rgba(0,0,0,.08)}
+.svc-page-main--light .svc-faq-item dt{color:#111827}
+.svc-page-main--light .svc-faq-item dd{color:#4b5563}
+
+/* Callout blocks */
+.svc-page-main--light .svc-callout--neutral{background:rgba(0,0,0,.03);border-color:rgba(0,0,0,.1)}
+.svc-page-main--light .svc-callout--neutral .svc-callout-label{color:#6b7280}
+.svc-page-main--light .svc-callout--neutral p{color:#374151}
+
+/* Included cards */
+.svc-page-main--light .svc-included-card{background:#fff;border-color:rgba(0,0,0,.1)}
+.svc-page-main--light .svc-included-card h4{color:#111827}
+.svc-page-main--light .svc-included-card p{color:#4b5563}
+
+/* Pricing block */
+.svc-page-main--light .svc-pricing-name{color:#2AA5A0}
+.svc-page-main--light .svc-pricing-amount{color:#111827}
+.svc-page-main--light .svc-pricing-amount span{color:#6b7280}
+.svc-page-main--light .svc-pricing-includes li{color:#374151}
+.svc-page-main--light .svc-pricing-block{background:#fff;border-color:rgba(0,0,0,.1)}
+
+/* Addon cards & next steps */
+.svc-page-main--light .svc-addon-list .svc-addon-item{background:#fff;border-color:rgba(0,0,0,.1)}
+.svc-page-main--light .svc-addon-name{color:#111827}
+.svc-page-main--light .svc-addon-desc{color:#4b5563}
+.svc-page-main--light .svc-next-grid a{background:#fff;border-color:rgba(0,0,0,.1);color:#111827}
+.svc-page-main--light .svc-next-grid a:hover{border-color:#2AA5A0}
+
+/* Ghost button on light bg */
+.svc-page-main--light .svc-btn-ghost{color:#374151;border-color:#d1d5db;background:transparent}
+.svc-page-main--light .svc-btn-ghost:hover{background:#f3f4f6;border-color:#9ca3af;color:#111827}
+
 @media(max-width:768px){
   .svc-page-links{display:none}
   .svc-hamburger{display:flex}
@@ -1809,26 +1869,6 @@ html:has(.svc-page-main){overflow:auto!important}
   margin:0 0 16px;
 }
 .svc-page-section em{color:rgba(255,255,255,.85);font-style:normal;font-weight:600}
-
-/* ── Alternating light sections ── */
-section.svc-page-section:nth-child(even){
-  background:#f9fafb;border-radius:16px;
-  padding:32px;margin-bottom:40px;border-bottom:none;
-}
-section.svc-page-section:nth-child(even) h2{color:#111827}
-section.svc-page-section:nth-child(even) h3{color:#2AA5A0}
-section.svc-page-section:nth-child(even) p{color:#374151}
-section.svc-page-section:nth-child(even) em{color:#111827}
-section.svc-page-section:nth-child(even) strong{color:#111827}
-section.svc-page-section:nth-child(even) li{color:#374151}
-section.svc-page-section:nth-child(even) dt{color:#111827}
-section.svc-page-section:nth-child(even) dd{color:#4b5563}
-section.svc-page-section:nth-child(even) .svc-faq-item{border-color:rgba(0,0,0,.08)}
-section.svc-page-section:nth-child(even) .svc-example{background:rgba(42,165,160,.08);border-color:rgba(42,165,160,.25)}
-section.svc-page-section:nth-child(even) .svc-example p{color:#374151}
-section.svc-page-section:nth-child(even) .svc-process-list li{color:#374151}
-section.svc-page-section:nth-child(even) .svc-callout--neutral{background:rgba(0,0,0,.04);border-color:rgba(0,0,0,.1)}
-section.svc-page-section:nth-child(even) .svc-callout-label{color:#6b7280}
 
 /* ── Example cards ── */
 .svc-example-grid{
