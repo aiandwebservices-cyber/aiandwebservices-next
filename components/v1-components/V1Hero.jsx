@@ -3,7 +3,7 @@ export default function V1Hero({ service }) {
     <section style={{
       background: 'var(--navy)',
       color: '#fff',
-      padding: 'clamp(3rem, 8vw, 6rem) 2rem',
+      padding: 'clamp(1.5rem, 5vw, 3rem) 2rem',
       textAlign: 'center',
     }}>
       <div style={{ maxWidth: 800, margin: '0 auto' }}>
@@ -18,10 +18,10 @@ export default function V1Hero({ service }) {
           {service.tier}
         </div>
         <h1 style={{
-          fontSize: 'clamp(2rem, 5vw, 3.5rem)',
+          fontSize: 'clamp(1.5rem, 4vw, 2.8rem)',
           fontWeight: 800,
           lineHeight: 1.1,
-          marginBottom: '1.5rem',
+          marginBottom: '1rem',
           letterSpacing: '-0.01em',
         }}>
           {service.oneLiner}
@@ -31,7 +31,7 @@ export default function V1Hero({ service }) {
           alignItems: 'baseline',
           justifyContent: 'center',
           gap: '0.5rem',
-          marginBottom: '2rem',
+          marginBottom: '1.2rem',
           flexWrap: 'wrap',
         }}>
           <span style={{ fontSize: 'clamp(1.5rem, 3vw, 2.5rem)', fontWeight: 700 }}>
