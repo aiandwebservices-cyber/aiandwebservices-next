@@ -1571,7 +1571,9 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 .modal-body p{margin-bottom:10px}
 
 /* ── FAQ PANEL ── */
-#p7{background:var(--off2)}
+#p7{background:#0d1117}
+#p7 .panel-h2{color:#fff}
+#p7 .faq-q::after{color:var(--blue)}
 .faq-inner{
   height:100%;display:flex;flex-direction:column;
   padding:88px 6vw 100px;
@@ -1580,17 +1582,17 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   display:grid;grid-template-columns:1fr 1fr;gap:0 60px;
   margin-top:auto;margin-bottom:auto;max-width:960px;width:100%;margin-left:auto;margin-right:auto;
 }
-.faq-item{border-bottom:1px solid var(--border);padding:18px 0}
+.faq-item{border-bottom:1px solid rgba(255,255,255,.08);padding:18px 0}
 .faq-q{
   font-size:14px;font-weight:700;color:#3B82F6;
   gap:12px;padding:0;
 }
 .faq-a--visible{
-  font-size:13px;color:var(--muted);line-height:1.7;
+  font-size:13px;color:rgba(255,255,255,.55);line-height:1.7;
   padding-top:6px;display:block;
 }
 .faq-a{
-  font-size:13px;color:var(--muted);line-height:1.7;
+  font-size:13px;color:rgba(255,255,255,.55);line-height:1.7;
   max-height:0;overflow:hidden;transition:max-height .3s ease,padding .3s ease;
 }
 .faq-item.open .faq-a{max-height:300px;padding-top:8px}
@@ -1601,12 +1603,12 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 @media(max-width:768px){.hiw-cta-strip{display:none}}
 .faq-cta-inner{
   padding:20px 28px;
-  background:rgba(42,165,160,.06);border:1px solid rgba(42,165,160,.25);
+  background:rgba(42,165,160,.08);border:1px solid rgba(42,165,160,.2);
   border-radius:14px;display:flex;flex-direction:column;align-items:center;
   gap:10px;text-align:center;
   max-width:960px;width:100%;margin:0 auto;
 }
-.faq-cta-strip p{font-size:13px;color:var(--muted);margin:0}
+.faq-cta-strip p{font-size:13px;color:rgba(255,255,255,.45);margin:0}
 .faq-cta-strip strong{color:#2AA5A0}
 
 /* ── TOOL LOGOS ── */
