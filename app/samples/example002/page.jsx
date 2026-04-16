@@ -2,45 +2,28 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 
-const EMERALD = '#10B981';
+const EM = '#10B981';
 const DARK = '#0F1923';
 const LIGHT = '#E8F0F7';
 
 const LISTINGS = [
-  { label: 'Featured', addr: '2847 Palmetto Bay Drive', city: 'Coral Gables, FL', beds: 5, baths: 4, sqft: '4,820', price: '$3,200,000', img: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=700&q=80' },
-  { label: 'New', addr: '1104 Brickell Key Blvd', city: 'Miami, FL', beds: 3, baths: 3, sqft: '2,150', price: '$1,480,000', img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=700&q=80' },
-  { label: 'Sold', addr: '880 NE 14th Ave, #3201', city: 'Fort Lauderdale, FL', beds: 4, baths: 3, sqft: '3,200', price: '$2,100,000', img: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=700&q=80' },
+  { badge: 'Featured', addr: '2847 Palmetto Bay Drive', city: 'Coral Gables, FL', beds: 5, baths: 4, sqft: '4,820', price: '$3,200,000', img: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=85' },
+  { badge: 'New', addr: '1104 Brickell Key Blvd #3201', city: 'Miami, FL', beds: 3, baths: 3, sqft: '2,150', price: '$1,480,000', img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=85' },
+  { badge: 'Sold', addr: '880 Intracoastal Dr', city: 'Fort Lauderdale, FL', beds: 4, baths: 3, sqft: '3,200', price: '$2,100,000', img: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&q=85' },
 ];
 
 const SERVICES = [
-  { icon: '🏡', title: 'Buyer Representation', desc: 'From pre-approval to closing day, we negotiate with precision to get you the right home at the right price.' },
-  { icon: '📈', title: 'Seller Strategy', desc: 'Staging guidance, professional photography, targeted marketing, and relentless negotiation on your behalf.' },
-  { icon: '🏢', title: 'Investment Properties', desc: 'Cap rate analysis, rental projections, and off-market access for investors looking to grow their portfolio.' },
+  { icon: '🏡', title: 'Buyer Representation', desc: 'From pre-approval to closing day — precision negotiation to get you the right home at the right price.' },
+  { icon: '📈', title: 'Seller Strategy', desc: 'Professional staging, photography, targeted marketing, and aggressive negotiation on your behalf.' },
+  { icon: '🏢', title: 'Investment Properties', desc: 'Cap rate analysis, rental projections, and off-market access for portfolio growth.' },
   { icon: '🌴', title: 'Luxury Waterfront', desc: 'Specialists in South Florida waterfront estates, private docks, and intracoastal properties.' },
 ];
 
-function useCounter(target, inView, duration = 1800) {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    if (!inView) return;
-    let start = 0;
-    const step = Math.ceil(target / (duration / 16));
-    const timer = setInterval(() => {
-      start += step;
-      if (start >= target) { setCount(target); clearInterval(timer); }
-      else setCount(start);
-    }, 16);
-    return () => clearInterval(timer);
-  }, [inView, target, duration]);
-  return count;
-}
-
-function useInView(threshold = 0.15) {
+function useInView(threshold = 0.1) {
   const ref = useRef(null);
   const [inView, setInView] = useState(false);
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
+    const el = ref.current; if (!el) return;
     const obs = new IntersectionObserver(([e]) => { if (e.isIntersecting) { setInView(true); obs.disconnect(); } }, { threshold });
     obs.observe(el);
     return () => obs.disconnect();
@@ -48,192 +31,234 @@ function useInView(threshold = 0.15) {
   return [ref, inView];
 }
 
-function FadeIn({ children, delay = 0, direction = 'up', style = {} }) {
+function Reveal({ children, delay = 0, y = 50, style = {} }) {
   const [ref, inView] = useInView();
   return (
-    <div ref={ref} style={{
-      opacity: inView ? 1 : 0,
-      transform: inView ? 'none' : direction === 'up' ? 'translateY(44px)' : direction === 'left' ? 'translateX(-44px)' : direction === 'right' ? 'translateX(44px)' : 'scale(0.95)',
-      transition: `opacity 0.75s ease ${delay}s, transform 0.75s ease ${delay}s`,
-      ...style,
-    }}>
+    <div ref={ref} style={{ opacity: inView ? 1 : 0, transform: inView ? 'none' : `translateY(${y}px)`, transition: `opacity .9s cubic-bezier(.16,1,.3,1) ${delay}s, transform .9s cubic-bezier(.16,1,.3,1) ${delay}s`, ...style }}>
       {children}
     </div>
   );
 }
 
-function StatCounter({ value, suffix = '', prefix = '' }) {
+function SlideIn({ children, delay = 0, x = -70, style = {} }) {
+  const [ref, inView] = useInView();
+  return (
+    <div ref={ref} style={{ opacity: inView ? 1 : 0, transform: inView ? 'none' : `translateX(${x}px)`, transition: `opacity .9s cubic-bezier(.16,1,.3,1) ${delay}s, transform .9s cubic-bezier(.16,1,.3,1) ${delay}s`, ...style }}>
+      {children}
+    </div>
+  );
+}
+
+function useCounter(target, active, duration = 1800) {
+  const [val, setVal] = useState(0);
+  useEffect(() => {
+    if (!active) return;
+    let v = 0; const step = Math.max(1, Math.ceil(target / (duration / 16)));
+    const t = setInterval(() => { v = Math.min(v + step, target); setVal(v); if (v >= target) clearInterval(t); }, 16);
+    return () => clearInterval(t);
+  }, [active, target, duration]);
+  return val;
+}
+
+function CounterCell({ value, prefix = '', suffix = '', label }) {
   const [ref, inView] = useInView(0.3);
   const count = useCounter(value, inView);
-  return <span ref={ref}>{prefix}{count.toLocaleString()}{suffix}</span>;
+  return (
+    <div ref={ref} className="stat-cell">
+      <div className="stat-val">{prefix}{count.toLocaleString()}{suffix}</div>
+      <div className="stat-lbl">{label}</div>
+    </div>
+  );
 }
 
 export default function AriaRealty() {
-  const [activeCity, setActiveCity] = useState('All');
+  const [scrollY, setScrollY] = useState(0);
+  const [heroIn, setHeroIn] = useState(false);
+
+  useEffect(() => {
+    setTimeout(() => setHeroIn(true), 120);
+    const fn = () => setScrollY(window.scrollY);
+    window.addEventListener('scroll', fn, { passive: true });
+    return () => window.removeEventListener('scroll', fn);
+  }, []);
 
   return (
-    <div style={{ fontFamily: "'Inter', 'Helvetica Neue', sans-serif", background: DARK, color: LIGHT, minHeight: '100vh', overflowX: 'hidden' }}>
+    <div style={{ fontFamily: "'Inter','Helvetica Neue',sans-serif", background: DARK, color: LIGHT, overflowX: 'hidden' }}>
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400;1,600&display=swap');
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        ::selection { background: ${EMERALD}33; }
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: ${DARK}; }
-        ::-webkit-scrollbar-thumb { background: ${EMERALD}55; border-radius: 2px; }
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap');
+        *{box-sizing:border-box;margin:0;padding:0}
+        ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:${DARK}}::-webkit-scrollbar-thumb{background:${EM}66}
+        ::selection{background:${EM}33}
 
-        .ar-nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 1.25rem 3rem; background: rgba(15,25,35,0.92); backdrop-filter: blur(12px); border-bottom: 1px solid rgba(255,255,255,0.05); }
-        .ar-logo { font-family: 'Playfair Display', serif; font-size: 1.35rem; color: ${LIGHT}; letter-spacing: 0.02em; text-decoration: none; }
-        .ar-logo span { color: ${EMERALD}; font-style: italic; }
-        .ar-links { display: flex; gap: 2.5rem; list-style: none; }
-        .ar-links a { font-size: 0.8rem; font-weight: 400; letter-spacing: 0.04em; color: ${LIGHT}88; text-decoration: none; transition: color 0.2s; }
-        .ar-links a:hover { color: ${EMERALD}; }
-        .ar-cta { background: ${EMERALD}; color: #fff; border: none; padding: 0.6rem 1.5rem; font-size: 0.8rem; font-weight: 600; letter-spacing: 0.04em; cursor: pointer; text-decoration: none; transition: all 0.2s; border-radius: 2px; }
-        .ar-cta:hover { background: #0ea472; }
-        .ar-cta-outline { background: transparent; color: ${EMERALD}; border: 1px solid ${EMERALD}; padding: 0.8rem 2rem; font-size: 0.85rem; font-weight: 500; letter-spacing: 0.04em; cursor: pointer; text-decoration: none; transition: all 0.25s; border-radius: 2px; display: inline-block; }
-        .ar-cta-outline:hover { background: ${EMERALD}; color: #fff; }
-        .hero { position: relative; height: 100vh; min-height: 600px; display: grid; grid-template-columns: 1fr 1fr; overflow: hidden; }
-        .hero-left { display: flex; align-items: flex-end; padding: 6rem 3rem 5rem; position: relative; z-index: 2; }
-        .hero-right { position: relative; overflow: hidden; }
-        .hero-right img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
-        .hero-right::after { content: ''; position: absolute; inset: 0; background: linear-gradient(to right, ${DARK} 0%, transparent 40%); }
-        .hero-eyebrow { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: ${EMERALD}; margin-bottom: 1.25rem; }
-        .hero-h1 { font-family: 'Playfair Display', serif; font-size: clamp(2.5rem, 5vw, 4.5rem); line-height: 1.05; font-weight: 600; margin-bottom: 1.5rem; }
-        .hero-h1 em { font-style: italic; color: ${EMERALD}; }
-        .hero-p { font-size: 0.9rem; line-height: 1.8; color: ${LIGHT}77; max-width: 440px; margin-bottom: 2.5rem; }
-        .search-bar { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: 4px; padding: 1rem 1.25rem; display: flex; align-items: center; gap: 0.75rem; margin-bottom: 2rem; max-width: 480px; }
-        .search-input { background: none; border: none; color: ${LIGHT}; font-size: 0.875rem; flex: 1; outline: none; }
-        .search-input::placeholder { color: ${LIGHT}44; }
-        .search-btn { background: ${EMERALD}; color: #fff; border: none; padding: 0.5rem 1.25rem; font-size: 0.8rem; font-weight: 600; cursor: pointer; border-radius: 2px; white-space: nowrap; }
-        .stats-bar { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,0.05); margin: 0; }
-        .stat-item { background: rgba(15,25,35,0.9); padding: 2.5rem 2rem; text-align: center; }
-        .stat-value { font-family: 'Playfair Display', serif; font-size: 2.75rem; font-weight: 600; color: ${EMERALD}; line-height: 1; }
-        .stat-label { font-size: 0.7rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: ${LIGHT}44; margin-top: 0.5rem; }
-        .section { padding: 7rem 3rem; max-width: 1200px; margin: 0 auto; }
-        .section-label { font-size: 0.7rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: ${EMERALD}; margin-bottom: 0.75rem; }
-        .section-title { font-family: 'Playfair Display', serif; font-size: clamp(1.75rem, 3.5vw, 3rem); font-weight: 600; margin-bottom: 1rem; }
-        .section-title em { font-style: italic; color: ${EMERALD}; }
-        .divider { width: 48px; height: 2px; background: ${EMERALD}; margin: 1.25rem 0 2.5rem; }
-        .listing-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; margin-top: 3rem; }
-        .listing-card { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); border-radius: 4px; overflow: hidden; transition: transform 0.3s, border-color 0.3s; }
-        .listing-card:hover { transform: translateY(-4px); border-color: ${EMERALD}44; }
-        .listing-img { position: relative; aspect-ratio: 16/10; overflow: hidden; }
-        .listing-img img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s; }
-        .listing-card:hover .listing-img img { transform: scale(1.05); }
-        .listing-badge { position: absolute; top: 1rem; left: 1rem; background: ${EMERALD}; color: #fff; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.25rem 0.6rem; border-radius: 2px; }
-        .listing-badge.sold { background: #666; }
-        .listing-info { padding: 1.5rem; }
-        .listing-price { font-family: 'Playfair Display', serif; font-size: 1.5rem; color: ${LIGHT}; margin-bottom: 0.4rem; }
-        .listing-addr { font-size: 0.875rem; color: ${LIGHT}; margin-bottom: 0.2rem; }
-        .listing-city { font-size: 0.75rem; color: ${LIGHT}55; margin-bottom: 1rem; }
-        .listing-meta { display: flex; gap: 1.25rem; font-size: 0.75rem; color: ${LIGHT}66; }
-        .listing-meta span::before { color: ${EMERALD}; margin-right: 0.3rem; }
-        .services-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1px; background: rgba(255,255,255,0.04); margin-top: 3rem; }
-        .service-card { background: ${DARK}; padding: 3rem; transition: background 0.3s; }
-        .service-card:hover { background: rgba(16,185,129,0.05); }
-        .service-icon { font-size: 2rem; margin-bottom: 1.25rem; }
-        .service-title { font-family: 'Playfair Display', serif; font-size: 1.25rem; margin-bottom: 0.75rem; }
-        .service-desc { font-size: 0.85rem; line-height: 1.8; color: ${LIGHT}66; }
-        .agent-section { background: #0a1219; padding: 7rem 3rem; }
-        .agent-grid { max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: center; }
-        .agent-img { position: relative; }
-        .agent-img img { width: 100%; aspect-ratio: 3/4; object-fit: cover; }
-        .agent-img::after { content: ''; position: absolute; bottom: -1.5rem; right: -1.5rem; width: 60%; height: 60%; border: 2px solid ${EMERALD}33; pointer-events: none; }
-        .contact-section { background: linear-gradient(135deg, #0a1a14 0%, ${DARK} 50%, #0a1219 100%); padding: 7rem 3rem; text-align: center; position: relative; overflow: hidden; }
-        .contact-section::before { content: ''; position: absolute; inset: 0; background: radial-gradient(ellipse at 50% 50%, ${EMERALD}0a 0%, transparent 65%); }
-        .filter-row { display: flex; gap: 0.5rem; margin-bottom: 2rem; flex-wrap: wrap; }
-        .filter-btn { font-size: 0.75rem; font-weight: 500; letter-spacing: 0.06em; padding: 0.5rem 1.25rem; border: 1px solid rgba(255,255,255,0.12); background: transparent; color: ${LIGHT}77; cursor: pointer; transition: all 0.2s; border-radius: 2px; }
-        .filter-btn.active, .filter-btn:hover { border-color: ${EMERALD}; color: ${EMERALD}; background: ${EMERALD}11; }
-        .footer-bar { background: #070e14; padding: 2rem 3rem; display: flex; align-items: center; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.05); }
-        .footer-note { font-size: 0.7rem; color: ${LIGHT}33; letter-spacing: 0.06em; }
-        .back-link { font-size: 0.7rem; color: ${EMERALD}; text-decoration: none; letter-spacing: 0.06em; }
-        .back-link:hover { text-decoration: underline; }
-        @media (max-width: 900px) {
-          .ar-nav { padding: 1rem 1.5rem; }
-          .ar-links { display: none; }
-          .hero { grid-template-columns: 1fr; height: auto; }
-          .hero-left { padding: 7rem 1.5rem 4rem; }
-          .hero-right { display: none; }
-          .stats-bar { grid-template-columns: repeat(2, 1fr); }
-          .listing-grid { grid-template-columns: 1fr; }
-          .services-grid { grid-template-columns: 1fr; }
-          .agent-grid { grid-template-columns: 1fr; gap: 3rem; }
-          .agent-img::after { display: none; }
-          .section { padding: 4rem 1.5rem; }
-          .footer-bar { flex-direction: column; gap: 1rem; text-align: center; }
+        .ar-nav{position:fixed;top:0;left:0;right:0;z-index:999;display:flex;align-items:center;justify-content:space-between;padding:1.25rem 3rem;transition:background .5s,border-color .5s}
+        .ar-nav.scrolled{background:rgba(15,25,35,.97);backdrop-filter:blur(16px);border-bottom:1px solid rgba(16,185,129,.15)}
+        .ar-logo{font-family:'Playfair Display',serif;font-size:1.35rem;color:${LIGHT};text-decoration:none;letter-spacing:.02em}
+        .ar-logo em{color:${EM};font-style:italic}
+        .ar-links{display:flex;gap:2.5rem;list-style:none}
+        .ar-links a{font-size:.75rem;font-weight:500;letter-spacing:.06em;color:${LIGHT}77;text-decoration:none;transition:color .25s}
+        .ar-links a:hover{color:${EM}}
+        .ar-cta{background:${EM};color:#fff;border:none;padding:.65rem 1.6rem;font-size:.75rem;font-weight:600;letter-spacing:.04em;cursor:pointer;text-decoration:none;transition:all .25s;border-radius:2px;display:inline-block}
+        .ar-cta:hover{background:#0ea472}
+        .ar-cta-out{background:transparent;color:${EM};border:1px solid ${EM};padding:.75rem 2rem;font-size:.8rem;font-weight:500;letter-spacing:.04em;cursor:pointer;text-decoration:none;transition:all .25s;border-radius:2px;display:inline-block}
+        .ar-cta-out:hover{background:${EM};color:#fff}
+
+        /* HERO - full split */
+        .hero{position:relative;height:100vh;min-height:680px;display:grid;grid-template-columns:52% 48%;overflow:hidden}
+        .hero-left{display:flex;flex-direction:column;justify-content:flex-end;padding:0 4rem 6rem;position:relative;z-index:2}
+        .hero-left::before{content:'';position:absolute;inset:0;background:linear-gradient(to right,${DARK} 75%,transparent 100%);z-index:-1}
+        .hero-right{position:relative;overflow:hidden}
+        .hero-right img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.7) saturate(.9)}
+        .hero-right::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,${DARK} 0%,transparent 35%)}
+
+        .hero-tag{font-size:.65rem;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:${EM};margin-bottom:1.5rem;display:flex;align-items:center;gap:.75rem;transition:opacity 1s .2s,transform 1s .2s cubic-bezier(.16,1,.3,1)}
+        .hero-tag.hidden{opacity:0;transform:translateY(16px)}
+        .hero-tag::before{content:'';width:28px;height:1px;background:${EM}}
+        .hero-h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,5.5vw,5.5rem);font-weight:700;line-height:1;margin-bottom:1.75rem;overflow:hidden}
+        .hero-h1 .word{display:inline-block;transition:transform 1.2s cubic-bezier(.16,1,.3,1),opacity 1.2s cubic-bezier(.16,1,.3,1)}
+        .hero-h1 .word.hidden{transform:translateY(100%);opacity:0}
+        .hero-h1 em{font-style:italic;color:${EM}}
+        .hero-p{font-size:.9rem;line-height:1.85;color:${LIGHT}77;max-width:420px;margin-bottom:2.75rem;transition:opacity 1s .6s,transform 1s .6s cubic-bezier(.16,1,.3,1)}
+        .hero-p.hidden{opacity:0;transform:translateY(20px)}
+        .hero-btns{display:flex;gap:1rem;flex-wrap:wrap;transition:opacity 1s .85s,transform 1s .85s cubic-bezier(.16,1,.3,1)}
+        .hero-btns.hidden{opacity:0;transform:translateY(20px)}
+
+        /* STATS BAR */
+        .stats-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.05)}
+        .stat-cell{background:rgba(15,25,35,.97);padding:3rem 2rem;text-align:center}
+        .stat-val{font-family:'Playfair Display',serif;font-size:3rem;font-weight:700;color:${EM};line-height:1}
+        .stat-lbl{font-size:.65rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:${LIGHT}44;margin-top:.6rem}
+
+        /* LISTINGS */
+        .section{padding:8rem 3rem;max-width:1200px;margin:0 auto}
+        .eyebrow{font-size:.65rem;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:${EM};margin-bottom:.75rem}
+        .section-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3.5rem);font-weight:700;margin-bottom:.5rem}
+        .section-title em{font-style:italic;color:${EM}}
+        .em-line{width:48px;height:2px;background:${EM};margin:1.25rem 0 2.5rem}
+
+        .listing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;margin-top:2.5rem}
+        .listing-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.07);border-radius:3px;overflow:hidden;transition:transform .4s cubic-bezier(.16,1,.3,1),border-color .4s,box-shadow .4s}
+        .listing-card:hover{transform:translateY(-6px);border-color:${EM}44;box-shadow:0 20px 60px rgba(16,185,129,.1)}
+        .listing-img-wrap{position:relative;aspect-ratio:16/10;overflow:hidden}
+        .listing-img-wrap img{width:100%;height:100%;object-fit:cover;transition:transform .6s cubic-bezier(.16,1,.3,1)}
+        .listing-card:hover .listing-img-wrap img{transform:scale(1.08)}
+        .listing-badge{position:absolute;top:.85rem;left:.85rem;background:${EM};color:#fff;font-size:.6rem;font-weight:700;letter-spacing:.12em;text-transform:uppercase;padding:.25rem .65rem;border-radius:2px}
+        .listing-badge.sold{background:#4B5563}
+        .listing-info{padding:1.5rem}
+        .listing-price{font-family:'Playfair Display',serif;font-size:1.6rem;font-weight:700;color:${LIGHT};margin-bottom:.4rem}
+        .listing-addr{font-size:.875rem;color:${LIGHT};margin-bottom:.2rem}
+        .listing-city{font-size:.75rem;color:${LIGHT}44;margin-bottom:1rem}
+        .listing-meta{display:flex;gap:1.25rem;font-size:.75rem;color:${LIGHT}66}
+
+        /* SERVICES */
+        .svc-bg{background:#0a1219;padding:8rem 3rem}
+        .svc-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:rgba(255,255,255,.04);margin-top:3rem;max-width:1200px;margin-left:auto;margin-right:auto}
+        .svc-card{background:#0a1219;padding:3.5rem;transition:background .35s}
+        .svc-card:hover{background:rgba(16,185,129,.06)}
+        .svc-icon{font-size:2.25rem;margin-bottom:1.25rem}
+        .svc-title{font-family:'Playfair Display',serif;font-size:1.35rem;margin-bottom:.75rem}
+        .svc-desc{font-size:.875rem;line-height:1.85;color:${LIGHT}66}
+
+        /* AGENT */
+        .agent-wrap{display:grid;grid-template-columns:1fr 1fr;min-height:650px}
+        .agent-img-col{position:relative;overflow:hidden}
+        .agent-img-col img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:top;filter:brightness(.85) saturate(.9)}
+        .agent-img-col::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,transparent 60%,#0a1219 100%)}
+        .agent-text-col{background:#0a1219;display:flex;align-items:center;padding:6rem 5rem;position:relative}
+        .agent-big{font-size:10rem;font-weight:700;color:${EM}08;line-height:1;position:absolute;bottom:2rem;right:2rem;pointer-events:none;font-family:'Playfair Display',serif}
+        .badge-pill{background:${EM}15;border:1px solid ${EM}33;color:${EM};font-size:.72rem;padding:.35rem .9rem;border-radius:99px;display:inline-block;margin-right:.4rem;margin-bottom:.4rem}
+
+        /* CONTACT */
+        .contact-band{background:linear-gradient(135deg,#071410 0%,${DARK} 50%,#071318 100%);padding:9rem 3rem;text-align:center;position:relative;overflow:hidden}
+        .contact-glow{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:700px;height:700px;background:radial-gradient(circle,${EM}15 0%,transparent 65%);pointer-events:none}
+        .contact-title{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,5vw,4.5rem);font-weight:700;margin-bottom:1rem}
+        .contact-title em{font-style:italic;color:${EM}}
+
+        /* FOOTER */
+        .footer{background:#040c12;padding:2rem 3rem;border-top:1px solid rgba(255,255,255,.04);display:flex;align-items:center;justify-content:space-between}
+        .footer-note{font-size:.65rem;color:${LIGHT}33;letter-spacing:.06em}
+        .back-link{font-size:.7rem;color:${EM};text-decoration:none;letter-spacing:.06em}
+        .back-link:hover{text-decoration:underline}
+
+        /* MARQUEE */
+        .ticker{background:${EM}10;border-top:1px solid ${EM}22;border-bottom:1px solid ${EM}22;padding:.65rem 0;overflow:hidden;white-space:nowrap}
+        .ticker-inner{display:inline-flex;animation:tick 30s linear infinite}
+        .ticker-item{font-size:.65rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:${EM}88;padding:0 2rem}
+        @keyframes tick{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+        @media(max-width:960px){
+          .ar-nav{padding:1rem 1.5rem}.ar-links{display:none}
+          .hero{grid-template-columns:1fr;height:auto}
+          .hero-left{padding:8rem 1.5rem 5rem}
+          .hero-right{display:none}
+          .stats-bar{grid-template-columns:repeat(2,1fr)}
+          .listing-grid{grid-template-columns:1fr}
+          .svc-grid{grid-template-columns:1fr}
+          .agent-wrap{grid-template-columns:1fr}
+          .agent-img-col{height:55vw}
+          .agent-text-col{padding:4rem 1.5rem}
+          .section{padding:5rem 1.5rem}
+          .svc-bg{padding:5rem 1.5rem}
+          .footer{flex-direction:column;gap:1rem;text-align:center}
         }
       `}</style>
 
-      {/* Nav */}
-      <nav className="ar-nav">
-        <a href="#" className="ar-logo">Aria <span>Realty</span></a>
+      {/* NAV */}
+      <nav className={`ar-nav${scrollY > 60 ? ' scrolled' : ''}`}>
+        <a href="#" className="ar-logo">Aria <em>Realty</em></a>
         <ul className="ar-links">
-          <li><a href="#listings">Listings</a></li>
-          <li><a href="#services">Services</a></li>
-          <li><a href="#agent">About</a></li>
-          <li><a href="#contact">Contact</a></li>
+          {['Listings','Services','About','Contact'].map(l => <li key={l}><a href={`#${l.toLowerCase()}`}>{l}</a></li>)}
         </ul>
-        <a href="#contact" className="ar-cta">Schedule a Call</a>
+        <a href="#contact" className="ar-cta">Free Consult</a>
       </nav>
 
-      {/* Hero */}
+      {/* HERO */}
       <section className="hero">
         <div className="hero-left">
-          <div>
-            <div className="hero-eyebrow">South Florida's Premier Real Estate</div>
-            <h1 className="hero-h1">Find the Home<br />That Fits <em>Your Life</em></h1>
-            <p className="hero-p">Aria Realty specializes in luxury residential and waterfront properties across Miami-Dade, Broward, and Palm Beach counties. Over $180M closed in 2023.</p>
-            <div className="search-bar">
-              <span style={{ color: `${LIGHT}44`, fontSize: '0.9rem' }}>🔍</span>
-              <input className="search-input" placeholder="Search by address, city, or zip code..." />
-              <button className="search-btn">Search</button>
-            </div>
-            <div style={{ display: 'flex', gap: '0.75rem', flexWrap: 'wrap' }}>
-              <a href="#listings" className="ar-cta-outline">View Listings</a>
-              <a href="#contact" className="ar-cta" style={{ borderRadius: 2, padding: '0.8rem 2rem', fontSize: '0.85rem' }}>Book Free Consult</a>
-            </div>
+          <div className={`hero-tag${heroIn ? '' : ' hidden'}`}>South Florida's Premier Real Estate</div>
+          <h1 className="hero-h1">
+            <span className={`word${heroIn ? '' : ' hidden'}`} style={{ transitionDelay: '.1s' }}>Find the Home</span><br />
+            <span className={`word${heroIn ? '' : ' hidden'}`} style={{ transitionDelay: '.25s' }}>That Fits <em>Your Life</em></span>
+          </h1>
+          <p className={`hero-p${heroIn ? '' : ' hidden'}`}>Aria Realty specializes in luxury residential and waterfront properties across Miami-Dade, Broward, and Palm Beach. Over $183M closed in 2023.</p>
+          <div className={`hero-btns${heroIn ? '' : ' hidden'}`}>
+            <a href="#listings" className="ar-cta-out">View Listings</a>
+            <a href="#contact" className="ar-cta">Book Free Consultation</a>
           </div>
         </div>
         <div className="hero-right">
-          <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1200&q=85" alt="Luxury South Florida estate" />
+          <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1400&q=90" alt="Luxury South Florida estate" />
         </div>
       </section>
 
-      {/* Stats */}
-      <div className="stats-bar">
-        {[
-          { value: 183, prefix: '$', suffix: 'M+', label: 'Closed volume 2023' },
-          { value: 247, suffix: '+', label: 'Properties sold' },
-          { value: 14, suffix: 'yrs', label: 'Years in market' },
-          { value: 98, suffix: '%', label: 'Client satisfaction' },
-        ].map(s => (
-          <FadeIn key={s.label}>
-            <div className="stat-item">
-              <div className="stat-value"><StatCounter value={s.value} suffix={s.suffix} prefix={s.prefix || ''} /></div>
-              <div className="stat-label">{s.label}</div>
-            </div>
-          </FadeIn>
-        ))}
+      {/* TICKER */}
+      <div className="ticker">
+        <div className="ticker-inner">
+          {Array(2).fill(['$183M Closed 2023','247 Properties Sold','14 Years in Market','98% Client Satisfaction','Coral Gables','Miami Beach','Fort Lauderdale','Waterfront Specialist']).flat().map((t,i) => (
+            <span key={i} className="ticker-item">✦ {t}</span>
+          ))}
+        </div>
       </div>
 
-      {/* Listings */}
+      {/* STATS */}
+      <div className="stats-bar">
+        <CounterCell value={183} prefix="$" suffix="M+" label="Closed Volume 2023" />
+        <CounterCell value={247} suffix="+" label="Properties Sold" />
+        <CounterCell value={14} suffix="yrs" label="Years in Market" />
+        <CounterCell value={98} suffix="%" label="Client Satisfaction" />
+      </div>
+
+      {/* LISTINGS */}
       <section className="section" id="listings">
-        <FadeIn>
-          <div className="section-label">Current Listings</div>
-          <h2 className="section-title">Featured <em>Properties</em></h2>
-          <div className="divider" />
-          <div className="filter-row">
-            {['All', 'Miami', 'Coral Gables', 'Fort Lauderdale', 'Waterfront'].map(c => (
-              <button key={c} className={`filter-btn${activeCity === c ? ' active' : ''}`} onClick={() => setActiveCity(c)}>{c}</button>
-            ))}
-          </div>
-        </FadeIn>
+        <Reveal><div className="eyebrow">Current Listings</div></Reveal>
+        <Reveal delay={.1}><h2 className="section-title">Featured <em>Properties</em></h2></Reveal>
+        <Reveal delay={.15}><div className="em-line" /></Reveal>
         <div className="listing-grid">
           {LISTINGS.map((l, i) => (
-            <FadeIn key={l.addr} delay={i * 0.1}>
+            <Reveal key={l.addr} delay={i * .1}>
               <div className="listing-card">
-                <div className="listing-img">
+                <div className="listing-img-wrap">
                   <img src={l.img} alt={l.addr} />
-                  <span className={`listing-badge${l.label === 'Sold' ? ' sold' : ''}`}>{l.label}</span>
+                  <span className={`listing-badge${l.badge === 'Sold' ? ' sold' : ''}`}>{l.badge}</span>
                 </div>
                 <div className="listing-info">
                   <div className="listing-price">{l.price}</div>
@@ -246,87 +271,77 @@ export default function AriaRealty() {
                   </div>
                 </div>
               </div>
-            </FadeIn>
+            </Reveal>
           ))}
         </div>
       </section>
 
-      {/* Services */}
-      <section style={{ background: '#0a1219', padding: '7rem 3rem' }} id="services">
+      {/* SERVICES */}
+      <div className="svc-bg" id="services">
         <div style={{ maxWidth: 1200, margin: '0 auto' }}>
-          <FadeIn>
-            <div className="section-label">What We Do</div>
-            <h2 className="section-title">Full-Service <em>Real Estate</em></h2>
-            <div className="divider" />
-          </FadeIn>
-          <div className="services-grid">
-            {SERVICES.map((s, i) => (
-              <FadeIn key={s.title} delay={i * 0.1}>
-                <div className="service-card">
-                  <div className="service-icon">{s.icon}</div>
-                  <h3 className="service-title">{s.title}</h3>
-                  <p className="service-desc">{s.desc}</p>
-                </div>
-              </FadeIn>
-            ))}
+          <Reveal><div className="eyebrow">What We Do</div></Reveal>
+          <Reveal delay={.1}><h2 className="section-title">Full-Service <em>Real Estate</em></h2></Reveal>
+          <Reveal delay={.15}><div className="em-line" /></Reveal>
+        </div>
+        <div className="svc-grid">
+          {SERVICES.map((s,i) => (
+            <Reveal key={s.title} delay={i*.08}>
+              <div className="svc-card">
+                <div className="svc-icon">{s.icon}</div>
+                <h3 className="svc-title">{s.title}</h3>
+                <p className="svc-desc">{s.desc}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+
+      {/* AGENT */}
+      <section className="agent-wrap" id="about">
+        <SlideIn x={-80}>
+          <div className="agent-img-col" style={{ minHeight: 500 }}>
+            <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=900&q=85" alt="Sophia Whitmore" />
           </div>
+        </SlideIn>
+        <div className="agent-text-col">
+          <div style={{ position: 'relative', zIndex: 2 }}>
+            <Reveal><div className="eyebrow">Meet Your Agent</div></Reveal>
+            <Reveal delay={.1}><h2 className="section-title">Sophia <em>Whitmore</em></h2></Reveal>
+            <Reveal delay={.15}><div className="em-line" /></Reveal>
+            <Reveal delay={.2}><p style={{ fontSize: '.9rem', lineHeight: 1.85, color: `${LIGHT}77`, marginBottom: '1.25rem' }}>With 14 years navigating South Florida's luxury market, Sophia brings unmatched local knowledge, a network of off-market opportunities, and a track record that speaks for itself.</p></Reveal>
+            <Reveal delay={.25}><p style={{ fontSize: '.875rem', lineHeight: 1.85, color: `${LIGHT}55`, fontStyle: 'italic', marginBottom: '2rem' }}>"I don't just sell homes — I match families with their futures."</p></Reveal>
+            <Reveal delay={.3}>
+              <div style={{ marginBottom: '2.5rem' }}>
+                {['$183M+ Closed','Top 1% Broward','247 Transactions'].map(b => <span key={b} className="badge-pill">{b}</span>)}
+              </div>
+            </Reveal>
+            <Reveal delay={.35}><a href="#contact" className="ar-cta-out">Work with Sophia</a></Reveal>
+          </div>
+          <div className="agent-big">14</div>
         </div>
       </section>
 
-      {/* Agent */}
-      <section className="agent-section" id="agent">
-        <div className="agent-grid">
-          <FadeIn direction="left">
-            <div className="agent-img">
-              <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=700&q=80" alt="Aria Realty Lead Agent" />
-            </div>
-          </FadeIn>
-          <FadeIn direction="right">
-            <div className="section-label">Meet Your Agent</div>
-            <h2 className="section-title">Sophia <em>Whitmore</em></h2>
-            <div className="divider" style={{ marginLeft: 0 }} />
-            <p style={{ fontSize: '0.9rem', lineHeight: 1.9, color: `${LIGHT}77`, marginBottom: '1.25rem' }}>
-              With 14 years navigating South Florida's luxury market, Sophia brings unmatched local knowledge, a network of off-market opportunities, and a track record that speaks for itself.
-            </p>
-            <p style={{ fontSize: '0.9rem', lineHeight: 1.9, color: `${LIGHT}77`, marginBottom: '2.5rem' }}>
-              "I don't just sell homes — I match families with their futures. Every deal is personal."
-            </p>
-            <div style={{ display: 'flex', gap: '1rem', flexWrap: 'wrap', marginBottom: '2.5rem' }}>
-              {['$183M+ Closed', 'Top 1% Broward', '247 Transactions'].map(b => (
-                <span key={b} style={{ background: `${EMERALD}15`, border: `1px solid ${EMERALD}33`, color: EMERALD, fontSize: '0.75rem', padding: '0.4rem 0.9rem', borderRadius: 2 }}>{b}</span>
-              ))}
-            </div>
-            <a href="#contact" className="ar-cta-outline">Work with Sophia</a>
-          </FadeIn>
-        </div>
-      </section>
-
-      {/* Contact */}
-      <section className="contact-section" id="contact">
-        <div style={{ position: 'relative', zIndex: 1 }}>
-          <FadeIn>
-            <div className="section-label">Get in Touch</div>
-            <h2 style={{ fontFamily: "'Playfair Display', serif", fontSize: 'clamp(2rem, 4vw, 3.5rem)', fontWeight: 600, marginBottom: '1rem' }}>
-              Ready to Find Your <em style={{ color: EMERALD }}>Dream Home?</em>
-            </h2>
-            <p style={{ fontSize: '0.9rem', color: `${LIGHT}66`, maxWidth: 500, margin: '0 auto 3rem', lineHeight: 1.8 }}>
-              Book a free 30-minute consultation and we'll map out a custom strategy — whether you're buying, selling, or investing.
-            </p>
+      {/* CONTACT */}
+      <section className="contact-band" id="contact">
+        <div className="contact-glow" />
+        <div style={{ position: 'relative', zIndex: 2 }}>
+          <Reveal><div className="eyebrow">Let's Find Your Home</div></Reveal>
+          <Reveal delay={.1}><h2 className="contact-title">Ready for Your<br /><em>Dream Home?</em></h2></Reveal>
+          <Reveal delay={.2}><p style={{ fontSize: '.9rem', color: `${LIGHT}66`, maxWidth: 460, margin: '1.25rem auto 3rem', lineHeight: 1.85 }}>Book a free 30-minute consultation and we'll map out a custom strategy — whether you're buying, selling, or investing.</p></Reveal>
+          <Reveal delay={.3}>
             <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
-              <a href="tel:+15559876543" className="ar-cta" style={{ borderRadius: 2, padding: '1rem 2.5rem', fontSize: '0.9rem' }}>📞 (555) 987-6543</a>
-              <a href="#contact" className="ar-cta-outline">Book Free Consultation</a>
+              <a href="tel:+15559876543" className="ar-cta" style={{ padding: '1rem 2.5rem', fontSize: '.9rem' }}>📞 (555) 987-6543</a>
+              <a href="#" className="ar-cta-out" style={{ padding: '1rem 2.5rem', fontSize: '.9rem' }}>Book Online</a>
             </div>
-          </FadeIn>
+          </Reveal>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer style={{ background: '#040c12', borderTop: '1px solid rgba(255,255,255,0.04)' }}>
-        <div className="footer-bar">
-          <span className="footer-note">© 2024 Aria Realty · South Florida</span>
-          <Link href="/samples" className="back-link">← Back to Samples</Link>
-          <span className="footer-note">Sample site by aiandwebservices.com</span>
-        </div>
+      {/* FOOTER */}
+      <footer className="footer">
+        <span className="footer-note">© 2024 Aria Realty · South Florida</span>
+        <Link href="/samples" className="back-link">← All Samples</Link>
+        <span className="footer-note">Built by aiandwebservices.com</span>
       </footer>
     </div>
   );
