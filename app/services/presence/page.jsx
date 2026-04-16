@@ -130,16 +130,16 @@ export default function PresencePage() {
 
         <section className="svc-page-hero">
           <div className="svc-page-eyebrow">Presence</div>
-          <h1 className="svc-page-h1">Get Found Online —<br />The Foundation Every Business Needs</h1>
-          <p className="svc-page-lead">A professional website, local SEO, and basic AI assistant to make sure customers can find you, trust you, and reach you.</p>
+          <h1 className="svc-page-h1">Stop Losing Clients to Competitors<br />Who Show Up First Online</h1>
+          <p className="svc-page-lead">A professional website, local SEO, and AI assistant that captures every lead—even while you sleep.</p>
           <div className="svc-price-badge">$297/month + $997 one-time setup</div>
         </section>
 
         <section className="svc-page-section">
           <h2>What This Is</h2>
-          <p>Presence is your digital foundation — a professional website, local search visibility, and a basic AI assistant that makes sure customers can find you, trust you, and reach you.</p>
-          <p>Most businesses lose customers before they ever get a chance to compete because their website is outdated, slow, or invisible on Google. Presence fixes that. You get a fast, mobile-friendly website built to convert visitors into inquiries, a fully optimized Google Business Profile so you show up in local searches, and a basic AI assistant that handles simple questions when you&apos;re busy.</p>
-          <p>This isn&apos;t a template site. I build it around your business, your services, and your customers — then optimize it to actually show up when people search for what you do.</p>
+          <p><strong>The problem:</strong> Most small businesses lose customers before they ever meet them. Your website is slow or outdated. You don't show up on Google. Leads call and get voicemail.</p>
+          <p><strong>The solution:</strong> A complete digital system that makes you visible, credible, and responsive. Fast website built to sell (not just look pretty). Google Business Profile optimized so you rank locally. AI assistant that answers every call—even at 2am.</p>
+          <p><strong>The result:</strong> Customers find you first. You capture every lead. You compete with bigger players without spending like they do.</p>
         </section>
 
         <section className="svc-page-section">
