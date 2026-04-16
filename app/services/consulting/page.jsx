@@ -114,9 +114,9 @@ export default function ConsultingPage() {
 
         <section className="svc-page-section">
           <h2>What This Is</h2>
-          <p>Consulting is for businesses that aren&apos;t ready to build yet but need expert guidance on where AI fits and what to prioritize. I give you a clear, honest assessment of your AI opportunities — what will actually save you money, what&apos;s hype, and what order to tackle things in.</p>
-          <p>You get an AI readiness audit (where you are today), a transformation roadmap (where to go and in what order), tool recommendations (which platforms make sense for your size and budget), and staff training (so your team understands AI, not fears it).</p>
-          <p>This isn&apos;t a sales pitch disguised as consulting. If the answer is &ldquo;you don&apos;t need AI right now,&rdquo; I&apos;ll say so. If the answer is &ldquo;start with a $97/month chatbot and revisit in 6 months,&rdquo; that&apos;s what I&apos;ll recommend.</p>
+          <p><strong>The problem:</strong> AI feels important but you don&apos;t know where to start. You don&apos;t want to waste $10K on the wrong solution. You want expert guidance but not a sales pitch.</p>
+          <p><strong>The solution:</strong> A 5-day audit of your business, honest assessment of where AI actually helps (and where it doesn&apos;t), a prioritized roadmap, tool recommendations, team training, and ongoing strategy calls.</p>
+          <p><strong>The result:</strong> Clarity. You know exactly what to build, in what order, and why. No wasted spending. No analysis paralysis.</p>
         </section>
 
         <section className="svc-page-section">

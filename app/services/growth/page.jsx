@@ -137,9 +137,9 @@ export default function GrowthPage() {
 
         <section className="svc-page-section">
           <h2>What This Is</h2>
-          <p>Growth is where passive web traffic becomes active lead generation. You get everything in Presence — the website, local SEO, Google Business Profile, and AI assistant — plus the systems that turn visitors into qualified leads on autopilot.</p>
-          <p>That means a full AI automation system (not just the basic assistant), email marketing sequences that nurture leads without you writing a single email, 2 SEO articles per month that bring consistent organic traffic, and conversion-optimized landing pages designed to capture and convert.</p>
-          <p>This is the tier where most established businesses start. You already have customers and revenue — now you want a system that generates leads consistently without you manually chasing every one.</p>
+          <p><strong>The problem:</strong> You're getting 20+ inquiries monthly but your follow-up is chaotic. Emails take forever. Leads go cold. You're doing everything manually.</p>
+          <p><strong>The solution:</strong> Everything in Presence + AI automation that qualifies leads 24/7, email sequences that nurture while you sleep, SEO content that brings consistent traffic, and landing pages optimized to convert.</p>
+          <p><strong>The result:</strong> More qualified leads. Less admin work. Your team closes deals instead of chasing prospects.</p>
         </section>
 
         <section className="svc-page-section">

@@ -137,9 +137,9 @@ export default function AIFirstPage() {
 
         <section className="svc-page-section">
           <h2>What This Is</h2>
-          <p>AI-First is the maximum automation tier. Everything in Revenue Engine — website, funnel, CRM, ads, AI chatbot, email, SEO, strategy calls — plus advanced AI systems that replace manual work at scale.</p>
-          <p>Voice AI answers your phone and books appointments. Programmatic SEO creates hundreds of location or service pages that rank without you writing each one. Social media AI scheduling maintains your presence across platforms without you touching a phone. A full analytics dashboard gives you real-time visibility into every metric that matters.</p>
-          <p>This tier is for owners who want to do more with less. More revenue, more customers, more reach — without hiring more people.</p>
+          <p><strong>The problem:</strong> You're generating significant revenue but you're still trapped in the business. Phone calls interrupt you. You need 10 more people to scale. Content creation is endless. Social media is abandoned.</p>
+          <p><strong>The solution:</strong> Everything in Revenue Engine + AI that actually replaces human work: voice AI answers phones, programmatic SEO generates hundreds of ranking pages automatically, social media AI handles posting daily, and a unified dashboard shows you everything in real-time.</p>
+          <p><strong>The result:</strong> Scale without hiring. Freedom to focus on strategy instead of execution. Your business grows while you sleep.</p>
         </section>
 
         <section className="svc-page-section">

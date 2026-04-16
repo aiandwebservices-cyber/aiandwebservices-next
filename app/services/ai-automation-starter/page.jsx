@@ -177,13 +177,13 @@ export default function AIAutomationStarterPage() {
         <section className="svc-page-section">
           <h2>What This Is</h2>
           <p>
-            AI Automation Starter is a custom AI chatbot system trained specifically on your business. It deploys to your website, handles customer inquiries, qualifies leads, books calls to your calendar, and answers FAQs — all without you lifting a finger.
+            <strong>The problem:</strong> You get 10+ inquiries weekly but half are lost to voicemail, missed emails, or slow responses. You need a system that captures every lead without hiring staff.
           </p>
           <p>
-            Unlike generic chatbots that give canned responses, your AI assistant understands your services, your pricing, your process, and your tone. It&apos;s like hiring a 24/7 receptionist who never sleeps, never takes a day off, and never forgets to follow up.
+            <strong>The solution:</strong> A custom AI assistant trained on YOUR business (your services, pricing, process, tone). It lives on your site, answers questions 24/7, qualifies leads, books calls, and logs everything to your CRM.
           </p>
           <p>
-            This is the fastest, most affordable way to deploy AI in your business and see immediate ROI. Most clients recoup their setup cost within the first month from recovered leads that would have otherwise gone to voicemail or been lost to slow email responses.
+            <strong>The result:</strong> Zero lost leads. Most clients recoup setup costs in the first month from recovered inquiries. It&apos;s like hiring a 24/7 receptionist for $97/month.
           </p>
         </section>
 

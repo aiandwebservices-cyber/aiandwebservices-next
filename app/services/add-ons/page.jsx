@@ -55,7 +55,7 @@ const ADDONS = [
     name: 'Crypto Payment Infrastructure',
     price: '$997 setup',
     perfectFor: 'Businesses that want to accept crypto from customers, or crypto-native companies that need payment infrastructure on their website.',
-    desc: 'Accept Bitcoin, stablecoins, and multi-chain payments on your website. I integrate a crypto payment gateway, configure multi-chain wallet support, set up stablecoin checkout flows, and handle on/off ramp implementation.',
+    desc: 'Tap crypto-native customers. Full integration: Bitcoin, stablecoins, multi-chain wallets, and seamless on/off ramps. Start accepting crypto payments in days.',
     includes: [
       'Payment gateway integration',
       'Multi-chain wallet setup',
@@ -70,7 +70,7 @@ const ADDONS = [
     name: 'E-commerce Integration',
     price: 'from $1,497',
     perfectFor: 'Businesses adding online sales to an existing service business, or anyone who needs a storefront connected to their AI and marketing systems.',
-    desc: 'A Shopify or WooCommerce store built and connected to your existing site and AI systems. Product catalog setup, payment processing, inventory management, and order automation.',
+    desc: 'Turn service customers into product revenue. Shopify or WooCommerce store built, connected to your CRM, and integrated with your AI so customers can shop 24/7.',
     includes: [
       'Store setup & configuration',
       'Product catalog build',
@@ -85,7 +85,7 @@ const ADDONS = [
     name: 'Accessibility Audit (WCAG)',
     price: '$497',
     perfectFor: 'Businesses that serve government clients, healthcare organizations, or anyone who wants their site usable by everyone and wants to reduce legal risk.',
-    desc: 'A full WCAG 2.1 AA compliance audit and remediation report for your website. I identify every accessibility issue, prioritize them by severity, and provide specific code fixes.',
+    desc: 'Make your site accessible to everyone AND avoid legal liability. Full WCAG 2.1 AA audit with prioritized fixes and implementation guidance.',
     includes: [
       'Comprehensive WCAG 2.1 AA audit',
       'Prioritized issue report',
@@ -104,8 +104,8 @@ export default function AddOnsPage() {
 
         <section className="svc-page-hero">
           <div className="svc-page-eyebrow">Add-On Services</div>
-          <h1 className="svc-page-h1">Add-On Services</h1>
-          <p className="svc-page-lead">Enhance any tier with specialized capabilities. These can be added to any existing package or purchased standalone.</p>
+          <h1 className="svc-page-h1">Extend Your System<br />With Specialized Tools</h1>
+          <p className="svc-page-lead">Already working with us? Add crypto payments, e-commerce, or accessibility compliance to any tier.</p>
         </section>
 
         <section className="svc-page-section">

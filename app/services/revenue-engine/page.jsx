@@ -141,9 +141,9 @@ export default function RevenueEnginePage() {
 
         <section className="svc-page-section">
           <h2>What This Is</h2>
-          <p>Revenue Engine is the full system. Everything in Growth — website, AI automation, email marketing, SEO content, landing pages — plus a complete sales funnel, workflow automation, CRM-powered pipeline management, paid advertising, and monthly strategy calls with me.</p>
-          <p>This is where you stop trading time for revenue. The funnel captures leads, the AI qualifies them, the email sequences nurture them, and the CRM tracks every touchpoint. Paid ads drive targeted traffic. The whole thing runs whether you&apos;re working or sleeping.</p>
-          <p>This tier is for businesses that are done with &ldquo;pretty good&rdquo; lead flow and want a machine that produces revenue predictably.</p>
+          <p><strong>The problem:</strong> You're generating revenue but it's all manual. Your sales team spends 80% of their time on admin instead of closing. You want predictable growth but can't hire more salespeople.</p>
+          <p><strong>The solution:</strong> Everything in Growth + custom sales funnel, automation workflows, paid ads, and CRM integration. The whole machine runs on its own: capture → qualify → nurture → convert.</p>
+          <p><strong>The result:</strong> Predictable revenue. Your team closes deals instead of managing leads. Growth without hiring.</p>
         </section>
 
         <section className="svc-page-section">
