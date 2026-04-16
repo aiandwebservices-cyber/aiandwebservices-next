@@ -31,7 +31,7 @@ export default function V1Comparison({ service }) {
         gap: '1rem',
       }}>
         {prev && (
-          <Link href={`/v1/services/${prev.slug}`} style={{
+          <Link href={`/services/${prev.slug}`} style={{
             padding: '1.5rem',
             border: '1px solid var(--border)',
             borderRadius: '8px',
@@ -68,7 +68,7 @@ export default function V1Comparison({ service }) {
           </div>
         </div>
         {next && (
-          <Link href={`/v1/services/${next.slug}`} style={{
+          <Link href={`/services/${next.slug}`} style={{
             padding: '1.5rem',
             border: '1px solid var(--border)',
             borderRadius: '8px',
