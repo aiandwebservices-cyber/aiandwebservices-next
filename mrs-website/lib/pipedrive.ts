@@ -21,7 +21,7 @@ export interface LeadInput {
   sourceUrl?: string;
 }
 
-const BASE = `https://${process.env.PIPEDRIVE_COMPANY_DOMAIN}.pipedrive.com/v1`;
+const BASE = () => `https://${process.env.PIPEDRIVE_COMPANY_DOMAIN}.pipedrive.com/v1`;
 const TOKEN = () => process.env.PIPEDRIVE_API_TOKEN ?? '';
 
 const f = fields.fields;
@@ -98,7 +98,7 @@ function strip<T extends Record<string, unknown>>(obj: T): Partial<T> {
 }
 
 async function apiPost(path: string, body: Record<string, unknown>): Promise<Record<string, unknown>> {
-  const res = await fetch(`${BASE}${path}?api_token=${TOKEN()}`, {
+  const res = await fetch(`${BASE()}${path}?api_token=${TOKEN()}`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
@@ -174,7 +174,7 @@ export async function createLeadInPipedrive(
       const form = new FormData();
       form.append('file', photo);
       form.append('deal_id', String(dealId));
-      const res = await fetch(`${BASE}/files?api_token=${TOKEN()}`, {
+      const res = await fetch(`${BASE()}/files?api_token=${TOKEN()}`, {
         method: 'POST',
         body: form,
       });

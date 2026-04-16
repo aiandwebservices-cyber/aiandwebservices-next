@@ -169,6 +169,14 @@ export async function POST(req: NextRequest) {
 
   } catch (err) {
     console.error("[contact] unexpected error:", err);
-    return NextResponse.json({ ok: false, error: "Unexpected server error" }, { status: 500 });
+    const errMsg = err instanceof Error ? err.message : String(err);
+    const errStack = err instanceof Error ? err.stack?.split('\n').slice(0,5).join('\n') : undefined;
+    console.error("[contact] full stack:", errStack);
+    return NextResponse.json({
+      ok: false,
+      error: errMsg,
+      stack: errStack,
+      debug: true,
+    }, { status: 500 });
   }
 }
