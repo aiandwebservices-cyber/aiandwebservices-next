@@ -89,7 +89,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({
         ok: false,
         error: "Content-Type must be application/json",
-        received: contentType,
       }, { status: 415 });
     }
 
@@ -188,15 +187,14 @@ export async function POST(req: NextRequest) {
     });
 
   } catch (err) {
-    console.error("[contact] unexpected error:", err);
-    const errMsg = err instanceof Error ? err.message : String(err);
     const errStack = err instanceof Error ? err.stack?.split('\n').slice(0,5).join('\n') : undefined;
+    console.error("[contact] unexpected error:", err);
     console.error("[contact] full stack:", errStack);
+    // Production: minimal client-facing detail. Errors still logged
+    // server-side via console.error above.
     return NextResponse.json({
       ok: false,
-      error: errMsg,
-      stack: errStack,
-      debug: true,
+      error: "Unable to process request. Please call (754) 777-8956.",
     }, { status: 500 });
   }
 }

@@ -32,12 +32,10 @@ export async function POST(req: NextRequest) {
       failed: result.failed,
     });
   } catch (err) {
-    const errMsg = err instanceof Error ? err.message : String(err);
     console.error("[upload-photos] error:", err);
     return NextResponse.json({
       ok: false,
-      error: errMsg,
-      debug: true,
+      error: "Photo upload failed",
     }, { status: 500 });
   }
 }
