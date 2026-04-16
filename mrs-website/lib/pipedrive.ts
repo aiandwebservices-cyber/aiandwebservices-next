@@ -137,6 +137,9 @@ export async function createLeadInPipedrive(
 
   const person = await apiPost('/persons', personBody as Record<string, unknown>);
   const personId = person.id as number;
+  if (!personId || typeof personId !== 'number') {
+    throw new Error(`Invalid personId returned: ${personId}`);
+  }
 
   // --- Step B: Create Deal ---
   const title = `${primaryDamage} - ${input.address ?? input.name}`;
@@ -159,12 +162,17 @@ export async function createLeadInPipedrive(
 
   const deal = await apiPost('/deals', dealBody as Record<string, unknown>);
   const dealId = deal.id as number;
+  if (!dealId || typeof dealId !== 'number') {
+    throw new Error(`Invalid dealId returned: ${dealId}`);
+  }
 
   // --- Step C: Note (best-effort) ---
-  try {
-    await apiPost('/notes', { content: noteContent, deal_id: dealId });
-  } catch (err) {
-    console.error('[pipedrive] note failed:', err);
+  if (noteContent.trim()) {
+    try {
+      await apiPost('/notes', { content: noteContent, deal_id: dealId });
+    } catch (e) {
+      console.error('[pipedrive] note creation failed:', e);
+    }
   }
 
   // --- Step D: Photos (best-effort) ---

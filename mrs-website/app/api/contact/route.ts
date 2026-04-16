@@ -1,6 +1,10 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createLeadInPipedrive, LeadInput } from "@/lib/pipedrive";
 
+export const runtime = "nodejs";
+export const maxDuration = 30;
+export const dynamic = "force-dynamic";
+
 const TO_EMAIL = "Sam@mitigationrestorationservice.co.site";
 const RESEND_API_KEY = process.env.RESEND_API_KEY;
 
@@ -80,7 +84,32 @@ ${pipedriveButton}
 
 export async function POST(req: NextRequest) {
   try {
-    const data = await req.formData();
+    const ct = req.headers.get("content-type") || "";
+    console.log("[contact] content-type:", ct);
+
+    let data: FormData;
+    try {
+      data = await req.formData();
+    } catch (e) {
+      console.error("[contact] formData parse failed:", e);
+      return NextResponse.json({
+        ok: false,
+        error: `Request body parse failed: ${e instanceof Error ? e.message : String(e)}`,
+        contentType: ct,
+        debug: true,
+      }, { status: 400 });
+    }
+
+    // Debug: log all form keys + first 30 chars of each value
+    const debugKeys: Record<string, string> = {};
+    for (const [k, v] of data.entries()) {
+      if (typeof v === "string") {
+        debugKeys[k] = v.length > 30 ? v.slice(0, 30) + "..." : v;
+      } else {
+        debugKeys[k] = `[File ${(v as File).name} ${(v as File).size}b]`;
+      }
+    }
+    console.log("[contact] parsed keys:", JSON.stringify(debugKeys));
 
     const fields = {
       name:             (data.get("name")            as string) ?? "",
