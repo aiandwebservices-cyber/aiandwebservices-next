@@ -25,39 +25,39 @@ export const SERVICES: Record<string, Service> = {
   'presence': {
     slug: 'presence',
     tier: 'Presence',
-    oneLiner: 'Professional website, local SEO, AI assistant',
+    oneLiner: 'Get Found Online — The Foundation Every Business Needs',
     priceMonthly: 297,
     setupFee: 997,
     features: [
-      { icon: '🌐', label: 'Website', desc: '5-page site, mobile-first, conversion-focused.' },
-      { icon: '🔍', label: 'Local SEO', desc: 'Google Business Profile optimization, on-page fundamentals.' },
-      { icon: '🤖', label: 'AI Assistant', desc: 'Chatbot answers FAQs, captures leads 24/7.' },
-      { icon: '📊', label: 'Monthly Reports', desc: 'Traffic, leads, and performance insights.' },
+      { icon: '🌐', label: 'Website', desc: 'Fast, mobile-friendly site built to convert visitors into inquiries.' },
+      { icon: '🔍', label: 'Local SEO', desc: 'Show up in local Google searches. Fully optimized GBP listing.' },
+      { icon: '🤖', label: 'AI Assistant', desc: 'Basic chatbot answers FAQs, captures leads, sends you alerts.' },
+      { icon: '📊', label: 'Monthly Reports', desc: 'See how many visitors, where they came from, how many inquiries.' },
     ],
     fitBullets: [
-      'Brand-new businesses building online presence.',
-      'Need local visibility without marketing overhead.',
-      'Have 5–20 inquiries monthly, losing some.',
+      'Just getting started online or have an outdated website.',
+      'Not showing up in local Google searches.',
+      'Need credibility and visibility without spending $5,000+ on an agency.',
     ],
     timeline: [
-      { when: 'Day 1', action: 'Discovery call and strategy session.' },
-      { when: 'Week 1', action: 'Design and build your site.' },
-      { when: 'Week 2', action: 'Review, refine, launch with monitoring.' },
-      { when: 'Ongoing', action: 'Monthly management and updates.' },
+      { when: 'Day 1', action: 'Discovery call: 60 minutes to learn your business.' },
+      { when: 'Week 1', action: 'Design, build site, and configure AI assistant.' },
+      { when: 'Week 2', action: 'Review your feedback and make refinements.' },
+      { when: 'Week 2–3', action: 'Go live and monitor for 30 days.' },
     ],
     setupIncludes: [
-      'Discovery and strategy',
+      'Discovery call and strategy',
       'Website design and build (5 pages)',
       'Google Business Profile setup and optimization',
-      'AI chatbot training and deployment',
+      'Basic AI chatbot configuration',
       '30-day launch support and monitoring',
     ],
     monthlyIncludes: [
       'Hosting, maintenance, security',
       'Up to 2 content updates',
       'Monthly performance report',
-      'Email support',
-      'Chatbot knowledge base updates',
+      'Email support (6-hour response)',
+      'AI assistant and GBP monitoring',
     ],
     prevSlug: null,
     nextSlug: 'growth',
@@ -67,25 +67,25 @@ export const SERVICES: Record<string, Service> = {
   'growth': {
     slug: 'growth',
     tier: 'Growth',
-    oneLiner: 'Turn visitors into leads automatically',
+    oneLiner: 'Turn Visitors Into Leads Automatically',
     priceMonthly: 597,
     setupFee: 2497,
     features: [
-      { icon: '⚙️', label: 'AI Automation', desc: 'CRM-integrated chatbot qualifies leads, books calls.' },
-      { icon: '📧', label: 'Email Marketing', desc: '5–7 email welcome sequence builds relationships.' },
-      { icon: '📝', label: 'SEO Content', desc: '2 articles monthly, 24+ posts yearly.' },
+      { icon: '⚙️', label: 'AI Automation', desc: 'CRM-integrated chatbot qualifies leads and books calls.' },
+      { icon: '📧', label: 'Email Marketing', desc: '5–7 email welcome sequence that builds relationships.' },
+      { icon: '📝', label: 'SEO Content', desc: '2 articles monthly. 24+ posts yearly ranked on Google.' },
       { icon: '🎯', label: 'Landing Pages', desc: 'Conversion-optimized pages for your top services.' },
-      { icon: '📊', label: 'Everything in Presence', desc: 'Website, local SEO, basic AI assistant.' },
+      { icon: '📊', label: 'Everything in Presence', desc: 'Website, local SEO, and AI assistant included.' },
     ],
     fitBullets: [
-      'Established businesses getting 20+ inquiries monthly.',
-      'Ready to automate lead qualification and nurturing.',
-      'Want AI systems without hiring a team.',
+      'Established business getting 20+ inquiries monthly.',
+      'Losing leads because your follow-up is slow or disorganized.',
+      'Want automation without hiring a sales or marketing team.',
     ],
     timeline: [
-      { when: 'Day 1', action: 'Strategy call, competitive audit.' },
+      { when: 'Day 1', action: 'Strategy call and competitive audit.' },
       { when: 'Weeks 1–2', action: 'Build automation, email sequences, landing pages.' },
-      { when: 'Week 3', action: 'Test copy and integrations.' },
+      { when: 'Week 3', action: 'Test copy, integrations, and conversions.' },
       { when: 'Week 4+', action: 'Launch, monitor, optimize with monthly reviews.' },
     ],
     setupIncludes: [
@@ -99,7 +99,7 @@ export const SERVICES: Record<string, Service> = {
     monthlyIncludes: [
       'Everything in Presence monthly',
       '2 new SEO articles',
-      'Chatbot and email updates',
+      'Chatbot and email optimization',
       'CRM and workflow monitoring',
       'Monthly strategy call with David',
     ],
@@ -111,20 +111,20 @@ export const SERVICES: Record<string, Service> = {
   'revenue-engine': {
     slug: 'revenue-engine',
     tier: 'Revenue Engine',
-    oneLiner: 'Automate your entire sales system',
+    oneLiner: 'Automate Your Entire Sales System',
     priceMonthly: 997,
     setupFee: 3997,
     features: [
-      { icon: '🔀', label: 'Sales Funnel', desc: 'Custom funnel maps buyer journey, closes deals.' },
+      { icon: '🔀', label: 'Sales Funnel', desc: 'Custom funnel maps buyer journey and closes deals.' },
       { icon: '⚡', label: 'Workflow Automation', desc: 'Zapier/Make workflows eliminate repetitive manual tasks.' },
-      { icon: '📢', label: 'Paid Ads', desc: 'Google or Meta ads setup, conversion tracking.' },
+      { icon: '📢', label: 'Paid Ads', desc: 'Google or Meta ads setup, tracking, and optimization.' },
       { icon: '🤖', label: 'CRM Integration', desc: 'Unified customer data across all touchpoints.' },
       { icon: '💬', label: 'Everything in Growth', desc: 'Website, AI automation, email, SEO content.' },
     ],
     fitBullets: [
-      'Service businesses generating $20K+ monthly revenue.',
+      'Service business generating $20K+ monthly revenue.',
       'Ready to outsource entire sales operation.',
-      'Want revenue growth without hiring salespeople.',
+      'Want revenue growth without hiring more salespeople.',
     ],
     timeline: [
       { when: 'Week 1', action: 'Audit, funnel mapping, ad strategy.' },
@@ -155,7 +155,7 @@ export const SERVICES: Record<string, Service> = {
   'ai-first': {
     slug: 'ai-first',
     tier: 'AI-First',
-    oneLiner: 'Replace manual work with AI at scale',
+    oneLiner: 'Replace Manual Work with AI at Scale',
     priceMonthly: 1497,
     setupFee: 5497,
     features: [
@@ -201,7 +201,7 @@ export const SERVICES: Record<string, Service> = {
   'ai-automation-starter': {
     slug: 'ai-automation-starter',
     tier: 'AI Automation Starter',
-    oneLiner: 'Your first AI system—handle inquiries 24/7',
+    oneLiner: 'Your First AI System — Handle Inquiries 24/7',
     priceMonthly: 97,
     setupFee: 997,
     features: [
@@ -212,7 +212,7 @@ export const SERVICES: Record<string, Service> = {
       { icon: '📊', label: 'Monthly Reports', desc: 'Inquiries handled, leads qualified, common questions.' },
     ],
     fitBullets: [
-      'Service businesses getting 10+ inquiries weekly.',
+      'Service business getting 10+ inquiries weekly.',
       'Losing leads to voicemail and slow replies.',
       'Want 24/7 lead capture without hiring staff.',
     ],
@@ -244,8 +244,8 @@ export const SERVICES: Record<string, Service> = {
   'consulting': {
     slug: 'consulting',
     tier: 'Consulting',
-    oneLiner: 'Know exactly where to start with AI',
-    priceMonthly: 1497, // for fractional advisory
+    oneLiner: 'Know Exactly Where to Start with AI',
+    priceMonthly: 1497,
     setupFee: 497,
     features: [
       { icon: '🔍', label: 'AI Readiness Audit', desc: 'Honest assessment: what saves money, what is hype.' },
@@ -286,7 +286,7 @@ export const SERVICES: Record<string, Service> = {
   'add-ons': {
     slug: 'add-ons',
     tier: 'Add-Ons',
-    oneLiner: 'Extend your AI system with specialized services',
+    oneLiner: 'Extend Your AI System with Specialized Services',
     priceMonthly: 0,
     setupFee: 0,
     features: [
