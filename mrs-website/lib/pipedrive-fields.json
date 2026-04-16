@@ -1,0 +1,76 @@
+{
+  "apiToken": "948395155b489be2f33bdd0f5a03ecb526181797",
+  "domain": "aiandwebservices",
+  "baseUrlV1": "https://aiandwebservices.pipedrive.com/v1",
+  "baseUrlV2": "https://aiandwebservices.pipedrive.com/api/v2",
+  "fields": {
+    "deal": {
+      "serviceType": "6c0cb3b8752b82f608b44065567fa95b38289bdc",
+      "emergencyLevel": "0ed0b81d4f5bec21ce54d37bdf54fbd512df49fb",
+      "insuranceClaim": "b9c131f847578edf3cd95c4f66feac9d4bf41c01",
+      "insuranceCarrier": "9f050916658e32863ef4b8f840ce056c228b978a",
+      "claimNumber": "12f00305039206d1f22232bbcbf0eaae12e65653",
+      "leadSource": "fbe80e4aa890e1723f8c66eb9a084d6171f27fc6",
+      "utmSource": "1b4f1ee8be433b3da2aa7c1d86c7f2c64074c446",
+      "utmMedium": "4390dd4b1e9777488ea3c4bb89eb842b26409bcb",
+      "utmCampaign": "2e28dbbaee74df5faf6554c2019a6f8786e24287",
+      "propertyType": "c0cdf441620157a81209915e25eaedb59f05bd6b",
+      "propertyAddress": "065c4e1da821f551e05125dca2c511f8ab2edda3"
+    },
+    "person": {
+      "preferredContactMethod": "4e2dcfb7f6ab734cb1d45b2809ae098b58138379",
+      "bestTimeToContact": "088d8489273a1177f8736e40bc36e8631d8f2ef3",
+      "leadSourceDetail": "fac7a14fe796918bf1b235348145ebf572bf149e"
+    }
+  },
+  "options": {
+    "serviceType": {
+      "waterDamage": 27,
+      "fireDamage": 28,
+      "moldRemediation": 29,
+      "smokeDamage": 30,
+      "stormDamage": 31,
+      "biohazard": 32,
+      "other": 33
+    },
+    "emergencyLevel": {
+      "emergency24hr": 34,
+      "urgent48hr": 35,
+      "routine": 36
+    },
+    "propertyType": {
+      "residential": 54,
+      "commercial": 55,
+      "multifamily": 56,
+      "industrial": 57
+    },
+    "insuranceClaim": {
+      "yes": 37,
+      "no": 38,
+      "unsure": 39
+    },
+    "leadSource": {
+      "websiteForm": 40,
+      "websiteChat": 41,
+      "phoneCall": 42,
+      "referral": 43,
+      "googleAds": 44,
+      "facebook": 45,
+      "other": 46
+    },
+    "preferredContactMethod": {
+      "phone": 47,
+      "textsms": 48,
+      "email": 49
+    },
+    "bestTimeToContact": {
+      "morning": 50,
+      "afternoon": 51,
+      "evening": 52,
+      "anytime": 53
+    }
+  },
+  "stages": {
+    "newLead": 27
+  }
+}

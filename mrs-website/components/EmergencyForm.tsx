@@ -1,5 +1,6 @@
 "use client";
 import { useState, ChangeEvent, FormEvent } from "react";
+import { getUTMs } from "@/lib/utm";
 
 const PHONE = "(754) 777-8956";
 const PHONE_HREF = "tel:+17547778956";
@@ -83,7 +84,15 @@ export default function EmergencyForm() {
         else if (k === "damageTypes") body.append(k, (v as string[]).join(", "));
         else body.append(k, v as string);
       });
-      await fetch("/api/contact", { method: "POST", body });
+      const utms = getUTMs();
+      body.append("utm_source", utms.utm_source);
+      body.append("utm_medium", utms.utm_medium);
+      body.append("utm_campaign", utms.utm_campaign);
+      body.append("source_url", typeof window !== "undefined" ? window.location.href : "");
+      const res = await fetch("/api/contact", { method: "POST", body });
+      if (!res.ok) {
+        console.error("Submit failed:", await res.text().catch(() => "no body"));
+      }
       setSubmitted(true);
     } catch {
       alert("Something went wrong. Please call us directly at " + PHONE);
