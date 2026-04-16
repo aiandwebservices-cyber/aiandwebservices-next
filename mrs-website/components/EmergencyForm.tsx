@@ -78,21 +78,52 @@ export default function EmergencyForm() {
     if (!validate()) return;
     setLoading(true);
     try {
-      const body = new FormData();
-      Object.entries(form).forEach(([k, v]) => {
-        if (k === "photos") (v as File[]).forEach(f => body.append("photos", f));
-        else if (k === "damageTypes") body.append(k, (v as string[]).join(", "));
-        else body.append(k, v as string);
-      });
       const utms = getUTMs();
-      body.append("utm_source", utms.utm_source);
-      body.append("utm_medium", utms.utm_medium);
-      body.append("utm_campaign", utms.utm_campaign);
-      body.append("source_url", typeof window !== "undefined" ? window.location.href : "");
-      const res = await fetch("/api/contact", { method: "POST", body });
+      const jsonPayload = {
+        name: form.name,
+        phone: form.phone,
+        email: form.email,
+        address: form.address,
+        propertyType: form.propertyType,
+        damageTypes: form.damageTypes,
+        urgency: form.urgency,
+        insuranceClaim: form.insuranceClaim,
+        insuranceCompany: form.insuranceCompany,
+        damageTime: form.damageTime,
+        areaSize: form.areaSize,
+        description: form.description,
+        contactMethod: form.contactMethod,
+        bestTime: form.bestTime,
+        utm_source: utms.utm_source,
+        utm_medium: utms.utm_medium,
+        utm_campaign: utms.utm_campaign,
+        source_url: typeof window !== "undefined" ? window.location.href : "",
+      };
+
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(jsonPayload),
+      });
+
+      const result = await res.json().catch(() => ({})) as { deal_id?: number };
+
       if (!res.ok) {
-        console.error("Submit failed:", await res.text().catch(() => "no body"));
+        console.error("Submit failed:", result);
       }
+
+      // Upload photos separately if present and we got a deal_id
+      if (form.photos.length > 0 && result.deal_id) {
+        try {
+          const photoData = new FormData();
+          photoData.append("deal_id", String(result.deal_id));
+          form.photos.forEach(f => photoData.append("photos", f));
+          await fetch("/api/upload-photos", { method: "POST", body: photoData });
+        } catch (e) {
+          console.error("Photo upload failed (lead still captured):", e);
+        }
+      }
+
       setSubmitted(true);
     } catch {
       alert("Something went wrong. Please call us directly at " + PHONE);

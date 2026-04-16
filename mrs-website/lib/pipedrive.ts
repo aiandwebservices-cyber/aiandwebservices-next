@@ -111,9 +111,8 @@ async function apiPost(path: string, body: Record<string, unknown>): Promise<Rec
 // --- Main export ---
 
 export async function createLeadInPipedrive(
-  input: LeadInput,
-  photos: File[]
-): Promise<{ personId: number; dealId: number; dealUrl: string; photoCount: number }> {
+  input: LeadInput
+): Promise<{ personId: number; dealId: number; dealUrl: string }> {
   const primaryDamage = input.damageTypes[0] ?? 'Other';
   const extraDamages  = input.damageTypes.slice(1);
 
@@ -175,8 +174,19 @@ export async function createLeadInPipedrive(
     }
   }
 
-  // --- Step D: Photos (best-effort) ---
-  let photoCount = 0;
+  return {
+    personId,
+    dealId,
+    dealUrl: `https://${process.env.PIPEDRIVE_COMPANY_DOMAIN}.pipedrive.com/deal/${dealId}`,
+  };
+}
+
+export async function uploadPhotosToDeal(
+  dealId: number,
+  photos: File[]
+): Promise<{ uploaded: number; failed: number }> {
+  let uploaded = 0;
+  let failed = 0;
   for (const photo of photos) {
     try {
       const form = new FormData();
@@ -187,16 +197,12 @@ export async function createLeadInPipedrive(
         body: form,
       });
       const json = (await res.json()) as { success: boolean };
-      if (json.success) photoCount++;
+      if (json.success) uploaded++;
+      else failed++;
     } catch (err) {
       console.error('[pipedrive] photo upload failed:', err);
+      failed++;
     }
   }
-
-  return {
-    personId,
-    dealId,
-    dealUrl: `https://${process.env.PIPEDRIVE_COMPANY_DOMAIN}.pipedrive.com/deal/${dealId}`,
-    photoCount,
-  };
+  return { uploaded, failed };
 }

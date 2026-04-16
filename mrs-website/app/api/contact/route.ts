@@ -84,58 +84,44 @@ ${pipedriveButton}
 
 export async function POST(req: NextRequest) {
   try {
-    const ct = req.headers.get("content-type") || "";
-    console.log("[contact] content-type:", ct);
-
-    let data: FormData;
-    try {
-      data = await req.formData();
-    } catch (e) {
-      console.error("[contact] formData parse failed:", e);
+    const contentType = req.headers.get("content-type") || "";
+    if (!contentType.includes("application/json")) {
       return NextResponse.json({
         ok: false,
-        error: `Request body parse failed: ${e instanceof Error ? e.message : String(e)}`,
-        contentType: ct,
-        debug: true,
-      }, { status: 400 });
+        error: "Content-Type must be application/json",
+        received: contentType,
+      }, { status: 415 });
     }
 
-    // Debug: log all form keys + first 30 chars of each value
-    const debugKeys: Record<string, string> = {};
-    for (const [k, v] of data.entries()) {
-      if (typeof v === "string") {
-        debugKeys[k] = v.length > 30 ? v.slice(0, 30) + "..." : v;
-      } else {
-        debugKeys[k] = `[File ${(v as File).name} ${(v as File).size}b]`;
-      }
-    }
-    console.log("[contact] parsed keys:", JSON.stringify(debugKeys));
+    const data = await req.json();
 
     const fields = {
-      name:             (data.get("name")            as string) ?? "",
-      phone:            (data.get("phone")           as string) ?? "",
-      email:            (data.get("email")           as string) ?? "",
-      address:          (data.get("address")         as string) ?? "",
-      propertyType:     (data.get("propertyType")    as string) ?? "",
-      damageTypes:      (data.get("damageTypes")     as string) ?? "",
-      urgency:          (data.get("urgency")         as string) ?? "",
-      insuranceClaim:   (data.get("insuranceClaim")  as string) ?? "",
-      insuranceCompany: (data.get("insuranceCompany") as string) ?? "",
-      damageTime:       (data.get("damageTime")      as string) ?? "",
-      areaSize:         (data.get("areaSize")        as string) ?? "",
-      description:      (data.get("description")     as string) ?? "",
-      contactMethod:    (data.get("contactMethod")   as string) ?? "",
-      bestTime:         (data.get("bestTime")        as string) ?? "",
-      utmSource:        (data.get("utm_source")      as string) ?? "",
-      utmMedium:        (data.get("utm_medium")      as string) ?? "",
-      utmCampaign:      (data.get("utm_campaign")    as string) ?? "",
-      sourceUrl:        (data.get("source_url")      as string) ?? "",
+      name:             (data.name            as string) ?? "",
+      phone:            (data.phone           as string) ?? "",
+      email:            (data.email           as string) ?? "",
+      address:          (data.address         as string) ?? "",
+      propertyType:     (data.propertyType    as string) ?? "",
+      urgency:          (data.urgency         as string) ?? "",
+      insuranceClaim:   (data.insuranceClaim  as string) ?? "",
+      insuranceCompany: (data.insuranceCompany as string) ?? "",
+      damageTime:       (data.damageTime      as string) ?? "",
+      areaSize:         (data.areaSize        as string) ?? "",
+      description:      (data.description     as string) ?? "",
+      contactMethod:    (data.contactMethod   as string) ?? "",
+      bestTime:         (data.bestTime        as string) ?? "",
+      utmSource:        (data.utm_source      as string) ?? "",
+      utmMedium:        (data.utm_medium      as string) ?? "",
+      utmCampaign:      (data.utm_campaign    as string) ?? "",
+      sourceUrl:        (data.source_url      as string) ?? "",
+      // damageTypes is a string[] in JSON
+      damageTypes:      Array.isArray(data.damageTypes)
+                          ? (data.damageTypes as string[]).join(", ")
+                          : (data.damageTypes as string) ?? "",
     };
 
-    const photos = data.getAll("photos").filter(f => f instanceof File) as File[];
-
-    const damageTypesArr = fields.damageTypes
-      .split(",").map(s => s.trim()).filter(Boolean);
+    const damageTypesArr: string[] = Array.isArray(data.damageTypes)
+      ? data.damageTypes
+      : (fields.damageTypes).split(",").map((s: string) => s.trim()).filter(Boolean);
 
     const leadInput: LeadInput = {
       name:             fields.name,
@@ -159,25 +145,25 @@ export async function POST(req: NextRequest) {
     };
 
     // Run Pipedrive + email in parallel
-    const [pdResult, emailResult] = await Promise.allSettled([
-      createLeadInPipedrive(leadInput, photos),
-      // Email runs after we know dealUrl — handled below via placeholder
+    const [pdResult] = await Promise.allSettled([
+      createLeadInPipedrive(leadInput),
+      // Email runs after we know dealUrl — handled below
       Promise.resolve(null),
     ]);
 
     let dealUrl: string | undefined;
-    let photoCount = 0;
+    let dealId: number | undefined;
 
     if (pdResult.status === "fulfilled" && pdResult.value) {
       dealUrl = pdResult.value.dealUrl;
-      photoCount = pdResult.value.photoCount;
-      console.log(`[pipedrive] ✅ success — dealUrl: ${dealUrl}, personId: ${pdResult.value.personId}, dealId: ${pdResult.value.dealId}, photos: ${photoCount}`);
+      dealId = pdResult.value.dealId;
+      console.log(`[pipedrive] ✅ success — dealUrl: ${dealUrl}, personId: ${pdResult.value.personId}, dealId: ${dealId}`);
     } else if (pdResult.status === "rejected") {
       console.error("[pipedrive] ❌ failed:", pdResult.reason);
     }
 
-    // Now send email with dealUrl if available
-    const emailResultFinal = await sendEmailNotification(fields, photoCount, dealUrl)
+    // Send email with dealUrl if available
+    const emailResultFinal = await sendEmailNotification(fields, 0, dealUrl)
       .then(() => {
         console.log("[email] ✅ sent");
         return true;
@@ -194,7 +180,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ ok: false, error: "Both CRM and email failed" }, { status: 502 });
     }
 
-    return NextResponse.json({ ok: true, pipedrive: pipedriveOk, email: emailOk });
+    return NextResponse.json({
+      ok: true,
+      pipedrive: pipedriveOk,
+      email: emailOk,
+      deal_id: pipedriveOk ? dealId : null,
+    });
 
   } catch (err) {
     console.error("[contact] unexpected error:", err);
