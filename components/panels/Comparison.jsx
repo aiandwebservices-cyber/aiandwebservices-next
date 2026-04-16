@@ -219,7 +219,7 @@ export default function Comparison() {
 
         {/* Bottom CTA */}
         <div style={{
-          marginTop: 'clamp(40px, 7vh, 85px)',
+          marginTop: '0',
           padding: '20px 28px',
           background: 'rgba(42,165,160,.08)',
           border: '1px solid rgba(42,165,160,.3)',
