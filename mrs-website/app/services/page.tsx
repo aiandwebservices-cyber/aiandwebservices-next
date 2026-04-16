@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
+import HashScroller from "@/components/HashScroller";
 
 export const metadata: Metadata = {
   title: "Restoration Services | Mitigation Restoration Services | South Florida",
@@ -97,6 +98,7 @@ const SERVICES = [
 export default function ServicesPage() {
   return (
     <>
+      <HashScroller />
       {/* Hero */}
       <section style={{ background: "var(--navy)", padding: "3.5rem 1.5rem", textAlign: "center" }}>
         <h1 style={{ color: "#fff", fontSize: "clamp(1.75rem, 4vw, 2.75rem)", marginBottom: "0.75rem" }}>Restoration Services</h1>
