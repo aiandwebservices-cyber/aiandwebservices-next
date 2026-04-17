@@ -7,22 +7,13 @@ export default function V1Hero({ service }) {
       textAlign: 'center',
     }}>
       <div style={{ maxWidth: 800, margin: '0 auto' }}>
-        <div style={{
-          fontSize: '0.75rem',
-          fontWeight: 600,
-          letterSpacing: '0.2em',
-          textTransform: 'uppercase',
-          color: 'var(--blue)',
-          marginBottom: '1rem',
-        }}>
-          {service.tier}
+        <div className="panel-eyebrow">
+          {service.slug}
         </div>
-        <h1 style={{
-          fontSize: 'clamp(1.5rem, 4vw, 2.8rem)',
-          fontWeight: 800,
-          lineHeight: 1.1,
+        <h1 className="panel-h2" style={{
+          color: '#fff',
+          marginTop: '1rem',
           marginBottom: '1rem',
-          letterSpacing: '-0.01em',
         }}>
           {service.oneLiner}
         </h1>
@@ -41,9 +32,6 @@ export default function V1Hero({ service }) {
             /mo + ${service.setupFee} setup
           </span>
         </div>
-        <a href="/#contact" className="btn-primary" style={{ display: 'inline-block' }}>
-          Get Your Free Audit →
-        </a>
       </div>
     </section>
   );
