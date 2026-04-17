@@ -1677,6 +1677,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   padding:0 6vw;height:64px;gap:16px;
   background:var(--navy);border-bottom:1px solid rgba(255,255,255,.07);
   backdrop-filter:blur(12px);
+  overflow:visible;
 }
 .svc-page-logo img{display:block;flex-shrink:0}
 .svc-nav-right{display:flex;align-items:center;gap:10px;flex-shrink:0}
@@ -1699,6 +1700,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   background:transparent;
   opacity:0;visibility:hidden;pointer-events:none;
   transition:opacity .18s,visibility .18s;
+  z-index:9999;
 }
 .svc-nav-svc-wrap:hover .svc-nav-dropdown{opacity:1;visibility:visible;pointer-events:auto}
 .svc-nav-dropdown-inner{
