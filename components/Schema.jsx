@@ -140,7 +140,7 @@ const SERVICES = [
     description:
       'AI readiness audit, digital transformation roadmap, tool stack recommendations, and staff AI training. Know exactly where to start before committing to a full build.',
     url: 'https://www.aiandwebservices.com/services/consulting-strategy',
-    offers: { price: '99', priceCurrency: 'USD', priceSpecification: '$99 one-time, or $199/month as fractional advisor' },
+    offers: { price: '99', priceCurrency: 'USD', priceSpecification: '$99 one-time, or $99/month' },
   },
 ];
 

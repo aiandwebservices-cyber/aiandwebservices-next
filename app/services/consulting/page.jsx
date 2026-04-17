@@ -11,8 +11,19 @@ import { ArrowRight } from 'lucide-react';
 
 export const metadata = {
   title: 'AI Consulting & Strategy — Roadmap, Training, and Fractional Advisory | AIandWEBservices',
-  description: 'Get expert guidance on where AI fits in your business. AI readiness audit, digital transformation roadmap, tool recommendations, and staff training. $99 one-time or $199/mo.',
+  description: 'Get expert guidance on where AI fits in your business. AI readiness audit, digital transformation roadmap, tool recommendations, and staff training. $99 one-time or $99/mo.',
   alternates: { canonical: 'https://www.aiandwebservices.com/services/consulting' },
+  openGraph: {
+    title: 'AI Consulting & Strategy — Roadmap, Training, and Fractional Advisory',
+    description: 'Get expert guidance on where AI fits in your business. AI audit, roadmap, and staff training.',
+    images: [{ url: 'https://www.aiandwebservices.com/api/og?title=AI%20Consulting&description=Roadmap%2C%20Training%2C%20Fractional%20Advisory', width: 1200, height: 630, alt: 'Consulting service' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AI Consulting & Strategy — Roadmap, Training, and Fractional Advisory',
+    description: 'Get expert guidance on where AI fits in your business. AI audit, roadmap, and staff training.',
+    images: ['https://www.aiandwebservices.com/api/og?title=AI%20Consulting&description=Roadmap%2C%20Training%2C%20Fractional%20Advisory'],
+  },
 };
 
 const service = SERVICES['consulting'];
@@ -74,7 +85,7 @@ export default function ConsultingPage() {
             { n: '1', title: 'Day 1: Discovery Call', desc: 'You explain your business, your goals, your constraints. David listens. What\'s working? What\'s broken? Where are you losing money? Where is manual work eating up your time?' },
             { n: '2', title: 'Days 1–4: Deep Audit', desc: 'David researches your business, your competitors, your current tech stack. He looks for AI opportunities: Where could automation save you time? Where could AI generate revenue? What quick wins exist?' },
             { n: '3', title: 'Day 5: Strategy Call', desc: 'David presents his findings. What he recommends. What he doesn\'t. Why. A clear roadmap: Phase 1 (Weeks 1–4), Phase 2 (Months 2–3), Phase 3 (Future). Tool recommendations—no affiliate links.' },
-            { n: '4', title: 'Optional: Training + Advisory', desc: 'If you want ongoing help: staff training ($99 workshop), or monthly advisory ($199/mo for 60-minute calls, Slack access, implementation guidance).' },
+            { n: '4', title: 'Optional: Training + Advisory', desc: 'If you want ongoing help: staff training ($99 workshop), or monthly advisory ($99/mo for 60-minute calls, Slack access, implementation guidance).' },
           ].map((item, i) => (
             <div key={i} style={{ display: 'grid', gridTemplateColumns: '60px 1fr', gap: '20px', alignItems: 'start' }}>
               <div style={{ width: '60px', height: '60px', backgroundColor: '#2AA5A0', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', fontWeight: 800, fontSize: '24px', color: '#111827', flexShrink: 0 }}>{item.n}</div>
@@ -129,7 +140,7 @@ export default function ConsultingPage() {
                   David's Consulting
                 </td>
                 <td style={{ padding: '16px', color: '#86efac', fontWeight: 700 }}>5 days</td>
-                <td style={{ padding: '16px', color: '#86efac', fontWeight: 700 }}>$99 (or $199/mo)</td>
+                <td style={{ padding: '16px', color: '#86efac', fontWeight: 700 }}>$99 (or $99/mo)</td>
                 <td style={{ padding: '16px', color: '#86efac', fontWeight: 700 }}>Honest, tailored roadmap. No affiliate bias. Can implement if you want.</td>
               </tr>
             </tbody>
@@ -148,7 +159,7 @@ export default function ConsultingPage() {
         </p>
 
         <p style={{ fontSize: '15px', lineHeight: 1.8, color: 'rgba(255,255,255,0.75)', padding: '20px', backgroundColor: 'rgba(16, 185, 129, 0.08)', border: '1px solid rgba(16, 185, 129, 0.3)', borderRadius: '6px' }}>
-          <strong>After Consulting (Day 5):</strong> David audits his business and recommends: "Forget the AI coaching app—that won't scale your business. Instead: (1) Build a simple website with your philosophy (2 weeks). (2) Add a voice AI that answers common questions and books calls (3 weeks). (3) Use AI to write SEO content about training methods (ongoing). Start with the website, then add the AI." The trainer now has a roadmap. He doesn't have to guess. He knows Phase 1 costs $199/month, Phase 2 costs $249/month. He makes the decision with confidence.
+          <strong>After Consulting (Day 5):</strong> David audits his business and recommends: "Forget the AI coaching app—that won't scale your business. Instead: (1) Build a simple website with your philosophy (2 weeks). (2) Add a voice AI that answers common questions and books calls (3 weeks). (3) Use AI to write SEO content about training methods (ongoing). Start with the website, then add the AI." The trainer now has a roadmap. He doesn't have to guess. He knows Phase 1 costs $99/month, Phase 2 costs $249/month. He makes the decision with confidence.
         </p>
       </section>
 
@@ -163,7 +174,7 @@ export default function ConsultingPage() {
             { q: "What if I decide NOT to hire you after the audit?", a: "That's fine. You get the roadmap regardless. You can hire someone else, or implement it yourself. David's job is to point you in the right direction, not to pressure you into a full-service package." },
             { q: "How detailed is the roadmap?", a: "Very detailed. It includes: what gets built first, why, what tools to use, what it costs, how long it takes, and how you'll measure success. You'll have everything you need to make a decision." },
             { q: "Can I add the staff training workshop to the audit?", a: "Yes. It's $99 extra. David runs a 2-hour workshop for your team on AI tools, where to start, how to use them safely. Great for getting everyone on the same page." },
-            { q: "What if I want ongoing help after the audit?", a: "You can hire David as a fractional advisor ($199/month). Monthly strategy calls, Slack access for questions, guidance as you implement. Not a commitment—you can cancel anytime." },
+            { q: "What if I want ongoing help after the audit?", a: "You can hire David as a fractional advisor ($99/month). Monthly strategy calls, Slack access for questions, guidance as you implement. Not a commitment—you can cancel anytime." },
             { q: "Is this for my business or for large enterprises only?", a: "Either. David works with solo entrepreneurs, small teams, and bigger businesses. The audit is tailored to your size and stage." },
           ].map((item, i) => (
             <div key={i} style={{ paddingBottom: '20px', borderBottom: i < 4 ? '1px solid rgba(255,255,255,0.1)' : 'none' }}>

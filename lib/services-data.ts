@@ -246,7 +246,7 @@ export const SERVICES: Record<string, Service> = {
     slug: 'consulting',
     tier: 'Consulting',
     oneLiner: 'Know Exactly Where to Start with AI',
-    priceMonthly: 199,
+    priceMonthly: 99,
     setupFee: 99,
     features: [
       { icon: '🔍', label: 'AI Readiness Audit', desc: 'Honest assessment: what saves money, what is hype.' },
@@ -264,7 +264,7 @@ export const SERVICES: Record<string, Service> = {
       { when: 'Day 1', action: 'Discovery call (60 minutes).' },
       { when: 'Days 1–5', action: 'Audit and research your business.' },
       { when: 'Day 5', action: 'Debrief call with roadmap and recommendations.' },
-      { when: 'Optional', action: 'Staff training (extra $99), monthly advisory ($199/mo).' },
+      { when: 'Optional', action: 'Staff training (extra $99), monthly advisory ($99/mo).' },
     ],
     setupIncludes: [
       'Discovery call (60 minutes)',

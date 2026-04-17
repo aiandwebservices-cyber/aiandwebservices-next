@@ -135,7 +135,7 @@ export const TIERS: Tier[] = [
     name: 'Consulting',
     tagline: 'Know exactly where to start',
     setupFee: 99,
-    monthlyFee: 199,
+    monthlyFee: 99,
     setupLinkShort: 'https://square.link/u/QBiFkWgk',
     setupLinkLong: 'https://checkout.square.site/merchant/MLTDBEPZS805X/order/3iP48Rm06IOJz4eJ4rQ8D3S99FMZY',
     setupLinkId: 'KHQJJWZ4JZMDT7JW',

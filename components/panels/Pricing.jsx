@@ -36,7 +36,7 @@ function PrCard({ tier }) {
             <div className="pr-price-per"> once</div>
           </div>
           <div className="pr-setup-wrap">
-            <span className="pr-setup">or ${tier.monthlyFee}/mo fractional</span>
+            <span className="pr-setup">or ${tier.monthlyFee}/mo</span>
           </div>
         </>
       ) : (
