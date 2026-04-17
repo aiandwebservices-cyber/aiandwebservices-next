@@ -39,7 +39,7 @@ export default function Services() {
     <section className="panel" id="services" style={{scrollMarginTop:'100px'}} aria-label="AIandWEBservices pricing — AI automation and web development packages for small business">
       <div className="pricing-inner">
         <div className="pricing-header">
-          <div className="panel-eyebrow">Pricing</div>
+          <div className="panel-eyebrow">Services</div>
           <h2 className="panel-h2" style={{marginBottom:'24px'}}>Transparent pricing.<span className="pricing-br"><br/></span> No surprises.</h2>
           <div className="no-contract">No contracts — cancel or pause anytime</div>
           <p className="pricing-crosslinks">
