@@ -44,3 +44,11 @@ node_modules/
 
 # Local Netlify folder
 .netlify
+
+# Square output files (contain payment link URLs)
+scripts/square_links_output_*.txt
+scripts/square_links_details_*.json
+
+# Python cache
+__pycache__/
+*.pyc

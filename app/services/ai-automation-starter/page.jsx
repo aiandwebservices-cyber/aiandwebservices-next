@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { SERVICES } from '@/lib/services-data';
+import { ServicePageSchema, BreadcrumbListSchema } from '@/components/Schema';
 import V1Hero from '@/components/v1-components/V1Hero';
 import V1FeatureGrid from '@/components/v1-components/V1FeatureGrid';
 import V1FitCheck from '@/components/v1-components/V1FitCheck';
@@ -10,7 +11,7 @@ import { Check, X, ChevronRight } from 'lucide-react';
 
 export const metadata = {
   title: 'AI Automation Starter — Custom AI Chatbot for Your Business | AIandWEBservices',
-  description: 'Deploy a custom AI chatbot trained on your business in 7-14 days. Handles inquiries, qualifies leads, books calls 24/7. $199 setup + $25/mo. No contracts.',
+  description: 'Deploy a custom AI chatbot trained on your business in 7-14 days. Handles inquiries, qualifies leads, books calls 24/7. $99 setup + $99/mo. No contracts.',
   alternates: { canonical: 'https://www.aiandwebservices.com/services/ai-automation-starter' },
 };
 
@@ -21,6 +22,8 @@ export default function AIAutomationStarterPage() {
 
   return (
     <>
+      <ServicePageSchema service={service} />
+      <BreadcrumbListSchema serviceName={service.tier} serviceSlug={service.slug} />
       <V1Hero service={service} />
       <V1FeatureGrid features={service.features} />
 
@@ -122,7 +125,7 @@ export default function AIAutomationStarterPage() {
         </div>
 
         <p style={{ fontSize: '15px', lineHeight: 1.8, color: 'rgba(255,255,255,0.75)', marginTop: '40px', paddingTop: '24px', borderTop: '1px solid rgba(255,255,255,0.1)' }}>
-          <strong>After launch:</strong> David continues optimizing monthly. New services? New pricing? New objections? David retrains the AI (1–2 days turnaround). This is included in the $25/month fee—no surprise costs.
+          <strong>After launch:</strong> David continues optimizing monthly. New services? New pricing? New objections? David retrains the AI (1–2 days turnaround). This is included in the $99/month fee—no surprise costs.
         </p>
       </section>
 
@@ -260,11 +263,11 @@ export default function AIAutomationStarterPage() {
             },
             {
               q: "How is this different from hiring a part-time admin?",
-              a: "A part-time admin costs $1,500–$2,500/month and works 9–5. The AI costs $25/month and works 24/7. An admin will get sick or leave. The AI doesn't. An admin handles ~30 inquiries/month; the AI handles unlimited. Start with the AI; hire people later when you need strategy, not inquiry handling."
+              a: "A part-time admin costs $1,500–$2,500/month and works 9–5. The AI costs $99/month and works 24/7. An admin will get sick or leave. The AI doesn't. An admin handles ~30 inquiries/month; the AI handles unlimited. Start with the AI; hire people later when you need strategy, not inquiry handling."
             },
             {
               q: "What if I need to change how the AI answers?",
-              a: "Tell David what needs updating in your monthly check-in. He retrains the AI in 1–2 days. New service? New pricing? New availability? David updates it. This is included in the $25/month fee."
+              a: "Tell David what needs updating in your monthly check-in. He retrains the AI in 1–2 days. New service? New pricing? New availability? David updates it. This is included in the $99/month fee."
             },
             {
               q: "Can the AI work with my specific CRM/calendar?",

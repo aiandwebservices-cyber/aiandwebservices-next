@@ -31,7 +31,7 @@ export const SERVICES: Record<string, Service> = {
     features: [
       { icon: '🌐', label: 'Website', desc: 'Fast, mobile-friendly site built to convert visitors into inquiries.' },
       { icon: '🔍', label: 'Local SEO', desc: 'Show up in local Google searches. Fully optimized GBP listing.' },
-      { icon: '🤖', label: 'AI Assistant', desc: 'Basic chatbot answers FAQs, captures leads, sends you alerts.' },
+      { icon: '🤖', label: 'AI Assistant', desc: 'Basic AI automation answers FAQs, captures leads, sends you alerts.' },
       { icon: '📊', label: 'Monthly Reports', desc: 'See how many visitors, where they came from, how many inquiries.' },
     ],
     fitBullets: [
@@ -49,7 +49,7 @@ export const SERVICES: Record<string, Service> = {
       'Discovery call and strategy',
       'Website design and build (5 pages)',
       'Google Business Profile setup and optimization',
-      'Basic AI chatbot configuration',
+      'Basic AI automation and assistant configuration',
       '30-day launch support and monitoring',
     ],
     monthlyIncludes: [
@@ -71,8 +71,8 @@ export const SERVICES: Record<string, Service> = {
     priceMonthly: 99,
     setupFee: 99,
     features: [
-      { icon: '🤖', label: 'Custom Chatbot', desc: 'AI trained on your business, answers FAQs instantly.' },
-      { icon: '📅', label: 'Auto Booking', desc: 'Chatbot books calls to your calendar.' },
+      { icon: '🤖', label: 'AI Automation System', desc: 'AI trained on your business, answers FAQs instantly.' },
+      { icon: '📅', label: 'Auto Booking', desc: 'Smart assistant books calls to your calendar.' },
       { icon: '🎯', label: 'Lead Qualification', desc: 'AI asks qualifying questions about budget, timeline.' },
       { icon: '🔗', label: 'CRM Integration', desc: 'All conversations logged in HubSpot, Pipedrive, etc.' },
       { icon: '📊', label: 'Monthly Reports', desc: 'Inquiries handled, leads qualified, common questions.' },
@@ -84,13 +84,13 @@ export const SERVICES: Record<string, Service> = {
     ],
     timeline: [
       { when: 'Day 1', action: 'Discovery call, gather business knowledge.' },
-      { when: 'Week 1', action: 'Build and train AI chatbot.' },
+      { when: 'Week 1', action: 'Build and train AI automation and assistant system.' },
       { when: 'Week 2', action: 'Test, integrate with calendar and CRM.' },
       { when: 'Week 3+', action: 'Launch and monitor, monthly updates.' },
     ],
     setupIncludes: [
       'Discovery call (60 minutes)',
-      'AI chatbot custom training',
+      'AI automation and assistant custom training',
       'Calendar integration (Google, Calendly, Acuity)',
       'CRM integration (HubSpot, Salesforce, Pipedrive, Zoho)',
       'Deployment and 30-day monitoring',
@@ -114,7 +114,7 @@ export const SERVICES: Record<string, Service> = {
     priceMonthly: 149,
     setupFee: 59,
     features: [
-      { icon: '⚙️', label: 'AI Automation', desc: 'CRM-integrated chatbot qualifies leads and books calls.' },
+      { icon: '⚙️', label: 'AI Automation', desc: 'CRM-integrated AI automation qualifies leads and books calls.' },
       { icon: '📧', label: 'Email Marketing', desc: '5–7 email welcome sequence that builds relationships.' },
       { icon: '📝', label: 'SEO Content', desc: '2 articles monthly. 24+ posts yearly ranked on Google.' },
       { icon: '🎯', label: 'Landing Pages', desc: 'Conversion-optimized pages for your top services.' },
@@ -142,7 +142,7 @@ export const SERVICES: Record<string, Service> = {
     monthlyIncludes: [
       'Everything in Presence monthly',
       '2 new SEO articles',
-      'Chatbot and email optimization',
+      'AI automation and email optimization',
       'CRM and workflow monitoring',
       'Monthly strategy call with David',
     ],

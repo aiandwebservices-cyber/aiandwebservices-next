@@ -55,7 +55,7 @@ export default function GrowthPage() {
         </div>
 
         <p style={{ fontSize: '16px', lineHeight: 1.8, marginTop: '32px', color: 'rgba(255,255,255,0.85)' }}>
-          <strong>Bottom line:</strong> You're leaving 70–80% of your traffic on the table. If you got just 1 extra qualified lead per week, that's 50+ per year. At a $2K–$10K average deal, that's $100K–$500K in lost revenue annually.
+          <strong>Bottom line:</strong> You're leaving 70–80% of your traffic on the table. If you got just 1 extra qualified lead per week, that's 50+ per year. At a $2K–$10K average deal, that's $100K–$500K in lost revenue annually. <Link href="/services/consulting" style={{ color: '#2AA5A0', textDecoration: 'underline' }}>Unsure which tier fits your business?</Link> Get a free AI audit.
         </p>
       </section>
 
@@ -167,7 +167,7 @@ export default function GrowthPage() {
         </div>
 
         <p style={{ fontSize: '15px', lineHeight: 1.8, marginTop: '24px', color: 'rgba(255,255,255,0.75)' }}>
-          Most freelancers deliver content but no strategy. Landing pages that don't convert. No one's coordinating the whole funnel. With Growth, David is your marketing director. You get a working system, not scattered deliverables.
+          Most freelancers deliver content but no strategy. Landing pages that don't convert. No one's coordinating the whole funnel. With Growth, David is your marketing director. You get a working system, not scattered deliverables. <Link href="/#pricing" style={{ color: '#2AA5A0', textDecoration: 'underline' }}>See all tier options</Link> to find the right fit for your business.
         </p>
       </section>
 
@@ -202,7 +202,7 @@ export default function GrowthPage() {
         </div>
 
         <p style={{ fontSize: '15px', lineHeight: 1.8, marginTop: '24px', padding: '20px', backgroundColor: 'rgba(255,255,255,0.02)', borderRadius: '6px' }}>
-          <strong>Revenue impact:</strong> Consultant charges $5K per engagement. 2 extra clients/month = $10K additional monthly revenue. Pays for Growth in less than a month. Saves $1,500/month on paid ads (better efficiency).
+          <strong>Revenue impact:</strong> Consultant charges $5K per engagement. 2 extra clients/month = $10K additional monthly revenue. Pays for Growth in less than a month. Saves $1,500/month on paid ads (better efficiency). <Link href="/services/add-ons" style={{ color: '#2AA5A0', textDecoration: 'underline' }}>Add online sales with E-commerce integration</Link>.
         </p>
       </section>
 

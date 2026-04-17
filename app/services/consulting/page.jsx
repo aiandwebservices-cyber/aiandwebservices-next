@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { ServicePageSchema, BreadcrumbListSchema } from '@/components/Schema';
 import { SERVICES } from '@/lib/services-data';
 import V1Hero from '@/components/v1-components/V1Hero';
 import V1FeatureGrid from '@/components/v1-components/V1FeatureGrid';
@@ -21,6 +22,8 @@ export default function ConsultingPage() {
 
   return (
     <>
+      <ServicePageSchema service={service} />
+      <BreadcrumbListSchema serviceName={service.tier} serviceSlug={service.slug} />
       <V1Hero service={service} />
       <V1FeatureGrid features={service.features} />
 

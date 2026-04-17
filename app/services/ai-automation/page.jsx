@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { Bot, Phone, Clock, ClipboardList } from 'lucide-react';
+import { BreadcrumbListSchema } from '@/components/Schema';
 
 export const metadata = {
   title: 'AI Automation & Chatbots for Small Business | AIandWEBservices',

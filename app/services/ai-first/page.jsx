@@ -55,7 +55,7 @@ export default function AIFirstPage() {
         </div>
 
         <p style={{ fontSize: '16px', lineHeight: 1.8, marginTop: '32px', color: 'rgba(255,255,255,0.85)' }}>
-          <strong>Bottom line:</strong> AI-First solves all three without hiring. Voice AI answers calls. Programmatic SEO generates 100+ ranked pages automatically. Advanced automation handles everything else.
+          <strong>Bottom line:</strong> AI-First solves all three without hiring. Voice AI answers calls. Programmatic SEO generates 100+ ranked pages automatically. Advanced automation handles everything else. <Link href="/services/consulting" style={{ color: '#2AA5A0', textDecoration: 'underline' }}>Not sure if AI-First is right for you?</Link> Get a free audit.
         </p>
       </section>
 

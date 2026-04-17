@@ -1,39 +1,73 @@
 'use client';
 import Link from 'next/link';
 import { Bot, Sprout, TrendingUp, Zap, Brain, Target, Wallet, ShoppingCart, Eye } from 'lucide-react';
+import { TIERS } from '@/lib/pricing';
 
-const MAIN_PLANS = [
-  { Icon: Sprout, iconColor:'#34d399', name:'Presence', tagline:'Get found online', price:'99', setup:'$39', features:['Professional website (5 pages)','Local SEO + Google Business Profile','Basic AI inquiry assistant','Monthly performance report'], best:'Brand new businesses that need a professional foundation', serviceAnchor:'#service-presence', pricingId:'pricing-presence' },
-  { Icon: TrendingUp, iconColor:'#34d399', name:'Growth', tagline:'Turn visitors into leads', price:'149', setup:'$59', features:['Everything in Presence','AI automation & smart assistant','Email marketing + welcome sequence','SEO content (2 articles/month)','Conversion-optimized landing page'], best:'Established businesses ready to generate consistent leads', serviceAnchor:'#service-growth', pricingId:'pricing-growth' },
-  { Icon: Zap, iconColor:'#a78bfa', name:'Revenue Engine', tagline:'Automate your sales process', price:'299', setup:'$99', popular:true, features:['Everything in Growth','Full sales funnel design & build','Workflow automation & integration','Paid ads setup (Google or Meta)','AI-powered CRM integration','Monthly strategy call with David'], best:'Businesses serious about scaling revenue without scaling headcount', serviceAnchor:'#service-revenue-engine', pricingId:'pricing-revenue-engine' },
-  { Icon: Brain, iconColor:'#60a5fa', name:'AI-First', tagline:'Replace manual work with AI', price:'349', setup:'$199', features:['Everything in Revenue Engine','Advanced AI automation pipelines','Voice AI (answering + booking)','Programmatic SEO at scale','Social media AI scheduling','Full analytics dashboard'], best:'Owners who want to run a bigger business with the same size team', serviceAnchor:'#service-ai-first', pricingId:'pricing-ai-first' },
-  { Icon: Target, iconColor:'#f87171', name:'Consulting', tagline:'Know exactly where to start', price:'99', priceLabel:' once', setup:'or $199/mo fractional', features:['AI readiness audit','Digital transformation roadmap','Tool stack recommendations','Staff AI training & workshops','Fractional AI advisor (ongoing)'], best:'Businesses that want expert guidance before committing to a full build', serviceAnchor:'#service-consulting', pricingId:'pricing-consulting', consultingLink:'/services/consulting-strategy' },
-];
+// Icon + service anchor mappings — purely presentational, not pricing data
+const TIER_META = {
+  'presence':             { Icon: Sprout,      iconColor: '#34d399', serviceAnchor: '#service-presence',     pricingId: 'pricing-presence' },
+  'growth':               { Icon: TrendingUp,  iconColor: '#34d399', serviceAnchor: '#service-growth',       pricingId: 'pricing-growth' },
+  'revenue-engine':       { Icon: Zap,         iconColor: '#a78bfa', serviceAnchor: '#service-revenue-engine', pricingId: 'pricing-revenue-engine' },
+  'ai-first':             { Icon: Brain,       iconColor: '#60a5fa', serviceAnchor: '#service-ai-first',     pricingId: 'pricing-ai-first' },
+  'ai-automation-starter':{ Icon: Bot,         iconColor: '#60a5fa', serviceAnchor: '#service-ai-starter',   pricingId: 'pricing-ai-starter' },
+  'consulting':           { Icon: Target,      iconColor: '#f87171', serviceAnchor: '#service-consulting',   pricingId: 'pricing-consulting' },
+};
 
-function PrCard({ plan }) {
-  const { Icon, iconColor } = plan;
+// Tiers shown in the main grid (all except ai-automation-starter which has its own solo card)
+const MAIN_TIERS = TIERS.filter(t => t.slug !== 'ai-automation-starter');
+const AI_STARTER = TIERS.find(t => t.slug === 'ai-automation-starter');
+
+function PrCard({ tier }) {
+  const meta = TIER_META[tier.slug] || {};
+  const { Icon, iconColor, serviceAnchor, pricingId } = meta;
+  const isConsulting = tier.slug === 'consulting';
+
   return (
-    <div id={plan.pricingId} className={`pr-card${plan.popular ? ' popular' : ''}`} style={{scrollMarginTop:'100px'}}>
-      {plan.popular && <div className="pr-pop-badge">Most Popular</div>}
-      <div className="pr-emoji"><Icon size={20} color={iconColor || '#00D9FF'} strokeWidth={1.75} /></div>
-      <div className="pr-name">{plan.name}</div>
-      <div className="pr-tagline">{plan.tagline}</div>
-      <div className="pr-price">
-        <div className="pr-price-n"><sup>$</sup>{plan.price}</div>
-        <div className="pr-price-per">{plan.priceLabel || '/mo'}</div>
-      </div>
-      <div className="pr-setup-wrap">
-        <span className="pr-setup">+ {plan.setup}{plan.priceLabel ? '' : ' one-time setup'}</span>
-      </div>
+    <div id={pricingId} className={`pr-card${tier.popular ? ' popular' : ''}`} style={{scrollMarginTop:'100px'}}>
+      {tier.popular && <div className="pr-pop-badge">Most Popular</div>}
+      <div className="pr-emoji">{Icon && <Icon size={20} color={iconColor || '#00D9FF'} strokeWidth={1.75} />}</div>
+      <div className="pr-name">{tier.name}</div>
+      <div className="pr-tagline">{tier.tagline}</div>
+
+      {isConsulting ? (
+        <>
+          <div className="pr-price">
+            <div className="pr-price-n"><sup>$</sup>{tier.setupFee}</div>
+            <div className="pr-price-per"> once</div>
+          </div>
+          <div className="pr-setup-wrap">
+            <span className="pr-setup">or ${tier.monthlyFee}/mo fractional</span>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="pr-price">
+            <div className="pr-price-n"><sup>$</sup>{tier.monthlyFee}</div>
+            <div className="pr-price-per">/mo</div>
+          </div>
+          <div className="pr-setup-wrap">
+            <span className="pr-setup">+ ${tier.setupFee} one-time setup</span>
+          </div>
+        </>
+      )}
+
       <ul className="pr-list">
-        {plan.features.map(f => <li key={f}>{f}</li>)}
+        {tier.features.map(f => <li key={f}>{f}</li>)}
       </ul>
-      <div className="pr-best">Best for: {plan.best}</div>
-      <a href={plan.serviceAnchor} className="pr-whats-included">What&apos;s included? ↑</a>
-      {plan.consultingLink
-        ? <Link href={plan.consultingLink} className="pr-btn pr-btn-link">Get More Info</Link>
-        : <button className="pr-btn" onClick={() => window.go && window.go(8)}>Get Started</button>
-      }
+
+      <div className="pr-best">{tier.tagline}</div>
+
+      {serviceAnchor && (
+        <a href={serviceAnchor} className="pr-whats-included">What&apos;s included? ↑</a>
+      )}
+
+      {isConsulting ? (
+        <Link href="/services/consulting" className="pr-btn pr-btn-link">Get More Info</Link>
+      ) : (
+        <a href={tier.setupLinkLong || tier.setupLinkShort} className="pr-btn">
+          Get Started
+        </a>
+      )}
     </div>
   );
 }
@@ -52,32 +86,36 @@ export default function Pricing() {
         </div>
 
         {/* AI Automation Starter — standalone chatbot card */}
-        <div id="pricing-ai-starter" className="chatbot-solo" style={{scrollMarginTop:'100px'}}>
-          <div className="cs-emoji"><Bot size={32} color="#60a5fa" strokeWidth={1.75} /></div>
-          <div className="cs-body">
-            <div className="cs-eyebrow">Standalone · Just the chatbot</div>
-            <div className="cs-title">AI Automation Starter — Your First AI System</div>
-            <div className="cs-desc">A custom AI automation and smart assistant system trained on your business, deployed on your website. Handles enquiries, qualifies leads, books calls, and answers FAQs — 24/7, without you.</div>
-            <div className="cs-feats">
-              <span className="cs-feat">Trained on your business</span>
-              <span className="cs-feat">Books calls to your calendar</span>
-              <span className="cs-feat">CRM integration</span>
-              <span className="cs-feat">FAQ handling</span>
-              <span className="cs-feat">Monthly updates included</span>
+        {AI_STARTER && (
+          <div id="pricing-ai-starter" className="chatbot-solo" style={{scrollMarginTop:'100px'}}>
+            <div className="cs-emoji"><Bot size={32} color="#60a5fa" strokeWidth={1.75} /></div>
+            <div className="cs-body">
+              <div className="cs-eyebrow">Standalone · Just the chatbot</div>
+              <div className="cs-title">AI Automation Starter — Your First AI System</div>
+              <div className="cs-desc">A custom AI automation and smart assistant system trained on your business, deployed on your website. Handles enquiries, qualifies leads, books calls, and answers FAQs — 24/7, without you.</div>
+              <div className="cs-feats">
+                {AI_STARTER.features.map(f => <span key={f} className="cs-feat">{f}</span>)}
+              </div>
+              <a href="#service-ai-starter" className="pr-whats-included" style={{display:'inline-block',marginTop:'8px'}}>What&apos;s included? ↑</a>
             </div>
-            <a href="#service-ai-starter" className="pr-whats-included" style={{display:'inline-block',marginTop:'8px'}}>What&apos;s included? ↑</a>
+            <div className="cs-price-block">
+              <div className="cs-setup-lbl">One-time setup</div>
+              <div className="cs-amount"><sup>$</sup>{AI_STARTER.setupFee}</div>
+              <div className="cs-mo">then <strong>${AI_STARTER.monthlyFee}/month</strong></div>
+              <a
+                href={AI_STARTER.setupLinkLong || AI_STARTER.setupLinkShort}
+                className="cs-btn"
+                aria-label="Get started with AI Automation Starter"
+              >
+                Get Started
+              </a>
+            </div>
           </div>
-          <div className="cs-price-block">
-            <div className="cs-setup-lbl">One-time setup</div>
-            <div className="cs-amount"><sup>$</sup>99</div>
-            <div className="cs-mo">then <strong>$99/month</strong></div>
-            <Link href="/services/ai-automation" className="cs-btn cs-btn-link" aria-label="Get more info about AI Automation Starter">Get More Info</Link>
-          </div>
-        </div>
+        )}
 
-        {/* All 5 main plans — always visible */}
+        {/* Main 5 plan grid */}
         <div className="pricing-grid">
-          {MAIN_PLANS.map(plan => <PrCard key={plan.name} plan={plan} />)}
+          {MAIN_TIERS.map(tier => <PrCard key={tier.slug} tier={tier} />)}
         </div>
 
         {/* Add-on Services */}
