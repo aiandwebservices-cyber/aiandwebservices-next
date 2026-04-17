@@ -72,7 +72,7 @@ export const TIERS: Tier[] = [
     name: 'Revenue Engine',
     tagline: 'Automate your sales process',
     setupFee: 99,
-    monthlyFee: 299,
+    monthlyFee: 249,
     setupLinkShort: 'https://square.link/u/nS2lnfhf',
     setupLinkLong: 'https://checkout.square.site/merchant/MLTDBEPZS805X/order/TIrGr9kjnSvHZUmpbonpPb5njMfZY',
     setupLinkId: 'R5TCDCXYIUABP3TA',

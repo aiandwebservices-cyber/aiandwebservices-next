@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
 """
 update_square_payment_links.py
-Updates descriptions on two setup fee payment links to fix stale monthly pricing references.
+Updates description on the Revenue Engine setup fee payment link.
 
 Links to update:
-  - Growth Setup    (ID: VLZVJSYXKN3B3KD4) — description references $149/month
-  - AI-First Setup  (ID: CALS4LNOOOIRKJGH) — description references $349/month
+  - Revenue Engine Setup (ID: R5TCDCXYIUABP3TA) — description references $249/month
 
 DO NOT RUN until you have reviewed the fetch output and confirmed the IDs are correct.
 
@@ -61,24 +60,13 @@ HEADERS = {
 # ── Links to update ───────────────────────────────────────────────────────────
 UPDATES = [
     {
-        "id": "VLZVJSYXKN3B3KD4",
-        "label": "Growth Setup",
+        "id": "R5TCDCXYIUABP3TA",
+        "label": "Revenue Engine Setup",
         "new_description": (
-            "One-time setup fee for the Growth plan. Covers onboarding consultation, "
+            "One-time setup fee for the Revenue Engine plan. Covers onboarding consultation, "
             "initial configuration, and account setup.\n\n"
             "After payment, you'll receive an email within minutes with a link to enroll "
-            "in the $149/month Growth subscription.\n\n"
-            "Questions? Contact david@aiandwebservices.com"
-        ),
-    },
-    {
-        "id": "CALS4LNOOOIRKJGH",
-        "label": "AI-First Setup",
-        "new_description": (
-            "One-time setup fee for the AI-First plan. Covers onboarding consultation, "
-            "initial configuration, and account setup.\n\n"
-            "After payment, you'll receive an email within minutes with a link to enroll "
-            "in the $349/month AI-First subscription.\n\n"
+            "in the $249/month Revenue Engine subscription.\n\n"
             "Questions? Contact david@aiandwebservices.com"
         ),
     },
@@ -112,7 +100,7 @@ def update_link(link_id: str, version: int, new_description: str) -> dict | None
 # ── Run ───────────────────────────────────────────────────────────────────────
 print(f"\n{'='*60}")
 print(f"  Square Payment Link Updater  |  ENV: {ENV.upper()}")
-print(f"  Updating 2 setup fee descriptions")
+print(f"  Updating 1 setup fee description")
 print(f"{'='*60}\n")
 
 for item in UPDATES:
