@@ -241,48 +241,6 @@ export const SERVICES: Record<string, Service> = {
     heroDemoKey: 'terminal',
   },
 
-  'ai-automation-starter': {
-    slug: 'ai-automation-starter',
-    tier: 'AI Automation Starter',
-    oneLiner: 'Your First AI System — Handle Inquiries 24/7',
-    priceMonthly: 25,
-    setupFee: 249,
-    features: [
-      { icon: '🤖', label: 'Custom Chatbot', desc: 'AI trained on your business, answers FAQs instantly.' },
-      { icon: '📅', label: 'Auto Booking', desc: 'Chatbot books calls to your calendar.' },
-      { icon: '🎯', label: 'Lead Qualification', desc: 'AI asks qualifying questions about budget, timeline.' },
-      { icon: '🔗', label: 'CRM Integration', desc: 'All conversations logged in HubSpot, Pipedrive, etc.' },
-      { icon: '📊', label: 'Monthly Reports', desc: 'Inquiries handled, leads qualified, common questions.' },
-    ],
-    fitBullets: [
-      'Service business getting 10+ inquiries weekly.',
-      'Losing leads to voicemail and slow replies.',
-      'Want 24/7 lead capture without hiring staff.',
-    ],
-    timeline: [
-      { when: 'Day 1', action: 'Discovery call, gather business knowledge.' },
-      { when: 'Week 1', action: 'Build and train AI chatbot.' },
-      { when: 'Week 2', action: 'Test, integrate with calendar and CRM.' },
-      { when: 'Week 3+', action: 'Launch and monitor, monthly updates.' },
-    ],
-    setupIncludes: [
-      'Discovery call (60 minutes)',
-      'AI chatbot custom training',
-      'Calendar integration (Google, Calendly, Acuity)',
-      'CRM integration (HubSpot, Salesforce, Pipedrive, Zoho)',
-      'Deployment and 30-day monitoring',
-    ],
-    monthlyIncludes: [
-      'Hosting and platform fees',
-      'Knowledge base updates and refinement',
-      'Monthly performance report',
-      'Email support and optimization',
-      'Calendar and CRM monitoring',
-    ],
-    prevSlug: null,
-    nextSlug: null,
-    heroDemoKey: 'ai-starter',
-  },
 
   'consulting': {
     slug: 'consulting',
