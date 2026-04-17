@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import Link from 'next/link';
 import { Mail, Phone, Zap, CheckCircle2, Lock } from 'lucide-react';
 
 export default function Contact() {
@@ -32,21 +33,23 @@ export default function Contact() {
             Free AI Audit
           </div>
           <h2 className="panel-h2" style={{fontSize:'clamp(20px,2.4vw,30px)',marginBottom:'6px',color:'#2AA5A0'}}>Tell me about your business. I&apos;ll tell you exactly where AI can help.</h2>
-          <p className="panel-sub" style={{fontSize:'14px',lineHeight:'1.6',maxWidth:'680px'}}>Fill in your details or book a call — David personally responds within 6 hours, no pitch, no obligation.</p>
+          <p className="panel-sub" style={{fontSize:'14px',lineHeight:'1.6',maxWidth:'680px'}}>Fill in your details or book a call — David personally responds within <Link href="/guarantee" style={{color:'#2AA5A0',textDecoration:'underline'}}>6 hours</Link>, no pitch, no obligation.</p>
         </div>
 
         {/* ── STEPS 2×2 ── */}
         <div className="contact-steps">
           {[
             { n:'1', cls:'csn-1', title:'Fill out the form — takes 2 minutes', desc:"Tell David about your business, your biggest challenge, and what you're looking to achieve." },
-            { n:'2', cls:'csn-2', title:'Get your free audit — within 6 hours', desc:'David personally reviews your business and identifies where AI, SEO, or a better website would have the biggest revenue impact.' },
+            { n:'2', cls:'csn-2', title:'Get your free audit — within 6 hours', desc:'David personally reviews your business and identifies where AI, SEO, or a better website would have the biggest revenue impact.', link:true },
             { n:'3', cls:'csn-3', title:'Decide with zero pressure', desc:"You get real, actionable advice — whether you work with David or not. No hard sell, ever." },
             { n:'4', cls:'csn-4', title:'Book a call to talk it through', desc:"Prefer to discuss live? Use the calendar to pick a time that works — 30 minutes, your questions answered." },
-          ].map(({ n, cls, title, desc }) => (
+          ].map(({ n, cls, title, desc, link }) => (
             <div key={n} className="contact-step">
               <div className={`contact-step-n ${cls}`}>{n}</div>
               <div>
-                <div className="contact-step-title">{title}</div>
+                <div className="contact-step-title">
+                  {link ? <Link href="/guarantee" style={{textDecoration:'underline',color:'inherit'}}>{title}</Link> : title}
+                </div>
                 <div className="contact-step-desc">{desc}</div>
               </div>
             </div>
@@ -89,16 +92,17 @@ export default function Contact() {
               <div className="form-row">
                 <label htmlFor="service">What are you most interested in?</label>
                 <select id="service" name="service">
-                  <option value="" disabled defaultValue="">Select a service...</option>
-                  <option>AI Automation Starter</option>
-                  <option>Presence</option>
-                  <option>Growth</option>
-                  <option>Revenue Engine</option>
-                  <option>AI-First</option>
+                  <option value="" disabled defaultValue="">Not sure yet — want a recommendation</option>
+                  <option>AI Automation Starter ($25/mo)</option>
+                  <option>Presence ($99/mo)</option>
+                  <option>Growth ($149/mo)</option>
+                  <option>Revenue Engine ($299/mo)</option>
+                  <option>AI-First ($349/mo)</option>
                   <option>Consulting &amp; Strategy</option>
-                  <option>Add-On Services</option>
-                  <option>Custom / Let&apos;s Talk</option>
-                  <option>Other</option>
+                  <option>Crypto Payment Integration</option>
+                  <option>E-commerce Integration</option>
+                  <option>Accessibility Audit</option>
+                  <option>Something else — let&apos;s talk</option>
                 </select>
               </div>
               <div className="form-row">
@@ -108,7 +112,7 @@ export default function Contact() {
               <button type="submit" className="form-submit" disabled={status === 'sending'} aria-busy={status === 'sending'} aria-live="polite">
                 {status === 'sending' ? 'Sending...' : status === 'error' ? 'Error — email david@aiandwebservices.com' : 'Get My Free Audit →'}
               </button>
-              <p className="form-note" role="note"><Lock size={13} style={{display:'inline',verticalAlign:'middle',marginRight:'4px'}} /> Your info is never shared or sold. Guaranteed response within 6 hours — usually within minutes.</p>
+              <p className="form-note" role="note"><Lock size={13} style={{display:'inline',verticalAlign:'middle',marginRight:'4px'}} /> Your info is never shared or sold. <Link href="/guarantee" style={{color:'#2AA5A0',textDecoration:'underline'}}>Guaranteed response within 6 hours</Link> — usually within minutes.</p>
             </form>
           )}
         </div>
@@ -144,10 +148,12 @@ export default function Contact() {
             <div className="ci-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.19 13.668l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.957.891z" fill="#29B6F6"/></svg></div>
             <span style={{color:'#60A5FA',fontWeight:500}}>@aiandwebservices</span>
           </a>
-          <div className="ci-row">
-            <div className="ci-icon"><Zap size={20} color="#f59e0b" strokeWidth={1.75} /></div>
-            <span style={{textAlign:'center'}}>Guaranteed response <strong style={{color:'#fff'}}>within 6 hours</strong><br/><span className="ci-minutes">— usually within minutes</span></span>
-          </div>
+          <Link href="/guarantee" style={{textDecoration:'none'}}>
+            <div className="ci-row">
+              <div className="ci-icon"><Zap size={20} color="#f59e0b" strokeWidth={1.75} /></div>
+              <span style={{textAlign:'center'}}>Guaranteed response <strong style={{color:'#fff'}}>within 6 hours</strong><br/><span className="ci-minutes">— usually within minutes</span></span>
+            </div>
+          </Link>
         </div>
 
       </div>

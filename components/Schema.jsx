@@ -119,7 +119,7 @@ const SERVICES = [
     description:
       'AI automation, email marketing, SEO content, and a conversion-optimised landing page. For established businesses ready to generate consistent leads.',
     url: 'https://www.aiandwebservices.com/#pricing',
-    offers: { price: '199', priceCurrency: 'USD', priceSpecification: '$199/month + $59 one-time setup' },
+    offers: { price: '149', priceCurrency: 'USD', priceSpecification: '$149/month + $59 one-time setup' },
   },
   {
     name: 'Revenue Engine Package',
@@ -133,7 +133,7 @@ const SERVICES = [
     description:
       'Advanced AI automation pipelines, voice AI, programmatic SEO, social media AI scheduling, and a full analytics dashboard.',
     url: 'https://www.aiandwebservices.com/#pricing',
-    offers: { price: '499', priceCurrency: 'USD', priceSpecification: '$499/month + $199 one-time setup' },
+    offers: { price: '349', priceCurrency: 'USD', priceSpecification: '$349/month + $199 one-time setup' },
   },
   {
     name: 'AI & Digital Strategy Consulting',
@@ -256,6 +256,130 @@ export function BlogPostingSchema({ post, slug }) {
         },
         keywords: post.tag,
         articleSection: post.tag,
+      }}
+    />
+  );
+}
+
+// ─── 6. WebSite schema — sitelinks searchbox ──────────────────────────────────
+
+export function WebSiteSchema() {
+  return (
+    <SchemaScript
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'WebSite',
+        '@id': 'https://www.aiandwebservices.com/#website',
+        url: 'https://www.aiandwebservices.com',
+        name: 'AIandWEBservices',
+        potentialAction: {
+          '@type': 'SearchAction',
+          target: {
+            '@type': 'EntryPoint',
+            urlTemplate: 'https://www.aiandwebservices.com/blog?q={search_term_string}',
+          },
+          'query-input': 'required name=search_term_string',
+        },
+      }}
+    />
+  );
+}
+
+// ─── 7. Service schema — individual service pages ──────────────────────────────
+
+export function ServicePageSchema({ service }) {
+  return (
+    <SchemaScript
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'Service',
+        '@id': `https://www.aiandwebservices.com/services/${service.slug}/#service`,
+        name: service.tier,
+        description: service.oneLiner,
+        url: `https://www.aiandwebservices.com/services/${service.slug}`,
+        provider: {
+          '@id': 'https://www.aiandwebservices.com/#organization',
+        },
+        areaServed: {
+          '@type': 'Country',
+          name: 'United States',
+        },
+        serviceType: 'AI Automation & Digital Services',
+        offers: {
+          '@type': 'Offer',
+          price: service.priceMonthly.toString(),
+          priceCurrency: 'USD',
+          priceValidUntil: new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0],
+          description: `$${service.priceMonthly}/month${service.setupFee > 0 ? ` + $${service.setupFee} setup` : ''}`,
+          availability: 'https://schema.org/InStock',
+        },
+      }}
+    />
+  );
+}
+
+// ─── 8. BreadcrumbList schema — service pages ──────────────────────────────────
+
+export function BreadcrumbListSchema({ serviceName, serviceSlug }) {
+  return (
+    <SchemaScript
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Home',
+            item: 'https://www.aiandwebservices.com',
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Services',
+            item: 'https://www.aiandwebservices.com/#pricing',
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: serviceName,
+            item: `https://www.aiandwebservices.com/services/${serviceSlug}`,
+          },
+        ],
+      }}
+    />
+  );
+}
+
+// ─── 9. Person schema — founder ────────────────────────────────────────────────
+
+export function PersonSchema() {
+  return (
+    <SchemaScript
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'Person',
+        '@id': 'https://www.aiandwebservices.com/#person-david-pulis',
+        name: 'David Pulis',
+        jobTitle: 'Founder & AI Systems Specialist',
+        url: 'https://www.aiandwebservices.com',
+        email: 'david@aiandwebservices.com',
+        telephone: '+1-315-572-0710',
+        knowsAbout: [
+          'AI Automation',
+          'Chatbots',
+          'Machine Learning',
+          'Web Design',
+          'SEO',
+          'Digital Marketing',
+          'Business Automation',
+          'Voice AI',
+          'Programmatic SEO',
+        ],
+        worksFor: {
+          '@id': 'https://www.aiandwebservices.com/#organization',
+        },
+        sameAs: ['https://t.me/aiandwebservices'],
       }}
     />
   );

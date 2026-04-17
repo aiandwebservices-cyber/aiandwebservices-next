@@ -111,7 +111,7 @@ export const SERVICES: Record<string, Service> = {
     slug: 'growth',
     tier: 'Growth',
     oneLiner: 'Turn Visitors Into Leads Automatically',
-    priceMonthly: 199,
+    priceMonthly: 149,
     setupFee: 59,
     features: [
       { icon: '⚙️', label: 'AI Automation', desc: 'CRM-integrated chatbot qualifies leads and books calls.' },
@@ -199,7 +199,7 @@ export const SERVICES: Record<string, Service> = {
     slug: 'ai-first',
     tier: 'AI-First',
     oneLiner: 'Replace Manual Work with AI at Scale',
-    priceMonthly: 499,
+    priceMonthly: 349,
     setupFee: 199,
     features: [
       { icon: '📞', label: 'Voice AI', desc: 'AI answers calls, books appointments, handles inquiries.' },
