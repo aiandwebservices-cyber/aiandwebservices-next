@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <title>Your {{tierName}} setup is complete</title>
+  <!--
+    TEMPLATE VARIABLES (replaced by n8n before sending):
+      {{firstName}}       — customer first name
+      {{tierName}}        — e.g. "Growth", "Revenue Engine"
+      {{monthlyAmount}}   — e.g. "149", "249"
+      {{monthlyLink}}     — full Square checkout URL for monthly subscription
+      {{setupAmount}}     — e.g. "59", "99"
+
+    PLAIN TEXT FALLBACK (send alongside HTML in Resend's "text" field):
+    ---
+    Hi {{firstName}},
+
+    Your {{tierName}} setup payment of ${{setupAmount}} has been received — thank you.
+
+    Complete your enrollment here:
+    {{monthlyLink}}
+
+    What happens next:
+    1. Click the link above and enroll in your ${{monthlyAmount}}/month subscription.
+    2. David reviews your business and begins the onboarding process within 1 business day.
+    3. You'll receive a calendar invite for your kickoff call within 24 hours.
+
+    Questions? Reply to this email or reach David directly:
+    Email: david@aiandwebservices.com
+
+    — David Pulis, AIandWEBservices
+    ---
+  -->
+  <style type="text/css">
+    /* Reset */
+    body, table, td, a { -webkit-text-size-adjust: 100%; -ms-text-size-adjust: 100%; }
+    table, td { mso-table-lspace: 0pt; mso-table-rspace: 0pt; }
+    img { -ms-interpolation-mode: bicubic; border: 0; outline: none; text-decoration: none; }
+    body { margin: 0 !important; padding: 0 !important; width: 100% !important; }
+    /* Mobile */
+    @media only screen and (max-width: 620px) {
+      .wrapper { width: 100% !important; padding: 0 !important; }
+      .container { width: 100% !important; padding: 24px 16px !important; }
+      .btn-cta { width: 100% !important; display: block !important; }
+      .bullet-row td { padding: 6px 0 !important; }
+    }
+  </style>
+</head>
+<body style="margin:0;padding:0;background-color:#f0f2f5;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;">
+
+  <!-- Outer wrapper -->
+  <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0"
+         style="background-color:#f0f2f5;">
+    <tr>
+      <td align="center" style="padding:32px 16px;">
+
+        <!-- Card -->
+        <table role="presentation" class="container" width="600" cellpadding="0" cellspacing="0" border="0"
+               style="background-color:#ffffff;border-radius:8px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+
+          <!-- ── HEADER ── -->
+          <tr>
+            <td align="center"
+                style="background-color:#0f172a;padding:28px 40px;">
+              <table role="presentation" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td>
+                    <!-- Logo text — no image dependency -->
+                    <div style="font-size:22px;font-weight:800;color:#ffffff;letter-spacing:-0.3px;">
+                      AIand<span style="color:#2AA5A0;">WEB</span>services
+                    </div>
+                    <div style="font-size:11px;color:rgba(255,255,255,0.45);margin-top:4px;letter-spacing:0.5px;text-transform:uppercase;">
+                      AI Automation &amp; Web Services
+                    </div>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ── STATUS BANNER ── -->
+          <tr>
+            <td align="center"
+                style="background-color:#14b8a6;padding:14px 40px;">
+              <span style="font-size:13px;font-weight:700;color:#ffffff;letter-spacing:0.5px;text-transform:uppercase;">
+                ✓ &nbsp;Setup Payment Received
+              </span>
+            </td>
+          </tr>
+
+          <!-- ── BODY ── -->
+          <tr>
+            <td style="padding:40px 40px 32px;">
+
+              <!-- Greeting -->
+              <p style="margin:0 0 24px;font-size:18px;font-weight:700;color:#0f172a;line-height:1.4;">
+                Hi {{firstName}},
+              </p>
+
+              <!-- Confirmation -->
+              <p style="margin:0 0 16px;font-size:15px;color:#374151;line-height:1.7;">
+                Your <strong>{{tierName}}</strong> setup payment of <strong>${{setupAmount}}</strong> has been received — thank you for choosing AIandWEBservices.
+              </p>
+              <p style="margin:0 0 32px;font-size:15px;color:#374151;line-height:1.7;">
+                The next step is to enroll in your monthly subscription so David can begin the onboarding process. It takes less than 2 minutes.
+              </p>
+
+              <!-- CTA Button -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td align="center" style="padding-bottom:36px;">
+                    <a href="{{monthlyLink}}"
+                       class="btn-cta"
+                       style="display:inline-block;background-color:#0f172a;color:#ffffff;font-size:15px;font-weight:700;text-decoration:none;padding:16px 32px;border-radius:6px;border:2px solid #2AA5A0;letter-spacing:0.2px;">
+                      Enroll in {{tierName}} Monthly — ${{monthlyAmount}}/mo &rarr;
+                    </a>
+                    <p style="margin:12px 0 0;font-size:12px;color:#9ca3af;">
+                      No lock-in — cancel or pause anytime
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Divider -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="border-top:1px solid #e5e7eb;padding-bottom:28px;"></td>
+                </tr>
+              </table>
+
+              <!-- What happens next -->
+              <p style="margin:0 0 16px;font-size:13px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:0.6px;">
+                What happens next
+              </p>
+
+              <!-- Bullet 1 -->
+              <table role="presentation" class="bullet-row" width="100%" cellpadding="0" cellspacing="0" border="0"
+                     style="margin-bottom:12px;">
+                <tr>
+                  <td width="32" valign="top"
+                      style="font-size:18px;color:#2AA5A0;font-weight:800;padding-top:1px;">
+                    1.
+                  </td>
+                  <td style="font-size:14px;color:#374151;line-height:1.6;padding-left:8px;">
+                    <strong>Click the button above</strong> and complete your ${{monthlyAmount}}/month enrollment — Square will confirm immediately.
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Bullet 2 -->
+              <table role="presentation" class="bullet-row" width="100%" cellpadding="0" cellspacing="0" border="0"
+                     style="margin-bottom:12px;">
+                <tr>
+                  <td width="32" valign="top"
+                      style="font-size:18px;color:#2AA5A0;font-weight:800;padding-top:1px;">
+                    2.
+                  </td>
+                  <td style="font-size:14px;color:#374151;line-height:1.6;padding-left:8px;">
+                    <strong>David reviews your business</strong> and begins the onboarding process within 1 business day — no extra forms, no waiting rooms.
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Bullet 3 -->
+              <table role="presentation" class="bullet-row" width="100%" cellpadding="0" cellspacing="0" border="0"
+                     style="margin-bottom:32px;">
+                <tr>
+                  <td width="32" valign="top"
+                      style="font-size:18px;color:#2AA5A0;font-weight:800;padding-top:1px;">
+                    3.
+                  </td>
+                  <td style="font-size:14px;color:#374151;line-height:1.6;padding-left:8px;">
+                    <strong>Kickoff call booked within 24 hours</strong> — David will reach out personally to schedule your first strategy session.
+                  </td>
+                </tr>
+              </table>
+
+              <!-- Direct contact box -->
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td style="background-color:#f8fafc;border-left:3px solid #2AA5A0;border-radius:4px;padding:16px 20px;">
+                    <p style="margin:0 0 4px;font-size:13px;font-weight:700;color:#0f172a;">
+                      Questions? Reach David directly.
+                    </p>
+                    <p style="margin:0;font-size:13px;color:#374151;line-height:1.6;">
+                      Reply to this email or write to
+                      <a href="mailto:david@aiandwebservices.com"
+                         style="color:#2AA5A0;text-decoration:none;font-weight:600;">
+                        david@aiandwebservices.com
+                      </a>
+                      — David personally responds within 6 hours, guaranteed.
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+            </td>
+          </tr>
+
+          <!-- ── FOOTER ── -->
+          <tr>
+            <td style="background-color:#f8fafc;border-top:1px solid #e5e7eb;padding:24px 40px;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" border="0">
+                <tr>
+                  <td>
+                    <p style="margin:0 0 6px;font-size:13px;font-weight:700;color:#0f172a;">
+                      David Pulis &mdash; AIandWEBservices
+                    </p>
+                    <p style="margin:0;font-size:12px;color:#6b7280;line-height:1.6;">
+                      <a href="mailto:david@aiandwebservices.com" style="color:#2AA5A0;text-decoration:none;">david@aiandwebservices.com</a>
+                      &nbsp;&bull;&nbsp; Miami, FL
+                      &nbsp;&bull;&nbsp;
+                      <a href="https://www.aiandwebservices.com" style="color:#2AA5A0;text-decoration:none;">aiandwebservices.com</a>
+                    </p>
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </tr>
+
+          <!-- ── LEGAL ── -->
+          <tr>
+            <td align="center" style="padding:16px 40px 24px;">
+              <p style="margin:0;font-size:11px;color:#9ca3af;line-height:1.6;text-align:center;">
+                You received this email because you purchased a service from AIandWEBservices.
+                This is a transactional email related to your purchase — not a marketing email.
+                <br/>
+                AIandWEBservices &bull; Miami, FL &bull; USA
+              </p>
+            </td>
+          </tr>
+
+        </table>
+        <!-- /Card -->
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>

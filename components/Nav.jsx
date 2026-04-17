@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 const SERVICE_LINKS = [
   { label: 'AI Automation Starter', href: '/services/ai-automation-starter' },
@@ -29,6 +30,8 @@ const NAV_PANELS = PANELS.filter(p => p.nav);
 const CONTACT_IDX = 7;
 
 export default function Nav() {
+  const pathname = usePathname();
+  const isOnServicePage = pathname.startsWith('/services/');
   const go = (n) => window.go && window.go(n);
   const mGo = (n) => window.mobileGo && window.mobileGo(n);
   const [currentPanel, setCurrentPanel] = useState(0);
@@ -75,11 +78,19 @@ export default function Nav() {
         <div className="nav-center" role="menubar" aria-label="Site sections">
           {NAV_PANELS.map(({ idx, label }) => {
             if (label === 'Services') {
+              const handleServicesClick = () => {
+                if (isOnServicePage) {
+                  window.location.href = '/services';
+                } else {
+                  go(idx);
+                }
+                setSvcOpen(o => !o);
+              };
               return (
                 <div key={idx} className="nav-svc-wrap" ref={svcRef}>
                   <button
                     className={`nav-pill nav-svc-btn${currentPanel === idx ? ' active' : ''}${svcOpen ? ' nav-svc-open' : ''}`}
-                    onClick={() => { setSvcOpen(o => !o); go(idx); }}
+                    onClick={handleServicesClick}
                     onMouseEnter={() => setSvcOpen(true)}
                     aria-haspopup="true"
                     aria-expanded={svcOpen}
