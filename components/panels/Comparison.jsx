@@ -18,14 +18,17 @@ export default function Comparison() {
   return (
     <section className="panel" id="comparison" aria-label="How AIandWEBservices compares" style={{ background: 'var(--navy)' }}>
       <div className="comparison-inner">
-      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px', width: '100%' }}>
+      <div style={{ maxWidth: '1100px', margin: '0 auto', padding: '0 24px', width: '100%', display: 'flex', flexDirection: 'column', flex: 1, height: '100%' }}>
 
-        {/* Header */}
-        <div style={{ textAlign: 'center', marginBottom: '40px' }}>
+        {/* Header — anchored at top */}
+        <div style={{ textAlign: 'center', marginBottom: '0', paddingBottom: '32px' }}>
           <div className="panel-eyebrow">Why Us</div>
           <h2 className="panel-h2" style={{ color: '#fff' }}>How AIandWEBservices Compares</h2>
           <p className="panel-sub" style={{ color: 'rgba(255,255,255,.55)' }}>One person. One connected system. No runaround.</p>
         </div>
+
+        {/* ── Content: fills remaining space, centered vertically ── */}
+        <div style={{ flex: 1, display: 'flex', flexDirection: 'column', justifyContent: 'center', paddingBottom: '20px' }}>
 
         {/* ── MOBILE: stacked cards (hidden on desktop) ── */}
         <div className="cmp-mobile">
@@ -217,34 +220,7 @@ export default function Comparison() {
           </table>
         </div>
 
-        {/* Bottom CTA */}
-        <div style={{
-          marginTop: '0',
-          padding: '20px 28px',
-          background: 'rgba(42,165,160,.08)',
-          border: '1px solid rgba(42,165,160,.3)',
-          borderRadius: '14px',
-          maxWidth: '960px',
-          width: '100%',
-          marginLeft: 'auto',
-          marginRight: 'auto',
-          textAlign: 'center',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '14px',
-        }}>
-          <p style={{ color: 'rgba(255,255,255,.7)', fontSize: '15px', margin: 0, lineHeight: '1.6' }}>
-            <strong style={{ color: '#fff' }}>Ready to work with someone who actually builds and maintains your systems?</strong>
-          </p>
-          <button
-            className="btn-primary"
-            onClick={() => window.go && window.go(7)}
-            style={{ display: 'inline-flex' }}
-          >
-            Get Your Free Audit →
-          </button>
-        </div>
+        </div>{/* end centered content wrapper */}
 
       </div>
       </div>
