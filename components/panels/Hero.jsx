@@ -27,20 +27,13 @@ export default function Hero() {
                 <div className="tb-sub">Cancel Anytime</div>
               </div>
             </div>
-            <button className="trust-badge trust-badge--btn mob-hide" onClick={() => window.go(7)}>
+            <button className="trust-badge trust-badge--btn" onClick={() => window.go(7)}>
               <div className="tb-icon"><UserCheck size={15} color="#2AA5A0" strokeWidth={2} /></div>
               <div className="tb-text">
                 <div className="tb-main">Direct Access</div>
                 <div className="tb-sub">to David</div>
               </div>
             </button>
-            <div className="trust-badge mob-only">
-              <div className="tb-icon"><UserCheck size={15} color="#2AA5A0" strokeWidth={2} /></div>
-              <div className="tb-text">
-                <div className="tb-main">Direct Access</div>
-                <div className="tb-sub">to David</div>
-              </div>
-            </div>
             <div className="trust-badge trust-badge--turnaround">
               <div className="tb-icon"><Zap size={15} color="#f59e0b" strokeWidth={2} /></div>
               <div className="tb-text">
