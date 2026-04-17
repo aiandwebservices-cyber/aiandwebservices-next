@@ -6,6 +6,17 @@ export const metadata = {
   title: 'Add-On Services — Crypto Payments, E-commerce, Accessibility | AIandWEBservices',
   description: 'Enhance any AIandWEBservices tier with crypto payment infrastructure, Shopify/WooCommerce integration, or WCAG accessibility compliance.',
   alternates: { canonical: 'https://www.aiandwebservices.com/services/add-ons' },
+  openGraph: {
+    title: 'Add-On Services — Crypto Payments, E-commerce, Accessibility',
+    description: 'Enhance any service tier with crypto payments, e-commerce, and accessibility.',
+    images: [{ url: 'https://www.aiandwebservices.com/api/og?title=Add-Ons&description=Crypto%20Payments%2C%20E-commerce%2C%20Accessibility', width: 1200, height: 630, alt: 'Add-on services' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Add-On Services — Crypto Payments, E-commerce, Accessibility',
+    description: 'Enhance any service tier with crypto payments, e-commerce, and accessibility.',
+    images: ['https://www.aiandwebservices.com/api/og?title=Add-Ons&description=Crypto%20Payments%2C%20E-commerce%2C%20Accessibility'],
+  },
 };
 
 const ADDONS = [

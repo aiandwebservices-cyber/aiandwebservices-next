@@ -13,6 +13,17 @@ export const metadata = {
   title: 'Growth — AI Automation + Email Marketing + SEO Content | AIandWEBservices',
   description: 'Turn website visitors into leads with AI automation, email marketing, SEO content, and conversion-optimized landing pages. \$149/mo + \$59 setup. No contracts.',
   alternates: { canonical: 'https://www.aiandwebservices.com/services/growth' },
+  openGraph: {
+    title: 'Growth — AI Automation + Email Marketing + SEO Content',
+    description: 'Turn website visitors into leads with AI automation, email marketing, and SEO content.',
+    images: [{ url: 'https://www.aiandwebservices.com/api/og?title=Growth&description=AI%20Automation%20%2B%20Email%20Marketing%20%2B%20SEO%20Content', width: 1200, height: 630, alt: 'Growth service' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Growth — AI Automation + Email Marketing + SEO Content',
+    description: 'Turn website visitors into leads with AI automation, email marketing, and SEO content.',
+    images: ['https://www.aiandwebservices.com/api/og?title=Growth&description=AI%20Automation%20%2B%20Email%20Marketing%20%2B%20SEO%20Content'],
+  },
 };
 
 const service = SERVICES['growth'];

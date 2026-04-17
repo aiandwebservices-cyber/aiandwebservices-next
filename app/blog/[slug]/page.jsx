@@ -11,6 +11,8 @@ export async function generateMetadata({ params }) {
   const { slug } = await params;
   const post = getPostBySlug(slug);
   if (!post) return {};
+  const encodedTitle = encodeURIComponent(post.title);
+  const encodedDesc = encodeURIComponent(post.desc);
   return {
     title: `${post.title} | AIandWEBservices Blog`,
     description: post.desc,
@@ -21,6 +23,13 @@ export async function generateMetadata({ params }) {
       url: `https://www.aiandwebservices.com/blog/${slug}`,
       siteName: 'AIandWEBservices',
       type: 'article',
+      images: [{ url: `https://www.aiandwebservices.com/api/og?title=${encodedTitle}&description=${encodedDesc}&type=blog`, width: 1200, height: 630, alt: post.title }],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.desc,
+      images: [`https://www.aiandwebservices.com/api/og?title=${encodedTitle}&description=${encodedDesc}&type=blog`],
     },
   };
 }

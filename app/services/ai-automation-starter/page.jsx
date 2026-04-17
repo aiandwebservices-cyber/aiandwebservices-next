@@ -13,6 +13,17 @@ export const metadata = {
   title: 'AI Automation Starter — Custom AI Chatbot for Your Business | AIandWEBservices',
   description: 'Deploy a custom AI chatbot trained on your business in 7-14 days. Handles inquiries, qualifies leads, books calls 24/7. $99 setup + $99/mo. No contracts.',
   alternates: { canonical: 'https://www.aiandwebservices.com/services/ai-automation-starter' },
+  openGraph: {
+    title: 'AI Automation Starter — Custom AI Chatbot for Your Business',
+    description: 'Deploy a custom AI chatbot trained on your business. Handles inquiries and qualifies leads 24/7.',
+    images: [{ url: 'https://www.aiandwebservices.com/api/og?title=AI%20Automation%20Starter&description=Custom%20AI%20Chatbot%20for%20Your%20Business', width: 1200, height: 630, alt: 'AI Automation Starter service' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AI Automation Starter — Custom AI Chatbot for Your Business',
+    description: 'Deploy a custom AI chatbot trained on your business. Handles inquiries and qualifies leads 24/7.',
+    images: ['https://www.aiandwebservices.com/api/og?title=AI%20Automation%20Starter&description=Custom%20AI%20Chatbot%20for%20Your%20Business'],
+  },
 };
 
 const service = SERVICES['ai-automation-starter'];

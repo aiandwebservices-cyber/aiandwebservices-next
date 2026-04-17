@@ -13,6 +13,17 @@ export const metadata = {
   title: 'Presence — Professional Website + Local SEO + AI Assistant | AIandWEBservices',
   description: 'Get found online: website, local SEO, AI assistant. $99/mo + $39 setup.',
   alternates: { canonical: 'https://www.aiandwebservices.com/services/presence' },
+  openGraph: {
+    title: 'Presence — Professional Website + Local SEO + AI Assistant',
+    description: 'Get found online: website, local SEO, AI assistant. $99/mo + $39 setup.',
+    images: [{ url: 'https://www.aiandwebservices.com/api/og?title=Presence&description=Professional%20Website%20%2B%20Local%20SEO%20%2B%20AI%20Assistant', width: 1200, height: 630, alt: 'Presence service' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Presence — Professional Website + Local SEO + AI Assistant',
+    description: 'Get found online: website, local SEO, AI assistant. $99/mo + $39 setup.',
+    images: ['https://www.aiandwebservices.com/api/og?title=Presence&description=Professional%20Website%20%2B%20Local%20SEO%20%2B%20AI%20Assistant'],
+  },
 };
 
 const service = SERVICES['presence'];

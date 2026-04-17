@@ -13,6 +13,17 @@ export const metadata = {
   title: 'Revenue Engine — Full Sales Funnel + Automation + Paid Ads | AIandWEBservices',
   description: 'Automate your entire sales process with a full funnel, workflow automation, CRM integration, and paid ads. Monthly strategy calls with David. $249/mo + $99 setup.',
   alternates: { canonical: 'https://www.aiandwebservices.com/services/revenue-engine' },
+  openGraph: {
+    title: 'Revenue Engine — Full Sales Funnel + Automation + Paid Ads',
+    description: 'Automate your entire sales process with a full funnel, workflow automation, and CRM integration.',
+    images: [{ url: 'https://www.aiandwebservices.com/api/og?title=Revenue%20Engine&description=Full%20Sales%20Funnel%20%2B%20Automation%20%2B%20Paid%20Ads', width: 1200, height: 630, alt: 'Revenue Engine service' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Revenue Engine — Full Sales Funnel + Automation + Paid Ads',
+    description: 'Automate your entire sales process with a full funnel, workflow automation, and CRM integration.',
+    images: ['https://www.aiandwebservices.com/api/og?title=Revenue%20Engine&description=Full%20Sales%20Funnel%20%2B%20Automation%20%2B%20Paid%20Ads'],
+  },
 };
 
 const service = SERVICES['revenue-engine'];

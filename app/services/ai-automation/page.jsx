@@ -8,10 +8,17 @@ export const metadata = {
   keywords: 'AI automation small business, custom AI chatbot, workflow automation, voice AI, AI CRM integration, chatbot development',
   alternates: { canonical: 'https://www.aiandwebservices.com/services/ai-automation' },
   openGraph: {
-    title: 'AI Automation & Chatbots for Small Business | AIandWEBservices',
+    title: 'AI Automation & Chatbots for Small Business',
     description: 'Custom AI systems that handle inquiries, qualify leads, and follow up automatically — 24/7, without you.',
     url: 'https://www.aiandwebservices.com/services/ai-automation',
     type: 'website',
+    images: [{ url: 'https://www.aiandwebservices.com/api/og?title=AI%20Automation%20%26%20Chatbots&description=Custom%20AI%20Systems%20for%20Small%20Business', width: 1200, height: 630, alt: 'AI Automation service' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AI Automation & Chatbots for Small Business',
+    description: 'Custom AI systems that handle inquiries, qualify leads, and follow up automatically — 24/7, without you.',
+    images: ['https://www.aiandwebservices.com/api/og?title=AI%20Automation%20%26%20Chatbots&description=Custom%20AI%20Systems%20for%20Small%20Business'],
   },
 };
 

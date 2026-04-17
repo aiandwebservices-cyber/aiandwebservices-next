@@ -8,28 +8,28 @@ export default function V1FeatureGrid({ features }) {
     }}>
       <div style={{
         display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
-        gap: '2rem',
+        gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))',
+        gap: '1.25rem',
       }}>
         {features.map(f => (
-          <div key={f.label} style={{ padding: '1.5rem 0' }}>
-            <div style={{ fontSize: '1.75rem', marginBottom: '0.5rem' }}>
+          <div key={f.label} style={{ padding: '0.85rem 0' }}>
+            <div style={{ fontSize: '1.25rem', marginBottom: '0.35rem' }}>
               {f.icon}
             </div>
             <h3 style={{
-              fontSize: '0.95rem',
+              fontSize: '0.8rem',
               fontWeight: 700,
               color: 'var(--text)',
-              marginBottom: '0.5rem',
+              marginBottom: '0.35rem',
               textTransform: 'uppercase',
               letterSpacing: '0.05em',
             }}>
               {f.label}
             </h3>
             <p style={{
-              fontSize: '0.875rem',
+              fontSize: '0.8rem',
               color: 'var(--muted)',
-              lineHeight: 1.6,
+              lineHeight: 1.5,
               margin: 0,
             }}>
               {f.desc}

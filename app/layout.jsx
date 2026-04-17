@@ -4,7 +4,7 @@ import Script from 'next/script';
 import { Analytics } from '@vercel/analytics/react';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import CrispChat from '@/components/CrispChat';
-import { OrganizationSchema } from '@/components/Schema';
+import { OrganizationSchema, LocalBusinessSchema, WebSiteSchema, PersonSchema } from '@/components/Schema';
 
 const inter = Inter({
   subsets: ['latin'],
@@ -19,6 +19,8 @@ const plusJakarta = Plus_Jakarta_Sans({
   variable: '--font-plus-jakarta',
   display: 'swap',
 });
+
+export const metadataBase = new URL('https://www.aiandwebservices.com');
 
 export const metadata = {
   title: 'AIandWEBservices | AI Automation, Agents & Chatbots for Small Business — David Pulis',
@@ -38,6 +40,7 @@ export const metadata = {
   },
   twitter: {
     card: 'summary_large_image',
+    creator: '@aiandwebservice',
     title: 'AIandWEBservices | AI Automation, Agents & Chatbots for Small Business',
     description: 'AI agents, chatbots, automation systems, SEO, and web design for small businesses. Personal service by David Pulis.',
     images: ['https://www.aiandwebservices.com/og-image.jpg'],
@@ -61,6 +64,9 @@ export default function RootLayout({ children }) {
         <meta name="geo.region" content="US" />
         <meta name="geo.placename" content="United States" />
         <OrganizationSchema />
+        <LocalBusinessSchema />
+        <WebSiteSchema />
+        <PersonSchema />
       </head>
       <body>
         {children}

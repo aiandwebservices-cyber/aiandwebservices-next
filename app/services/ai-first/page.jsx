@@ -13,6 +13,17 @@ export const metadata = {
   title: 'AI-First — Advanced AI Automation + Voice AI + Programmatic SEO | AIandWEBservices',
   description: 'Run a bigger business with the same team. Voice AI, programmatic SEO, social media AI scheduling, and full analytics. \$349/mo + \$199 setup.',
   alternates: { canonical: 'https://www.aiandwebservices.com/services/ai-first' },
+  openGraph: {
+    title: 'AI-First — Advanced AI Automation + Voice AI + Programmatic SEO',
+    description: 'Run a bigger business with the same team. Voice AI, programmatic SEO, and full analytics.',
+    images: [{ url: 'https://www.aiandwebservices.com/api/og?title=AI-First&description=Advanced%20AI%20Automation%20%2B%20Voice%20AI%20%2B%20Programmatic%20SEO', width: 1200, height: 630, alt: 'AI-First service' }],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'AI-First — Advanced AI Automation + Voice AI + Programmatic SEO',
+    description: 'Run a bigger business with the same team. Voice AI, programmatic SEO, and full analytics.',
+    images: ['https://www.aiandwebservices.com/api/og?title=AI-First&description=Advanced%20AI%20Automation%20%2B%20Voice%20AI%20%2B%20Programmatic%20SEO'],
+  },
 };
 
 const service = SERVICES['ai-first'];
