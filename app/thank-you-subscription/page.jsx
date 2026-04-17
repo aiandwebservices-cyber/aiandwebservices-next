@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import Image from 'next/image';
 import { CheckCircle2, Zap } from 'lucide-react';
 
 export const metadata = {
@@ -14,7 +13,8 @@ export default function ThankYouSubscription() {
 
       {/* Logo */}
       <Link href="/" style={{ textDecoration: 'none', marginBottom: '3rem' }}>
-        <Image src="/logo-dark.png" alt="AIandWEBservices" width={200} height={48} style={{ height: '48px', width: 'auto' }} priority />
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logo-gradient-light.svg" alt="AIandWEBservices" width={260} height={52} style={{ display: 'block' }} />
       </Link>
 
       {/* Card */}
