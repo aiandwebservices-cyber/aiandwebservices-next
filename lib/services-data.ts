@@ -116,7 +116,7 @@ export const SERVICES: Record<string, Service> = {
     setupFee: 3997,
     features: [
       { icon: '🔀', label: 'Sales Funnel', desc: 'Custom funnel maps buyer journey and closes deals.' },
-      { icon: '⚡', label: 'Workflow Automation', desc: 'Zapier/Make workflows eliminate repetitive manual tasks.' },
+      { icon: '⚡', label: 'Workflow Automation', desc: 'Custom workflows eliminate repetitive manual tasks.' },
       { icon: '📢', label: 'Paid Ads', desc: 'Google or Meta ads setup, tracking, and optimization.' },
       { icon: '🤖', label: 'CRM Integration', desc: 'Unified customer data across all touchpoints.' },
       { icon: '💬', label: 'Everything in Growth', desc: 'Website, AI automation, email, SEO content.' },
@@ -135,7 +135,7 @@ export const SERVICES: Record<string, Service> = {
     setupIncludes: [
       'Everything in Growth setup',
       'Sales funnel design and build',
-      'Workflow automation (Zapier/Make configuration)',
+      'Workflow automation setup and configuration',
       'Paid ads account setup and first campaigns',
       'CRM integration and data mapping',
       'Daily launch monitoring (first month)',
