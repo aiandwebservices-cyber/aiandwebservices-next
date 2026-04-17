@@ -222,34 +222,6 @@ export default function Comparison() {
 
         </div>{/* end centered content wrapper */}
 
-        {/* Bottom CTA */}
-        <div style={{
-          marginTop: '1rem',
-          padding: '20px 28px',
-          background: 'rgba(42,165,160,.08)',
-          border: '1px solid rgba(42,165,160,.3)',
-          borderRadius: '14px',
-          maxWidth: '960px',
-          width: '100%',
-          marginLeft: 'auto',
-          marginRight: 'auto',
-          textAlign: 'center',
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          gap: '14px',
-        }}>
-          <p style={{ color: 'rgba(255,255,255,.7)', fontSize: '15px', margin: 0, lineHeight: '1.6' }}>
-            <strong style={{ color: '#fff' }}>Ready to work with someone who actually builds and maintains your systems?</strong>
-          </p>
-          <button
-            className="btn-primary"
-            onClick={() => window.go && window.go(7)}
-            style={{ display: 'inline-flex' }}
-          >
-            Get Your Free Audit
-          </button>
-        </div>
 
       </div>
       </div>

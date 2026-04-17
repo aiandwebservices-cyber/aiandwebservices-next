@@ -65,6 +65,11 @@ export default function RootLayout({ children }) {
       <body>
         {children}
         <Script
+          id="hs-script"
+          src="//js.hs-scripts.com/245878112.js"
+          strategy="lazyOnload"
+        />
+        <Script
           id="calendly"
           src="https://assets.calendly.com/assets/external/widget.js"
           strategy="lazyOnload"

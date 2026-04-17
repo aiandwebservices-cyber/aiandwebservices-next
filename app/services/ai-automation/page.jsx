@@ -29,7 +29,7 @@ const faqItems = [
   },
   {
     question: 'What does AI automation cost?',
-    answer: 'The AI Automation Starter package starts at $997 one-time setup and $97/month for ongoing support and updates. More complex systems are scoped after the free audit. There are no surprise charges.',
+    answer: 'The AI Automation Starter package starts at $199 one-time setup and $25/month for ongoing support and updates. More complex systems are scoped after the free audit. There are no surprise charges.',
   },
   {
     question: 'Can it replace my employees?',
@@ -58,9 +58,9 @@ const jsonLd = {
       areaServed: { '@type': 'Country', name: 'United States' },
       offers: {
         '@type': 'Offer',
-        price: '997',
+        price: '99',
         priceCurrency: 'USD',
-        description: 'AI Automation Starter — one-time setup fee',
+        description: 'AI Automation Starter — $99 one-time setup, then $99/month',
       },
     },
     {
@@ -184,7 +184,7 @@ export default function AIAutomationPage() {
               <strong>Integration &amp; Testing</strong> — Your system is connected to your existing tools and thoroughly tested across real-world scenarios before going live.
             </li>
             <li>
-              <strong>Launch &amp; Ongoing Support</strong> — 30 days of post-launch support included. Monthly maintenance and update packages available from $97/month.
+              <strong>Launch &amp; Ongoing Support</strong> — 30 days of post-launch support included. Monthly maintenance and update packages available from $99/month.
             </li>
           </ol>
         </section>
@@ -206,7 +206,7 @@ export default function AIAutomationPage() {
         <section className="svc-page-cta-section">
           <div className="svc-cta-box">
             <h2>Ready to See Where AI Can Help Your Business?</h2>
-            <p>David personally reviews every business and responds within 6 hours — with specific, actionable recommendations. No pitch. No obligation.</p>
+            <p>David personally reviews every business and responds within <Link href="/guarantee" style={{color:'#2AA5A0',textDecoration:'underline'}}>6 hours</Link> — with specific, actionable recommendations. No pitch. No obligation.</p>
             <div className="svc-cta-btns">
               <Link href="/#contact" className="svc-btn-primary">Get Your Free AI Audit →</Link>
               <Link href="/#pricing" className="svc-btn-ghost">See Pricing</Link>

@@ -27,7 +27,7 @@ export const SERVICES: Record<string, Service> = {
     tier: 'Presence',
     oneLiner: 'Get Found Online — The Foundation Every Business Needs',
     priceMonthly: 99,
-    setupFee: 299,
+    setupFee: 39,
     features: [
       { icon: '🌐', label: 'Website', desc: 'Fast, mobile-friendly site built to convert visitors into inquiries.' },
       { icon: '🔍', label: 'Local SEO', desc: 'Show up in local Google searches. Fully optimized GBP listing.' },
@@ -68,8 +68,8 @@ export const SERVICES: Record<string, Service> = {
     slug: 'ai-automation-starter',
     tier: 'AI Automation Starter',
     oneLiner: 'Your First AI System — Handle Inquiries 24/7',
-    priceMonthly: 25,
-    setupFee: 249,
+    priceMonthly: 99,
+    setupFee: 99,
     features: [
       { icon: '🤖', label: 'Custom Chatbot', desc: 'AI trained on your business, answers FAQs instantly.' },
       { icon: '📅', label: 'Auto Booking', desc: 'Chatbot books calls to your calendar.' },
@@ -112,7 +112,7 @@ export const SERVICES: Record<string, Service> = {
     tier: 'Growth',
     oneLiner: 'Turn Visitors Into Leads Automatically',
     priceMonthly: 199,
-    setupFee: 799,
+    setupFee: 59,
     features: [
       { icon: '⚙️', label: 'AI Automation', desc: 'CRM-integrated chatbot qualifies leads and books calls.' },
       { icon: '📧', label: 'Email Marketing', desc: '5–7 email welcome sequence that builds relationships.' },
@@ -156,7 +156,7 @@ export const SERVICES: Record<string, Service> = {
     tier: 'Revenue Engine',
     oneLiner: 'Automate Your Entire Sales System',
     priceMonthly: 299,
-    setupFee: 1199,
+    setupFee: 99,
     features: [
       { icon: '🔀', label: 'Sales Funnel', desc: 'Custom funnel maps buyer journey and closes deals.' },
       { icon: '⚡', label: 'Workflow Automation', desc: 'Custom workflows eliminate repetitive manual tasks.' },
@@ -200,7 +200,7 @@ export const SERVICES: Record<string, Service> = {
     tier: 'AI-First',
     oneLiner: 'Replace Manual Work with AI at Scale',
     priceMonthly: 499,
-    setupFee: 1799,
+    setupFee: 199,
     features: [
       { icon: '📞', label: 'Voice AI', desc: 'AI answers calls, books appointments, handles inquiries.' },
       { icon: '🤖', label: 'Advanced Automation', desc: 'Custom AI workflows handle complex, multi-step tasks.' },
@@ -246,7 +246,7 @@ export const SERVICES: Record<string, Service> = {
     slug: 'consulting',
     tier: 'Consulting',
     oneLiner: 'Know Exactly Where to Start with AI',
-    priceMonthly: 399,
+    priceMonthly: 199,
     setupFee: 99,
     features: [
       { icon: '🔍', label: 'AI Readiness Audit', desc: 'Honest assessment: what saves money, what is hype.' },
@@ -264,7 +264,7 @@ export const SERVICES: Record<string, Service> = {
       { when: 'Day 1', action: 'Discovery call (60 minutes).' },
       { when: 'Days 1–5', action: 'Audit and research your business.' },
       { when: 'Day 5', action: 'Debrief call with roadmap and recommendations.' },
-      { when: 'Optional', action: 'Staff training (extra $497), monthly advisory ($1,497/mo).' },
+      { when: 'Optional', action: 'Staff training (extra $99), monthly advisory ($199/mo).' },
     ],
     setupIncludes: [
       'Discovery call (60 minutes)',

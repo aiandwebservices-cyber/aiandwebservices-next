@@ -36,6 +36,8 @@ export default function Home() {
           <About />
           <FAQ />
           <Blog />
+
+
           <Contact />
         </div>
       </main>

@@ -1608,8 +1608,10 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   gap:10px;text-align:center;
   max-width:960px;width:100%;margin:0 auto;
 }
-.faq-cta-strip p{font-size:13px;color:rgba(255,255,255,.75);margin:0}
-.faq-cta-strip strong{color:#2AA5A0}
+.faq-cta-strip p{font-size:13px;color:#374151;margin:0}
+.faq-cta-strip strong{color:#111827}
+.hiw-cta-strip .faq-cta-strip p{color:#374151}
+.hiw-cta-strip .faq-cta-strip strong{color:#111827}
 
 /* ── TOOL LOGOS ── */
 .tool-logos{

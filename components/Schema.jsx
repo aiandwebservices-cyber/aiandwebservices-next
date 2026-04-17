@@ -105,42 +105,42 @@ const SERVICES = [
     description:
       'A custom AI automation and smart assistant system trained on your business. Handles enquiries, qualifies leads, books calls, and answers FAQs — 24/7, without you.',
     url: 'https://www.aiandwebservices.com/services/ai-automation',
-    offers: { price: '997', priceCurrency: 'USD', priceSpecification: 'One-time setup, then $97/month' },
+    offers: { price: '99', priceCurrency: 'USD', priceSpecification: '$99 one-time setup, then $99/month' },
   },
   {
     name: 'Presence Package',
     description:
       'Professional website, local SEO, Google Business Profile optimisation, and a basic AI inquiry assistant. The foundation every small business needs to get found online.',
     url: 'https://www.aiandwebservices.com/#pricing',
-    offers: { price: '297', priceCurrency: 'USD', priceSpecification: '$297/month + $997 one-time setup' },
+    offers: { price: '99', priceCurrency: 'USD', priceSpecification: '$99/month + $39 one-time setup' },
   },
   {
     name: 'Growth Package',
     description:
       'AI automation, email marketing, SEO content, and a conversion-optimised landing page. For established businesses ready to generate consistent leads.',
     url: 'https://www.aiandwebservices.com/#pricing',
-    offers: { price: '597', priceCurrency: 'USD', priceSpecification: '$597/month + $2,497 one-time setup' },
+    offers: { price: '199', priceCurrency: 'USD', priceSpecification: '$199/month + $59 one-time setup' },
   },
   {
     name: 'Revenue Engine Package',
     description:
       'Full sales funnel, workflow automation, paid ads setup, and AI-powered CRM integration. For businesses serious about scaling revenue without scaling headcount.',
     url: 'https://www.aiandwebservices.com/#pricing',
-    offers: { price: '997', priceCurrency: 'USD', priceSpecification: '$997/month + $3,997 one-time setup' },
+    offers: { price: '299', priceCurrency: 'USD', priceSpecification: '$299/month + $99 one-time setup' },
   },
   {
     name: 'AI-First Package',
     description:
       'Advanced AI automation pipelines, voice AI, programmatic SEO, social media AI scheduling, and a full analytics dashboard.',
     url: 'https://www.aiandwebservices.com/#pricing',
-    offers: { price: '1497', priceCurrency: 'USD', priceSpecification: '$1,497/month + $5,497 one-time setup' },
+    offers: { price: '499', priceCurrency: 'USD', priceSpecification: '$499/month + $199 one-time setup' },
   },
   {
     name: 'AI & Digital Strategy Consulting',
     description:
       'AI readiness audit, digital transformation roadmap, tool stack recommendations, and staff AI training. Know exactly where to start before committing to a full build.',
     url: 'https://www.aiandwebservices.com/services/consulting-strategy',
-    offers: { price: '497', priceCurrency: 'USD', priceSpecification: '$497 one-time, or $1,497/month as fractional advisor' },
+    offers: { price: '99', priceCurrency: 'USD', priceSpecification: '$99 one-time, or $199/month as fractional advisor' },
   },
 ];
 
