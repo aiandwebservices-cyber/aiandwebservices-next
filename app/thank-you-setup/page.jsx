@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import { CheckCircle2, Mail } from 'lucide-react';
 
 export const metadata = {
@@ -9,24 +10,19 @@ export const metadata = {
 
 export default function ThankYouSetup() {
   return (
-    <div style={{ minHeight: '100vh', background: 'var(--navy2)', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2rem', fontFamily: 'var(--font-inter)' }}>
+    <div style={{ minHeight: '100vh', background: '#ffffff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2rem', fontFamily: 'var(--font-inter)' }}>
 
       {/* Logo */}
       <Link href="/" style={{ textDecoration: 'none', marginBottom: '3rem' }}>
-        <span style={{ fontFamily: 'var(--font-plus-jakarta)', fontWeight: 800, fontSize: '20px', letterSpacing: '-.3px' }}>
-          <span style={{ color: '#fff' }}>AI</span>
-          <span style={{ color: '#2AA5A0', fontWeight: 600, fontSize: '16px', margin: '0 2px' }}>and</span>
-          <span style={{ color: '#fff' }}>WEB</span>
-          <span style={{ color: '#2AA5A0', fontWeight: 600 }}>services</span>
-        </span>
+        <Image src="/logo-dark.png" alt="AIandWEBservices" width={200} height={48} style={{ height: '48px', width: 'auto' }} priority />
       </Link>
 
       {/* Card */}
       <div style={{
         maxWidth: '560px',
         width: '100%',
-        background: 'rgba(42,165,160,.07)',
-        border: '1px solid rgba(42,165,160,.25)',
+        background: 'rgba(42,165,160,.06)',
+        border: '1px solid rgba(42,165,160,.2)',
         borderRadius: '16px',
         padding: 'clamp(2rem, 6vw, 3rem)',
         textAlign: 'center',
@@ -37,12 +33,12 @@ export default function ThankYouSetup() {
           Setup Payment Received
         </div>
 
-        <h1 style={{ fontSize: 'clamp(22px, 4vw, 30px)', fontWeight: 800, color: '#fff', marginBottom: '16px', lineHeight: 1.25 }}>
+        <h1 style={{ fontSize: 'clamp(22px, 4vw, 30px)', fontWeight: 800, color: '#111827', marginBottom: '16px', lineHeight: 1.25 }}>
           Thank you — you&apos;re one step away!
         </h1>
 
-        <p style={{ fontSize: '16px', color: 'rgba(255,255,255,.75)', lineHeight: 1.7, marginBottom: '1.5rem' }}>
-          Your setup payment has been received. <strong style={{ color: '#fff' }}>Check your email</strong> — a subscription enrollment link is on its way to you within the next few minutes.
+        <p style={{ fontSize: '16px', color: '#4B5563', lineHeight: 1.7, marginBottom: '1.5rem' }}>
+          Your setup payment has been received. <strong style={{ color: '#111827' }}>Check your email</strong> — a subscription enrollment link is on its way to you within the next few minutes.
         </p>
 
         {/* Email callout */}
@@ -50,17 +46,17 @@ export default function ThankYouSetup() {
           display: 'flex',
           alignItems: 'flex-start',
           gap: '12px',
-          background: 'rgba(255,255,255,.04)',
-          border: '1px solid rgba(255,255,255,.1)',
+          background: '#F9FAFB',
+          border: '1px solid #E5E7EB',
           borderRadius: '10px',
           padding: '16px 18px',
           textAlign: 'left',
           marginBottom: '2rem',
         }}>
-          <Mail size={20} color="#60A5FA" strokeWidth={1.75} style={{ flexShrink: 0, marginTop: '2px' }} />
-          <p style={{ fontSize: '14px', color: 'rgba(255,255,255,.6)', lineHeight: 1.6, margin: 0 }}>
+          <Mail size={20} color="#2AA5A0" strokeWidth={1.75} style={{ flexShrink: 0, marginTop: '2px' }} />
+          <p style={{ fontSize: '14px', color: '#6B7280', lineHeight: 1.6, margin: 0 }}>
             Don&apos;t see it within 5 minutes? Check your spam folder, or email{' '}
-            <a href="mailto:david@aiandwebservices.com" style={{ color: '#60A5FA', textDecoration: 'none' }}>
+            <a href="mailto:david@aiandwebservices.com" style={{ color: '#2AA5A0', textDecoration: 'none' }}>
               david@aiandwebservices.com
             </a>{' '}
             and we&apos;ll sort it out immediately.
