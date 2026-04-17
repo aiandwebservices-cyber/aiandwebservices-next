@@ -19,6 +19,7 @@ const SERVICE_LINKS = [
 const NAV_LINKS = [
   { label: 'Home',         href: '/' },
   { label: 'How It Works', href: '/#how-it-works' },
+  { label: 'Comparison',   href: '/#comparison' },
   { label: 'Services',     href: '/#services', dropdown: true },
   { label: 'About',        href: '/#about' },
   { label: 'FAQ',          href: '/#faq' },

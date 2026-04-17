@@ -148,7 +148,7 @@ export default function ConsultingPage() {
         </p>
 
         <p style={{ fontSize: '15px', lineHeight: 1.8, color: 'rgba(255,255,255,0.75)', padding: '20px', backgroundColor: 'rgba(16, 185, 129, 0.08)', border: '1px solid rgba(16, 185, 129, 0.3)', borderRadius: '6px' }}>
-          <strong>After Consulting (Day 5):</strong> David audits his business and recommends: "Forget the AI coaching app—that won't scale your business. Instead: (1) Build a simple website with your philosophy (2 weeks). (2) Add a voice AI that answers common questions and books calls (3 weeks). (3) Use AI to write SEO content about training methods (ongoing). Start with the website, then add the AI." The trainer now has a roadmap. He doesn't have to guess. He knows Phase 1 costs $199/month, Phase 2 costs $299/month. He makes the decision with confidence.
+          <strong>After Consulting (Day 5):</strong> David audits his business and recommends: "Forget the AI coaching app—that won't scale your business. Instead: (1) Build a simple website with your philosophy (2 weeks). (2) Add a voice AI that answers common questions and books calls (3 weeks). (3) Use AI to write SEO content about training methods (ongoing). Start with the website, then add the AI." The trainer now has a roadmap. He doesn't have to guess. He knows Phase 1 costs $199/month, Phase 2 costs $249/month. He makes the decision with confidence.
         </p>
       </section>
 

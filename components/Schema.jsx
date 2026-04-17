@@ -126,7 +126,7 @@ const SERVICES = [
     description:
       'Full sales funnel, workflow automation, paid ads setup, and AI-powered CRM integration. For businesses serious about scaling revenue without scaling headcount.',
     url: 'https://www.aiandwebservices.com/#pricing',
-    offers: { price: '299', priceCurrency: 'USD', priceSpecification: '$299/month + $99 one-time setup' },
+    offers: { price: '249', priceCurrency: 'USD', priceSpecification: '$249/month + $99 one-time setup' },
   },
   {
     name: 'AI-First Package',

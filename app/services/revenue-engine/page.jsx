@@ -11,7 +11,7 @@ import { Check, X, ArrowRight } from 'lucide-react';
 
 export const metadata = {
   title: 'Revenue Engine — Full Sales Funnel + Automation + Paid Ads | AIandWEBservices',
-  description: 'Automate your entire sales process with a full funnel, workflow automation, CRM integration, and paid ads. Monthly strategy calls with David. $299/mo + $99 setup.',
+  description: 'Automate your entire sales process with a full funnel, workflow automation, CRM integration, and paid ads. Monthly strategy calls with David. $249/mo + $99 setup.',
   alternates: { canonical: 'https://www.aiandwebservices.com/services/revenue-engine' },
 };
 

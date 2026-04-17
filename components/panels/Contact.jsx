@@ -93,10 +93,10 @@ export default function Contact() {
                 <label htmlFor="service">What are you most interested in?</label>
                 <select id="service" name="service">
                   <option value="" disabled defaultValue="">Not sure yet — want a recommendation</option>
-                  <option>AI Automation Starter ($25/mo)</option>
+                  <option>AI Automation Starter ($99/mo)</option>
                   <option>Presence ($99/mo)</option>
                   <option>Growth ($149/mo)</option>
-                  <option>Revenue Engine ($299/mo)</option>
+                  <option>Revenue Engine ($249/mo)</option>
                   <option>AI-First ($349/mo)</option>
                   <option>Consulting &amp; Strategy</option>
                   <option>Crypto Payment Integration</option>

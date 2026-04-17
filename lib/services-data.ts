@@ -155,7 +155,7 @@ export const SERVICES: Record<string, Service> = {
     slug: 'revenue-engine',
     tier: 'Revenue Engine',
     oneLiner: 'Automate Your Entire Sales System',
-    priceMonthly: 299,
+    priceMonthly: 249,
     setupFee: 99,
     features: [
       { icon: '🔀', label: 'Sales Funnel', desc: 'Custom funnel maps buyer journey and closes deals.' },
