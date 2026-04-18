@@ -33,7 +33,7 @@ export default function CalContactEmbed() {
     Cal('init', '30min', { origin: 'https://cal.com' });
     Cal.ns['30min']('inline', {
       elementOrSelector: '#cal-contact-embed',
-      config: { layout: 'month_view' },
+      config: { layout: 'column_view' },
       calLink: 'aiandwebservices/30min',
     });
     Cal.ns['30min']('ui', {
@@ -43,14 +43,16 @@ export default function CalContactEmbed() {
         dark:  { 'cal-brand': '#2aa5a0' },
       },
       hideEventTypeDetails: true,
-      layout: 'month_view',
+      layout: 'column_view',
     });
   }, []);
 
   return (
-    <div
-      id="cal-contact-embed"
-      style={{ width: '100%', minHeight: '300px', borderRadius: '12px', overflow: 'hidden' }}
-    />
+    <div style={{ width:'100%', height:460, overflow:'hidden', borderRadius:12 }}>
+      <div
+        id="cal-contact-embed"
+        style={{ width:'100%', height:460, borderRadius:'12px', overflow:'hidden' }}
+      />
+    </div>
   );
 }

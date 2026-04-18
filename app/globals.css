@@ -21,7 +21,7 @@
   --muted:#6B7280;
   --border:#E2E8F0;
   --border-dk:rgba(255,255,255,.1);
-  --panel-count:9;
+  --panel-count:8;
 }
 html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(--white);color:var(--text)}
 @media(min-width:769px){html,body{overflow:hidden}}
@@ -1097,7 +1097,9 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   box-shadow:0 4px 16px rgba(42,165,160,.35);
 }
 .ctab:not(.ctab-active):hover{color:#fff;background:rgba(255,255,255,.07)}
-.calendly-wrap{padding:16px 20px!important;height:auto;box-sizing:border-box;display:flex;flex-direction:column;justify-content:flex-start;align-self:start}
+.contact-right{display:flex;flex-direction:column;align-self:start}
+.calendly-wrap{padding:16px 20px!important;height:auto;box-sizing:border-box;display:flex;flex-direction:column;justify-content:flex-start;overflow:hidden}
+#cal-contact-embed{width:100%;height:460px;overflow:hidden}
 .calendly-inline-widget{height:clamp(480px,55vh,700px)!important;min-height:0!important;width:100%;margin-top:0}
 @media(min-width:769px) and (min-height:900px){.calendly-inline-widget{height:clamp(580px,62vh,780px)!important}}
 .calendly-inline-widget iframe{border-radius:12px}
@@ -1816,11 +1818,11 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 
 /* ── Service page nav ── */
 .svc-page-nav{
-  position:sticky;top:0;z-index:100;
+  position:sticky;top:0;z-index:500;
   display:flex;align-items:center;justify-content:space-between;
-  padding:0 6vw;height:64px;gap:16px;
-  background:var(--navy);border-bottom:1px solid rgba(255,255,255,.07);
-  backdrop-filter:blur(12px);
+  padding:0 56px;height:68px;gap:16px;
+  background:rgba(27,42,74,.92);border-bottom:1px solid rgba(255,255,255,.08);
+  backdrop-filter:blur(20px);
   overflow:visible;
 }
 .svc-page-logo img{display:block;flex-shrink:0}
@@ -1829,10 +1831,11 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 /* Desktop nav links */
 .svc-page-links{display:flex;gap:20px;align-items:center;flex:1;justify-content:center}
 .svc-page-links a{
-  font-size:13px;font-weight:500;color:rgba(255,255,255,.6);
-  text-decoration:none;transition:color .18s;white-space:nowrap;
+  font-size:13px;font-weight:600;color:rgba(255,255,255,.5);
+  text-decoration:none;transition:color .18s,background .18s;white-space:nowrap;
+  padding:6px 12px;border-radius:8px;
 }
-.svc-page-links a:hover{color:#fff}
+.svc-page-links a:hover{color:#fff;background:rgba(255,255,255,.07)}
 
 /* Services dropdown */
 .svc-nav-svc-wrap{position:relative}

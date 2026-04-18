@@ -2,23 +2,23 @@
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import { LocalBusinessSchema, HomepageFAQSchema, HomepageServiceSchema } from '@/components/Schema';
-import Hero from '@/components/panels/Hero';
-import Services from '@/components/panels/Services';
-import HowItWorks from '@/components/panels/HowItWorks';
-import About from '@/components/panels/About';
-import Blog from '@/components/panels/Blog';
-import FAQ from '@/components/panels/FAQ';
-import Contact from '@/components/panels/Contact';
-import Modals from '@/components/Modals';
-import CookieBanner from '@/components/CookieBanner';
-import ScrollInit from '@/components/ScrollInit';
+import Hero        from '@/components/panels/Hero';
+import HowItWorks  from '@/components/panels/HowItWorks';
+import Comparison  from '@/components/panels/Comparison';
+import Services    from '@/components/panels/Services';
+import About       from '@/components/panels/About';
+import Work        from '@/components/panels/Work';
 import Testimonials from '@/components/panels/Testimonials';
-import Comparison from '@/components/panels/Comparison';
+import FAQ         from '@/components/panels/FAQ';
+import Contact     from '@/components/panels/Contact';
+import Modals      from '@/components/Modals';
+import CookieBanner from '@/components/CookieBanner';
+import ScrollInit  from '@/components/ScrollInit';
 
 export default function Home() {
   return (
     <>
-      {/* ── Structured data: homepage-specific schemas ── */}
+      {/* ── Structured data ── */}
       <LocalBusinessSchema />
       <HomepageFAQSchema />
       <HomepageServiceSchema />
@@ -29,17 +29,16 @@ export default function Home() {
 
       <main id="main-content">
         <div id="track">
-          <Hero />
-          <HowItWorks />
-          <Comparison />
+          {/* p0 */ }<Hero />
+          {/* p2 */ }<HowItWorks />
+          {/* comparison */ }<Comparison />
+          {/* services */ }<Services />
+          {/* p3 */ }<About />
+          {/* work */ }<Work />
+          {/* testimonials — returns null until SHOW_TESTIMONIALS = true */}
           <Testimonials />
-          <Services />
-          <About />
-          <FAQ />
-          <Blog />
-
-
-          <Contact />
+          {/* p7 */ }<FAQ />
+          {/* p8 */ }<Contact />
         </div>
       </main>
 

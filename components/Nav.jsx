@@ -6,36 +6,35 @@ import { usePathname } from 'next/navigation';
 
 const SERVICE_LINKS = [
   { label: 'AI Automation Starter', href: '/services/ai-automation-starter' },
-  { label: 'Presence',              href: '/services/presence' },
-  { label: 'Growth',                href: '/services/growth' },
-  { label: 'Revenue Engine',        href: '/services/revenue-engine' },
-  { label: 'AI-First',              href: '/services/ai-first' },
-  { label: 'Consulting & Strategy', href: '/services/consulting' },
-  { label: 'Add-On Services',       href: '/services/add-ons' },
+  { label: 'Presence',              href: '/services/presence'              },
+  { label: 'Growth',                href: '/services/growth'                },
+  { label: 'Revenue Engine',        href: '/services/revenue-engine'        },
+  { label: 'AI-First',              href: '/services/ai-first'              },
+  { label: 'Consulting & Strategy', href: '/services/consulting'            },
+  { label: 'Add-On Services',       href: '/services/add-ons'               },
 ];
 
-// PANELS: each entry has a panel index (0-8), a label, and whether it appears in the nav.
-// Comparison (index 5) is a section but not a nav destination.
+// 8 panels: Home(0), How It Works(1), Comparison(2), Services(3), About(4), Work(5), FAQ(6), Contact(7)
 const PANELS = [
   { idx: 0, label: 'Home',         nav: true },
   { idx: 1, label: 'How It Works', nav: true },
   { idx: 2, label: 'Comparison',   nav: true },
   { idx: 3, label: 'Services',     nav: true },
   { idx: 4, label: 'About',        nav: true },
-  { idx: 5, label: 'FAQ',          nav: true },
-  { idx: 6, label: 'Blog',         nav: true },
+  { idx: 5, label: 'Work',         nav: true },
+  { idx: 6, label: 'FAQ',          nav: true },
   { idx: 7, label: 'Contact',      nav: true },
 ];
-const NAV_PANELS = PANELS.filter(p => p.nav);
+const NAV_PANELS  = PANELS.filter(p => p.nav);
 const CONTACT_IDX = 7;
 
 export default function Nav() {
   const pathname = usePathname();
   const isOnServicePage = pathname.startsWith('/services/');
-  const go = (n) => window.go && window.go(n);
+  const go  = (n) => window.go  && window.go(n);
   const mGo = (n) => window.mobileGo && window.mobileGo(n);
   const [currentPanel, setCurrentPanel] = useState(0);
-  const [svcOpen, setSvcOpen] = useState(false);
+  const [svcOpen,    setSvcOpen]    = useState(false);
   const [mobSvcOpen, setMobSvcOpen] = useState(false);
   const svcRef = useRef(null);
 
@@ -45,22 +44,19 @@ export default function Nav() {
     return () => window.removeEventListener('panelchange', handler);
   }, []);
 
-  // Close dropdown when clicking outside
   useEffect(() => {
     const handler = (e) => { if (svcRef.current && !svcRef.current.contains(e.target)) setSvcOpen(false); };
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  // Panels 0, 2, 7 have dark (navy) backgrounds — use white text logo
-  const darkPanels = new Set([0, 2, 7]);
-  const logoSrc = darkPanels.has(currentPanel)
-    ? '/logo-gradient-test.svg'
-    : '/logo-gradient-light.svg';
+  // Panels 0 (Hero), 2 (Comparison), 4 (About), 7 (Contact) have dark backgrounds
+  const darkPanels = new Set([0, 2, 4, 7]);
+  const logoSrc    = darkPanels.has(currentPanel) ? '/logo-gradient-test.svg' : '/logo-gradient-light.svg';
 
   const LogoInner = () => (
     // eslint-disable-next-line @next/next/no-img-element
-    <img src={logoSrc} alt="AIandWEBservices" width={260} height={52} style={{display:'block'}} />
+    <img src={logoSrc} alt="AIandWEBservices" width={260} height={52} style={{ display:'block' }} />
   );
 
   return (
@@ -75,6 +71,7 @@ export default function Nav() {
             <LogoInner />
           </button>
         )}
+
         <div className="nav-center" role="menubar" aria-label="Site sections">
           {NAV_PANELS.map(({ idx, label }) => {
             if (label === 'Services') {
@@ -115,17 +112,35 @@ export default function Nav() {
               );
             }
             return (
-              <button key={idx} className={`nav-pill${currentPanel === idx ? ' active' : ''}`} onClick={() => go(idx)} role="menuitem" aria-current={currentPanel === idx ? 'true' : undefined}>{label}</button>
+              <button
+                key={idx}
+                className={`nav-pill${currentPanel === idx ? ' active' : ''}`}
+                onClick={() => go(idx)}
+                role="menuitem"
+                aria-current={currentPanel === idx ? 'true' : undefined}
+              >
+                {label}
+              </button>
             );
           })}
         </div>
+
         <div className="nav-right">
-          {currentPanel !== CONTACT_IDX && <button className="nav-cta" id="nav-cta-desktop" onClick={() => go(CONTACT_IDX)} aria-label="Get a free AI audit">Get Your Free Audit</button>}
-          <button id="hamburger" aria-expanded="false" aria-controls="mobile-menu" aria-label="Open navigation menu"
-            onClick={() => window.toggleMenu && window.toggleMenu()}>
-            <span className="hb-line" aria-hidden="true"></span>
-            <span className="hb-line" aria-hidden="true"></span>
-            <span className="hb-line" aria-hidden="true"></span>
+          {currentPanel !== CONTACT_IDX && (
+            <button className="nav-cta" id="nav-cta-desktop" onClick={() => go(CONTACT_IDX)} aria-label="Get a free AI audit">
+              Get Your Free Audit
+            </button>
+          )}
+          <button
+            id="hamburger"
+            aria-expanded="false"
+            aria-controls="mobile-menu"
+            aria-label="Open navigation menu"
+            onClick={() => window.toggleMenu && window.toggleMenu()}
+          >
+            <span className="hb-line" aria-hidden="true" />
+            <span className="hb-line" aria-hidden="true" />
+            <span className="hb-line" aria-hidden="true" />
           </button>
         </div>
       </nav>
@@ -167,21 +182,31 @@ export default function Nav() {
             );
           }
           return (
-            <button key={idx} className={`mob-link${currentPanel === idx ? ' active' : ''}`} onClick={() => mGo(idx)}>{label}</button>
+            <button
+              key={idx}
+              className={`mob-link${currentPanel === idx ? ' active' : ''}`}
+              onClick={() => mGo(idx)}
+            >
+              {label}
+            </button>
           );
         })}
         <button className="mob-cta" onClick={() => mGo(CONTACT_IDX)}>Get Your Free Audit</button>
       </div>
 
       <button className="arr hide" id="arr-l" onClick={() => window.goPrev && window.goPrev()} aria-label="Previous section">&#8592;</button>
-      <button className="arr" id="arr-r" onClick={() => window.goNext && window.goNext()} aria-label="Next section">&#8594;</button>
+      <button className="arr"      id="arr-r" onClick={() => window.goNext && window.goNext()} aria-label="Next section">&#8594;</button>
 
       <div id="dots" role="tablist" aria-label="Navigate to section">
         {PANELS.map(({ idx, label, nav }) => (
-          <button key={idx} className={`dot${idx === currentPanel ? ' on' : ''}${!nav ? ' dot-minor' : ''}`}
+          <button
+            key={idx}
+            className={`dot${idx === currentPanel ? ' on' : ''}${!nav ? ' dot-minor' : ''}`}
             onClick={() => go(idx)}
-            aria-label={`Go to ${label}`} aria-selected={idx === currentPanel ? 'true' : 'false'} role="tab">
-          </button>
+            aria-label={`Go to ${label}`}
+            aria-selected={idx === currentPanel ? 'true' : 'false'}
+            role="tab"
+          />
         ))}
       </div>
     </>

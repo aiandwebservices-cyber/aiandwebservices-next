@@ -1,103 +1,316 @@
+'use client';
+import { useState, useEffect } from 'react';
+import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
 import Image from 'next/image';
+import { Mail, Phone, Zap, Check } from 'lucide-react';
 import Link from 'next/link';
-import { Search, Gauge, PhoneOff, Repeat, BarChart3, Compass, Mail, Phone, Zap, Target, Handshake, BookOpen, Sprout } from 'lucide-react';
+
+const TEAL = '#2AA5A0';
+
+/* ── Before → After flipping scenarios ── */
+const SCENARIOS = [
+  {
+    emoji:'📞', label:'After-Hours Lead',
+    before:{
+      title:'Without AI',
+      bullets:['Phone rings at 11pm — nobody answers','Lead gets frustrated, calls a competitor','You wake up to a missed opportunity','Happens every single night'],
+    },
+    after:{
+      title:'With Your AI',
+      bullets:['AI responds instantly, any time of night','Asks qualifying questions automatically','Books the appointment before you wake up','New contact added to CRM — zero effort'],
+    },
+  },
+  {
+    emoji:'🔍', label:'Google Ranking',
+    before:{
+      title:'Without Local SEO',
+      bullets:['You show up on page 3 — below the map','Competitors get the calls you should get','Google Business Profile incomplete or missing','Paying for a site nobody finds'],
+    },
+    after:{
+      title:'With Local SEO',
+      bullets:['Top 3 in Google Map Pack for your city','Phone number and reviews front and center','GBP fully optimized and updated monthly','Customers find you before they scroll down'],
+    },
+  },
+  {
+    emoji:'💬', label:'FAQ Overload',
+    before:{
+      title:'Without Automation',
+      bullets:['"What are your hours?" — answered 30× a week','"Do you serve my area?" — every single day','Hours lost to questions, not to paid work','After 5pm? Nobody answers. Lead moves on.'],
+    },
+    after:{
+      title:'With AI Chat',
+      bullets:['AI handles every FAQ — 24/7, instantly','Trained on your prices, area, and availability','You only talk to people ready to buy','Handles after-hours so you never miss a lead'],
+    },
+  },
+  {
+    emoji:'📊', label:'Lead Tracking',
+    before:{
+      title:'Without CRM',
+      bullets:['Leads come in from 4 places, tracked nowhere','Follow-ups forgotten — revenue left behind','No idea which source is sending the best leads','You know something\'s slipping — can\'t see what'],
+    },
+    after:{
+      title:'With Automation',
+      bullets:['Every lead captured from every channel','Tagged by source, auto-followed up same day','Clear pipeline view — nothing falls through','Know exactly what\'s working and what\'s not'],
+    },
+  },
+];
+
+const GUARANTEES = [
+  'Response within 6 hours — always',
+  'You own everything we build — always',
+  'No lock-in contracts — cancel anytime',
+  '48-hour on-call after every launch',
+];
 
 export default function About() {
+  const reduced = useReducedMotion();
+  const [active, setActive] = useState(0);
+  const [flipped, setFlipped] = useState(false);
+
+  useEffect(() => {
+    const t = setInterval(() => {
+      setFlipped(true);
+      setTimeout(() => {
+        setActive(v => (v + 1) % SCENARIOS.length);
+        setFlipped(false);
+      }, 400);
+    }, 10000);
+    return () => clearInterval(t);
+  }, []);
+
+  const s = SCENARIOS[active];
+
+  const f = (d = 0) => ({
+    initial:     { opacity:0, y: reduced ? 0 : 22 },
+    whileInView: { opacity:1, y:0, transition:{ duration:.6, ease:[0.22,1,0.36,1], delay:d } },
+    viewport:    { once:true, amount:.05 },
+  });
+
   return (
-    <section className="panel" id="p3" aria-label="About David Pulis, founder of AIandWEBservices">
+    <section className="panel" id="p3" aria-label="About David Pulis — AI automation and web expert, what changes when you work with us">
+      {/* Light background */}
+      <div style={{ position:'absolute', inset:0, background:'#fff', zIndex:0 }}>
+        <div style={{ position:'absolute', inset:0, backgroundImage:'radial-gradient(rgba(42,165,160,.06) 1px,transparent 1px)', backgroundSize:'28px 28px' }} />
+        <div style={{ position:'absolute', top:0, right:0, width:700, height:500, background:'radial-gradient(circle,rgba(42,165,160,.08) 0%,transparent 65%)', filter:'blur(80px)', pointerEvents:'none' }} />
+      </div>
+
       <div className="about-inner">
-        <div className="about-heading">
-          <div className="panel-eyebrow">Who This Is For</div>
-          <h2 className="panel-h2">You might be in the right place if...</h2>
-        </div>
-        <div className="about-right">
-          <div className="value-grid">
-            <div className="val-card">
-              <div className="val-icon"><Search size={22} color="#00D9FF" strokeWidth={1.75} /></div>
-              <div className="val-title">Your competitors rank higher on Google</div>
-              <div className="val-desc">If customers can&apos;t find you, they&apos;re finding someone else. I fix the technical issues and build content that moves you up.</div>
+        <div style={{ position:'relative', zIndex:1, display:'flex', flexDirection:'column', height:'100%' }}>
+
+          {/* ── Top header row ── */}
+          <motion.div {...f(0)} style={{ marginBottom:24 }}>
+            <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'space-between', gap:16, flexWrap:'wrap' }}>
+              <div>
+                <div className="abt-eyebrow">WHO BUILDS THIS</div>
+                <h2 className="abt-h2">One person builds it.<br/><span className="abt-h2-accent">One person answers.</span><br/>No middlemen.</h2>
+              </div>
+              {/* Guarantees strip */}
+              <div className="abt-guarantees">
+                {GUARANTEES.map(g => (
+                  <div key={g} style={{ display:'flex', alignItems:'center', gap:7 }}>
+                    <div style={{ width:18, height:18, borderRadius:5, background:'rgba(42,165,160,.12)', border:'1px solid rgba(42,165,160,.25)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+                      <Check size={10} color={TEAL} strokeWidth={2.5}/>
+                    </div>
+                    <span style={{ fontSize:12, color:'#374151', fontWeight:600 }}>{g}</span>
+                  </div>
+                ))}
+              </div>
             </div>
-            <div className="val-card">
-              <div className="val-icon"><Gauge size={22} color="#00D9FF" strokeWidth={1.75} /></div>
-              <div className="val-title">Your website is slow or not converting</div>
-              <div className="val-desc">A slow, outdated site kills your SEO and drives buyers to competitors. I rebuild it to load fast, look sharp, and close.</div>
-            </div>
-            <div className="val-card">
-              <div className="val-icon"><PhoneOff size={22} color="#00D9FF" strokeWidth={1.75} /></div>
-              <div className="val-title">You&apos;re losing leads outside business hours</div>
-              <div className="val-desc">An AI assistant answers questions, qualifies leads, and books calls at 3am — so you wake up to opportunities, not missed messages.</div>
-            </div>
-            <div className="val-card">
-              <div className="val-icon"><Repeat size={22} color="#00D9FF" strokeWidth={1.75} /></div>
-              <div className="val-title">You&apos;re doing the same tasks manually every week</div>
-              <div className="val-desc">If it&apos;s repetitive — follow-ups, scheduling, reporting — it can be automated. I map it and build it so it runs without you.</div>
-            </div>
-            <div className="val-card">
-              <div className="val-icon"><BarChart3 size={22} color="#00D9FF" strokeWidth={1.75} /></div>
-              <div className="val-title">You&apos;re paying for ads but can&apos;t track what&apos;s working</div>
-              <div className="val-desc">I connect your ads, analytics, and CRM so every dollar is tracked and every lead is attributed.</div>
-            </div>
-            <div className="val-card">
-              <div className="val-icon"><Compass size={22} color="#00D9FF" strokeWidth={1.75} /></div>
-              <div className="val-title">You know AI could help but don&apos;t know where to start</div>
-              <div className="val-desc">No jargon, no guesswork. I give you a clear roadmap for where AI saves you the most time and money.</div>
-            </div>
-          </div>
-        </div>
-        <div className="about-left">
-          <div className="about-card">
-            <div className="founder-photo">
-              <Image
-                src="/david-pulis.jpg"
-                alt="David Pulis, founder of AIandWEBservices — AI automation and web development specialist for small businesses"
-                width={400}
-                height={200}
-                style={{width:'100%',height:'auto',display:'block',borderRadius:'16px'}}
-                priority
-              />
-            </div>
-            <div className="about-name">David Pulis</div>
-            <div className="about-title">
-              Founder,&nbsp;
-              <span style={{color:'#111827',fontWeight:800}}>AI</span><span style={{color:'#2AA5A0',fontWeight:800}}>and</span><span style={{color:'#111827',fontWeight:800}}>WEB</span><span style={{color:'#2AA5A0',fontWeight:800}}>services</span>
-            </div>
-            <p className="about-bio">
-              Most small businesses are invisible online, slow to respond, and leaving money on the table every day. I built AIandWEBservices to fix that — working directly with business owners to deploy AI systems that never miss a lead, websites that convert, and automated pipelines that grow revenue on autopilot.
-            </p>
-            <div className="about-contact">
-              <a href="mailto:david@aiandwebservices.com" className="ac-row" style={{textDecoration:'none'}}>
-                <div className="ac-icon"><Mail size={14} strokeWidth={2} /></div>
-                <span style={{color:'var(--blue)',fontWeight:500}}>david@aiandwebservices.com</span>
-              </a>
-              <a href="tel:+13155720710" className="ac-row" style={{textDecoration:'none'}}>
-                <div className="ac-icon"><Phone size={14} strokeWidth={2} /></div>
-                <span style={{color:'var(--blue)',fontWeight:500}}>(315) 572-0710 — tap to call</span>
-              </a>
-              <a href="https://t.me/aiandwebservices" target="_blank" rel="noopener noreferrer" className="ac-row" style={{textDecoration:'none'}}>
-                <div className="ac-icon"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.19 13.668l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.957.891z" fill="#29B6F6"/></svg></div>
-                <span style={{color:'var(--blue)',fontWeight:500}}>@aiandwebservices on Telegram</span>
-              </a>
-              <Link href="/guarantee" style={{textDecoration:'none'}}>
-                <div className="ac-row">
-                  <div className="ac-icon"><Zap size={14} color="#f59e0b" strokeWidth={2} /></div>
-                  <span>Guaranteed response <strong>within 6 hours</strong> — usually within minutes</span>
+          </motion.div>
+
+          {/* ── Main 3-col grid ── */}
+          <div className="abt-grid">
+
+            {/* Col 1: David card */}
+            <motion.div {...f(0.08)} className="abt-david">
+              <div className="abt-photo-wrap">
+                <Image
+                  src="/david-pulis.jpg"
+                  alt="David Pulis — founder of AIandWEBservices"
+                  width={340} height={440}
+                  style={{ width:'100%', height:'auto', display:'block' }}
+                  priority
+                />
+              </div>
+
+              <div className="abt-david-info">
+                <div style={{ fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:18, fontWeight:800, color:'#111827' }}>David Pulis</div>
+                <div style={{ fontSize:12, color:TEAL, fontWeight:700, marginBottom:12 }}>Founder · AIandWEBservices</div>
+                <p style={{ fontSize:12, color:'#6b7280', lineHeight:1.75, marginBottom:14 }}>
+                  I started AIandWEBservices because I kept seeing the same thing — great small businesses losing customers to competitors with better websites and faster response times, not better service. I fix that. I build the AI, the website, the automations — and I stay on to make sure it keeps working. You get one person who knows your business inside out, not a rotating team of strangers.
+                </p>
+                <div style={{ display:'flex', flexDirection:'column', gap:7 }}>
+                  <a href="mailto:david@aiandwebservices.com" className="abt-contact">
+                    <div className="abt-contact-icon"><Mail size={12} color={TEAL}/></div>
+                    david@aiandwebservices.com
+                  </a>
+                  <a href="tel:+13155720710" className="abt-contact">
+                    <div className="abt-contact-icon"><Phone size={12} color={TEAL}/></div>
+                    (315) 572-0710
+                  </a>
+                  <Link href="/guarantee" className="abt-contact">
+                    <div className="abt-contact-icon"><Zap size={12} color="#f59e0b"/></div>
+                    <span>Response <strong>within 6 hours</strong> — guaranteed</span>
+                  </Link>
                 </div>
-              </Link>
-            </div>
+              </div>
+            </motion.div>
+
+            {/* Col 2: Before/After scenarios */}
+            <motion.div {...f(0.12)} className="abt-scenarios">
+              <div style={{ fontSize:11, fontWeight:800, letterSpacing:1.5, textTransform:'uppercase', color:'#9ca3af', marginBottom:14 }}>What changes when you work with me</div>
+
+              {/* Scenario tabs */}
+              <div className="abt-tabs">
+                {SCENARIOS.map((sc, i) => (
+                  <button key={sc.label} onClick={() => setActive(i)} className={`abt-tab${active===i?' abt-tab-active':''}`}>
+                    <span style={{ fontSize:14 }}>{sc.emoji}</span>
+                    <span style={{ fontSize:10, fontWeight:700 }}>{sc.label}</span>
+                  </button>
+                ))}
+              </div>
+
+              {/* Card flip */}
+              <div style={{ flex:1, display:'flex', flexDirection:'column', gap:12, marginTop:4 }}>
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={active}
+                    initial={{ opacity:0, x:20 }}
+                    animate={{ opacity:1, x:0, transition:{ duration:.4, ease:[0.22,1,0.36,1] } }}
+                    exit={{ opacity:0, x:-20, transition:{ duration:.25 } }}
+                    style={{ display:'flex', flexDirection:'column', gap:12, flex:1 }}
+                  >
+                    {/* Before */}
+                    <div className="abt-card abt-card-before">
+                      <div className="abt-card-label abt-label-before">✗ Before</div>
+                      <div className="abt-card-title">{s.before.title}</div>
+                      <ul className="abt-bullets">
+                        {s.before.bullets.map(b => <li key={b}>{b}</li>)}
+                      </ul>
+                    </div>
+                    {/* Arrow */}
+                    <div style={{ textAlign:'center', fontSize:18, color:TEAL, lineHeight:1 }}>↓</div>
+                    {/* After */}
+                    <div className="abt-card abt-card-after">
+                      <div className="abt-card-label abt-label-after">✓ After</div>
+                      <div className="abt-card-title">{s.after.title}</div>
+                      <ul className="abt-bullets">
+                        {s.after.bullets.map(b => <li key={b}>{b}</li>)}
+                      </ul>
+                    </div>
+                  </motion.div>
+                </AnimatePresence>
+
+                {/* Dots */}
+                <div style={{ display:'flex', justifyContent:'center', gap:6 }}>
+                  {SCENARIOS.map((_, i) => (
+                    <button key={i} onClick={() => setActive(i)} style={{ width:active===i?20:7, height:7, borderRadius:99, background:active===i?TEAL:'#d1d5db', border:'none', cursor:'pointer', padding:0, transition:'all .3s' }}/>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+
+            {/* Col 3: Stats + CTA */}
+            <motion.div {...f(0.16)} className="abt-right-col">
+              <div style={{ fontSize:11, fontWeight:800, letterSpacing:1.5, textTransform:'uppercase', color:'#9ca3af', marginBottom:14 }}>By the numbers</div>
+
+              <div className="abt-stats-col">
+                {[
+                  { n:'7–14',  l:'day delivery',       desc:'Most projects go live in under 2 weeks.',      color:TEAL },
+                  { n:'24/7',  l:'AI uptime',           desc:'Your AI never sleeps, never misses a lead.',  color:'#60a5fa' },
+                  { n:'6hr',   l:'response SLA',        desc:'Guaranteed response on every ticket.',        color:'#a78bfa' },
+                  { n:'0',     l:'lock-in contracts',   desc:'Cancel anytime. No penalties, no hoops.',     color:'#34d399' },
+                ].map(({ n, l, desc, color }) => (
+                  <div key={l} className="abt-stat-card">
+                    <div style={{ fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:28, fontWeight:800, color, lineHeight:1 }}>{n}</div>
+                    <div style={{ fontSize:10, fontWeight:700, color:'#9ca3af', textTransform:'uppercase', letterSpacing:.5, marginBottom:4 }}>{l}</div>
+                    <div style={{ fontSize:11, color:'#6b7280', lineHeight:1.5 }}>{desc}</div>
+                  </div>
+                ))}
+              </div>
+
+              <div className="abt-cta-block">
+                <p style={{ fontSize:13, color:'#374151', lineHeight:1.65, marginBottom:16 }}>
+                  Ready to stop losing leads at night? Start with a free 30-minute AI audit.
+                </p>
+                <button className="abt-cta" onClick={() => window.go && window.go(7)}>
+                  Get Your Free Audit
+                </button>
+                <p style={{ fontSize:11, color:'#9ca3af', marginTop:8 }}>No obligation · Honest answer · 30 minutes</p>
+              </div>
+            </motion.div>
+
           </div>
         </div>
-        <div className="cv-strip">
-          <div className="cv-eyebrow">How I Work</div>
-          <div className="cv-grid">
-            <div className="cv-card"><div className="cv-icon"><Target size={18} color="#00D9FF" strokeWidth={1.75} /></div><div className="cv-title">Radical Ownership</div><div className="cv-desc">No team to hide behind. Full accountability on every project, every time.</div></div>
-            <div className="cv-card"><div className="cv-icon"><Handshake size={18} color="#00D9FF" strokeWidth={1.75} /></div><div className="cv-title">Honest Expertise</div><div className="cv-desc">I tell you what you need to hear, not what sells. If something won&apos;t work for you, I&apos;ll say so.</div></div>
-            <div className="cv-card"><div className="cv-icon"><BarChart3 size={18} color="#00D9FF" strokeWidth={1.75} /></div><div className="cv-title">Results Over Hype</div><div className="cv-desc">Measurable outcomes only. No AI buzzwords, no vague promises — just numbers that move.</div></div>
-            <div className="cv-card"><div className="cv-icon"><Zap size={18} color="#00D9FF" strokeWidth={1.75} /></div><div className="cv-title">Accessible Intelligence</div><div className="cv-desc">Enterprise-grade technology at startup-friendly pricing. Big-company tools for real-world budgets.</div></div>
-            <div className="cv-card"><div className="cv-icon"><BookOpen size={18} color="#00D9FF" strokeWidth={1.75} /></div><div className="cv-title">Continuous Learning</div><div className="cv-desc">AI moves fast. I stay sharp so your business always gets what&apos;s current, not what was relevant two years ago.</div></div>
-            <div className="cv-card"><div className="cv-icon"><Sprout size={18} color="#00D9FF" strokeWidth={1.75} /></div><div className="cv-title">Partnership, Not Transactions</div><div className="cv-desc">Long-term relationships over one-off gigs. Your growth is what keeps me here.</div></div>
-          </div>
+
+        {/* Bottom action chips */}
+        <div style={{ display:'flex', alignItems:'center', justifyContent:'center', gap:10, flexWrap:'wrap', paddingBottom:8, marginTop:20 }}>
+          <a href="#" onClick={e=>{e.preventDefault();window.go&&window.go(7)}} className="abt-chip abt-chip-primary">Get Your Free Audit</a>
+          <a href="#" onClick={e=>{e.preventDefault();window.go&&window.go(8)}} className="abt-chip">Contact David Directly</a>
+          <a href="#" onClick={e=>{e.preventDefault();window.go&&window.go(3)}} className="abt-chip">See Pricing</a>
         </div>
       </div>
+
+      <style>{`
+        .about-inner { height:100%;display:flex;flex-direction:column;padding:80px 5vw 36px;overflow-y:auto;background:transparent; }
+
+        .abt-eyebrow { display:block;font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#2AA5A0;margin-bottom:10px; }
+        .abt-edot { width:5px;height:5px;border-radius:50%;background:#2AA5A0;display:inline-block;animation:abtPulse 2s ease-in-out infinite; }
+        @keyframes abtPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.75)} }
+        .abt-h2 { font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(22px,2.5vw,36px);font-weight:800;letter-spacing:-1px;line-height:1.15;color:#111827;margin-bottom:0; }
+        .abt-h2-accent { color:#2AA5A0; }
+
+        .abt-guarantees { display:flex;flex-direction:column;gap:7px;background:rgba(42,165,160,.04);border:1px solid rgba(42,165,160,.12);border-radius:14px;padding:14px 18px; }
+
+        .abt-grid { display:grid;grid-template-columns:220px 1fr 220px;gap:20px;flex:1;align-content:start; }
+
+        /* David col */
+        .abt-david { display:flex;flex-direction:column;gap:0; }
+        .abt-photo-wrap { position:relative;border-radius:16px;overflow:hidden;flex-shrink:0; }
+        .abt-david-info { padding:14px 0 0; }
+        .abt-contact { display:flex;align-items:center;gap:8px;font-size:11px;color:#6b7280;text-decoration:none;transition:color .2s; }
+        .abt-contact:hover { color:#111827; }
+        .abt-contact strong { color:#111827;font-weight:700; }
+        .abt-contact-icon { width:24px;height:24px;border-radius:6px;background:rgba(42,165,160,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0; }
+
+        /* Scenarios col */
+        .abt-scenarios { display:flex;flex-direction:column; }
+        .abt-tabs { display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px; }
+        .abt-tab { display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.04);border:1px solid rgba(0,0,0,.07);border-radius:50px;padding:6px 12px;cursor:pointer;font-family:'Inter',sans-serif;color:#6b7280;transition:all .2s; }
+        .abt-tab:hover { background:rgba(0,0,0,.07); }
+        .abt-tab-active { background:rgba(42,165,160,.1) !important;border-color:rgba(42,165,160,.25) !important;color:#2AA5A0 !important; }
+
+        .abt-card { border-radius:14px;padding:16px 18px;flex:1; }
+        .abt-card-before { background:rgba(248,113,113,.05);border:1px solid rgba(248,113,113,.15); }
+        .abt-card-after  { background:rgba(42,165,160,.06);border:1px solid rgba(42,165,160,.2); }
+        .abt-card-label { font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px; }
+        .abt-label-before { color:#f87171; }
+        .abt-label-after  { color:#2AA5A0; }
+        .abt-card-title { font-size:14px;font-weight:800;color:#111827;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif; }
+        .abt-bullets { margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:5px; }
+        .abt-bullets li { font-size:11px;color:#6b7280;line-height:1.5;padding-left:14px;position:relative; }
+        .abt-bullets li::before { content:'–';position:absolute;left:0;color:#9ca3af; }
+        .abt-card-after .abt-bullets li { color:#374151; }
+        .abt-card-after .abt-bullets li::before { color:#2AA5A0; }
+
+        /* Right stats col */
+        .abt-right-col { display:flex;flex-direction:column; }
+        .abt-stats-col { display:flex;flex-direction:column;gap:10px;margin-bottom:16px;flex:1; }
+        .abt-stat-card { background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:12px 14px; }
+
+        .abt-cta-block { background:rgba(42,165,160,.06);border:1px solid rgba(42,165,160,.15);border-radius:14px;padding:16px; }
+        .abt-cta { display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#2AA5A0,#33BDB8);color:#fff;border:none;border-radius:50px;padding:12px 24px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;box-shadow:0 6px 20px rgba(42,165,160,.3);transition:all .25s;width:100%;justify-content:center; }
+        .abt-cta:hover { transform:translateY(-2px);box-shadow:0 12px 30px rgba(42,165,160,.45); }
+
+        .abt-chip { display:inline-flex;align-items:center;padding:8px 18px;border-radius:50px;font-size:12px;font-weight:700;font-family:'Inter',sans-serif;border:1px solid rgba(42,165,160,.3);color:rgba(42,165,160,.9);background:rgba(42,165,160,.08);cursor:pointer;text-decoration:none;transition:all .22s; }
+        .abt-chip:hover { background:rgba(42,165,160,.16);border-color:rgba(42,165,160,.5); }
+        .abt-chip-primary { background:linear-gradient(135deg,#2AA5A0,#33BDB8);color:#fff;border-color:transparent;box-shadow:0 4px 14px rgba(42,165,160,.3); }
+        .abt-chip-primary:hover { transform:translateY(-1px);box-shadow:0 8px 22px rgba(42,165,160,.45);color:#fff; }
+
+        @media (max-width:1100px) { .abt-grid { grid-template-columns:200px 1fr; } .abt-right-col { display:none; } }
+        @media (max-width:768px) { .abt-grid { grid-template-columns:1fr; } .abt-david { display:none; } .abt-guarantees { display:none; } }
+        @media (max-width:560px) { .about-inner { padding:80px 5vw 40px; } }
+      `}</style>
     </section>
   );
 }
