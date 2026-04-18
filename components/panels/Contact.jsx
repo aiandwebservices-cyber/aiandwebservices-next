@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { Mail, Phone, Zap, CheckCircle2, Lock } from 'lucide-react';
+import CalContactEmbed from '@/components/CalContactEmbed';
 
 export default function Contact() {
   const [status, setStatus] = useState('idle');
@@ -126,11 +127,7 @@ export default function Contact() {
               <div style={{fontSize:'13px',color:'rgba(255,255,255,.5)'}}>Pick a time that works — 30 minutes, no pressure.</div>
             </div>
             <div style={{display:'flex',alignItems:'center',justifyContent:'center',minHeight:'300px'}}>
-              <div
-                className="calendly-inline-widget"
-                data-url="https://calendly.com/aiandwebservices/30min?primary_color=2aa5a0&hide_event_type_details=1&hide_gdpr_banner=1&background_color=111827&text_color=ffffff"
-                style={{minWidth:'280px',width:'100%',borderRadius:'12px',overflow:'hidden'}}
-              />
+              <CalContactEmbed />
             </div>
           </div>
         </div>
