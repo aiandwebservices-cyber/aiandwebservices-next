@@ -1,5 +1,6 @@
 'use client';
 import Nav from '@/components/Nav';
+import Footer from '@/components/Footer';
 import { LocalBusinessSchema, HomepageFAQSchema, HomepageServiceSchema } from '@/components/Schema';
 import Hero from '@/components/panels/Hero';
 import Services from '@/components/panels/Services';
@@ -42,14 +43,7 @@ export default function Home() {
         </div>
       </main>
 
-      <footer id="site-footer" role="contentinfo">
-        <p>© 2026 AIandWEBservices. Built by David Pulis.</p>
-        <p className="footer-links">
-          <button style={{background:'none',border:'none',color:'inherit',textDecoration:'underline',cursor:'pointer',fontSize:'inherit',padding:0}} onClick={() => window.openModal('privacy')}>Privacy Policy</button>
-          &nbsp;|&nbsp;
-          <button style={{background:'none',border:'none',color:'inherit',textDecoration:'underline',cursor:'pointer',fontSize:'inherit',padding:0}} onClick={() => window.openModal('terms')}>Terms</button>
-        </p>
-      </footer>
+      <Footer />
 
       <div id="progress-bar"></div>
       <Modals />
