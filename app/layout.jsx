@@ -1,8 +1,6 @@
 import './globals.css';
 import { Inter, Plus_Jakarta_Sans } from 'next/font/google';
 import Script from 'next/script';
-import { Analytics } from '@vercel/analytics/react';
-import { SpeedInsights } from '@vercel/speed-insights/next';
 import CrispChat from '@/components/CrispChat';
 import { OrganizationSchema, LocalBusinessSchema, WebSiteSchema, PersonSchema } from '@/components/Schema';
 
@@ -81,8 +79,6 @@ export default function RootLayout({ children }) {
           strategy="lazyOnload"
         />
         <CrispChat />
-        <Analytics />
-        <SpeedInsights />
       </body>
     </html>
   );

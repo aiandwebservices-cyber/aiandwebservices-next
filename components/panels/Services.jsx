@@ -42,9 +42,6 @@ export default function Services() {
           <div className="panel-eyebrow">Services</div>
           <h2 className="panel-h2" style={{marginBottom:'24px'}}>Transparent pricing.<span className="pricing-br"><br/></span> No surprises.</h2>
           <div className="no-contract">No contracts — cancel or pause anytime</div>
-          <p className="pricing-crosslinks">
-            <a href="/services/consulting">Not sure which plan fits?</a> Get a <a href="#contact">free audit</a> for a personalized recommendation.
-          </p>
         </div>
 
         {/* AI Automation Starter — standalone chatbot card */}
@@ -105,6 +102,11 @@ export default function Services() {
               <div className="pr-addon-price">$299</div>
             </div>
           </div>
+        </div>
+
+        {/* Help CTA at bottom */}
+        <div style={{marginTop:'48px',padding:'20px',backgroundColor:'rgba(42,165,160,0.08)',borderRadius:'8px',textAlign:'center',fontSize:'14px',color:'rgba(0,0,0,0.7)',lineHeight:'1.6'}}>
+          <a href="/services/consulting" style={{color:'#2AA5A0',fontWeight:600,textDecoration:'underline'}}>Not sure which plan fits?</a> Get a <a href="#contact" style={{color:'#2AA5A0',fontWeight:600,textDecoration:'underline'}}>free audit</a> for a personalized recommendation.
         </div>
 
       </div>
