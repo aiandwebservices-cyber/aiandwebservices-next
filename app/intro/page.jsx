@@ -5,6 +5,7 @@ export const metadata = {
   title: '15-Min AI Automation Intro Call | AIandWEBservices',
   description: 'Free 15-minute intro call with David Pulis. We\'ll review your business, identify your biggest AI automation opportunities, and show you the fastest path to implementation.',
   alternates: { canonical: 'https://www.aiandwebservices.com/intro' },
+  robots: { index: false, follow: false },
   openGraph: {
     title: '15-Min AI Automation Intro Call',
     description: 'Free 15-minute intro call. Review your business, identify quick wins, and map your implementation.',
@@ -61,6 +62,15 @@ export default function IntroPage() {
               </div>
             ))}
           </div>
+        </div>
+
+        {/* Maintenance Banner */}
+        <div style={{ marginBottom: '32px', padding: '12px 16px', backgroundColor: '#fef3c7', border: '1px solid #fcd34d', borderRadius: '6px', color: '#92400e', fontSize: '15px', lineHeight: '1.5' }}>
+          This booking page is temporarily under maintenance. Please email{' '}
+          <a href="mailto:aiandwebservices@gmail.com" style={{ color: '#92400e', fontWeight: '600' }}>aiandwebservices@gmail.com</a>
+          {' '}or call{' '}
+          <a href="tel:+13155720710" style={{ color: '#92400e', fontWeight: '600' }}>(315) 572-0710</a>
+          {' '}to schedule directly.
         </div>
 
         {/* Calendar Embed */}
