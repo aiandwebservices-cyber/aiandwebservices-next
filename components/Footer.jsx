@@ -32,7 +32,7 @@ export default function Footer() {
           <h4 className="footer-heading">Resources</h4>
           <nav className="footer-links">
             <Link href="/blog">Blog</Link>
-            <Link href="/intro">Free 15-Min Audit</Link>
+            <Link href="/intro">Free 30-Min Intro Call</Link>
             <Link href="/checklist">AI Readiness Checklist</Link>
             <a href="#faq" onClick={() => window.go && window.go(5)}>FAQ</a>
           </nav>

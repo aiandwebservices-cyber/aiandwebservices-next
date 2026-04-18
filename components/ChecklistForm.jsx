@@ -84,7 +84,7 @@ export default function ChecklistForm() {
             <li>Read each question below</li>
             <li>Check off the ones that apply to your business (or print and circle them)</li>
             <li>Scroll to the bottom for your score and what it means</li>
-            <li>If you scored "High" or "Medium": book a free 15-minute intro call for personalized recommendations</li>
+            <li>If you scored "High" or "Medium": book a free 30-minute intro call for personalized recommendations</li>
           </ol>
         </div>
 
@@ -146,7 +146,7 @@ export default function ChecklistForm() {
             Ready for Your Next Step?
           </h3>
           <p style={{ fontSize: '16px', color: '#374151', marginBottom: '24px', lineHeight: '1.6' }}>
-            Book a free 15-minute intro call. We'll review your score, identify your biggest opportunities, and recommend where to start.
+            Book a free 30-minute intro call. I'll review your score, identify your biggest opportunities, and recommend where to start.
           </p>
           <Link
             href="/intro"
@@ -164,7 +164,7 @@ export default function ChecklistForm() {
               fontSize: '16px',
             }}
           >
-            Book Your 15-Min Intro Call
+            Book Your 30-Min Intro Call
           </Link>
         </div>
       </section>

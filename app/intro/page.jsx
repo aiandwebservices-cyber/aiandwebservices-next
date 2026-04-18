@@ -3,20 +3,20 @@ import { CheckCircle } from 'lucide-react';
 import CalInlineEmbed from '@/components/CalInlineEmbed';
 
 export const metadata = {
-  title: '15-Min AI Automation Intro Call | AIandWEBservices',
-  description: 'Free 15-minute intro call with David Pulis. We\'ll review your business, identify your biggest AI automation opportunities, and show you the fastest path to implementation.',
+  title: '30-Min AI Automation Intro Call | AIandWEBservices',
+  description: 'Free 30-minute intro call with David Pulis. I\'ll review your business, identify your biggest AI automation opportunities, and show you the fastest path to implementation.',
   alternates: { canonical: 'https://www.aiandwebservices.com/intro' },
   robots: { index: false, follow: false },
   openGraph: {
-    title: '15-Min AI Automation Intro Call',
-    description: 'Free 15-minute intro call. Review your business, identify quick wins, and map your implementation.',
-    images: [{ url: 'https://www.aiandwebservices.com/api/og?title=Free%2015-Minute%20Intro%20Call&description=AI%20Automation%20Opportunity%20Review', width: 1200, height: 630, alt: '15-Min AI Automation Intro Call' }],
+    title: '30-Min AI Automation Intro Call',
+    description: 'Free 30-minute intro call. Review your business, identify quick wins, and map your implementation.',
+    images: [{ url: 'https://www.aiandwebservices.com/api/og?title=Free%2030-Minute%20Intro%20Call&description=AI%20Automation%20Opportunity%20Review', width: 1200, height: 630, alt: '30-Min AI Automation Intro Call' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: '15-Min AI Automation Intro Call',
-    description: 'Free 15-minute intro call with David Pulis to review your AI automation readiness.',
-    images: ['https://www.aiandwebservices.com/api/og?title=Free%2015-Minute%20Intro%20Call&description=AI%20Automation%20Opportunity%20Review'],
+    title: '30-Min AI Automation Intro Call',
+    description: 'Free 30-minute intro call with David Pulis to review your AI automation readiness.',
+    images: ['https://www.aiandwebservices.com/api/og?title=Free%2030-Minute%20Intro%20Call&description=AI%20Automation%20Opportunity%20Review'],
   },
 };
 
@@ -38,7 +38,7 @@ export default function IntroPage() {
             Free Strategy Call
           </div>
           <h1 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: '800', marginBottom: '16px', lineHeight: '1.2' }}>
-            15-Minute Intro Call
+            30-Minute Intro Call
           </h1>
           <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.8)', lineHeight: '1.6', marginBottom: '32px' }}>
             A free, no-pressure conversation to review your business, identify your biggest AI automation opportunities, and show you exactly where to start.
@@ -95,7 +95,7 @@ export default function IntroPage() {
                 How long is the call?
               </h3>
               <p style={{ fontSize: '15px', color: '#374151', lineHeight: '1.6', margin: 0 }}>
-                Exactly 15 minutes. We respect your time and pack the most useful feedback into that window. If we need more time, we'll schedule a follow-up.
+                A full 30 minutes. Enough time to actually understand your business and give you specific, useful advice — not a rushed overview.
               </p>
             </div>
             <div>
