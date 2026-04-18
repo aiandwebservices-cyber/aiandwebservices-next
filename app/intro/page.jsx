@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import { CheckCircle } from 'lucide-react';
+import CalInlineEmbed from '@/components/CalInlineEmbed';
 
 export const metadata = {
   title: '15-Min AI Automation Intro Call | AIandWEBservices',
@@ -79,12 +80,7 @@ export default function IntroPage() {
             Pick Your Time
           </h2>
           <div style={{ overflow: 'hidden', borderRadius: '6px' }}>
-            {/* Calendly Embed */}
-            <div
-              className="calendly-inline-widget"
-              data-url="https://calendly.com/pulida7456?background_color=f0fdf4&text_color=111827&primary_color=2aa5a0"
-              style={{ minWidth: '320px', height: '730px' }}
-            />
+            <CalInlineEmbed />
           </div>
         </div>
 
@@ -145,7 +141,7 @@ export default function IntroPage() {
         @media print {
           body { background: white; }
           section:first-of-type { display: none; }
-          .calendly-inline-widget { display: none; }
+          #cal-inline-embed { display: none; }
           * { box-shadow: none !important; }
         }
       `}</style>
