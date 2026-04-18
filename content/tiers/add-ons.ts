@@ -1,0 +1,96 @@
+export const addOnsContent = {
+  metaTitle: 'Add-On Services — Crypto Payments, E-commerce & Accessibility | AIandWEBservices',
+  metaDescription: 'Enhance any AIandWEBservices tier with crypto payment infrastructure, Shopify or WooCommerce e-commerce, or full WCAG accessibility compliance.',
+
+  hero: {
+    eyebrow: 'Add-On Services',
+    headline: 'Extend Your System —',
+    headlineAccent: 'Specialised Capabilities',
+    subheadline: 'Three focused add-ons for businesses ready to go further. Bolt onto any existing tier or start here if you have a specific need.',
+  },
+
+  addOns: [
+    {
+      iconName: 'Wallet',
+      slug: 'crypto',
+      name: 'Crypto Payment Integration',
+      tagline: 'Accept Bitcoin & Stablecoins',
+      setupFee: 299,
+      monthlyFee: 49,
+      description: 'Add crypto payment infrastructure to your existing site. Accept Bitcoin, Ethereum, USDC, and other stablecoins alongside traditional payments. Full reconciliation and reporting included.',
+      includes: [
+        'Payment gateway integration (Coinbase Commerce, BTCPay, or similar)',
+        'Multi-currency wallet setup',
+        'Checkout flow design and build',
+        'Payment reconciliation dashboard',
+        'Transaction analytics and reporting',
+        'Ongoing monitoring and support',
+      ],
+      builtForYouIf: [
+        'International clients who prefer crypto payments',
+        'Want to accept stablecoins for stable-value invoicing',
+        'Building a crypto-native product or audience',
+      ],
+      faq: [
+        { q: 'Which cryptocurrencies can I accept?', a: "Bitcoin, Ethereum, USDC, USDT, and most major tokens. We configure based on what your customers actually use. Stablecoins are recommended for businesses that want predictable revenue." },
+        { q: 'Does this work with my existing checkout?', a: "Yes. Crypto becomes an additional payment option alongside credit cards. Customers choose what they prefer. Nothing about your existing checkout changes." },
+        { q: 'How do I handle accounting for crypto?', a: "The reconciliation dashboard tracks every transaction with USD value at time of payment. Most accounting software can import this. I\'ll connect you with a crypto-friendly bookkeeper if needed." },
+      ],
+    },
+    {
+      iconName: 'ShoppingCart',
+      slug: 'ecommerce',
+      name: 'E-commerce Integration',
+      tagline: 'Shopify or WooCommerce',
+      setupFee: 499,
+      monthlyFee: 79,
+      description: 'Add a fully-functional online store to your existing site or build from scratch. Connected to your AI system so inventory, orders, and customer data flow automatically.',
+      includes: [
+        'Shopify or WooCommerce store setup',
+        'Product catalogue build (up to 50 products)',
+        'Payment gateway integration',
+        'Inventory management setup',
+        'AI-connected order notifications',
+        'CRM integration (customer purchase history)',
+        'Ongoing management and support',
+      ],
+      builtForYouIf: [
+        'Ready to sell products online alongside your services',
+        'Want store management connected to your AI and CRM',
+        'Need inventory and order automation built in',
+      ],
+      faq: [
+        { q: 'Shopify or WooCommerce — which is better?', a: "Shopify is easier to manage and has better support. WooCommerce is more flexible and cheaper long-term but needs more maintenance. I\'ll recommend based on your product volume, budget, and tech comfort level." },
+        { q: 'Can I add more than 50 products?', a: "Yes — 50 is the setup baseline. I\'ll migrate or load additional products at an agreed hourly rate, or train you to do it yourself. Most small businesses don\'t need more than 50 to start." },
+        { q: 'How does the AI connect to my store?', a: "Your AI assistant can answer product questions, check order status, and handle basic customer service. Your CRM gets updated with every purchase. Abandoned cart emails can be automated." },
+      ],
+    },
+    {
+      iconName: 'Eye',
+      slug: 'accessibility',
+      name: 'Accessibility Audit & Fix',
+      tagline: 'WCAG 2.1 Compliance',
+      setupFee: 199,
+      monthlyFee: 29,
+      description: 'A full WCAG 2.1 accessibility audit of your website, with remediation guidance and hands-on fixes. Protect yourself from legal exposure and make your site usable by everyone.',
+      includes: [
+        'Full WCAG 2.1 Level AA audit',
+        'Prioritised remediation report',
+        'Hands-on accessibility fixes (up to 40 issues)',
+        'Screen reader and keyboard navigation testing',
+        'Post-fix verification audit',
+        'Ongoing compliance monitoring',
+      ],
+      builtForYouIf: [
+        'Concerned about ADA / accessibility lawsuits',
+        'Government, education, or healthcare clients requiring WCAG',
+        'Want your site usable by the widest possible audience',
+      ],
+      faq: [
+        { q: 'Do I legally need this?', a: "In the US, the ADA applies to websites for businesses open to the public. Lawsuits for inaccessible websites have increased sharply. If you serve the public, the legal risk is real." },
+        { q: 'What does WCAG 2.1 Level AA mean?', a: "It\'s the globally accepted standard for web accessibility. Level AA is the target for most legal compliance requirements — it covers things like colour contrast, keyboard navigation, alt text, and form labels." },
+        { q: 'What if my site has more than 40 issues?', a: "Most sites don\'t. If yours does, I\'ll give you a full count after the audit and quote the additional work. The $199 setup covers up to 40 — the most common compliance issues are usually well within that." },
+      ],
+    },
+  ],
+};
