@@ -28,15 +28,15 @@ export default function CalInlineEmbed() {
         }
         p(cal, ar);
       };
-    })(window, 'https://app.cal.com/embed/embed.js', 'init');
+    })(window, 'https://cal.com/embed/embed.js', 'init');
 
-    Cal('init', 'aiandwebservices', { origin: 'https://app.cal.com' });
-    Cal.ns['aiandwebservices']('inline', {
+    Cal('init', '15min', { origin: 'https://cal.com' });
+    Cal.ns['15min']('inline', {
       elementOrSelector: '#cal-inline-embed',
       config: { layout: 'month_view' },
-      calLink: 'aiandwebservices',
+      calLink: 'aiandwebservices/15min',
     });
-    Cal.ns['aiandwebservices']('ui', {
+    Cal.ns['15min']('ui', {
       theme: 'light',
       cssVarsPerTheme: {
         light: { 'cal-brand': '#2aa5a0' },
