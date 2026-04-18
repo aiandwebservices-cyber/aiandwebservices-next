@@ -53,5 +53,4 @@ scripts/square_links_details_*.json
 __pycache__/
 *.pyc
 
-n8n-workflows/
 templates/rendered/
