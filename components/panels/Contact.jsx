@@ -67,7 +67,7 @@ export default function Contact() {
           ) : (
             <form className="contact-form" id="contact-form" onSubmit={handleSubmit}>
               <div style={{marginBottom:'16px'}}>
-                <div style={{fontSize:'15px',fontWeight:'700',color:'#fff',marginBottom:'4px'}}>Send a Message</div>
+                <div style={{fontSize:'15px',fontWeight:'700',color:'#fff',marginBottom:'4px'}}>Request Your Free Audit</div>
                 <div style={{fontSize:'12px',color:'rgba(255,255,255,.45)'}}>Takes 2 minutes. No credit card. No obligation.</div>
               </div>
 
@@ -92,7 +92,7 @@ export default function Contact() {
               <div className="form-row">
                 <label htmlFor="service">What are you most interested in?</label>
                 <select id="service" name="service">
-                  <option value="" disabled defaultValue="">Not sure yet — want a recommendation</option>
+                  <option value="">Select an option (optional)</option>
                   <option>AI Automation Starter ($99/mo)</option>
                   <option>Presence ($99/mo)</option>
                   <option>Growth ($149/mo)</option>
@@ -104,6 +104,7 @@ export default function Contact() {
                   <option>Accessibility Audit</option>
                   <option>Something else — let&apos;s talk</option>
                 </select>
+                <div style={{fontSize:'12px',color:'rgba(255,255,255,.45)',marginTop:'4px'}}>Not sure? We&apos;ll discuss your options during the audit call.</div>
               </div>
               <div className="form-row">
                 <label htmlFor="message">Tell us about your business</label>
