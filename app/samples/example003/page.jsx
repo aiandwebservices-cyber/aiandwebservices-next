@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import ChatWidget from '@/components/ChatWidget';
 
 const GOLD = '#D4A843';
 const BLACK = '#0C0C0C';
@@ -62,8 +63,10 @@ export default function BladeRoom() {
   const [openIdx, setOpenIdx] = useState(null);
   const [scrollY, setScrollY] = useState(0);
   const [heroIn, setHeroIn] = useState(false);
+  const [isPreview, setIsPreview] = useState(false);
 
   useEffect(() => {
+    setIsPreview(window.self !== window.top);
     setTimeout(() => setHeroIn(true), 120);
     const fn = () => setScrollY(window.scrollY);
     window.addEventListener('scroll', fn, { passive: true });
@@ -72,6 +75,14 @@ export default function BladeRoom() {
 
   return (
     <div style={{ fontFamily: "'Barlow','Helvetica Neue',sans-serif", background: BLACK, color: OFF, overflowX: 'hidden' }}>
+      {isPreview && <style>{`
+        .hero-h1{font-size:clamp(5rem,7.5vw,8rem) !important}
+        .btn-book{font-size:.58rem !important;padding:.45rem 1rem !important}
+        .btn-out{font-size:.58rem !important;padding:.5rem 1.2rem !important}
+        .hero-gallery{width:175px !important}
+        .hero-gallery-main{height:125px !important}
+        .hero-gallery-sm{height:65px !important}
+      `}</style>}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&family=Bebas+Neue&display=swap');
         *{box-sizing:border-box;margin:0;padding:0}
@@ -92,14 +103,15 @@ export default function BladeRoom() {
         .btn-out:hover{background:${GOLD};color:${BLACK}}
 
         /* HERO */
-        .hero{position:relative;height:100vh;min-height:680px;display:flex;flex-direction:column;justify-content:flex-end;overflow:hidden}
-        .hero-bg{position:absolute;inset:0;width:100%;height:115%;object-fit:cover;object-position:center 25%;will-change:transform;filter:brightness(.4)}
-        .hero-overlay{position:absolute;inset:0;background:linear-gradient(to top,${BLACK} 0%,rgba(12,12,12,.6) 50%,rgba(12,12,12,.2) 100%)}
-        .hero-content{position:relative;z-index:2;padding:0 3rem 5.5rem;max-width:900px}
+        .hero{position:relative;height:100vh;min-height:680px;display:flex;align-items:flex-end;overflow:hidden}
+        .hero-bg{position:absolute;inset:0;width:100%;height:115%;object-fit:cover;object-position:center 25%;will-change:transform;filter:brightness(.85)}
+        .hero-overlay{position:absolute;inset:0;background:linear-gradient(to right,${BLACK} 0%,rgba(12,12,12,.96) 25%,rgba(12,12,12,.35) 55%,rgba(12,12,12,.05) 100%)}
+        .hero-inner{position:relative;z-index:2;display:flex;align-items:flex-end;justify-content:flex-start;width:100%;padding:0 3rem 5.5rem}
+        .hero-content{max-width:620px;flex:1}
         .hero-tag{font-size:.68rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:${GOLD};margin-bottom:1.5rem;display:flex;align-items:center;gap:.75rem;transition:opacity 1.1s .2s,transform 1.1s .2s cubic-bezier(.16,1,.3,1)}
         .hero-tag.hidden{opacity:0;transform:translateY(16px)}
         .hero-tag::before{content:'';width:32px;height:1px;background:${GOLD}}
-        .hero-h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(5rem,13vw,11rem);line-height:.9;letter-spacing:.03em;margin-bottom:2rem}
+        .hero-h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(10.4rem,13.6vw,14.6rem);line-height:.9;letter-spacing:.03em;margin-bottom:2rem}
         .hero-h1 .line{display:block;transition:transform 1.3s cubic-bezier(.16,1,.3,1),opacity 1.3s cubic-bezier(.16,1,.3,1)}
         .hero-h1 .line.hidden{transform:translateY(80px);opacity:0}
         .hero-h1 .gold{color:${GOLD}}
@@ -107,6 +119,21 @@ export default function BladeRoom() {
         .hero-sub.hidden{opacity:0;transform:translateY(20px)}
         .hero-btns{display:flex;gap:1rem;flex-wrap:wrap;transition:opacity 1.1s .75s,transform 1.1s .75s cubic-bezier(.16,1,.3,1)}
         .hero-btns.hidden{opacity:0;transform:translateY(20px)}
+
+        /* HERO GALLERY — absolute top-right */
+        .hero-gallery{position:absolute;top:90px;right:3rem;width:310px;display:flex;flex-direction:column;gap:6px;z-index:3;transition:opacity 1.1s 1s,transform 1.1s 1s cubic-bezier(.16,1,.3,1)}
+        .hero-gallery.hidden{opacity:0;transform:translateY(-20px)}
+        .hero-gallery-top{position:relative;border-radius:5px;overflow:hidden}
+        .hero-gallery-main{width:100%;height:220px;object-fit:cover;object-position:top;display:block;filter:brightness(.9)}
+        .hero-gallery-badge{position:absolute;top:7px;left:7px;background:rgba(12,12,12,.82);backdrop-filter:blur(8px);border:1px solid ${GOLD}30;border-radius:5px;padding:4px 8px;text-align:center}
+        .hero-gallery-row{display:grid;grid-template-columns:1fr 1fr;gap:6px}
+        .hero-gallery-sm{width:100%;height:115px;object-fit:cover;border-radius:5px;display:block;filter:brightness(.85)}
+        .hero-gallery-label{font-size:.55rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:${GOLD}77;text-align:center;padding-top:2px}
+
+        @media(max-width:900px){
+          .hero-inner{flex-direction:column;align-items:flex-start;padding:0 1.5rem 4.5rem}
+          .hero-gallery{display:none}
+        }
 
         /* TICKER */
         .ticker{overflow:hidden;border-top:1px solid ${GOLD}22;border-bottom:1px solid ${GOLD}22;padding:.7rem 0;background:${GOLD}08}
@@ -217,18 +244,37 @@ export default function BladeRoom() {
       <section className="hero">
         <img className="hero-bg" src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1800&q=90" alt="Barber shop interior" style={{ transform: `translateY(${scrollY * 0.2}px)` }} />
         <div className="hero-overlay" />
-        <div className="hero-content">
-          <div className={`hero-tag${heroIn ? '' : ' hidden'}`}>Fort Lauderdale · Walk-ins Welcome</div>
-          <h1 className="hero-h1">
-            <span className={`line${heroIn ? '' : ' hidden'}`} style={{ transitionDelay: '.1s' }}>Sharp</span>
-            <span className={`line gold${heroIn ? '' : ' hidden'}`} style={{ transitionDelay: '.22s' }}>Cuts.</span>
-            <span className={`line${heroIn ? '' : ' hidden'}`} style={{ transitionDelay: '.34s' }}>Clean</span>
-            <span className={`line gold${heroIn ? '' : ' hidden'}`} style={{ transitionDelay: '.46s' }}>Fades.</span>
-          </h1>
-          <p className={`hero-sub${heroIn ? '' : ' hidden'}`}>Old-school craft. New-school precision. The Blade Room is where South Florida men come to look their best.</p>
-          <div className={`hero-btns${heroIn ? '' : ' hidden'}`}>
-            <a href="#book" className="btn-book" style={{ padding: '.85rem 2.25rem' }}>Book Your Cut</a>
-            <a href="#services" className="btn-out">See Services</a>
+        <div className="hero-inner">
+          {/* Left: headline */}
+          <div className="hero-content">
+            <div className={`hero-tag${heroIn ? '' : ' hidden'}`}>Fort Lauderdale · Walk-ins Welcome</div>
+            <h1 className="hero-h1">
+              <span className={`line${heroIn ? '' : ' hidden'}`} style={{ transitionDelay: '.1s' }}>Sharp</span>
+              <span className={`line gold${heroIn ? '' : ' hidden'}`} style={{ transitionDelay: '.22s' }}>Cuts.</span>
+              <span className={`line${heroIn ? '' : ' hidden'}`} style={{ transitionDelay: '.34s' }}>Clean</span>
+              <span className={`line gold${heroIn ? '' : ' hidden'}`} style={{ transitionDelay: '.46s' }}>Fades.</span>
+            </h1>
+            <p className={`hero-sub${heroIn ? '' : ' hidden'}`}>Old-school craft. New-school precision. The Blade Room is where South Florida men come to look their best.</p>
+            <div className={`hero-btns${heroIn ? '' : ' hidden'}`}>
+              <a href="#book" className="btn-book" style={{ padding: '.85rem 2.25rem' }}>Book Your Cut</a>
+              <a href="#services" className="btn-out">See Services</a>
+            </div>
+          </div>
+
+          {/* Top-right: photo showcase — absolute, no longer in flex row */}
+          <div className={`hero-gallery${heroIn ? '' : ' hidden'}`}>
+            <div className="hero-gallery-top">
+              <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=600&q=85" alt="Fresh fade" className="hero-gallery-main" />
+              <div className="hero-gallery-badge">
+                <div style={{ fontSize:'1.1rem', fontWeight:800, color:GOLD, fontFamily:"'Bebas Neue',sans-serif", letterSpacing:'.06em' }}>4.9 ★</div>
+                <div style={{ fontSize:'.6rem', color:`${OFF}88`, letterSpacing:'.08em', textTransform:'uppercase' }}>247 Reviews</div>
+              </div>
+            </div>
+            <div className="hero-gallery-row">
+              <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=400&q=80" alt="Cut detail" className="hero-gallery-sm" />
+              <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=400&q=80" alt="Barber chair" className="hero-gallery-sm" />
+            </div>
+            <div className="hero-gallery-label">Fresh out the chair ✦ Fort Lauderdale</div>
           </div>
         </div>
       </section>
@@ -374,6 +420,18 @@ export default function BladeRoom() {
         <Link href="/samples" className="back-link">← All Samples</Link>
         <span className="footer-note">Built by aiandwebservices.com</span>
       </footer>
+
+      <ChatWidget
+        accent={GOLD}
+        agentName="Blade Room AI"
+        greeting="Hey! Want to book a cut? Next slot is today at 3pm with Marcus 💈"
+        quickReplies={['Book a cut', 'See services & pricing', 'Walk-ins today?']}
+        autoReplies={{
+          'Book a cut': "Easy — call (555) 456-7890 or book online. Marcus, Diego, and Jordan all have slots this week. Any preference?",
+          'See services & pricing': "Classic Cut $45 · Skin Fade $55 · Cut & Beard $75 · Hot Lather Shave $50 · The Works $110. All cuts include hot towel finish!",
+          'Walk-ins today?': "Yes! We accept walk-ins Mon–Fri 9am–8pm, Sat 8am–7pm, Sun 10am–5pm. Usually 15–30 min wait on weekdays.",
+        }}
+      />
     </div>
   );
 }

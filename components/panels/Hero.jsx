@@ -1,26 +1,50 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { ArrowRight, Shield, Clock, User, Bot, Calendar, Zap, TrendingUp } from 'lucide-react';
+import { ChevronDown, Shield, Zap, Clock, Bot, Calendar, TrendingUp, MessageSquare } from 'lucide-react';
+
+const ROTATE_WORDS = ['tech', 'AI', 'automation', 'websites', 'SEO', 'systems'];
+
+function RotatingWord({ reduced }) {
+  const [idx, setIdx] = useState(0);
+  useEffect(() => {
+    const t = setInterval(() => setIdx(v => (v + 1) % ROTATE_WORDS.length), 1900);
+    return () => clearInterval(t);
+  }, []);
+  return (
+    <span style={{ display:'inline-block', position:'relative' }}>
+      <AnimatePresence mode="wait">
+        <motion.span
+          key={idx}
+          initial={reduced ? false : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -20 }}
+          transition={{ duration: 0.35, ease: [0.21, 0.47, 0.32, 0.98] }}
+          style={{ display:'inline-block' }}
+        >
+          {ROTATE_WORDS[idx]}
+        </motion.span>
+      </AnimatePresence>
+    </span>
+  );
+}
 
 /* ── Animated counter ── */
-function Counter({ end, suffix = '', prefix = '' }) {
+function Num({ end, suffix = '', prefix = '' }) {
   const [n, setN] = useState(0);
   const ref = useRef(null);
-  const done = useRef(false);
+  const ran = useRef(false);
   useEffect(() => {
     const obs = new IntersectionObserver(([e]) => {
-      if (!e.isIntersecting || done.current) return;
-      done.current = true;
-      const dur = 1800, fps = 60;
+      if (!e.isIntersecting || ran.current) return;
+      ran.current = true;
       let t = 0;
-      const tick = setInterval(() => {
-        t += 1000 / fps;
-        const p = Math.min(t / dur, 1);
-        const ease = 1 - Math.pow(1 - p, 3);
-        setN(Math.round(ease * end));
-        if (p >= 1) clearInterval(tick);
-      }, 1000 / fps);
+      const id = setInterval(() => {
+        t += 16;
+        const p = Math.min(t / 1400, 1);
+        setN(Math.round((1 - Math.pow(1 - p, 3)) * end));
+        if (p >= 1) clearInterval(id);
+      }, 16);
     }, { threshold: 0.1 });
     if (ref.current) obs.observe(ref.current);
     return () => obs.disconnect();
@@ -28,95 +52,73 @@ function Counter({ end, suffix = '', prefix = '' }) {
   return <span ref={ref}>{prefix}{n}{suffix}</span>;
 }
 
-/* ── Cycling headline words ── */
-const WORDS = ['AI chatbots', 'automation', 'SEO rankings', 'lead capture', 'booking systems'];
-
-function CyclingWord() {
-  const [idx, setIdx] = useState(0);
-  useEffect(() => {
-    const t = setInterval(() => setIdx(i => (i + 1) % WORDS.length), 2200);
-    return () => clearInterval(t);
-  }, []);
-  return (
-    <AnimatePresence mode="wait">
-      <motion.span
-        key={idx}
-        initial={{ y: 20, opacity: 0 }}
-        animate={{ y: 0,  opacity: 1, transition: { duration: 0.45, ease: [0.22,1,0.36,1] } }}
-        exit={{   y: -20, opacity: 0, transition: { duration: 0.25 } }}
-        style={{ display:'inline-block', background:'linear-gradient(135deg,#2AA5A0,#33BDB8,#7dd3c8)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', backgroundClip:'text' }}
-      >
-        {WORDS[idx]}
-      </motion.span>
-    </AnimatePresence>
-  );
-}
-
-/* ── Live AI feed mockup ── */
+/* ── Live AI Activity Feed ── */
 const FEED = [
-  { icon: Bot,         label: 'Lead captured',    detail: 'After-hours inquiry → AI responded',  ago: 'just now', c: '#34d399' },
-  { icon: Calendar,    label: 'Call booked',       detail: 'Qualified lead → 3:00 PM Thursday',    ago: '4m ago',   c: '#60a5fa' },
-  { icon: Zap,         label: 'FAQ answered',      detail: 'Pricing question → handled by AI',      ago: '9m ago',   c: '#a78bfa' },
-  { icon: TrendingUp,  label: 'Lead scored',       detail: 'High-intent visitor → flagged hot',     ago: '14m ago',  c: '#f59e0b' },
-  { icon: Bot,         label: 'Intake complete',   detail: 'Form filled → added to CRM auto',       ago: '22m ago',  c: '#34d399' },
+  { icon: Bot,           label: 'Lead captured',    detail: 'After-hours inquiry → AI responded instantly', ago: 'just now', c: '#34d399' },
+  { icon: Calendar,      label: 'Call booked',      detail: 'Qualified lead → Thursday 3:00 PM',           ago: '4m ago',   c: '#60a5fa' },
+  { icon: MessageSquare, label: 'FAQ answered',     detail: 'Pricing question → handled automatically',     ago: '9m ago',   c: '#a78bfa' },
+  { icon: TrendingUp,    label: 'Lead scored',      detail: 'High-intent visitor → flagged as hot',         ago: '14m ago',  c: '#f59e0b' },
+  { icon: Bot,           label: 'Intake complete',  detail: 'Contact form → added to CRM',                  ago: '22m ago',  c: '#34d399' },
 ];
 
 function AIDashboard() {
   const [visible, setVisible] = useState(3);
   useEffect(() => {
-    const t = setInterval(() => setVisible(v => v === 3 ? 4 : v === 4 ? 5 : 3), 2600);
+    const t = setInterval(() => setVisible(v => v >= 5 ? 3 : v + 1), 2800);
     return () => clearInterval(t);
   }, []);
 
   return (
-    <div style={{ background:'rgba(8,13,24,.9)', border:'1px solid rgba(255,255,255,.1)', borderRadius:20, padding:'20px 22px', backdropFilter:'blur(24px)', boxShadow:'0 32px 80px rgba(0,0,0,.5), 0 0 0 1px rgba(42,165,160,.15)', width:'100%', maxWidth:380 }}>
+    <div className="h-dash">
       {/* Header */}
-      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:16, paddingBottom:14, borderBottom:'1px solid rgba(255,255,255,.07)' }}>
-        <div style={{ display:'flex', alignItems:'center', gap:8 }}>
-          <div style={{ width:8, height:8, borderRadius:'50%', background:'#34d399', boxShadow:'0 0 8px #34d399', animation:'hpPulse 2s ease-in-out infinite' }} />
-          <span style={{ fontSize:12, fontWeight:700, color:'rgba(255,255,255,.8)', letterSpacing:.5 }}>Your Business · AI Active</span>
+      <div className="h-dash-header">
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <img src="/logo-icon-transparent.png" alt="AIandWEB" style={{ width:20, height:20, borderRadius:5, flexShrink:0 }} />
+          <div className="h-dash-pulse" />
+          <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,.8)', letterSpacing: .3 }}>Your AI — working right now</span>
         </div>
-        <span style={{ fontSize:10, color:'rgba(255,255,255,.3)', fontWeight:600, letterSpacing:1, textTransform:'uppercase' }}>Live</span>
+        <span className="h-dash-live">Live</span>
       </div>
 
-      {/* Metrics row */}
-      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr 1fr', gap:10, marginBottom:18 }}>
+      {/* Metrics */}
+      <div className="h-dash-metrics">
         {[
-          { label:'Leads today',    val:<Counter end={47} />,  c:'#34d399' },
-          { label:'Response time',  val:<><Counter end={3} />s</>, c:'#60a5fa' },
-          { label:'Calls booked',   val:<Counter end={12} />,  c:'#a78bfa' },
+          { label: 'Leads today', val: <Num end={47} />, c: '#34d399' },
+          { label: 'Response', val: <><Num end={3} />s</>, c: '#60a5fa' },
+          { label: 'Booked', val: <Num end={12} />, c: '#a78bfa' },
         ].map(({ label, val, c }) => (
-          <div key={label} style={{ background:'rgba(255,255,255,.04)', borderRadius:10, padding:'10px 8px', textAlign:'center' }}>
-            <div style={{ fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:22, fontWeight:800, color:c, lineHeight:1 }}>{val}</div>
-            <div style={{ fontSize:9, color:'rgba(255,255,255,.35)', marginTop:4, fontWeight:600, textTransform:'uppercase', letterSpacing:.5 }}>{label}</div>
+          <div key={label} className="h-dash-metric">
+            <div style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: 24, fontWeight: 800, color: c, lineHeight: 1 }}>{val}</div>
+            <div style={{ fontSize: 9, color: 'rgba(255,255,255,.7)', marginTop: 4, fontWeight: 700, textTransform: 'uppercase', letterSpacing: .5 }}>{label}</div>
           </div>
         ))}
       </div>
 
       {/* Feed */}
-      <div style={{ display:'flex', flexDirection:'column', gap:8 }}>
-        <div style={{ fontSize:10, color:'rgba(255,255,255,.3)', fontWeight:700, textTransform:'uppercase', letterSpacing:1, marginBottom:2 }}>Recent Activity</div>
-        <AnimatePresence>
-          {FEED.slice(0, visible).map(({ icon: Icon, label, detail, ago, c }, i) => (
-            <motion.div
-              key={i}
-              layout
-              initial={{ opacity:0, x:10, height:0 }}
-              animate={{ opacity:1, x:0, height:'auto', transition:{ duration:.35, ease:[0.22,1,0.36,1], delay: i * 0.04 } }}
-              exit={{ opacity:0, height:0 }}
-              style={{ display:'flex', alignItems:'center', gap:10, padding:'8px 10px', background:'rgba(255,255,255,.035)', borderRadius:10, border:'1px solid rgba(255,255,255,.05)', overflow:'hidden' }}
-            >
-              <div style={{ width:28, height:28, borderRadius:8, background:`${c}20`, display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                <Icon size={13} color={c} />
-              </div>
-              <div style={{ flex:1, minWidth:0 }}>
-                <div style={{ fontSize:11, fontWeight:700, color:'#fff', lineHeight:1.2 }}>{label}</div>
-                <div style={{ fontSize:10, color:'rgba(255,255,255,.35)', lineHeight:1.3, overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{detail}</div>
-              </div>
-              <div style={{ fontSize:9, color:'rgba(255,255,255,.25)', flexShrink:0, fontWeight:600 }}>{ago}</div>
-            </motion.div>
-          ))}
-        </AnimatePresence>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+        <div style={{ fontSize: 9, color: 'rgba(255,255,255,.55)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 2 }}>Recent Activity</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, height: 186, overflow: 'hidden' }}>
+          <AnimatePresence mode="popLayout">
+            {FEED.slice(0, visible).map(({ icon: Icon, label, detail, ago, c }, i) => (
+              <motion.div
+                key={`${label}-${i}`}
+                initial={{ opacity: 0, x: 12 }}
+                animate={{ opacity: 1, x: 0, transition: { duration: .4, ease: [0.21, 0.47, 0.32, 0.98], delay: i * 0.03 } }}
+                exit={{ opacity: 0, x: -12, transition: { duration: .2 } }}
+                className="h-dash-row"
+              >
+                <div className="h-dash-icon" style={{ background: `${c}18` }}>
+                  <Icon size={13} color={c} strokeWidth={2} />
+                </div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 11, fontWeight: 700, color: '#fff', lineHeight: 1.2 }}>{label}</div>
+                  <div style={{ fontSize: 10, color: 'rgba(255,255,255,.5)', lineHeight: 1.3, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>{detail}</div>
+                </div>
+                <div style={{ fontSize: 9, color: 'rgba(255,255,255,.2)', flexShrink: 0, fontWeight: 600 }}>{ago}</div>
+              </motion.div>
+            ))}
+          </AnimatePresence>
+        </div>
       </div>
     </div>
   );
@@ -125,198 +127,289 @@ function AIDashboard() {
 /* ── Main ── */
 export default function Hero() {
   const reduced = useReducedMotion();
-  const f = (delay = 0) => ({
-    initial:     { opacity:0, y: reduced ? 0 : 32 },
-    whileInView: { opacity:1, y:0, transition:{ duration:.75, ease:[0.22,1,0.36,1], delay } },
-    viewport:    { once:true, amount:.05 },
+  const ease = [0.21, 0.47, 0.32, 0.98];
+
+  const reveal = (delay = 0) => ({
+    initial: reduced ? false : { opacity: 0, y: 36 },
+    animate: { opacity: 1, y: 0 },
+    transition: { duration: 0.7, delay, ease },
   });
 
   return (
-    <section className="panel" id="p0" aria-label="AIandWEBservices — AI Automation, Web Development and SEO for Small Business">
-      {/* Layered background */}
-      <div className="hp-hero-bg">
-        <div className="hp-orb hp-orb1" />
-        <div className="hp-orb hp-orb2" />
-        <div className="hp-orb hp-orb3" />
-        <div className="hp-grid" />
+    <section className="panel" id="p0" aria-label="AIandWEBservices — AI automation, web development and SEO for small business">
+      {/* ── Background ── */}
+      <div className="h-bg" aria-hidden="true">
+        <div className="h-orb h-orb-1" />
+        <div className="h-orb h-orb-2" />
+        <div className="h-orb h-orb-3" />
+        <div className="h-dots" />
+        <div className="h-ring" />
       </div>
 
-      <div className="hero-inner hp-hero-inner">
-        <div className="hp-hero-cols">
-
-          {/* LEFT */}
-          <div className="hp-hero-left">
-            <motion.div {...f(0)}>
-              <div className="hp-eyebrow">
-                <span className="hp-dot" />
-                AI · WEB · AUTOMATION · SEO
-              </div>
-            </motion.div>
-
-            <motion.h1 {...f(0.07)} className="hp-h1">
-              Stop losing leads<br />
-              to businesses with<br />
-              <span style={{ display:'inline-flex', alignItems:'baseline', gap:12, flexWrap:'wrap' }}>
-                better&nbsp;<CyclingWord />.
+      <div className="hero-inner">
+        {/* ── Top: Centered text ── */}
+        <div className="h-top">
+          <h1 className="h-h1">
+            <motion.span {...reveal(0.1)} className="h-line">Stop losing leads</motion.span>
+            <motion.span {...reveal(0.22)} className="h-line">to competitors with</motion.span>
+            <motion.span {...reveal(0.34)} className="h-line" style={{ display:'flex', alignItems:'baseline', justifyContent:'center', gap:'0.25em' }}>
+              <span>better</span>
+              <span style={{ display:'inline-block', minWidth:'8ch', textAlign:'left', overflow:'hidden' }}>
+                <span className="h-line-accent"><RotatingWord reduced={reduced} /></span>
               </span>
-            </motion.h1>
+            </motion.span>
+          </h1>
 
-            <motion.p {...f(0.15)} className="hp-sub">
-              <strong>Custom AI systems, high-converting websites, and automation pipelines</strong> built personally
-              for small businesses — so you capture every lead and stop doing things manually.
-            </motion.p>
+          <motion.p {...reveal(0.55)} className="h-sub">
+            AI automation, a converting website, and SEO that ranks. One person. One price.
+          </motion.p>
 
-            <motion.div {...f(0.22)} style={{ display:'flex', gap:12, flexWrap:'wrap', marginTop:8 }}>
-              <button className="hp-btn-primary" onClick={() => window.go && window.go(7)} aria-label="Get a free AI audit">
-                Get Your Free Audit
-              </button>
-              <button className="hp-btn-ghost" onClick={() => window.go && window.go(3)} aria-label="See services and pricing">
-                See Services &amp; Pricing
-              </button>
-            </motion.div>
-
-            <motion.div {...f(0.30)} className="hp-trust-row">
-              {[
-                { icon: Shield, t: 'No contracts',     s: 'Cancel anytime'    },
-                { icon: Clock,  t: '6-hour response',  s: 'Guaranteed'        },
-                { icon: User,   t: 'Direct to David',  s: 'No middlemen'      },
-              ].map(({ icon: I, t, s }) => (
-                <div key={t} className="hp-trust-badge">
-                  <I size={13} color="#2AA5A0" />
-                  <span className="hp-trust-t">{t}</span>
-                  <span className="hp-trust-s">· {s}</span>
-                </div>
-              ))}
-            </motion.div>
-
-            {/* Mini stat strip */}
-            <motion.div {...f(0.38)} className="hp-stats-strip">
-              {[
-                { n: 24, s: '/7',  label: 'AI availability'   },
-                { n: 7,  s: '-14d', label: 'Avg delivery'     },
-                { n: 0,  s: ' contracts', label: 'Required'   },
-              ].map(({ n, s, label }) => (
-                <div key={label} className="hp-stat">
-                  <span className="hp-stat-n"><Counter end={n} suffix={s} /></span>
-                  <span className="hp-stat-l">{label}</span>
-                </div>
-              ))}
-            </motion.div>
-          </div>
-
-          {/* RIGHT */}
-          <motion.div {...f(0.12)} className="hp-hero-right">
-            <AIDashboard />
+          <motion.div {...reveal(0.68)} className="h-ctas">
+            <button className="h-btn-primary" onClick={() => window.go && window.go(7)}>
+              Get Your Free Audit
+            </button>
           </motion.div>
 
+          <motion.div {...reveal(0.82)} className="h-trust">
+            {[
+              { icon: Shield, text: 'No contracts',          color: '#34d399' },
+              { icon: Zap,    text: '6-hour response time',  color: '#2AA5A0' },
+              { icon: Clock,  text: 'Live in 14 days or less', color: '#f59e0b' },
+            ].map(({ icon: Icon, text, color }) => (
+              <div key={text} className="h-trust-chip">
+                <Icon size={14} color={color} strokeWidth={2} />
+                <span>{text}</span>
+              </div>
+            ))}
+          </motion.div>
+
+          <motion.div
+            className="h-dashboard-wrap"
+            initial={reduced ? false : { opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.95, ease }}
+          >
+            <AIDashboard />
+          </motion.div>
         </div>
+
+        {/* ── Scroll indicator ── */}
+        <motion.button
+          className="h-scroll"
+          id="scroll-hint"
+          initial={reduced ? false : { opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.4, duration: 0.6 }}
+          onClick={() => window.go && window.go(1)}
+          aria-label="Scroll to next section"
+        >
+          <span className="h-scroll-label">Explore</span>
+          <motion.div
+            animate={{ x: [0, 6, 0] }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+          >
+            <ChevronDown size={18} color="rgba(255,255,255,.4)" style={{ transform: 'rotate(-90deg)' }} />
+          </motion.div>
+        </motion.button>
       </div>
 
       <style>{`
-        @keyframes hpPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.75)} }
-        @keyframes hpOrb   { 0%,100%{transform:scale(1) translate(0,0)} 50%{transform:scale(1.15) translate(20px,-20px)} }
-        @keyframes hpOrb2  { 0%,100%{transform:scale(1) translate(0,0)} 50%{transform:scale(1.1) translate(-15px,25px)} }
-
-        .hp-hero-bg { position:absolute;inset:0;background:#080d18;overflow:hidden;z-index:0; }
-        .hp-grid {
+        /* ── Background ── */
+        .h-bg { position:absolute;inset:0;background:#080d18;overflow:hidden; }
+        .h-dots {
           position:absolute;inset:0;
-          background-image:linear-gradient(rgba(255,255,255,.03) 1px,transparent 1px),
-            linear-gradient(90deg,rgba(255,255,255,.03) 1px,transparent 1px);
-          background-size:64px 64px;
-          mask-image:radial-gradient(ellipse 80% 80% at 50% 50%,black 30%,transparent 100%);
+          background-image:radial-gradient(rgba(42,165,160,.07) 1px,transparent 1px);
+          background-size:28px 28px;
         }
-        .hp-orb { position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none; }
-        .hp-orb1 { width:600px;height:600px;top:-100px;left:-100px;background:radial-gradient(circle,rgba(42,165,160,.18) 0%,transparent 70%);animation:hpOrb 12s ease-in-out infinite; }
-        .hp-orb2 { width:500px;height:500px;bottom:-80px;right:-80px;background:radial-gradient(circle,rgba(96,165,250,.12) 0%,transparent 70%);animation:hpOrb2 15s ease-in-out infinite; }
-        .hp-orb3 { width:300px;height:300px;top:50%;right:30%;background:radial-gradient(circle,rgba(167,139,250,.08) 0%,transparent 70%); }
+        .h-orb {
+          position:absolute;border-radius:50%;pointer-events:none;
+          will-change:transform;filter:blur(100px);
+        }
+        .h-orb-1 {
+          width:750px;height:750px;top:-22%;right:-12%;
+          background:radial-gradient(circle,rgba(42,165,160,.25) 0%,transparent 70%);
+          animation:hO1 22s ease-in-out infinite;
+        }
+        .h-orb-2 {
+          width:550px;height:550px;bottom:-18%;left:-8%;
+          background:radial-gradient(circle,rgba(42,165,160,.1) 0%,transparent 70%);
+          animation:hO2 28s ease-in-out infinite;
+        }
+        .h-orb-3 {
+          width:400px;height:400px;top:35%;left:45%;
+          background:radial-gradient(circle,rgba(80,180,220,.05) 0%,transparent 70%);
+          animation:hO3 32s ease-in-out infinite;
+        }
+        .h-ring {
+          position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+          width:600px;height:600px;border-radius:50%;
+          border:1px solid rgba(42,165,160,.06);
+          animation:hRing 6s ease-in-out infinite;pointer-events:none;
+        }
+        @keyframes hO1 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-50px,35px)} }
+        @keyframes hO2 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(35px,-25px)} }
+        @keyframes hO3 { 0%,100%{transform:translate(0,0)} 50%{transform:translate(-25px,-18px)} }
+        @keyframes hRing { 0%,100%{transform:translate(-50%,-50%) scale(1);opacity:.6} 50%{transform:translate(-50%,-50%) scale(1.08);opacity:.3} }
 
-        .hp-hero-inner {
-          position:relative;z-index:2;
-          height:100%;display:flex;align-items:center;justify-content:center;
-          padding:0 6vw;
+        /* ── Layout ── */
+        .hero-inner {
+          position:relative;z-index:1;
+          display:flex;flex-direction:column;height:100%;
         }
-        .hp-hero-cols {
-          display:flex;align-items:center;gap:56px;width:100%;max-width:1200px;
+        .h-top {
+          flex:1;display:flex;flex-direction:column;
+          align-items:center;justify-content:flex-start;
+          text-align:center;
+          max-width:920px;margin:0 auto;width:100%;
+          padding:120px 6vw 0;
         }
-        .hp-hero-left  { flex:1;min-width:0; }
-        .hp-hero-right { flex:0 0 380px;display:flex;align-items:center;justify-content:center; }
+        .h-dashboard-wrap {
+          width:100%;max-width:660px;margin-top:20px;
+          position:relative;
+        }
+        .h-dashboard-wrap::before {
+          content:'';display:block;height:28px;
+          background:linear-gradient(to bottom,transparent,rgba(42,165,160,.08));
+          margin-bottom:-2px;border-radius:4px;
+        }
 
-        .hp-eyebrow {
+        /* ── Eyebrow ── */
+        .h-eyebrow {
           display:inline-flex;align-items:center;gap:8px;
-          background:rgba(42,165,160,.12);border:1px solid rgba(42,165,160,.25);
-          border-radius:50px;padding:5px 16px;
-          font-size:10px;font-weight:800;letter-spacing:2px;text-transform:uppercase;
-          color:rgba(255,255,255,.65);margin-bottom:22px;
+          padding:8px 20px;border-radius:50px;
+          background:rgba(42,165,160,.08);
+          border:1px solid rgba(42,165,160,.18);
+          font-size:12px;font-weight:700;color:#2AA5A0;
+          letter-spacing:.4px;margin-bottom:32px;
+          font-family:'Inter',sans-serif;
+          width:fit-content;
         }
-        .hp-dot { width:6px;height:6px;border-radius:50%;background:#2AA5A0;box-shadow:0 0 8px #2AA5A0;animation:hpPulse 2s ease-in-out infinite;flex-shrink:0; }
 
-        .hp-h1 {
+        /* ── Headline ── */
+        .h-h1 {
           font-family:'Plus Jakarta Sans',sans-serif;
-          font-size:clamp(38px,4.8vw,68px);
-          font-weight:800;line-height:1.08;letter-spacing:-1.5px;
-          color:#fff;margin-bottom:20px;
+          font-size:clamp(44px,5.5vw,76px);font-weight:900;
+          line-height:1.04;letter-spacing:-1.5px;color:#fff;
+          margin-bottom:40px;
         }
-        .hp-sub {
-          font-size:16px;color:rgba(255,255,255,.5);line-height:1.8;
-          max-width:520px;margin-bottom:28px;
-        }
-        .hp-sub strong { color:rgba(255,255,255,.8);font-weight:600; }
+        .h-line { display:block; }
+        .h-line-accent { color:#2AA5A0; }
 
-        .hp-btn-primary {
-          display:inline-flex;align-items:center;gap:8px;
-          background:linear-gradient(135deg,#2AA5A0,#33BDB8);
-          color:#fff;border:none;border-radius:50px;
-          padding:14px 28px;font-size:15px;font-weight:700;
+        /* ── Subheadline ── */
+        .h-sub {
+          font-size:clamp(15px,1.6vw,17px);color:rgba(255,255,255,.65);
+          line-height:1.75;max-width:480px;margin-bottom:36px;
+          font-family:'Inter',sans-serif;
+        }
+
+        /* ── CTAs ── */
+        .h-ctas { display:flex;gap:14px;margin-bottom:52px;flex-wrap:wrap;justify-content:center; }
+        .h-btn-primary {
+          padding:16px 36px;border-radius:50px;border:none;
+          background:linear-gradient(135deg,#2AA5A0,#1B8F8A);color:#fff;
+          font-size:16px;font-weight:700;cursor:pointer;
+          font-family:'Inter',sans-serif;
+          box-shadow:0 12px 40px rgba(42,165,160,.4),0 0 0 1px rgba(42,165,160,.3);
+          transition:all .3s cubic-bezier(.21,.47,.32,.98);
+          position:relative;overflow:hidden;
+        }
+        .h-btn-primary::after {
+          content:'';position:absolute;top:0;left:-100%;width:60%;height:100%;
+          background:linear-gradient(90deg,transparent,rgba(255,255,255,.2),transparent);
+          animation:hShimmer 2.8s ease-in-out infinite;
+        }
+        @keyframes hShimmer { 0%{left:-100%} 60%,100%{left:160%} }
+        .h-btn-primary:hover { transform:translateY(-3px);box-shadow:0 20px 56px rgba(42,165,160,.55),0 0 0 1px rgba(42,165,160,.4); }
+        .h-btn-ghost {
+          padding:16px 28px;border-radius:50px;
+          border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.03);
+          color:rgba(255,255,255,.65);font-size:16px;font-weight:600;
           cursor:pointer;font-family:'Inter',sans-serif;
-          box-shadow:0 8px 28px rgba(42,165,160,.45);
-          transition:all .25s;
+          transition:all .3s;backdrop-filter:blur(8px);
         }
-        .hp-btn-primary:hover { transform:translateY(-2px);box-shadow:0 14px 36px rgba(42,165,160,.55); }
+        .h-btn-ghost:hover { border-color:rgba(255,255,255,.25);color:#fff;background:rgba(255,255,255,.06); }
 
-        .hp-btn-ghost {
-          display:inline-flex;align-items:center;gap:8px;
-          background:rgba(255,255,255,.05);
-          color:rgba(255,255,255,.7);
-          border:1px solid rgba(255,255,255,.15);border-radius:50px;
-          padding:14px 24px;font-size:15px;font-weight:600;
-          cursor:pointer;font-family:'Inter',sans-serif;transition:all .22s;
+        /* ── Trust ── */
+        .h-trust { display:flex;align-items:center;gap:0;flex-wrap:wrap;justify-content:center; }
+        .h-trust-chip {
+          display:flex;align-items:center;gap:7px;
+          font-size:13px;color:rgba(255,255,255,.4);font-weight:500;
+          font-family:'Inter',sans-serif;padding:0 20px;
         }
-        .hp-btn-ghost:hover { background:rgba(255,255,255,.1);border-color:rgba(255,255,255,.3);color:#fff; }
+        .h-trust-chip + .h-trust-chip {
+          border-left:1px solid rgba(255,255,255,.1);
+        }
 
-        .hp-trust-row { display:flex;gap:16px;flex-wrap:wrap;margin-top:24px;margin-bottom:0; }
-        .hp-trust-badge {
-          display:flex;align-items:center;gap:6px;
-          font-size:12px;color:rgba(255,255,255,.5);
+        .h-dash {
+          width:100%;
+          background:rgba(255,255,255,.06);
+          border:1px solid rgba(255,255,255,.15);
+          border-radius:20px;padding:20px 22px;
+          backdrop-filter:blur(32px);
+          -webkit-backdrop-filter:blur(32px);
+          box-shadow:
+            0 24px 60px rgba(0,0,0,.35),
+            0 0 0 1px rgba(42,165,160,.1),
+            inset 0 1px 0 rgba(255,255,255,.08);
         }
-        .hp-trust-t { color:rgba(255,255,255,.8);font-weight:600; }
-        .hp-trust-s { color:rgba(255,255,255,.35); }
+        .h-dash-header {
+          display:flex;align-items:center;justify-content:space-between;
+          margin-bottom:16px;padding-bottom:14px;
+          border-bottom:1px solid rgba(255,255,255,.12);
+        }
+        .h-dash-pulse {
+          width:7px;height:7px;border-radius:50%;
+          background:#34d399;box-shadow:0 0 8px #34d399;
+          animation:hPulse 2s ease-in-out infinite;
+        }
+        @keyframes hPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
+        .h-dash-live {
+          font-size:9px;color:rgba(255,255,255,.25);font-weight:700;
+          text-transform:uppercase;letter-spacing:1.5px;
+        }
+        .h-dash-metrics {
+          display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:18px;
+        }
+        .h-dash-metric {
+          background:rgba(255,255,255,.08);border-radius:10px;
+          padding:12px 10px;text-align:center;
+          border:1px solid rgba(255,255,255,.1);
+        }
+        .h-dash-row {
+          display:flex;align-items:center;gap:10px;
+          padding:8px 10px;
+          background:rgba(255,255,255,.06);border-radius:10px;
+          border:1px solid rgba(255,255,255,.09);
+          overflow:hidden;
+        }
+        .h-dash-icon {
+          width:28px;height:28px;border-radius:8px;
+          display:flex;align-items:center;justify-content:center;flex-shrink:0;
+        }
 
-        .hp-stats-strip {
-          display:flex;gap:32px;margin-top:28px;
-          padding-top:24px;border-top:1px solid rgba(255,255,255,.07);
+        /* ── Scroll indicator ── */
+        .h-scroll {
+          position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
+          display:flex;flex-direction:column;align-items:center;gap:4px;
+          background:none;border:none;cursor:pointer;padding:8px;
         }
-        .hp-stat { display:flex;flex-direction:column;gap:2px; }
-        .hp-stat-n {
-          font-family:'Plus Jakarta Sans',sans-serif;
-          font-size:22px;font-weight:800;
-          background:linear-gradient(135deg,#2AA5A0,#7dd3c8);
-          -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+        .h-scroll-label {
+          font-size:9px;color:rgba(255,255,255,.25);font-weight:700;
+          text-transform:uppercase;letter-spacing:2px;
         }
-        .hp-stat-l { font-size:11px;color:rgba(255,255,255,.35);font-weight:500; }
 
-        @media (max-width:900px) {
-          .hp-hero-cols  { flex-direction:column;gap:32px;text-align:center; }
-          .hp-hero-right { display:none; }
-          .hp-hero-left  { display:flex;flex-direction:column;align-items:center; }
-          .hp-sub        { text-align:center;max-width:100%; }
-          .hp-trust-row  { justify-content:center; }
-          .hp-stats-strip{ justify-content:center; }
+        /* ── Responsive ── */
+        @media (max-width:768px) {
+          .h-top { padding:80px 5vw 20px; }
+          .h-trust { flex-direction:column;align-items:center;gap:12px; }
+          .h-ctas { flex-direction:column;width:100%;max-width:340px; }
+          .h-btn-primary, .h-btn-ghost { width:100%;text-align:center; }
+          .h-scroll { display:none; }
         }
-        @media (max-width:560px) {
-          .hp-hero-inner { padding:80px 5vw 40px; }
-          .hp-h1         { font-size:clamp(30px,9vw,48px); }
-          .hp-stats-strip{ display:none; }
-          .hp-trust-row  { gap:10px; }
+        @media (max-width:480px) {
+          .h-eyebrow { font-size:10px;padding:6px 14px; }
+          .h-h1 { letter-spacing:-1.5px; }
+          .h-dash-metrics { grid-template-columns:1fr;gap:6px; }
         }
       `}</style>
     </section>

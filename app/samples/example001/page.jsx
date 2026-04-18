@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import ChatWidget from '@/components/ChatWidget';
 
 const GOLD = '#C9A84C';
 const DARK = '#0D0D0D';
@@ -375,6 +376,18 @@ export default function EmberOak() {
         <Link href="/samples" className="back-link">← All Samples</Link>
         <span className="footer-note">Built by aiandwebservices.com</span>
       </footer>
+
+      <ChatWidget
+        accent={GOLD}
+        agentName="Ember & Oak AI"
+        greeting="Welcome! Looking to reserve a table or see tonight's specials? I can help 🍽️"
+        quickReplies={['Reserve a table', "Tonight's menu", 'Private events']}
+        autoReplies={{
+          'Reserve a table': "We'd love to have you! Call us at (555) 123-4567 or book online. Tables go fast on weekends!",
+          "Tonight's menu": "Chef's specials tonight include Wagyu Tenderloin and Truffle Risotto. Want the full menu or to reserve a table?",
+          'Private events': "We host private dinners for 10–80 guests. I'll connect you with our events team — what date do you have in mind?",
+        }}
+      />
     </div>
   );
 }

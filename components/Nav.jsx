@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 
 const SERVICE_LINKS = [
   { label: 'AI Automation Starter', href: '/services/ai-automation-starter' },
@@ -14,25 +14,42 @@ const SERVICE_LINKS = [
   { label: 'Add-On Services',       href: '/services/add-ons'               },
 ];
 
-// 8 panels: Home(0), How It Works(1), Comparison(2), Services(3), About(4), Work(5), FAQ(6), Contact(7)
+// 8 panels: Home(0), How It Works(1), Comparison(2), Services(3), About(4), Samples(5), FAQ(6), Contact(7)
 const PANELS = [
   { idx: 0, label: 'Home',         nav: true },
   { idx: 1, label: 'How It Works', nav: true },
   { idx: 2, label: 'Comparison',   nav: true },
   { idx: 3, label: 'Services',     nav: true },
   { idx: 4, label: 'About',        nav: true },
-  { idx: 5, label: 'Work',         nav: true },
+  { idx: 5, label: 'Samples',      nav: true },
   { idx: 6, label: 'FAQ',          nav: true },
   { idx: 7, label: 'Contact',      nav: true },
 ];
 const NAV_PANELS  = PANELS.filter(p => p.nav);
 const CONTACT_IDX = 7;
+const HASH_NAMES = ['home', 'how-it-works', 'comparison', 'services', 'about', 'samples', 'faq'];
 
 export default function Nav() {
   const pathname = usePathname();
+  const router = useRouter();
   const isOnServicePage = pathname.startsWith('/services/');
-  const go  = (n) => window.go  && window.go(n);
-  const mGo = (n) => window.mobileGo && window.mobileGo(n);
+  const isOnContactPage = pathname === '/contact2';
+  const go  = (n) => {
+    if (isOnContactPage) {
+      const hash = HASH_NAMES[n] || 'home';
+      router.push(`/#${hash}`);
+    } else {
+      window.go && window.go(n);
+    }
+  };
+  const mGo = (n) => {
+    if (isOnContactPage) {
+      const hash = HASH_NAMES[n] || 'home';
+      router.push(`/#${hash}`);
+    } else {
+      window.mobileGo && window.mobileGo(n);
+    }
+  };
   const [currentPanel, setCurrentPanel] = useState(0);
   const [svcOpen,    setSvcOpen]    = useState(false);
   const [mobSvcOpen, setMobSvcOpen] = useState(false);
@@ -50,8 +67,8 @@ export default function Nav() {
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  // Panels 0 (Hero), 2 (Comparison), 4 (About), 7 (Contact) have dark backgrounds
-  const darkPanels = new Set([0, 2, 4, 7]);
+  // Panels 0 (Hero), 2 (Comparison), 7 (Contact) have dark backgrounds
+  const darkPanels = new Set([0, 2, 7]);
   const logoSrc    = darkPanels.has(currentPanel) ? '/logo-gradient-test.svg' : '/logo-gradient-light.svg';
 
   const LogoInner = () => (
@@ -111,6 +128,19 @@ export default function Nav() {
                 </div>
               );
             }
+            if (label === 'Contact') {
+              return (
+                <Link
+                  key={idx}
+                  href="/contact2"
+                  className={`nav-pill${pathname === '/contact2' ? ' active' : ''}`}
+                  role="menuitem"
+                  aria-current={pathname === '/contact2' ? 'page' : undefined}
+                >
+                  {label}
+                </Link>
+              );
+            }
             return (
               <button
                 key={idx}
@@ -126,10 +156,10 @@ export default function Nav() {
         </div>
 
         <div className="nav-right">
-          {currentPanel !== CONTACT_IDX && (
-            <button className="nav-cta" id="nav-cta-desktop" onClick={() => go(CONTACT_IDX)} aria-label="Get a free AI audit">
+          {pathname !== '/contact2' && (
+            <Link href="/contact2" className="nav-cta" id="nav-cta-desktop" aria-label="Get a free AI audit">
               Get Your Free Audit
-            </button>
+            </Link>
           )}
           <button
             id="hamburger"
@@ -181,6 +211,18 @@ export default function Nav() {
               </div>
             );
           }
+          if (label === 'Contact') {
+            return (
+              <Link
+                key={idx}
+                href="/contact2"
+                className={`mob-link${pathname === '/contact2' ? ' active' : ''}`}
+                onClick={() => window.toggleMenu && window.toggleMenu()}
+              >
+                {label}
+              </Link>
+            );
+          }
           return (
             <button
               key={idx}
@@ -191,7 +233,7 @@ export default function Nav() {
             </button>
           );
         })}
-        <button className="mob-cta" onClick={() => mGo(CONTACT_IDX)}>Get Your Free Audit</button>
+        <Link href="/contact2" className="mob-cta" onClick={() => window.toggleMenu && window.toggleMenu()}>Get Your Free Audit</Link>
       </div>
 
       <button className="arr hide" id="arr-l" onClick={() => window.goPrev && window.goPrev()} aria-label="Previous section">&#8592;</button>

@@ -17,6 +17,8 @@ export default function SamplesLayout({ children }) {
         }
         /* Hide the main site nav/track that sits behind everything */
         #nav, #track { display: none !important; }
+        /* Hide Crisp live chat on sample pages — each sample has its own AI chatbot demo */
+        .crisp-client, #crisp-chatbox, [data-id="crisp"] { display: none !important; }
       `}</style>
       {children}
     </>

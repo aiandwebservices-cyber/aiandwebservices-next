@@ -1,6 +1,7 @@
 'use client';
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
+import ChatWidget from '@/components/ChatWidget';
 
 const EM = '#10B981';
 const DARK = '#0F1923';
@@ -208,7 +209,7 @@ export default function AriaRealty() {
         <ul className="ar-links">
           {['Listings','Services','About','Contact'].map(l => <li key={l}><a href={`#${l.toLowerCase()}`}>{l}</a></li>)}
         </ul>
-        <a href="#contact" className="ar-cta">Free Consult</a>
+        <Link href="/samples/example002/book" className="ar-cta">Free Consult</Link>
       </nav>
 
       {/* HERO */}
@@ -222,7 +223,7 @@ export default function AriaRealty() {
           <p className={`hero-p${heroIn ? '' : ' hidden'}`}>Aria Realty specializes in luxury residential and waterfront properties across Miami-Dade, Broward, and Palm Beach. Over $183M closed in 2023.</p>
           <div className={`hero-btns${heroIn ? '' : ' hidden'}`}>
             <a href="#listings" className="ar-cta-out">View Listings</a>
-            <a href="#contact" className="ar-cta">Book Free Consultation</a>
+            <Link href="/samples/example002/book" className="ar-cta">Book Free Consultation</Link>
           </div>
         </div>
         <div className="hero-right">
@@ -315,7 +316,7 @@ export default function AriaRealty() {
                 {['$183M+ Closed','Top 1% Broward','247 Transactions'].map(b => <span key={b} className="badge-pill">{b}</span>)}
               </div>
             </Reveal>
-            <Reveal delay={.35}><a href="#contact" className="ar-cta-out">Work with Sophia</a></Reveal>
+            <Reveal delay={.35}><Link href="/samples/example002/book" className="ar-cta-out">Work with Sophia</Link></Reveal>
           </div>
           <div className="agent-big">14</div>
         </div>
@@ -329,9 +330,13 @@ export default function AriaRealty() {
           <Reveal delay={.1}><h2 className="contact-title">Ready for Your<br /><em>Dream Home?</em></h2></Reveal>
           <Reveal delay={.2}><p style={{ fontSize: '.9rem', color: `${LIGHT}66`, maxWidth: 460, margin: '1.25rem auto 3rem', lineHeight: 1.85 }}>Book a free 30-minute consultation and we'll map out a custom strategy — whether you're buying, selling, or investing.</p></Reveal>
           <Reveal delay={.3}>
-            <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem', flexWrap: 'wrap', marginBottom: '1.5rem' }}>
               <a href="tel:+15559876543" className="ar-cta" style={{ padding: '1rem 2.5rem', fontSize: '.9rem' }}>📞 (555) 987-6543</a>
-              <a href="#" className="ar-cta-out" style={{ padding: '1rem 2.5rem', fontSize: '.9rem' }}>Book Online</a>
+              <a href="mailto:sophia@ariarealty.com" className="ar-cta-out" style={{ padding: '1rem 2.5rem', fontSize: '.9rem' }}>✉️ Email Sophia</a>
+              <Link href="/samples/example002/book" className="ar-cta-out" style={{ padding: '1rem 2.5rem', fontSize: '.9rem' }}>📅 Book Online</Link>
+            </div>
+            <div style={{ width: '100%', textAlign: 'center', fontSize: '.78rem', color: `${LIGHT}44`, letterSpacing: '.08em', display: 'block' }}>
+              <span style={{ color: EM, marginRight: '.4rem' }}>✓</span> Guaranteed response within 2 hours · 7 days a week
             </div>
           </Reveal>
         </div>
@@ -343,6 +348,18 @@ export default function AriaRealty() {
         <Link href="/samples" className="back-link">← All Samples</Link>
         <span className="footer-note">Built by aiandwebservices.com</span>
       </footer>
+
+      <ChatWidget
+        accent={EM}
+        agentName="Aria Realty AI"
+        greeting="Looking for your dream home in South Florida? I can help you find the right listing 🏡"
+        quickReplies={['Browse listings', 'Book a consultation', 'Sell my home']}
+        autoReplies={{
+          'Browse listings': "We have waterfront homes from $1.8M in Miami Beach, Coral Gables, and Brickell. Any area or budget in mind?",
+          'Book a consultation': "Our agents are available 7 days a week. Call (555) 987-6543 or I can schedule a callback — what works for you?",
+          'Sell my home': "We average 97% of asking price and 21 days on market. Want a free home valuation? Takes 2 minutes.",
+        }}
+      />
     </div>
   );
 }

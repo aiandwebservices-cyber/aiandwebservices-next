@@ -40,14 +40,9 @@ export default function Contact() {
 
         {/* ── HEADER ── */}
         <motion.div {...fade(0)} className="contact-header">
-          <div style={{ display:'inline-flex', alignItems:'center', gap:8, background:'rgba(42,165,160,.12)', border:'1px solid rgba(42,165,160,.25)', borderRadius:50, padding:'4px 14px', marginBottom:12, fontSize:10, fontWeight:800, letterSpacing:2, textTransform:'uppercase', color:TEAL }}>
-            <span style={{ width:5, height:5, borderRadius:'50%', background:TEAL, display:'inline-block' }}/>
-            Get in Touch
-          </div>
-          <h2 style={{ fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:'clamp(20px,2.2vw,30px)', fontWeight:800, letterSpacing:'-0.5px', lineHeight:1.2, color:'#ffffff', marginBottom:8 }}>
-            Tell me about your business.<br/>I&apos;ll tell you exactly where AI can help.
-          </h2>
-          <p style={{ fontSize:13, color:'rgba(255,255,255,.65)', lineHeight:1.65, margin:0 }}>
+          <div className="ct-eyebrow">GET IN TOUCH</div>
+          <h2 className="ct-h2">Tell me about your business.<br/><span className="ct-h2-accent">I&apos;ll tell you exactly where AI can help.</span></h2>
+          <p className="ct-sub">
             Fill in your details or book a call directly — David personally responds within{' '}
             <Link href="/guarantee" style={{ color: TEAL, textDecoration:'underline' }}>6 hours</Link>,
             no pitch, no obligation.
@@ -88,8 +83,8 @@ export default function Contact() {
           ) : (
             <form className="contact-form" id="contact-form" onSubmit={handleSubmit}>
               <div style={{ marginBottom:16 }}>
-                <div style={{ fontSize:15, fontWeight:700, color:'#fff', marginBottom:4 }}>Request Your Free Audit</div>
-                <div style={{ fontSize:12, color:'rgba(255,255,255,.45)' }}>Takes 2 minutes. No credit card. No obligation.</div>
+                <div style={{ fontSize:14, fontWeight:700, color:'#fff', marginBottom:4 }}>Request Your Free Audit</div>
+                <div style={{ fontSize:12, color:'rgba(255,255,255,.6)' }}>Takes 2 minutes. No credit card. No obligation.</div>
               </div>
 
               <div className="form-row-2" style={{ marginBottom:14 }}>
@@ -145,14 +140,12 @@ export default function Contact() {
 
         {/* ── RIGHT: Cal.com ── */}
         <motion.div {...fade(0.20)} className="contact-right">
-          <div className="contact-form calendly-wrap" style={{ display:'flex', flexDirection:'column', height:'auto' }}>
+          <div className="contact-form cal-embed-wrap">
             <div style={{ textAlign:'center', marginBottom:12 }}>
-              <div style={{ fontSize:20, fontWeight:800, color:'#fff', marginBottom:4 }}>Let&apos;s Talk!</div>
-              <div style={{ fontSize:13, color:'rgba(255,255,255,.5)' }}>Pick a time — 30 minutes, no pressure.</div>
+              <div style={{ fontSize:16, fontWeight:800, color:'#fff', marginBottom:4 }}>Let&apos;s Talk!</div>
+              <div style={{ fontSize:13, color:'rgba(255,255,255,.6)' }}>Pick a time — 30 minutes, no pressure.</div>
             </div>
-            <div style={{ display:'flex', alignItems:'center', justifyContent:'center', minHeight:300 }}>
-              <CalContactEmbed />
-            </div>
+            <CalContactEmbed />
           </div>
         </motion.div>
 
@@ -174,8 +167,8 @@ export default function Contact() {
             </div>
             <span style={{ color:'#60a5fa', fontWeight:500 }}>@aiandwebservices</span>
           </a>
-          <Link href="/guarantee" style={{ textDecoration:'none' }}>
-            <div className="ci-row">
+          <Link href="/guarantee" style={{ textDecoration:'none', width:'100%' }}>
+            <div className="ci-row" style={{ justifyContent:'center' }}>
               <div className="ci-icon"><Zap size={20} color="#f59e0b" strokeWidth={1.75} /></div>
               <span style={{ textAlign:'center' }}>
                 Guaranteed response <strong style={{ color:'#fff' }}>within 6 hours</strong>

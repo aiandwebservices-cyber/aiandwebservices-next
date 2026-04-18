@@ -1,14 +1,14 @@
 'use client';
 import { useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import { MessageCircle } from 'lucide-react';
+import Link from 'next/link';
 
 const TEAL = '#2AA5A0';
 
 const faqs = [
   { q:'How long does it take to go live?',                a:'Most AI systems and websites are live within 7–14 days. A basic AI chatbot can be live in 3–5 days. Complex CRM integrations or full funnels take 2–3 weeks. We set a realistic timeline on the free audit call — no surprises.' },
   { q:'Do I need any technical knowledge?',               a:'None at all. You explain your business, I build the tech. Most clients have zero technical background and are live in under 2 weeks. You never touch a line of code.' },
-  { q:'What if I want to cancel?',                        a:'No lock-in, no penalties. Give 30 days written notice and you\'re done. No contracts, no cancellation fees, no awkward conversations. You own everything we built — it\'s yours.' },
+  { q:'What if I want to cancel?',                        a:"No lock-in, no penalties. Give 30 days written notice and you're done. No contracts, no cancellation fees, no awkward conversations. You own everything we built — it's yours." },
   { q:'Will the AI actually sound like a human?',         a:"Modern AI is indistinguishable in most conversations. Your chatbot is trained specifically on your business — your tone, your FAQs, your pricing, your service area. It's not a generic bot — it knows your business." },
   { q:'How long before SEO shows results?',               a:"SEO is a long-term investment — most clients see meaningful movement in 3–6 months. That said, technical fixes and Google Business Profile optimisation can show results much faster. I focus on sustainable rankings, not tricks that get penalised later." },
   { q:'Can you work with my existing website?',           a:"Yes — I can optimise what you have or build from scratch. The recommendation depends on what's holding you back. If your site is slow, outdated, or built on a platform I can't properly optimise, a rebuild is usually the faster and cheaper path long-term." },
@@ -16,161 +16,274 @@ const faqs = [
   { q:'Do you accept crypto payment?',                    a:'Yes. I accept Bitcoin, USDC, and major stablecoins. I also build crypto payment infrastructure for businesses that want to accept crypto from their own customers.' },
 ];
 
+const blogs = [
+  { href:'/blog/how-ai-works-while-you-sleep',                 tag:'AI Automation', title:'How AI Works While You Sleep',          desc:'Discover how automated AI systems handle leads, follow-ups, and customer queries around the clock — without you lifting a finger.' },
+  { href:'/blog/ai-saves-small-businesses-500-2000-per-month', tag:'AI ROI',         title:'66% of SMBs Save $500–$2,000/mo with AI', desc:'Real numbers from real businesses. See exactly where AI cuts costs and how quickly it pays for itself.' },
+  { href:'/blog/growing-businesses-use-ai-83-percent',         tag:'Growth',         title:'83% of Growing SMBs Now Use AI',          desc:'The gap between AI-adopters and holdouts is widening fast. Here\'s what the top-performing small businesses are doing differently.' },
+  { href:'/blog/ai-chatbot-for-small-business',                tag:'AI Chatbot',     title:'Why Every SMB Needs a Chatbot in 2025',   desc:'A well-trained chatbot answers questions, qualifies leads, and books calls — even at 2am on a Sunday.' },
+  { href:'/blog/local-seo-guide-small-business',               tag:'Local SEO',      title:'Dominate Local Search in 2025',            desc:'The exact steps to rank #1 in Google Maps and local results, from Google Business Profile to on-page signals.' },
+  { href:'/blog/website-speed-conversion-rate',                tag:'Conversion',     title:'Faster Sites = More Customers',            desc:'A 1-second delay costs up to 7% in conversions. Here\'s how to audit and fix your site speed in an afternoon.' },
+];
+
+const TAG_COLORS = {
+  'AI Automation': ['#2AA5A0', 'rgba(42,165,160,.12)'],
+  'AI ROI':        ['#3B82F6', 'rgba(59,130,246,.12)'],
+  'Growth':        ['#8B5CF6', 'rgba(139,92,246,.12)'],
+  'AI Chatbot':    ['#2AA5A0', 'rgba(42,165,160,.12)'],
+  'Local SEO':     ['#F59E0B', 'rgba(245,158,11,.12)'],
+  'Conversion':    ['#EF4444', 'rgba(239,68,68,.12)'],
+};
+
 export default function FAQ() {
   const reduced = useReducedMotion();
   const [active, setActive] = useState(null);
 
   return (
-    <section className="panel" id="p7" aria-label="Frequently asked questions about AIandWEBservices">
-      {/* Background */}
-      <div style={{ position:'absolute', inset:0, background:'linear-gradient(160deg,#0c1526 0%,#0f1e3d 50%,#0a1628 100%)', zIndex:0 }}>
-        <div style={{ position:'absolute', inset:0, backgroundImage:'linear-gradient(rgba(42,165,160,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(42,165,160,.04) 1px,transparent 1px)', backgroundSize:'56px 56px' }} />
-        <div style={{ position:'absolute', bottom:0, right:0, width:600, height:500, background:'radial-gradient(circle,rgba(42,165,160,.08) 0%,transparent 70%)', filter:'blur(80px)', pointerEvents:'none' }} />
+    <section className="panel faq-panel" id="p7" aria-label="Frequently asked questions about AIandWEBservices">
+
+      <div className="faq-bg">
+        <div className="faq-orb faq-orb-1" />
+        <div className="faq-orb faq-orb-2" />
       </div>
 
       <div className="faq-inner">
-        <div style={{ position:'relative', zIndex:1, display:'flex', flexDirection:'column', height:'100%' }}>
 
           {/* Header */}
-          <motion.div
-            initial={{ opacity:0, y: reduced ? 0 : 18 }}
-            whileInView={{ opacity:1, y:0, transition:{ duration:.6, ease:[0.22,1,0.36,1] } }}
-            viewport={{ once:true, amount:.05 }}
-            style={{ marginBottom:28, display:'flex', alignItems:'flex-end', justifyContent:'space-between', flexWrap:'wrap', gap:16 }}
-          >
-            <div>
-              <div className="fq-eyebrow">FAQ</div>
+          <div className="faq-header">
+            <div className="fq-eyebrow">FAQ</div>
+            <h2 className="fq-h2">Questions people<br/><span className="fq-h2-accent">always ask.</span></h2>
+            <p className="fq-sub">Click any question. Honest answer, no sales spin.</p>
+          </div>
 
-              <h2 className="fq-h2">Questions people<br/><span className="fq-h2-accent">always ask.</span></h2>
-              <p className="fq-sub">Click any question. Honest answer, no sales spin.</p>
-            </div>
-            <div className="fq-cta-card">
-              <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom:10 }}>
-                <div style={{ width:32, height:32, borderRadius:9, background:'rgba(42,165,160,.15)', display:'flex', alignItems:'center', justifyContent:'center' }}>
-                  <MessageCircle size={15} color={TEAL}/>
-                </div>
-                <div>
-                  <div style={{ fontSize:13, fontWeight:700, color:'#fff' }}>Still have questions?</div>
-                  <div style={{ fontSize:11, color:'rgba(255,255,255,.4)' }}>Get real answers on the free audit.</div>
-                </div>
-              </div>
-              <button className="fq-cta" onClick={() => window.go && window.go(7)}>
-                Get Your Free Audit
-              </button>
-            </div>
-          </motion.div>
-
-          {/* FAQ grid */}
-          <div className="fq-grid">
+          {/* FAQ list */}
+          <div className="fq-list">
             {faqs.map((item, i) => {
               const isOpen = active === i;
               return (
                 <motion.div
                   key={item.q}
-                  initial={{ opacity:0, y: reduced ? 0 : 14 }}
-                  whileInView={{ opacity:1, y:0, transition:{ duration:.5, ease:[0.22,1,0.36,1], delay: i * 0.04 } }}
-                  viewport={{ once:true, amount:.05 }}
+                  animate={{ opacity:1, y:0 }}
+                  initial={{ opacity:0, y: reduced ? 0 : 10 }}
+                  transition={{ duration:.4, ease:[0.22,1,0.36,1], delay: i * 0.03 }}
                   className={`fq-card${isOpen ? ' fq-card-open' : ''}`}
                   onClick={() => setActive(isOpen ? null : i)}
                 >
-                  {/* Number */}
-                  <div className="fq-num" style={{ color: isOpen ? TEAL : 'rgba(255,255,255,.15)' }}>
-                    {String(i + 1).padStart(2, '0')}
+                  <div className="fq-card-row">
+                    <div className="fq-num" style={{ color: isOpen ? TEAL : 'rgba(15,30,61,.2)' }}>
+                      {String(i + 1).padStart(2, '0')}
+                    </div>
+                    <div className="fq-question" style={{ color: isOpen ? '#0f1e3d' : '#1e3a5f' }}>
+                      {item.q}
+                    </div>
+                    <div className="fq-indicator" style={{
+                      background: isOpen ? `${TEAL}22` : `${TEAL}12`,
+                      borderColor: isOpen ? `${TEAL}70` : `${TEAL}40`,
+                    }}>
+                      <motion.span
+                        animate={{ rotate: isOpen ? 45 : 0 }}
+                        transition={{ duration:.25, ease:[0.22,1,0.36,1] }}
+                        style={{ fontSize:16, color: TEAL, display:'block', lineHeight:1 }}
+                      >+</motion.span>
+                    </div>
                   </div>
-
-                  {/* Question */}
-                  <div className="fq-question" style={{ color: isOpen ? '#fff' : 'rgba(255,255,255,.75)' }}>
-                    {item.q}
-                  </div>
-
-                  {/* Animated answer */}
                   <AnimatePresence initial={false}>
                     {isOpen && (
                       <motion.div
                         initial={{ height:0, opacity:0 }}
-                        animate={{ height:'auto', opacity:1, transition:{ duration:.35, ease:[0.22,1,0.36,1] } }}
-                        exit={{ height:0, opacity:0, transition:{ duration:.2 } }}
+                        animate={{ height:'auto', opacity:1, transition:{ duration:.32, ease:[0.22,1,0.36,1] } }}
+                        exit={{ height:0, opacity:0, transition:{ duration:.18 } }}
                         style={{ overflow:'hidden' }}
                       >
                         <p className="fq-answer">{item.a}</p>
                       </motion.div>
                     )}
                   </AnimatePresence>
-
-                  {/* Expand indicator */}
-                  <div className="fq-indicator" style={{ background: isOpen ? `${TEAL}22` : 'rgba(255,255,255,.06)', borderColor: isOpen ? `${TEAL}50` : 'rgba(255,255,255,.1)' }}>
-                    <motion.span
-                      animate={{ rotate: isOpen ? 45 : 0 }}
-                      transition={{ duration:.25, ease:[0.22,1,0.36,1] }}
-                      style={{ fontSize:16, color: isOpen ? TEAL : 'rgba(255,255,255,.35)', display:'block', lineHeight:1 }}
-                    >
-                      +
-                    </motion.span>
-                  </div>
                 </motion.div>
               );
             })}
           </div>
 
-          {/* Bottom action chips */}
-          <div style={{ display:'flex', alignItems:'center', justifyContent:'center', gap:10, flexWrap:'wrap', paddingTop:20, paddingBottom:8 }}>
-            <a href="#" onClick={e=>{e.preventDefault();window.go&&window.go(7)}} className="fq-chip fq-chip-primary">Get Your Free Audit</a>
-            <a href="#" onClick={e=>{e.preventDefault();window.go&&window.go(8)}} className="fq-chip">Contact David Directly</a>
-            <a href="/blog" className="fq-chip">Read the Blog</a>
+          {/* Blog section */}
+          <div className="fq-blog-wrap">
+            <div className="fq-blog-header">
+              <span className="fq-blog-label">From the Blog</span>
+              <Link href="/blog" className="fq-blog-link">See all posts →</Link>
+            </div>
+            <div className="fq-blog-grid">
+              {blogs.map((post, i) => {
+                const [tagColor, tagBg] = TAG_COLORS[post.tag] || [TEAL, 'rgba(42,165,160,.12)'];
+                return (
+                  <Link key={post.href} href={post.href} className="fq-blog-card">
+                    <span className="fq-blog-tag" style={{ color: tagColor, background: tagBg }}>{post.tag}</span>
+                    <div className="fq-blog-title">{post.title}</div>
+                    <div className="fq-blog-desc">{post.desc}</div>
+                    <span className="fq-blog-read" style={{ color: tagColor }}>Read →</span>
+                  </Link>
+                );
+              })}
+            </div>
           </div>
 
-        </div>
+          {/* CTA */}
+          <div className="panel-cta-wrap">
+            <div className="panel-cta-card">
+              <p className="panel-cta-title">Ready to level up? Dive deeper.</p>
+              <p className="panel-cta-sub">Expert insights, case studies, and AI strategies you can implement today.</p>
+              <a href="https://blog.aiandwebservices.com" target="_blank" rel="noopener noreferrer" className="panel-cta-btn">Explore the Blog</a>
+            </div>
+          </div>
+
       </div>
 
       <style>{`
-        .faq-inner { height:100%;display:flex;flex-direction:column;padding:80px 6vw 40px;overflow-y:auto; }
+        .faq-panel { overflow: hidden; }
 
-        .fq-eyebrow { display:block;font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#2AA5A0;margin-bottom:10px; }
-        .fq-edot { width:5px;height:5px;border-radius:50%;background:#2AA5A0;display:inline-block;animation:fqPulse 2s ease-in-out infinite; }
-        @keyframes fqPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.75)} }
-        .fq-h2 { font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(26px,3vw,42px);font-weight:800;letter-spacing:-1px;line-height:1.1;color:#fff;margin-bottom:6px; }
-        .fq-h2-accent { color:#2AA5A0; }
-        .fq-sub { font-size:13px;color:rgba(255,255,255,.4); }
+        .faq-bg {
+          position: absolute; inset: 0;
+          background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 60%, #c7d2fe 100%);
+          z-index: 0;
+        }
+        .faq-orb {
+          position: absolute; border-radius: 50%; filter: blur(90px);
+          pointer-events: none; opacity: 0;
+          animation: faq-drift 12s ease-in-out infinite;
+        }
+        .faq-orb-1 {
+          width: 420px; height: 420px; top: -80px; left: -60px;
+          background: radial-gradient(circle, rgba(42,165,160,.22) 0%, transparent 70%);
+          animation-delay: 0s; opacity: 1;
+        }
+        .faq-orb-2 {
+          width: 500px; height: 500px; bottom: -100px; right: -80px;
+          background: radial-gradient(circle, rgba(99,102,241,.18) 0%, transparent 70%);
+          animation-delay: -6s; opacity: 1;
+        }
+        @keyframes faq-drift {
+          0%, 100% { transform: translate(0,0) scale(1); }
+          33%       { transform: translate(30px,-20px) scale(1.06); }
+          66%       { transform: translate(-20px,24px) scale(.96); }
+        }
 
-        .fq-cta-card { background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:16px 18px;min-width:240px; }
-        .fq-cta { display:flex;align-items:center;justify-content:center;gap:7px;width:100%;background:linear-gradient(135deg,#2AA5A0,#33BDB8);color:#fff;border:none;border-radius:50px;padding:10px 18px;font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;box-shadow:0 4px 14px rgba(42,165,160,.3);transition:all .25s; }
-        .fq-cta:hover { transform:translateY(-1px);box-shadow:0 8px 22px rgba(42,165,160,.45); }
+        .faq-inner {
+          position: relative; z-index: 1; height: 100%;
+          overflow-y: auto; display: flex; flex-direction: column;
+          padding: 90px 5vw 0;
+        }
+        .faq-inner .panel-cta-wrap { margin-top:auto; padding-top:14px; padding-bottom:clamp(16px,2.5vh,28px); }
 
-        /* Grid of cards */
-        .fq-grid { display:grid;grid-template-columns:1fr 1fr;gap:10px;flex:1;align-content:start; }
+        .faq-header { margin-bottom: 16px; text-align: center; }
+        .fq-eyebrow {
+          display: block; font-size: 11px; font-weight: 800;
+          letter-spacing: 3px; text-transform: uppercase;
+          color: #2AA5A0; margin-bottom: 8px;
+        }
+        .fq-h2 {
+          font-family: 'Plus Jakarta Sans', sans-serif;
+          font-size: clamp(26px, 3.5vw, 46px); font-weight: 800;
+          letter-spacing: -1px; line-height: 1.1; color: #0f1e3d; margin: 0 0 8px;
+        }
+        .fq-h2-accent { color: #2AA5A0; }
+        .fq-sub { font-size: 13px; color: rgba(15,30,61,.45); margin-bottom: 10px; }
 
+        .fq-list {
+          display: grid; grid-template-columns: 1fr 1fr;
+          gap: 7px; margin-bottom: 16px; align-content: start;
+        }
         .fq-card {
-          position:relative;
-          background:rgba(255,255,255,.03);
-          border:1px solid rgba(255,255,255,.07);
-          border-radius:14px;padding:18px 48px 18px 18px;
-          cursor:pointer;transition:all .25s;
+          position: relative;
+          background: rgba(255,255,255,.72);
+          border: 1.5px solid rgba(15,30,61,.08);
+          border-left: 3px solid transparent;
+          border-radius: 14px; padding: 14px 16px; cursor: pointer;
+          transition: background .22s, border-color .22s, border-left-color .22s, box-shadow .22s;
+          backdrop-filter: blur(8px);
         }
-        .fq-card:hover { background:rgba(255,255,255,.055);border-color:rgba(255,255,255,.13); }
-        .fq-card-open { background:rgba(42,165,160,.07) !important;border-color:rgba(42,165,160,.25) !important; }
-
-        .fq-num { font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;font-weight:800;letter-spacing:1px;margin-bottom:6px;transition:color .25s; }
-        .fq-question { font-size:13px;font-weight:700;line-height:1.4;transition:color .25s;font-family:'Plus Jakarta Sans',sans-serif; }
-        .fq-answer { font-size:12px;color:rgba(255,255,255,.55);line-height:1.75;margin:10px 0 0;padding-top:10px;border-top:1px solid rgba(42,165,160,.2); }
-
+        .fq-card:hover {
+          background: rgba(255,255,255,.9);
+          box-shadow: 0 4px 24px rgba(59,130,246,.1);
+          border-color: rgba(15,30,61,.13);
+        }
+        .fq-card-open {
+          background: rgba(255,255,255,.95) !important;
+          border-left-color: #2AA5A0 !important;
+          border-color: rgba(42,165,160,.25) !important;
+          box-shadow: 0 6px 32px rgba(42,165,160,.12) !important;
+        }
+        .fq-card-row { display: flex; align-items: flex-start; gap: 10px; }
+        .fq-num {
+          font-family: 'Plus Jakarta Sans', sans-serif; font-size: 10px;
+          font-weight: 800; letter-spacing: 1px; flex-shrink: 0;
+          padding-top: 2px; min-width: 22px; transition: color .22s;
+        }
+        .fq-question {
+          font-size: 14px; font-weight: 700; line-height: 1.45; flex: 1;
+          transition: color .22s; font-family: 'Plus Jakarta Sans', sans-serif;
+        }
         .fq-indicator {
-          position:absolute;top:16px;right:16px;
-          width:26px;height:26px;border-radius:8px;
-          border:1px solid;
-          display:flex;align-items:center;justify-content:center;
-          transition:background .25s,border-color .25s;
-          flex-shrink:0;
+          flex-shrink: 0; width: 26px; height: 26px; border-radius: 8px;
+          border: 1.5px solid; display: flex; align-items: center;
+          justify-content: center; transition: background .22s, border-color .22s; margin-top: 1px;
+        }
+        .fq-answer {
+          font-size: 13px; color: rgba(15,30,61,.65); line-height: 1.75;
+          margin: 10px 0 2px 32px; padding-top: 10px;
+          border-top: 1px solid rgba(42,165,160,.2);
         }
 
-        .fq-chip { display:inline-flex;align-items:center;padding:8px 18px;border-radius:50px;font-size:12px;font-weight:700;font-family:'Inter',sans-serif;border:1px solid rgba(42,165,160,.3);color:rgba(42,165,160,.9);background:rgba(42,165,160,.08);cursor:pointer;text-decoration:none;transition:all .22s; }
-        .fq-chip:hover { background:rgba(42,165,160,.16);border-color:rgba(42,165,160,.5); }
-        .fq-chip-primary { background:linear-gradient(135deg,#2AA5A0,#33BDB8);color:#fff;border-color:transparent;box-shadow:0 4px 14px rgba(42,165,160,.3); }
-        .fq-chip-primary:hover { transform:translateY(-1px);box-shadow:0 8px 22px rgba(42,165,160,.45);color:#fff; }
+        /* ── Blog section ── */
+        .fq-blog-wrap { margin-bottom: 8px; }
+        .fq-blog-header {
+          display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;
+        }
+        .fq-blog-label {
+          font-size: 10px; font-weight: 800; letter-spacing: 2.5px;
+          text-transform: uppercase; color: rgba(15,30,61,.35);
+        }
+        .fq-blog-link { font-size: 11px; font-weight: 700; color: #2AA5A0; text-decoration: none; }
+        .fq-blog-link:hover { color: #1e8a85; }
 
-        @media (max-width:768px) {
-          .fq-grid { grid-template-columns:1fr; }
-          .fq-cta-card { display:none; }
-          .faq-inner { padding:80px 5vw 48px; }
+        .fq-blog-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 10px;
+        }
+        .fq-blog-card {
+          display: flex; flex-direction: column; gap: 6px;
+          background: rgba(255,255,255,.78);
+          border: 1.5px solid rgba(15,30,61,.08);
+          border-radius: 14px; padding: 14px 16px;
+          text-decoration: none; cursor: pointer;
+          transition: background .2s, box-shadow .2s, border-color .2s;
+          backdrop-filter: blur(8px);
+        }
+        .fq-blog-card:hover {
+          background: rgba(255,255,255,.96);
+          box-shadow: 0 6px 28px rgba(42,165,160,.13);
+          border-color: rgba(42,165,160,.28);
+        }
+        .fq-blog-tag {
+          display: inline-block; font-size: 9px; font-weight: 800;
+          letter-spacing: 1.5px; text-transform: uppercase;
+          border-radius: 50px; padding: 3px 9px; width: fit-content;
+        }
+        .fq-blog-title {
+          font-family: 'Plus Jakarta Sans', sans-serif;
+          font-size: 13px; font-weight: 700; color: #0f1e3d; line-height: 1.35;
+        }
+        .fq-blog-desc {
+          font-size: 11.5px; color: rgba(15,30,61,.55); line-height: 1.6; flex: 1;
+        }
+        .fq-blog-read {
+          font-size: 11px; font-weight: 700; margin-top: 2px;
+        }
+
+        @media (max-width: 900px) {
+          .fq-blog-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (max-width: 768px) {
+          .fq-list { grid-template-columns: 1fr; }
+          .fq-blog-grid { grid-template-columns: 1fr; }
+          .faq-inner { padding: 80px 5vw 20px; }
         }
       `}</style>
     </section>

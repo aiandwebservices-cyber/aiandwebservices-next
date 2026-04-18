@@ -10,7 +10,7 @@ import About       from '@/components/panels/About';
 import Work        from '@/components/panels/Work';
 import Testimonials from '@/components/panels/Testimonials';
 import FAQ         from '@/components/panels/FAQ';
-import Contact     from '@/components/panels/Contact';
+// import Contact     from '@/components/panels/Contact'; // Using new /contact page instead
 import Modals      from '@/components/Modals';
 import CookieBanner from '@/components/CookieBanner';
 import ScrollInit  from '@/components/ScrollInit';
@@ -34,11 +34,11 @@ export default function Home() {
           {/* comparison */ }<Comparison />
           {/* services */ }<Services />
           {/* p3 */ }<About />
-          {/* work */ }<Work />
+          {/* samples */ }<Work />
           {/* testimonials — returns null until SHOW_TESTIMONIALS = true */}
           <Testimonials />
           {/* p7 */ }<FAQ />
-          {/* p8 */ }<Contact />
+          {/* p8 - Contact moved to dedicated /contact page */}
         </div>
       </main>
 

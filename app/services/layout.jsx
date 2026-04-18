@@ -111,11 +111,6 @@ export default function ServicesLayout({ children }) {
         <p>© 2026 <Link href="/">AIandWEBservices</Link>. Built personally by David Pulis.</p>
       </footer>
 
-      <Script
-        id="calendly"
-        src="https://assets.calendly.com/assets/external/widget.js"
-        strategy="lazyOnload"
-      />
-    </>
+</>
   );
 }

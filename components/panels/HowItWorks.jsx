@@ -1,397 +1,476 @@
 'use client';
 import { useState, useEffect, useRef } from 'react';
-import { motion, useReducedMotion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useInView, useReducedMotion } from 'framer-motion';
+import { Search, PenTool, Globe, Bot, BarChart3, TrendingUp, Clock } from 'lucide-react';
 
-/* ── Chat simulation ── */
+/* ── Chat mockup ── */
 const CHAT = [
-  { from:'user', text:'Hi, I need a quote for a new roof',                  delay:500  },
-  { from:'bot',  text:"Hey! Happy to help 👋 What's your zip code?",       delay:1800 },
-  { from:'user', text:'33142 — Miami',                                      delay:3100 },
-  { from:'bot',  text:'Got it. Flat or pitched?',                           delay:4300 },
-  { from:'user', text:'Pitched, about 2,200 sq ft',                         delay:5700 },
-  { from:'bot',  text:'Want to book a free inspection this week?',           delay:7100 },
-  { from:'user', text:'Yes please',                                          delay:8300 },
-  { from:'book', text:'📅 Booked — Fri 10am · CRM updated · Owner notified',delay:9500 },
+  { from: 'user', text: 'Hi, I need a quote for a new roof' },
+  { from: 'bot',  text: "Hey! Happy to help. What's your zip code?" },
+  { from: 'user', text: '33142 — Miami' },
+  { from: 'bot',  text: 'Got it. Flat or pitched roof?' },
+  { from: 'user', text: 'Pitched, about 2,200 sq ft' },
+  { from: 'bot',  text: 'Want to book a free inspection this week?' },
+  { from: 'user', text: 'Yes please' },
+  { from: 'book', text: 'Booked — Fri 10am · CRM updated · Owner notified' },
 ];
 
 function ChatMockup() {
   const [shown, setShown] = useState(0);
-  const [typing, setTyping] = useState(false);
   const endRef = useRef(null);
 
   useEffect(() => {
     if (shown >= CHAT.length) {
-      const t = setTimeout(() => setShown(0), 4000);
+      const t = setTimeout(() => setShown(0), 3500);
       return () => clearTimeout(t);
     }
-    const msg = CHAT[shown];
-    const prev = CHAT[shown - 1];
-    const gap = shown === 0 ? msg.delay : msg.delay - prev.delay;
-    const t = setTimeout(() => {
-      if (msg.from === 'bot') {
-        setTyping(true);
-        setTimeout(() => { setTyping(false); setShown(v => v + 1); }, 900);
-      } else {
-        setShown(v => v + 1);
-      }
-    }, gap);
+    const t = setTimeout(() => setShown(v => v + 1), shown === 0 ? 800 : 1400);
     return () => clearTimeout(t);
   }, [shown]);
 
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior:'smooth', block:'nearest' });
-  }, [shown, typing]);
-
-  const msgs = CHAT.slice(0, shown);
+    endRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, [shown]);
 
   return (
-    <div className="hiw-phone">
-      <div className="hiw-phone-bar">
-        <div style={{ display:'flex', alignItems:'center', gap:9 }}>
-          <div style={{ width:34,height:34,borderRadius:'50%',background:'linear-gradient(135deg,#2AA5A0,#33BDB8)',display:'flex',alignItems:'center',justifyContent:'center',fontSize:15,flexShrink:0 }}>🤖</div>
+    <div className="hiw-chat">
+      <div className="hiw-chat-bar">
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+          <div className="hiw-chat-avatar"><Bot size={14} color="#fff" /></div>
           <div>
-            <div style={{ fontSize:12,fontWeight:700,color:'#fff',lineHeight:1.2 }}>Your AI Assistant</div>
-            <div style={{ fontSize:9,color:'#34d399',fontWeight:600,display:'flex',alignItems:'center',gap:4,marginTop:2 }}>
-              <span style={{ width:5,height:5,borderRadius:'50%',background:'#34d399',display:'inline-block',animation:'hiwBlink 1.5s ease-in-out infinite' }}/>
-              Online 24/7
+            <div style={{ fontSize: 11, fontWeight: 700, color: '#111827' }}>Your AI Assistant</div>
+            <div style={{ fontSize: 9, color: '#2AA5A0', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 4 }}>
+              <span className="hiw-chat-dot" />Online 24/7
             </div>
           </div>
         </div>
-        <div style={{ fontSize:9,color:'rgba(255,255,255,.2)',fontWeight:600 }}>AIandWEBservices</div>
       </div>
-
-      <div className="hiw-msgs">
+      <div className="hiw-chat-msgs">
         <AnimatePresence>
-          {msgs.map((m, i) => (
-            <motion.div key={i}
-              initial={{ opacity:0, y:8, scale:.96 }}
-              animate={{ opacity:1, y:0, scale:1, transition:{ duration:.28, ease:[0.22,1,0.36,1] } }}
+          {CHAT.slice(0, shown).map((m, i) => (
+            <motion.div
+              key={i}
+              initial={{ opacity: 0, y: 6, scale: 0.97 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.25, ease: [0.21, 0.47, 0.32, 0.98] }}
               className={`hiw-msg hiw-msg-${m.from}`}
             >
               {m.from === 'book'
-                ? <div className="hiw-book">{m.text}</div>
+                ? <div className="hiw-msg-book">{m.text}</div>
                 : <div className={`hiw-bubble hiw-bubble-${m.from}`}>{m.text}</div>
               }
             </motion.div>
           ))}
-          {typing && (
-            <motion.div key="typing" initial={{ opacity:0 }} animate={{ opacity:1 }} exit={{ opacity:0 }} className="hiw-msg hiw-msg-bot">
-              <div className="hiw-bubble hiw-bubble-bot hiw-typing"><span/><span/><span/></div>
-            </motion.div>
-          )}
         </AnimatePresence>
-        <div ref={endRef}/>
-      </div>
-
-      <div className="hiw-phone-foot">
-        <div style={{ flex:1,background:'rgba(255,255,255,.06)',borderRadius:20,padding:'8px 14px',fontSize:11,color:'rgba(255,255,255,.25)' }}>Type a message…</div>
-        <div style={{ width:30,height:30,borderRadius:'50%',background:'linear-gradient(135deg,#2AA5A0,#33BDB8)',display:'flex',alignItems:'center',justifyContent:'center',flexShrink:0 }}>
-          <span style={{ fontSize:12,transform:'rotate(90deg)',display:'block',color:'#fff' }}>➤</span>
-        </div>
+        <div ref={endRef} />
       </div>
     </div>
   );
 }
 
-/* ── Steps ── */
-const STEPS = [
-  {
-    n:'01', color:'#2AA5A0',
-    title:'Free AI Audit',
-    body:'30 min call. I map your biggest gaps and tell you exactly where AI wins you time and money.',
-    micro:'No pitch · No obligation',
-    stat:'30 min',
-  },
-  {
-    n:'02', color:'#60a5fa',
-    title:'Build',
-    body:'I handle everything — website, AI chatbot, automations, CRM. You get a live preview first.',
-    micro:'7–14 day delivery',
-    stat:'7–14 days',
-  },
-  {
-    n:'03', color:'#a78bfa',
-    title:'Launch Together',
-    body:"We go live side by side. I'm on-call 48 hours post-launch. Nothing handed off cold.",
-    micro:'48hr on-call included',
-    stat:'48hr support',
-  },
-  {
-    n:'04', color:'#34d399',
-    title:'Grow Every Month',
-    body:'Monthly retainer keeps your AI improving — smarter responses, new automations, better rankings.',
-    micro:'Compounding results',
-    stat:'Ongoing',
-  },
+/* ── Client Dashboard mockup ── */
+const METRICS = [
+  { label: 'Leads today',   value: 47, suffix: '',  color: '#2AA5A0' },
+  { label: 'Response time',  value: 3,  suffix: 's', color: '#60a5fa' },
+  { label: 'Calls booked',  value: 12, suffix: '',  color: '#a78bfa' },
+  { label: 'Open rate',     value: 94, suffix: '%', color: '#34d399' },
 ];
 
-/* ── Animated counter ── */
-function Counter({ value, suffix, color }) {
+const DASH_FEED = [
+  { dot: '#34d399', text: 'New lead — Maria S., Miami FL',    time: 'Just now' },
+  { dot: '#60a5fa', text: 'Appointment booked — Thu 2pm',     time: '4m ago'   },
+  { dot: '#2AA5A0', text: 'FAQ answered — pricing inquiry',   time: '11m ago'  },
+  { dot: '#a78bfa', text: 'Lead qualified — roofing estimate',time: '23m ago'  },
+];
+
+function DashCounter({ value, suffix, color }) {
   const [count, setCount] = useState(0);
+  const ref = useRef(null);
+  const ran = useRef(false);
   useEffect(() => {
-    let n = 0;
-    const step = Math.max(1, Math.ceil(value / 35));
-    const t = setInterval(() => {
-      n += step;
-      if (n >= value) { setCount(value); clearInterval(t); }
-      else setCount(n);
-    }, 28);
-    return () => clearInterval(t);
+    const obs = new IntersectionObserver(([e]) => {
+      if (!e.isIntersecting || ran.current) return;
+      ran.current = true;
+      let n = 0;
+      const step = Math.max(1, Math.ceil(value / 35));
+      const t = setInterval(() => {
+        n += step;
+        if (n >= value) { setCount(value); clearInterval(t); }
+        else setCount(n);
+      }, 28);
+    }, { threshold: 0.1 });
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
   }, [value]);
-  return <span style={{ fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:20, fontWeight:800, color, lineHeight:1 }}>{count}{suffix}</span>;
+  return (
+    <span ref={ref} style={{ fontFamily: "'Plus Jakarta Sans',sans-serif", fontSize: 22, fontWeight: 800, color, lineHeight: 1 }}>
+      {count}{suffix}
+    </span>
+  );
 }
 
-const METRICS = [
-  { label:'Leads today',   value:47, suffix:'',  color:'#2AA5A0' },
-  { label:'Response time', value:3,  suffix:'s', color:'#60a5fa' },
-  { label:'Calls booked',  value:12, suffix:'',  color:'#a78bfa' },
-  { label:'Open rate',     value:94, suffix:'%', color:'#34d399' },
-];
+function ClientDashboard() {
+  const [feedIdx, setFeedIdx] = useState(0);
+  const [pulse, setPulse] = useState(false);
 
-const FEED = [
-  { dot:'#34d399', text:'New lead — Maria S., Miami FL',    time:'Just now' },
-  { dot:'#60a5fa', text:'Appointment booked — Thu 2pm',      time:'4m ago'   },
-  { dot:'#2AA5A0', text:'FAQ answered — pricing inquiry',    time:'11m ago'  },
-  { dot:'#a78bfa', text:'Lead qualified — roofing estimate', time:'23m ago'  },
+  // Cycle feed items — shift the visible window every 2.5s
+  useEffect(() => {
+    const t = setInterval(() => {
+      setFeedIdx(v => (v + 1) % DASH_FEED.length);
+      setPulse(true);
+      setTimeout(() => setPulse(false), 600);
+    }, 2500);
+    return () => clearInterval(t);
+  }, []);
+
+  // Rotate feed so the newest item appears at the top
+  const visibleFeed = [...DASH_FEED.slice(feedIdx), ...DASH_FEED.slice(0, feedIdx)];
+
+  return (
+    <div className="hiw-dashboard">
+      <div className="hiw-dash-header">
+        <div style={{ fontSize: 11, fontWeight: 700, color: '#111827' }}>Client Dashboard</div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+          <span className={`hiw-dash-live${pulse ? ' hiw-dash-live-pulse' : ''}`} />
+          <span style={{ fontSize: 9, color: '#2AA5A0', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1 }}>Live</span>
+        </div>
+      </div>
+      <div className="hiw-dash-metrics">
+        {METRICS.map(m => (
+          <div key={m.label} className="hiw-dash-metric">
+            <DashCounter value={m.value} suffix={m.suffix} color={m.color} />
+            <div style={{ fontSize: 9, color: '#9ca3af', marginTop: 3, fontWeight: 600, textTransform: 'uppercase', letterSpacing: .5 }}>{m.label}</div>
+          </div>
+        ))}
+      </div>
+      <div className="hiw-dash-feed">
+        <div style={{ fontSize: 9, color: '#9ca3af', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 8 }}>Recent Activity</div>
+        <AnimatePresence mode="popLayout">
+          {visibleFeed.map((item, i) => (
+            <motion.div
+              key={item.text}
+              className="hiw-dash-feed-row"
+              initial={{ opacity: 0, y: -8 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: 8 }}
+              transition={{ duration: 0.3, ease: [0.21, 0.47, 0.32, 0.98] }}
+            >
+              <div style={{ width: 6, height: 6, borderRadius: '50%', background: item.dot, flexShrink: 0 }} />
+              <span style={{ flex: 1, fontSize: 11, color: '#374151', lineHeight: 1.3 }}>{item.text}</span>
+              <span style={{ fontSize: 10, color: '#9ca3af', flexShrink: 0 }}>{item.time}</span>
+            </motion.div>
+          ))}
+        </AnimatePresence>
+      </div>
+    </div>
+  );
+}
+
+/* ── Steps data ── */
+const STEPS = [
+  {
+    num: '01', icon: Search, title: 'Free Audit',
+    body: '30-minute call. I analyse your business, competitors, and gaps. You get a clear plan — no pitch.',
+    time: 'Day 1', accent: '#2AA5A0',
+  },
+  {
+    num: '02', icon: PenTool, title: 'Design',
+    body: 'You approve the look, feel, and structure before a single line of code is written.',
+    time: 'Day 3', accent: '#60a5fa',
+  },
+  {
+    num: '03', icon: Globe, title: 'Build',
+    body: 'Custom website, SEO, and integrations built specifically for your industry. Fast, mobile-first, optimised.',
+    time: 'Days 4–10', accent: '#8b5cf6',
+  },
+  {
+    num: '04', icon: Bot, title: 'AI Setup',
+    body: 'Your AI assistant is trained on your business — pricing, services, FAQs. It captures leads and books calls 24/7.',
+    time: 'Days 10–12', accent: '#f59e0b',
+  },
+  {
+    num: '05', icon: BarChart3, title: 'Launch',
+    body: 'Everything goes live. AI starts working immediately. You get a walkthrough of your dashboard and tools.',
+    time: 'Day 14', accent: '#ef4444',
+  },
+  {
+    num: '06', icon: TrendingUp, title: 'Grow',
+    body: 'Monthly optimisation, fresh content, performance reports. Your system gets smarter every month.',
+    time: 'Ongoing', accent: '#10b981',
+  },
 ];
 
 export default function HowItWorks() {
   const reduced = useReducedMotion();
-
-  const f = (d = 0) => ({
-    initial:     { opacity:0, y: reduced ? 0 : 22 },
-    whileInView: { opacity:1, y:0, transition:{ duration:.6, ease:[0.22,1,0.36,1], delay:d } },
-    viewport:    { once:true, amount:.05 },
-  });
+  const sectionRef = useRef(null);
+  const inView = useInView(sectionRef, { once: true, margin: '-60px' });
+  const ease = [0.21, 0.47, 0.32, 0.98];
 
   return (
-    <section className="panel" id="p2" aria-label="How AIandWEBservices works — AI audit, build, launch and grow in 4 steps">
-      {/* Background */}
-      <div style={{ position:'absolute', inset:0, background:'#f8fafc', zIndex:0 }}>
-        <div style={{ position:'absolute', inset:0, backgroundImage:'radial-gradient(rgba(42,165,160,.055) 1px,transparent 1px)', backgroundSize:'32px 32px' }} />
-        <div style={{ position:'absolute', top:0, right:0, width:600, height:500, background:'radial-gradient(circle,rgba(42,165,160,.09) 0%,transparent 70%)', filter:'blur(80px)', pointerEvents:'none' }} />
-        <div style={{ position:'absolute', bottom:0, left:0, width:500, height:400, background:'radial-gradient(circle,rgba(96,165,250,.06) 0%,transparent 70%)', filter:'blur(70px)', pointerEvents:'none' }} />
+    <section className="panel" id="p2" aria-label="How AIandWEBservices works — six steps from audit to live">
+      {/* ── Background ── */}
+      <div style={{ position: 'absolute', inset: 0, background: '#f8fafc' }}>
+        <div style={{
+          position: 'absolute', inset: 0,
+          backgroundImage: 'radial-gradient(#d1d5db 1px, transparent 1px)',
+          backgroundSize: '24px 24px', opacity: 0.35,
+        }} />
       </div>
 
-      <div className="hiw-inner">
-        <div style={{ position:'relative', zIndex:1, display:'flex', flexDirection:'column', height:'100%' }}>
+      <div className="hiw-inner" ref={sectionRef}>
+        <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', height: '100%' }}>
 
-          {/* ── CENTERED HEADER ── */}
-          <motion.div {...f(0)} style={{ textAlign:'center', marginBottom:20 }}>
-            <div className="hiw-eyebrow">How It Works</div>
-            <h2 className="hiw-h2">Four steps.<br/><span className="hiw-h2-accent">Fully automated.</span></h2>
-            <p className="hiw-sub">No tech knowledge required. Most clients are live in under 2 weeks.</p>
+          {/* ── Header ── */}
+          <motion.div
+            initial={reduced ? false : { opacity: 0, y: 28 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.05 }}
+            transition={{ duration: 0.6, ease }}
+            style={{ textAlign: 'center', marginBottom: 44 }}
+          >
+            <div className="hiw-eyebrow">HOW IT WORKS</div>
+            <h2 className="hiw-h2">
+              Audit to live <span className="hiw-h2-accent">in 14 days or less.</span>
+            </h2>
+            <p className="hiw-sub">Six steps. No surprises. You approve everything before it ships.</p>
           </motion.div>
 
-          {/* ── MAIN 3-COL ── */}
-          <div className="hiw-layout">
-
-            {/* LEFT: Chat mockup */}
-            <motion.div {...f(0.08)} className="hiw-col-chat">
-              <div className="hiw-col-label">Watch your AI capture a real lead</div>
-              <ChatMockup/>
-              <div className="hiw-insight">
-                <span style={{ fontSize:13 }}>💡</span>
-                <p style={{ fontSize:11, color:'#6b7280', lineHeight:1.6, margin:0 }}>
-                  <strong style={{ color:'#374151' }}>This is what your customers see.</strong>{' '}
-                  Trained on your business. Books real appointments 24/7.
-                </p>
-              </div>
-              <div style={{ marginTop:'auto', paddingTop:16 }}>
-                <button className="hiw-cta" onClick={() => window.go && window.go(7)}>
-                  Get Your Free Audit
-                </button>
-                <p style={{ fontSize:10, color:'#9ca3af', marginTop:6 }}>30 minutes · No obligation · Honest answer</p>
-              </div>
+          {/* ── Graphics row ── */}
+          <div className="hiw-graphics" style={{ marginBottom: 0 }}>
+            <motion.div
+              className="hiw-graphic-col"
+              initial={reduced ? false : { opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.05 }}
+              transition={{ duration: 0.7, delay: 0.2, ease }}
+            >
+              <div className="hiw-graphic-label">Your AI in action</div>
+              <ChatMockup />
             </motion.div>
 
-            {/* CENTER: Steps 2×2 grid */}
-            <motion.div {...f(0.04)} className="hiw-col-steps">
-              <div className="hiw-steps-grid">
-                {STEPS.map((s, i) => (
-                  <motion.div
-                    key={s.n}
-                    initial={{ opacity:0, y: reduced ? 0 : 18 }}
-                    whileInView={{ opacity:1, y:0, transition:{ duration:.5, ease:[0.22,1,0.36,1], delay: 0.06 + i * 0.08 } }}
-                    viewport={{ once:true, amount:.05 }}
-                    className="hiw-step-card"
-                    style={{ borderColor:`${s.color}25`, borderLeft:`3px solid ${s.color}` }}
-                  >
-                    {/* Number — large, prominent */}
-                    <div className="hiw-step-n" style={{ color:`${s.color}30` }}>{s.n}</div>
-                    {/* Connector arrow between cards */}
-                    {i % 2 === 0 && i < 2 && (
-                      <div className="hiw-connector-h" style={{ color:`${s.color}50` }}>→</div>
-                    )}
-                    <div className="hiw-step-title" style={{ color:'#111827' }}>{s.title}</div>
-                    <div className="hiw-step-body">{s.body}</div>
-                    <div className="hiw-step-micro" style={{ color:s.color }}>
-                      <span style={{ width:5,height:5,borderRadius:'50%',background:s.color,display:'inline-block',marginRight:5,verticalAlign:'middle' }}/>
-                      {s.micro}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-
-              {/* Connector between rows */}
-              <div className="hiw-connector-v">
-                <div style={{ width:2,flex:1,background:'linear-gradient(to bottom,rgba(42,165,160,.3),rgba(96,165,250,.3))',borderRadius:99 }}/>
-              </div>
+            <motion.div
+              className="hiw-graphic-col"
+              initial={reduced ? false : { opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.05 }}
+              transition={{ duration: 0.7, delay: 0.35, ease }}
+            >
+              <div className="hiw-graphic-label">Client Dashboard</div>
+              <ClientDashboard />
             </motion.div>
-
-            {/* RIGHT: Compact dashboard */}
-            <motion.div {...f(0.14)} className="hiw-col-metrics">
-              <div className="hiw-col-label">Sample client dashboard</div>
-              <div className="hiw-metrics-card">
-                <div className="hiw-metrics-header">
-                  <span style={{ width:6,height:6,borderRadius:'50%',background:'#34d399',display:'inline-block',animation:'hiwBlink 1.5s ease-in-out infinite' }}/>
-                  <span style={{ fontSize:9, fontWeight:800, letterSpacing:1.5, textTransform:'uppercase', color:'rgba(255,255,255,.35)' }}>Live — Demo Data</span>
-                </div>
-
-                {/* 2×2 metrics */}
-                <div className="hiw-metrics-grid">
-                  {METRICS.map(m => (
-                    <div key={m.label} className="hiw-metric">
-                      <Counter value={m.value} suffix={m.suffix} color={m.color} />
-                      <div style={{ fontSize:9, color:'rgba(255,255,255,.3)', fontWeight:600, textTransform:'uppercase', letterSpacing:.4, marginTop:3 }}>{m.label}</div>
-                    </div>
-                  ))}
-                </div>
-
-                {/* Compact activity feed */}
-                <div style={{ fontSize:9, fontWeight:800, letterSpacing:1.5, textTransform:'uppercase', color:'rgba(255,255,255,.2)', marginBottom:7 }}>Recent activity</div>
-                <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
-                  {FEED.map(({ dot, text, time }, i) => (
-                    <div key={i} style={{ display:'flex', alignItems:'center', gap:7, padding:'5px 7px', background:'rgba(255,255,255,.03)', borderRadius:7 }}>
-                      <div style={{ width:5,height:5,borderRadius:'50%',background:dot,flexShrink:0 }}/>
-                      <div style={{ flex:1, fontSize:10, color:'rgba(255,255,255,.6)', overflow:'hidden', textOverflow:'ellipsis', whiteSpace:'nowrap' }}>{text}</div>
-                      <div style={{ fontSize:8, color:'rgba(255,255,255,.2)', flexShrink:0 }}>{time}</div>
-                    </div>
-                  ))}
-                </div>
-
-                <div style={{ marginTop:12, paddingTop:10, borderTop:'1px solid rgba(255,255,255,.05)', fontSize:9, color:'rgba(255,255,255,.2)', textAlign:'center', lineHeight:1.5 }}>
-                  Your clients see this from day 1<br/>
-                  <span style={{ color:'rgba(42,165,160,.5)' }}>Real data · Coming soon</span>
-                </div>
-              </div>
-            </motion.div>
-
           </div>
 
-          {/* ── Bottom chips ── */}
-          <motion.div {...f(0.3)} className="hiw-chips">
-            <button className="hiw-chip hiw-chip-primary" onClick={() => window.go && window.go(7)}>
-              🎯 Get Your Free Audit
-            </button>
-            <a href="mailto:david@aiandwebservices.com" className="hiw-chip">
-              ✉️ Contact David Directly
-            </a>
-            <a href="/blog" className="hiw-chip">
-              📖 Read the Blog
-            </a>
-            <button className="hiw-chip" onClick={() => window.go && window.go(3)}>
-              💰 See Pricing
-            </button>
+          {/* ── Steps 3×2 grid (centered) ── */}
+          <div className="hiw-steps" style={{ marginTop: 85, rowGap: 28 }}>
+            {STEPS.map((step, i) => {
+              const Icon = step.icon;
+              return (
+                <motion.div
+                  key={step.num}
+                  className="hiw-card"
+                  initial={reduced ? false : { opacity: 0, y: 32 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, amount: 0.05 }}
+                  transition={{ duration: 0.55, delay: 0.1 + i * 0.08, ease }}
+                >
+                  <div className="hiw-ghost" aria-hidden="true">{step.num}</div>
+                  <div className="hiw-card-top">
+                    <div className="hiw-icon" style={{ background: `${step.accent}14`, border: `1px solid ${step.accent}30` }}>
+                      <Icon size={18} color={step.accent} strokeWidth={2} />
+                    </div>
+                    <div className="hiw-badge" style={{ color: step.accent, background: `${step.accent}0d` }}>
+                      <Clock size={10} strokeWidth={2.5} />
+                      {step.time}
+                    </div>
+                  </div>
+                  <h3 className="hiw-card-title">{step.title}</h3>
+                  <p className="hiw-card-text">{step.body}</p>
+                </motion.div>
+              );
+            })}
+          </div>
+
+          {/* ── CTA ── */}
+          <motion.div
+            initial={reduced ? false : { opacity: 0 }}
+            whileInView={{ opacity: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.8 }}
+            className="panel-cta-wrap"
+          >
+            <div className="panel-cta-card">
+              <p className="panel-cta-title">See exactly how it works for your business.</p>
+              <p className="panel-cta-sub">30 minutes · No obligation · Honest advice</p>
+              <button className="panel-cta-btn" onClick={() => window.go && window.go(7)}>Get Your Free Audit</button>
+            </div>
           </motion.div>
 
         </div>
       </div>
 
       <style>{`
-        .hiw-inner { position:relative;height:100%;display:flex;flex-direction:column;padding:74px 5vw 28px;background:#f8fafc;overflow-y:auto; }
+        .hiw-inner { height:100%;display:flex;flex-direction:column;padding:90px 6vw 0;overflow-y:auto; }
+        .hiw-inner .panel-cta-wrap { margin-top:auto;padding-top:14px;padding-bottom:clamp(16px,2.5vh,28px); }
 
-        /* Centered header */
-        .hiw-eyebrow { display:block;font-size:10px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#2AA5A0;margin-bottom:8px; }
-        @keyframes hiwBlink { 0%,100%{opacity:1} 50%{opacity:.25} }
-        .hiw-h2 { font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(26px,3vw,42px);font-weight:800;letter-spacing:-1.5px;line-height:1.1;color:#111827;margin-bottom:6px; }
+        .hiw-eyebrow { font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#2AA5A0;margin-bottom:14px; }
+        .hiw-h2 { font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(26px,3.5vw,46px);font-weight:900;color:#111827;line-height:1.08;letter-spacing:-1.5px;margin-bottom:10px; }
         .hiw-h2-accent { color:#2AA5A0; }
-        .hiw-sub { font-size:13px;color:#6b7280;line-height:1.6; }
+        .hiw-sub { font-size:14px;color:#6b7280;max-width:440px;margin:0 auto 10px;line-height:1.6; }
 
-        /* 3-col layout */
-        .hiw-layout { display:grid;grid-template-columns:260px 1fr 220px;gap:20px;flex:1;align-items:start;min-height:0; }
+        /* ── Steps 3×2 grid (centered) ── */
+        .hiw-steps {
+          display:grid;grid-template-columns:repeat(3,1fr);gap:14px;
+          max-width:960px;margin:0 auto;width:100%;
+        }
 
-        /* Column labels */
-        .hiw-col-label { font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#9ca3af;margin-bottom:9px; }
+        .hiw-card {
+          position:relative;overflow:hidden;
+          background:#fff;border:1px solid #e5e7eb;border-radius:16px;
+          padding:18px 16px 16px;
+          transition:transform .3s cubic-bezier(.21,.47,.32,.98),box-shadow .3s;
+        }
+        .hiw-card:hover {
+          transform:translateY(-4px);box-shadow:0 12px 36px rgba(0,0,0,.07);
+        }
 
-        /* LEFT: chat */
-        .hiw-col-chat { display:flex;flex-direction:column;height:100%; }
-        .hiw-insight { display:flex;align-items:flex-start;gap:8px;background:rgba(42,165,160,.06);border:1px solid rgba(42,165,160,.14);border-radius:10px;padding:10px 11px;margin-top:9px; }
-        .hiw-cta { display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#2AA5A0,#33BDB8);color:#fff;border:none;border-radius:50px;padding:11px 24px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;box-shadow:0 6px 20px rgba(42,165,160,.3);transition:all .25s;width:100%;justify-content:center; }
-        .hiw-cta:hover { transform:translateY(-2px);box-shadow:0 12px 28px rgba(42,165,160,.45); }
+        .hiw-ghost {
+          position:absolute;top:4px;right:10px;
+          font-family:'Plus Jakarta Sans',sans-serif;
+          font-size:56px;font-weight:900;line-height:1;
+          color:rgba(42,165,160,.04);pointer-events:none;
+          user-select:none;letter-spacing:-2px;
+        }
 
-        /* Phone */
-        .hiw-phone { background:#111827;border-radius:14px;overflow:hidden;box-shadow:0 20px 56px rgba(0,0,0,.16),0 0 0 1px rgba(255,255,255,.05); }
-        .hiw-phone-bar { display:flex;align-items:center;justify-content:space-between;padding:10px 12px;background:rgba(255,255,255,.04);border-bottom:1px solid rgba(255,255,255,.06); }
-        .hiw-msgs { padding:10px;display:flex;flex-direction:column;gap:6px;min-height:160px;max-height:210px;overflow:hidden; }
-        .hiw-phone-foot { display:flex;align-items:center;gap:7px;padding:8px 10px;border-top:1px solid rgba(255,255,255,.05); }
+        .hiw-card-top { display:flex;align-items:center;justify-content:space-between;margin-bottom:10px; }
+        .hiw-icon {
+          width:36px;height:36px;border-radius:10px;
+          display:flex;align-items:center;justify-content:center;
+        }
+        .hiw-badge {
+          display:flex;align-items:center;gap:4px;
+          font-size:10px;font-weight:700;padding:3px 9px;border-radius:50px;
+        }
+
+        .hiw-card-title {
+          font-family:'Plus Jakarta Sans',sans-serif;
+          font-size:16px;font-weight:800;color:#111827;
+          margin-bottom:6px;line-height:1.2;position:relative;
+        }
+        .hiw-card-text {
+          font-size:12px;color:#6b7280;line-height:1.7;position:relative;margin:0;
+        }
+
+        /* ── Graphics row ── */
+        .hiw-graphics {
+          display:grid;grid-template-columns:1fr 1fr;gap:20px;
+          max-width:960px;margin:0 auto;width:100%;
+        }
+        .hiw-graphic-col { display:flex;flex-direction:column;gap:10px; }
+        .hiw-graphic-label {
+          font-size:10px;font-weight:800;letter-spacing:2px;
+          text-transform:uppercase;color:#2AA5A0;text-align:center;
+        }
+
+        /* ── Dashboard mockup ── */
+        .hiw-dashboard {
+          background:#fff;border:1px solid #e5e7eb;border-radius:18px;
+          overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.05);
+          display:flex;flex-direction:column;height:293px;width:100%;
+        }
+        .hiw-dash-header {
+          padding:12px 14px;border-bottom:1px solid #f0f0f0;
+          background:#fafbfc;display:flex;align-items:center;justify-content:space-between;
+        }
+        .hiw-dash-metrics {
+          display:grid;grid-template-columns:repeat(2,1fr);gap:1px;
+          background:#e5e7eb;
+        }
+        .hiw-dash-metric {
+          background:#fff;padding:14px 12px;text-align:center;
+        }
+        .hiw-dash-feed {
+          flex:1;padding:12px 14px;border-top:1px solid #f0f0f0;overflow-y:auto;
+        }
+        .hiw-dash-feed-row {
+          display:flex;align-items:center;gap:8px;padding:5px 0;
+          border-bottom:1px solid #f5f5f5;
+        }
+        .hiw-dash-feed-row:last-child { border-bottom:none; }
+        .hiw-dash-live {
+          width:6px;height:6px;border-radius:50%;background:#2AA5A0;
+          display:inline-block;animation:hiwBlink 1.5s ease-in-out infinite;
+        }
+        .hiw-dash-live-pulse { animation:hiwDashPop .6s ease; }
+        @keyframes hiwDashPop { 0%{transform:scale(1)} 50%{transform:scale(1.8)} 100%{transform:scale(1)} }
+
+        /* ── Chat mockup ── */
+        .hiw-chat {
+          background:#fff;border:1px solid #e5e7eb;border-radius:18px;
+          overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.05);
+          display:flex;flex-direction:column;height:293px;width:100%;
+        }
+        .hiw-chat-bar {
+          padding:12px 14px;border-bottom:1px solid #f0f0f0;
+          background:#fafbfc;
+        }
+        .hiw-chat-avatar {
+          width:28px;height:28px;border-radius:50%;
+          background:linear-gradient(135deg,#2AA5A0,#33BDB8);
+          display:flex;align-items:center;justify-content:center;flex-shrink:0;
+        }
+        .hiw-chat-dot {
+          width:5px;height:5px;border-radius:50%;background:#2AA5A0;
+          display:inline-block;animation:hiwBlink 1.5s ease-in-out infinite;
+        }
+        @keyframes hiwBlink { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+        .hiw-chat-msgs {
+          flex:1;padding:12px;display:flex;flex-direction:column;gap:6px;
+          overflow-y:auto;min-height:0;
+        }
         .hiw-msg { display:flex; }
         .hiw-msg-user { justify-content:flex-end; }
-        .hiw-msg-bot,.hiw-msg-book { justify-content:flex-start; }
-        .hiw-bubble { padding:7px 11px;border-radius:12px;font-size:11px;line-height:1.5;max-width:85%; }
-        .hiw-bubble-user { background:#2AA5A0;color:#fff;border-bottom-right-radius:3px; }
-        .hiw-bubble-bot { background:rgba(255,255,255,.08);color:rgba(255,255,255,.82);border-bottom-left-radius:3px; }
-        .hiw-book { background:rgba(52,211,153,.12);border:1px solid rgba(52,211,153,.25);border-radius:9px;padding:6px 10px;font-size:10px;font-weight:700;color:#34d399; }
-        .hiw-typing span { display:inline-block;width:5px;height:5px;border-radius:50%;background:rgba(255,255,255,.35);margin:0 2px;animation:hiwDot 1.2s ease-in-out infinite; }
-        .hiw-typing span:nth-child(2){animation-delay:.2s} .hiw-typing span:nth-child(3){animation-delay:.4s}
-        @keyframes hiwDot { 0%,80%,100%{transform:scale(1);opacity:.35} 40%{transform:scale(1.4);opacity:1} }
+        .hiw-msg-bot, .hiw-msg-book { justify-content:flex-start; }
 
-        /* CENTER: 2×2 step cards */
-        .hiw-col-steps { display:flex;flex-direction:column;position:relative; }
-        .hiw-steps-grid { display:grid;grid-template-columns:1fr 1fr;grid-template-rows:1fr 1fr;gap:12px;flex:1; }
-        .hiw-step-card {
-          position:relative;
-          background:#fff;
-          border:1px solid #e5e7eb;
-          border-radius:14px;
-          padding:16px 16px 14px;
-          overflow:hidden;
-          transition:box-shadow .25s,transform .25s;
+        .hiw-bubble {
+          max-width:85%;padding:8px 12px;border-radius:12px;
+          font-size:12px;line-height:1.5;
         }
-        .hiw-step-card:hover { transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.09); }
-        .hiw-step-n {
-          font-family:'Plus Jakarta Sans',sans-serif;
-          font-size:52px;font-weight:900;line-height:1;
-          position:absolute;top:6px;right:10px;
-          letter-spacing:-2px;
-          pointer-events:none;
-          transition:color .25s;
+        .hiw-bubble-user {
+          background:#2AA5A0;color:#fff;border-bottom-right-radius:4px;
         }
-        .hiw-step-card:hover .hiw-step-n { opacity:.5; }
-        .hiw-step-title { font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;color:#111827;margin-bottom:6px;position:relative;z-index:1; }
-        .hiw-step-body { font-size:11px;color:#6b7280;line-height:1.65;margin-bottom:10px;position:relative;z-index:1; }
-        .hiw-step-micro { font-size:10px;font-weight:700;position:relative;z-index:1; }
-
-        /* Connector between rows (decorative) */
-        .hiw-connector-h { position:absolute;font-size:16px;right:-18px;top:50%;transform:translateY(-50%);z-index:2; }
-        .hiw-connector-v { display:none; }
-
-        /* RIGHT: compact metrics */
-        .hiw-col-metrics { display:flex;flex-direction:column; }
-        .hiw-metrics-card { background:#111827;border-radius:14px;padding:14px 13px;border:1px solid rgba(255,255,255,.06);flex:1; }
-        .hiw-metrics-header { display:flex;align-items:center;gap:6px;margin-bottom:12px; }
-        .hiw-metrics-grid { display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px; }
-        .hiw-metric { background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.06);border-radius:9px;padding:9px 10px; }
-
-        /* Bottom chips */
-        .hiw-chips { display:flex;align-items:center;gap:8px;flex-wrap:wrap;padding-top:14px; }
-        .hiw-chip { display:inline-flex;align-items:center;gap:6px;background:rgba(42,165,160,.07);border:1px solid rgba(42,165,160,.18);border-radius:50px;padding:7px 14px;font-size:11px;font-weight:700;color:#2AA5A0;cursor:pointer;font-family:'Inter',sans-serif;text-decoration:none;transition:all .2s; }
-        .hiw-chip:hover { background:rgba(42,165,160,.14);border-color:rgba(42,165,160,.38);transform:translateY(-1px); }
-        .hiw-chip-primary { background:linear-gradient(135deg,#2AA5A0,#33BDB8);color:#fff;border-color:transparent;box-shadow:0 4px 14px rgba(42,165,160,.28); }
-        .hiw-chip-primary:hover { box-shadow:0 8px 22px rgba(42,165,160,.44); }
-
-        @media (max-width:1100px) {
-          .hiw-layout { grid-template-columns:260px 1fr; }
-          .hiw-col-metrics { display:none; }
+        .hiw-bubble-bot {
+          background:#f3f4f6;color:#374151;border-bottom-left-radius:4px;
         }
-        @media (max-width:800px) {
-          .hiw-layout { grid-template-columns:1fr; }
-          .hiw-col-chat { display:none; }
-          .hiw-steps-grid { grid-template-columns:1fr 1fr; }
+        .hiw-msg-book {
+          width:100%;
+        }
+        .hiw-msg-book .hiw-msg-book {
+          background:rgba(42,165,160,.08);border:1px solid rgba(42,165,160,.2);
+          border-radius:10px;padding:8px 12px;
+          font-size:11px;color:#2AA5A0;font-weight:600;width:100%;
+        }
+
+        /* ── CTA ── */
+        .hiw-cta {
+          padding:14px 32px;border-radius:50px;border:none;
+          background:linear-gradient(135deg,#2AA5A0,#1B8F8A);color:#fff;
+          font-size:15px;font-weight:700;cursor:pointer;
+          font-family:'Inter',sans-serif;
+          box-shadow:0 8px 28px rgba(42,165,160,.35);
+          transition:all .3s cubic-bezier(.21,.47,.32,.98);
+        }
+        .hiw-cta:hover { transform:translateY(-3px);box-shadow:0 16px 44px rgba(42,165,160,.5); }
+        .hiw-cta-note { font-size:12px;color:#9ca3af;margin-top:10px;font-weight:500; }
+
+        /* ── Responsive ── */
+        @media (max-width:768px) {
+          .hiw-inner { padding:80px 5vw 36px; }
+          .hiw-steps { grid-template-columns:1fr 1fr; }
+          .hiw-graphics { grid-template-columns:1fr; }
         }
         @media (max-width:480px) {
-          .hiw-steps-grid { grid-template-columns:1fr; }
-          .hiw-inner { padding:74px 5vw 28px; }
+          .hiw-steps { grid-template-columns:1fr; }
         }
       `}</style>
     </section>

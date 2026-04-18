@@ -73,11 +73,6 @@ export default function RootLayout({ children }) {
           src="//js.hs-scripts.com/245878112.js"
           strategy="lazyOnload"
         />
-        <Script
-          id="calendly"
-          src="https://assets.calendly.com/assets/external/widget.js"
-          strategy="lazyOnload"
-        />
         <CrispChat />
       </body>
     </html>

@@ -51,7 +51,7 @@ export default function CrispChat() {
         return;
       }
       if (e.target.tagName === 'IFRAME') return;
-      if (e.target.closest('.calendly-inline-widget') || e.target.closest('.calendly-wrap')) return;
+      if (e.target.closest('.cal-embed-wrap')) return;
       if (e.target.closest('form')) return;
       const crispEl = document.getElementById('crisp-chatbox');
       if (crispEl && !crispEl.contains(e.target)) {

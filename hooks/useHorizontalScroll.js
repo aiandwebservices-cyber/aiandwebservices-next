@@ -8,7 +8,7 @@ export function useHorizontalScroll() {
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
 
     const TOTAL = 8;
-    const hashNames = ['home', 'how-it-works', 'comparison', 'services', 'about', 'work', 'faq', 'contact'];
+    const hashNames = ['home', 'how-it-works', 'comparison', 'services', 'about', 'samples', 'faq', 'contact'];
     const hashToPanel = Object.fromEntries(hashNames.map((h, i) => [h, i]));
     const startHash = window.location.hash.replace('#', '');
     let cur = hashToPanel[startHash] ?? 0;
@@ -43,7 +43,7 @@ export function useHorizontalScroll() {
 
     // Maps nav index → panel DOM id (in physical #track order)
     // 0:Hero(p0) 1:HowItWorks(p2) 2:Comparison 3:Services 4:About(p3) 5:Work 6:FAQ(p7) 7:Contact(p8)
-    const panelIds = ['p0', 'p2', 'comparison', 'services', 'p3', 'work', 'p7', 'p8'];
+    const panelIds = ['p0', 'p2', 'comparison', 'services', 'p3', 'samples', 'p7', 'p8'];
 
     if (isMobile() && track) {
       track.style.transform = '';
@@ -154,7 +154,14 @@ export function useHorizontalScroll() {
 
       const panelEl = document.getElementById(panelIds[cur]);
       if (panelEl) {
-        const { scrollTop, scrollHeight, clientHeight } = panelEl;
+        // The panel root may have overflow:hidden; find the actual scrollable child
+        let scrollEl = panelEl;
+        const computed = window.getComputedStyle(panelEl);
+        if (computed.overflowY === 'hidden' || computed.overflowY === 'clip') {
+          const inner = panelEl.querySelector('[class$="-inner"]');
+          if (inner) scrollEl = inner;
+        }
+        const { scrollTop, scrollHeight, clientHeight } = scrollEl;
         const overflows = scrollHeight > clientHeight + 5;
         if (overflows) {
           const atBottom = scrollTop + clientHeight >= scrollHeight - 5;

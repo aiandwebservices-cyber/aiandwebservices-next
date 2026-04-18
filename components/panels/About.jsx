@@ -7,51 +7,26 @@ import Link from 'next/link';
 
 const TEAL = '#2AA5A0';
 
-/* ── Before → After flipping scenarios ── */
 const SCENARIOS = [
   {
     emoji:'📞', label:'After-Hours Lead',
-    before:{
-      title:'Without AI',
-      bullets:['Phone rings at 11pm — nobody answers','Lead gets frustrated, calls a competitor','You wake up to a missed opportunity','Happens every single night'],
-    },
-    after:{
-      title:'With Your AI',
-      bullets:['AI responds instantly, any time of night','Asks qualifying questions automatically','Books the appointment before you wake up','New contact added to CRM — zero effort'],
-    },
+    before:{ title:'Without AI',        bullets:['Phone rings at 11pm — nobody answers','Lead gets frustrated, calls a competitor','You wake up to a missed opportunity','Happens every single night'] },
+    after:{  title:'With Your AI',      bullets:['AI responds instantly, any time of night','Asks qualifying questions automatically','Books the appointment before you wake up','New contact added to CRM — zero effort'] },
   },
   {
     emoji:'🔍', label:'Google Ranking',
-    before:{
-      title:'Without Local SEO',
-      bullets:['You show up on page 3 — below the map','Competitors get the calls you should get','Google Business Profile incomplete or missing','Paying for a site nobody finds'],
-    },
-    after:{
-      title:'With Local SEO',
-      bullets:['Top 3 in Google Map Pack for your city','Phone number and reviews front and center','GBP fully optimized and updated monthly','Customers find you before they scroll down'],
-    },
+    before:{ title:'Without Local SEO', bullets:['You show up on page 3 — below the map','Competitors get the calls you should get','Google Business Profile incomplete or missing','Paying for a site nobody finds'] },
+    after:{  title:'With Local SEO',    bullets:['Top 3 in Google Map Pack for your city','Phone number and reviews front and center','GBP fully optimized and updated monthly','Customers find you before they scroll down'] },
   },
   {
     emoji:'💬', label:'FAQ Overload',
-    before:{
-      title:'Without Automation',
-      bullets:['"What are your hours?" — answered 30× a week','"Do you serve my area?" — every single day','Hours lost to questions, not to paid work','After 5pm? Nobody answers. Lead moves on.'],
-    },
-    after:{
-      title:'With AI Chat',
-      bullets:['AI handles every FAQ — 24/7, instantly','Trained on your prices, area, and availability','You only talk to people ready to buy','Handles after-hours so you never miss a lead'],
-    },
+    before:{ title:'Without Automation',bullets:['"What are your hours?" — answered 30× a week','"Do you serve my area?" — every single day','Hours lost to questions, not to paid work','After 5pm? Nobody answers. Lead moves on.'] },
+    after:{  title:'With AI Chat',      bullets:['AI handles every FAQ — 24/7, instantly','Trained on your prices, area, and availability','You only talk to people ready to buy','Handles after-hours so you never miss a lead'] },
   },
   {
     emoji:'📊', label:'Lead Tracking',
-    before:{
-      title:'Without CRM',
-      bullets:['Leads come in from 4 places, tracked nowhere','Follow-ups forgotten — revenue left behind','No idea which source is sending the best leads','You know something\'s slipping — can\'t see what'],
-    },
-    after:{
-      title:'With Automation',
-      bullets:['Every lead captured from every channel','Tagged by source, auto-followed up same day','Clear pipeline view — nothing falls through','Know exactly what\'s working and what\'s not'],
-    },
+    before:{ title:'Without CRM',       bullets:['Leads come in from 4 places, tracked nowhere','Follow-ups forgotten — revenue left behind','No idea which source is sending the best leads','You know something\'s slipping — can\'t see what'] },
+    after:{  title:'With Automation',   bullets:['Every lead captured from every channel','Tagged by source, auto-followed up same day','Clear pipeline view — nothing falls through','Know exactly what\'s working and what\'s not'] },
   },
 ];
 
@@ -62,18 +37,22 @@ const GUARANTEES = [
   '48-hour on-call after every launch',
 ];
 
+const HOW = [
+  { n:'🎯', title:'Radical Ownership',          desc:'No team to hide behind. Full accountability on every project, every time.' },
+  { n:'🤝', title:'Honest Expertise',            desc:"I tell you what you need to hear, not what sells. If something won't work for you, I'll say so." },
+  { n:'📊', title:'Results Over Hype',           desc:'Measurable outcomes only. No AI buzzwords, no vague promises — just numbers that move.' },
+  { n:'⚡', title:'Accessible Intelligence',     desc:'Enterprise-grade technology at startup-friendly pricing. Big-company tools for real-world budgets.' },
+  { n:'📚', title:'Continuous Learning',         desc:'AI moves fast. I stay sharp so your business always gets what\'s current, not what was relevant two years ago.' },
+  { n:'🌱', title:'Partnership, Not Transactions',desc:'Long-term relationships over one-off gigs. Your growth is what keeps me here.' },
+];
+
 export default function About() {
   const reduced = useReducedMotion();
   const [active, setActive] = useState(0);
-  const [flipped, setFlipped] = useState(false);
 
   useEffect(() => {
     const t = setInterval(() => {
-      setFlipped(true);
-      setTimeout(() => {
-        setActive(v => (v + 1) % SCENARIOS.length);
-        setFlipped(false);
-      }, 400);
+      setTimeout(() => setActive(v => (v + 1) % SCENARIOS.length), 400);
     }, 10000);
     return () => clearInterval(t);
   }, []);
@@ -87,8 +66,8 @@ export default function About() {
   });
 
   return (
-    <section className="panel" id="p3" aria-label="About David Pulis — AI automation and web expert, what changes when you work with us">
-      {/* Light background */}
+    <section className="panel" id="p3" aria-label="About David Pulis — AI automation and web expert">
+      {/* Background */}
       <div style={{ position:'absolute', inset:0, background:'#fff', zIndex:0 }}>
         <div style={{ position:'absolute', inset:0, backgroundImage:'radial-gradient(rgba(42,165,160,.06) 1px,transparent 1px)', backgroundSize:'28px 28px' }} />
         <div style={{ position:'absolute', top:0, right:0, width:700, height:500, background:'radial-gradient(circle,rgba(42,165,160,.08) 0%,transparent 65%)', filter:'blur(80px)', pointerEvents:'none' }} />
@@ -97,25 +76,11 @@ export default function About() {
       <div className="about-inner">
         <div style={{ position:'relative', zIndex:1, display:'flex', flexDirection:'column', height:'100%' }}>
 
-          {/* ── Top header row ── */}
-          <motion.div {...f(0)} style={{ marginBottom:24 }}>
-            <div style={{ display:'flex', alignItems:'flex-end', justifyContent:'space-between', gap:16, flexWrap:'wrap' }}>
-              <div>
-                <div className="abt-eyebrow">WHO BUILDS THIS</div>
-                <h2 className="abt-h2">One person builds it.<br/><span className="abt-h2-accent">One person answers.</span><br/>No middlemen.</h2>
-              </div>
-              {/* Guarantees strip */}
-              <div className="abt-guarantees">
-                {GUARANTEES.map(g => (
-                  <div key={g} style={{ display:'flex', alignItems:'center', gap:7 }}>
-                    <div style={{ width:18, height:18, borderRadius:5, background:'rgba(42,165,160,.12)', border:'1px solid rgba(42,165,160,.25)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
-                      <Check size={10} color={TEAL} strokeWidth={2.5}/>
-                    </div>
-                    <span style={{ fontSize:12, color:'#374151', fontWeight:600 }}>{g}</span>
-                  </div>
-                ))}
-              </div>
-            </div>
+          {/* ── Centered header ── */}
+          <motion.div {...f(0)} style={{ textAlign:'center', marginBottom:16 }}>
+            <div className="abt-eyebrow">ABOUT</div>
+            <h2 className="abt-h2">One person builds it.<br/><span className="abt-h2-accent">One person answers.</span></h2>
+            <p className="abt-sub">No agencies. No middlemen. David handles everything — and stays on to make sure it keeps working.</p>
           </motion.div>
 
           {/* ── Main 3-col grid ── */}
@@ -124,17 +89,13 @@ export default function About() {
             {/* Col 1: David card */}
             <motion.div {...f(0.08)} className="abt-david">
               <div className="abt-photo-wrap">
-                <Image
-                  src="/david-pulis.jpg"
-                  alt="David Pulis — founder of AIandWEBservices"
-                  width={340} height={440}
-                  style={{ width:'100%', height:'auto', display:'block' }}
-                  priority
-                />
+                <Image src="/david-pulis.jpg" alt="David Pulis — founder of AIandWEBservices" width={340} height={440} style={{ width:'100%', height:'auto', display:'block' }} priority />
               </div>
-
               <div className="abt-david-info">
-                <div style={{ fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:18, fontWeight:800, color:'#111827' }}>David Pulis</div>
+                <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:4 }}>
+                  <img src="/logo-icon-transparent.png" alt="AIandWEB" style={{ width:28, height:28, borderRadius:7, flexShrink:0 }} />
+                  <div style={{ fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:18, fontWeight:800, color:'#111827' }}>David Pulis</div>
+                </div>
                 <div style={{ fontSize:12, color:TEAL, fontWeight:700, marginBottom:12 }}>Founder · AIandWEBservices</div>
                 <p style={{ fontSize:12, color:'#6b7280', lineHeight:1.75, marginBottom:14 }}>
                   I started AIandWEBservices because I kept seeing the same thing — great small businesses losing customers to competitors with better websites and faster response times, not better service. I fix that. I build the AI, the website, the automations — and I stay on to make sure it keeps working. You get one person who knows your business inside out, not a rotating team of strangers.
@@ -156,12 +117,10 @@ export default function About() {
               </div>
             </motion.div>
 
-            {/* Col 2: Before/After scenarios */}
+            {/* Col 2: Before/After + How I Work */}
             <motion.div {...f(0.12)} className="abt-scenarios">
-              <div style={{ fontSize:11, fontWeight:800, letterSpacing:1.5, textTransform:'uppercase', color:'#9ca3af', marginBottom:14 }}>What changes when you work with me</div>
-
-              {/* Scenario tabs */}
-              <div className="abt-tabs">
+              <div style={{ fontSize:11, fontWeight:800, letterSpacing:1.5, textTransform:'uppercase', color:'#9ca3af', marginBottom:14, textAlign:'center' }}>What changes when you work with me</div>
+              <div className="abt-tabs" style={{ justifyContent:'center' }}>
                 {SCENARIOS.map((sc, i) => (
                   <button key={sc.label} onClick={() => setActive(i)} className={`abt-tab${active===i?' abt-tab-active':''}`}>
                     <span style={{ fontSize:14 }}>{sc.emoji}</span>
@@ -169,57 +128,68 @@ export default function About() {
                   </button>
                 ))}
               </div>
-
-              {/* Card flip */}
-              <div style={{ flex:1, display:'flex', flexDirection:'column', gap:12, marginTop:4 }}>
+              <div style={{ display:'flex', flexDirection:'column', gap:12, marginTop:4 }}>
                 <AnimatePresence mode="wait">
                   <motion.div
                     key={active}
                     initial={{ opacity:0, x:20 }}
                     animate={{ opacity:1, x:0, transition:{ duration:.4, ease:[0.22,1,0.36,1] } }}
                     exit={{ opacity:0, x:-20, transition:{ duration:.25 } }}
-                    style={{ display:'flex', flexDirection:'column', gap:12, flex:1 }}
+                    style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:12 }}
                   >
-                    {/* Before */}
                     <div className="abt-card abt-card-before">
                       <div className="abt-card-label abt-label-before">✗ Before</div>
                       <div className="abt-card-title">{s.before.title}</div>
-                      <ul className="abt-bullets">
-                        {s.before.bullets.map(b => <li key={b}>{b}</li>)}
-                      </ul>
+                      <ul className="abt-bullets">{s.before.bullets.map(b => <li key={b}>{b}</li>)}</ul>
                     </div>
-                    {/* Arrow */}
-                    <div style={{ textAlign:'center', fontSize:18, color:TEAL, lineHeight:1 }}>↓</div>
-                    {/* After */}
                     <div className="abt-card abt-card-after">
                       <div className="abt-card-label abt-label-after">✓ After</div>
                       <div className="abt-card-title">{s.after.title}</div>
-                      <ul className="abt-bullets">
-                        {s.after.bullets.map(b => <li key={b}>{b}</li>)}
-                      </ul>
+                      <ul className="abt-bullets">{s.after.bullets.map(b => <li key={b}>{b}</li>)}</ul>
                     </div>
                   </motion.div>
                 </AnimatePresence>
-
-                {/* Dots */}
                 <div style={{ display:'flex', justifyContent:'center', gap:6 }}>
                   {SCENARIOS.map((_, i) => (
                     <button key={i} onClick={() => setActive(i)} style={{ width:active===i?20:7, height:7, borderRadius:99, background:active===i?TEAL:'#d1d5db', border:'none', cursor:'pointer', padding:0, transition:'all .3s' }}/>
                   ))}
                 </div>
+
+                {/* How I Work — lives in center col to fill space */}
+                <div style={{ borderTop:'1px solid #f3f4f6', paddingTop:16, marginTop:34 }}>
+                  <div style={{ fontSize:11, fontWeight:800, letterSpacing:1.5, textTransform:'uppercase', color:'#9ca3af', marginBottom:12, textAlign:'center' }}>How I Work</div>
+                  <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:8 }}>
+                    {HOW.map(({ n, title, desc }) => (
+                      <div key={n} style={{ background:'#f9fafb', border:'1px solid #e5e7eb', borderRadius:12, padding:'12px 12px', display:'flex', flexDirection:'column' }}>
+                        <div style={{ fontSize:22, lineHeight:1, marginBottom:7 }}>{n}</div>
+                        <div style={{ fontSize:12, fontWeight:800, color:'#111827', marginBottom:4 }}>{title}</div>
+                        <div style={{ fontSize:10, color:'#6b7280', lineHeight:1.55 }}>{desc}</div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
               </div>
             </motion.div>
 
-            {/* Col 3: Stats + CTA */}
+            {/* Col 3: Guarantees + Stats + CTA */}
             <motion.div {...f(0.16)} className="abt-right-col">
+              <div className="abt-guarantees" style={{ marginBottom:16 }}>
+                {GUARANTEES.map(g => (
+                  <div key={g} style={{ display:'flex', alignItems:'center', gap:7 }}>
+                    <div style={{ width:18, height:18, borderRadius:5, background:'rgba(42,165,160,.12)', border:'1px solid rgba(42,165,160,.25)', display:'flex', alignItems:'center', justifyContent:'center', flexShrink:0 }}>
+                      <Check size={10} color={TEAL} strokeWidth={2.5}/>
+                    </div>
+                    <span style={{ fontSize:12, color:'#374151', fontWeight:600 }}>{g}</span>
+                  </div>
+                ))}
+              </div>
               <div style={{ fontSize:11, fontWeight:800, letterSpacing:1.5, textTransform:'uppercase', color:'#9ca3af', marginBottom:14 }}>By the numbers</div>
-
               <div className="abt-stats-col">
                 {[
-                  { n:'7–14',  l:'day delivery',       desc:'Most projects go live in under 2 weeks.',      color:TEAL },
-                  { n:'24/7',  l:'AI uptime',           desc:'Your AI never sleeps, never misses a lead.',  color:'#60a5fa' },
-                  { n:'6hr',   l:'response SLA',        desc:'Guaranteed response on every ticket.',        color:'#a78bfa' },
-                  { n:'0',     l:'lock-in contracts',   desc:'Cancel anytime. No penalties, no hoops.',     color:'#34d399' },
+                  { n:'7–14', l:'day delivery',     desc:'Most projects go live in under 2 weeks.',     color:TEAL },
+                  { n:'24/7', l:'AI uptime',         desc:'Your AI never sleeps, never misses a lead.', color:'#60a5fa' },
+                  { n:'6hr',  l:'response SLA',      desc:'Guaranteed response on every ticket.',       color:'#a78bfa' },
+                  { n:'0',    l:'lock-in contracts', desc:'Cancel anytime. No penalties, no hoops.',    color:'#34d399' },
                 ].map(({ n, l, desc, color }) => (
                   <div key={l} className="abt-stat-card">
                     <div style={{ fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:28, fontWeight:800, color, lineHeight:1 }}>{n}</div>
@@ -228,43 +198,40 @@ export default function About() {
                   </div>
                 ))}
               </div>
-
-              <div className="abt-cta-block">
-                <p style={{ fontSize:13, color:'#374151', lineHeight:1.65, marginBottom:16 }}>
-                  Ready to stop losing leads at night? Start with a free 30-minute AI audit.
-                </p>
-                <button className="abt-cta" onClick={() => window.go && window.go(7)}>
-                  Get Your Free Audit
-                </button>
-                <p style={{ fontSize:11, color:'#9ca3af', marginTop:8 }}>No obligation · Honest answer · 30 minutes</p>
-              </div>
             </motion.div>
 
           </div>
-        </div>
 
-        {/* Bottom action chips */}
-        <div style={{ display:'flex', alignItems:'center', justifyContent:'center', gap:10, flexWrap:'wrap', paddingBottom:8, marginTop:20 }}>
-          <a href="#" onClick={e=>{e.preventDefault();window.go&&window.go(7)}} className="abt-chip abt-chip-primary">Get Your Free Audit</a>
-          <a href="#" onClick={e=>{e.preventDefault();window.go&&window.go(8)}} className="abt-chip">Contact David Directly</a>
-          <a href="#" onClick={e=>{e.preventDefault();window.go&&window.go(3)}} className="abt-chip">See Pricing</a>
+          {/* ── Bottom CTA ── */}
+          <motion.div {...f(0.24)} className="panel-cta-wrap">
+            <div className="panel-cta-card">
+              <p className="panel-cta-title">Ready to stop losing leads at night?</p>
+              <p className="panel-cta-sub">No obligation · Honest answer · Response within 6 hours</p>
+              <button className="panel-cta-btn" onClick={() => window.go && window.go(7)}>Get Your Free Audit</button>
+            </div>
+          </motion.div>
+
+          {/* ── Bottom chip — only shown when right col is hidden ── */}
+          <div className="abt-bottom-chips">
+            <a href="#" onClick={e=>{e.preventDefault();window.go&&window.go(7)}} className="abt-chip abt-chip-primary">Get Your Free Audit</a>
+            <a href="#" onClick={e=>{e.preventDefault();window.go&&window.go(3)}} className="abt-chip">See Services</a>
+          </div>
+
         </div>
       </div>
 
       <style>{`
-        .about-inner { height:100%;display:flex;flex-direction:column;padding:80px 5vw 36px;overflow-y:auto;background:transparent; }
+        .about-inner { height:100%;display:flex;flex-direction:column;padding:90px 5vw 36px;overflow-y:auto;background:transparent; }
+        .about-inner .panel-cta-wrap { margin-top:auto;padding-top:14px;padding-bottom:clamp(16px,2.5vh,28px); }
 
         .abt-eyebrow { display:block;font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#2AA5A0;margin-bottom:10px; }
-        .abt-edot { width:5px;height:5px;border-radius:50%;background:#2AA5A0;display:inline-block;animation:abtPulse 2s ease-in-out infinite; }
-        @keyframes abtPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.4;transform:scale(.75)} }
-        .abt-h2 { font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(22px,2.5vw,36px);font-weight:800;letter-spacing:-1px;line-height:1.15;color:#111827;margin-bottom:0; }
+        .abt-h2 { font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(22px,3.8vw,46px);font-weight:800;letter-spacing:-1px;line-height:1.15;color:#111827;margin-bottom:10px; }
         .abt-h2-accent { color:#2AA5A0; }
+        .abt-sub { font-size:14px;color:#6b7280;max-width:520px;margin:0 auto 10px;line-height:1.65; }
 
         .abt-guarantees { display:flex;flex-direction:column;gap:7px;background:rgba(42,165,160,.04);border:1px solid rgba(42,165,160,.12);border-radius:14px;padding:14px 18px; }
+        .abt-grid { display:grid;grid-template-columns:220px 1fr 220px;gap:20px;align-content:start; }
 
-        .abt-grid { display:grid;grid-template-columns:220px 1fr 220px;gap:20px;flex:1;align-content:start; }
-
-        /* David col */
         .abt-david { display:flex;flex-direction:column;gap:0; }
         .abt-photo-wrap { position:relative;border-radius:16px;overflow:hidden;flex-shrink:0; }
         .abt-david-info { padding:14px 0 0; }
@@ -273,43 +240,41 @@ export default function About() {
         .abt-contact strong { color:#111827;font-weight:700; }
         .abt-contact-icon { width:24px;height:24px;border-radius:6px;background:rgba(42,165,160,.1);display:flex;align-items:center;justify-content:center;flex-shrink:0; }
 
-        /* Scenarios col */
         .abt-scenarios { display:flex;flex-direction:column; }
         .abt-tabs { display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px; }
         .abt-tab { display:flex;align-items:center;gap:6px;background:rgba(0,0,0,.04);border:1px solid rgba(0,0,0,.07);border-radius:50px;padding:6px 12px;cursor:pointer;font-family:'Inter',sans-serif;color:#6b7280;transition:all .2s; }
         .abt-tab:hover { background:rgba(0,0,0,.07); }
         .abt-tab-active { background:rgba(42,165,160,.1) !important;border-color:rgba(42,165,160,.25) !important;color:#2AA5A0 !important; }
 
-        .abt-card { border-radius:14px;padding:16px 18px;flex:1; }
+        .abt-card { border-radius:14px;padding:18px 20px; }
         .abt-card-before { background:rgba(248,113,113,.05);border:1px solid rgba(248,113,113,.15); }
         .abt-card-after  { background:rgba(42,165,160,.06);border:1px solid rgba(42,165,160,.2); }
-        .abt-card-label { font-size:10px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px; }
+        .abt-card-label { font-size:11px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;margin-bottom:6px; }
         .abt-label-before { color:#f87171; }
         .abt-label-after  { color:#2AA5A0; }
-        .abt-card-title { font-size:14px;font-weight:800;color:#111827;margin-bottom:6px;font-family:'Plus Jakarta Sans',sans-serif; }
-        .abt-bullets { margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:5px; }
-        .abt-bullets li { font-size:11px;color:#6b7280;line-height:1.5;padding-left:14px;position:relative; }
+        .abt-card-title { font-size:16px;font-weight:800;color:#111827;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif; }
+        .abt-bullets { margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px; }
+        .abt-bullets li { font-size:13px;color:#6b7280;line-height:1.5;padding-left:16px;position:relative; }
         .abt-bullets li::before { content:'–';position:absolute;left:0;color:#9ca3af; }
         .abt-card-after .abt-bullets li { color:#374151; }
         .abt-card-after .abt-bullets li::before { color:#2AA5A0; }
 
-        /* Right stats col */
         .abt-right-col { display:flex;flex-direction:column; }
         .abt-stats-col { display:flex;flex-direction:column;gap:10px;margin-bottom:16px;flex:1; }
         .abt-stat-card { background:#f9fafb;border:1px solid #e5e7eb;border-radius:12px;padding:12px 14px; }
 
-        .abt-cta-block { background:rgba(42,165,160,.06);border:1px solid rgba(42,165,160,.15);border-radius:14px;padding:16px; }
-        .abt-cta { display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,#2AA5A0,#33BDB8);color:#fff;border:none;border-radius:50px;padding:12px 24px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',sans-serif;box-shadow:0 6px 20px rgba(42,165,160,.3);transition:all .25s;width:100%;justify-content:center; }
-        .abt-cta:hover { transform:translateY(-2px);box-shadow:0 12px 30px rgba(42,165,160,.45); }
 
+
+        .abt-bottom-chips { display:none;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;padding-bottom:8px;margin-top:20px; }
         .abt-chip { display:inline-flex;align-items:center;padding:8px 18px;border-radius:50px;font-size:12px;font-weight:700;font-family:'Inter',sans-serif;border:1px solid rgba(42,165,160,.3);color:rgba(42,165,160,.9);background:rgba(42,165,160,.08);cursor:pointer;text-decoration:none;transition:all .22s; }
         .abt-chip:hover { background:rgba(42,165,160,.16);border-color:rgba(42,165,160,.5); }
         .abt-chip-primary { background:linear-gradient(135deg,#2AA5A0,#33BDB8);color:#fff;border-color:transparent;box-shadow:0 4px 14px rgba(42,165,160,.3); }
         .abt-chip-primary:hover { transform:translateY(-1px);box-shadow:0 8px 22px rgba(42,165,160,.45);color:#fff; }
 
-        @media (max-width:1100px) { .abt-grid { grid-template-columns:200px 1fr; } .abt-right-col { display:none; } }
+        @media (max-width:1100px) { .abt-grid { grid-template-columns:200px 1fr 200px; } .abt-how-grid { grid-template-columns:repeat(3,1fr); } }
+        @media (max-width:900px) { .abt-grid { grid-template-columns:200px 1fr; } .abt-right-col { display:none; } .abt-bottom-chips { display:flex; } }
         @media (max-width:768px) { .abt-grid { grid-template-columns:1fr; } .abt-david { display:none; } .abt-guarantees { display:none; } }
-        @media (max-width:560px) { .about-inner { padding:80px 5vw 40px; } }
+        @media (max-width:640px) { .abt-how-grid { grid-template-columns:repeat(2,1fr); } .about-inner { padding:80px 5vw 40px; } }
       `}</style>
     </section>
   );
