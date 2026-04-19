@@ -30,7 +30,7 @@ export default function IntroPage() {
   ];
 
   return (
-    <main className="standalone-page" style={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
+    <main className="standalone-page" style={{ minHeight: '100vh', height: 'auto', overflow: 'visible', overflowY: 'auto', backgroundColor: '#f8fafc' }}>
       {/* Hero */}
       <section style={{ backgroundColor: '#111827', color: '#fff', padding: 'clamp(40px, 8vw, 80px) 20px', textAlign: 'center' }}>
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>
