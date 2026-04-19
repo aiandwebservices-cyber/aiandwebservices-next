@@ -1,5 +1,5 @@
 'use client';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import Link from 'next/link';
 import { motion, useInView, useScroll, useReducedMotion } from 'framer-motion';
 import { Check, X, ArrowRight, Zap, Star } from 'lucide-react';
@@ -29,27 +29,30 @@ const TIER_ORDER = ['ai-automation-starter','presence','growth','revenue-engine'
 const TIERS_SORTED = TIER_ORDER.map(slug => TIERS.find(t => t.slug === slug)).filter(Boolean);
 
 const FEATURE_ROWS = [
-  { label: 'Professional website (5 pages)',              tiers: ['presence','growth','revenue-engine','ai-first'] },
-  { label: 'Local SEO + Google Business Profile',         tiers: ['presence','growth','revenue-engine','ai-first'] },
-  { label: 'Basic AI assistant',                          tiers: ['ai-automation-starter','growth','revenue-engine','ai-first'] },
-  { label: 'AI automation system (lead qualify)',         tiers: ['ai-automation-starter','growth','revenue-engine','ai-first'] },
-  { label: 'Calendar + CRM integration',                  tiers: ['ai-automation-starter','growth','revenue-engine','ai-first'] },
-  { label: 'Monthly performance report',                  tiers: ['ai-automation-starter','growth','revenue-engine','ai-first'] },
-  { label: 'Monthly SEO + site health report',            tiers: ['presence','growth','revenue-engine','ai-first'] },
-  { label: 'Email marketing + welcome sequence',          tiers: ['growth','revenue-engine','ai-first'] },
-  { label: 'SEO content (2 articles/month)',              tiers: ['growth','revenue-engine','ai-first'] },
-  { label: 'Conversion landing pages',                    tiers: ['growth','revenue-engine','ai-first'] },
-  { label: 'Sales funnel design + build',                 tiers: ['revenue-engine','ai-first'] },
-  { label: 'Workflow automation',                         tiers: ['revenue-engine','ai-first'] },
-  { label: 'Paid ads management (client funds spend)',    tiers: ['revenue-engine','ai-first'] },
-  { label: 'Monthly strategy call',                       tiers: ['revenue-engine','ai-first'] },
-  { label: 'Voice AI (answers calls)',                    tiers: ['ai-first'] },
-  { label: 'Programmatic SEO (100s of pages)',            tiers: ['ai-first'] },
-  { label: 'Social media AI scheduling',                  tiers: ['ai-first'] },
-  { label: 'Custom analytics dashboard',                  tiers: ['ai-first'] },
+  { label: 'Professional website (5 pages)',              group: 'Website & SEO',        tiers: ['presence','growth','revenue-engine','ai-first'] },
+  { label: 'Local SEO + Google Business Profile',         group: 'Website & SEO',        tiers: ['presence','growth','revenue-engine','ai-first'] },
+  { label: 'Basic AI assistant',                          group: 'AI & Automation',       tiers: ['ai-automation-starter','growth','revenue-engine','ai-first'] },
+  { label: 'AI automation system (lead qualify)',         group: 'AI & Automation',       tiers: ['ai-automation-starter','growth','revenue-engine','ai-first'] },
+  { label: 'Calendar + CRM integration',                  group: 'AI & Automation',       tiers: ['ai-automation-starter','growth','revenue-engine','ai-first'] },
+  { label: 'Monthly performance report',                  group: 'AI & Automation',       tiers: ['ai-automation-starter','growth','revenue-engine','ai-first'] },
+  { label: 'Monthly SEO + site health report',            group: 'Website & SEO',        tiers: ['presence','growth','revenue-engine','ai-first'] },
+  { label: 'Email marketing + welcome sequence',          group: 'Marketing & Growth',    tiers: ['growth','revenue-engine','ai-first'] },
+  { label: 'SEO content (2 articles/month)',              group: 'Website & SEO',        tiers: ['growth','revenue-engine','ai-first'] },
+  { label: 'Conversion landing pages',                    group: 'Website & SEO',        tiers: ['growth','revenue-engine','ai-first'] },
+  { label: 'Sales funnel design + build',                 group: 'Marketing & Growth',    tiers: ['revenue-engine','ai-first'] },
+  { label: 'Workflow automation',                         group: 'AI & Automation',       tiers: ['revenue-engine','ai-first'] },
+  { label: 'Paid ads management (client funds spend)',    group: 'Marketing & Growth',    tiers: ['revenue-engine','ai-first'] },
+  { label: 'Monthly strategy call',                       group: 'Strategy & Analytics',  tiers: ['revenue-engine','ai-first'] },
+  { label: 'Voice AI (answers calls)',                    group: 'AI & Automation',       tiers: ['ai-first'] },
+  { label: 'Programmatic SEO (100s of pages)',            group: 'Website & SEO',        tiers: ['ai-first'] },
+  { label: 'Social media AI scheduling',                  group: 'AI & Automation',       tiers: ['ai-first'] },
+  { label: 'Custom analytics dashboard',                  group: 'Strategy & Analytics',  tiers: ['ai-first'] },
 ];
 
+const GROUP_ORDER = ['Website & SEO', 'AI & Automation', 'Marketing & Growth', 'Strategy & Analytics'];
+
 export default function CompareAllPlansPage() {
+  const [view, setView] = useState('list');
   return (
     <>
       <ProgressBar />
@@ -97,9 +100,31 @@ export default function CompareAllPlansPage() {
       <section id="compare" style={{ padding: 'clamp(64px,8vw,100px) 20px', background: '#ffffff' }}>
         <div style={{ maxWidth: '1200px', margin: '0 auto' }}>
           <FadeUp>
-            <div style={{ textAlign: 'center', marginBottom: '48px' }}>
+            <div style={{ textAlign: 'center', marginBottom: '36px' }}>
               <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: ACCENT, marginBottom: '14px' }}>Side by Side</div>
-              <h2 style={{ fontSize: 'clamp(24px,3.5vw,40px)', fontWeight: 900, color: '#111827', lineHeight: 1.1, letterSpacing: '-0.5px' }}>Full Feature Comparison</h2>
+              <h2 style={{ fontSize: 'clamp(24px,3.5vw,40px)', fontWeight: 900, color: '#111827', lineHeight: 1.1, letterSpacing: '-0.5px', marginBottom: '24px' }}>Full Feature Comparison</h2>
+              <div style={{ display: 'inline-flex', gap: '6px', padding: '4px', borderRadius: '50px', background: 'rgba(0,0,0,0.05)' }}>
+                {[{ id: 'list', label: 'List' }, { id: 'grouped', label: 'Grouped' }].map(({ id, label }) => (
+                  <button
+                    key={id}
+                    aria-pressed={view === id}
+                    onClick={() => setView(id)}
+                    style={{
+                      padding: '10px 22px',
+                      minHeight: '44px',
+                      borderRadius: '50px',
+                      border: 'none',
+                      cursor: 'pointer',
+                      fontSize: '13px',
+                      fontWeight: 700,
+                      transition: 'background .15s, color .15s, box-shadow .15s',
+                      background: view === id ? '#ffffff' : 'transparent',
+                      color: view === id ? '#111827' : '#6b7280',
+                      boxShadow: view === id ? '0 1px 6px rgba(0,0,0,0.10)' : 'none',
+                    }}
+                  >{label}</button>
+                ))}
+              </div>
             </div>
           </FadeUp>
           <FadeUp delay={0.1}>
@@ -120,18 +145,42 @@ export default function CompareAllPlansPage() {
                   </tr>
                 </thead>
                 <tbody>
-                  {FEATURE_ROWS.map((row, i) => (
-                    <tr key={i} style={{ background: i % 2 === 0 ? 'rgba(0,0,0,0.01)' : 'transparent' }}>
-                      <td style={{ fontSize: '13px', color: '#374151', fontWeight: 500, padding: '12px 16px' }}>{row.label}</td>
-                      {TIERS_SORTED.map(tier => (
-                        <td key={tier.slug} style={{ textAlign: 'center' }}>
-                          {row.tiers.includes(tier.slug)
-                            ? <Check size={16} color="#10b981" strokeWidth={2.5} style={{ margin: '0 auto' }} />
-                            : <X size={14} color="#e5e7eb" strokeWidth={2} style={{ margin: '0 auto' }} />}
-                        </td>
-                      ))}
-                    </tr>
-                  ))}
+                  {view === 'list'
+                    ? FEATURE_ROWS.map((row, i) => (
+                        <tr key={i} style={{ background: i % 2 === 0 ? 'rgba(0,0,0,0.01)' : 'transparent' }}>
+                          <td style={{ fontSize: '13px', color: '#374151', fontWeight: 500, padding: '12px 16px' }}>{row.label}</td>
+                          {TIERS_SORTED.map(tier => (
+                            <td key={tier.slug} style={{ textAlign: 'center' }}>
+                              {row.tiers.includes(tier.slug)
+                                ? <Check size={16} color="#10b981" strokeWidth={2.5} style={{ margin: '0 auto' }} />
+                                : <X size={14} color="#e5e7eb" strokeWidth={2} style={{ margin: '0 auto' }} />}
+                            </td>
+                          ))}
+                        </tr>
+                      ))
+                    : GROUP_ORDER.map(groupName => {
+                        const rows = FEATURE_ROWS.filter(r => r.group === groupName);
+                        return [
+                          <tr key={`hdr-${groupName}`} style={{ background: '#f8fafc', borderTop: '1px solid rgba(0,0,0,0.06)' }}>
+                            <td colSpan={TIERS_SORTED.length + 1} style={{ padding: '10px 16px', fontSize: '10px', fontWeight: 700, letterSpacing: '1.4px', textTransform: 'uppercase', color: '#64748b' }}>
+                              {groupName}
+                            </td>
+                          </tr>,
+                          ...rows.map((row, i) => (
+                            <tr key={`${groupName}-${i}`} style={{ background: i % 2 === 0 ? 'rgba(0,0,0,0.01)' : 'transparent' }}>
+                              <td style={{ fontSize: '13px', color: '#374151', fontWeight: 500, padding: '12px 16px' }}>{row.label}</td>
+                              {TIERS_SORTED.map(tier => (
+                                <td key={tier.slug} style={{ textAlign: 'center' }}>
+                                  {row.tiers.includes(tier.slug)
+                                    ? <Check size={16} color="#10b981" strokeWidth={2.5} style={{ margin: '0 auto' }} />
+                                    : <X size={14} color="#e5e7eb" strokeWidth={2} style={{ margin: '0 auto' }} />}
+                                </td>
+                              ))}
+                            </tr>
+                          )),
+                        ];
+                      })
+                  }
                   {/* Pricing row */}
                   <tr style={{ background: 'rgba(42,165,160,0.05)', borderTop: '2px solid rgba(42,165,160,0.15)' }}>
                     <td style={{ fontSize: '13px', fontWeight: 700, color: '#111827', padding: '16px' }}>Monthly</td>
