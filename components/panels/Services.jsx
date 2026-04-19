@@ -138,12 +138,9 @@ function PlanCard({ plan, delay, isMobile }) {
 
 export default function Services() {
   const reduced = useReducedMotion();
-  const [isMobile, setIsMobile] = useState(false);
-  useEffect(() => { setIsMobile(window.matchMedia('(max-width:768px)').matches); }, []);
-  const skip = isMobile || reduced;
   const f = (d = 0) => ({
-    initial:     { opacity: skip ? 1 : 0, y: skip ? 0 : 24 },
-    whileInView: skip ? undefined : { opacity:1, y:0, transition:{ duration:.6, ease:[0.22,1,0.36,1], delay:d } },
+    initial:     { opacity:0, y: reduced ? 0 : 24 },
+    whileInView: { opacity:1, y:0, transition:{ duration:.6, ease:[0.22,1,0.36,1], delay:d } },
     viewport:    { once:true, amount:.05 },
   });
 
@@ -223,7 +220,7 @@ export default function Services() {
 
         {/* Plans grid */}
         <div className="svc-plans-grid">
-          {PLANS.map((p, i) => <PlanCard key={p.name} plan={p} delay={0.1 + i * 0.07} isMobile={isMobile} />)}
+          {PLANS.map((p, i) => <PlanCard key={p.name} plan={p} delay={0.1 + i * 0.07} />)}
         </div>
 
         {/* Add-ons divider */}
