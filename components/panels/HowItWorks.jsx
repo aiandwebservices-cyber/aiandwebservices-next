@@ -29,6 +29,7 @@ function ChatMockup() {
   }, [shown]);
 
   useEffect(() => {
+    if (window.innerWidth <= 768) return;
     endRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
   }, [shown]);
 
