@@ -118,26 +118,8 @@ export function useHorizontalScroll() {
         const offset = Math.round(panel.getBoundingClientRect().top + window.scrollY) - 60;
         window.scrollTo({ top: offset, behavior: 'smooth' });
       }
-      closeMenu();
+      window.closeMenu && window.closeMenu();
       updateUI(pushHistory);
-    }
-
-    function toggleMenu() {
-      const isOpen = mobileMenu.classList.toggle('open');
-      hamburger.classList.toggle('open', isOpen);
-      hamburger.setAttribute('aria-expanded', isOpen);
-      hamburger.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
-      mobileMenu.setAttribute('aria-modal', isOpen ? 'true' : 'false');
-      if (!isMobile()) document.body.style.overflow = isOpen ? 'hidden' : '';
-    }
-
-    function closeMenu() {
-      mobileMenu.classList.remove('open');
-      hamburger.classList.remove('open');
-      hamburger.setAttribute('aria-expanded', 'false');
-      hamburger.setAttribute('aria-label', 'Open navigation menu');
-      mobileMenu.setAttribute('aria-modal', 'false');
-      if (!isMobile()) document.body.style.overflow = '';
     }
 
     const handlePopState = (e) => {
@@ -150,7 +132,6 @@ export function useHorizontalScroll() {
     window.goNext     = () => go(cur + 1);
     window.goPrev     = () => go(cur - 1);
     window.mobileGo   = scrollToPanel;
-    window.toggleMenu = toggleMenu;
 
     const handleOutsideClick = (e) => {
       if (formFocused) return;
@@ -160,7 +141,7 @@ export function useHorizontalScroll() {
       if (e.target.closest('form')) return;
       if (e.target.closest('.calendly-inline-widget')) return;
       if (e.target.closest('.calendly-wrap')) return;
-      if (!nav.contains(e.target) && !mobileMenu.contains(e.target)) closeMenu();
+      if (!nav.contains(e.target) && !mobileMenu.contains(e.target)) window.closeMenu && window.closeMenu();
     };
     document.addEventListener('click', handleOutsideClick);
 
@@ -204,12 +185,12 @@ export function useHorizontalScroll() {
       const tag = document.activeElement.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
       if (isMobile()) {
-        if (e.key === 'Escape') closeMenu();
+        if (e.key === 'Escape') window.closeMenu && window.closeMenu();
         return;
       }
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); go(cur + 1); }
       if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   { e.preventDefault(); go(cur - 1); }
-      if (e.key === 'Escape') closeMenu();
+      if (e.key === 'Escape') window.closeMenu && window.closeMenu();
     };
     window.addEventListener('keydown', handleKeyDown);
 
@@ -294,7 +275,6 @@ export function useHorizontalScroll() {
       delete window.goNext;
       delete window.goPrev;
       delete window.mobileGo;
-      delete window.toggleMenu;
     };
   }, []);
 

@@ -53,7 +53,31 @@ export default function Nav() {
   const [currentPanel, setCurrentPanel] = useState(0);
   const [svcOpen,    setSvcOpen]    = useState(false);
   const [mobSvcOpen, setMobSvcOpen] = useState(false);
+  const [menuOpen,   setMenuOpen]   = useState(false);
   const svcRef = useRef(null);
+
+  const toggleMenu = () => setMenuOpen(o => !o);
+  const closeMenu  = () => setMenuOpen(false);
+
+  // Expose on window so useHorizontalScroll can call closeMenu on panel nav
+  useEffect(() => {
+    window.toggleMenu = toggleMenu;
+    window.closeMenu  = closeMenu;
+    return () => {
+      delete window.toggleMenu;
+      delete window.closeMenu;
+    };
+  }, []);
+
+  // Desktop body scroll lock driven by menuOpen state; mobile unchanged
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const isMobile = window.matchMedia('(max-width: 768px)').matches;
+    if (!isMobile) {
+      document.body.style.overflow = menuOpen ? 'hidden' : '';
+    }
+    return () => { document.body.style.overflow = ''; };
+  }, [menuOpen]);
 
   useEffect(() => {
     const handler = (e) => setCurrentPanel(e.detail ?? 0);
@@ -163,10 +187,11 @@ export default function Nav() {
           )}
           <button
             id="hamburger"
-            aria-expanded="false"
+            className={menuOpen ? 'open' : ''}
+            aria-expanded={menuOpen}
             aria-controls="mobile-menu"
-            aria-label="Open navigation menu"
-            onClick={() => window.toggleMenu && window.toggleMenu()}
+            aria-label={menuOpen ? 'Close navigation menu' : 'Open navigation menu'}
+            onClick={toggleMenu}
           >
             <span className="hb-line" aria-hidden="true" />
             <span className="hb-line" aria-hidden="true" />
@@ -175,7 +200,13 @@ export default function Nav() {
         </div>
       </nav>
 
-      <div id="mobile-menu" role="dialog" aria-label="Navigation menu" aria-modal="false">
+      <div
+        id="mobile-menu"
+        className={menuOpen ? 'open' : ''}
+        role="dialog"
+        aria-label="Navigation menu"
+        aria-modal={menuOpen ? 'true' : 'false'}
+      >
         {NAV_PANELS.map(({ idx, label }) => {
           if (label === 'Services') {
             return (
@@ -184,7 +215,7 @@ export default function Nav() {
                   <Link
                     href="/services"
                     className={`mob-link mob-svc-link${currentPanel === idx ? ' active' : ''}`}
-                    onClick={() => { window.toggleMenu && window.toggleMenu(); }}
+                    onClick={closeMenu}
                   >
                     Services
                   </Link>
@@ -205,7 +236,7 @@ export default function Nav() {
                         key={sLabel}
                         href={href}
                         className="mob-svc-item"
-                        onClick={() => { setMobSvcOpen(false); window.toggleMenu && window.toggleMenu(); }}
+                        onClick={() => { setMobSvcOpen(false); closeMenu(); }}
                       >
                         {sLabel}
                       </a>
@@ -213,7 +244,7 @@ export default function Nav() {
                     <a
                       href="/#pricing"
                       className="mob-svc-item mob-svc-item-compare"
-                      onClick={() => { setMobSvcOpen(false); window.toggleMenu && window.toggleMenu(); }}
+                      onClick={() => { setMobSvcOpen(false); closeMenu(); }}
                     >
                       Compare All Plans
                     </a>
@@ -228,7 +259,7 @@ export default function Nav() {
                 key={idx}
                 href="/contact2"
                 className={`mob-link${pathname === '/contact2' ? ' active' : ''}`}
-                onClick={() => window.toggleMenu && window.toggleMenu()}
+                onClick={closeMenu}
               >
                 {label}
               </Link>
@@ -244,7 +275,7 @@ export default function Nav() {
             </button>
           );
         })}
-        <Link href="/contact2" className="mob-cta" onClick={() => window.toggleMenu && window.toggleMenu()}>Get Your Free Audit</Link>
+        <Link href="/contact2" className="mob-cta" onClick={closeMenu}>Get Your Free Audit</Link>
       </div>
 
       <button className="arr hide" id="arr-l" onClick={() => window.goPrev && window.goPrev()} aria-label="Previous section">&#8592;</button>
