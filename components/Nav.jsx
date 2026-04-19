@@ -93,7 +93,7 @@ export default function Nav() {
   }, []);
 
   // Panels 0 (Hero), 2 (Comparison), 7 (Contact) have dark backgrounds
-  const darkPanels = new Set([0, 2, 7]);
+  const darkPanels = new Set([0, 7]);
   const logoSrc    = darkPanels.has(currentPanel) ? '/logo-gradient-test.svg' : '/logo-gradient-light.svg';
 
   const LogoInner = () => (
