@@ -54,7 +54,7 @@ const inputStyle = {
   fontFamily: 'inherit',
 };
 
-export default function ChecklistForm() {
+export default function ChecklistForm({ hideHero = false, defaultSource = null }) {
   const [step, setStep]             = useState('email'); // 'email' | 'questions' | 'submitted'
   const [email, setEmail]           = useState('');
   const [firstName, setFirstName]   = useState('');
@@ -66,10 +66,14 @@ export default function ChecklistForm() {
   const [submitErr, setSubmitErr]   = useState('');
 
   useEffect(() => {
-    const p = new URLSearchParams(window.location.search);
-    const s = p.get('source');
-    if (s) setSource(s);
-  }, []);
+    if (defaultSource) {
+      setSource(defaultSource);
+    } else {
+      const p = new URLSearchParams(window.location.search);
+      const s = p.get('source');
+      if (s) setSource(s);
+    }
+  }, [defaultSource]);
 
   const setAnswer = (id, value) => {
     setAnswers(prev => ({ ...prev, [id]: prev[id] === value ? null : value }));
@@ -117,19 +121,25 @@ export default function ChecklistForm() {
   if (step === 'email') {
     return (
       <div>
-        <section style={{ backgroundColor: '#111827', color: '#fff', padding: 'clamp(40px,8vw,80px) 20px', textAlign: 'center' }}>
-          <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-            <div style={{ fontSize: '14px', fontWeight: '600', letterSpacing: '1px', textTransform: 'uppercase', color: TEAL, marginBottom: '16px' }}>
-              Free Resource
+        {!hideHero && (
+          <section style={{ backgroundColor: '#111827', color: '#fff', padding: 'clamp(40px,8vw,80px) 20px', textAlign: 'center' }}>
+            <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+              <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'center' }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src="/logo-gradient-test.svg" alt="AIandWEBservices" width={320} height={64} style={{ display: 'block' }} />
+              </div>
+              <div style={{ fontSize: '14px', fontWeight: '600', letterSpacing: '1px', textTransform: 'uppercase', color: TEAL, marginBottom: '16px' }}>
+                Free Resource
+              </div>
+              <h1 style={{ fontSize: 'clamp(32px,5vw,48px)', fontWeight: '800', marginBottom: '16px', lineHeight: '1.2' }}>
+                AI Readiness Checklist
+              </h1>
+              <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.8)', lineHeight: '1.6' }}>
+                20 questions to assess whether your small business is ready for AI automation.
+              </p>
             </div>
-            <h1 style={{ fontSize: 'clamp(32px,5vw,48px)', fontWeight: '800', marginBottom: '16px', lineHeight: '1.2' }}>
-              AI Readiness Checklist
-            </h1>
-            <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.8)', lineHeight: '1.6' }}>
-              20 questions to assess whether your small business is ready for AI automation.
-            </p>
-          </div>
-        </section>
+          </section>
+        )}
 
         <section style={{ maxWidth: '560px', margin: '0 auto', padding: '60px 20px' }}>
           <h2 style={{ fontSize: '28px', fontWeight: '800', color: '#111827', marginBottom: '8px' }}>Let's get started</h2>
@@ -241,26 +251,32 @@ export default function ChecklistForm() {
 
   return (
     <div>
-      <section style={{ backgroundColor: '#111827', color: '#fff', padding: 'clamp(40px,8vw,80px) 20px', textAlign: 'center' }}>
-        <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <div style={{ fontSize: '14px', fontWeight: '600', letterSpacing: '1px', textTransform: 'uppercase', color: TEAL, marginBottom: '16px' }}>
-            Free Resource
+      {!hideHero && (
+        <section style={{ backgroundColor: '#111827', color: '#fff', padding: 'clamp(40px,8vw,80px) 20px', textAlign: 'center' }}>
+          <div style={{ maxWidth: '800px', margin: '0 auto' }}>
+            <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'center' }}>
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src="/logo-gradient-test.svg" alt="AIandWEBservices" width={320} height={64} style={{ display: 'block' }} />
+            </div>
+            <div style={{ fontSize: '14px', fontWeight: '600', letterSpacing: '1px', textTransform: 'uppercase', color: TEAL, marginBottom: '16px' }}>
+              Free Resource
+            </div>
+            <h1 style={{ fontSize: 'clamp(32px,5vw,48px)', fontWeight: '800', marginBottom: '16px', lineHeight: '1.2' }}>
+              AI Readiness Checklist
+            </h1>
+            <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.8)', lineHeight: '1.6', marginBottom: '24px' }}>
+              20 questions to assess whether your small business is ready for AI automation.
+            </p>
+            <button
+              onClick={() => window.print()}
+              style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 20px', backgroundColor: 'transparent', color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: '6px', fontWeight: '600', cursor: 'pointer', fontSize: '14px' }}
+            >
+              <Download size={16} />
+              Print / Save as PDF
+            </button>
           </div>
-          <h1 style={{ fontSize: 'clamp(32px,5vw,48px)', fontWeight: '800', marginBottom: '16px', lineHeight: '1.2' }}>
-            AI Readiness Checklist
-          </h1>
-          <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.8)', lineHeight: '1.6', marginBottom: '24px' }}>
-            20 questions to assess whether your small business is ready for AI automation.
-          </p>
-          <button
-            onClick={() => window.print()}
-            style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 20px', backgroundColor: 'transparent', color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: '6px', fontWeight: '600', cursor: 'pointer', fontSize: '14px' }}
-          >
-            <Download size={16} />
-            Print / Save as PDF
-          </button>
-        </div>
-      </section>
+        </section>
+      )}
 
       <section style={{ maxWidth: '900px', margin: '0 auto', padding: '60px 20px', backgroundColor: '#fff' }}>
         {/* Progress */}
