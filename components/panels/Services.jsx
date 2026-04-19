@@ -231,11 +231,11 @@ export default function Services() {
               <div className="svc-starter-price" style={{ color:'#2AA5A0' }}><sup style={{ color:'#9ca3af' }}>$</sup>99</div>
               <div className="svc-starter-per">one-time setup</div>
               <div className="svc-starter-per">then $199/mo</div>
-              <div style={{ display:'flex', flexDirection:'column', gap:'6px', width:'100%' }}>
+              <div style={{ display:'flex', flexDirection:'row', gap:'8px', width:'100%', marginTop:'4px' }}>
                 <Link
                   href="/services/consulting"
                   className="svc-starter-btn"
-                  style={{ justifyContent:'center', background:'transparent', color:'#2AA5A0', border:'1.5px solid #2AA5A0', boxShadow:'none' }}
+                  style={{ flex:1, justifyContent:'center', background:'transparent', color:'#2AA5A0', border:'2px solid #2AA5A0', boxShadow:'none' }}
                 >
                   Learn More
                 </Link>
@@ -244,7 +244,7 @@ export default function Services() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="svc-starter-btn"
-                  style={{ justifyContent:'center', background:'linear-gradient(135deg,#2AA5A0,#1d8a85)', boxShadow:'0 4px 14px rgba(42,165,160,.35)' }}
+                  style={{ flex:1, justifyContent:'center', background:'linear-gradient(135deg,#2AA5A0,#1d8a85)', boxShadow:'0 4px 14px rgba(42,165,160,.35)' }}
                 >
                   Buy
                 </a>
