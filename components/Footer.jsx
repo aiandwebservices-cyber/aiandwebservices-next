@@ -79,8 +79,6 @@ export default function Footer() {
           >
             Terms of Service
           </button>
-          <span className="footer-legal-divider">|</span>
-          <span className="footer-credit">Built with Next.js, Tailwind, and Claude</span>
         </div>
       </div>
     </footer>
