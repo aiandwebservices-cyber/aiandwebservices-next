@@ -63,5 +63,29 @@ export async function POST(request) {
   const hsData = await hsRes.json();
   const contactId = hsData?.results?.[0]?.id ?? null;
 
+  // Fire-and-forget n8n webhook for EspoCRM + notification emails
+  const n8nUrl = process.env.N8N_CHECKLIST_WEBHOOK;
+  if (n8nUrl) {
+    try {
+      const n8nRes = await fetch(n8nUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          email,
+          firstName,
+          companyName: companyName || '',
+          source: source || 'site',
+          answers
+        })
+      });
+      if (!n8nRes.ok) {
+        const errText = await n8nRes.text();
+        console.error('[checklist-submit] n8n webhook failed:', errText);
+      }
+    } catch (err) {
+      console.error('[checklist-submit] n8n webhook error:', err);
+    }
+  }
+
   return NextResponse.json({ success: true, contactId });
 }
