@@ -260,8 +260,8 @@ export default function Services() {
         <motion.div {...f(0.55)} className="panel-cta-wrap svc-cta-wrap">
           <div className="panel-cta-card">
             <p className="panel-cta-title">Not sure which plan fits your business?</p>
-            <p className="panel-cta-sub">Talk to David directly — honest advice, no sales pitch, within 6 hours.</p>
-            <a className="panel-cta-btn" href="/contact">Get Your Free Audit</a>
+            <p className="panel-cta-sub">Talk to David directly — honest advice, no sales pitch, within 6 hours. <a href="/contact" style={{ color: 'inherit', fontWeight: 500, opacity: 0.75, textDecoration: 'underline', fontSize: '0.9em' }}>or get a free audit →</a></p>
+            <a className="panel-cta-btn" href="/services/compare">See Full Comparison →</a>
           </div>
         </motion.div>
 
