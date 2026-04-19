@@ -2402,7 +2402,7 @@ html:has(.svc-page-main){overflow:auto!important}
 
 /* ── Checklist / non-homepage pages: restore normal scroll ── */
 body.allow-scroll,
-body.allow-scroll html {
+html:has(body.allow-scroll) {
   overflow-y: auto !important;
   overflow-x: hidden !important;
   height: auto !important;
