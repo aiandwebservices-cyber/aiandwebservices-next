@@ -261,7 +261,7 @@ export default function AIAutomationStarterPage() {
                   style={{ display:'flex', gap:'12px', flexWrap:'wrap', marginBottom:'32px' }}
                 >
                   <Link
-                    href="/#contact"
+                    href="/contact"
                     style={{ display:'inline-flex', alignItems:'center', gap:'8px', padding:'14px 28px', background:'#2AA5A0', color:'#fff', borderRadius:'50px', fontWeight:700, fontSize:'15px', textDecoration:'none', boxShadow:'0 8px 32px rgba(42,165,160,.45)', transition:'all .2s' }}
                   >
                     Get My Free Audit <ArrowRight size={16} />
@@ -496,7 +496,7 @@ export default function AIAutomationStarterPage() {
                   {c.pricingCta} <ArrowRight size={16} />
                 </Link>
                 <Link
-                  href="/#contact"
+                  href="/contact"
                   style={{ display:'flex', alignItems:'center', justifyContent:'center', padding:'14px', border:'1px solid rgba(255,255,255,.12)', color:'rgba(255,255,255,.6)', borderRadius:'14px', fontWeight:600, fontSize:'14px', textDecoration:'none', transition:'all .2s' }}
                 >
                   Get a free audit first — no obligation
@@ -659,7 +659,7 @@ export default function AIAutomationStarterPage() {
             </p>
             <div className="ais-cta-btns">
               <Link
-                href="/#contact"
+                href="/contact"
                 style={{ display:'inline-flex', alignItems:'center', gap:'8px', padding:'17px 38px', background:'#2AA5A0', color:'#fff', borderRadius:'50px', fontWeight:700, fontSize:'16px', textDecoration:'none', boxShadow:'0 14px 48px rgba(42,165,160,.55)', transition:'all .2s' }}
               >
                 Get My Free Audit <ArrowRight size={18} />

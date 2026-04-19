@@ -10,23 +10,24 @@ const SERVICE_LINKS = [
   { label: 'Growth',                href: '/services/growth'                },
   { label: 'Revenue Engine',        href: '/services/revenue-engine'        },
   { label: 'AI-First',              href: '/services/ai-first'              },
-  { label: 'Consulting & Strategy', href: '/services/consulting'            },
+  { label: 'A La Carte',            href: '/services/consulting'            },
   { label: 'Add-On Services',       href: '/services/add-ons'               },
 ];
 
-// 7 panels: Home(0), How It Works(1), Comparison(2), Services(3),
-// About(4), Samples(5), FAQ(6). Contact lives at /contact route.
+// 8 panels: Home(0), How It Works(1), Comparison(2), Services(3),
+// About(4), Samples(5), FAQ(6), AI Readiness(7). Contact lives at /contact route.
 const PANELS = [
-  { idx: 0, label: 'Home',         nav: true },
-  { idx: 1, label: 'How It Works', nav: true },
-  { idx: 2, label: 'Comparison',   nav: true },
-  { idx: 3, label: 'Services',     nav: true },
-  { idx: 4, label: 'About',        nav: true },
-  { idx: 5, label: 'Samples',      nav: true },
-  { idx: 6, label: 'FAQ',          nav: true },
+  { idx: 0, label: 'Home',           nav: true },
+  { idx: 1, label: 'How It Works',   nav: true },
+  { idx: 2, label: 'Comparison',     nav: true },
+  { idx: 3, label: 'Services',       nav: true },
+  { idx: 4, label: 'About',          nav: true },
+  { idx: 5, label: 'Samples',        nav: true },
+  { idx: 6, label: 'FAQ',            nav: true },
+  { idx: 7, label: 'AI Readiness',   nav: true },
 ];
 const NAV_PANELS  = PANELS.filter(p => p.nav);
-const HASH_NAMES = ['home', 'how-it-works', 'comparison', 'services', 'about', 'samples', 'faq'];
+const HASH_NAMES = ['home', 'how-it-works', 'comparison', 'services', 'about', 'samples', 'faq', 'ai-readiness'];
 
 export default function Nav() {
   const pathname = usePathname();
@@ -91,7 +92,7 @@ export default function Nav() {
     if (!window.matchMedia('(max-width: 768px)').matches) return;
     const PANEL_ID_TO_IDX = {
       'p0': 0, 'p2': 1, 'comparison': 2, 'services': 3,
-      'p3': 4, 'samples': 5, 'p7': 6, 'p8': 7,
+      'p3': 4, 'samples': 5, 'p7': 6, 'checklist-teaser': 7, 'p8': 8,
     };
     const observer = new IntersectionObserver(
       (entries) => {
@@ -120,7 +121,7 @@ export default function Nav() {
   }, []);
 
   // Panels 0 (Hero), 2 (Comparison), 7 (Contact) have dark backgrounds
-  const darkPanels = new Set([0, 7]); // Hero (0) and FinalCTA (7) are dark
+  const darkPanels = new Set([0, 8]); // Hero (0) and FinalCTA (8) are dark
   const isDarkSurface = isOnContactPage || darkPanels.has(currentPanel);
   const logoSrc = isDarkSurface ? '/logo-gradient-test.svg' : '/logo-gradient-light.svg';
 
@@ -306,7 +307,7 @@ export default function Nav() {
         >
           Contact
         </Link>
-        <Link href="/contact" className="mob-cta" onClick={closeMenu}>Get Your Free Audit</Link>
+        <Link href="/checklist" className="mob-cta" onClick={closeMenu}>Take the AI Readiness Check</Link>
       </div>
 
       <button className="arr hide" id="arr-l" onClick={() => window.goPrev && window.goPrev()} aria-label="Previous section">&#8592;</button>

@@ -299,8 +299,8 @@ export default function HowItWorks() {
           >
             <div className="panel-cta-card">
               <p className="panel-cta-title">See exactly how it works for your business.</p>
-              <p className="panel-cta-sub">30 minutes · No obligation · Honest advice</p>
-              <a className="panel-cta-btn" href="/contact">Get Your Free Audit</a>
+              <p className="panel-cta-sub">5 categories · 20 questions · Instant score</p>
+              <a className="panel-cta-btn" href="/checklist">Take the AI Readiness Check</a>
             </div>
           </motion.div>
 

@@ -307,7 +307,7 @@ export default function Services() {
 
         .svc-starter-left { display:flex;flex-direction:column; }
         .svc-starter-eyebrow { display:flex;align-items:center;gap:5px;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#3b82f6;margin-bottom:8px; }
-        .svc-starter-name { font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:900;color:#111827;line-height:1.15;letter-spacing:-0.5px;margin-bottom:8px; }
+        .svc-starter-name { font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:900;color:#2AA5A0;line-height:1.15;letter-spacing:-0.5px;margin-bottom:8px; }
         .svc-starter-desc { font-size:11px;color:#6b7280;line-height:1.6; }
 
         .svc-starter-col { display:flex;flex-direction:column;justify-content:flex-start;align-self:flex-start;margin-top:-12px; }
@@ -315,12 +315,12 @@ export default function Services() {
         .svc-starter-bullet { display:flex;align-items:flex-start;gap:6px;font-size:11px;color:#374151;line-height:1.4;margin-bottom:5px; }
         .svc-starter-check { color:#3b82f6;font-size:10px;font-weight:800;flex-shrink:0;margin-top:1px; }
 
-        .svc-starter-grid { position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:24px;align-items:start; }
-        .svc-starter-price-col { display:flex;flex-direction:column;align-items:flex-end;text-align:right;flex-shrink:0; }
+        .svc-starter-grid { position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:24px;align-items:stretch; }
+        .svc-starter-price-col { display:flex;flex-direction:column;align-items:flex-end;text-align:right;flex-shrink:0;justify-content:flex-start; }
         .svc-starter-price { font-family:'Plus Jakarta Sans',sans-serif;font-size:36px;font-weight:900;color:#111827;line-height:1;margin-bottom:2px; }
         .svc-starter-price sup { font-size:14px;vertical-align:top;margin-top:6px;display:inline-block;color:#6b7280; }
         .svc-starter-per { font-size:10px;color:#9ca3af;line-height:1.7;font-weight:600; }
-        .svc-starter-btn { display:inline-flex;align-items:center;background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;border:none;border-radius:50px;padding:9px 18px;font-size:11px;font-weight:700;text-decoration:none;transition:all .2s;box-shadow:0 4px 14px rgba(59,130,246,.35);margin-top:8px;white-space:nowrap; }
+        .svc-starter-btn { display:inline-flex;align-items:center;background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;border:none;border-radius:50px;padding:9px 18px;font-size:11px;font-weight:700;text-decoration:none;transition:all .2s;box-shadow:0 4px 14px rgba(59,130,246,.35);margin-top:auto;white-space:nowrap; }
         .svc-starter-btn:hover { transform:translateY(-2px);box-shadow:0 8px 22px rgba(59,130,246,.5); }
 
         /* Plans */
@@ -427,8 +427,10 @@ export default function Services() {
 
         @media (max-width:640px) {
           .svc-starter-grid { grid-template-columns:1fr; }
-          .svc-starter-price-col { grid-column:1;grid-row:2;align-items:flex-start;text-align:left; }
-          .svc-starter-bullets-col { grid-column:1;grid-row:3;grid-template-columns:1fr; }
+          .svc-starter-bullets-mobile { grid-row:2;grid-column:1; }
+          .svc-starter-price-col { grid-column:1;grid-row:3;align-items:flex-start;text-align:left;justify-content:flex-start; }
+          .svc-starter-btn { margin-top:12px; }
+          .svc-starter-bullets-col { grid-column:1;grid-row:4;grid-template-columns:1fr; }
           .pricing-inner { padding:80px 4vw 24px; }
           .svc-plans-grid { grid-template-columns:1fr;gap:6px;margin-bottom:8px; }
           .svc-plan-card { padding:12px 12px; }

@@ -74,11 +74,7 @@ export default function FloatingCTA() {
     >
       <div style={{ position: 'relative', display: 'inline-flex' }}>
         <Link
-          href="#contact"
-          onClick={() => {
-            const el = document.getElementById('p8');
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-          }}
+          href="/checklist"
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -94,7 +90,7 @@ export default function FloatingCTA() {
             minHeight: '48px',
           }}
         >
-          Get Your Free Audit
+          Take the AI Readiness Check
         </Link>
         <button
           onClick={dismiss}

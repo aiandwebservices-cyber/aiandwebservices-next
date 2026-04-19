@@ -1,3 +1,5 @@
+// DEPRECATED — replaced by app/contact/page.jsx. Commented out of app/page.jsx.
+// Safe to delete if no other references found in next session.
 'use client';
 import { useState } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';

@@ -343,7 +343,7 @@ export default function CompareAllPlansPage() {
             <p style={{ fontSize: '16px', color: '#6b7280', marginBottom: '36px', lineHeight: 1.7 }}>
               Book a free audit. I&apos;ll look at your business and tell you exactly which plan makes sense — no upsell, no pressure.
             </p>
-            <Link href="/#contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '16px 36px', background: ACCENT, color: '#fff', borderRadius: '50px', fontWeight: 700, fontSize: '16px', textDecoration: 'none', boxShadow: '0 10px 36px rgba(42,165,160,0.4)' }}>
+            <Link href="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '16px 36px', background: ACCENT, color: '#fff', borderRadius: '50px', fontWeight: 700, fontSize: '16px', textDecoration: 'none', boxShadow: '0 10px 36px rgba(42,165,160,0.4)' }}>
               Get My Free Audit <ArrowRight size={18} />
             </Link>
           </div>

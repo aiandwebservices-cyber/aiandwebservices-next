@@ -104,7 +104,7 @@ function AddOnCard({ addon, index }) {
 
         {/* CTA */}
         <div style={{ padding: '20px 28px' }}>
-          <Link href="/#contact" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '14px', background: color, color: '#fff', borderRadius: '12px', fontWeight: 700, fontSize: '14px', textDecoration: 'none', boxShadow: `0 8px 24px ${color}40`, transition: 'all .2s' }}>
+          <Link href="/contact" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '14px', background: color, color: '#fff', borderRadius: '12px', fontWeight: 700, fontSize: '14px', textDecoration: 'none', boxShadow: `0 8px 24px ${color}40`, transition: 'all .2s' }}>
             Add to My Plan <ArrowRight size={15} />
           </Link>
         </div>
@@ -155,7 +155,7 @@ export default function AddOnsPage() {
               {c.hero.subheadline}
             </motion.p>
             <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.4 }}>
-              <Link href="/#contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '14px 28px', background: ACCENT, color: '#fff', borderRadius: '50px', fontWeight: 700, fontSize: '15px', textDecoration: 'none', boxShadow: '0 8px 28px rgba(42,165,160,0.4)' }}>
+              <Link href="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '14px 28px', background: ACCENT, color: '#fff', borderRadius: '50px', fontWeight: 700, fontSize: '15px', textDecoration: 'none', boxShadow: '0 8px 28px rgba(42,165,160,0.4)' }}>
                 Get a Free Audit <ArrowRight size={16} />
               </Link>
             </motion.div>
@@ -197,7 +197,7 @@ export default function AddOnsPage() {
               Book a free audit. I&apos;ll tell you which (if any) makes sense for your business right now.
             </p>
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Link href="/#contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '15px 32px', background: ACCENT, color: '#fff', borderRadius: '50px', fontWeight: 700, fontSize: '15px', textDecoration: 'none', boxShadow: '0 10px 36px rgba(42,165,160,0.45)' }}>
+              <Link href="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '15px 32px', background: ACCENT, color: '#fff', borderRadius: '50px', fontWeight: 700, fontSize: '15px', textDecoration: 'none', boxShadow: '0 10px 36px rgba(42,165,160,0.45)' }}>
                 Get My Free Audit <ArrowRight size={16} />
               </Link>
               <Link href="/services/compare" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '15px 24px', border: '1px solid rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.7)', borderRadius: '50px', fontWeight: 600, fontSize: '15px', textDecoration: 'none' }}>

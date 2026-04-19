@@ -165,7 +165,7 @@ export default function GuaranteePage() {
         <p style={{ fontSize: '16px', color: 'rgba(255,255,255,0.7)', marginBottom: '32px', lineHeight: 1.7 }}>
           Fill out the contact form. Tell David about your business. He'll get back to you within 6 hours with personalized advice — guaranteed.
         </p>
-        <Link href="/#contact" style={{ display: 'inline-block', backgroundColor: '#2AA5A0', color: '#111827', padding: '14px 32px', borderRadius: '6px', fontWeight: 700, fontSize: '16px', textDecoration: 'none', cursor: 'pointer' }}>
+        <Link href="/contact" style={{ display: 'inline-block', backgroundColor: '#2AA5A0', color: '#111827', padding: '14px 32px', borderRadius: '6px', fontWeight: 700, fontSize: '16px', textDecoration: 'none', cursor: 'pointer' }}>
           Get Your Free Audit →
         </Link>
       </section>

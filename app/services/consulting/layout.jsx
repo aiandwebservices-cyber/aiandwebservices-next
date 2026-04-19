@@ -1,17 +1,17 @@
 import { BreadcrumbSchema } from '@/components/Schema';
 
 export const metadata = {
-  title: 'Consulting & Strategy | AIandWEBservices',
-  description: 'One-on-one AI and automation consulting with David Pulis. Strategy, audits, and implementation advice — no fluff.',
+  title: 'A La Carte Services — Build Your Own Package | AIandWEBservices',
+  description: 'Pick exactly what you need — website, AI chatbot, sales funnel, ads, voice AI, SEO, or automation. Custom quote, no lock-in, no subscription required.',
   alternates: { canonical: 'https://www.aiandwebservices.com/services/consulting' },
   openGraph: {
-    title: 'Consulting & Strategy | AIandWEBservices',
-    description: 'One-on-one AI and automation consulting with David Pulis. Strategy, audits, and implementation advice — no fluff.',
+    title: 'A La Carte Services — Build Your Own Package | AIandWEBservices',
+    description: 'Pick exactly what you need — website, AI chatbot, sales funnel, ads, voice AI, SEO, or automation. Custom quote, no lock-in, no subscription required.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Consulting & Strategy | AIandWEBservices',
-    description: 'One-on-one AI and automation consulting with David Pulis. Strategy, audits, and implementation advice — no fluff.',
+    title: 'A La Carte Services — Build Your Own Package | AIandWEBservices',
+    description: 'Pick exactly what you need — website, AI chatbot, sales funnel, ads, voice AI, SEO, or automation. Custom quote, no lock-in, no subscription required.',
   },
 };
 
@@ -19,7 +19,7 @@ const BASE = 'https://www.aiandwebservices.com';
 const ITEMS = [
   { name: 'Home', url: BASE },
   { name: 'Services', url: `${BASE}/services` },
-  { name: 'Consulting & Strategy', url: `${BASE}/services/consulting` },
+  { name: 'A La Carte', url: `${BASE}/services/consulting` },
 ];
 
 export default function Layout({ children }) {

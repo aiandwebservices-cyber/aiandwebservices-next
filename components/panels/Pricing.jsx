@@ -81,7 +81,7 @@ export default function Pricing() {
           <h2 className="panel-h2" style={{marginBottom:'24px'}}>Transparent pricing.<span className="pricing-br"><br/></span> No surprises.</h2>
           <div className="no-contract">No contracts — cancel or pause anytime</div>
           <p className="pricing-crosslinks">
-            Scroll up to <a href="#services">Services</a> for detailed descriptions, or <a href="#contact">get a free audit</a> for a personalized recommendation.
+            Scroll up to <a href="#services">Services</a> for detailed descriptions, or <a href="/contact">get a free audit</a> for a personalized recommendation.
           </p>
         </div>
 

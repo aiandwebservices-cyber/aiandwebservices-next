@@ -104,7 +104,7 @@ export default async function BlogPost({ params }) {
           <div style={{fontSize:'13px',fontWeight:800,letterSpacing:'2px',textTransform:'uppercase',color:'#2AA5A0',marginBottom:'12px'}}>Ready to Take Action?</div>
           <h3 style={{fontFamily:"'Plus Jakarta Sans',sans-serif",fontSize:'24px',fontWeight:800,color:'#fff',marginBottom:'12px'}}>Find out what AI is worth for your business</h3>
           <p style={{color:'rgba(255,255,255,.6)',fontSize:'14px',marginBottom:'24px'}}>Free audit. No jargon. A straight answer about where to start.</p>
-          <Link href="/#contact" style={{display:'inline-block',background:'#2AA5A0',color:'#fff',fontWeight:700,fontSize:'15px',padding:'14px 32px',borderRadius:'50px',textDecoration:'none'}}>Get Your Free AI Audit →</Link>
+          <Link href="/contact" style={{display:'inline-block',background:'#2AA5A0',color:'#fff',fontWeight:700,fontSize:'15px',padding:'14px 32px',borderRadius:'50px',textDecoration:'none'}}>Get Your Free AI Audit →</Link>
         </div>
       </main>
     </div>

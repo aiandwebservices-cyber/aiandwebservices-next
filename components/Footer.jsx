@@ -21,7 +21,7 @@ export default function Footer() {
             <Link href="/services/growth">Growth</Link>
             <Link href="/services/revenue-engine">Revenue Engine</Link>
             <Link href="/services/ai-first">AI-First</Link>
-            <Link href="/services/consulting">Consulting</Link>
+            <Link href="/services/consulting">A La Carte</Link>
             <Link href="/services/ai-automation-starter">AI Automation Starter</Link>
           </nav>
         </div>

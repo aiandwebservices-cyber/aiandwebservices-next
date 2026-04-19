@@ -98,7 +98,7 @@ export default function V1Comparison({ service }) {
         <p style={{ fontSize: '0.95rem', color: 'var(--muted)', marginBottom: '1.25rem' }}>
           Not sure which tier fits? We'll help you figure it out — no commitment required.
         </p>
-        <a href="/#contact" className="btn-primary" style={{ display: 'inline-block' }}>
+        <a href="/contact" className="btn-primary" style={{ display: 'inline-block' }}>
           Get Your Free Audit →
         </a>
       </div>

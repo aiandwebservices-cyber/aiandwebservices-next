@@ -240,7 +240,7 @@ export default function ServicePageTemplate({ content: c, tier, theme: themeMode
                 <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.3 }}
                   style={{ display: 'flex', gap: '12px', flexWrap: 'wrap', marginBottom: '28px' }}
                 >
-                  <Link href="/#contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '14px 26px', background: '#2AA5A0', color: '#fff', borderRadius: '50px', fontWeight: 700, fontSize: '15px', textDecoration: 'none', boxShadow: '0 8px 28px rgba(42,165,160,.4)', transition: 'all .2s' }}>
+                  <Link href="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '14px 26px', background: '#2AA5A0', color: '#fff', borderRadius: '50px', fontWeight: 700, fontSize: '15px', textDecoration: 'none', boxShadow: '0 8px 28px rgba(42,165,160,.4)', transition: 'all .2s' }}>
                     Get My Free Audit <ArrowRight size={16} />
                   </Link>
                   <a href="#pricing" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '14px 22px', border: `1px solid ${themeMode === 'light' ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.18)'}`, color: t.heroSub, borderRadius: '50px', fontWeight: 600, fontSize: '15px', textDecoration: 'none', transition: 'all .2s' }}>
@@ -436,7 +436,7 @@ export default function ServicePageTemplate({ content: c, tier, theme: themeMode
                   <Link href={tier.setupLinkLong} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '15px', background: '#2AA5A0', color: '#fff', borderRadius: '12px', fontWeight: 700, fontSize: '15px', textDecoration: 'none', boxShadow: '0 8px 24px rgba(42,165,160,0.4)', transition: 'all .2s' }}>
                     {c.pricingCta} <ArrowRight size={16} />
                   </Link>
-                  <Link href="/#contact" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '13px', border: `1px solid ${themeMode === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.12)'}`, color: t.body, borderRadius: '12px', fontWeight: 600, fontSize: '14px', textDecoration: 'none', transition: 'all .2s' }}>
+                  <Link href="/contact" style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '13px', border: `1px solid ${themeMode === 'light' ? 'rgba(0,0,0,0.1)' : 'rgba(255,255,255,0.12)'}`, color: t.body, borderRadius: '12px', fontWeight: 600, fontSize: '14px', textDecoration: 'none', transition: 'all .2s' }}>
                     Get a free audit first — no obligation
                   </Link>
                 </div>
@@ -570,7 +570,7 @@ export default function ServicePageTemplate({ content: c, tier, theme: themeMode
               Get a free audit first. I&apos;ll tell you exactly where AI can help — no pitch, no obligation, within 6 hours.
             </p>
             <div style={{ display: 'flex', gap: '12px', justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Link href="/#contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '16px 36px', background: '#2AA5A0', color: '#fff', borderRadius: '50px', fontWeight: 700, fontSize: '16px', textDecoration: 'none', boxShadow: '0 12px 40px rgba(42,165,160,0.45)', transition: 'all .2s' }}>
+              <Link href="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '16px 36px', background: '#2AA5A0', color: '#fff', borderRadius: '50px', fontWeight: 700, fontSize: '16px', textDecoration: 'none', boxShadow: '0 12px 40px rgba(42,165,160,0.45)', transition: 'all .2s' }}>
                 Get My Free Audit <ArrowRight size={18} />
               </Link>
               {tier && (
