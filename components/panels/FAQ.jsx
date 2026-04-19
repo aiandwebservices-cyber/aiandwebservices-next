@@ -20,9 +20,9 @@ const blogs = [
   { href:'/blog/how-ai-works-while-you-sleep',                 tag:'AI Automation', title:'How AI Works While You Sleep',          desc:'Discover how automated AI systems handle leads, follow-ups, and customer queries around the clock — without you lifting a finger.' },
   { href:'/blog/ai-saves-small-businesses-500-2000-per-month', tag:'AI ROI',         title:'66% of SMBs Save $500–$2,000/mo with AI', desc:'Real numbers from real businesses. See exactly where AI cuts costs and how quickly it pays for itself.' },
   { href:'/blog/growing-businesses-use-ai-83-percent',         tag:'Growth',         title:'83% of Growing SMBs Now Use AI',          desc:'The gap between AI-adopters and holdouts is widening fast. Here\'s what the top-performing small businesses are doing differently.' },
-  { href:'/blog/ai-chatbot-for-small-business',                tag:'AI Chatbot',     title:'Why Every SMB Needs a Chatbot in 2025',   desc:'A well-trained chatbot answers questions, qualifies leads, and books calls — even at 2am on a Sunday.' },
-  { href:'/blog/local-seo-guide-small-business',               tag:'Local SEO',      title:'Dominate Local Search in 2025',            desc:'The exact steps to rank #1 in Google Maps and local results, from Google Business Profile to on-page signals.' },
-  { href:'/blog/website-speed-conversion-rate',                tag:'Conversion',     title:'Faster Sites = More Customers',            desc:'A 1-second delay costs up to 7% in conversions. Here\'s how to audit and fix your site speed in an afternoon.' },
+  { href:'/blog/ai-directly-boosts-revenue-91-percent-small-businesses', tag:'AI ROI',      title:'91% of SMBs Say AI Directly Boosts Revenue', desc:'New data shows the majority of small businesses using AI report a direct, measurable impact on their bottom line.' },
+  { href:'/blog/businesses-cut-costs-35-percent-first-year-ai',          tag:'Cost Savings', title:'Businesses Cut Costs 35% in Their First Year of AI', desc:'A 1-in-3 cost reduction in year one — here\'s where the savings actually come from and how to replicate them.' },
+  { href:'/blog/urgency-ai-adoption-8-in-10-companies',                  tag:'AI Trends',    title:'8 in 10 Companies Are Adopting AI Now',      desc:'The window to get ahead of your competitors is closing. Here\'s what the data says about the pace of AI adoption.' },
 ];
 
 const TAG_COLORS = {
