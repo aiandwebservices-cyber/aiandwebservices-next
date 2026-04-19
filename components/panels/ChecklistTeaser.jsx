@@ -68,7 +68,7 @@ export default function ChecklistTeaser() {
         .ct-inner {
           position: relative; height: 100%; display: flex; flex-direction: column;
           align-items: center; justify-content: center; text-align: center;
-          padding: 90px 6vw 60px; overflow-y: auto;
+          padding: 90px 6vw 60px;
         }
         .ct-icon-wrap { margin-bottom: 18px; }
         .ct-eyebrow {
