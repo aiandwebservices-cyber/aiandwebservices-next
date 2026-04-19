@@ -1410,6 +1410,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   .contact-form{padding:24px 20px}
   .form-row-2{grid-template-columns:1fr}
   .form-row input,.form-row textarea,.form-row select{font-size:16px}
+  #cal-contact-embed{height:auto!important;min-height:500px;overflow:visible!important;margin-top:0!important}
 
   /* blog */
   .blog-inner{padding:clamp(18px,3vw,28px) 5vw clamp(24px,4vw,40px)}
