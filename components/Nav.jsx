@@ -34,6 +34,7 @@ export default function Nav() {
   const router = useRouter();
   const isOnServicePage = pathname.startsWith('/services/');
   const isOnContactPage = pathname === '/contact2';
+  const isHomepage = pathname === '/';
   const go  = (n) => {
     if (isOnContactPage) {
       const hash = HASH_NAMES[n] || 'home';
@@ -103,14 +104,14 @@ export default function Nav() {
   return (
     <>
       <nav id="nav" className="dark" role="navigation" aria-label="Main navigation">
-        {currentPanel === 0 ? (
+        {(isHomepage && currentPanel === 0) ? (
           <div className="logo" role="img" aria-label="AIandWEBservices logo">
             <LogoInner />
           </div>
         ) : (
-          <button className="logo logo-link" onClick={() => go(0)} aria-label="AIandWEBservices — go to home">
+          <Link href="/" className="logo logo-link" onClick={closeMenu} aria-label="AIandWEBservices — go to home">
             <LogoInner />
-          </button>
+          </Link>
         )}
 
         <div className="nav-center" role="menubar" aria-label="Site sections">
