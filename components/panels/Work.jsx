@@ -228,9 +228,15 @@ export default function Work() {
         @keyframes wkShimmer { 0%{background-position:200% 0} 100%{background-position:-200% 0} }
 
         @media (max-width:768px) {
-          .wk-tabs { gap:8px; }
-          .wk-tab { padding:10px 16px;font-size:13px; }
+          .wk-tabs { gap:8px; margin-bottom:10px; }
+          .wk-tab { padding:8px 10px;font-size:13px;flex-shrink:0; }
           .wk-tab-label { font-size:13px; }
+          .wk-h2 { font-size:22px;margin-bottom:4px; }
+          .wk-sub { font-size:12px;margin-bottom:0; }
+          .wk-browser { min-height:300px !important;max-height:45vh !important;flex:none !important; }
+          .work-inner .panel-cta-card { padding:12px 20px; }
+          .work-inner .panel-cta-sub  { font-size:11px;margin:2px 0 0;line-height:1.3; }
+          .work-inner .panel-cta-btn  { padding:10px 24px;font-size:13px; }
         }
         @media (max-width:560px) {
           .work-inner { padding:80px 5vw 40px; }
