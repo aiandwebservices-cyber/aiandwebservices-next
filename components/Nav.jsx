@@ -153,19 +153,6 @@ export default function Nav() {
                 </div>
               );
             }
-            if (label === 'Contact') {
-              return (
-                <Link
-                  key={idx}
-                  href="/contact"
-                  className={`nav-pill${pathname === '/contact' ? ' active' : ''}`}
-                  role="menuitem"
-                  aria-current={pathname === '/contact' ? 'page' : undefined}
-                >
-                  {label}
-                </Link>
-              );
-            }
             return (
               <button
                 key={idx}
@@ -178,6 +165,14 @@ export default function Nav() {
               </button>
             );
           })}
+          <Link
+            href="/contact"
+            className={`nav-pill${pathname === '/contact' ? ' active' : ''}`}
+            role="menuitem"
+            aria-current={pathname === '/contact' ? 'page' : undefined}
+          >
+            Contact
+          </Link>
         </div>
 
         <div className="nav-right">

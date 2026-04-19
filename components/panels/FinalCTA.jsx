@@ -1,5 +1,5 @@
 'use client';
-import Link from 'next/link';
+import ContactForm from '@/components/ContactForm';
 
 export default function FinalCTA() {
   return (
@@ -12,9 +12,7 @@ export default function FinalCTA() {
         <p className="final-cta-sub">
           30-minute audit. No pitch. Honest advice.
         </p>
-        <Link href="/contact" className="final-cta-btn">
-          Get Your Free Audit →
-        </Link>
+        <ContactForm />
         <p className="final-cta-trust">
           No contracts · 6-hour response · Live in 14 days
         </p>

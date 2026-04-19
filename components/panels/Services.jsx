@@ -209,7 +209,7 @@ export default function Services() {
                 Pick what you need from our full service list — combine features however you want — and I&apos;ll quote you fair pricing based on scope.
               </p>
               <div style={{ fontSize:11, fontWeight:700, color:'#6b7280', marginBottom:6, textTransform:'uppercase', letterSpacing:1 }}>Common custom requests</div>
-              <ul style={{ margin:'0 0 12px', padding:0, listStyle:'none', display:'flex', flexDirection:'column', gap:4 }}>
+              <ul className="svc-consulting-requests" style={{ margin:'0 0 10px', padding:0, listStyle:'none', gap:'4px 20px' }}>
                 {[
                   'AI readiness audit + automation roadmap',
                   'One-time chatbot or workflow build (no monthly)',
@@ -379,8 +379,14 @@ export default function Services() {
         /* Consulting à la carte */
         .svc-consulting-card {
           background:#fff;border:1px solid rgba(42,165,160,.2);border-left:4px solid #2AA5A0;
-          border-radius:14px;padding:20px 24px;margin-bottom:20px;
+          border-radius:14px;padding:14px 20px;margin-bottom:16px;
           box-shadow:0 2px 12px rgba(42,165,160,.08);
+        }
+        .svc-consulting-requests {
+          display:grid;grid-template-columns:1fr 1fr;gap:4px 20px;
+        }
+        @media(max-width:768px){
+          .svc-consulting-requests{grid-template-columns:1fr}
         }
 
         /* Add-ons label */
