@@ -49,10 +49,7 @@ export default function Contact2() {
           form > div[style*="grid-template-columns"] > div{min-width:0}
           div[style*="repeat(3, minmax"]{grid-template-columns:1fr!important}
         }
-        .contact2-back-link{display:none}
-        @media(max-width:768px){
-          .contact2-back-link{display:inline-flex!important}
-        }
+
       `}</style>
       {/* Background */}
       <div style={{
@@ -68,10 +65,7 @@ export default function Contact2() {
       <div style={{ position: 'relative', zIndex: 2, maxWidth: '1200px', margin: '0 auto', padding: '120px 6vw clamp(20px, 3vw, 44px)', display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
 
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
-          <Link href="/" className="contact2-back-link" style={{ alignItems: 'center', gap: '6px', fontSize: '14px', color: 'rgba(255,255,255,.7)', textDecoration: 'none', marginBottom: '16px' }}>
-            ← Back to homepage
-          </Link>
-          {/* ── HEADER ── */}
+{/* ── HEADER ── */}
           <motion.div {...fade(0)} style={{ marginBottom: 'clamp(12px, 2vw, 20px)', maxWidth: '700px', margin: '0 auto clamp(12px, 2vw, 20px)', textAlign: 'center' }}>
             <div style={{ fontSize: 'clamp(10px, 1.5vw, 11px)', fontWeight: 800, letterSpacing: '3px', textTransform: 'uppercase', color: TEAL, marginBottom: 6 }}>GET IN TOUCH</div>
             <h1 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 'clamp(22px, 3.8vw, 46px)', fontWeight: 800, letterSpacing: '-1px', lineHeight: 1.1, color: '#fff', marginBottom: 10 }}>
