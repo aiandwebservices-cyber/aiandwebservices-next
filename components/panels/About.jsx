@@ -265,7 +265,7 @@ export default function About() {
         @media (max-width:768px) {
           .abt-grid { grid-template-columns:1fr; }
           .abt-guarantees { display:none; }
-          .abt-photo-wrap img { max-height:220px;object-fit:cover;object-position:top; }
+          .abt-photo-wrap img { width:100%;height:260px !important;object-fit:cover;object-position:center top; }
         }
         @media (max-width:640px) { .abt-how-grid { grid-template-columns:repeat(2,1fr); } .about-inner { padding:80px 5vw 40px; } }
       `}</style>
