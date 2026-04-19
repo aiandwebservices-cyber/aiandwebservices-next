@@ -106,8 +106,11 @@ export default function FAQ() {
           {/* Blog section */}
           <div className="fq-blog-wrap">
             <div className="fq-blog-header">
-              <span className="fq-blog-label">From the Blog</span>
-              <Link href="/blog" className="fq-blog-link">See all posts →</Link>
+              <div>
+                <span className="fq-blog-eyebrow">DIVE DEEPER</span>
+                <div className="fq-blog-heading">Detailed guides on these topics</div>
+              </div>
+              <Link href="/blog" className="fq-blog-link">See all →</Link>
             </div>
             <div className="fq-blog-grid">
               {blogs.map((post, i) => {
@@ -233,13 +236,19 @@ export default function FAQ() {
         /* ── Blog section ── */
         .fq-blog-wrap { margin-bottom: 8px; }
         .fq-blog-header {
-          display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px;
+          display: flex; align-items: flex-end; justify-content: space-between;
+          margin-bottom: 12px; gap: 12px;
         }
-        .fq-blog-label {
-          font-size: 10px; font-weight: 800; letter-spacing: 2.5px;
-          text-transform: uppercase; color: rgba(15,30,61,.35);
+        .fq-blog-eyebrow {
+          display: block; font-size: 10px; font-weight: 800; letter-spacing: 2.5px;
+          text-transform: uppercase; color: #2AA5A0; margin-bottom: 4px;
         }
-        .fq-blog-link { font-size: 11px; font-weight: 700; color: #2AA5A0; text-decoration: none; }
+        .fq-blog-heading {
+          font-family: 'Plus Jakarta Sans', sans-serif;
+          font-size: clamp(16px, 2vw, 22px); font-weight: 800;
+          color: #0f1e3d; letter-spacing: -0.3px; line-height: 1.2;
+        }
+        .fq-blog-link { font-size: 11px; font-weight: 700; color: #2AA5A0; text-decoration: none; white-space: nowrap; flex-shrink: 0; padding-bottom: 2px; }
         .fq-blog-link:hover { color: #1e8a85; }
 
         .fq-blog-grid {
@@ -284,6 +293,7 @@ export default function FAQ() {
           .fq-list { grid-template-columns: 1fr; }
           .fq-blog-grid { grid-template-columns: 1fr; }
           .faq-inner { padding: 80px 5vw 20px; }
+          .fq-blog-wrap { padding-top: 24px; }
         }
       `}</style>
     </section>
