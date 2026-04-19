@@ -180,15 +180,26 @@ export default function Nav() {
           if (label === 'Services') {
             return (
               <div key={idx}>
-                <button
-                  className={`mob-link mob-svc-toggle${currentPanel === idx ? ' active' : ''}`}
-                  onClick={() => setMobSvcOpen(o => !o)}
-                  aria-expanded={mobSvcOpen}
-                >
-                  Services <span className="mob-svc-caret" aria-hidden="true">{mobSvcOpen ? '▴' : '▾'}</span>
-                </button>
+                <div className="mob-svc-row">
+                  <Link
+                    href="/services"
+                    className={`mob-link mob-svc-link${currentPanel === idx ? ' active' : ''}`}
+                    onClick={() => { window.toggleMenu && window.toggleMenu(); }}
+                  >
+                    Services
+                  </Link>
+                  <button
+                    className="mob-svc-caret-btn"
+                    onClick={() => setMobSvcOpen(o => !o)}
+                    aria-label={mobSvcOpen ? 'Collapse Services submenu' : 'Expand Services submenu'}
+                    aria-expanded={mobSvcOpen}
+                    aria-controls="mob-svc-sub"
+                  >
+                    {mobSvcOpen ? '▴' : '▾'}
+                  </button>
+                </div>
                 {mobSvcOpen && (
-                  <div className="mob-svc-sub">
+                  <div className="mob-svc-sub" id="mob-svc-sub">
                     {SERVICE_LINKS.map(({ label: sLabel, href }) => (
                       <a
                         key={sLabel}
