@@ -211,11 +211,6 @@ export default function About() {
             </div>
           </motion.div>
 
-          {/* ── Bottom chip — only shown when right col is hidden ── */}
-          <div className="abt-bottom-chips">
-            <a href="/contact" className="abt-chip abt-chip-primary">Get Your Free Audit</a>
-            <a href="#" onClick={e=>{e.preventDefault();window.go&&window.go(3)}} className="abt-chip">See Services</a>
-          </div>
 
         </div>
       </div>
@@ -265,15 +260,13 @@ export default function About() {
 
 
 
-        .abt-bottom-chips { display:none;align-items:center;justify-content:center;gap:10px;flex-wrap:wrap;padding-bottom:8px;margin-top:20px; }
-        .abt-chip { display:inline-flex;align-items:center;padding:8px 18px;border-radius:50px;font-size:12px;font-weight:700;font-family:'Inter',sans-serif;border:1px solid rgba(42,165,160,.3);color:rgba(42,165,160,.9);background:rgba(42,165,160,.08);cursor:pointer;text-decoration:none;transition:all .22s; }
-        .abt-chip:hover { background:rgba(42,165,160,.16);border-color:rgba(42,165,160,.5); }
-        .abt-chip-primary { background:linear-gradient(135deg,#2AA5A0,#33BDB8);color:#fff;border-color:transparent;box-shadow:0 4px 14px rgba(42,165,160,.3); }
-        .abt-chip-primary:hover { transform:translateY(-1px);box-shadow:0 8px 22px rgba(42,165,160,.45);color:#fff; }
-
         @media (max-width:1100px) { .abt-grid { grid-template-columns:200px 1fr 200px; } .abt-how-grid { grid-template-columns:repeat(3,1fr); } }
-        @media (max-width:900px) { .abt-grid { grid-template-columns:200px 1fr; } .abt-right-col { display:none; } .abt-bottom-chips { display:flex; } }
-        @media (max-width:768px) { .abt-grid { grid-template-columns:1fr; } .abt-david { display:none; } .abt-guarantees { display:none; } }
+        @media (max-width:900px) { .abt-grid { grid-template-columns:200px 1fr; } .abt-right-col { display:none; } }
+        @media (max-width:768px) {
+          .abt-grid { grid-template-columns:1fr; }
+          .abt-guarantees { display:none; }
+          .abt-photo-wrap img { max-height:220px;object-fit:cover;object-position:top; }
+        }
         @media (max-width:640px) { .abt-how-grid { grid-template-columns:repeat(2,1fr); } .about-inner { padding:80px 5vw 40px; } }
       `}</style>
     </section>
