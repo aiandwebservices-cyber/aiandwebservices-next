@@ -473,7 +473,7 @@ export default function HowItWorks() {
           .hiw-steps { grid-template-columns:1fr 1fr; }
           .hiw-graphics { grid-template-columns:1fr; }
           .hiw-mobile-flex .hiw-header    { order: 0; }
-          .hiw-mobile-flex .hiw-steps     { order: 1; }
+          .hiw-mobile-flex .hiw-steps     { order: 1; margin-top: -30px !important; }
           .hiw-mobile-flex .hiw-graphics  { order: 2; margin-top: 20px; }
           .hiw-mobile-flex .panel-cta-wrap { order: 3; }
         }
