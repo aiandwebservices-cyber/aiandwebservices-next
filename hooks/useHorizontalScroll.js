@@ -5,6 +5,7 @@ export function useHorizontalScroll() {
   const curRef = useRef(0);
 
   useEffect(() => {
+    if (window.location.pathname !== '/') return;
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     window.scrollTo(0, 0);
 
