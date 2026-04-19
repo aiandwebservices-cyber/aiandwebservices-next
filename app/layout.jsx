@@ -59,6 +59,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.variable} ${plusJakarta.variable}`}>
       <head>
+        {/* Block browser scroll restoration before any rendering — must be synchronous */}
+        <script dangerouslySetInnerHTML={{ __html: `
+          if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+          window.scrollTo(0, 0);
+        `}} />
         <meta name="geo.region" content="US" />
         <meta name="geo.placename" content="United States" />
         <OrganizationSchema />
