@@ -65,15 +65,6 @@ export default function IntroPage() {
           </div>
         </div>
 
-        {/* Maintenance Banner */}
-        <div style={{ marginBottom: '32px', padding: '12px 16px', backgroundColor: '#fef3c7', border: '1px solid #fcd34d', borderRadius: '6px', color: '#92400e', fontSize: '15px', lineHeight: '1.5' }}>
-          This booking page is temporarily under maintenance. Please email{' '}
-          <a href="mailto:aiandwebservices@gmail.com" style={{ color: '#92400e', fontWeight: '600' }}>aiandwebservices@gmail.com</a>
-          {' '}or call{' '}
-          <a href="tel:+13155720710" style={{ color: '#92400e', fontWeight: '600' }}>(315) 572-0710</a>
-          {' '}to schedule directly.
-        </div>
-
         {/* Calendar Embed */}
         <div style={{ marginBottom: '64px', padding: '40px', backgroundColor: '#f0fdf4', borderRadius: '8px', border: '1px solid #bbf7d0' }}>
           <h2 style={{ fontSize: '20px', fontWeight: '700', color: '#111827', marginBottom: '32px', textAlign: 'center' }}>
