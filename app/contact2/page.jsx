@@ -40,6 +40,14 @@ export default function Contact2() {
     <>
       <Nav />
       <main style={{ minHeight: '100vh', background: '#080d18', position: 'relative', overflow: 'hidden' }}>
+      <style>{`
+        /* Mobile input font-size override — prevents iOS Safari auto-zoom on focus.
+           !important required because inputs use inline fontSize: 14 styles.
+           TODO: refactor to CSS classes in a future cleanup pass. */
+        @media(max-width:768px){
+          input,textarea,select{font-size:16px!important}
+        }
+      `}</style>
       {/* Background */}
       <div style={{
         position: 'absolute',
