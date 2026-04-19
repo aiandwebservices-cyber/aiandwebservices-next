@@ -382,8 +382,11 @@ export default function Services() {
           .svc-cta-wrap { margin-top:0px; }
         }
         @media (max-width:1000px) {
-          .svc-starter-bullets-col { display:none; }
-          .svc-starter-grid { grid-template-columns:1fr auto; }
+          .svc-starter-grid { grid-template-columns:1fr auto;grid-template-rows:auto auto; }
+          .svc-starter-left { grid-column:1;grid-row:1; }
+          .svc-starter-price-col { grid-column:2;grid-row:1; }
+          .svc-starter-bullets-col { grid-column:1 / -1;grid-row:2;display:grid;grid-template-columns:1fr 1fr;gap:0 24px;margin-top:12px; }
+          .svc-starter-col { margin-top:0; }
         }
         @media (max-width:900px) {
           .svc-plans-grid { grid-template-columns:repeat(2,1fr); }
@@ -392,7 +395,8 @@ export default function Services() {
         }
         @media (max-width:640px) {
           .svc-starter-grid { grid-template-columns:1fr; }
-          .svc-starter-price-col { align-items:flex-start;text-align:left; }
+          .svc-starter-price-col { grid-column:1;grid-row:2;align-items:flex-start;text-align:left; }
+          .svc-starter-bullets-col { grid-column:1;grid-row:3;grid-template-columns:1fr; }
           .pricing-inner { padding:80px 4vw 24px; }
           .svc-plans-grid { grid-template-columns:1fr;gap:6px;margin-bottom:8px; }
           .svc-plan-card { padding:12px 12px; }
