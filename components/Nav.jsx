@@ -194,6 +194,14 @@ export default function Nav() {
             );
           })}
           <Link
+            href="/checklist"
+            className={`nav-pill${pathname === '/checklist' ? ' active' : ''}`}
+            role="menuitem"
+            aria-current={pathname === '/checklist' ? 'page' : undefined}
+          >
+            Checklist
+          </Link>
+          <Link
             href="/contact"
             className={`nav-pill${pathname === '/contact' ? ' active' : ''}`}
             role="menuitem"
@@ -299,6 +307,13 @@ export default function Nav() {
             </button>
           );
         })}
+        <Link
+          href="/checklist"
+          className={`mob-link${pathname === '/checklist' ? ' active' : ''}`}
+          onClick={closeMenu}
+        >
+          Checklist
+        </Link>
         <Link
           href="/contact"
           className={`mob-link${pathname === '/contact' ? ' active' : ''}`}
