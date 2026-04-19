@@ -9,64 +9,89 @@ export const metadata = {
 
 export default function ThankYouSetup() {
   return (
-    <div style={{ minHeight: '100vh', background: '#ffffff', display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2rem', fontFamily: 'var(--font-inter)' }}>
+    <div style={{ minHeight: '100vh', background: '#ffffff', display: 'flex', flexDirection: 'column', alignItems: 'center', fontFamily: 'var(--font-inter)' }}>
 
-      {/* Logo */}
-      <Link href="/" style={{ textDecoration: 'none', marginBottom: '3rem' }}>
-        {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/logo-gradient-light.svg" alt="AIandWEBservices" width={260} height={52} style={{ display: 'block' }} />
-      </Link>
-
-      {/* Card */}
-      <div style={{
-        maxWidth: '560px',
-        width: '100%',
-        background: 'rgba(42,165,160,.06)',
-        border: '1px solid rgba(42,165,160,.2)',
-        borderRadius: '16px',
-        padding: 'clamp(2rem, 6vw, 3rem)',
-        textAlign: 'center',
-      }}>
-        <CheckCircle2 size={52} color="#2AA5A0" strokeWidth={1.5} style={{ marginBottom: '1.25rem' }} />
-
-        <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase', color: '#2AA5A0', marginBottom: '10px' }}>
-          Setup Payment Received
-        </div>
-
-        <h1 style={{ fontSize: 'clamp(22px, 4vw, 30px)', fontWeight: 800, color: '#111827', marginBottom: '16px', lineHeight: 1.25 }}>
-          Thank you — you&apos;re one step away!
-        </h1>
-
-        <p style={{ fontSize: '16px', color: '#4B5563', lineHeight: 1.7, marginBottom: '1.5rem' }}>
-          Your setup payment has been received. <strong style={{ color: '#111827' }}>Check your email</strong> — a subscription enrollment link is on its way to you within the next few minutes.
-        </p>
-
-        {/* Email callout */}
-        <div style={{
-          display: 'flex',
-          alignItems: 'flex-start',
-          gap: '12px',
-          background: '#F9FAFB',
-          border: '1px solid #E5E7EB',
-          borderRadius: '10px',
-          padding: '16px 18px',
-          textAlign: 'left',
-          marginBottom: '2rem',
-        }}>
-          <Mail size={20} color="#2AA5A0" strokeWidth={1.75} style={{ flexShrink: 0, marginTop: '2px' }} />
-          <p style={{ fontSize: '14px', color: '#6B7280', lineHeight: 1.6, margin: 0 }}>
-            Don&apos;t see it within 5 minutes? Check your spam folder, or email{' '}
-            <a href="mailto:david@aiandwebservices.com" style={{ color: '#2AA5A0', textDecoration: 'none' }}>
-              david@aiandwebservices.com
-            </a>{' '}
-            and we&apos;ll sort it out immediately.
-          </p>
-        </div>
-
-        <Link href="/" className="btn-primary" style={{ fontSize: '16px', padding: '13px 28px' }}>
-          Return to Home
+      {/* Centered top section */}
+      <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', padding: '2rem', flexGrow: 1, width: '100%' }}>
+        {/* Logo */}
+        <Link href="/" style={{ textDecoration: 'none', marginBottom: '3rem' }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/logo-gradient-light.svg" alt="AIandWEBservices" width={260} height={52} style={{ display: 'block' }} />
         </Link>
+
+        {/* Card */}
+        <div style={{
+          maxWidth: '560px',
+          width: '100%',
+          background: 'rgba(42,165,160,.06)',
+          border: '1px solid rgba(42,165,160,.2)',
+          borderRadius: '16px',
+          padding: 'clamp(2rem, 6vw, 3rem)',
+          textAlign: 'center',
+        }}>
+          <CheckCircle2 size={52} color="#2AA5A0" strokeWidth={1.5} style={{ marginBottom: '1.25rem' }} />
+
+          <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase', color: '#2AA5A0', marginBottom: '10px' }}>
+            Setup Payment Received
+          </div>
+
+          <h1 style={{ fontSize: 'clamp(22px, 4vw, 30px)', fontWeight: 800, color: '#111827', marginBottom: '16px', lineHeight: 1.25 }}>
+            Thank you — you&apos;re one step away!
+          </h1>
+
+          <p style={{ fontSize: '16px', color: '#4B5563', lineHeight: 1.7, marginBottom: '1.5rem' }}>
+            Your setup payment has been received. <strong style={{ color: '#111827' }}>Check your email</strong> — a subscription enrollment link is on its way to you within the next few minutes.
+          </p>
+
+          {/* Email callout */}
+          <div style={{
+            display: 'flex',
+            alignItems: 'flex-start',
+            gap: '12px',
+            background: '#F9FAFB',
+            border: '1px solid #E5E7EB',
+            borderRadius: '10px',
+            padding: '16px 18px',
+            textAlign: 'left',
+            marginBottom: '2rem',
+          }}>
+            <Mail size={20} color="#2AA5A0" strokeWidth={1.75} style={{ flexShrink: 0, marginTop: '2px' }} />
+            <p style={{ fontSize: '14px', color: '#6B7280', lineHeight: 1.6, margin: 0 }}>
+              Don&apos;t see it within 5 minutes? Check your spam folder, or email{' '}
+              <a href="mailto:david@aiandwebservices.com" style={{ color: '#2AA5A0', textDecoration: 'none' }}>
+                david@aiandwebservices.com
+              </a>{' '}
+              and we&apos;ll sort it out immediately.
+            </p>
+          </div>
+
+          <Link href="/" className="btn-primary" style={{ fontSize: '16px', padding: '13px 28px' }}>
+            Return to Home
+          </Link>
+        </div>
       </div>
+
+      {/* Onboarding checklist CTA */}
+      <section style={{
+        width: '100%',
+        padding: '48px 24px',
+        textAlign: 'center',
+        borderTop: '1px solid rgba(42,165,160,0.2)',
+        background: 'rgba(42,165,160,0.04)',
+      }}>
+        <h2 style={{ fontSize: 'clamp(24px, 4vw, 32px)', fontWeight: 800, marginBottom: '12px', color: '#0f172a' }}>
+          While you&apos;re here — help David get started fast.
+        </h2>
+        <p style={{ fontSize: '17px', color: '#475569', maxWidth: '560px', margin: '0 auto 32px', lineHeight: '1.6' }}>
+          Answer a short 20-question onboarding assessment so David knows exactly what you need. Takes 5 minutes. Optional, but it saves us both time.
+        </p>
+        <Link
+          href="/checklist?source=customer"
+          style={{ display: 'inline-block', padding: '16px 36px', background: '#2AA5A0', color: '#fff', borderRadius: '999px', fontWeight: 700, fontSize: '16px', textDecoration: 'none', boxShadow: '0 10px 36px rgba(42,165,160,0.4)' }}
+        >
+          Complete your onboarding checklist →
+        </Link>
+      </section>
 
     </div>
   );
