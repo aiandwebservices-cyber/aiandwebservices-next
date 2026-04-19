@@ -1334,7 +1334,8 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   .nav-book{display:none}
   #arr-l,#arr-r,#dots{display:none}
   #hamburger{display:flex}
-  #mobile-menu{display:flex}
+  #mobile-menu{display:flex;pointer-events:none}
+  #mobile-menu.open{pointer-events:auto}
 
   /* logo — smaller on mobile */
   .logo{font-size:14px}
