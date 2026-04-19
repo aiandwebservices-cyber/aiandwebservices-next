@@ -15,6 +15,7 @@ export function useHorizontalScroll() {
     let cur = hashToPanel[startHash] ?? 0;
     let locked = false;
     let formFocused = false;
+    let savedScrollY = 0;
     const isMobile = () => window.innerWidth <= 768;
 
     // Track form focus globally so scroll/click handlers never interfere
@@ -127,7 +128,19 @@ export function useHorizontalScroll() {
       hamburger.setAttribute('aria-expanded', isOpen);
       hamburger.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
       mobileMenu.setAttribute('aria-modal', isOpen ? 'true' : 'false');
-      if (!isMobile()) document.body.style.overflow = isOpen ? 'hidden' : '';
+      if (isOpen) {
+        savedScrollY = window.scrollY;
+        document.body.style.position = 'fixed';
+        document.body.style.top = `-${savedScrollY}px`;
+        document.body.style.width = '100%';
+        document.body.style.overflow = 'hidden';
+      } else {
+        document.body.style.position = '';
+        document.body.style.top = '';
+        document.body.style.width = '';
+        document.body.style.overflow = '';
+        window.scrollTo(0, savedScrollY);
+      }
     }
 
     function closeMenu() {
@@ -136,7 +149,11 @@ export function useHorizontalScroll() {
       hamburger.setAttribute('aria-expanded', 'false');
       hamburger.setAttribute('aria-label', 'Open navigation menu');
       mobileMenu.setAttribute('aria-modal', 'false');
-      if (!isMobile()) document.body.style.overflow = '';
+      document.body.style.position = '';
+      document.body.style.top = '';
+      document.body.style.width = '';
+      document.body.style.overflow = '';
+      window.scrollTo(0, savedScrollY);
     }
 
     const handlePopState = (e) => {
@@ -200,9 +217,12 @@ export function useHorizontalScroll() {
     window.addEventListener('wheel', handleWheel, { passive: false });
 
     const handleKeyDown = (e) => {
-      if (isMobile()) return;
       const tag = document.activeElement.tagName;
       if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT') return;
+      if (isMobile()) {
+        if (e.key === 'Escape') closeMenu();
+        return;
+      }
       if (e.key === 'ArrowRight' || e.key === 'ArrowDown') { e.preventDefault(); go(cur + 1); }
       if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   { e.preventDefault(); go(cur - 1); }
       if (e.key === 'Escape') closeMenu();

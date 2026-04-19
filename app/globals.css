@@ -1203,7 +1203,8 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   flex-direction:column;gap:2px;
   transform:translateY(-8px);opacity:0;
   transition:transform .25s,opacity .25s;
-  max-height:calc(100vh - 68px);overflow-y:auto;
+  max-height:calc(100vh - 68px);
+  max-height:calc(100dvh - 68px);overflow-y:auto;
 }
 #mobile-menu.open{transform:translateY(0);opacity:1}
 .mob-link{
@@ -1324,7 +1325,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   }
 
   /* nav */
-  #nav{padding:0 16px;height:60px}
+  #nav{padding:env(safe-area-inset-top,0) max(16px,env(safe-area-inset-right)) 0 max(16px,env(safe-area-inset-left));height:60px}
   .nav-center{display:none}
   #nav-cta-desktop{display:none}
   .nav-book{display:none}
