@@ -200,7 +200,7 @@ export default function AddOnsPage() {
               <Link href="/#contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '15px 32px', background: ACCENT, color: '#fff', borderRadius: '50px', fontWeight: 700, fontSize: '15px', textDecoration: 'none', boxShadow: '0 10px 36px rgba(42,165,160,0.45)' }}>
                 Get My Free Audit <ArrowRight size={16} />
               </Link>
-              <Link href="/services/ai-automation" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '15px 24px', border: '1px solid rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.7)', borderRadius: '50px', fontWeight: 600, fontSize: '15px', textDecoration: 'none' }}>
+              <Link href="/services/compare" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '15px 24px', border: '1px solid rgba(255,255,255,0.15)', color: 'rgba(255,255,255,0.7)', borderRadius: '50px', fontWeight: 600, fontSize: '15px', textDecoration: 'none' }}>
                 Compare All Plans
               </Link>
             </div>
@@ -210,7 +210,7 @@ export default function AddOnsPage() {
 
       {/* Tier nav */}
       <div style={{ background: '#080d18', borderTop: '1px solid rgba(255,255,255,0.05)', padding: '20px', display: 'flex', justifyContent: 'center' }}>
-        <Link href="/services/ai-automation" style={{ fontSize: '13px', color: ACCENT, textDecoration: 'none', padding: '9px 18px', borderRadius: '10px', border: '1px solid rgba(42,165,160,0.3)', fontWeight: 700 }}>
+        <Link href="/services/compare" style={{ fontSize: '13px', color: ACCENT, textDecoration: 'none', padding: '9px 18px', borderRadius: '10px', border: '1px solid rgba(42,165,160,0.3)', fontWeight: 700 }}>
           ← Compare All Plans
         </Link>
       </div>

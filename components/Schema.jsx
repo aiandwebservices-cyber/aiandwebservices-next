@@ -104,7 +104,7 @@ const SERVICES = [
     name: 'AI Automation Starter',
     description:
       'A custom AI automation and smart assistant system trained on your business. Handles enquiries, qualifies leads, books calls, and answers FAQs — 24/7, without you.',
-    url: 'https://www.aiandwebservices.com/services/ai-automation',
+    url: 'https://www.aiandwebservices.com/services/compare',
     offers: { price: '99', priceCurrency: 'USD', priceSpecification: '$99 one-time setup, then $99/month' },
   },
   {

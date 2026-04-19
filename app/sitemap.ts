@@ -22,7 +22,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
   return [
     { url: BASE, lastModified: new Date(), changeFrequency: 'weekly', priority: 1.0 },
-    { url: `${BASE}/services/ai-automation`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${BASE}/services/compare`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
     { url: `${BASE}/services/ai-automation-starter`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
     { url: `${BASE}/services/presence`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
     { url: `${BASE}/services/growth`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },

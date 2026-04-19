@@ -13,6 +13,11 @@ const nextConfig: NextConfig = {
         destination: '/contact',
         permanent: true,
       },
+      {
+        source: '/services/ai-automation',
+        destination: '/services/compare',
+        permanent: true,
+      },
     ];
   },
   async headers() {

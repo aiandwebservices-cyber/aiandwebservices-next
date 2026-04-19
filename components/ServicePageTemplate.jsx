@@ -596,7 +596,7 @@ export default function ServicePageTemplate({ content: c, tier, theme: themeMode
               ← {prevTier.name}
             </Link>
           )}
-          <Link href="/services/ai-automation" style={{ fontSize: '13px', color: '#2AA5A0', textDecoration: 'none', padding: '9px 18px', borderRadius: '10px', border: '1px solid rgba(42,165,160,0.3)', fontWeight: 700 }}>
+          <Link href="/services/compare" style={{ fontSize: '13px', color: '#2AA5A0', textDecoration: 'none', padding: '9px 18px', borderRadius: '10px', border: '1px solid rgba(42,165,160,0.3)', fontWeight: 700 }}>
             Compare All Plans
           </Link>
           {nextTier && (

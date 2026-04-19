@@ -684,7 +684,7 @@ export default function AIAutomationStarterPage() {
       <div style={{ background:'#080d18', borderTop:'1px solid rgba(255,255,255,.05)', padding:'24px' }}>
         <div className="ais-tier-nav">
           <Link href="/services/presence" className="ais-link-btn" style={{ fontSize:'13px', color:'rgba(255,255,255,.38)', textDecoration:'none', padding:'9px 18px', borderRadius:'10px', border:'1px solid rgba(255,255,255,.07)', transition:'all .2s' }}>← Presence</Link>
-          <Link href="/services/ai-automation" style={{ fontSize:'13px', color:'#2AA5A0', textDecoration:'none', padding:'9px 18px', borderRadius:'10px', border:'1px solid rgba(42,165,160,.3)', fontWeight:700 }}>Compare All Plans</Link>
+          <Link href="/services/compare" style={{ fontSize:'13px', color:'#2AA5A0', textDecoration:'none', padding:'9px 18px', borderRadius:'10px', border:'1px solid rgba(42,165,160,.3)', fontWeight:700 }}>Compare All Plans</Link>
           <Link href="/services/growth" className="ais-link-btn" style={{ fontSize:'13px', color:'rgba(255,255,255,.38)', textDecoration:'none', padding:'9px 18px', borderRadius:'10px', border:'1px solid rgba(255,255,255,.07)', transition:'all .2s' }}>Growth →</Link>
         </div>
       </div>

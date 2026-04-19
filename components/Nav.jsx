@@ -145,7 +145,7 @@ export default function Nav() {
                         </Link>
                       ))}
                       <div className="nav-svc-divider" aria-hidden="true" />
-                      <Link href="/#pricing" className="nav-svc-item nav-svc-item-compare" role="menuitem" onClick={() => setSvcOpen(false)}>
+                      <Link href="/services/compare" className="nav-svc-item nav-svc-item-compare" role="menuitem" onClick={() => setSvcOpen(false)}>
                         Compare All Plans
                       </Link>
                     </div>
@@ -242,13 +242,13 @@ export default function Nav() {
                         {sLabel}
                       </a>
                     ))}
-                    <a
-                      href="/#pricing"
+                    <Link
+                      href="/services/compare"
                       className="mob-svc-item mob-svc-item-compare"
                       onClick={() => { setMobSvcOpen(false); closeMenu(); }}
                     >
                       Compare All Plans
-                    </a>
+                    </Link>
                   </div>
                 )}
               </div>
