@@ -136,7 +136,7 @@ function PlanCard({ plan, delay, isMobile }) {
                 className="svc-plan-btn svc-plan-btn-outline"
                 style={{ flex:'1', borderColor: color, color, '--tier-color': color }}
               >
-                Learn More →
+                Learn More
               </Link>
               <a
                 href={squareSetupUrl}
@@ -145,7 +145,7 @@ function PlanCard({ plan, delay, isMobile }) {
                 className="svc-plan-btn svc-plan-btn-filled"
                 style={{ flex:'1', background: popular ? 'linear-gradient(135deg,#a78bfa,#8b5cf6)' : color, borderColor: popular ? '#8b5cf6' : color }}
               >
-                Buy Setup · ${setup}
+                Buy ${setup}
               </a>
             </div>
           )}
@@ -240,7 +240,7 @@ export default function Services() {
                   className="svc-starter-btn"
                   style={{ justifyContent:'center', background:'transparent', color:'#3b82f6', border:'1.5px solid #3b82f6', boxShadow:'none' }}
                 >
-                  Buy Setup · $99
+                  Buy $99
                 </a>
               </div>
             </div>
