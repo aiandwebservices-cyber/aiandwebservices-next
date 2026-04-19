@@ -264,9 +264,9 @@ export default function ChecklistForm({ hideHero = false, defaultSource = null }
       {!hideHero && (
         <section style={{ backgroundColor: '#111827', color: '#fff', padding: 'clamp(40px,8vw,80px) 20px', textAlign: 'center' }}>
           <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-            <div style={{ marginBottom: '24px', display: 'flex', justifyContent: 'center' }}>
+            <div style={{ marginBottom: '40px', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
-              <img src="/logo-gradient-test.svg" alt="AIandWEBservices" width={320} height={64} style={{ display: 'block' }} />
+              <img src="/logo-gradient-test.svg" alt="AIandWEBservices" width={420} height={84} style={{ display: 'block', maxWidth: '90%' }} />
             </div>
             <div style={{ fontSize: '14px', fontWeight: '600', letterSpacing: '1px', textTransform: 'uppercase', color: TEAL, marginBottom: '16px' }}>
               Free Resource
