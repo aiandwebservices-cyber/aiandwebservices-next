@@ -38,7 +38,7 @@ const CATEGORIES = [
     questions: [
       { id: 'q13', text: 'Do leads sometimes get lost between initial contact and follow-up?' },
       { id: 'q14', text: 'Would you like to automatically nurture leads while you focus on closing?' },
-      { id: 'q15', text: "Are there pricing or plan decisions you want customers to self-serve?" },
+      { id: 'q15', text: 'Are there pricing or plan decisions you want customers to self-serve?' },
       { id: 'q16', text: "Would increasing your team's closing rate by 20-30% impact your revenue significantly?" },
     ],
   },
@@ -68,13 +68,20 @@ function scoreTier(score) {
 export default function ChecklistForm({ hideHero = false, defaultSource = 'site' }) {
   const [step, setStep] = useState('email'); // 'email' | 'questions' | 'submitted'
   const [formData, setFormData] = useState({ firstName: '', email: '', phone: '', companyName: '' });
+  // answers[id] = 'yes' | 'no' | undefined
   const [answers, setAnswers] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [leadStartedFired, setLeadStartedFired] = useState(false);
   const [finalScore, setFinalScore] = useState(0);
 
-  const score = Object.values(answers).filter(Boolean).length;
+  const yesCount      = Object.values(answers).filter(v => v === 'yes').length;
+  const answeredCount = Object.values(answers).filter(v => v !== undefined).length;
+
+  function setAnswer(id, val) {
+    // clicking the already-active pill clears it back to unanswered
+    setAnswers(prev => ({ ...prev, [id]: prev[id] === val ? undefined : val }));
+  }
 
   // ── Email step handlers ──
 
@@ -87,7 +94,6 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
     if (!formData.firstName.trim() || !formData.email.trim()) return;
     if (leadStartedFired) { setStep('questions'); return; }
 
-    // Fire-and-forget — never block UX on this call
     fetch('/api/checklist-lead-started', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -106,19 +112,16 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
     setStep('questions');
   }
 
-  // ── Questions step handlers ──
-
-  function toggleAnswer(id) {
-    setAnswers(prev => ({ ...prev, [id]: !prev[id] }));
-  }
-
   async function handleSubmitAssessment() {
     setSubmitting(true);
     setError(null);
 
-    // Only include truthy answers
+    // Convert to { q1: true, q3: false } — omit unanswered
     const answersPayload = {};
-    Object.entries(answers).forEach(([k, v]) => { if (v) answersPayload[k] = true; });
+    Object.entries(answers).forEach(([k, v]) => {
+      if (v === 'yes') answersPayload[k] = true;
+      else if (v === 'no') answersPayload[k] = false;
+    });
 
     try {
       const res = await fetch('/api/checklist-submit', {
@@ -141,7 +144,7 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
         return;
       }
 
-      setFinalScore(data.score ?? score);
+      setFinalScore(data.score ?? yesCount);
       setStep('submitted');
     } catch (err) {
       setError('Network error. Please check your connection and try again.');
@@ -149,9 +152,7 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
     }
   }
 
-  function handlePrint() {
-    window.print();
-  }
+  function handlePrint() { window.print(); }
 
   // ── Render: Email step ──
 
@@ -231,17 +232,22 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
   // ── Render: Questions step ──
 
   if (step === 'questions') {
-    const tier = scoreTier(score);
+    const tier = scoreTier(yesCount);
     return (
       <div>
         {/* Sticky score bar */}
-        <div style={{ position: 'sticky', top: 0, zIndex: 30, background: '#fff', borderBottom: '1px solid #e5e7eb', padding: '12px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
-          <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <span style={{ fontSize: '14px', fontWeight: 700, color: '#374151' }}>Score:</span>
-            <span style={{ fontSize: '22px', fontWeight: 800, color: scoreColor(score), lineHeight: 1 }}>{score}</span>
-            <span style={{ fontSize: '14px', color: '#9ca3af' }}>/ 20</span>
-            {score > 0 && (
-              <span style={{ fontSize: '12px', fontWeight: 600, color: scoreColor(score), background: `${scoreColor(score)}15`, borderRadius: '20px', padding: '2px 10px' }}>
+        <div style={{ position: 'sticky', top: 0, zIndex: 30, background: '#fff', borderBottom: '1px solid #e5e7eb', padding: '10px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
+            <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
+              <span style={{ fontSize: '14px', fontWeight: 700, color: '#374151' }}>Score:</span>
+              <span style={{ fontSize: '22px', fontWeight: 800, color: scoreColor(yesCount), lineHeight: 1 }}>{yesCount}</span>
+              <span style={{ fontSize: '14px', color: '#9ca3af' }}>/20</span>
+            </div>
+            <div style={{ fontSize: '12px', color: '#6b7280' }}>
+              Answered: <strong style={{ color: '#374151' }}>{answeredCount}</strong>/20
+            </div>
+            {yesCount > 0 && (
+              <span style={{ fontSize: '12px', fontWeight: 600, color: scoreColor(yesCount), background: `${scoreColor(yesCount)}15`, borderRadius: '20px', padding: '2px 10px' }}>
                 {tier.label}
               </span>
             )}
@@ -249,16 +255,16 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
           <button
             onClick={handleSubmitAssessment}
             disabled={submitting}
-            style={{ ...primaryBtnStyle, padding: '10px 22px', fontSize: '14px', display: 'flex', alignItems: 'center', gap: '8px', opacity: submitting ? 0.7 : 1 }}
+            style={{ ...primaryBtnStyle, width: 'auto', padding: '10px 22px', fontSize: '14px', display: 'flex', alignItems: 'center', gap: '8px', opacity: submitting ? 0.7 : 1 }}
           >
             {submitting ? <><Loader2 size={14} className="spin" /> Submitting…</> : 'Submit Assessment'}
           </button>
         </div>
 
         <section style={{ maxWidth: '860px', margin: '0 auto', padding: 'clamp(28px, 5vw, 56px) 20px' }}>
-          {score === 0 && (
+          {answeredCount === 0 && (
             <div style={{ background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '10px', padding: '14px 18px', marginBottom: '32px', fontSize: '14px', color: '#6b7280', lineHeight: 1.6 }}>
-              Answer as many or as few as you like — you can submit at any point and David will still receive your details and reach out personally.
+              Answer Yes or No for each question — or leave blank and submit whenever you&apos;re ready. David will still reach out personally.
             </div>
           )}
 
@@ -270,32 +276,44 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
           )}
 
           {CATEGORIES.map((cat, cIdx) => (
-            <div key={cat.label} style={{ marginBottom: '44px' }}>
+            <div key={cat.label} className="checklist-category" style={{ marginBottom: '44px' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px', paddingBottom: '12px', borderBottom: '2px solid #e5e7eb' }}>
                 <span style={{ fontSize: '12px', fontWeight: 700, background: TEAL, color: '#fff', borderRadius: '20px', padding: '2px 10px', letterSpacing: '0.5px' }}>
                   {cIdx + 1}/5
                 </span>
                 <h3 style={{ fontSize: '18px', fontWeight: 700, color: '#111827', margin: 0 }}>{cat.label}</h3>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '10px' }}>
                 {cat.questions.map(({ id, text }) => {
-                  const checked = !!answers[id];
+                  const val = answers[id]; // 'yes' | 'no' | undefined
+                  const isYes = val === 'yes';
+                  const isNo  = val === 'no';
+                  const cardBorder = isYes ? '#16a34a' : isNo ? '#dc2626' : '#e5e7eb';
+                  const cardBg    = isYes ? 'rgba(22,163,74,0.04)' : isNo ? 'rgba(220,38,38,0.04)' : '#fafafa';
                   return (
-                    <label key={id} style={{ display: 'flex', gap: '14px', cursor: 'pointer', alignItems: 'flex-start', padding: '14px 16px', borderRadius: '10px', border: `1.5px solid ${checked ? TEAL : '#e5e7eb'}`, background: checked ? 'rgba(42,165,160,0.05)' : '#fafafa', transition: 'border-color 0.15s, background 0.15s' }}>
-                      <div style={{ position: 'relative', flexShrink: 0, marginTop: '2px' }}>
-                        <input
-                          type="checkbox"
-                          checked={checked}
-                          onChange={() => toggleAnswer(id)}
-                          style={{ position: 'absolute', opacity: 0, width: '20px', height: '20px', cursor: 'pointer' }}
-                        />
-                        <div style={{ width: '20px', height: '20px', borderRadius: '5px', border: `2px solid ${checked ? TEAL : '#d1d5db'}`, background: checked ? TEAL : '#fff', display: 'flex', alignItems: 'center', justifyContent: 'center', transition: 'all 0.15s' }}>
-                          {checked && <svg width="11" height="8" viewBox="0 0 11 8" fill="none"><path d="M1 4l3 3 6-6" stroke="#fff" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/></svg>}
-                        </div>
+                    <div key={id} className="checklist-question-card" style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '16px', padding: '14px 16px', borderRadius: '10px', border: `1.5px solid ${cardBorder}`, background: cardBg, transition: 'border-color 0.15s, background 0.15s', flexWrap: 'wrap' }}>
+                      <span style={{ fontSize: '15px', color: '#374151', lineHeight: 1.6, flex: '1 1 240px' }}>{text}</span>
+                      <div className="pill-group" style={{ display: 'flex', gap: '6px', flexShrink: 0 }}>
+                        <button
+                          onClick={() => setAnswer(id, 'yes')}
+                          style={{ ...pillBase, background: isYes ? '#16a34a' : '#f3f4f6', color: isYes ? '#fff' : '#374151', border: `1.5px solid ${isYes ? '#16a34a' : '#d1d5db'}`, fontWeight: isYes ? 700 : 500 }}
+                          aria-pressed={isYes}
+                          aria-label={`${text} — Yes`}
+                        >Yes</button>
+                        <button
+                          onClick={() => setAnswer(id, 'no')}
+                          style={{ ...pillBase, background: isNo ? '#dc2626' : '#f3f4f6', color: isNo ? '#fff' : '#374151', border: `1.5px solid ${isNo ? '#dc2626' : '#d1d5db'}`, fontWeight: isNo ? 700 : 500 }}
+                          aria-pressed={isNo}
+                          aria-label={`${text} — No`}
+                        >No</button>
+                        <button
+                          onClick={() => setAnswer(id, undefined)}
+                          style={{ ...pillBase, background: val === undefined ? '#9ca3af' : '#f3f4f6', color: val === undefined ? '#fff' : '#9ca3af', border: `1.5px solid ${val === undefined ? '#9ca3af' : '#e5e7eb'}`, fontWeight: val === undefined ? 700 : 400 }}
+                          aria-pressed={val === undefined}
+                          aria-label={`${text} — Skip`}
+                        >—</button>
                       </div>
-                      <span style={{ fontSize: '15px', color: '#374151', lineHeight: 1.6, flex: 1 }}>{text}</span>
-                      {checked && <span style={{ fontSize: '11px', fontWeight: 700, color: TEAL, flexShrink: 0, marginTop: '4px', letterSpacing: '0.5px' }}>YES</span>}
-                    </label>
+                    </div>
                   );
                 })}
               </div>
@@ -304,7 +322,8 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
 
           {/* Bottom submit */}
           <div style={{ background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '12px', padding: '28px', textAlign: 'center', marginTop: '16px' }}>
-            <div style={{ fontSize: '22px', fontWeight: 800, color: scoreColor(score), marginBottom: '6px' }}>{score}/20 — {tier.label}</div>
+            <div style={{ fontSize: '22px', fontWeight: 800, color: scoreColor(yesCount), marginBottom: '4px' }}>{yesCount}/20 — {tier.label}</div>
+            <div style={{ fontSize: '13px', color: '#9ca3af', marginBottom: '10px' }}>Answered: {answeredCount}/20</div>
             <p style={{ fontSize: '14px', color: '#6b7280', marginBottom: '20px', lineHeight: 1.6 }}>{tier.desc}</p>
             {error && (
               <div style={{ background: '#fef2f2', border: '1px solid #fca5a5', borderRadius: '8px', padding: '12px 16px', marginBottom: '16px', fontSize: '14px', color: '#b91c1c' }}>
@@ -314,11 +333,11 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
             <button
               onClick={handleSubmitAssessment}
               disabled={submitting}
-              style={{ ...primaryBtnStyle, display: 'inline-flex', alignItems: 'center', gap: '8px', opacity: submitting ? 0.7 : 1 }}
+              style={{ ...primaryBtnStyle, maxWidth: '320px', margin: '0 auto', display: 'inline-flex', alignItems: 'center', gap: '8px', opacity: submitting ? 0.7 : 1 }}
             >
               {submitting ? <><Loader2 size={16} className="spin" /> Submitting…</> : 'Submit & Get My Results'}
             </button>
-            {score === 0 && (
+            {answeredCount === 0 && (
               <p style={{ fontSize: '12px', color: '#9ca3af', marginTop: '12px' }}>
                 You can submit with partial answers — David will still receive your details.
               </p>
@@ -329,6 +348,7 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
         <style>{`${printStyles}
           @keyframes spin { to { transform: rotate(360deg); } }
           .spin { animation: spin 0.8s linear infinite; }
+          .pill-group button:hover { transform: translateY(-1px); filter: brightness(0.95); }
         `}</style>
       </div>
     );
@@ -354,7 +374,6 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
       )}
 
       <section style={{ maxWidth: '640px', margin: '0 auto', padding: 'clamp(36px, 6vw, 64px) 20px' }}>
-        {/* Score card */}
         <div style={{ background: '#fff', border: `2px solid ${scoreColor(finalScore)}30`, borderRadius: '16px', padding: '28px', marginBottom: '24px', textAlign: 'center', boxShadow: '0 4px 20px rgba(0,0,0,0.07)' }}>
           <div style={{ fontSize: '13px', fontWeight: 700, color: '#6b7280', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '8px' }}>Your Score</div>
           <div style={{ fontSize: '64px', fontWeight: 900, color: scoreColor(finalScore), lineHeight: 1 }}>{finalScore}</div>
@@ -365,7 +384,6 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
           <p style={{ fontSize: '15px', color: '#374151', lineHeight: 1.65, margin: 0 }}>{tier.desc}</p>
         </div>
 
-        {/* Next step */}
         <div style={{ background: 'rgba(42,165,160,0.06)', border: '1px solid rgba(42,165,160,0.2)', borderRadius: '12px', padding: '24px', marginBottom: '20px', textAlign: 'center' }}>
           <div style={{ fontSize: '16px', fontWeight: 700, color: '#111827', marginBottom: '8px' }}>Check your email</div>
           <p style={{ fontSize: '14px', color: '#6b7280', lineHeight: 1.65, marginBottom: '18px' }}>
@@ -376,7 +394,6 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
           </Link>
         </div>
 
-        {/* Print */}
         <div style={{ textAlign: 'center' }}>
           <button onClick={handlePrint} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '11px 22px', background: '#f3f4f6', border: '1px solid #e5e7eb', borderRadius: '8px', fontWeight: 600, fontSize: '14px', color: '#374151', cursor: 'pointer' }}>
             <Download size={16} />
@@ -427,12 +444,22 @@ const primaryBtnStyle = {
   transition: 'opacity 0.15s',
 };
 
+const pillBase = {
+  minWidth: '46px',
+  minHeight: '36px',
+  padding: '6px 12px',
+  borderRadius: '20px',
+  fontSize: '13px',
+  cursor: 'pointer',
+  transition: 'all 0.15s',
+  lineHeight: 1,
+};
+
 const printStyles = `
   @media print {
     body { background: white; }
     section:first-of-type { display: none !important; }
     nav, footer, button, .floating-cta-wrap { display: none !important; }
-    input[type="checkbox"] { accent-color: #2AA5A0; }
     * { box-shadow: none !important; }
   }
 `;
