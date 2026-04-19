@@ -7,7 +7,6 @@ export function useHorizontalScroll() {
   useEffect(() => {
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
     window.scrollTo(0, 0);
-    requestAnimationFrame(() => window.scrollTo(0, 0));
 
     const TOTAL = 8;
     const hashNames = ['home', 'how-it-works', 'comparison', 'services', 'about', 'samples', 'faq', 'contact'];
@@ -50,6 +49,24 @@ export function useHorizontalScroll() {
       track.style.transform = '';
     } else if (track && cur > 0) {
       track.style.transform = `translateX(-${cur * 100}vw)`;
+    }
+
+    function updateUIVisuals() {
+      const panelMap = [0, 1, 2, 3, 4, 5, 6, 7];
+      dotsEl.forEach((d, i) => {
+        d.classList.toggle('on', i === cur);
+        d.setAttribute('aria-selected', i === cur ? 'true' : 'false');
+      });
+      pills.forEach((p, i) => {
+        const active = panelMap[i] === cur;
+        p.classList.toggle('active', active);
+        p.setAttribute('aria-current', active ? 'true' : 'false');
+      });
+      mobLinks.forEach((l, i) => l.classList.toggle('active', panelMap[i] === cur));
+      nav.className = darkPanels.has(cur) ? 'dark' : 'light';
+      if (arrL) arrL.classList.toggle('hide', cur === 0);
+      if (arrR) arrR.classList.toggle('hide', cur === TOTAL - 1);
+      if (scrollHint) scrollHint.classList.toggle('hidden', cur !== 0);
     }
 
     function updateUI(push = false) {
@@ -207,7 +224,12 @@ export function useHorizontalScroll() {
           const p = document.getElementById(id);
           if (p && p.getBoundingClientRect().top <= 80) active = i;
         });
-        if (active !== cur) { cur = active; curRef.current = cur; updateUI(); }
+        if (active !== cur) {
+          cur = active;
+          curRef.current = cur;
+          // skip replaceState on mobile — hash URL changes can trigger iOS scroll-to-anchor
+          updateUIVisuals();
+        }
       }, 80);
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
