@@ -143,7 +143,7 @@ export default function Work() {
             <div className="panel-cta-card">
               <p className="panel-cta-title">Like what you see? Get yours built today.</p>
               <p className="panel-cta-sub">Every site is custom — built from scratch for your industry, your brand, your customers.</p>
-              <a className="panel-cta-btn" href="/contact2">Book a Call</a>
+              <a className="panel-cta-btn" href="/contact">Book a Call</a>
             </div>
           </div>
 

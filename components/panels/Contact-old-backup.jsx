@@ -1,0 +1,184 @@
+'use client';
+import { useState } from 'react';
+import { motion, useReducedMotion } from 'framer-motion';
+import Link from 'next/link';
+import { Mail, Phone, Zap, CheckCircle2, Lock } from 'lucide-react';
+import CalContactEmbed from '@/components/CalContactEmbed';
+
+const TEAL = '#2AA5A0';
+
+export default function Contact() {
+  const [status, setStatus] = useState('idle');
+  const reduced = useReducedMotion();
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    setStatus('sending');
+    const data = Object.fromEntries(new FormData(e.target));
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data),
+      });
+      setStatus(res.ok ? 'success' : 'error');
+    } catch {
+      setStatus('error');
+    }
+  }
+
+  const fade = (delay = 0) => ({
+    initial:     { opacity: 0, y: reduced ? 0 : 24 },
+    whileInView: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22,1,0.36,1], delay } },
+    viewport:    { once: true, amount: 0.05 },
+  });
+
+  return (
+    <section className="panel" id="p8" aria-label="Contact David Pulis — Get a Free AI Audit">
+      <div className="contact-bg" />
+      <div className="contact-inner">
+
+        {/* ── HEADER ── */}
+        <motion.div {...fade(0)} className="contact-header">
+          <div className="ct-eyebrow">GET IN TOUCH</div>
+          <h2 className="ct-h2">Tell me about your business.<br/><span className="ct-h2-accent">I&apos;ll tell you exactly where AI can help.</span></h2>
+          <p className="ct-sub">
+            Fill in your details or book a call directly — David personally responds within{' '}
+            <Link href="/guarantee" style={{ color: TEAL, textDecoration:'underline' }}>6 hours</Link>,
+            no pitch, no obligation.
+          </p>
+        </motion.div>
+
+        {/* ── STEPS 2×2 ── */}
+        <motion.div {...fade(0.08)} className="contact-steps">
+          {[
+            { n:'1', cls:'csn-1', title:'Fill out the form — takes 2 minutes',    desc:"Tell David about your business, your biggest challenge, and what you're looking to achieve." },
+            { n:'2', cls:'csn-2', title:'Get your free audit — within 6 hours',   desc:'David personally reviews your business and identifies where AI, SEO, or a better website would have the biggest impact.', link:true },
+            { n:'3', cls:'csn-3', title:'Decide with zero pressure',               desc:"You get real, actionable advice — whether you work with David or not. No hard sell, ever." },
+            { n:'4', cls:'csn-4', title:'Book a call to talk it through',          desc:"Prefer to discuss live? Use the calendar to pick a time that works — 30 minutes, your questions answered." },
+          ].map(({ n, cls, title, desc, link }) => (
+            <div key={n} className="contact-step">
+              <div className={`contact-step-n ${cls}`}>{n}</div>
+              <div>
+                <div className="contact-step-title">
+                  {link
+                    ? <Link href="/guarantee" style={{ textDecoration:'underline', color:'inherit' }}>{title}</Link>
+                    : title
+                  }
+                </div>
+                <div className="contact-step-desc">{desc}</div>
+              </div>
+            </div>
+          ))}
+        </motion.div>
+
+        {/* ── LEFT: Form ── */}
+        <motion.div {...fade(0.14)} className="contact-left">
+          {status === 'success' ? (
+            <div className="contact-form" style={{ display:'flex', flexDirection:'column', alignItems:'center', justifyContent:'center', gap:16, minHeight:300, textAlign:'center' }} role="alert" aria-live="polite">
+              <CheckCircle2 size={48} color="#10b981" strokeWidth={1.5} />
+              <div style={{ fontSize:18, fontWeight:700, color:'#fff' }}>You&apos;re all set!</div>
+              <div style={{ fontSize:14, color:'rgba(255,255,255,.6)', lineHeight:1.7 }}>David will review your details and get back to you personally — guaranteed within 24 hours, usually much sooner.</div>
+            </div>
+          ) : (
+            <form className="contact-form" id="contact-form" onSubmit={handleSubmit}>
+              <div style={{ marginBottom:16 }}>
+                <div style={{ fontSize:14, fontWeight:700, color:'#fff', marginBottom:4 }}>Request Your Free Audit</div>
+                <div style={{ fontSize:12, color:'rgba(255,255,255,.6)' }}>Takes 2 minutes. No credit card. No obligation.</div>
+              </div>
+
+              <div className="form-row-2" style={{ marginBottom:14 }}>
+                <div className="form-row" style={{ marginBottom:0 }}>
+                  <label htmlFor="first_name">First Name <span aria-hidden="true" style={{ color:'#f87171' }}>*</span></label>
+                  <input type="text" id="first_name" name="first_name" placeholder="Jane" required aria-required="true" autoComplete="given-name" />
+                </div>
+                <div className="form-row" style={{ marginBottom:0 }}>
+                  <label htmlFor="last_name">Last Name</label>
+                  <input type="text" id="last_name" name="last_name" placeholder="Smith" autoComplete="family-name" />
+                </div>
+              </div>
+              <div className="form-row">
+                <label htmlFor="email">Business Email <span aria-hidden="true" style={{ color:'#f87171' }}>*</span></label>
+                <input type="email" id="email" name="email" placeholder="jane@company.com" required aria-required="true" autoComplete="email" />
+              </div>
+              <div className="form-row">
+                <label htmlFor="phone">Phone <span style={{ color:'rgba(255,255,255,.35)', fontWeight:400 }}>(optional)</span></label>
+                <input type="tel" id="phone" name="phone" placeholder="(555) 000-0000" autoComplete="tel" />
+              </div>
+              <div className="form-row">
+                <label htmlFor="service">What are you most interested in?</label>
+                <select id="service" name="service">
+                  <option value="">Select an option (optional)</option>
+                  <option>AI Automation Starter ($99/mo)</option>
+                  <option>Presence ($99/mo)</option>
+                  <option>Growth ($149/mo)</option>
+                  <option>Revenue Engine ($249/mo)</option>
+                  <option>AI-First ($349/mo)</option>
+                  <option>Consulting &amp; Strategy</option>
+                  <option>Crypto Payment Integration</option>
+                  <option>E-commerce Integration</option>
+                  <option>Accessibility Audit</option>
+                  <option>Something else — let&apos;s talk</option>
+                </select>
+                <div style={{ fontSize:12, color:'rgba(255,255,255,.45)', marginTop:4 }}>Not sure? We&apos;ll discuss your options during the audit call.</div>
+              </div>
+              <div className="form-row">
+                <label htmlFor="message">Tell us about your business</label>
+                <textarea id="message" name="message" placeholder="What does your business do, and what's your biggest challenge right now?" />
+              </div>
+              <button type="submit" className="form-submit" disabled={status === 'sending'} aria-busy={status === 'sending'} aria-live="polite">
+                {status === 'sending' ? 'Sending...' : status === 'error' ? 'Error — email david@aiandwebservices.com' : 'Get Your Free Audit'}
+              </button>
+              <p className="form-note" role="note">
+                <Lock size={13} style={{ display:'inline', verticalAlign:'middle', marginRight:4 }} />
+                Your info is never shared or sold.{' '}
+                <Link href="/guarantee" style={{ color: TEAL, textDecoration:'underline' }}>Guaranteed response within 6 hours</Link> — usually within minutes.
+              </p>
+            </form>
+          )}
+        </motion.div>
+
+        {/* ── RIGHT: Cal.com ── */}
+        <motion.div {...fade(0.20)} className="contact-right">
+          <div className="contact-form cal-embed-wrap">
+            <div style={{ textAlign:'center', marginBottom:12 }}>
+              <div style={{ fontSize:16, fontWeight:800, color:'#fff', marginBottom:4 }}>Let&apos;s Talk!</div>
+              <div style={{ fontSize:13, color:'rgba(255,255,255,.6)' }}>Pick a time — 30 minutes, no pressure.</div>
+            </div>
+            <CalContactEmbed />
+          </div>
+        </motion.div>
+
+        {/* ── FOOTER ── */}
+        <motion.div {...fade(0.28)} className="contact-footer">
+          <a href="mailto:david@aiandwebservices.com" className="ci-row" style={{ textDecoration:'none' }}>
+            <div className="ci-icon"><Mail size={20} color="#60a5fa" strokeWidth={1.75} /></div>
+            <span style={{ color:'#60a5fa', fontWeight:500 }}>david@aiandwebservices.com</span>
+          </a>
+          <a href="tel:+13155720710" className="ci-row" style={{ textDecoration:'none' }}>
+            <div className="ci-icon"><Phone size={20} color="#60a5fa" strokeWidth={1.75} /></div>
+            <span style={{ color:'#60a5fa', fontWeight:500 }}>(315) 572-0710</span>
+          </a>
+          <a href="https://t.me/aiandwebservices" target="_blank" rel="noopener noreferrer" className="ci-row" style={{ textDecoration:'none' }} aria-label="@aiandwebservices on Telegram (opens in new tab)">
+            <div className="ci-icon">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.894 8.221-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.19 13.668l-2.96-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.957.891z" fill="#29B6F6"/>
+              </svg>
+            </div>
+            <span style={{ color:'#60a5fa', fontWeight:500 }}>@aiandwebservices</span>
+          </a>
+          <Link href="/guarantee" style={{ textDecoration:'none', width:'100%' }}>
+            <div className="ci-row" style={{ justifyContent:'center' }}>
+              <div className="ci-icon"><Zap size={20} color="#f59e0b" strokeWidth={1.75} /></div>
+              <span style={{ textAlign:'center' }}>
+                Guaranteed response <strong style={{ color:'#fff' }}>within 6 hours</strong>
+                <br /><span className="ci-minutes">— usually within minutes</span>
+              </span>
+            </div>
+          </Link>
+        </motion.div>
+
+      </div>
+    </section>
+  );
+}

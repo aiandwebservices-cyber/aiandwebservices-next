@@ -33,7 +33,7 @@ export default function Nav() {
   const pathname = usePathname();
   const router = useRouter();
   const isOnServicePage = pathname.startsWith('/services/');
-  const isOnContactPage = pathname === '/contact2';
+  const isOnContactPage = pathname === '/contact';
   const isHomepage = pathname === '/';
   const go  = (n) => {
     if (isOnContactPage) {
@@ -157,10 +157,10 @@ export default function Nav() {
               return (
                 <Link
                   key={idx}
-                  href="/contact2"
-                  className={`nav-pill${pathname === '/contact2' ? ' active' : ''}`}
+                  href="/contact"
+                  className={`nav-pill${pathname === '/contact' ? ' active' : ''}`}
                   role="menuitem"
-                  aria-current={pathname === '/contact2' ? 'page' : undefined}
+                  aria-current={pathname === '/contact' ? 'page' : undefined}
                 >
                   {label}
                 </Link>
@@ -181,8 +181,8 @@ export default function Nav() {
         </div>
 
         <div className="nav-right">
-          {pathname !== '/contact2' && (
-            <Link href="/contact2" className="nav-cta" id="nav-cta-desktop" aria-label="Get a free AI audit">
+          {pathname !== '/contact' && (
+            <Link href="/contact" className="nav-cta" id="nav-cta-desktop" aria-label="Get a free AI audit">
               Get Your Free Audit
             </Link>
           )}
@@ -258,8 +258,8 @@ export default function Nav() {
             return (
               <Link
                 key={idx}
-                href="/contact2"
-                className={`mob-link${pathname === '/contact2' ? ' active' : ''}`}
+                href="/contact"
+                className={`mob-link${pathname === '/contact' ? ' active' : ''}`}
                 onClick={closeMenu}
               >
                 {label}
@@ -276,7 +276,7 @@ export default function Nav() {
             </button>
           );
         })}
-        <Link href="/contact2" className="mob-cta" onClick={closeMenu}>Get Your Free Audit</Link>
+        <Link href="/contact" className="mob-cta" onClick={closeMenu}>Get Your Free Audit</Link>
       </div>
 
       <button className="arr hide" id="arr-l" onClick={() => window.goPrev && window.goPrev()} aria-label="Previous section">&#8592;</button>

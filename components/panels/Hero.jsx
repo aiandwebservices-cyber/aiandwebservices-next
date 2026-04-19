@@ -165,7 +165,7 @@ export default function Hero() {
           </motion.p>
 
           <motion.div {...reveal(0.68)} className="h-ctas">
-            <a className="h-btn-primary" href="/contact2">
+            <a className="h-btn-primary" href="/contact">
               Get Your Free Audit
             </a>
           </motion.div>

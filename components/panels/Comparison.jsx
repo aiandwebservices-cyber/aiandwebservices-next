@@ -218,7 +218,7 @@ export default function Comparison() {
             <div className="panel-cta-card">
               <p className="panel-cta-title">Same results. <span style={{ color: '#2AA5A0' }}>70% less.</span> One person.</p>
               <p className="panel-cta-sub">Most clients go live in 14 days. No contracts, no lock-in.</p>
-              <a className="panel-cta-btn" href="/contact2">Book a Call</a>
+              <a className="panel-cta-btn" href="/contact">Book a Call</a>
             </div>
           </motion.div>
 

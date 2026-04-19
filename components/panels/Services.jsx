@@ -261,7 +261,7 @@ export default function Services() {
           <div className="panel-cta-card">
             <p className="panel-cta-title">Not sure which plan fits your business?</p>
             <p className="panel-cta-sub">Talk to David directly — honest advice, no sales pitch, within 6 hours.</p>
-            <a className="panel-cta-btn" href="/contact2">Get Your Free Audit</a>
+            <a className="panel-cta-btn" href="/contact">Get Your Free Audit</a>
           </div>
         </motion.div>
 

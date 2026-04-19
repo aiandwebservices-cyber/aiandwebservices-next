@@ -6,6 +6,15 @@ const withBundleAnalyzer = bundleAnalyzer({
 });
 
 const nextConfig: NextConfig = {
+  async redirects() {
+    return [
+      {
+        source: '/contact2',
+        destination: '/contact',
+        permanent: true,
+      },
+    ];
+  },
   async headers() {
     return [
       {
