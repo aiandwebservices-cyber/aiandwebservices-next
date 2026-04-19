@@ -1,7 +1,7 @@
 'use client';
 import { motion, useReducedMotion } from 'framer-motion';
 import Link from 'next/link';
-import { Bot, Sprout, TrendingUp, Zap, Brain, Wallet, ShoppingCart, Eye } from 'lucide-react';
+import { Bot, Sprout, TrendingUp, Zap, Brain, Settings, Wallet, ShoppingCart, Eye } from 'lucide-react';
 
 const PLANS = [
   {
@@ -49,10 +49,22 @@ const PLANS = [
       'Custom business dashboard (leads, revenue, ads)',
     ],
   },
+  {
+    icon:Settings, color:'#2AA5A0', name:'Consulting', tag:'Flexible', tagC:'#9ca3af', href:'/contact',
+    desc:'Not every problem fits a tier. Pick what you need, combined however you want.',
+    bullets:[
+      'AI readiness audit',
+      'One-time chatbot build',
+      'Tech stack consultation',
+      'Custom integration',
+      'Hourly strategy calls',
+    ],
+    consulting:true,
+  },
 ];
 
 function PlanCard({ plan, delay }) {
-  const { icon:Icon, color, name, price, setup, tag, tagC, href, desc, bullets, popular, once } = plan;
+  const { icon:Icon, color, name, price, setup, tag, tagC, href, desc, bullets, popular, once, consulting } = plan;
   const reduced = useReducedMotion();
   return (
     <motion.div
@@ -71,7 +83,7 @@ function PlanCard({ plan, delay }) {
           </div>
         </div>
 
-        <div className="svc-plan-name">{name}</div>
+        <div className="svc-plan-name" style={{ color }}>{name}</div>
         <div className="svc-plan-desc">{desc}</div>
 
         {/* Bullets */}
@@ -83,26 +95,38 @@ function PlanCard({ plan, delay }) {
 
         {/* Price + CTA pinned to bottom */}
         <div style={{ marginTop:'auto' }}>
-          <div className="svc-plan-price-row">
-            <span className="svc-plan-price">
-              <span style={{ fontSize:14, verticalAlign:'top', marginTop:4, display:'inline-block', color:'rgba(255,255,255,.6)' }}>$</span>
-              {price}
-            </span>
-            <span className="svc-plan-per">{once ? ' one-time' : '/mo'}</span>
-          </div>
-          {setup && (
-            <div className="svc-plan-setup">+ ${setup} one-time setup</div>
-          )}
-          {!setup && (
-            <div className="svc-plan-setup">or $99/month ongoing</div>
+          {consulting ? (
+            <>
+              <div className="svc-plan-price-row">
+                <span className="svc-plan-price" style={{ fontSize:16, color:'#374151' }}>Pick what you need</span>
+              </div>
+              <div className="svc-plan-setup">Fair pricing based on scope</div>
+            </>
+          ) : (
+            <>
+              <div className="svc-plan-price-row">
+                <span className="svc-plan-price">
+                  <span style={{ fontSize:14, verticalAlign:'top', marginTop:4, display:'inline-block', color:'rgba(255,255,255,.6)' }}>$</span>
+                  {price}
+                </span>
+                <span className="svc-plan-per">{once ? ' one-time' : '/mo'}</span>
+              </div>
+              {setup ? (
+                <div className="svc-plan-setup">+ ${setup} one-time setup</div>
+              ) : (
+                <div className="svc-plan-setup">or $99/month ongoing</div>
+              )}
+            </>
           )}
 
           <Link
             href={href}
             className="svc-plan-btn"
-            style={popular ? { background:'linear-gradient(135deg,#a78bfa,#8b5cf6)', color:'#fff', border:'none' } : undefined}
+            style={popular
+              ? { background:'linear-gradient(135deg,#a78bfa,#8b5cf6)', color:'#fff', border:'none', '--tier-color':'#a78bfa' }
+              : { borderColor: color, color, '--tier-color': color }}
           >
-            Learn More
+            {consulting ? 'Start a Custom Project →' : 'Learn More'}
           </Link>
         </div>
       </div>
@@ -196,37 +220,6 @@ export default function Services() {
         <div className="svc-plans-grid">
           {PLANS.map((p, i) => <PlanCard key={p.name} plan={p} delay={0.1 + i * 0.07} />)}
         </div>
-
-        {/* Consulting à la carte */}
-        <motion.div {...f(0.35)} className="svc-consulting-card">
-          <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:16, flexWrap:'wrap' }}>
-            <div style={{ flex:'1 1 280px' }}>
-              <div className="svc-eyebrow" style={{ marginBottom:6 }}>Consulting &amp; Custom Projects</div>
-              <p style={{ fontSize:12, color:'#374151', lineHeight:1.6, margin:'0 0 8px' }}>
-                Not every problem fits a tier. Pick what you need, combine features however you want, and I&apos;ll quote fair pricing based on scope.
-              </p>
-              <div style={{ fontSize:11, fontWeight:700, color:'#6b7280', marginBottom:5, textTransform:'uppercase', letterSpacing:1 }}>Common requests</div>
-              <ul className="svc-consulting-requests" style={{ margin:'0 0 8px', padding:0, listStyle:'none', gap:'3px 16px' }}>
-                {[
-                  'AI readiness audit',
-                  'One-time chatbot build',
-                  'Tech stack consultation',
-                  'Custom integration',
-                  'Hourly strategy calls',
-                ].map(b => (
-                  <li key={b} style={{ fontSize:11, color:'#374151', paddingLeft:14, position:'relative', lineHeight:1.35 }}>
-                    <span style={{ position:'absolute', left:0, color:'#2AA5A0', fontWeight:700, fontSize:10 }}>✓</span>{b}
-                  </li>
-                ))}
-              </ul>
-            </div>
-            <div style={{ display:'flex', alignItems:'center', flexShrink:0 }}>
-              <Link href="/contact" className="svc-plan-btn" style={{ whiteSpace:'nowrap', padding:'10px 20px', fontSize:12 }}>
-                Start a custom project →
-              </Link>
-            </div>
-          </div>
-        </motion.div>
 
         {/* Add-ons divider */}
         <motion.div {...f(0.45)} className="svc-addons-label">
@@ -329,7 +322,7 @@ export default function Services() {
         .svc-starter-btn:hover { transform:translateY(-2px);box-shadow:0 8px 22px rgba(59,130,246,.5); }
 
         /* Plans */
-        .svc-plans-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:26px; }
+        .svc-plans-grid { display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:26px; }
         .svc-plan-card {
           position:relative;overflow:hidden;
           background:#fff;
@@ -368,20 +361,7 @@ export default function Services() {
           border-radius:50px;padding:8px 14px;font-size:11px;font-weight:700;
           transition:all .2s;margin-top:auto;
         }
-        .svc-plan-btn:hover { background:#2AA5A0;color:#fff;transform:translateY(-1px);box-shadow:0 6px 16px rgba(42,165,160,.3); }
-
-        /* Consulting à la carte */
-        .svc-consulting-card {
-          background:#fff;border:1px solid rgba(42,165,160,.2);border-left:4px solid #2AA5A0;
-          border-radius:14px;padding:14px 20px;margin-bottom:16px;
-          box-shadow:0 2px 12px rgba(42,165,160,.08);
-        }
-        .svc-consulting-requests {
-          display:grid;grid-template-columns:1fr 1fr;gap:4px 20px;
-        }
-        @media(max-width:768px){
-          .svc-consulting-requests{grid-template-columns:1fr}
-        }
+        .svc-plan-btn:hover { background:var(--tier-color,#2AA5A0);border-color:var(--tier-color,#2AA5A0);color:#fff;transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.15); }
 
         /* Add-ons label */
         .svc-addons-label { display:flex;align-items:center;gap:12px;margin-bottom:10px; }
@@ -414,6 +394,9 @@ export default function Services() {
 
         @media (max-width:1200px) {
           .svc-cta-wrap { margin-top:2px; }
+        }
+        @media (max-width:1300px) {
+          .svc-plans-grid { grid-template-columns:repeat(3,1fr); }
         }
         @media (max-width:1100px) {
           .svc-plans-grid { grid-template-columns:repeat(2,1fr); }
