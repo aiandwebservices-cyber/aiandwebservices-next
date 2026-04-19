@@ -48,8 +48,9 @@ export async function POST(request) {
     body: JSON.stringify({
       inputs: [
         {
-          properties,
+          id: email,
           idProperty: 'email',
+          properties,
         },
       ],
     }),
