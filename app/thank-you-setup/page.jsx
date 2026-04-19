@@ -68,7 +68,7 @@ export default function ThankYouSetupPage() {
 
           <p style={{
             fontSize: '16px',
-            color: 'rgba(255,255,255,0.65)',
+            color: 'rgba(255,255,255,0.85)',
             lineHeight: '1.6',
             maxWidth: '640px',
             margin: '0 auto',

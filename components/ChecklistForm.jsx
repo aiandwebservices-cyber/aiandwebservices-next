@@ -75,6 +75,16 @@ export default function ChecklistForm({ hideHero = false, defaultSource = null }
     }
   }, [defaultSource]);
 
+  const handlePrint = () => {
+    const originalTitle = document.title;
+    const dateStr = new Date().toISOString().split('T')[0];
+    document.title = `AI-Readiness-Checklist-${dateStr}`;
+    setTimeout(() => {
+      window.print();
+      setTimeout(() => { document.title = originalTitle; }, 1000);
+    }, 100);
+  };
+
   const setAnswer = (id, value) => {
     setAnswers(prev => ({ ...prev, [id]: prev[id] === value ? null : value }));
   };
@@ -206,7 +216,7 @@ export default function ChecklistForm({ hideHero = false, defaultSource = null }
           </form>
         </section>
 
-        <style>{`@media print { body { display:none; } }`}</style>
+        <style>{`@media print { .checklist-print-btn { display:none !important; } }`}</style>
       </div>
     );
   }
@@ -268,7 +278,8 @@ export default function ChecklistForm({ hideHero = false, defaultSource = null }
               20 questions to assess whether your small business is ready for AI automation.
             </p>
             <button
-              onClick={() => window.print()}
+              onClick={handlePrint}
+              className="checklist-print-btn"
               style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '10px 20px', backgroundColor: 'transparent', color: 'rgba(255,255,255,0.7)', border: '1px solid rgba(255,255,255,0.3)', borderRadius: '6px', fontWeight: '600', cursor: 'pointer', fontSize: '14px' }}
             >
               <Download size={16} />
@@ -421,7 +432,8 @@ export default function ChecklistForm({ hideHero = false, defaultSource = null }
           </button>
           <div style={{ marginTop: '16px' }}>
             <button
-              onClick={() => window.print()}
+              onClick={handlePrint}
+              className="checklist-print-btn"
               style={{ background: 'none', border: 'none', color: '#9ca3af', fontSize: '13px', cursor: 'pointer', textDecoration: 'underline' }}
             >
               Print / Save as PDF instead
@@ -430,13 +442,7 @@ export default function ChecklistForm({ hideHero = false, defaultSource = null }
         </div>
       </section>
 
-      <style>{`
-        @media print {
-          body { background: white; }
-          section:first-of-type { display: none; }
-          * { box-shadow: none !important; }
-        }
-      `}</style>
+      <style>{`@media print { .checklist-print-btn { display:none !important; } * { box-shadow:none !important; } }`}</style>
     </div>
   );
 }
