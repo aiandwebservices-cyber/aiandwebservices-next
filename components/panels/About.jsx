@@ -111,7 +111,7 @@ export default function About() {
                   </a>
                   <Link href="/guarantee" className="abt-contact">
                     <div className="abt-contact-icon"><Zap size={12} color="#f59e0b"/></div>
-                    <span>Response <strong>within 6 hours</strong> — guaranteed</span>
+                    <span>Response <strong>within 6 hours</strong> — guaranteed, usually in minutes</span>
                   </Link>
                 </div>
               </div>
