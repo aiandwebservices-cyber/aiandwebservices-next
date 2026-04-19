@@ -17,7 +17,7 @@ const CHAT = [
 
 function ChatMockup() {
   const [shown, setShown] = useState(0);
-  const endRef = useRef(null);
+  const containerRef = useRef(null);
 
   useEffect(() => {
     if (shown >= CHAT.length) {
@@ -29,8 +29,9 @@ function ChatMockup() {
   }, [shown]);
 
   useEffect(() => {
-    if (window.innerWidth <= 768) return;
-    endRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+    if (containerRef.current) {
+      containerRef.current.scrollTop = containerRef.current.scrollHeight;
+    }
   }, [shown]);
 
   return (
@@ -46,7 +47,7 @@ function ChatMockup() {
           </div>
         </div>
       </div>
-      <div className="hiw-chat-msgs">
+      <div className="hiw-chat-msgs" ref={containerRef}>
         <AnimatePresence>
           {CHAT.slice(0, shown).map((m, i) => (
             <motion.div
@@ -63,7 +64,6 @@ function ChatMockup() {
             </motion.div>
           ))}
         </AnimatePresence>
-        <div ref={endRef} />
       </div>
     </div>
   );
