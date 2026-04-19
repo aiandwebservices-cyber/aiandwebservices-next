@@ -132,16 +132,16 @@ export default function ChecklistForm({ hideHero = false, defaultSource = null }
     return (
       <div>
         {!hideHero && (
-          <section style={{ backgroundColor: '#111827', color: '#fff', padding: 'clamp(40px,8vw,80px) 20px', textAlign: 'center' }}>
+          <section style={{ backgroundColor: '#111827', color: '#fff', padding: 'clamp(28px,5vw,48px) 20px 24px', textAlign: 'center' }}>
             <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-              <div style={{ marginBottom: '40px', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+              <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
                 {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src="/logo-gradient-test.svg" alt="AIandWEBservices" width={420} height={84} style={{ display: 'block', maxWidth: '90%' }} />
+                <img src="/logo-gradient-test.svg" alt="AIandWEBservices" width={420} height={84} style={{ display: 'block', maxWidth: '90%', marginLeft: '-16px' }} />
               </div>
-              <div style={{ fontSize: '14px', fontWeight: '600', letterSpacing: '1px', textTransform: 'uppercase', color: TEAL, marginBottom: '16px' }}>
+              <div style={{ fontSize: '14px', fontWeight: '600', letterSpacing: '1px', textTransform: 'uppercase', color: TEAL, marginBottom: '10px' }}>
                 Free Resource
               </div>
-              <h1 style={{ fontSize: 'clamp(32px,5vw,48px)', fontWeight: '800', marginBottom: '16px', lineHeight: '1.2' }}>
+              <h1 style={{ fontSize: 'clamp(28px,4vw,44px)', fontWeight: '800', marginBottom: '8px', lineHeight: '1.2' }}>
                 AI Readiness Checklist
               </h1>
               <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.8)', lineHeight: '1.6' }}>
@@ -262,19 +262,19 @@ export default function ChecklistForm({ hideHero = false, defaultSource = null }
   return (
     <div>
       {!hideHero && (
-        <section style={{ backgroundColor: '#111827', color: '#fff', padding: 'clamp(40px,8vw,80px) 20px', textAlign: 'center' }}>
+        <section style={{ backgroundColor: '#111827', color: '#fff', padding: 'clamp(28px,5vw,48px) 20px 24px', textAlign: 'center' }}>
           <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-            <div style={{ marginBottom: '40px', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
+            <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/logo-gradient-test.svg" alt="AIandWEBservices" width={420} height={84} style={{ display: 'block', maxWidth: '90%' }} />
             </div>
-            <div style={{ fontSize: '14px', fontWeight: '600', letterSpacing: '1px', textTransform: 'uppercase', color: TEAL, marginBottom: '16px' }}>
+            <div style={{ fontSize: '14px', fontWeight: '600', letterSpacing: '1px', textTransform: 'uppercase', color: TEAL, marginBottom: '10px' }}>
               Free Resource
             </div>
-            <h1 style={{ fontSize: 'clamp(32px,5vw,48px)', fontWeight: '800', marginBottom: '16px', lineHeight: '1.2' }}>
+            <h1 style={{ fontSize: 'clamp(32px,5vw,48px)', fontWeight: '800', marginBottom: '10px', lineHeight: '1.2' }}>
               AI Readiness Checklist
             </h1>
-            <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.8)', lineHeight: '1.6', marginBottom: '24px' }}>
+            <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.8)', lineHeight: '1.6', marginBottom: '16px' }}>
               20 questions to assess whether your small business is ready for AI automation.
             </p>
             <button
@@ -289,33 +289,34 @@ export default function ChecklistForm({ hideHero = false, defaultSource = null }
         </section>
       )}
 
-      <section style={{ maxWidth: '900px', margin: '0 auto', padding: '60px 20px', backgroundColor: '#fff' }}>
+      <section style={{ maxWidth: '900px', margin: '0 auto', padding: '40px 20px', backgroundColor: '#fff' }}>
         {/* Progress */}
-        <div style={{ marginBottom: '40px', padding: '16px 24px', backgroundColor: '#f0fdf4', border: '1px solid #86efac', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
+        <div style={{ marginBottom: '24px', padding: '12px 20px', backgroundColor: '#f0fdf4', border: '1px solid #86efac', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
           <span style={{ fontSize: '15px', color: '#374151', fontWeight: '600' }}>
             {answeredCount} of 20 answered
           </span>
-          <div style={{ height: '8px', flex: '1', minWidth: '120px', maxWidth: '260px', backgroundColor: '#d1d5db', borderRadius: '99px', overflow: 'hidden' }}>
+          <div style={{ height: '6px', flex: '1', minWidth: '120px', maxWidth: '260px', backgroundColor: '#d1d5db', borderRadius: '99px', overflow: 'hidden' }}>
             <div style={{ height: '100%', width: `${(answeredCount / 20) * 100}%`, backgroundColor: TEAL, borderRadius: '99px', transition: 'width .3s' }} />
           </div>
         </div>
 
         {/* Questions grouped by category */}
         {questions.map((section, sIdx) => (
-          <div key={sIdx} style={{ marginBottom: '48px' }}>
-            <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#111827', marginBottom: '24px', paddingBottom: '12px', borderBottom: '2px solid #e5e7eb' }}>
+          <div key={sIdx} style={{ marginBottom: '32px' }}>
+            <h3 style={{ fontSize: '18px', fontWeight: '700', color: '#111827', marginBottom: '14px', paddingBottom: '8px', borderBottom: '2px solid #e5e7eb' }}>
               {section.category}
             </h3>
-            <div style={{ display: 'grid', gap: '10px' }}>
+            <div style={{ display: 'grid', gap: '8px' }}>
               {section.items.map((text, qIdx) => {
                 const id = `q${sIdx * 4 + qIdx}`;
                 const val = answers[id] ?? null;
                 return (
                   <div
                     key={qIdx}
-                    style={{ padding: '16px 20px', borderRadius: '12px', border: `1px solid ${val ? (val === 'yes' ? TEAL + '40' : '#d1d5db') : '#e5e7eb'}`, background: val === 'yes' ? TEAL + '08' : '#fff' }}
+                    className="checklist-question-card"
+                    style={{ padding: '12px 16px', borderRadius: '10px', border: `1px solid ${val ? (val === 'yes' ? TEAL + '40' : '#d1d5db') : '#e5e7eb'}`, background: val === 'yes' ? TEAL + '08' : '#fff' }}
                   >
-                    <p style={{ margin: '0 0 12px', fontSize: '15px', color: '#1f2937', lineHeight: '1.5' }}>
+                    <p style={{ margin: '0 0 10px', fontSize: '15px', color: '#1f2937', lineHeight: '1.5' }}>
                       {text}
                     </p>
                     <div style={{ display: 'flex', gap: '8px' }}>
@@ -380,7 +381,7 @@ export default function ChecklistForm({ hideHero = false, defaultSource = null }
         </div>
 
         {/* Scoring Guide */}
-        <div style={{ marginTop: '64px' }}>
+        <div style={{ marginTop: '40px' }}>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px', paddingTop: '32px', borderTop: '2px solid #e5e7eb', marginBottom: '24px' }}>
             <h3 style={{ fontSize: 'clamp(22px,3vw,28px)', fontWeight: 800, color: '#111827', margin: 0 }}>Score Your Readiness</h3>
             <div style={{ fontSize: 'clamp(22px,3vw,28px)', fontWeight: 800 }}>
@@ -415,7 +416,7 @@ export default function ChecklistForm({ hideHero = false, defaultSource = null }
 
         {/* Submit */}
         <div style={{ marginTop: '48px', padding: '36px', backgroundColor: '#f0fdf4', borderRadius: '12px', textAlign: 'center', border: '1px solid #bbf7d0' }}>
-          <h3 style={{ fontSize: '22px', fontWeight: '800', color: '#111827', marginBottom: '8px' }}>
+          <h3 style={{ fontSize: 'clamp(18px, 2.5vw, 22px)', fontWeight: '800', color: '#111827', marginBottom: '8px' }}>
             Ready to get your results?
           </h3>
           <p style={{ fontSize: '15px', color: '#374151', marginBottom: '16px', lineHeight: '1.6', maxWidth: '640px', margin: '0 auto 16px' }}>
@@ -439,7 +440,7 @@ export default function ChecklistForm({ hideHero = false, defaultSource = null }
           <button
             onClick={handlePrint}
             className="checklist-print-btn"
-            style={{ background: 'none', border: 'none', padding: 0, margin: '24px auto 0', display: 'block', color: '#2563eb', textDecoration: 'underline', fontSize: 'clamp(18px,2.5vw,22px)', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
+            style={{ background: 'none', border: 'none', padding: 0, margin: '24px auto 0', display: 'block', color: '#2563eb', textDecoration: 'underline', fontSize: 'clamp(18px, 2.5vw, 22px)', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
           >
             Print / Save as PDF
           </button>

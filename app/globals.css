@@ -2472,6 +2472,22 @@ main.standalone-page {
   /* Avoid breaking questions mid-page */
   h2, h3 { page-break-inside: avoid; }
 
+  /* Tighter density for 2-3 page print target */
+  .checklist-question-card {
+    padding: 6px 10px !important;
+    margin-bottom: 4px !important;
+    border-radius: 4px !important;
+    box-shadow: none !important;
+    page-break-inside: avoid;
+  }
+  .checklist-question-card p { font-size: 10pt !important; line-height: 1.25 !important; margin-bottom: 0 !important; }
+  .checklist-question-card button { display: none !important; }
+
+  body, p, label { font-size: 10pt !important; line-height: 1.25 !important; }
+  h1 { font-size: 16pt !important; margin: 6px 0 !important; }
+  h2 { font-size: 13pt !important; margin: 10px 0 4px !important; }
+  h3 { font-size: 11pt !important; margin: 8px 0 4px !important; padding-bottom: 3px !important; }
+
   /* Page setup */
-  @page { margin: 0.5in; size: letter; }
+  @page { margin: 0.4in 0.5in; size: letter; }
 }
