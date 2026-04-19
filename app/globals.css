@@ -2286,10 +2286,10 @@ main.standalone-page {
 }
 .trust-badge svg{flex-shrink:0;color:#2AA5A0}
 
-/* ── Panel dot indicator (mobile only) ── */
+/* ── Panel dot indicator (desktop only) ── */
 .panel-dots { display: none; }
 
-@media (max-width: 768px) {
+@media (min-width: 769px) {
   .panel-dots {
     display: flex;
     flex-direction: column;
