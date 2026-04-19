@@ -12,7 +12,7 @@ const PLANS = [
       'Professional 5-page website',
       'Local SEO + Google Business Profile setup',
       'Monthly SEO + site health report (traffic, rankings, speed, uptime)',
-      '1 blog post per month',
+      '1 SEO article per month',
     ],
   },
   {
@@ -23,11 +23,10 @@ const PLANS = [
       'CRM-integrated AI — qualifies & books leads',
       '5–7 email welcome sequence',
       '2 SEO articles/mo (24+ pages/yr)',
-      'Conversion-optimised landing pages',
     ],
   },
   {
-    icon:Zap, color:'#a78bfa', name:'Revenue Engine', price:'249', setup:'149', tag:'Best Value', tagC:'#a78bfa', href:'/services/revenue-engine',
+    icon:Zap, color:'#a78bfa', name:'Revenue Engine', price:'249', setup:'149', tag:'Best ROI', tagC:'#a78bfa', href:'/services/revenue-engine',
     desc:'A complete sales machine — funnel, ads, CRM, and automation all connected.',
     bullets:[
       'Everything in Growth',
@@ -35,7 +34,7 @@ const PLANS = [
       'Workflow automation (no more manual tasks)',
       'Google or Meta ads setup & management',
       'CRM integration across every touchpoint',
-      'Monthly 60-min strategy call with David',
+      'Advanced AI assistant — trained on your knowledge base',
     ],
     popular:true,
   },
@@ -45,27 +44,34 @@ const PLANS = [
     bullets:[
       'Everything in Revenue Engine',
       'Voice AI — answers calls, books appointments',
-      'Programmatic SEO (100s of pages auto-generated)',
+      'Advanced AI assistant — trained on your knowledge base',
       'AI social media — 365 posts/yr scheduled',
-      'Custom business dashboard (leads, revenue, ads)',
     ],
   },
   {
-    icon:Settings, color:'#2AA5A0', name:'Consulting', tag:'Flexible', tagC:'#9ca3af', href:'/contact',
-    desc:'Not every problem fits a tier. Pick what you need, combined however you want.',
-    bullets:[
+    icon:Settings, color:'#2AA5A0', name:'A La Carte', tag:'Flexible', tagC:'#9ca3af', href:'/services/consulting',
+    desc:'Pick exactly what you need — combined however works for your business.',
+    bulletsLeft:[
       'AI readiness audit',
-      'One-time chatbot build',
+      'One-time AI chatbot build',
       'Tech stack consultation',
-      'Custom integration',
-      'Hourly strategy calls',
+      'Custom integration build',
+      'Hourly advisory calls',
+    ],
+    bulletsRight:[
+      'Landing page build',
+      'Email sequence setup',
+      'CRM setup & configuration',
+      'Sales funnel design',
+      'Voice AI setup',
     ],
     consulting:true,
+    alaCarte:true,
   },
 ];
 
 function PlanCard({ plan, delay, isMobile }) {
-  const { icon:Icon, color, name, price, setup, tag, tagC, href, desc, bullets, popular, once, consulting } = plan;
+  const { icon:Icon, color, name, price, setup, tag, tagC, href, desc, bullets, bulletsLeft, bulletsRight, popular, once, consulting, alaCarte } = plan;
   const reduced = useReducedMotion();
   const skip = isMobile || reduced;
   return (
@@ -174,7 +180,7 @@ export default function Services() {
             <div className="svc-starter-left">
               <div className="svc-starter-eyebrow">
                 <Bot size={11} color="#3b82f6" strokeWidth={2} />
-                Standalone · AI Chatbot
+                Best for solo operators
               </div>
               <div className="svc-starter-name">AI Automation Starter</div>
               <div className="svc-starter-desc">A custom AI trained on your business — captures leads, answers FAQs, and books calls 24/7.</div>
