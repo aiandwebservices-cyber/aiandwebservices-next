@@ -25,7 +25,7 @@ const PANELS = [
   { idx: 5, label: 'Samples',        nav: true },
   { idx: 6, label: 'FAQ',            nav: true },
   { idx: 7, label: 'AI Readiness',   nav: true },
-  { idx: 8, label: 'Contact',        nav: true  },
+  { idx: 8, label: 'Contact',        nav: false }, // CTA button serves as Contact on desktop
 ];
 const NAV_PANELS  = PANELS.filter(p => p.nav);
 const HASH_NAMES = ['home', 'how-it-works', 'comparison', 'services', 'about', 'samples', 'faq', 'ai-readiness', 'contact'];
@@ -293,6 +293,13 @@ export default function Nav() {
             </button>
           );
         })}
+        <Link
+          href="/contact"
+          className={`mob-link${pathname === '/contact' ? ' active' : ''}`}
+          onClick={closeMenu}
+        >
+          Contact
+        </Link>
         <Link href="/checklist" className="mob-cta" onClick={closeMenu}>Take the AI Readiness Check</Link>
       </div>
 
