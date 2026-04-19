@@ -1,6 +1,7 @@
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import ChecklistForm from '@/components/ChecklistForm';
+import AllowScroll from '@/components/AllowScroll';
 
 export const metadata = {
   title: 'AI Readiness Assessment for Small Business | AIandWEBservices',
@@ -22,6 +23,7 @@ export const metadata = {
 export default function ChecklistPage() {
   return (
     <>
+      <AllowScroll />
       <Nav />
       <main style={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
         <ChecklistForm hideHero={false} defaultSource="site" />

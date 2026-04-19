@@ -2399,3 +2399,17 @@ html:has(.svc-page-main){overflow:auto!important}
     content-visibility: visible;
   }
 }
+
+/* ── Checklist / non-homepage pages: restore normal scroll ── */
+body.allow-scroll,
+body.allow-scroll html {
+  overflow-y: auto !important;
+  overflow-x: hidden !important;
+  height: auto !important;
+}
+
+body.allow-scroll main {
+  height: auto !important;
+  overflow: visible !important;
+  min-height: 100vh;
+}
