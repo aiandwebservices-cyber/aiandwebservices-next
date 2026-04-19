@@ -48,6 +48,9 @@ export function useHorizontalScroll() {
 
     if (isMobile() && track) {
       track.style.transform = '';
+      if (cur > 0) {
+        requestAnimationFrame(() => scrollToPanel(cur, false));
+      }
     } else if (track && cur > 0) {
       track.style.transform = `translateX(-${cur * 100}vw)`;
     }
