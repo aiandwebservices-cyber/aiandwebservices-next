@@ -17,6 +17,18 @@ const PLANS = [
     ],
   },
   {
+    icon:Bot, color:'#3b82f6', name:'AI Automation Starter', price:'99', setup:'99', tag:'AI Chatbot', tagC:'#3b82f6', href:'/services/ai-automation-starter',
+    squareSetupUrl:'https://square.link/u/jmjUQOOc',
+    desc:'A custom AI trained on your business — captures leads, answers FAQs, books calls 24/7.',
+    bullets:[
+      'Custom AI chatbot trained on your business',
+      'Books calls to your calendar',
+      'Lead qualification via AI',
+      'CRM integration',
+      'Monthly updates included',
+    ],
+  },
+  {
     icon:TrendingUp, color:'#60a5fa', name:'Growth', price:'179', setup:'79', tag:'Most Popular', tagC:'#60a5fa', href:'/services/growth',
     squareSetupUrl:'https://square.link/u/6XdMcNz1',
     desc:'Everything in Presence, plus automation that keeps your pipeline full.',
@@ -53,18 +65,6 @@ const PLANS = [
       'AI social media — 365 posts/yr scheduled',
       'Custom business dashboard (leads, revenue, ads)',
     ],
-  },
-  {
-    icon:Settings, color:'#2AA5A0', name:'Consulting', tag:'Flexible', tagC:'#9ca3af', href:'/contact',
-    desc:'Not every problem fits a tier. Pick what you need, combined however you want.',
-    bullets:[
-      'AI readiness audit',
-      'One-time chatbot build',
-      'Tech stack consultation',
-      'Custom integration',
-      'Hourly strategy calls',
-    ],
-    consulting:true,
   },
 ];
 
@@ -145,7 +145,7 @@ function PlanCard({ plan, delay, isMobile }) {
                 className="svc-plan-btn svc-plan-btn-filled"
                 style={{ flex:'1', background: popular ? 'linear-gradient(135deg,#a78bfa,#8b5cf6)' : color, borderColor: popular ? '#8b5cf6' : color }}
               >
-                Buy ${setup}
+                Buy
               </a>
             </div>
           )}
@@ -184,63 +184,69 @@ export default function Services() {
           <p className="svc-sub">Transparent pricing. No lock-in contracts. Cancel or pause anytime.</p>
         </motion.div>
 
-        {/* AI Automation Starter — standalone hero card */}
-        <motion.div {...f(0.08)} className="svc-starter-card" id="pricing-ai-starter">
-          <div className="svc-starter-glow" />
+        {/* Consulting — standalone hero card */}
+        <motion.div {...f(0.08)} className="svc-starter-card svc-consulting-card" id="pricing-consulting">
+          <div className="svc-starter-glow" style={{ background:'rgba(42,165,160,.08)' }} />
           <div className="svc-starter-grid">
 
             {/* Col 1 — identity */}
             <div className="svc-starter-left">
-              <div className="svc-starter-eyebrow">
-                <Bot size={11} color="#3b82f6" strokeWidth={2} />
-                Standalone · AI Chatbot
+              <div className="svc-starter-eyebrow" style={{ color:'#2AA5A0' }}>
+                <Settings size={11} color="#2AA5A0" strokeWidth={2} />
+                À La Carte · Consulting
               </div>
-              <div className="svc-starter-name">AI Automation Starter</div>
-              <div className="svc-starter-desc">A custom AI trained on your business — captures leads, answers FAQs, and books calls 24/7.</div>
+              <div className="svc-starter-name">Consulting</div>
+              <div className="svc-starter-desc">Not every problem fits a tier. Pick exactly what you need — combined however works for your business.</div>
             </div>
 
-            {/* Col 2 — setup bullets */}
+            {/* Col 2 — what's available */}
             <div className="svc-starter-col svc-starter-bullets-col">
-              <div className="svc-starter-col-label">Setup includes</div>
-              {['Discovery call (60 min)', 'Custom AI training on your business', 'Calendar integration (Google, Calendly, Acuity)', 'CRM integration (HubSpot, Pipedrive, Zoho, any CRM)'].map(b => (
+              <div className="svc-starter-col-label">Available services</div>
+              {['AI readiness audit', 'One-time chatbot build', 'Tech stack consultation', 'Custom integration'].map(b => (
                 <div key={b} className="svc-starter-bullet">
-                  <span className="svc-starter-check">✓</span>{b}
+                  <span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>{b}
                 </div>
               ))}
             </div>
 
-            {/* Col 3 — monthly bullets */}
+            {/* Col 3 — more options */}
             <div className="svc-starter-col svc-starter-bullets-col">
-              <div className="svc-starter-col-label">Monthly includes</div>
-              {['Monthly performance report (conversations, leads, bookings)'].map(b => (
+              <div className="svc-starter-col-label">Also available</div>
+              {['Hourly strategy calls', 'Automation workflow design', 'CRM setup & migration'].map(b => (
                 <div key={b} className="svc-starter-bullet">
-                  <span className="svc-starter-check">✓</span>{b}
+                  <span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>{b}
                 </div>
               ))}
             </div>
 
-            {/* Mobile-only: 3-bullet summary (hidden on desktop) */}
+            {/* Mobile-only: 3-bullet summary */}
             <ul className="svc-starter-bullets-mobile">
-              <li><span className="svc-starter-check">✓</span>AI Automation System (qualifies leads 24/7)</li>
-              <li><span className="svc-starter-check">✓</span>Calendar + CRM Integration</li>
-              <li><span className="svc-starter-check">✓</span>30-day launch monitoring &amp; training</li>
+              <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>AI readiness audit &amp; strategy</li>
+              <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>One-time builds — chatbot, integrations, CRM</li>
+              <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>Hourly strategy calls with David</li>
             </ul>
 
             {/* Col 4 — price + CTA */}
             <div className="svc-starter-price-col">
-              <div className="svc-starter-price"><sup>$</sup>99</div>
+              <div className="svc-starter-price" style={{ color:'#2AA5A0' }}><sup style={{ color:'#9ca3af' }}>$</sup>99</div>
               <div className="svc-starter-per">one-time setup</div>
-              <div className="svc-starter-per">then $99/mo</div>
+              <div className="svc-starter-per">then $199/mo</div>
               <div style={{ display:'flex', flexDirection:'column', gap:'6px', width:'100%' }}>
-                <Link href="/services/ai-automation-starter" className="svc-starter-btn" style={{ justifyContent:'center' }}>Get More Info →</Link>
+                <Link
+                  href="/services/consulting"
+                  className="svc-starter-btn"
+                  style={{ justifyContent:'center', background:'transparent', color:'#2AA5A0', border:'1.5px solid #2AA5A0', boxShadow:'none' }}
+                >
+                  Learn More
+                </Link>
                 <a
-                  href="https://square.link/u/jmjUQOOc"
+                  href="https://square.link/u/axARuYVi"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="svc-starter-btn"
-                  style={{ justifyContent:'center', background:'transparent', color:'#3b82f6', border:'1.5px solid #3b82f6', boxShadow:'none' }}
+                  style={{ justifyContent:'center', background:'linear-gradient(135deg,#2AA5A0,#1d8a85)', boxShadow:'0 4px 14px rgba(42,165,160,.35)' }}
                 >
-                  Buy $99
+                  Buy
                 </a>
               </div>
             </div>
@@ -258,25 +264,28 @@ export default function Services() {
           <span>ADD-ONS</span>
         </motion.div>
 
-        {/* Add-ons cards */}
+        {/* Add-ons cards — ordered by price ascending */}
         <motion.div {...f(0.5)} className="svc-addons-grid">
           {[
-            {
-              icon: Wallet, color: '#a78bfa', label: 'Crypto Payments', price: '$299 setup',
-              desc: 'Accept Bitcoin, ETH, and stablecoins without the technical headache.',
-              bullets: ['Multi-chain wallet support', 'Stablecoin checkout flows', 'Payment analytics'],
-            },
-            {
-              icon: ShoppingCart, color: '#34d399', label: 'E-commerce Store', price: '$499 setup',
-              desc: 'Shopify or WooCommerce — fast, converting, built to scale.',
-              bullets: ['Shopify or WooCommerce', 'Speed & conversion optimised', 'Order management'],
-            },
             {
               icon: Eye, color: '#60a5fa', label: 'WCAG Accessibility', price: '$199 setup',
               desc: 'Full WCAG 2.1 AA compliance. Protect your business, reach more customers.',
               bullets: ['WCAG 2.1 AA compliance', 'Screen reader & keyboard audit', 'Compliance report'],
+              buyLink: 'https://square.link/u/Bg0py2XN',
             },
-          ].map(({ icon: Icon, color, label, price, desc, bullets }, i) => (
+            {
+              icon: Wallet, color: '#a78bfa', label: 'Crypto Payments', price: '$299 setup',
+              desc: 'Accept Bitcoin, ETH, and stablecoins without the technical headache.',
+              bullets: ['Multi-chain wallet support', 'Stablecoin checkout flows', 'Payment analytics'],
+              buyLink: 'https://square.link/u/18Hczkij',
+            },
+            {
+              icon: ShoppingCart, color: '#34d399', label: 'E-commerce Store', price: '$399 setup',
+              desc: 'Shopify or WooCommerce — fast, converting, built to scale.',
+              bullets: ['Shopify or WooCommerce', 'Speed & conversion optimised', 'Order management'],
+              buyLink: 'https://square.link/u/ZcpmwTMR',
+            },
+          ].map(({ icon: Icon, color, label, price, desc, bullets, buyLink }, i) => (
             <motion.div
               key={label}
               className="svc-addon-card"
@@ -299,9 +308,20 @@ export default function Services() {
               <ul className="svc-addon-card-bullets">
                 {bullets.map(b => <li key={b}>{b}</li>)}
               </ul>
-              <Link href="/services/add-ons" className="svc-addon-card-btn" style={{ borderColor: `${color}99`, color }}>
-                Learn More
-              </Link>
+              <div style={{ display:'flex', gap:'6px', marginTop:'auto' }}>
+                <Link href="/services/add-ons" className="svc-addon-card-btn" style={{ borderColor: `${color}99`, color, flex:1 }}>
+                  Learn More
+                </Link>
+                <a
+                  href={buyLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="svc-addon-card-btn"
+                  style={{ background: color, color:'#fff', borderColor: color, flex:1 }}
+                >
+                  Buy
+                </a>
+              </div>
             </motion.div>
           ))}
         </motion.div>
@@ -334,6 +354,7 @@ export default function Services() {
           box-shadow:0 4px 24px rgba(59,130,246,.12);
         }
         .svc-starter-glow { position:absolute;top:-60px;right:-40px;width:220px;height:220px;border-radius:50%;background:rgba(59,130,246,.08);filter:blur(60px);pointer-events:none; }
+        .svc-consulting-card { border-color:rgba(42,165,160,.25) !important;border-left-color:#2AA5A0 !important;box-shadow:0 4px 24px rgba(42,165,160,.12) !important; }
 
         .svc-starter-left { display:flex;flex-direction:column; }
         .svc-starter-eyebrow { display:flex;align-items:center;gap:5px;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#3b82f6;margin-bottom:8px; }
