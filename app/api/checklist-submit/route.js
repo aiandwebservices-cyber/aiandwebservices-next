@@ -25,16 +25,18 @@ const QUESTIONS = {
 
 function buildQaTableHtml(answers) {
   const rows = Object.entries(QUESTIONS).map(([id, text], i) => {
-    const answered = !!answers[id];
+    const val = answers[id];
     const num = id.slice(1);
-    const bg = i % 2 === 0 ? '#f9fafb' : '#ffffff';
-    const answerCell = answered
-      ? `<span style="background:#16a34a;color:#fff;font-weight:700;padding:3px 10px;border-radius:4px;font-size:13px;">YES</span>`
-      : `<span style="color:#9ca3af;font-style:italic;">— not answered —</span>`;
-    return `<tr style="background:${bg};">
-      <td style="padding:12px 16px;border-bottom:1px solid #e5e7eb;color:#111827;">Q${num}. ${text}</td>
-      <td style="padding:12px 16px;border-bottom:1px solid #e5e7eb;white-space:nowrap;text-align:center;">${answerCell}</td>
-    </tr>`;
+    const bg  = i % 2 === 0 ? '#f9fafb' : '#ffffff';
+    let answerCell;
+    if (val === true) {
+      answerCell = `<span style="background:#16a34a;color:#fff;font-weight:700;padding:3px 10px;border-radius:4px;font-size:13px;">YES</span>`;
+    } else if (val === false) {
+      answerCell = `<span style="background:#dc2626;color:#fff;font-weight:700;padding:3px 10px;border-radius:4px;font-size:13px;">NO</span>`;
+    } else {
+      answerCell = `<span style="color:#9ca3af;font-style:italic;">— not answered —</span>`;
+    }
+    return `<tr style="background:${bg};"><td style="padding:12px 16px;border-bottom:1px solid #e5e7eb;color:#111827;">Q${num}. ${text}</td><td style="padding:12px 16px;border-bottom:1px solid #e5e7eb;white-space:nowrap;text-align:center;">${answerCell}</td></tr>`;
   });
   return `<table style="width:100%;border-collapse:collapse;font-family:Arial,Helvetica,sans-serif;font-size:14px;">${rows.join('')}</table>`;
 }
@@ -42,26 +44,36 @@ function buildQaTableHtml(answers) {
 function buildQaPlainText(answers) {
   return Object.entries(QUESTIONS).map(([id, text]) => {
     const num = id.slice(1);
-    const answered = !!answers[id];
-    return `Q${num}. ${text}\n→ ${answered ? 'YES' : '(not answered)'}`;
+    const val = answers[id];
+    const label = val === true ? 'YES' : val === false ? 'NO' : '(not answered)';
+    return `Q${num}. ${text}\n→ ${label}`;
   }).join('\n\n');
 }
 
-function buildNoteBody({ firstName, email, companyName, source, answers, score, submittedAt }) {
+function buildNoteBody({ companyName, source, answers, score, answeredCount, submittedAt }) {
+  const div = '━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━';
   const header = [
     `AI Readiness Checklist — Submitted ${submittedAt}`,
-    `Score: ${score}/20`,
+    `Score: ${score}/20 yes answers`,
+    `Answered: ${answeredCount}/20 questions`,
     `Source: ${source}`,
     companyName ? `Company: ${companyName}` : null,
   ].filter(Boolean).join('\n');
 
   const lines = Object.entries(QUESTIONS).map(([id, text]) => {
-    const answered = answers[id] ? 'YES' : '(not answered)';
-    const num = id.slice(1);
-    return `Q${num}. ${text}\n→ ${answered}`;
+    const num   = id.slice(1);
+    const val   = answers[id];
+    const label = val === true ? 'YES' : val === false ? 'NO' : '(not answered)';
+    return `Q${num}. ${text}\n→ ${label}`;
   });
 
-  return `${header}\n\n${lines.join('\n\n')}`;
+  return [
+    header, '',
+    div, 'FULL Q&A BREAKDOWN', div, '',
+    lines.join('\n\n'), '',
+    div, '',
+    'Next step: schedule a 30-min call at https://cal.com/aiandwebservices/30min',
+  ].join('\n');
 }
 
 export async function POST(req) {
@@ -78,13 +90,14 @@ export async function POST(req) {
     return Response.json({ success: false, error: 'firstName, email, and answers are required' }, { status: 400 });
   }
 
-  const score = Object.values(answers).filter(Boolean).length;
-  const submittedAt = new Date().toISOString().split('T')[0];
+  // score = YES count; answeredCount = YES + NO (anything explicitly set)
+  const score         = Object.values(answers).filter(v => v === true).length;
+  const answeredCount = Object.values(answers).filter(v => v === true || v === false).length;
+  const answeredYes   = Object.entries(answers).filter(([, v]) => v === true).map(([k]) => k).join(', ');
+  const submittedAt   = new Date().toISOString().split('T')[0];
 
-  const qaTableHtml  = buildQaTableHtml(answers);
-  const qaPlainText  = buildQaPlainText(answers);
-  const answeredCount = score;
-  const answeredYes  = Object.entries(answers).filter(([, v]) => v).map(([k]) => k).join(',');
+  const qaTableHtml = buildQaTableHtml(answers);
+  const qaPlainText = buildQaPlainText(answers);
 
   const hubspotToken = process.env.HUBSPOT_TOKEN;
   let hubspotContactId = null;
@@ -107,7 +120,7 @@ export async function POST(req) {
     }
 
     // ── 2. Create HubSpot Note attached to contact (if found) ──
-    const noteBody = buildNoteBody({ firstName, email, companyName, source, answers, score, submittedAt });
+    const noteBody = buildNoteBody({ companyName, source, answers, score, answeredCount, submittedAt });
     try {
       const notePayload = {
         properties: {
