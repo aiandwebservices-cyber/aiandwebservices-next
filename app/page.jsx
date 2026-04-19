@@ -8,12 +8,12 @@ import Comparison  from '@/components/panels/Comparison';
 import Services    from '@/components/panels/Services';
 import About       from '@/components/panels/About';
 import Work        from '@/components/panels/Work';
-import Testimonials from '@/components/panels/Testimonials';
 import FAQ         from '@/components/panels/FAQ';
 // import Contact     from '@/components/panels/Contact'; // Using new /contact page instead
 import Modals      from '@/components/Modals';
 import CookieBanner from '@/components/CookieBanner';
 import ScrollInit  from '@/components/ScrollInit';
+import PanelDots   from '@/components/PanelDots';
 
 export default function Home() {
   return (
@@ -28,6 +28,7 @@ export default function Home() {
       <Nav />
 
       <main id="main-content">
+        <PanelDots />
         <div id="track">
           {/* p0 */ }<Hero />
           {/* p2 */ }<HowItWorks />
@@ -35,8 +36,6 @@ export default function Home() {
           {/* services */ }<Services />
           {/* p3 */ }<About />
           {/* samples */ }<Work />
-          {/* testimonials — returns null until SHOW_TESTIMONIALS = true */}
-          <Testimonials />
           {/* p7 */ }<FAQ />
           {/* p8 - Contact moved to dedicated /contact page */}
         </div>
