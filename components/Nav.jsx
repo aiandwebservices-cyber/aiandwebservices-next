@@ -14,7 +14,8 @@ const SERVICE_LINKS = [
   { label: 'Add-On Services',       href: '/services/add-ons'               },
 ];
 
-// 8 panels: Home(0), How It Works(1), Comparison(2), Services(3), About(4), Samples(5), FAQ(6), Contact(7)
+// 7 panels: Home(0), How It Works(1), Comparison(2), Services(3),
+// About(4), Samples(5), FAQ(6). Contact lives at /contact route.
 const PANELS = [
   { idx: 0, label: 'Home',         nav: true },
   { idx: 1, label: 'How It Works', nav: true },
@@ -23,10 +24,8 @@ const PANELS = [
   { idx: 4, label: 'About',        nav: true },
   { idx: 5, label: 'Samples',      nav: true },
   { idx: 6, label: 'FAQ',          nav: true },
-  { idx: 7, label: 'Contact',      nav: true },
 ];
 const NAV_PANELS  = PANELS.filter(p => p.nav);
-const CONTACT_IDX = 7;
 const HASH_NAMES = ['home', 'how-it-works', 'comparison', 'services', 'about', 'samples', 'faq'];
 
 export default function Nav() {
@@ -93,8 +92,9 @@ export default function Nav() {
   }, []);
 
   // Panels 0 (Hero), 2 (Comparison), 7 (Contact) have dark backgrounds
-  const darkPanels = new Set([0, 7]);
-  const logoSrc    = darkPanels.has(currentPanel) ? '/logo-gradient-test.svg' : '/logo-gradient-light.svg';
+  const darkPanels = new Set([0]);
+  const isDarkSurface = isOnContactPage || darkPanels.has(currentPanel);
+  const logoSrc = isDarkSurface ? '/logo-gradient-test.svg' : '/logo-gradient-light.svg';
 
   const LogoInner = () => (
     // eslint-disable-next-line @next/next/no-img-element
