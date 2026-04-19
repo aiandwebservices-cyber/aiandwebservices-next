@@ -20,6 +20,12 @@ const plusJakarta = Plus_Jakarta_Sans({
 
 export const metadataBase = new URL('https://www.aiandwebservices.com');
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  viewportFit: 'cover',
+};
+
 export const metadata = {
   title: 'AIandWEBservices | AI Automation, Agents & Chatbots for Small Business — David Pulis',
   description: 'I build AI agents, AI chatbots, and automation systems that grow your small business 24/7 — plus SEO, web design, and digital marketing. No agency markup. Direct personal service from David Pulis at AIandWEBservices.',
