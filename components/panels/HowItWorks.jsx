@@ -219,10 +219,11 @@ export default function HowItWorks() {
       </div>
 
       <div className="hiw-inner" ref={sectionRef}>
-        <div style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', height: '100%' }}>
+        <div className="hiw-mobile-flex" style={{ position: 'relative', zIndex: 1, display: 'flex', flexDirection: 'column', height: '100%' }}>
 
           {/* ── Header ── */}
           <motion.div
+            className="hiw-header"
             initial={reduced ? false : { opacity: 0, y: 28 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.05 }}
@@ -469,6 +470,10 @@ export default function HowItWorks() {
           .hiw-inner { padding:80px 5vw 36px; }
           .hiw-steps { grid-template-columns:1fr 1fr; }
           .hiw-graphics { grid-template-columns:1fr; }
+          .hiw-mobile-flex .hiw-header    { order: 0; }
+          .hiw-mobile-flex .hiw-steps     { order: 1; }
+          .hiw-mobile-flex .hiw-graphics  { order: 2; }
+          .hiw-mobile-flex .panel-cta-wrap { order: 3; }
         }
         @media (max-width:480px) {
           .hiw-steps { grid-template-columns:1fr; }
