@@ -31,9 +31,9 @@ export default function Contact2() {
   }
 
   const fade = (delay = 0) => ({
-    initial:     { opacity: 0, y: reduced ? 0 : 24 },
-    whileInView: { opacity: 1, y: 0, transition: { duration: 0.65, ease: [0.22,1,0.36,1], delay } },
-    viewport:    { once: true, amount: 0.05 },
+    initial:   { opacity: 0, y: reduced ? 0 : 24 },
+    animate:   { opacity: 1, y: 0 },
+    transition: { duration: 0.65, ease: [0.22,1,0.36,1], delay },
   });
 
   return (
