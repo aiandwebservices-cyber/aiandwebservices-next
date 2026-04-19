@@ -6,13 +6,14 @@ export function useHorizontalScroll() {
 
   useEffect(() => {
     if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+    window.scrollTo(0, 0);
+    requestAnimationFrame(() => window.scrollTo(0, 0));
 
     const TOTAL = 8;
     const hashNames = ['home', 'how-it-works', 'comparison', 'services', 'about', 'samples', 'faq', 'contact'];
     const hashToPanel = Object.fromEntries(hashNames.map((h, i) => [h, i]));
     const startHash = window.location.hash.replace('#', '');
     let cur = hashToPanel[startHash] ?? 0;
-    window.scrollTo(0, 0);
     let locked = false;
     let formFocused = false;
     const isMobile = () => window.innerWidth <= 768;
