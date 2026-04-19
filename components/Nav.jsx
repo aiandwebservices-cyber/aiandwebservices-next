@@ -96,13 +96,15 @@ export default function Nav() {
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach(entry => {
-          if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+          if (entry.isIntersecting) {
             const idx = PANEL_ID_TO_IDX[entry.target.id];
-            if (idx !== undefined) setCurrentPanel(idx);
+            if (idx !== undefined) {
+              setCurrentPanel(prev => prev !== idx ? idx : prev);
+            }
           }
         });
       },
-      { threshold: [0.5] }
+      { rootMargin: '-60px 0px -50% 0px', threshold: 0 }
     );
     Object.keys(PANEL_ID_TO_IDX).forEach(id => {
       const el = document.getElementById(id);
