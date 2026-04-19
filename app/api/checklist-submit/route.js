@@ -16,7 +16,7 @@ export async function POST(request) {
     return NextResponse.json({ success: false, error: 'Invalid request body.' }, { status: 400 });
   }
 
-  const { email, firstName, companyName, source, answers = {} } = body;
+  const { email, firstName, phone, companyName, source, answers = {} } = body;
 
   if (!email || !firstName) {
     return NextResponse.json({ success: false, error: 'email and firstName are required.' }, { status: 400 });
@@ -29,6 +29,7 @@ export async function POST(request) {
   const properties = {
     email,
     firstname: firstName,
+    checklist_status: 'completed',
     checklist_completed: 'true',
     checklist_source: source || 'site',
     checklist_submitted_at: new Date().toISOString(),
@@ -36,6 +37,7 @@ export async function POST(request) {
     checklist_answered: String(answered),
     checklist_completion_rate: String(Math.round((answered / 20) * 100)),
   };
+  if (phone) properties.phone = phone;
   if (companyName) properties.company = companyName;
 
   // Use upsert so re-submitters update rather than create duplicates
@@ -78,9 +80,10 @@ export async function POST(request) {
         body: JSON.stringify({
           email,
           firstName,
+          phone: phone || '',
           companyName: companyName || '',
           source: source || 'site',
-          answers
+          answers,
         })
       });
       if (!n8nRes.ok) {

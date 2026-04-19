@@ -58,6 +58,7 @@ export default function ChecklistForm({ hideHero = false, defaultSource = null }
   const [step, setStep]             = useState('email'); // 'email' | 'questions' | 'submitted'
   const [email, setEmail]           = useState('');
   const [firstName, setFirstName]   = useState('');
+  const [phone, setPhone]           = useState('');
   const [company, setCompany]       = useState('');
   const [source, setSource]         = useState('site');
   const [answers, setAnswers]       = useState({}); // { q0: 'yes'|'no'|null, … }
@@ -89,7 +90,7 @@ export default function ChecklistForm({ hideHero = false, defaultSource = null }
     setAnswers(prev => ({ ...prev, [id]: prev[id] === value ? null : value }));
   };
 
-  function startAssessment(e) {
+  async function startAssessment(e) {
     e.preventDefault();
     if (!email.trim() || !firstName.trim()) {
       setEmailErr('Please enter your first name and email to continue.');
@@ -100,6 +101,14 @@ export default function ChecklistForm({ hideHero = false, defaultSource = null }
       return;
     }
     setEmailErr('');
+
+    // Fire lead capture — non-blocking, never gate the user on CRM availability
+    fetch('/api/checklist-lead-started', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ firstName, email, phone, companyName: company, source }),
+    }).catch(err => console.error('[checklist-lead-started] fire failed:', err));
+
     setStep('questions');
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }
@@ -111,7 +120,7 @@ export default function ChecklistForm({ hideHero = false, defaultSource = null }
       const res = await fetch('/api/checklist-submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, firstName, companyName: company, source, answers }),
+        body: JSON.stringify({ email, firstName, phone, companyName: company, source, answers }),
       });
       const data = await res.json();
       if (data.success) {
@@ -182,6 +191,19 @@ export default function ChecklistForm({ hideHero = false, defaultSource = null }
                 onChange={e => setEmail(e.target.value)}
                 placeholder="you@yourbusiness.com"
                 required
+                style={inputStyle}
+              />
+            </div>
+
+            <div>
+              <label style={{ display: 'block', fontSize: '14px', fontWeight: '600', color: '#374151', marginBottom: '6px' }}>
+                Phone <span style={{ color: '#9ca3af', fontWeight: 400 }}>(optional — for urgent follow-up)</span>
+              </label>
+              <input
+                type="tel"
+                value={phone}
+                onChange={e => setPhone(e.target.value)}
+                placeholder="(555) 555-5555"
                 style={inputStyle}
               />
             </div>
