@@ -165,7 +165,7 @@ export default function Contact2() {
                     />
                   </div>
                   <div>
-                    <label style={{ display: 'block', fontSize: 11, fontWeight: 700, letterSpacing: '.8px', textTransform: 'uppercase', color: 'rgba(255,255,255,.85)', marginBottom: 6 }}>
+                    <label style={{ display: 'block', fontSize: 'clamp(9px, 1.5vw, 11px)', fontWeight: 700, letterSpacing: '.6px', textTransform: 'uppercase', color: 'rgba(255,255,255,.85)', marginBottom: 4 }}>
                       Last Name <span style={{ color: '#f87171' }}>*</span>
                     </label>
                     <input
@@ -268,6 +268,7 @@ export default function Contact2() {
                       fontFamily: "'Inter', sans-serif",
                       cursor: 'pointer',
                       transition: 'all .2s',
+                      outline: 'none',
                     }}
                     onFocus={(e) => e.target.style.borderColor = 'rgba(37,99,235,.5)'}
                     onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,.1)'}
@@ -306,7 +307,6 @@ export default function Contact2() {
                       minHeight: '100px',
                       transition: 'all .2s',
                       outline: 'none',
-                      fontFamily: "'Inter', sans-serif",
                     }}
                     onFocus={(e) => e.target.style.borderColor = 'rgba(37,99,235,.5)'}
                     onBlur={(e) => e.target.style.borderColor = 'rgba(255,255,255,.1)'}
