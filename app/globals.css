@@ -301,6 +301,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 .panel-cta-sub{font-size:13px;color:rgba(15,30,61,.5);margin-bottom:14px;line-height:1.6;}
 .panel-cta-btn{display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#2AA5A0,#33BDB8);color:#fff;border:none;border-radius:50px;padding:11px 28px;font-size:13px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;box-shadow:0 6px 22px rgba(42,165,160,.4);transition:transform .22s,box-shadow .22s;letter-spacing:0.1px;text-decoration:none;}
 .panel-cta-btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(42,165,160,.55);color:#fff;}
+#samples .panel-cta-btn{margin-top:12px;}
 
 /* ── PANEL 1: SERVICES ── */
 #p1{background:var(--white)}
@@ -2318,17 +2319,6 @@ html:has(.svc-page-main){overflow:auto!important}
 
   .panel-dot:hover .panel-dot-visual {
     border-color: rgba(0, 0, 0, 0.6);
-  }
-}
-
-/* ── Panel fade-in entrance animation (mobile only) ── */
-@media (max-width: 768px) {
-  .panel-fade {
-    opacity: 0;
-    transition: opacity 0.15s ease-out;
-  }
-  .panel-fade.visible {
-    opacity: 1;
   }
 }
 
