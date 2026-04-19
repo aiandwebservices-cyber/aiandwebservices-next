@@ -25,9 +25,10 @@ const PANELS = [
   { idx: 5, label: 'Samples',        nav: true },
   { idx: 6, label: 'FAQ',            nav: true },
   { idx: 7, label: 'AI Readiness',   nav: true },
+  { idx: 8, label: 'Contact',        nav: true },
 ];
 const NAV_PANELS  = PANELS.filter(p => p.nav);
-const HASH_NAMES = ['home', 'how-it-works', 'comparison', 'services', 'about', 'samples', 'faq', 'ai-readiness'];
+const HASH_NAMES = ['home', 'how-it-works', 'comparison', 'services', 'about', 'samples', 'faq', 'ai-readiness', 'contact'];
 
 export default function Nav() {
   const pathname = usePathname();
