@@ -36,16 +36,16 @@ export default function Nav() {
   const isHomepage = pathname === '/';
   const go  = (n) => {
     if (!isHomepage) {
-      const hash = HASH_NAMES[n] || 'home';
-      router.push(`/#${hash}`);
+      sessionStorage.setItem('panelTarget', String(n));
+      router.push('/');
     } else {
       window.go && window.go(n);
     }
   };
   const mGo = (n) => {
     if (!isHomepage) {
-      const hash = HASH_NAMES[n] || 'home';
-      router.push(`/#${hash}`);
+      sessionStorage.setItem('panelTarget', String(n));
+      router.push('/');
     } else {
       window.mobileGo && window.mobileGo(n);
     }
