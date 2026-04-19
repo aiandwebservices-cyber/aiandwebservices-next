@@ -39,7 +39,7 @@ export async function POST(request) {
   if (companyName) properties.company = companyName;
 
   // Use upsert so re-submitters update rather than create duplicates
-  const hsRes = await fetch('https://api.hubapi.com/crm/v3/objects/contacts/upsert', {
+  const hsRes = await fetch('https://api.hubapi.com/crm/v3/objects/contacts/batch/upsert', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
