@@ -380,8 +380,14 @@ export default function ChecklistForm({ hideHero = false, defaultSource = null }
         </div>
 
         {/* Scoring Guide */}
-        <div style={{ marginTop: '64px', paddingTop: '32px', borderTop: '2px solid #e5e7eb' }}>
-          <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#111827', marginBottom: '24px' }}>Score Your Readiness</h3>
+        <div style={{ marginTop: '64px' }}>
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', flexWrap: 'wrap', gap: '16px', paddingTop: '32px', borderTop: '2px solid #e5e7eb', marginBottom: '24px' }}>
+            <h3 style={{ fontSize: 'clamp(22px,3vw,28px)', fontWeight: 800, color: '#111827', margin: 0 }}>Score Your Readiness</h3>
+            <div style={{ fontSize: 'clamp(22px,3vw,28px)', fontWeight: 800 }}>
+              <span style={{ color: '#111827' }}>Yes Total = </span>
+              <span style={{ color: yesCount <= 7 ? '#dc2626' : yesCount <= 14 ? '#ca8a04' : '#16a34a' }}>{yesCount}</span>
+            </div>
+          </div>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: '20px' }}>
             <div style={{ padding: '20px', backgroundColor: '#fee2e2', borderRadius: '8px', border: '1px solid #fca5a5' }}>
               <div style={{ fontSize: '14px', fontWeight: '600', color: '#991b1b', marginBottom: '8px' }}>0–7 Yes answers</div>
@@ -412,7 +418,7 @@ export default function ChecklistForm({ hideHero = false, defaultSource = null }
           <h3 style={{ fontSize: '22px', fontWeight: '800', color: '#111827', marginBottom: '8px' }}>
             Ready to get your results?
           </h3>
-          <p style={{ fontSize: '15px', color: '#374151', marginBottom: '16px', lineHeight: '1.6' }}>
+          <p style={{ fontSize: '15px', color: '#374151', marginBottom: '16px', lineHeight: '1.6', maxWidth: '640px', margin: '0 auto 16px' }}>
             Submit your assessment and David will personally review your responses and send recommendations within 6 hours.
           </p>
           {answeredCount < 20 && answeredCount > 0 && (
@@ -430,15 +436,13 @@ export default function ChecklistForm({ hideHero = false, defaultSource = null }
           >
             {submitting ? 'Submitting…' : 'Submit Assessment →'}
           </button>
-          <div style={{ marginTop: '16px' }}>
-            <button
-              onClick={handlePrint}
-              className="checklist-print-btn"
-              style={{ background: 'none', border: 'none', color: '#9ca3af', fontSize: '13px', cursor: 'pointer', textDecoration: 'underline' }}
-            >
-              Print / Save as PDF instead
-            </button>
-          </div>
+          <button
+            onClick={handlePrint}
+            className="checklist-print-btn"
+            style={{ background: 'none', border: 'none', padding: 0, margin: '24px auto 0', display: 'block', color: '#2563eb', textDecoration: 'underline', fontSize: 'clamp(18px,2.5vw,22px)', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit' }}
+          >
+            Print / Save as PDF
+          </button>
         </div>
       </section>
 
