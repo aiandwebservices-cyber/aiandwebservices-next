@@ -15,7 +15,6 @@ export function useHorizontalScroll() {
     let cur = hashToPanel[startHash] ?? 0;
     let locked = false;
     let formFocused = false;
-    let savedScrollY = 0;
     const isMobile = () => window.innerWidth <= 768;
 
     // Track form focus globally so scroll/click handlers never interfere
@@ -128,19 +127,7 @@ export function useHorizontalScroll() {
       hamburger.setAttribute('aria-expanded', isOpen);
       hamburger.setAttribute('aria-label', isOpen ? 'Close navigation menu' : 'Open navigation menu');
       mobileMenu.setAttribute('aria-modal', isOpen ? 'true' : 'false');
-      if (isOpen) {
-        savedScrollY = window.scrollY;
-        document.body.style.position = 'fixed';
-        document.body.style.top = `-${savedScrollY}px`;
-        document.body.style.width = '100%';
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.position = '';
-        document.body.style.top = '';
-        document.body.style.width = '';
-        document.body.style.overflow = '';
-        window.scrollTo(0, savedScrollY);
-      }
+      if (!isMobile()) document.body.style.overflow = isOpen ? 'hidden' : '';
     }
 
     function closeMenu() {
@@ -149,11 +136,7 @@ export function useHorizontalScroll() {
       hamburger.setAttribute('aria-expanded', 'false');
       hamburger.setAttribute('aria-label', 'Open navigation menu');
       mobileMenu.setAttribute('aria-modal', 'false');
-      document.body.style.position = '';
-      document.body.style.top = '';
-      document.body.style.width = '';
-      document.body.style.overflow = '';
-      window.scrollTo(0, savedScrollY);
+      if (!isMobile()) document.body.style.overflow = '';
     }
 
     const handlePopState = (e) => {
