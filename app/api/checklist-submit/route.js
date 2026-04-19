@@ -23,6 +23,30 @@ const QUESTIONS = {
   q20: 'Are you tracking which marketing channels actually convert customers?',
 };
 
+function buildQaTableHtml(answers) {
+  const rows = Object.entries(QUESTIONS).map(([id, text], i) => {
+    const answered = !!answers[id];
+    const num = id.slice(1);
+    const bg = i % 2 === 0 ? '#f9fafb' : '#ffffff';
+    const answerCell = answered
+      ? `<span style="background:#16a34a;color:#fff;font-weight:700;padding:3px 10px;border-radius:4px;font-size:13px;">YES</span>`
+      : `<span style="color:#9ca3af;font-style:italic;">— not answered —</span>`;
+    return `<tr style="background:${bg};">
+      <td style="padding:12px 16px;border-bottom:1px solid #e5e7eb;color:#111827;">Q${num}. ${text}</td>
+      <td style="padding:12px 16px;border-bottom:1px solid #e5e7eb;white-space:nowrap;text-align:center;">${answerCell}</td>
+    </tr>`;
+  });
+  return `<table style="width:100%;border-collapse:collapse;font-family:Arial,Helvetica,sans-serif;font-size:14px;">${rows.join('')}</table>`;
+}
+
+function buildQaPlainText(answers) {
+  return Object.entries(QUESTIONS).map(([id, text]) => {
+    const num = id.slice(1);
+    const answered = !!answers[id];
+    return `Q${num}. ${text}\n→ ${answered ? 'YES' : '(not answered)'}`;
+  }).join('\n\n');
+}
+
 function buildNoteBody({ firstName, email, companyName, source, answers, score, submittedAt }) {
   const header = [
     `AI Readiness Checklist — Submitted ${submittedAt}`,
@@ -32,8 +56,9 @@ function buildNoteBody({ firstName, email, companyName, source, answers, score, 
   ].filter(Boolean).join('\n');
 
   const lines = Object.entries(QUESTIONS).map(([id, text]) => {
-    const answered = answers[id] ? 'YES' : '(not answered)';
-    return `${id.toUpperCase()}: ${text}\n→ ${answered}`;
+    const answered = answers[id] ? 'YES' : 'NO';
+    const num = id.slice(1);
+    return `Q${num}. ${text}\n→ ${answered}`;
   });
 
   return `${header}\n\n${lines.join('\n\n')}`;
@@ -53,9 +78,12 @@ export async function POST(req) {
     return Response.json({ success: false, error: 'firstName, email, and answers are required' }, { status: 400 });
   }
 
-  // Safety-net score (n8n also computes this authoritatively)
   const score = Object.values(answers).filter(Boolean).length;
-  const submittedAt = new Date().toISOString().split('T')[0]; // YYYY-MM-DD
+  const submittedAt = new Date().toISOString().split('T')[0];
+
+  const qaTableHtml  = buildQaTableHtml(answers);
+  const qaPlainText  = buildQaPlainText(answers);
+  const answeredCount = score;
 
   const hubspotToken = process.env.HUBSPOT_TOKEN;
   let hubspotContactId = null;
@@ -112,13 +140,12 @@ export async function POST(req) {
       }
     } catch (err) {
       console.error('[checklist-submit] HubSpot notes error:', err.message);
-      // Non-fatal — continue to n8n
     }
   } else {
     console.warn('[checklist-submit] HUBSPOT_TOKEN not set — skipping HubSpot note');
   }
 
-  // ── 3. Forward to n8n Workflow 2 (awaited — we want confirmation) ──
+  // ── 3. Forward to n8n Workflow ──
   const webhookUrl = process.env.N8N_CHECKLIST_WEBHOOK;
   if (!webhookUrl) {
     console.error('[checklist-submit] N8N_CHECKLIST_WEBHOOK not set');
@@ -129,7 +156,16 @@ export async function POST(req) {
     const n8nRes = await fetch(webhookUrl, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, firstName, companyName, source, answers }),
+      body: JSON.stringify({
+        email,
+        firstName,
+        companyName,
+        source,
+        answers,
+        qaTableHtml,
+        qaPlainText,
+        answeredCount,
+      }),
     });
 
     if (!n8nRes.ok) {
