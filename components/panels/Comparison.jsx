@@ -91,12 +91,12 @@ function SavingsStrip() {
 }
 
 /* Animated check that draws in */
-function AnimatedCheck({ delay = 0, reduced }) {
+function AnimatedCheck({ delay = 0, reduced, skip }) {
   return (
     <div className="cmp-check cmp-check-ok" style={{ position: 'relative', overflow: 'hidden' }}>
       <motion.div
-        initial={{ scale: reduced ? 1 : 0, opacity: reduced ? 1 : 0 }}
-        whileInView={{ scale: 1, opacity: 1, transition: { type: 'spring', stiffness: 400, damping: 20, delay } }}
+        initial={{ scale: skip ? 1 : 0, opacity: skip ? 1 : 0 }}
+        whileInView={skip ? undefined : { scale: 1, opacity: 1, transition: { type: 'spring', stiffness: 400, damping: 20, delay } }}
         viewport={{ once: true }}
         style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}
       >
@@ -109,6 +109,9 @@ function AnimatedCheck({ delay = 0, reduced }) {
 
 export default function Comparison() {
   const reduced = useReducedMotion();
+  const [isMobile, setIsMobile] = useState(false);
+  useEffect(() => { setIsMobile(window.matchMedia('(max-width:768px)').matches); }, []);
+  const skip = isMobile || reduced;
 
   return (
     <section className="panel" id="comparison" aria-label="Why AIandWEBservices beats agencies and DIY">
@@ -125,8 +128,8 @@ export default function Comparison() {
 
           {/* Header */}
           <motion.div
-            initial={{ opacity: 0, y: reduced ? 0 : 20 }}
-            whileInView={{ opacity: 1, y: 0, transition: { duration: 0.6, ease } }}
+            initial={{ opacity: skip ? 1 : 0, y: skip ? 0 : 20 }}
+            whileInView={skip ? undefined : { opacity: 1, y: 0, transition: { duration: 0.6, ease } }}
             viewport={{ once: true, amount: 0.05 }}
             style={{ textAlign: 'center', marginBottom: 28 }}
           >
@@ -166,8 +169,8 @@ export default function Comparison() {
                 <motion.div
                   key={row.label}
                   className="cmp-row"
-                  initial={{ opacity: 0, y: reduced ? 0 : 14 }}
-                  whileInView={{ opacity: 1, y: 0, transition: { duration: 0.45, delay: i * 0.07, ease } }}
+                  initial={{ opacity: skip ? 1 : 0, y: skip ? 0 : 14 }}
+                  whileInView={skip ? undefined : { opacity: 1, y: 0, transition: { duration: 0.45, delay: i * 0.07, ease } }}
                   viewport={{ once: true, amount: 0.05 }}
                 >
                   {/* Category */}
@@ -178,7 +181,7 @@ export default function Comparison() {
 
                   {/* Us */}
                   <div className="cmp-cell cmp-cell-us">
-                    <AnimatedCheck delay={i * 0.07 + 0.2} reduced={reduced} />
+                    <AnimatedCheck delay={i * 0.07 + 0.2} reduced={reduced} skip={skip} />
                     <div style={{ flex: 1 }}>
                       <div className="cmp-cell-main cmp-cell-main-ok">{row.us.text}</div>
                       <div className="cmp-cell-detail">{row.us.detail}</div>
@@ -211,8 +214,8 @@ export default function Comparison() {
           {/* Bottom CTA */}
           <motion.div
             className="panel-cta-wrap"
-            initial={{ opacity: 0, y: reduced ? 0 : 14 }}
-            whileInView={{ opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.3, ease } }}
+            initial={{ opacity: skip ? 1 : 0, y: skip ? 0 : 14 }}
+            whileInView={skip ? undefined : { opacity: 1, y: 0, transition: { duration: 0.5, delay: 0.3, ease } }}
             viewport={{ once: true }}
           >
             <div className="panel-cta-card">
