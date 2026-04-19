@@ -56,7 +56,7 @@ function buildNoteBody({ firstName, email, companyName, source, answers, score, 
   ].filter(Boolean).join('\n');
 
   const lines = Object.entries(QUESTIONS).map(([id, text]) => {
-    const answered = answers[id] ? 'YES' : 'NO';
+    const answered = answers[id] ? 'YES' : '(not answered)';
     const num = id.slice(1);
     return `Q${num}. ${text}\n→ ${answered}`;
   });
@@ -84,6 +84,7 @@ export async function POST(req) {
   const qaTableHtml  = buildQaTableHtml(answers);
   const qaPlainText  = buildQaPlainText(answers);
   const answeredCount = score;
+  const answeredYes  = Object.entries(answers).filter(([, v]) => v).map(([k]) => k).join(',');
 
   const hubspotToken = process.env.HUBSPOT_TOKEN;
   let hubspotContactId = null;
@@ -165,6 +166,7 @@ export async function POST(req) {
         qaTableHtml,
         qaPlainText,
         answeredCount,
+        answeredYes,
       }),
     });
 
