@@ -1,4 +1,5 @@
 'use client';
+import { useState, useEffect } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import Link from 'next/link';
 import { Bot, Sprout, TrendingUp, Zap, Brain, Settings, Wallet, ShoppingCart, Eye } from 'lucide-react';
@@ -63,13 +64,14 @@ const PLANS = [
   },
 ];
 
-function PlanCard({ plan, delay }) {
+function PlanCard({ plan, delay, isMobile }) {
   const { icon:Icon, color, name, price, setup, tag, tagC, href, desc, bullets, popular, once, consulting } = plan;
   const reduced = useReducedMotion();
+  const skip = isMobile || reduced;
   return (
     <motion.div
-      initial={{ opacity:0, y: reduced ? 0 : 32 }}
-      whileInView={{ opacity:1, y:0, transition:{ duration:.65, ease:[0.22,1,0.36,1], delay } }}
+      initial={{ opacity: skip ? 1 : 0, y: skip ? 0 : 32 }}
+      whileInView={skip ? undefined : { opacity:1, y:0, transition:{ duration:.65, ease:[0.22,1,0.36,1], delay } }}
       viewport={{ once:true, amount:.05 }}
       className={`svc-plan-card${popular ? ' svc-plan-popular' : ''}`}
     >
@@ -172,7 +174,7 @@ export default function Services() {
             <div className="svc-starter-left">
               <div className="svc-starter-eyebrow">
                 <Bot size={11} color="#3b82f6" strokeWidth={2} />
-                Standalone · No website needed
+                Standalone · AI Chatbot
               </div>
               <div className="svc-starter-name">AI Automation Starter</div>
               <div className="svc-starter-desc">A custom AI trained on your business — captures leads, answers FAQs, and books calls 24/7.</div>
@@ -181,7 +183,7 @@ export default function Services() {
             {/* Col 2 — setup bullets */}
             <div className="svc-starter-col svc-starter-bullets-col">
               <div className="svc-starter-col-label">Setup includes</div>
-              {['Discovery call (60 min)', 'Custom AI training on your business', 'Calendar integration (Google, Calendly, Acuity)', 'CRM integration (HubSpot, Pipedrive, Zoho)'].map(b => (
+              {['Discovery call (60 min)', 'Custom AI training on your business', 'Calendar integration (Google, Calendly, Acuity)', 'CRM integration (HubSpot, Pipedrive, Zoho, any CRM)'].map(b => (
                 <div key={b} className="svc-starter-bullet">
                   <span className="svc-starter-check">✓</span>{b}
                 </div>
@@ -297,7 +299,7 @@ export default function Services() {
           background:#fff;
           border:1px solid rgba(59,130,246,.25);
           border-left:4px solid #3b82f6;
-          border-radius:16px;padding:28px 24px;min-height:160px;
+          border-radius:16px;padding:18px 24px;min-height:0;
           margin-bottom:20px;
           box-shadow:0 4px 24px rgba(59,130,246,.12);
         }
@@ -318,7 +320,7 @@ export default function Services() {
         .svc-starter-price { font-family:'Plus Jakarta Sans',sans-serif;font-size:36px;font-weight:900;color:#111827;line-height:1;margin-bottom:2px; }
         .svc-starter-price sup { font-size:14px;vertical-align:top;margin-top:6px;display:inline-block;color:#6b7280; }
         .svc-starter-per { font-size:10px;color:#9ca3af;line-height:1.7;font-weight:600; }
-        .svc-starter-btn { display:inline-flex;align-items:center;background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;border:none;border-radius:50px;padding:9px 18px;font-size:11px;font-weight:700;text-decoration:none;transition:all .2s;box-shadow:0 4px 14px rgba(59,130,246,.35);margin-top:12px;white-space:nowrap; }
+        .svc-starter-btn { display:inline-flex;align-items:center;background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;border:none;border-radius:50px;padding:9px 18px;font-size:11px;font-weight:700;text-decoration:none;transition:all .2s;box-shadow:0 4px 14px rgba(59,130,246,.35);margin-top:8px;white-space:nowrap; }
         .svc-starter-btn:hover { transform:translateY(-2px);box-shadow:0 8px 22px rgba(59,130,246,.5); }
 
         /* Plans */
