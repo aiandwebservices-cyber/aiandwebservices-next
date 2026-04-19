@@ -17,7 +17,7 @@ const SERVICE_LINKS = [
 // 8 panels: Home(0), How It Works(1), Comparison(2), Services(3),
 // About(4), Samples(5), FAQ(6), AI Readiness(7). Contact lives at /contact route.
 const PANELS = [
-  { idx: 0, label: 'Home',           nav: true },
+  { idx: 0, label: 'Home',           nav: false }, // logo serves as Home
   { idx: 1, label: 'How It Works',   nav: true },
   { idx: 2, label: 'Comparison',     nav: true },
   { idx: 3, label: 'Services',       nav: true },
@@ -25,7 +25,7 @@ const PANELS = [
   { idx: 5, label: 'Samples',        nav: true },
   { idx: 6, label: 'FAQ',            nav: true },
   { idx: 7, label: 'AI Readiness',   nav: true },
-  { idx: 8, label: 'Contact',        nav: true },
+  { idx: 8, label: 'Contact',        nav: false }, // CTA button serves as Contact
 ];
 const NAV_PANELS  = PANELS.filter(p => p.nav);
 const HASH_NAMES = ['home', 'how-it-works', 'comparison', 'services', 'about', 'samples', 'faq', 'ai-readiness', 'contact'];
@@ -195,14 +195,6 @@ export default function Nav() {
               </button>
             );
           })}
-          <Link
-            href="/contact"
-            className={`nav-pill${pathname === '/contact' ? ' active' : ''}`}
-            role="menuitem"
-            aria-current={pathname === '/contact' ? 'page' : undefined}
-          >
-            Contact
-          </Link>
         </div>
 
         <div className="nav-right">
