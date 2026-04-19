@@ -63,7 +63,7 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div className="footer-bottom">
-        <p className="footer-copyright">© 2026 AIandWEBservices. Built by David Pulis in Miami.</p>
+        <p className="footer-copyright">© 2026 AIandWEBservices. Built by David Pulis in Miami, FL.</p>
         <div className="footer-legal">
           <button
             className="footer-legal-link"
