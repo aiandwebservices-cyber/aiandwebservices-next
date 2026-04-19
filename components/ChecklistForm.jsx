@@ -7,34 +7,34 @@ const TEAL = '#2AA5A0';
 
 const questions = [
   { category: 'Current Operations', items: [
-    'Do you currently have a way to capture and track customer inquiries?',
-    'Are there repetitive tasks that your team does manually more than once per day?',
-    'Do you struggle to follow up with leads in a timely manner?',
-    'Is your team spending more than 10 hours/week on admin work (data entry, scheduling, emails)?',
+    'Do you have a system (CRM, spreadsheet, or tool) to track customer inquiries?',
+    'Do leads or customer messages sometimes get missed or forgotten?',
+    'Does it ever take you more than 24 hours to respond to a new lead?',
+    'Are there tasks in your business you do the same way every day or week?',
   ]},
   { category: 'Customer Communication', items: [
-    'Do you answer customer calls or emails outside of business hours?',
-    'Do some customer questions go unanswered because your team is busy?',
-    'Would you like to offer 24/7 support without hiring someone?',
-    'Do you have a consistent process for onboarding new customers?',
+    'Do customer questions come in outside your working hours?',
+    "Have you ever lost a potential customer because you couldn't respond fast enough?",
+    'Would offering instant 24/7 answers to common questions help you close more business?',
+    'Do you have a clear process customers follow when they become new clients?',
   ]},
   { category: 'Marketing & Content', items: [
-    'Are you publishing blog content or social media regularly?',
-    'Do you struggle to keep up with content creation?',
-    'Would ranking for more search terms help your business grow?',
-    'Are you currently doing any email marketing to your list?',
+    'Do you currently publish content (blog, social, newsletter) consistently?',
+    'Is creating marketing content a bottleneck because of time or ideas?',
+    'Does your business show up on Google when someone searches for what you do?',
+    'Do you send regular emails to your customer list?',
   ]},
   { category: 'Sales & Revenue', items: [
-    'Do leads sometimes get lost between initial contact and follow-up?',
-    'Would you like to automatically nurture leads while you focus on closing?',
-    'Are there pricing or plan decisions you want customers to self-serve?',
-    "Would increasing your team's closing rate by 20-30% impact your revenue significantly?",
+    'Do you know what happens to every lead after first contact?',
+    'Could you close more deals if leads were nurtured automatically while you focused on selling?',
+    'Are there decisions customers could make themselves (pricing, scheduling) that you currently handle manually?',
+    'Would a 20% increase in your conversion rate significantly change your revenue?',
   ]},
   { category: 'Technology & Data', items: [
-    'Do you have a CRM or customer database?',
-    'Do your different tools talk to each other, or are they siloed?',
-    'Would you benefit from seeing which customers/prospects are most engaged?',
-    'Are you tracking which marketing channels actually convert customers?',
+    'Do the tools you use (email, payments, calendar, CRM) connect to each other automatically?',
+    'Do you know which of your marketing channels actually bring paying customers?',
+    'Can you see at a glance which prospects are most likely to buy soon?',
+    'Is your customer data organized in one place where you can access it quickly?',
   ]},
 ];
 
@@ -335,6 +335,22 @@ export default function ChecklistForm() {
             </div>
           </div>
         ))}
+
+        {/* Live Yes/No/Unanswered counter */}
+        <div style={{ display: 'flex', gap: '16px', justifyContent: 'center', padding: '24px 20px', background: 'linear-gradient(135deg, rgba(42,165,160,0.08), rgba(42,165,160,0.02))', borderTop: '1px solid rgba(42,165,160,0.2)', borderBottom: '1px solid rgba(42,165,160,0.2)', marginTop: '32px' }}>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '32px', fontWeight: 800, color: TEAL, lineHeight: 1 }}>{yesCount}</div>
+            <div style={{ fontSize: '12px', color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.5px', marginTop: '4px', fontWeight: 700 }}>Yes</div>
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '32px', fontWeight: 800, color: '#6b7280', lineHeight: 1 }}>{Object.values(answers).filter(v => v === 'no').length}</div>
+            <div style={{ fontSize: '12px', color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.5px', marginTop: '4px', fontWeight: 700 }}>No</div>
+          </div>
+          <div style={{ textAlign: 'center' }}>
+            <div style={{ fontSize: '32px', fontWeight: 800, color: '#d1d5db', lineHeight: 1 }}>{20 - answeredCount}</div>
+            <div style={{ fontSize: '12px', color: '#6b7280', textTransform: 'uppercase', letterSpacing: '0.5px', marginTop: '4px', fontWeight: 700 }}>Unanswered</div>
+          </div>
+        </div>
 
         {/* Scoring Guide */}
         <div style={{ marginTop: '64px', paddingTop: '32px', borderTop: '2px solid #e5e7eb' }}>
