@@ -25,38 +25,29 @@ function ProgressBar() {
   return <motion.div style={{ position: 'fixed', top: 0, left: 0, right: 0, height: '3px', zIndex: 300, background: `linear-gradient(90deg,${ACCENT},#33BDB8)`, scaleX: scrollYProgress, transformOrigin: '0%' }} />;
 }
 
-const TIER_ORDER = ['ai-automation-starter','presence','growth','revenue-engine','ai-first','consulting'];
+const TIER_ORDER = ['ai-automation-starter','presence','growth','revenue-engine','ai-first'];
 const TIERS_SORTED = TIER_ORDER.map(slug => TIERS.find(t => t.slug === slug)).filter(Boolean);
 
 const FEATURE_ROWS = [
-  { label: 'Professional website (5 pages)',         tiers: ['presence','growth','revenue-engine','ai-first'] },
-  { label: 'Local SEO + Google Business Profile',    tiers: ['presence','growth','revenue-engine','ai-first'] },
-  { label: 'Basic AI assistant',                     tiers: ['presence','growth','revenue-engine','ai-first'] },
-  { label: 'AI automation system (lead qualify)',    tiers: ['ai-automation-starter','growth','revenue-engine','ai-first'] },
-  { label: 'Calendar + CRM integration',             tiers: ['ai-automation-starter','growth','revenue-engine','ai-first'] },
-  { label: 'Email marketing + welcome sequence',     tiers: ['growth','revenue-engine','ai-first'] },
-  { label: 'SEO content (2 articles/month)',         tiers: ['growth','revenue-engine','ai-first'] },
-  { label: 'Conversion landing pages',               tiers: ['growth','revenue-engine','ai-first'] },
-  { label: 'Sales funnel design + build',            tiers: ['revenue-engine','ai-first'] },
-  { label: 'Workflow automation',                    tiers: ['revenue-engine','ai-first'] },
-  { label: 'Paid ads (Google or Meta)',              tiers: ['revenue-engine','ai-first'] },
-  { label: 'Monthly strategy call',                  tiers: ['revenue-engine','ai-first','consulting'] },
-  { label: 'Voice AI (answers calls)',               tiers: ['ai-first'] },
-  { label: 'Programmatic SEO (100s of pages)',       tiers: ['ai-first'] },
-  { label: 'Social media AI scheduling',             tiers: ['ai-first'] },
-  { label: 'Custom analytics dashboard',             tiers: ['ai-first'] },
-  { label: 'AI readiness audit + roadmap',           tiers: ['consulting'] },
-  { label: 'Unbiased tool recommendations',          tiers: ['consulting'] },
+  { label: 'Professional website (5 pages)',              tiers: ['presence','growth','revenue-engine','ai-first'] },
+  { label: 'Local SEO + Google Business Profile',         tiers: ['presence','growth','revenue-engine','ai-first'] },
+  { label: 'Basic AI assistant',                          tiers: ['ai-automation-starter','growth','revenue-engine','ai-first'] },
+  { label: 'AI automation system (lead qualify)',         tiers: ['ai-automation-starter','growth','revenue-engine','ai-first'] },
+  { label: 'Calendar + CRM integration',                  tiers: ['ai-automation-starter','growth','revenue-engine','ai-first'] },
+  { label: 'Monthly performance report',                  tiers: ['ai-automation-starter','growth','revenue-engine','ai-first'] },
+  { label: 'Monthly SEO + site health report',            tiers: ['presence','growth','revenue-engine','ai-first'] },
+  { label: 'Email marketing + welcome sequence',          tiers: ['growth','revenue-engine','ai-first'] },
+  { label: 'SEO content (2 articles/month)',              tiers: ['growth','revenue-engine','ai-first'] },
+  { label: 'Conversion landing pages',                    tiers: ['growth','revenue-engine','ai-first'] },
+  { label: 'Sales funnel design + build',                 tiers: ['revenue-engine','ai-first'] },
+  { label: 'Workflow automation',                         tiers: ['revenue-engine','ai-first'] },
+  { label: 'Paid ads management (client funds spend)',    tiers: ['revenue-engine','ai-first'] },
+  { label: 'Monthly strategy call',                       tiers: ['revenue-engine','ai-first'] },
+  { label: 'Voice AI (answers calls)',                    tiers: ['ai-first'] },
+  { label: 'Programmatic SEO (100s of pages)',            tiers: ['ai-first'] },
+  { label: 'Social media AI scheduling',                  tiers: ['ai-first'] },
+  { label: 'Custom analytics dashboard',                  tiers: ['ai-first'] },
 ];
-
-const TIER_COLORS = {
-  'ai-automation-starter': '#2AA5A0',
-  'presence':              '#3b82f6',
-  'growth':                '#8b5cf6',
-  'revenue-engine':        '#f59e0b',
-  'ai-first':              '#ef4444',
-  'consulting':            '#10b981',
-};
 
 export default function CompareAllPlansPage() {
   return (
@@ -92,7 +83,7 @@ export default function CompareAllPlansPage() {
           <motion.p initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6, delay: 0.2 }}
             style={{ fontSize: '18px', color: '#4b5563', lineHeight: 1.7, maxWidth: '520px', margin: '0 auto 32px' }}
           >
-            Six plans designed for where you are today — and where you&apos;re going.
+            Five plans designed for where you are today — and where you&apos;re going.
           </motion.p>
           <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.35 }}>
             <a href="#compare" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '14px 28px', background: ACCENT, color: '#fff', borderRadius: '50px', fontWeight: 700, fontSize: '15px', textDecoration: 'none', boxShadow: '0 8px 28px rgba(42,165,160,0.4)' }}>
@@ -118,7 +109,7 @@ export default function CompareAllPlansPage() {
                   <tr style={{ background: '#f8fafc', borderBottom: '2px solid rgba(0,0,0,0.08)' }}>
                     <th style={{ padding: '16px', fontWeight: 700, color: '#374151', fontSize: '13px', textAlign: 'left', minWidth: '200px' }}>Feature</th>
                     {TIERS_SORTED.map(tier => {
-                      const color = TIER_COLORS[tier.slug] || ACCENT;
+                      const color = tier.color || ACCENT;
                       return (
                         <th key={tier.slug} style={{ padding: '16px 10px', fontSize: '12px', fontWeight: 700, color }}>
                           <div>{tier.name}</div>
@@ -145,7 +136,7 @@ export default function CompareAllPlansPage() {
                   <tr style={{ background: 'rgba(42,165,160,0.05)', borderTop: '2px solid rgba(42,165,160,0.15)' }}>
                     <td style={{ fontSize: '13px', fontWeight: 700, color: '#111827', padding: '16px' }}>Monthly</td>
                     {TIERS_SORTED.map(tier => (
-                      <td key={tier.slug} style={{ textAlign: 'center', fontWeight: 800, fontSize: '15px', color: TIER_COLORS[tier.slug] || ACCENT }}>${tier.monthlyFee}</td>
+                      <td key={tier.slug} style={{ textAlign: 'center', fontWeight: 800, fontSize: '15px', color: tier.color || ACCENT }}>${tier.monthlyFee}</td>
                     ))}
                   </tr>
                   <tr style={{ background: 'rgba(42,165,160,0.03)' }}>
@@ -158,7 +149,7 @@ export default function CompareAllPlansPage() {
                   <tr>
                     <td style={{ padding: '16px' }} />
                     {TIERS_SORTED.map(tier => {
-                      const color = TIER_COLORS[tier.slug] || ACCENT;
+                      const color = tier.color || ACCENT;
                       return (
                         <td key={tier.slug} style={{ padding: '12px 8px' }}>
                           <Link href={`/services/${tier.slug}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', padding: '9px 8px', background: color, color: '#fff', borderRadius: '8px', fontWeight: 700, fontSize: '12px', textDecoration: 'none' }}>
@@ -186,7 +177,7 @@ export default function CompareAllPlansPage() {
           </FadeUp>
           <div className="tier-grid">
             {TIERS_SORTED.map((tier, i) => {
-              const color = TIER_COLORS[tier.slug] || ACCENT;
+              const color = tier.color || ACCENT;
               return (
                 <FadeUp key={tier.slug} delay={i * 0.08}>
                   <div className="tier-card" style={{ background: tier.popular ? `${color}08` : '#ffffff', borderColor: tier.popular ? color : 'rgba(0,0,0,0.08)', position: 'relative', boxShadow: tier.popular ? `0 4px 24px ${color}20` : 'none' }}>

@@ -15,6 +15,7 @@ export type Tier = {
   slug: string;
   name: string;
   tagline: string;
+  color: string;
   setupFee: number;
   monthlyFee: number;
   setupLinkShort: string;
@@ -32,7 +33,8 @@ export const TIERS: Tier[] = [
     slug: 'presence',
     name: 'Presence',
     tagline: 'Get found online',
-    setupFee: 39,
+    color: '#34d399',
+    setupFee: 49,
     monthlyFee: 99,
     setupLinkShort: 'https://square.link/u/vIhHdVt7',
     setupLinkLong: 'https://checkout.square.site/merchant/MLTDBEPZS805X/checkout/4ZAIDGQR5MAIVCZWWGKODOM6',
@@ -51,8 +53,9 @@ export const TIERS: Tier[] = [
     slug: 'growth',
     name: 'Growth',
     tagline: 'Turn visitors into leads',
-    setupFee: 59,
-    monthlyFee: 149,
+    color: '#60a5fa',
+    setupFee: 79,
+    monthlyFee: 179,
     setupLinkShort: 'https://square.link/u/6XdMcNz1',
     setupLinkLong: 'https://checkout.square.site/merchant/MLTDBEPZS805X/order/tttbgN76YnwABZm68iUQnONxBITZY',
     setupLinkId: 'VLZVJSYXKN3B3KD4',
@@ -71,7 +74,8 @@ export const TIERS: Tier[] = [
     slug: 'revenue-engine',
     name: 'Revenue Engine',
     tagline: 'Automate your sales process',
-    setupFee: 99,
+    color: '#a78bfa',
+    setupFee: 149,
     monthlyFee: 249,
     setupLinkShort: 'https://square.link/u/nS2lnfhf',
     setupLinkLong: 'https://checkout.square.site/merchant/MLTDBEPZS805X/order/TIrGr9kjnSvHZUmpbonpPb5njMfZY',
@@ -93,8 +97,9 @@ export const TIERS: Tier[] = [
     slug: 'ai-first',
     name: 'AI-First',
     tagline: 'Replace manual work with AI',
-    setupFee: 199,
-    monthlyFee: 349,
+    color: '#f59e0b',
+    setupFee: 299,
+    monthlyFee: 499,
     setupLinkShort: 'https://square.link/u/SX61e3sM',
     setupLinkLong: 'https://checkout.square.site/merchant/MLTDBEPZS805X/order/FXgds7Q5ShNwhZ3EJh4bFiVot2GZY',
     setupLinkId: 'CALS4LNOOOIRKJGH',
@@ -114,6 +119,7 @@ export const TIERS: Tier[] = [
     slug: 'ai-automation-starter',
     name: 'AI Automation Starter',
     tagline: 'Your first AI system — handle inquiries 24/7',
+    color: '#3b82f6',
     setupFee: 99,
     monthlyFee: 99,
     setupLinkShort: 'https://square.link/u/jmjUQOOc',
@@ -128,26 +134,6 @@ export const TIERS: Tier[] = [
       'Lead qualification via AI',
       'CRM integration',
       'Monthly updates included',
-    ],
-  },
-  {
-    slug: 'consulting',
-    name: 'Consulting',
-    tagline: 'Know exactly where to start',
-    setupFee: 99,
-    monthlyFee: 99,
-    setupLinkShort: 'https://square.link/u/QBiFkWgk',
-    setupLinkLong: 'https://checkout.square.site/merchant/MLTDBEPZS805X/order/3iP48Rm06IOJz4eJ4rQ8D3S99FMZY',
-    setupLinkId: 'KHQJJWZ4JZMDT7JW',
-    monthlyLinkShort: 'https://square.link/u/PL0z3B2T',
-    monthlyLinkLong: 'https://checkout.square.site/merchant/MLTDBEPZS805X/checkout/2A27LH5ZQGWEDG5YPZF27DHH',
-    monthlyLinkId: '',
-    features: [
-      'AI readiness audit',
-      'Digital transformation roadmap',
-      'Tool stack recommendations',
-      'Staff AI training & workshops',
-      'Fractional AI advisor (ongoing)',
     ],
   },
 ];

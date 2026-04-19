@@ -1,22 +1,21 @@
 'use client';
 import { motion, useReducedMotion } from 'framer-motion';
 import Link from 'next/link';
-import { Bot, Sprout, TrendingUp, Zap, Brain, Target, Wallet, ShoppingCart, Eye } from 'lucide-react';
+import { Bot, Sprout, TrendingUp, Zap, Brain, Wallet, ShoppingCart, Eye } from 'lucide-react';
 
 const PLANS = [
   {
-    icon:Sprout, color:'#34d399', name:'Presence', price:'99', setup:'39', tag:'Foundation', tagC:'#34d399', href:'/services/presence',
+    icon:Sprout, color:'#34d399', name:'Presence', price:'99', setup:'49', tag:'Foundation', tagC:'#34d399', href:'/services/presence',
     desc:'Get found, look professional, and capture leads after hours.',
     bullets:[
-      'Fast, mobile-first website (5 pages)',
-      'Local SEO + Google Business Profile',
-      'Basic AI assistant — FAQs, lead capture',
-      'Monthly traffic & inquiry reports',
-      'Hosting & maintenance included',
+      'Professional 5-page website',
+      'Local SEO + Google Business Profile setup',
+      'Monthly SEO + site health report (traffic, rankings, speed, uptime)',
+      '1 blog post per month',
     ],
   },
   {
-    icon:TrendingUp, color:'#60a5fa', name:'Growth', price:'149', setup:'59', tag:'Most Popular', tagC:'#60a5fa', href:'/services/growth',
+    icon:TrendingUp, color:'#60a5fa', name:'Growth', price:'179', setup:'79', tag:'Most Popular', tagC:'#60a5fa', href:'/services/growth',
     desc:'Everything in Presence, plus automation that keeps your pipeline full.',
     bullets:[
       'Everything in Presence',
@@ -27,7 +26,7 @@ const PLANS = [
     ],
   },
   {
-    icon:Zap, color:'#a78bfa', name:'Revenue Engine', price:'249', setup:'99', tag:'Best Value', tagC:'#a78bfa', href:'/services/revenue-engine',
+    icon:Zap, color:'#a78bfa', name:'Revenue Engine', price:'249', setup:'149', tag:'Best Value', tagC:'#a78bfa', href:'/services/revenue-engine',
     desc:'A complete sales machine — funnel, ads, CRM, and automation all connected.',
     bullets:[
       'Everything in Growth',
@@ -40,7 +39,7 @@ const PLANS = [
     popular:true,
   },
   {
-    icon:Brain, color:'#f59e0b', name:'AI-First', price:'349', setup:'199', tag:'Full Power', tagC:'#f59e0b', href:'/services/ai-first',
+    icon:Brain, color:'#f59e0b', name:'AI-First', price:'499', setup:'299', tag:'Full Power', tagC:'#f59e0b', href:'/services/ai-first',
     desc:'Advanced AI across your entire operation — voice, content, social, and data.',
     bullets:[
       'Everything in Revenue Engine',
@@ -49,18 +48,6 @@ const PLANS = [
       'AI social media — 365 posts/yr scheduled',
       'Custom business dashboard (leads, revenue, ads)',
     ],
-  },
-  {
-    icon:Target, color:'#f87171', name:'Consulting', price:'99', setup:null, tag:'Strategy', tagC:'#f87171', href:'/services/consulting',
-    desc:'Honest AI advice with zero vendor bias. One-time or monthly.',
-    bullets:[
-      'Full AI readiness audit (5 days)',
-      'Prioritised digital roadmap',
-      'Tool stack advice — no affiliate bias',
-      'Staff AI training workshop',
-      'Optional: fractional advisor ongoing',
-    ],
-    once:true,
   },
 ];
 
@@ -170,7 +157,7 @@ export default function Services() {
             {/* Col 2 — setup bullets */}
             <div className="svc-starter-col svc-starter-bullets-col">
               <div className="svc-starter-col-label">Setup includes</div>
-              {['Discovery call (60 min)', 'Custom AI training on your business', 'Calendar integration (Google, Calendly, Acuity)', 'CRM integration (HubSpot, Pipedrive, Zoho)', '30-day launch monitoring'].map(b => (
+              {['Discovery call (60 min)', 'Custom AI training on your business', 'Calendar integration (Google, Calendly, Acuity)', 'CRM integration (HubSpot, Pipedrive, Zoho)'].map(b => (
                 <div key={b} className="svc-starter-bullet">
                   <span className="svc-starter-check">✓</span>{b}
                 </div>
@@ -180,7 +167,7 @@ export default function Services() {
             {/* Col 3 — monthly bullets */}
             <div className="svc-starter-col svc-starter-bullets-col">
               <div className="svc-starter-col-label">Monthly includes</div>
-              {['Hosting & platform fees', 'Knowledge base updates & refinement', 'Monthly performance report', 'AI retraining (new services, pricing)', '6-hour email support'].map(b => (
+              {['Monthly performance report (conversations, leads, bookings)'].map(b => (
                 <div key={b} className="svc-starter-bullet">
                   <span className="svc-starter-check">✓</span>{b}
                 </div>
@@ -209,6 +196,43 @@ export default function Services() {
         <div className="svc-plans-grid">
           {PLANS.map((p, i) => <PlanCard key={p.name} plan={p} delay={0.1 + i * 0.07} />)}
         </div>
+
+        {/* Consulting à la carte */}
+        <motion.div {...f(0.35)} className="svc-consulting-card">
+          <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:16, flexWrap:'wrap' }}>
+            <div style={{ flex:'1 1 280px' }}>
+              <div className="svc-eyebrow" style={{ marginBottom:6 }}>Consulting &amp; Custom Projects</div>
+              <p style={{ fontSize:12, color:'#374151', lineHeight:1.7, margin:'0 0 10px' }}>
+                Not every problem fits neatly into a tier. Maybe you need a one-time AI audit, help picking the right tech stack, or a specific automation built without the full service subscription.
+              </p>
+              <p style={{ fontSize:12, color:'#374151', lineHeight:1.7, margin:'0 0 10px' }}>
+                Pick what you need from our full service list — combine features however you want — and I&apos;ll quote you fair pricing based on scope.
+              </p>
+              <div style={{ fontSize:11, fontWeight:700, color:'#6b7280', marginBottom:6, textTransform:'uppercase', letterSpacing:1 }}>Common custom requests</div>
+              <ul style={{ margin:'0 0 12px', padding:0, listStyle:'none', display:'flex', flexDirection:'column', gap:4 }}>
+                {[
+                  'AI readiness audit + automation roadmap',
+                  'One-time chatbot or workflow build (no monthly)',
+                  'Tech stack consultation before you commit to a tier',
+                  'Specific integration your current tools don\'t have',
+                  'Strategy calls by the hour',
+                ].map(b => (
+                  <li key={b} style={{ fontSize:11, color:'#374151', paddingLeft:14, position:'relative', lineHeight:1.4 }}>
+                    <span style={{ position:'absolute', left:0, color:'#2AA5A0', fontWeight:700, fontSize:10 }}>✓</span>{b}
+                  </li>
+                ))}
+              </ul>
+              <p style={{ fontSize:11, color:'#6b7280', lineHeight:1.6, margin:0 }}>
+                No discovery fee. Tell me what you&apos;re trying to solve — I&apos;ll tell you if I can help, what it&apos;ll cost, and how long it&apos;ll take. If it&apos;s too big or too small for me, I&apos;ll tell you that too.
+              </p>
+            </div>
+            <div style={{ display:'flex', alignItems:'center', flexShrink:0 }}>
+              <Link href="/contact" className="svc-plan-btn" style={{ whiteSpace:'nowrap', padding:'10px 20px', fontSize:12 }}>
+                Start a custom project →
+              </Link>
+            </div>
+          </div>
+        </motion.div>
 
         {/* Add-ons divider */}
         <motion.div {...f(0.45)} className="svc-addons-label">
@@ -311,7 +335,7 @@ export default function Services() {
         .svc-starter-btn:hover { transform:translateY(-2px);box-shadow:0 8px 22px rgba(59,130,246,.5); }
 
         /* Plans */
-        .svc-plans-grid { display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:26px; }
+        .svc-plans-grid { display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:26px; }
         .svc-plan-card {
           position:relative;overflow:hidden;
           background:#fff;
@@ -352,6 +376,13 @@ export default function Services() {
         }
         .svc-plan-btn:hover { background:#2AA5A0;color:#fff;transform:translateY(-1px);box-shadow:0 6px 16px rgba(42,165,160,.3); }
 
+        /* Consulting à la carte */
+        .svc-consulting-card {
+          background:#fff;border:1px solid rgba(42,165,160,.2);border-left:4px solid #2AA5A0;
+          border-radius:14px;padding:20px 24px;margin-bottom:20px;
+          box-shadow:0 2px 12px rgba(42,165,160,.08);
+        }
+
         /* Add-ons label */
         .svc-addons-label { display:flex;align-items:center;gap:12px;margin-bottom:10px; }
         .svc-addons-label span { font-size:9px;font-weight:800;letter-spacing:2.5px;text-transform:uppercase;color:#9ca3af; }
@@ -385,7 +416,7 @@ export default function Services() {
           .svc-cta-wrap { margin-top:2px; }
         }
         @media (max-width:1100px) {
-          .svc-plans-grid { grid-template-columns:repeat(3,1fr); }
+          .svc-plans-grid { grid-template-columns:repeat(2,1fr); }
           .svc-cta-wrap { margin-top:0px; }
         }
         @media (max-width:1000px) {
