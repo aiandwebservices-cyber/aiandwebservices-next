@@ -165,9 +165,9 @@ export default function Hero() {
           </motion.p>
 
           <motion.div {...reveal(0.68)} className="h-ctas">
-            <button className="h-btn-primary" onClick={() => window.go && window.go(7)}>
+            <a className="h-btn-primary" href="/contact2">
               Get Your Free Audit
-            </button>
+            </a>
           </motion.div>
 
           <motion.div {...reveal(0.82)} className="h-trust">

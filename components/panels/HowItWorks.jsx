@@ -302,7 +302,7 @@ export default function HowItWorks() {
             <div className="panel-cta-card">
               <p className="panel-cta-title">See exactly how it works for your business.</p>
               <p className="panel-cta-sub">30 minutes · No obligation · Honest advice</p>
-              <button className="panel-cta-btn" onClick={() => window.go && window.go(7)}>Get Your Free Audit</button>
+              <a className="panel-cta-btn" href="/contact2">Get Your Free Audit</a>
             </div>
           </motion.div>
 

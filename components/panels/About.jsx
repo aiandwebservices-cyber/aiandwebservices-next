@@ -207,13 +207,13 @@ export default function About() {
             <div className="panel-cta-card">
               <p className="panel-cta-title">Ready to stop losing leads at night?</p>
               <p className="panel-cta-sub">No obligation · Honest answer · Response within 6 hours</p>
-              <button className="panel-cta-btn" onClick={() => window.go && window.go(7)}>Get Your Free Audit</button>
+              <a className="panel-cta-btn" href="/contact2">Get Your Free Audit</a>
             </div>
           </motion.div>
 
           {/* ── Bottom chip — only shown when right col is hidden ── */}
           <div className="abt-bottom-chips">
-            <a href="#" onClick={e=>{e.preventDefault();window.go&&window.go(7)}} className="abt-chip abt-chip-primary">Get Your Free Audit</a>
+            <a href="/contact2" className="abt-chip abt-chip-primary">Get Your Free Audit</a>
             <a href="#" onClick={e=>{e.preventDefault();window.go&&window.go(3)}} className="abt-chip">See Services</a>
           </div>
 
