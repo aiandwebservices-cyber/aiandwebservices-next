@@ -2320,3 +2320,16 @@ html:has(.svc-page-main){overflow:auto!important}
     border-color: rgba(0, 0, 0, 0.6);
   }
 }
+
+/* ── Panel fade-in entrance animation (mobile only) ── */
+@media (max-width: 768px) {
+  .panel-fade {
+    opacity: 0;
+    transform: translateY(10px);
+    transition: opacity 0.4s ease-out, transform 0.4s ease-out;
+  }
+  .panel-fade.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

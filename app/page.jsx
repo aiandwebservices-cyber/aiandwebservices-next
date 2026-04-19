@@ -13,7 +13,8 @@ import FAQ         from '@/components/panels/FAQ';
 import Modals      from '@/components/Modals';
 import CookieBanner from '@/components/CookieBanner';
 import ScrollInit  from '@/components/ScrollInit';
-import PanelDots   from '@/components/PanelDots';
+import PanelDots     from '@/components/PanelDots';
+import PanelFadeInit from '@/components/PanelFadeInit';
 
 export default function Home() {
   return (
@@ -29,6 +30,7 @@ export default function Home() {
 
       <main id="main-content">
         <PanelDots />
+        <PanelFadeInit />
         <div id="track">
           {/* p0 */ }<Hero />
           {/* p2 */ }<HowItWorks />
