@@ -187,6 +187,13 @@ export default function Services() {
               ))}
             </div>
 
+            {/* Mobile-only: 3-bullet summary (hidden on desktop) */}
+            <ul className="svc-starter-bullets-mobile">
+              <li><span className="svc-starter-check">✓</span>AI Automation System (qualifies leads 24/7)</li>
+              <li><span className="svc-starter-check">✓</span>Calendar + CRM Integration</li>
+              <li><span className="svc-starter-check">✓</span>30-day launch monitoring &amp; training</li>
+            </ul>
+
             {/* Col 4 — price + CTA */}
             <div className="svc-starter-price-col">
               <div className="svc-starter-price"><sup>$</sup>99</div>
@@ -393,6 +400,15 @@ export default function Services() {
           .svc-addons-grid { grid-template-columns:1fr; }
           .svc-cta-wrap { margin-top:0px; }
         }
+        /* Mobile-only 3-bullet summary — hidden by default, shown ≤768px */
+        .svc-starter-bullets-mobile { display:none;list-style:none;padding:0;margin:0;grid-column:1 / -1; }
+        .svc-starter-bullets-mobile li { display:flex;align-items:flex-start;gap:6px;font-size:12px;color:#374151;line-height:1.5;margin-bottom:5px; }
+        @media (max-width:768px) {
+          .svc-starter-bullets-mobile { display:flex;flex-direction:column; }
+          .svc-starter-bullets-col { display:none; }
+          .svc-starter-col-label { display:none; }
+        }
+
         @media (max-width:640px) {
           .svc-starter-grid { grid-template-columns:1fr; }
           .svc-starter-price-col { grid-column:1;grid-row:2;align-items:flex-start;text-align:left; }
