@@ -7,6 +7,7 @@ import { Bot, Sprout, TrendingUp, Zap, Brain, Settings, Wallet, ShoppingCart, Ey
 const PLANS = [
   {
     icon:Sprout, color:'#34d399', name:'Presence', price:'99', setup:'49', tag:'Foundation', tagC:'#34d399', href:'/services/presence',
+    squareSetupUrl:'https://square.link/u/vIhHdVt7',
     desc:'Get found, look professional, and capture leads after hours.',
     bullets:[
       'Professional 5-page website',
@@ -17,6 +18,7 @@ const PLANS = [
   },
   {
     icon:TrendingUp, color:'#60a5fa', name:'Growth', price:'179', setup:'79', tag:'Most Popular', tagC:'#60a5fa', href:'/services/growth',
+    squareSetupUrl:'https://square.link/u/6XdMcNz1',
     desc:'Everything in Presence, plus automation that keeps your pipeline full.',
     bullets:[
       'Everything in Presence',
@@ -28,6 +30,7 @@ const PLANS = [
   },
   {
     icon:Zap, color:'#a78bfa', name:'Revenue Engine', price:'249', setup:'149', tag:'Best Value', tagC:'#a78bfa', href:'/services/revenue-engine',
+    squareSetupUrl:'https://square.link/u/nS2lnfhf',
     desc:'A complete sales machine — funnel, ads, CRM, and automation all connected.',
     bullets:[
       'Everything in Growth',
@@ -41,6 +44,7 @@ const PLANS = [
   },
   {
     icon:Brain, color:'#f59e0b', name:'AI-First', price:'499', setup:'299', tag:'Full Power', tagC:'#f59e0b', href:'/services/ai-first',
+    squareSetupUrl:'https://square.link/u/SX61e3sM',
     desc:'Advanced AI across your entire operation — voice, content, social, and data.',
     bullets:[
       'Everything in Revenue Engine',
@@ -65,7 +69,7 @@ const PLANS = [
 ];
 
 function PlanCard({ plan, delay, isMobile }) {
-  const { icon:Icon, color, name, price, setup, tag, tagC, href, desc, bullets, popular, once, consulting } = plan;
+  const { icon:Icon, color, name, price, setup, tag, tagC, href, squareSetupUrl, desc, bullets, popular, once, consulting } = plan;
   const reduced = useReducedMotion();
   const skip = isMobile || reduced;
   return (
@@ -121,15 +125,30 @@ function PlanCard({ plan, delay, isMobile }) {
             </>
           )}
 
-          <Link
-            href={href}
-            className="svc-plan-btn"
-            style={popular
-              ? { background:'linear-gradient(135deg,#a78bfa,#8b5cf6)', color:'#fff', border:'none', '--tier-color':'#a78bfa' }
-              : { borderColor: color, color, '--tier-color': color }}
-          >
-            {consulting ? 'Start a Custom Project →' : 'Learn More'}
-          </Link>
+          {consulting ? (
+            <Link href={href} className="svc-plan-btn" style={{ borderColor: color, color, '--tier-color': color }}>
+              Start a Custom Project →
+            </Link>
+          ) : (
+            <div style={{ display:'flex', gap:'6px', marginTop:'auto' }}>
+              <Link
+                href={href}
+                className="svc-plan-btn svc-plan-btn-outline"
+                style={{ flex:'1', borderColor: color, color, '--tier-color': color }}
+              >
+                Learn More →
+              </Link>
+              <a
+                href={squareSetupUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="svc-plan-btn svc-plan-btn-filled"
+                style={{ flex:'1', background: popular ? 'linear-gradient(135deg,#a78bfa,#8b5cf6)' : color, borderColor: popular ? '#8b5cf6' : color }}
+              >
+                Buy Setup · ${setup}
+              </a>
+            </div>
+          )}
         </div>
       </div>
     </motion.div>
@@ -212,7 +231,18 @@ export default function Services() {
               <div className="svc-starter-price"><sup>$</sup>99</div>
               <div className="svc-starter-per">one-time setup</div>
               <div className="svc-starter-per">then $99/mo</div>
-              <Link href="/services/ai-automation-starter" className="svc-starter-btn">Get More Info →</Link>
+              <div style={{ display:'flex', flexDirection:'column', gap:'6px', width:'100%' }}>
+                <Link href="/services/ai-automation-starter" className="svc-starter-btn" style={{ justifyContent:'center' }}>Get More Info →</Link>
+                <a
+                  href="https://square.link/u/jmjUQOOc"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="svc-starter-btn"
+                  style={{ justifyContent:'center', background:'transparent', color:'#3b82f6', border:'1.5px solid #3b82f6', boxShadow:'none' }}
+                >
+                  Buy Setup · $99
+                </a>
+              </div>
             </div>
 
           </div>
@@ -364,6 +394,8 @@ export default function Services() {
           transition:all .2s;margin-top:auto;
         }
         .svc-plan-btn:hover { background:var(--tier-color,#2AA5A0);border-color:var(--tier-color,#2AA5A0);color:#fff;transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.15); }
+        .svc-plan-btn-filled { background:var(--tier-color,#2AA5A0);color:#fff !important;border-color:var(--tier-color,#2AA5A0); }
+        .svc-plan-btn-filled:hover { opacity:.88;transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.18); }
 
         /* Add-ons label */
         .svc-addons-label { display:flex;align-items:center;gap:12px;margin-bottom:10px; }
