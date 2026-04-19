@@ -233,7 +233,8 @@ export default function Work() {
           .wk-tab-label { font-size:13px; }
           .wk-h2 { font-size:22px;margin-bottom:4px; }
           .wk-sub { font-size:12px;margin-bottom:0; }
-          .wk-browser { min-height:300px !important;max-height:45vh !important;flex:none !important; }
+          .wk-browser { height:45vh !important;min-height:300px !important;max-height:45vh !important;flex:none !important; }
+          .wk-iframe { position:absolute;inset:0;width:100%;height:100%; }
           .work-inner .panel-cta-card { padding:12px 20px; }
           .work-inner .panel-cta-sub  { font-size:11px;margin:2px 0 0;line-height:1.3; }
           .work-inner .panel-cta-btn  { padding:10px 24px;font-size:13px; }

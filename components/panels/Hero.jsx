@@ -74,8 +74,8 @@ function AIDashboard() {
       <div className="h-dash-header">
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, width: '100%' }}>
           <img src="/logo-icon-transparent.png" alt="AIandWEB" style={{ width:20, height:20, borderRadius:5, flexShrink:0 }} />
-          <div className="h-dash-pulse" />
           <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,.8)', letterSpacing: .3 }}>Your AI — working right now</span>
+          <div className="h-dash-pulse" />
         </div>
       </div>
 

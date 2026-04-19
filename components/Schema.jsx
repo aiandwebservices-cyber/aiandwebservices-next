@@ -351,7 +351,26 @@ export function BreadcrumbListSchema({ serviceName, serviceSlug }) {
   );
 }
 
-// ─── 9. Person schema — founder ────────────────────────────────────────────────
+// ─── 9a. BreadcrumbSchema — flexible, accepts items prop ───────────────────────
+
+export function BreadcrumbSchema({ items }) {
+  return (
+    <SchemaScript
+      data={{
+        '@context': 'https://schema.org',
+        '@type': 'BreadcrumbList',
+        itemListElement: items.map((item, i) => ({
+          '@type': 'ListItem',
+          position: i + 1,
+          name: item.name,
+          item: item.url,
+        })),
+      }}
+    />
+  );
+}
+
+// ─── 9b. Person schema — founder ───────────────────────────────────────────────
 
 export function PersonSchema() {
   return (

@@ -209,13 +209,10 @@ export default function HowItWorks() {
 
   return (
     <section className="panel" id="p2" aria-label="How AIandWEBservices works — six steps from audit to live">
-      {/* ── Background ── */}
-      <div style={{ position: 'absolute', inset: 0, background: '#f8fafc' }}>
-        <div style={{
-          position: 'absolute', inset: 0,
-          backgroundImage: 'radial-gradient(#d1d5db 1px, transparent 1px)',
-          backgroundSize: '24px 24px', opacity: 0.35,
-        }} />
+      {/* ── Background — matches FAQ panel exactly ── */}
+      <div className="hiw-bg">
+        <div className="hiw-orb hiw-orb-1" />
+        <div className="hiw-orb hiw-orb-2" />
       </div>
 
       <div className="hiw-inner" ref={sectionRef}>
@@ -311,6 +308,11 @@ export default function HowItWorks() {
       </div>
 
       <style>{`
+        .hiw-bg { position:absolute;inset:0;background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 60%,#c7d2fe 100%);z-index:0; }
+        .hiw-orb { position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;animation:hiw-drift 12s ease-in-out infinite; }
+        .hiw-orb-1 { width:420px;height:420px;top:-80px;left:-60px;background:radial-gradient(circle,rgba(42,165,160,.22) 0%,transparent 70%);animation-delay:0s; }
+        .hiw-orb-2 { width:500px;height:500px;bottom:-100px;right:-80px;background:radial-gradient(circle,rgba(99,102,241,.18) 0%,transparent 70%);animation-delay:-6s; }
+        @keyframes hiw-drift { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(30px,-20px) scale(1.06)} 66%{transform:translate(-20px,24px) scale(.96)} }
         .hiw-inner { height:100%;display:flex;flex-direction:column;padding:90px 6vw 0;overflow-y:auto; }
         .hiw-inner .panel-cta-wrap { margin-top:auto;padding-top:14px;padding-bottom:clamp(16px,2.5vh,28px); }
 
@@ -472,7 +474,7 @@ export default function HowItWorks() {
           .hiw-graphics { grid-template-columns:1fr; }
           .hiw-mobile-flex .hiw-header    { order: 0; }
           .hiw-mobile-flex .hiw-steps     { order: 1; }
-          .hiw-mobile-flex .hiw-graphics  { order: 2; }
+          .hiw-mobile-flex .hiw-graphics  { order: 2; margin-top: 20px; }
           .hiw-mobile-flex .panel-cta-wrap { order: 3; }
         }
         @media (max-width:480px) {

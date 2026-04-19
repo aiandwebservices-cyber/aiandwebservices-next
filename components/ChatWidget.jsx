@@ -70,7 +70,7 @@ export default function ChatWidget({ accent = '#2AA5A0', agentName = 'AI Assista
 
       {/* Chat window */}
       {open && (
-        <div style={{
+        <div className="cw-window" style={{
           position: 'absolute', bottom: toggleSz + 14, right: 0,
           width: w, borderRadius: 14,
           background: bg, border: `1px solid ${accent}30`,
@@ -172,6 +172,7 @@ export default function ChatWidget({ accent = '#2AA5A0', agentName = 'AI Assista
         @keyframes cwSlideIn { from { opacity:0; transform:translateY(16px) scale(.96) } to { opacity:1; transform:none } }
         @keyframes cwDot { 0%,80%,100%{transform:scale(0.6);opacity:.4} 40%{transform:scale(1);opacity:1} }
         @keyframes cwPulse { 0%,100%{box-shadow:0 8px 28px ${accent}55} 50%{box-shadow:0 8px 40px ${accent}99,0 0 0 8px ${accent}22} }
+        @media (max-width:768px) { .cw-window { display:none !important; } }
       `}</style>
     </div>
   );

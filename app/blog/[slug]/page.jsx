@@ -1,25 +1,29 @@
 import { posts, getPostBySlug } from '@/lib/posts';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
-import { BlogPostingSchema } from '@/components/Schema';
+import { BlogPostingSchema, BreadcrumbSchema } from '@/components/Schema';
 
 export async function generateStaticParams() {
   return posts.map(p => ({ slug: p.slug }));
 }
 
+function cap(s, n) { return s.length > n ? s.slice(0, n - 1) + '…' : s; }
+
 export async function generateMetadata({ params }) {
   const { slug } = await params;
   const post = getPostBySlug(slug);
   if (!post) return {};
+  const pageTitle = cap(`${post.title} | AIandWEBservices Blog`, 60);
+  const pageDesc = cap(post.desc, 160);
   const encodedTitle = encodeURIComponent(post.title);
   const encodedDesc = encodeURIComponent(post.desc);
   return {
-    title: `${post.title} | AIandWEBservices Blog`,
-    description: post.desc,
+    title: pageTitle,
+    description: pageDesc,
     alternates: { canonical: `https://www.aiandwebservices.com/blog/${slug}` },
     openGraph: {
-      title: post.title,
-      description: post.desc,
+      title: cap(post.title, 60),
+      description: pageDesc,
       url: `https://www.aiandwebservices.com/blog/${slug}`,
       siteName: 'AIandWEBservices',
       type: 'article',
@@ -27,8 +31,8 @@ export async function generateMetadata({ params }) {
     },
     twitter: {
       card: 'summary_large_image',
-      title: post.title,
-      description: post.desc,
+      title: cap(post.title, 60),
+      description: pageDesc,
       images: [`https://www.aiandwebservices.com/api/og?title=${encodedTitle}&description=${encodedDesc}&type=blog`],
     },
   };
@@ -44,6 +48,11 @@ export default async function BlogPost({ params }) {
   return (
     <div style={{background:'#f8fafc',minHeight:'100vh'}}>
       <BlogPostingSchema post={post} slug={slug} />
+      <BreadcrumbSchema items={[
+        { name: 'Home', url: 'https://www.aiandwebservices.com' },
+        { name: 'Blog', url: 'https://www.aiandwebservices.com/#blog' },
+        { name: cap(post.title, 60), url: `https://www.aiandwebservices.com/blog/${slug}` },
+      ]} />
       {/* Nav */}
       <header style={{position:'sticky',top:0,zIndex:100,background:'rgba(255,255,255,.95)',backdropFilter:'blur(12px)',borderBottom:'1px solid #e5e7eb',padding:'0 5vw',height:'64px',display:'flex',alignItems:'center',justifyContent:'space-between'}}>
         <Link href="/" style={{textDecoration:'none',fontFamily:"'Plus Jakarta Sans',sans-serif",fontWeight:800,fontSize:'17px',color:'#0D1B2E'}}>

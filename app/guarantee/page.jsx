@@ -1,26 +1,34 @@
 import Link from 'next/link';
 import { Clock, Shield, AlertCircle } from 'lucide-react';
+import { BreadcrumbSchema } from '@/components/Schema';
 
 export const metadata = {
-  title: 'Response Guarantee — 6-Hour Reply Promise | AIandWEBservices',
-  description: 'David personally responds to every inquiry within 6 hours, EST, 24/7. If he misses it, you get a Premium Audit at no extra cost.',
+  title: 'Our Guarantee | AIandWEBservices',
+  description: 'No lock-in contracts. Cancel anytime. 6-hour response time. What you get when you work with David Pulis at AIandWEBservices.',
   alternates: { canonical: 'https://www.aiandwebservices.com/guarantee' },
   openGraph: {
-    title: 'Response Guarantee — 6-Hour Reply Promise',
-    description: 'David personally responds to every inquiry within 6 hours, EST, 24/7. If he misses it, you get a Premium Audit.',
-    images: [{ url: 'https://www.aiandwebservices.com/api/og?title=Response%20Guarantee&description=6-Hour%20Reply%20Promise', width: 1200, height: 630, alt: 'Response Guarantee' }],
+    title: 'Our Guarantee | AIandWEBservices',
+    description: 'No lock-in contracts. Cancel anytime. 6-hour response time. What you get when you work with David Pulis.',
+    images: [{ url: 'https://www.aiandwebservices.com/api/og?title=Our%20Guarantee&description=No%20lock-in%2C%20cancel%20anytime', width: 1200, height: 630, alt: 'Our Guarantee' }],
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Response Guarantee — 6-Hour Reply Promise',
-    description: 'David personally responds to every inquiry within 6 hours, EST, 24/7. If he misses it, you get a Premium Audit.',
-    images: ['https://www.aiandwebservices.com/api/og?title=Response%20Guarantee&description=6-Hour%20Reply%20Promise'],
+    title: 'Our Guarantee | AIandWEBservices',
+    description: 'No lock-in contracts. Cancel anytime. 6-hour response time. What you get when you work with David Pulis.',
+    images: ['https://www.aiandwebservices.com/api/og?title=Our%20Guarantee&description=No%20lock-in%2C%20cancel%20anytime'],
   },
 };
+
+const BASE = 'https://www.aiandwebservices.com';
+const BREADCRUMB_ITEMS = [
+  { name: 'Home', url: BASE },
+  { name: 'Our Guarantee', url: `${BASE}/guarantee` },
+];
 
 export default function GuaranteePage() {
   return (
     <main style={{ minHeight: '100vh', backgroundColor: '#111827', color: '#fff' }}>
+      <BreadcrumbSchema items={BREADCRUMB_ITEMS} />
       {/* ── HERO ── */}
       <section style={{ padding: 'clamp(40px, 8vw, 80px) 20px', textAlign: 'center', maxWidth: '900px', margin: '0 auto' }}>
         <div style={{ fontSize: '12px', fontWeight: 600, letterSpacing: '2px', textTransform: 'uppercase', color: '#2AA5A0', marginBottom: '16px' }}>
