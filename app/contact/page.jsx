@@ -35,7 +35,7 @@ export default function Contact2() {
           <motion.div {...fade(0)} style={{ marginBottom: 'clamp(12px, 2vw, 20px)', maxWidth: '700px', margin: '0 auto clamp(12px, 2vw, 20px)', textAlign: 'center' }}>
             <div style={{ fontSize: 'clamp(10px, 1.5vw, 11px)', fontWeight: 800, letterSpacing: '3px', textTransform: 'uppercase', color: TEAL, marginBottom: 6 }}>GET IN TOUCH</div>
             <h1 style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 'clamp(22px, 3.8vw, 46px)', fontWeight: 800, letterSpacing: '-1px', lineHeight: 1.1, color: '#fff', marginBottom: 10 }}>
-              Get a free 30-minute audit. <span style={{ color: TEAL }}>No pitch.</span>
+              Get a free 30-minute audit.<br /><span style={{ color: TEAL }}>No pitch.</span>
             </h1>
             <p style={{ fontSize: 'clamp(12px, 2vw, 14px)', color: 'rgba(255,255,255,.65)', lineHeight: 1.6, maxWidth: '580px', margin: '10px auto 10px' }}>
               Share what you&apos;re working on. I&apos;ll personally review your business and identify exactly where AI, a better website, or SEO would move the needle.

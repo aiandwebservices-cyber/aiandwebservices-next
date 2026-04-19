@@ -202,29 +202,23 @@ export default function Services() {
           <div style={{ display:'flex', alignItems:'flex-start', justifyContent:'space-between', gap:16, flexWrap:'wrap' }}>
             <div style={{ flex:'1 1 280px' }}>
               <div className="svc-eyebrow" style={{ marginBottom:6 }}>Consulting &amp; Custom Projects</div>
-              <p style={{ fontSize:12, color:'#374151', lineHeight:1.7, margin:'0 0 10px' }}>
-                Not every problem fits neatly into a tier. Maybe you need a one-time AI audit, help picking the right tech stack, or a specific automation built without the full service subscription.
+              <p style={{ fontSize:12, color:'#374151', lineHeight:1.6, margin:'0 0 8px' }}>
+                Not every problem fits a tier. Pick what you need, combine features however you want, and I&apos;ll quote fair pricing based on scope.
               </p>
-              <p style={{ fontSize:12, color:'#374151', lineHeight:1.7, margin:'0 0 10px' }}>
-                Pick what you need from our full service list — combine features however you want — and I&apos;ll quote you fair pricing based on scope.
-              </p>
-              <div style={{ fontSize:11, fontWeight:700, color:'#6b7280', marginBottom:6, textTransform:'uppercase', letterSpacing:1 }}>Common custom requests</div>
-              <ul className="svc-consulting-requests" style={{ margin:'0 0 10px', padding:0, listStyle:'none', gap:'4px 20px' }}>
+              <div style={{ fontSize:11, fontWeight:700, color:'#6b7280', marginBottom:5, textTransform:'uppercase', letterSpacing:1 }}>Common requests</div>
+              <ul className="svc-consulting-requests" style={{ margin:'0 0 8px', padding:0, listStyle:'none', gap:'3px 16px' }}>
                 {[
-                  'AI readiness audit + automation roadmap',
-                  'One-time chatbot or workflow build (no monthly)',
-                  'Tech stack consultation before you commit to a tier',
-                  'Specific integration your current tools don\'t have',
-                  'Strategy calls by the hour',
+                  'AI readiness audit',
+                  'One-time chatbot build',
+                  'Tech stack consultation',
+                  'Custom integration',
+                  'Hourly strategy calls',
                 ].map(b => (
-                  <li key={b} style={{ fontSize:11, color:'#374151', paddingLeft:14, position:'relative', lineHeight:1.4 }}>
+                  <li key={b} style={{ fontSize:11, color:'#374151', paddingLeft:14, position:'relative', lineHeight:1.35 }}>
                     <span style={{ position:'absolute', left:0, color:'#2AA5A0', fontWeight:700, fontSize:10 }}>✓</span>{b}
                   </li>
                 ))}
               </ul>
-              <p style={{ fontSize:11, color:'#6b7280', lineHeight:1.6, margin:0 }}>
-                No discovery fee. Tell me what you&apos;re trying to solve — I&apos;ll tell you if I can help, what it&apos;ll cost, and how long it&apos;ll take. If it&apos;s too big or too small for me, I&apos;ll tell you that too.
-              </p>
             </div>
             <div style={{ display:'flex', alignItems:'center', flexShrink:0 }}>
               <Link href="/contact" className="svc-plan-btn" style={{ whiteSpace:'nowrap', padding:'10px 20px', fontSize:12 }}>

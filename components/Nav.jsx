@@ -35,7 +35,7 @@ export default function Nav() {
   const isOnContactPage = pathname === '/contact';
   const isHomepage = pathname === '/';
   const go  = (n) => {
-    if (isOnContactPage) {
+    if (!isHomepage) {
       const hash = HASH_NAMES[n] || 'home';
       router.push(`/#${hash}`);
     } else {
@@ -43,7 +43,7 @@ export default function Nav() {
     }
   };
   const mGo = (n) => {
-    if (isOnContactPage) {
+    if (!isHomepage) {
       const hash = HASH_NAMES[n] || 'home';
       router.push(`/#${hash}`);
     } else {
@@ -85,6 +85,32 @@ export default function Nav() {
     return () => window.removeEventListener('panelchange', handler);
   }, []);
 
+  // Mobile: panelchange never fires on scroll — use IntersectionObserver instead
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (!window.matchMedia('(max-width: 768px)').matches) return;
+    const PANEL_ID_TO_IDX = {
+      'p0': 0, 'p2': 1, 'comparison': 2, 'services': 3,
+      'p3': 4, 'samples': 5, 'p7': 6, 'p8': 7,
+    };
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+            const idx = PANEL_ID_TO_IDX[entry.target.id];
+            if (idx !== undefined) setCurrentPanel(idx);
+          }
+        });
+      },
+      { threshold: [0.5] }
+    );
+    Object.keys(PANEL_ID_TO_IDX).forEach(id => {
+      const el = document.getElementById(id);
+      if (el) observer.observe(el);
+    });
+    return () => observer.disconnect();
+  }, []);
+
   useEffect(() => {
     const handler = (e) => { if (svcRef.current && !svcRef.current.contains(e.target)) setSvcOpen(false); };
     document.addEventListener('mousedown', handler);
@@ -92,7 +118,7 @@ export default function Nav() {
   }, []);
 
   // Panels 0 (Hero), 2 (Comparison), 7 (Contact) have dark backgrounds
-  const darkPanels = new Set([0]);
+  const darkPanels = new Set([0, 7]); // Hero (0) and FinalCTA (7) are dark
   const isDarkSurface = isOnContactPage || darkPanels.has(currentPanel);
   const logoSrc = isDarkSurface ? '/logo-gradient-test.svg' : '/logo-gradient-light.svg';
 
@@ -271,6 +297,13 @@ export default function Nav() {
             </button>
           );
         })}
+        <Link
+          href="/contact"
+          className={`mob-link${pathname === '/contact' ? ' active' : ''}`}
+          onClick={closeMenu}
+        >
+          Contact
+        </Link>
         <Link href="/contact" className="mob-cta" onClick={closeMenu}>Get Your Free Audit</Link>
       </div>
 
