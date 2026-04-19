@@ -72,7 +72,7 @@ export default function CompareAllPlansPage() {
       <section style={{ background: '#f8fafc', position: 'relative', overflow: 'hidden' }}>
         <div aria-hidden style={{ position: 'absolute', top: '-20%', right: '-5%', width: '600px', height: '600px', borderRadius: '50%', background: 'radial-gradient(circle,rgba(42,165,160,0.1) 0%,transparent 70%)', filter: 'blur(60px)' }} />
         <div aria-hidden style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(42,165,160,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(42,165,160,0.03) 1px,transparent 1px)', backgroundSize: '60px 60px' }} />
-        <div style={{ maxWidth: '800px', margin: '0 auto', padding: 'clamp(88px,12vw,120px) 20px 52px', textAlign: 'center', position: 'relative' }}>
+        <div style={{ maxWidth: '800px', margin: '0 auto', padding: '90px 20px 52px', textAlign: 'center', position: 'relative' }}>
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }}
             style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', padding: '6px 14px', borderRadius: '50px', background: 'rgba(42,165,160,0.1)', border: '1px solid rgba(42,165,160,0.3)', fontSize: '11px', fontWeight: 700, color: ACCENT, letterSpacing: '1.2px', textTransform: 'uppercase', marginBottom: '24px' }}
           >

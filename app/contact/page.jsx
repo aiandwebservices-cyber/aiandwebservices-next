@@ -29,7 +29,7 @@ export default function Contact2() {
       `}</style>
       <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', background: `radial-gradient(ellipse 60% 60% at 80% 30%, rgba(37,99,235,.15) 0%, transparent 65%), radial-gradient(ellipse 40% 40% at 20% 80%, rgba(124,58,237,.1) 0%, transparent 60%)` }} />
 
-      <div style={{ position: 'relative', zIndex: 2, maxWidth: '1200px', margin: '0 auto', padding: '120px 6vw clamp(20px, 3vw, 44px)', display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
+      <div style={{ position: 'relative', zIndex: 2, maxWidth: '1200px', margin: '0 auto', padding: '90px 6vw clamp(20px, 3vw, 44px)', display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
         <div style={{ flex: 1, display: 'flex', flexDirection: 'column' }}>
 
           <motion.div {...fade(0)} style={{ marginBottom: 'clamp(12px, 2vw, 20px)', maxWidth: '700px', margin: '0 auto clamp(12px, 2vw, 20px)', textAlign: 'center' }}>
