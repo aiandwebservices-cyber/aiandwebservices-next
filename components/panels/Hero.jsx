@@ -77,7 +77,6 @@ function AIDashboard() {
           <div className="h-dash-pulse" />
           <span style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,.8)', letterSpacing: .3 }}>Your AI — working right now</span>
         </div>
-        <span className="h-dash-live">Live</span>
       </div>
 
       {/* Metrics */}
@@ -353,7 +352,7 @@ export default function Hero() {
             inset 0 1px 0 rgba(255,255,255,.08);
         }
         .h-dash-header {
-          display:flex;align-items:center;justify-content:space-between;
+          display:flex;align-items:center;justify-content:center;
           margin-bottom:16px;padding-bottom:14px;
           border-bottom:1px solid rgba(255,255,255,.12);
         }
@@ -363,10 +362,6 @@ export default function Hero() {
           animation:hPulse 2s ease-in-out infinite;
         }
         @keyframes hPulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(.8)} }
-        .h-dash-live {
-          font-size:9px;color:rgba(255,255,255,.25);font-weight:700;
-          text-transform:uppercase;letter-spacing:1.5px;
-        }
         .h-dash-metrics {
           display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:18px;
         }
