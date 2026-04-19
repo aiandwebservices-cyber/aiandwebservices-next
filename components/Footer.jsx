@@ -11,7 +11,6 @@ export default function Footer() {
             <img src="/logo-gradient-light.svg" alt="AIandWEBservices" className="footer-logo" />
           </div>
           <p className="footer-tagline">AI automation, agents & chatbots for small business</p>
-          <p className="footer-meta">© 2026 David Pulis. Miami, FL.</p>
         </div>
 
         {/* Column 2 — Services */}
