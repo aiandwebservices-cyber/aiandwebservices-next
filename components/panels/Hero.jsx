@@ -151,7 +151,7 @@ export default function Hero() {
           <h1 className="h-h1">
             <motion.span {...reveal(0.1)} className="h-line">Stop losing leads</motion.span>
             <motion.span {...reveal(0.22)} className="h-line">to competitors with</motion.span>
-            <motion.span {...reveal(0.34)} className="h-line" style={{ display:'flex', alignItems:'baseline', justifyContent:'center', gap:'0.25em' }}>
+            <motion.span {...reveal(0.34)} className="h-line" style={{ display:'flex', alignItems:'baseline', justifyContent:'center', gap:'0.25em', paddingLeft:'0.25em' }}>
               <span>better</span>
               <span style={{ display:'inline-block', minWidth:'8ch', textAlign:'left', overflow:'hidden' }}>
                 <span className="h-line-accent"><RotatingWord reduced={reduced} /></span>
