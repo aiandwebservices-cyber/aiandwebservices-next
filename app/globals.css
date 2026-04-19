@@ -79,6 +79,9 @@ a{touch-action:manipulation}
 .logo{display:flex;align-items:center;gap:0;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:17px;letter-spacing:-.3px;line-height:0;position:relative;top:8px;}
 button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;line-height:0;position:relative;top:8px;}
 .logo,.logo-link{display:flex;align-items:center;}
+/* Logo shrinks fluidly; hides when it would crowd the first nav pill */
+.logo img,.logo-link img{width:clamp(130px,15vw,260px);height:auto}
+@media(max-width:860px){.logo,.logo-link{display:none!important}}
 .logo-ai{color:var(--navy)}
 .logo-and{color:var(--blue);font-weight:600;font-size:14px;margin:0 2px}
 .logo-web{color:var(--navy)}
