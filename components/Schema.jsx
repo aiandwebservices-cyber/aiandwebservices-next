@@ -112,35 +112,35 @@ const SERVICES = [
     description:
       'Professional website, local SEO, Google Business Profile optimisation, and a basic AI inquiry assistant. The foundation every small business needs to get found online.',
     url: 'https://www.aiandwebservices.com/#pricing',
-    offers: { price: '99', priceCurrency: 'USD', priceSpecification: '$99/month + $39 one-time setup' },
+    offers: { price: '99', priceCurrency: 'USD', priceSpecification: '$99/month + $49 one-time setup' },
   },
   {
     name: 'Growth Package',
     description:
       'AI automation, email marketing, SEO content, and a conversion-optimised landing page. For established businesses ready to generate consistent leads.',
     url: 'https://www.aiandwebservices.com/#pricing',
-    offers: { price: '149', priceCurrency: 'USD', priceSpecification: '$149/month + $59 one-time setup' },
+    offers: { price: '179', priceCurrency: 'USD', priceSpecification: '$179/month + $79 one-time setup' },
   },
   {
     name: 'Revenue Engine Package',
     description:
       'Full sales funnel, workflow automation, paid ads setup, and AI-powered CRM integration. For businesses serious about scaling revenue without scaling headcount.',
     url: 'https://www.aiandwebservices.com/#pricing',
-    offers: { price: '249', priceCurrency: 'USD', priceSpecification: '$249/month + $99 one-time setup' },
+    offers: { price: '249', priceCurrency: 'USD', priceSpecification: '$249/month + $149 one-time setup' },
   },
   {
     name: 'AI-First Package',
     description:
-      'Advanced AI automation pipelines, voice AI, programmatic SEO, social media AI scheduling, and a full analytics dashboard.',
+      'Advanced AI automation pipelines, voice AI, knowledge-base-trained AI assistant, and social media AI scheduling. Replace manual work with AI at scale.',
     url: 'https://www.aiandwebservices.com/#pricing',
-    offers: { price: '349', priceCurrency: 'USD', priceSpecification: '$349/month + $199 one-time setup' },
+    offers: { price: '499', priceCurrency: 'USD', priceSpecification: '$499/month + $299 one-time setup' },
   },
   {
-    name: 'AI & Digital Strategy Consulting',
+    name: 'A La Carte Services',
     description:
-      'AI readiness audit, digital transformation roadmap, tool stack recommendations, and staff AI training. Know exactly where to start before committing to a full build.',
-    url: 'https://www.aiandwebservices.com/services/consulting-strategy',
-    offers: { price: '99', priceCurrency: 'USD', priceSpecification: '$99 one-time, or $99/month' },
+      'Pick exactly what you need — AI chatbot build, landing page, CRM setup, sales funnel, Voice AI, or advisory calls. Custom quote, no lock-in, no subscription required.',
+    url: 'https://www.aiandwebservices.com/services/consulting',
+    offers: { price: '0', priceCurrency: 'USD', priceSpecification: 'Custom quote — project-based pricing' },
   },
 ];
 
@@ -393,7 +393,6 @@ export function PersonSchema() {
           'Digital Marketing',
           'Business Automation',
           'Voice AI',
-          'Programmatic SEO',
         ],
         worksFor: {
           '@id': 'https://www.aiandwebservices.com/#organization',

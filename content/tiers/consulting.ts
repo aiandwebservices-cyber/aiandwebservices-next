@@ -26,7 +26,7 @@ export const consultingContent = {
       },
       {
         title: 'No One to Hold the Roadmap Accountable',
-        body: 'Even if you build a plan, who keeps you on track? The monthly advisory option gives you someone checking in, solving blockers, and making sure implementation actually happens.',
+        body: 'Even if you build a plan, who keeps you on track? The A La Carte advisory option gives you someone checking in, solving blockers, and making sure implementation actually happens.',
       },
     ],
     closingLine: 'Consulting gives you clarity before commitment — so every dollar you spend on AI actually works.',
@@ -44,7 +44,7 @@ export const consultingContent = {
     { label: 'Day 1', heading: 'Discovery Call', description: '60 minutes. I learn your business top to bottom — your team, your workflows, your volume, your goals, and where you\'re losing time or money.' },
     { label: 'Days 1–5', heading: 'Audit & Research', description: 'I analyse your current tools, processes, and competitive landscape. I map every workflow against available AI solutions and calculate realistic ROI for each.' },
     { label: 'Day 5', heading: 'Debrief & Roadmap', description: '30-minute debrief call. I present the full audit, your prioritised roadmap, specific tool recommendations, and honest caveats. You leave with a decision framework, not a sales pitch.' },
-    { label: 'Optional', heading: 'Staff Training + Monthly Advisory', description: 'Staff training workshop available (+$99 one-time). Monthly advisory keeps me involved as you implement — answering questions, solving blockers, and adjusting the roadmap as you learn.' },
+    { label: 'Optional', heading: 'Staff Training + Advisory', description: 'Staff training workshop available (+$99 one-time). Optional project-based advisory keeps me involved as you implement — answering questions, solving blockers, and adjusting the roadmap as you learn.' },
   ],
 
   setupIncludes: [
@@ -56,7 +56,6 @@ export const consultingContent = {
   ],
 
   monthlyIncludes: [
-    'Monthly strategy call',
     'Ongoing tool and vendor evaluation',
     'Slack/email access for ad hoc questions',
     'Implementation oversight and guidance',
@@ -71,7 +70,7 @@ export const consultingContent = {
   faq: [
     { q: 'What if the audit concludes AI isn\'t right for me yet?', a: "Then I tell you that. I\'d rather give you an honest answer now than have you invest in something that doesn\'t deliver. If the answer is \'not yet\', I\'ll tell you what needs to be true first, and what to do in the meantime." },
     { q: 'Is the staff training included in the $99 setup fee?', a: "No — it\'s an optional add-on at $99. It\'s a practical workshop (1–2 hours) where I train your team on the specific AI tools relevant to their roles." },
-    { q: 'What does the monthly advisory actually cover?', a: "Monthly strategy call, Slack/email access for questions as they come up, and ongoing oversight as you implement the roadmap. If a tool isn\'t working, we swap it. If a new use case emerges, we plan for it." },
+    { q: 'How does billing work for A La Carte services?', a: "Project-based pricing. You pick what you need, I scope it, you approve the quote, and we build it. No monthly retainer required. If you want ongoing support after a build, we can discuss a light-touch advisory arrangement case-by-case." },
     { q: 'Can consulting lead into one of the implementation tiers?', a: "Yes — and a lot of clients do this. The consulting engagement gives you clarity on which tier (if any) is right. If you move forward, the audit work doesn\'t repeat. We start at build." },
     { q: 'Do I need to be technical?', a: "No. The audit, roadmap, and debrief are designed to be understood by business owners — not engineers. If something\'s technical, I\'ll explain it in plain terms. You\'ll leave knowing what to do, not just what it is." },
   ],

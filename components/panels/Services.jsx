@@ -95,7 +95,16 @@ function PlanCard({ plan, delay, isMobile }) {
         <div className="svc-plan-desc">{desc}</div>
 
         {/* Bullets */}
-        {bullets && (
+        {alaCarte && bulletsLeft ? (
+          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'0 8px', marginBottom:6 }}>
+            <ul className="svc-plan-bullets" style={{ margin:0 }}>
+              {bulletsLeft.map(b => <li key={b}>{b}</li>)}
+            </ul>
+            <ul className="svc-plan-bullets" style={{ margin:0 }}>
+              {bulletsRight.map(b => <li key={b}>{b}</li>)}
+            </ul>
+          </div>
+        ) : bullets && (
           <ul className="svc-plan-bullets">
             {bullets.map(b => <li key={b}>{b}</li>)}
           </ul>
@@ -106,9 +115,9 @@ function PlanCard({ plan, delay, isMobile }) {
           {consulting ? (
             <>
               <div className="svc-plan-price-row">
-                <span className="svc-plan-price" style={{ fontSize:16, color:'#374151' }}>Pick what you need</span>
+                <span className="svc-plan-price" style={{ fontSize:16, color:'#374151' }}>Custom Quote</span>
               </div>
-              <div className="svc-plan-setup">Fair pricing based on scope</div>
+              <div className="svc-plan-setup">Project-based pricing, no retainer required</div>
             </>
           ) : (
             <>
@@ -134,8 +143,17 @@ function PlanCard({ plan, delay, isMobile }) {
               ? { background:'linear-gradient(135deg,#a78bfa,#8b5cf6)', color:'#fff', border:'none', '--tier-color':'#a78bfa' }
               : { borderColor: color, color, '--tier-color': color }}
           >
-            {consulting ? 'Start a Custom Project →' : 'Learn More'}
+            Learn More
           </Link>
+          {alaCarte && (
+            <Link
+              href="/contact?interest=a-la-carte"
+              className="svc-plan-btn"
+              style={{ marginTop:6, background:'#2AA5A0', color:'#fff', border:'none', '--tier-color':'#2AA5A0' }}
+            >
+              Get a Quote
+            </Link>
+          )}
         </div>
       </div>
     </motion.div>
@@ -179,7 +197,7 @@ export default function Services() {
             {/* Col 1 — identity */}
             <div className="svc-starter-left">
               <div className="svc-starter-eyebrow">
-                <Bot size={11} color="#3b82f6" strokeWidth={2} />
+                <Bot size={11} color="#f59e0b" strokeWidth={2} />
                 Best for solo operators
               </div>
               <div className="svc-starter-name">AI Automation Starter</div>
@@ -303,31 +321,31 @@ export default function Services() {
         .svc-starter-card {
           position:relative;overflow:hidden;
           background:#fff;
-          border:1px solid rgba(59,130,246,.25);
-          border-left:4px solid #3b82f6;
+          border:1px solid rgba(245,158,11,.25);
+          border-left:4px solid #f59e0b;
           border-radius:16px;padding:18px 24px;min-height:0;
           margin-bottom:20px;
-          box-shadow:0 4px 24px rgba(59,130,246,.12);
+          box-shadow:0 4px 24px rgba(245,158,11,.12);
         }
-        .svc-starter-glow { position:absolute;top:-60px;right:-40px;width:220px;height:220px;border-radius:50%;background:rgba(59,130,246,.08);filter:blur(60px);pointer-events:none; }
+        .svc-starter-glow { position:absolute;top:-60px;right:-40px;width:220px;height:220px;border-radius:50%;background:rgba(245,158,11,.08);filter:blur(60px);pointer-events:none; }
 
         .svc-starter-left { display:flex;flex-direction:column; }
-        .svc-starter-eyebrow { display:flex;align-items:center;gap:5px;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#3b82f6;margin-bottom:8px; }
+        .svc-starter-eyebrow { display:flex;align-items:center;gap:5px;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#f59e0b;margin-bottom:8px; }
         .svc-starter-name { font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:900;color:#2AA5A0;line-height:1.15;letter-spacing:-0.5px;margin-bottom:8px; }
         .svc-starter-desc { font-size:11px;color:#6b7280;line-height:1.6; }
 
         .svc-starter-col { display:flex;flex-direction:column;justify-content:flex-start;align-self:flex-start;margin-top:-12px; }
         .svc-starter-col-label { font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#9ca3af;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #f3f4f6; }
         .svc-starter-bullet { display:flex;align-items:flex-start;gap:6px;font-size:11px;color:#374151;line-height:1.4;margin-bottom:5px; }
-        .svc-starter-check { color:#3b82f6;font-size:10px;font-weight:800;flex-shrink:0;margin-top:1px; }
+        .svc-starter-check { color:#f59e0b;font-size:10px;font-weight:800;flex-shrink:0;margin-top:1px; }
 
         .svc-starter-grid { position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:24px;align-items:stretch; }
         .svc-starter-price-col { display:flex;flex-direction:column;align-items:flex-end;text-align:right;flex-shrink:0;justify-content:flex-start; }
         .svc-starter-price { font-family:'Plus Jakarta Sans',sans-serif;font-size:36px;font-weight:900;color:#111827;line-height:1;margin-bottom:2px; }
         .svc-starter-price sup { font-size:14px;vertical-align:top;margin-top:6px;display:inline-block;color:#6b7280; }
         .svc-starter-per { font-size:10px;color:#9ca3af;line-height:1.7;font-weight:600; }
-        .svc-starter-btn { display:inline-flex;align-items:center;background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;border:none;border-radius:50px;padding:9px 18px;font-size:11px;font-weight:700;text-decoration:none;transition:all .2s;box-shadow:0 4px 14px rgba(59,130,246,.35);margin-top:auto;white-space:nowrap; }
-        .svc-starter-btn:hover { transform:translateY(-2px);box-shadow:0 8px 22px rgba(59,130,246,.5); }
+        .svc-starter-btn { display:inline-flex;align-items:center;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;border-radius:50px;padding:9px 18px;font-size:11px;font-weight:700;text-decoration:none;transition:all .2s;box-shadow:0 4px 14px rgba(245,158,11,.35);margin-top:auto;white-space:nowrap; }
+        .svc-starter-btn:hover { transform:translateY(-2px);box-shadow:0 8px 22px rgba(245,158,11,.5); }
 
         /* Plans */
         .svc-plans-grid { display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:26px; }

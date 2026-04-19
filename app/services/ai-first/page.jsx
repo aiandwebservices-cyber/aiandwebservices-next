@@ -1,13 +1,13 @@
 'use client';
 import { motion } from 'framer-motion';
-import { Phone, FileText, Share2 } from 'lucide-react';
+import { Phone, Brain, Share2 } from 'lucide-react';
 import { getTier } from '@/lib/pricing';
 import { aiFirstContent as c } from '@/content/tiers/ai-first';
 import ServicePageTemplate from '@/components/ServicePageTemplate';
 
 const STATS = [
   { icon: Phone,    val: '24', pre: '', suf: '/7', label: 'Voice AI answering every inbound call' },
-  { icon: FileText, val: 100, pre: '', suf: '+',   label: 'Programmatic SEO pages auto-generated' },
+  { icon: Brain,    val: 'Deep', pre: '', suf: '',  label: 'Advanced AI trained on your knowledge base' },
   { icon: Share2,   val: 365, pre: '', suf: '',    label: 'Social posts scheduled per year by AI' },
 ];
 
@@ -15,12 +15,12 @@ function TerminalMockup() {
   const lines = [
     { delay: 0.5,  text: '> voice_ai.deploy(number="+1-555-xxx")', color: '#2AA5A0' },
     { delay: 1.0,  text: '  ✓ Voice AI online — answering calls', color: '#10b981' },
-    { delay: 1.5,  text: '> seo.generate_pages(locations=147)', color: '#2AA5A0' },
-    { delay: 2.0,  text: '  ✓ 147 pages indexed by Google', color: '#10b981' },
+    { delay: 1.5,  text: '> ai_assistant.train(kb="your_business")', color: '#2AA5A0' },
+    { delay: 2.0,  text: '  ✓ Advanced AI online — handling complex queries', color: '#10b981' },
     { delay: 2.5,  text: '> social.schedule(posts_per_day=1)', color: '#2AA5A0' },
     { delay: 3.0,  text: '  ✓ 365 posts queued and ready', color: '#10b981' },
-    { delay: 3.5,  text: '> dashboard.connect(sources="all")', color: '#2AA5A0' },
-    { delay: 4.0,  text: '  ✓ All systems live. Revenue Engine running.', color: '#10b981' },
+    { delay: 3.5,  text: '> automation.deploy(workflows="all")', color: '#2AA5A0' },
+    { delay: 4.0,  text: '  ✓ All systems live. Running at full power.', color: '#10b981' },
   ];
   return (
     <div style={{ borderRadius: '20px', background: '#0d1117', border: '1px solid rgba(255,255,255,0.08)', boxShadow: '0 24px 72px rgba(0,0,0,0.6)', overflow: 'hidden', maxWidth: '420px', margin: '0 auto', fontFamily: 'monospace' }}>

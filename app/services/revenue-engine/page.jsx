@@ -1,13 +1,13 @@
 'use client';
 import { motion } from 'framer-motion';
-import { GitBranch, TrendingUp, DollarSign } from 'lucide-react';
+import { GitBranch, Brain, DollarSign } from 'lucide-react';
 import { getTier } from '@/lib/pricing';
 import { revenueEngineContent as c } from '@/content/tiers/revenue-engine';
 import ServicePageTemplate from '@/components/ServicePageTemplate';
 
 const STATS = [
   { icon: GitBranch,  val: '∞',  pre: '',  suf: '',      label: 'Automation runs — no human hours spent' },
-  { icon: TrendingUp, val: 60,   pre: '',  suf: ' min',  label: 'Monthly strategy call with David' },
+  { icon: Brain,      val: 24,   pre: '',  suf: '/7',    label: 'Advanced AI assistant trained on your knowledge base' },
   { icon: DollarSign, val: 20,   pre: '$', suf: 'K+',    label: 'Monthly revenue before this tier makes sense' },
 ];
 

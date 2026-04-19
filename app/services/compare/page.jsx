@@ -38,15 +38,12 @@ const FEATURE_ROWS = [
   { label: 'Monthly SEO + site health report',            group: 'Website & SEO',        tiers: ['presence','growth','revenue-engine','ai-first'] },
   { label: 'Email marketing + welcome sequence',          group: 'Marketing & Growth',    tiers: ['growth','revenue-engine','ai-first'] },
   { label: 'SEO content (2 articles/month)',              group: 'Website & SEO',        tiers: ['growth','revenue-engine','ai-first'] },
-  { label: 'Conversion landing pages',                    group: 'Website & SEO',        tiers: ['growth','revenue-engine','ai-first'] },
   { label: 'Sales funnel design + build',                 group: 'Marketing & Growth',    tiers: ['revenue-engine','ai-first'] },
   { label: 'Workflow automation',                         group: 'AI & Automation',       tiers: ['revenue-engine','ai-first'] },
   { label: 'Paid ads management (client funds spend)',    group: 'Marketing & Growth',    tiers: ['revenue-engine','ai-first'] },
-  { label: 'Monthly strategy call',                       group: 'Strategy & Analytics',  tiers: ['revenue-engine','ai-first'] },
+  { label: 'Advanced AI assistant (knowledge base)',      group: 'AI & Automation',       tiers: ['revenue-engine','ai-first'] },
   { label: 'Voice AI (answers calls)',                    group: 'AI & Automation',       tiers: ['ai-first'] },
-  { label: 'Programmatic SEO (100s of pages)',            group: 'Website & SEO',        tiers: ['ai-first'] },
   { label: 'Social media AI scheduling',                  group: 'AI & Automation',       tiers: ['ai-first'] },
-  { label: 'Custom analytics dashboard',                  group: 'Strategy & Analytics',  tiers: ['ai-first'] },
 ];
 
 const GROUP_ORDER = ['Website & SEO', 'AI & Automation', 'Marketing & Growth', 'Strategy & Analytics'];

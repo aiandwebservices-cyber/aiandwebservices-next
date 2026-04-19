@@ -44,7 +44,7 @@ export const growthContent = {
     { label: 'Day 1', heading: 'Strategy & Audit', description: 'I audit your current position — traffic, rankings, conversion rate. We build a 90-day plan together so you know exactly what\'s happening and when.' },
     { label: 'Weeks 1–2', heading: 'Build Phase', description: 'AI automation system, email sequences, and 2 landing pages get built. First 2 SEO articles get written and published. Everything is reviewed by you before going live.' },
     { label: 'Week 3', heading: 'Test & Integrate', description: 'I test every flow — lead comes in, AI responds, email fires, CRM logs it. If anything\'s off, I fix it before launch.' },
-    { label: 'Week 4+', heading: 'Launch & Optimise Monthly', description: 'Full system goes live. Monthly: 2 new SEO articles, automation tweaks, email performance review, strategy call with David.' },
+    { label: 'Week 4+', heading: 'Launch & Optimise Monthly', description: 'Full system goes live. Monthly: 2 new SEO articles, automation tweaks, and email performance review.' },
   ],
 
   setupIncludes: [
@@ -61,7 +61,6 @@ export const growthContent = {
     '2 new SEO articles (published monthly)',
     'AI automation and email optimisation',
     'CRM and workflow monitoring',
-    'Monthly strategy call with David',
   ],
 
   builtForYouIf: [

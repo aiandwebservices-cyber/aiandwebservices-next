@@ -1,6 +1,6 @@
 export const revenueEngineContent = {
   metaTitle: 'Revenue Engine — Full Sales Funnel + Workflow Automation + Paid Ads | AIandWEBservices',
-  metaDescription: 'Automate your entire sales process with a custom sales funnel, workflow automation, CRM integration, and paid ads. Monthly strategy calls with David. No contracts.',
+  metaDescription: 'Automate your entire sales process with a custom sales funnel, workflow automation, CRM integration, and paid ads. Advanced AI assistant trained on your knowledge base. No contracts.',
   deliveryTime: '3–5 weeks',
   pricingCta: 'Get Started — Revenue Engine',
 
@@ -44,7 +44,7 @@ export const revenueEngineContent = {
     { label: 'Week 1', heading: 'Audit & Funnel Mapping', description: 'I audit your current process, map your buyer journey, and build the paid ads strategy. You see the full plan before anything gets built.' },
     { label: 'Weeks 2–3', heading: 'Build Everything', description: 'Sales funnel, workflow automation, CRM integration, and first ad campaigns. Each piece tested in isolation before it connects to the next.' },
     { label: 'Week 4', heading: 'Launch & Stress Test', description: 'Full system goes live. I run test leads through every path, watch the ads spend, and fix anything that breaks. Daily check-ins for the first month.' },
-    { label: 'Monthly', heading: 'Strategy & Scaling', description: '60-minute monthly strategy call. Ad performance review, funnel optimisation, automation tweaks. I show you what\'s working and where to put more budget.' },
+    { label: 'Monthly', heading: 'Review & Scaling', description: 'Ad performance review, funnel optimisation, and automation tuning. I show you what\'s working and where to put more budget.' },
   ],
 
   setupIncludes: [
@@ -60,7 +60,7 @@ export const revenueEngineContent = {
     'Everything in Growth monthly',
     'Workflow automation management',
     'Paid ads optimisation and scaling',
-    '60-minute monthly strategy call with David',
+    'Advanced AI assistant (knowledge base trained)',
     'CRM data hygiene and analysis',
   ],
 
@@ -86,7 +86,7 @@ export const revenueEngineContent = {
       { feature: 'Workflow automation', us: true, them: false, themCost: '$2K–5K setup' },
       { feature: 'Paid ads management', us: true, them: false, themCost: '$1K–3K/mo retainer' },
       { feature: 'CRM setup + integration', us: true, them: false, themCost: '$1K–3K setup' },
-      { feature: 'Monthly strategy + reporting', us: true, them: false, themCost: '$1K–2K/mo' },
+      { feature: 'Advanced AI assistant (knowledge base)', us: true, them: false, themCost: '$5K–15K build' },
       { feature: '1-Year Total', us: null, them: '$20K–50K+', themCost: 'Revenue Engine: a fraction of the cost' },
     ],
   },
