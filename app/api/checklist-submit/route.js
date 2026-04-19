@@ -22,7 +22,9 @@ export async function POST(request) {
     return NextResponse.json({ success: false, error: 'email and firstName are required.' }, { status: 400 });
   }
 
-  const checkedCount = Object.values(answers).filter(Boolean).length;
+  const yesCount  = Object.values(answers).filter(v => v === 'yes').length;
+  const noCount   = Object.values(answers).filter(v => v === 'no').length;
+  const answered  = yesCount + noCount;
 
   const properties = {
     email,
@@ -30,7 +32,9 @@ export async function POST(request) {
     checklist_completed: 'true',
     checklist_source: source || 'site',
     checklist_submitted_at: new Date().toISOString(),
-    checklist_score: String(checkedCount),
+    checklist_score: String(yesCount),
+    checklist_answered: String(answered),
+    checklist_completion_rate: String(Math.round((answered / 20) * 100)),
   };
   if (companyName) properties.company = companyName;
 

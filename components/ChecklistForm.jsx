@@ -38,9 +38,9 @@ const questions = [
   ]},
 ];
 
-// Flat list with stable IDs
+// Flat list with stable numeric IDs q0…q19
 const FLAT = questions.flatMap((section, si) =>
-  section.items.map((text, qi) => ({ id: `q${si}_${qi}`, text, category: section.category }))
+  section.items.map((text, qi) => ({ id: `q${si * 4 + qi}`, text, category: section.category }))
 );
 
 const inputStyle = {
@@ -55,21 +55,25 @@ const inputStyle = {
 };
 
 export default function ChecklistForm() {
-  const [step, setStep]           = useState('email'); // 'email' | 'questions' | 'submitted'
-  const [email, setEmail]         = useState('');
-  const [firstName, setFirstName] = useState('');
-  const [company, setCompany]     = useState('');
-  const [source, setSource]       = useState('site');
-  const [answers, setAnswers]     = useState({});
-  const [emailErr, setEmailErr]   = useState('');
+  const [step, setStep]             = useState('email'); // 'email' | 'questions' | 'submitted'
+  const [email, setEmail]           = useState('');
+  const [firstName, setFirstName]   = useState('');
+  const [company, setCompany]       = useState('');
+  const [source, setSource]         = useState('site');
+  const [answers, setAnswers]       = useState({}); // { q0: 'yes'|'no'|null, … }
+  const [emailErr, setEmailErr]     = useState('');
   const [submitting, setSubmitting] = useState(false);
-  const [submitErr, setSubmitErr] = useState('');
+  const [submitErr, setSubmitErr]   = useState('');
 
   useEffect(() => {
     const p = new URLSearchParams(window.location.search);
     const s = p.get('source');
     if (s) setSource(s);
   }, []);
+
+  const setAnswer = (id, value) => {
+    setAnswers(prev => ({ ...prev, [id]: prev[id] === value ? null : value }));
+  };
 
   function startAssessment(e) {
     e.preventDefault();
@@ -84,10 +88,6 @@ export default function ChecklistForm() {
     setEmailErr('');
     setStep('questions');
     window.scrollTo({ top: 0, behavior: 'smooth' });
-  }
-
-  function toggle(id) {
-    setAnswers(prev => ({ ...prev, [id]: !prev[id] }));
   }
 
   async function handleSubmit() {
@@ -236,7 +236,8 @@ export default function ChecklistForm() {
   }
 
   // ── Questions step ───────────────────────────────────────────
-  const checkedCount = Object.values(answers).filter(Boolean).length;
+  const answeredCount = Object.values(answers).filter(v => v === 'yes' || v === 'no').length;
+  const yesCount      = Object.values(answers).filter(v => v === 'yes').length;
 
   return (
     <div>
@@ -265,10 +266,10 @@ export default function ChecklistForm() {
         {/* Progress */}
         <div style={{ marginBottom: '40px', padding: '16px 24px', backgroundColor: '#f0fdf4', border: '1px solid #86efac', borderRadius: '8px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px' }}>
           <span style={{ fontSize: '15px', color: '#374151', fontWeight: '600' }}>
-            {checkedCount} of 20 checked
+            {answeredCount} of 20 answered
           </span>
           <div style={{ height: '8px', flex: '1', minWidth: '120px', maxWidth: '260px', backgroundColor: '#d1d5db', borderRadius: '99px', overflow: 'hidden' }}>
-            <div style={{ height: '100%', width: `${(checkedCount / 20) * 100}%`, backgroundColor: TEAL, borderRadius: '99px', transition: 'width .3s' }} />
+            <div style={{ height: '100%', width: `${(answeredCount / 20) * 100}%`, backgroundColor: TEAL, borderRadius: '99px', transition: 'width .3s' }} />
           </div>
         </div>
 
@@ -278,25 +279,57 @@ export default function ChecklistForm() {
             <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#111827', marginBottom: '24px', paddingBottom: '12px', borderBottom: '2px solid #e5e7eb' }}>
               {section.category}
             </h3>
-            <div style={{ display: 'grid', gap: '20px' }}>
+            <div style={{ display: 'grid', gap: '10px' }}>
               {section.items.map((text, qIdx) => {
-                const id = `q${sIdx}_${qIdx}`;
-                const checked = !!answers[id];
+                const id = `q${sIdx * 4 + qIdx}`;
+                const val = answers[id] ?? null;
                 return (
-                  <label
+                  <div
                     key={qIdx}
-                    style={{ display: 'flex', gap: '12px', cursor: 'pointer', alignItems: 'flex-start', padding: '14px 16px', borderRadius: '8px', border: `1px solid ${checked ? TEAL + '40' : '#e5e7eb'}`, background: checked ? TEAL + '08' : '#fff', transition: 'all .2s' }}
+                    style={{ padding: '16px 20px', borderRadius: '12px', border: `1px solid ${val ? (val === 'yes' ? TEAL + '40' : '#d1d5db') : '#e5e7eb'}`, background: val === 'yes' ? TEAL + '08' : '#fff' }}
                   >
-                    <input
-                      type="checkbox"
-                      checked={checked}
-                      onChange={() => toggle(id)}
-                      style={{ width: '20px', height: '20px', marginTop: '2px', cursor: 'pointer', flexShrink: 0, accentColor: TEAL }}
-                    />
-                    <span style={{ fontSize: '15px', color: '#374151', lineHeight: '1.6', flex: 1 }}>
+                    <p style={{ margin: '0 0 12px', fontSize: '15px', color: '#1f2937', lineHeight: '1.5' }}>
                       {text}
-                    </span>
-                  </label>
+                    </p>
+                    <div style={{ display: 'flex', gap: '8px' }}>
+                      <button
+                        type="button"
+                        onClick={() => setAnswer(id, 'yes')}
+                        style={{
+                          flex: '1',
+                          padding: '10px 16px',
+                          borderRadius: '8px',
+                          border: `1.5px solid ${TEAL}`,
+                          background: val === 'yes' ? TEAL : 'transparent',
+                          color: val === 'yes' ? '#ffffff' : TEAL,
+                          fontWeight: 700,
+                          fontSize: '14px',
+                          cursor: 'pointer',
+                          transition: 'all 0.15s ease',
+                        }}
+                      >
+                        Yes
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() => setAnswer(id, 'no')}
+                        style={{
+                          flex: '1',
+                          padding: '10px 16px',
+                          borderRadius: '8px',
+                          border: '1.5px solid #e5e7eb',
+                          background: val === 'no' ? '#6b7280' : 'transparent',
+                          color: val === 'no' ? '#ffffff' : '#6b7280',
+                          fontWeight: 700,
+                          fontSize: '14px',
+                          cursor: 'pointer',
+                          transition: 'all 0.15s ease',
+                        }}
+                      >
+                        No
+                      </button>
+                    </div>
+                  </div>
                 );
               })}
             </div>
@@ -308,21 +341,21 @@ export default function ChecklistForm() {
           <h3 style={{ fontSize: '20px', fontWeight: '700', color: '#111827', marginBottom: '24px' }}>Score Your Readiness</h3>
           <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit,minmax(200px,1fr))', gap: '20px' }}>
             <div style={{ padding: '20px', backgroundColor: '#fee2e2', borderRadius: '8px', border: '1px solid #fca5a5' }}>
-              <div style={{ fontSize: '14px', fontWeight: '600', color: '#991b1b', marginBottom: '8px' }}>0–7 Checks</div>
+              <div style={{ fontSize: '14px', fontWeight: '600', color: '#991b1b', marginBottom: '8px' }}>0–7 Yes answers</div>
               <div style={{ fontSize: '18px', fontWeight: '800', color: '#dc2626', marginBottom: '8px' }}>Low Readiness</div>
               <p style={{ fontSize: '14px', color: '#7f1d1d', lineHeight: '1.5', margin: 0 }}>
                 Start with our Presence or Growth tier to build fundamentals.
               </p>
             </div>
             <div style={{ padding: '20px', backgroundColor: '#fef3c7', borderRadius: '8px', border: '1px solid #fcd34d' }}>
-              <div style={{ fontSize: '14px', fontWeight: '600', color: '#92400e', marginBottom: '8px' }}>8–14 Checks</div>
+              <div style={{ fontSize: '14px', fontWeight: '600', color: '#92400e', marginBottom: '8px' }}>8–14 Yes answers</div>
               <div style={{ fontSize: '18px', fontWeight: '800', color: '#f59e0b', marginBottom: '8px' }}>Medium Readiness</div>
               <p style={{ fontSize: '14px', color: '#451a03', lineHeight: '1.5', margin: 0 }}>
                 You have quick wins available. Book a call to identify them.
               </p>
             </div>
             <div style={{ padding: '20px', backgroundColor: '#dcfce7', borderRadius: '8px', border: '1px solid #86efac' }}>
-              <div style={{ fontSize: '14px', fontWeight: '600', color: '#166534', marginBottom: '8px' }}>15–20 Checks</div>
+              <div style={{ fontSize: '14px', fontWeight: '600', color: '#166534', marginBottom: '8px' }}>15–20 Yes answers</div>
               <div style={{ fontSize: '18px', fontWeight: '800', color: '#22c55e', marginBottom: '8px' }}>High Readiness</div>
               <p style={{ fontSize: '14px', color: '#15803d', lineHeight: '1.5', margin: 0 }}>
                 You're ready for AI automation. Let's map your implementation.
@@ -336,16 +369,21 @@ export default function ChecklistForm() {
           <h3 style={{ fontSize: '22px', fontWeight: '800', color: '#111827', marginBottom: '8px' }}>
             Ready to get your results?
           </h3>
-          <p style={{ fontSize: '15px', color: '#374151', marginBottom: '24px', lineHeight: '1.6' }}>
+          <p style={{ fontSize: '15px', color: '#374151', marginBottom: '16px', lineHeight: '1.6' }}>
             Submit your assessment and David will personally review your responses and send recommendations within 6 hours.
           </p>
+          {answeredCount < 20 && answeredCount > 0 && (
+            <p style={{ fontSize: '13px', color: '#6b7280', marginBottom: '16px' }}>
+              You've answered {answeredCount} of 20 questions — you can still submit with partial answers.
+            </p>
+          )}
           {submitErr && (
             <p style={{ color: '#dc2626', fontSize: '14px', marginBottom: '16px' }}>{submitErr}</p>
           )}
           <button
             onClick={handleSubmit}
-            disabled={submitting}
-            style={{ padding: '14px 36px', backgroundColor: TEAL, color: '#fff', border: 'none', borderRadius: '8px', fontWeight: '700', fontSize: '16px', cursor: submitting ? 'not-allowed' : 'pointer', opacity: submitting ? 0.7 : 1 }}
+            disabled={submitting || answeredCount === 0}
+            style={{ padding: '14px 36px', backgroundColor: TEAL, color: '#fff', border: 'none', borderRadius: '8px', fontWeight: '700', fontSize: '16px', cursor: (submitting || answeredCount === 0) ? 'not-allowed' : 'pointer', opacity: (submitting || answeredCount === 0) ? 0.6 : 1 }}
           >
             {submitting ? 'Submitting…' : 'Submit Assessment →'}
           </button>
@@ -364,7 +402,6 @@ export default function ChecklistForm() {
         @media print {
           body { background: white; }
           section:first-of-type { display: none; }
-          input[type="checkbox"] { accent-color: ${TEAL}; }
           * { box-shadow: none !important; }
         }
       `}</style>
