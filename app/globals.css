@@ -299,8 +299,8 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 .panel-cta-card{background:rgba(255,255,255,.82);border:1.5px solid rgba(42,165,160,.18);border-radius:18px;padding:18px 32px;max-width:520px;margin:0 auto;text-align:center;box-shadow:0 6px 28px rgba(59,130,246,.09);backdrop-filter:blur(8px);}
 .panel-cta-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;color:#0f1e3d;margin-bottom:5px;letter-spacing:-0.3px;line-height:1.25;}
 .panel-cta-sub{font-size:13px;color:rgba(15,30,61,.5);margin-bottom:14px;line-height:1.6;}
-.panel-cta-btn{display:inline-flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#2AA5A0,#33BDB8);color:#fff;border:none;border-radius:50px;padding:11px 28px;font-size:13px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;box-shadow:0 6px 22px rgba(42,165,160,.4);transition:transform .22s,box-shadow .22s;letter-spacing:0.1px;text-decoration:none;}
-.panel-cta-btn:hover{transform:translateY(-2px);box-shadow:0 12px 32px rgba(42,165,160,.55);color:#fff;}
+.panel-cta-btn{display:inline-flex;align-items:center;justify-content:center;background-color:#2AA5A0;background:#2AA5A0;color:#fff!important;border:none;border-radius:999px;padding:12px 28px;font-size:13px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;box-shadow:0 6px 22px rgba(42,165,160,.4);transition:transform .2s ease,background .2s ease,box-shadow .2s ease;letter-spacing:0.1px;text-decoration:none!important;}
+.panel-cta-btn:hover{background:#229993;background-color:#229993;transform:translateY(-2px);box-shadow:0 12px 32px rgba(42,165,160,.55);color:#fff!important;}
 #samples .panel-cta-btn{margin-top:12px;}
 
 /* ── PANEL 1: SERVICES ── */
