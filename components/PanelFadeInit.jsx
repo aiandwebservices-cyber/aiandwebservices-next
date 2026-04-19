@@ -1,7 +1,7 @@
 'use client';
 import { useEffect } from 'react';
 
-const PANEL_IDS = ['p0', 'p2', 'comparison', 'services', 'p3', 'samples', 'p7'];
+const PANEL_IDS = ['p0', 'p2', 'comparison', 'services', 'p3', 'samples', 'p7', 'p8'];
 
 export default function PanelFadeInit() {
   useEffect(() => {

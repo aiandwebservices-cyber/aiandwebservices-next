@@ -1351,7 +1351,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
      proximity (not mandatory) — doesn't trap users mid-scroll.
      stop: normal — allows fast flick-through when momentum is strong. */
   body{scroll-snap-type:y proximity}
-  #comparison,#p3,#samples{scroll-snap-align:start;scroll-snap-stop:normal}
+  #comparison,#p3,#samples,#p8{scroll-snap-align:start;scroll-snap-stop:normal}
   #p2,#services,#p7{scroll-snap-align:none}
 
   #p0{padding-top:60px;height:auto!important;min-height:100svh;overflow:visible!important;display:block}
@@ -2332,4 +2332,55 @@ html:has(.svc-page-main){overflow:auto!important}
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+/* ── Final CTA panel ── */
+.final-cta-panel {
+  background: #0f172a;
+  color: white;
+  text-align: center;
+  padding: 6rem 2rem;
+  min-height: auto;
+}
+
+.final-cta-inner {
+  max-width: 720px;
+  margin: 0 auto;
+}
+
+.final-cta-headline {
+  font-family: var(--font-plus-jakarta);
+  font-weight: 800;
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1.2;
+  margin: 1rem 0;
+}
+
+.final-cta-sub {
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 1.125rem;
+  margin-bottom: 2rem;
+}
+
+.final-cta-btn {
+  display: inline-block;
+  padding: 1rem 2rem;
+  background: #2AA5A0;
+  color: white;
+  font-weight: 700;
+  font-size: 1.125rem;
+  border-radius: 999px;
+  text-decoration: none;
+  transition: transform 0.2s ease, background 0.2s ease;
+}
+
+.final-cta-btn:hover {
+  background: #229993;
+  transform: translateY(-2px);
+}
+
+.final-cta-trust {
+  margin-top: 2rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.875rem;
 }
