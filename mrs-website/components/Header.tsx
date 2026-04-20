@@ -3,11 +3,10 @@ import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
+import type { SiteConfig } from "@/lib/site-config";
 
-const PHONE = "(754) 777-8956";
-const PHONE_HREF = "tel:+17547778956";
-
-export default function Header() {
+export default function Header({ config }: { config: SiteConfig }) {
+  const basePath = config.location === 'newYork' ? '/ny' : '';
   const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
@@ -29,16 +28,16 @@ export default function Header() {
 
         {/* Desktop Nav */}
         <nav style={{ display: "flex", gap: "1.5rem", alignItems: "center" }} className="hidden-mobile">
-          <NavLink href="/" active={pathname === "/"}>Home</NavLink>
-          <NavLink href="/services" active={pathname === "/services"}>Services</NavLink>
-          <NavLink href="/about" active={pathname === "/about"}>About</NavLink>
-          <NavLink href="/faq" active={pathname === "/faq"}>FAQ</NavLink>
-          <NavLink href="/contact" active={pathname === "/contact"}>Contact</NavLink>
+          <NavLink href={`${basePath}/`} active={pathname === `${basePath}/` || pathname === basePath}>Home</NavLink>
+          <NavLink href={`${basePath}/services`} active={pathname === `${basePath}/services`}>Services</NavLink>
+          <NavLink href={`${basePath}/about`} active={pathname === `${basePath}/about`}>About</NavLink>
+          <NavLink href={`${basePath}/faq`} active={pathname === `${basePath}/faq`}>FAQ</NavLink>
+          <NavLink href={`${basePath}/contact`} active={pathname === `${basePath}/contact`}>Contact</NavLink>
         </nav>
 
         {/* CTA */}
         <div style={{ display: "flex", alignItems: "center" }} className="hidden-mobile">
-          <Link href="/contact" className="btn-red" style={{ padding: "0.5rem 1rem", fontSize: "0.875rem" }}>Get Help Now</Link>
+          <Link href={`${basePath}/contact`} className="btn-red" style={{ padding: "0.5rem 1rem", fontSize: "0.875rem" }}>Get Help Now</Link>
         </div>
 
         {/* Mobile: hamburger */}
@@ -57,13 +56,13 @@ export default function Header() {
       {/* Mobile menu */}
       {open && (
         <div style={{ background: "#162038", padding: "1rem", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-          {[["Home", "/"], ["Services", "/services"], ["About", "/about"], ["FAQ", "/faq"], ["Contact", "/contact"]].map(([label, href]) => (
+          {([["Home", `${basePath}/`], ["Services", `${basePath}/services`], ["About", `${basePath}/about`], ["FAQ", `${basePath}/faq`], ["Contact", `${basePath}/contact`]] as [string, string][]).map(([label, href]) => (
             <Link key={href} href={href} onClick={() => setOpen(false)}
               style={{ color: pathname === href ? "var(--red)" : "#fff", textDecoration: "none", fontFamily: "Montserrat, sans-serif", fontWeight: 600, fontSize: "1rem", padding: "0.4rem 0", borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
               {label}{pathname === href ? " •" : ""}
             </Link>
           ))}
-          <Link href="/contact" className="btn-red" style={{ textAlign: "center", marginTop: "0.5rem" }} onClick={() => setOpen(false)}>
+          <Link href={`${basePath}/contact`} className="btn-red" style={{ textAlign: "center", marginTop: "0.5rem" }} onClick={() => setOpen(false)}>
             Get Help Now →
           </Link>
         </div>

@@ -4,6 +4,7 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import UTMTracker from "@/components/UTMTracker";
+import { FL_CONFIG } from "@/lib/site-config";
 
 const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat", display: "swap" });
 const openSans = Open_Sans({ subsets: ["latin"], variable: "--font-open-sans", display: "swap" });
@@ -22,8 +23,8 @@ const SEO_ENABLED = process.env.NEXT_PUBLIC_SEO_ENABLED === "true";
 const PRODUCTION_URL = "https://mitigationrestorationservices.com"; // update when going live
 
 export const metadata: Metadata = {
-  title: "Mitigation Restoration Services | 24/7 Emergency Restoration South Florida",
-  description: "24/7 emergency water, fire, mold & storm damage restoration serving Boca Raton, Fort Lauderdale, Miami & all of South Florida. Licensed & insured. Se Habla Español.",
+  title: FL_CONFIG.metaTitle,
+  description: FL_CONFIG.metaDescription,
 
   icons: {
     icon: [
@@ -39,19 +40,19 @@ export const metadata: Metadata = {
 
   // Keywords and OG only served when SEO is on
   ...(SEO_ENABLED && {
-    keywords: "water damage restoration, mold remediation, fire damage restoration, storm damage, South Florida restoration, Fort Lauderdale, Miami, Boca Raton, IICRC certified, 24/7 emergency restoration",
+    keywords: FL_CONFIG.keywords,
     openGraph: {
-      title: "Mitigation Restoration Services | 24/7 Emergency Restoration South Florida",
-      description: "When disaster strikes, we respond. 24/7 emergency restoration for South Florida. Call (754) 777-8956.",
+      title: FL_CONFIG.ogTitle,
+      description: FL_CONFIG.ogDescription,
       type: "website",
       locale: "en_US",
       url: PRODUCTION_URL,
-      siteName: "Mitigation Restoration Services",
+      siteName: FL_CONFIG.siteName,
     },
     twitter: {
       card: "summary_large_image",
-      title: "Mitigation Restoration Services | 24/7 Emergency Restoration South Florida",
-      description: "When disaster strikes, we respond. 24/7 emergency restoration for South Florida.",
+      title: FL_CONFIG.ogTitle,
+      description: FL_CONFIG.ogDescription,
     },
     alternates: {
       canonical: PRODUCTION_URL,
@@ -60,47 +61,41 @@ export const metadata: Metadata = {
 };
 
 // Schema.org LocalBusiness markup — only injected when SEO is on
+const sc = FL_CONFIG.schema;
 const schemaMarkup = {
   "@context": "https://schema.org",
-  "@type": "LocalBusiness",
+  "@type": sc.type,
   "@id": `${PRODUCTION_URL}/#business`,
-  name: "Mitigation Restoration Services",
-  telephone: "+17547778956",
-  email: "Sam@mitigationrestorationservice.co.site",
+  name: sc.name,
+  telephone: sc.telephone,
+  email: sc.email,
   url: PRODUCTION_URL,
-  description: "24/7 emergency property damage restoration serving South Florida — water damage, fire, mold, storm & biohazard cleanup.",
+  description: sc.description,
   address: {
     "@type": "PostalAddress",
-    streetAddress: "11322 Miramar Pkwy",
-    addressLocality: "Miramar",
-    addressRegion: "FL",
-    postalCode: "33025",
-    addressCountry: "US",
+    streetAddress: sc.address.streetAddress,
+    addressLocality: sc.address.addressLocality,
+    addressRegion: sc.address.addressRegion,
+    postalCode: sc.address.postalCode,
+    addressCountry: sc.address.addressCountry,
   },
-  geo: {
-    "@type": "GeoCoordinates",
-    latitude: 25.9786,
-    longitude: -80.2327,
-  },
-  areaServed: [
-    "Boca Raton", "Deerfield Beach", "Pompano Beach", "Fort Lauderdale",
-    "Hollywood", "Hallandale Beach", "Aventura", "North Miami",
-    "Miami Beach", "Miami", "Coral Gables", "Homestead",
-    "Palm Beach County", "Broward County", "Miami-Dade County",
-  ],
+  ...(sc.geo && {
+    geo: {
+      "@type": "GeoCoordinates",
+      latitude: sc.geo.latitude,
+      longitude: sc.geo.longitude,
+    },
+  }),
+  areaServed: sc.areaServed,
   openingHours: "Mo-Su 00:00-24:00",
   priceRange: "$$",
   hasOfferCatalog: {
     "@type": "OfferCatalog",
     name: "Restoration Services",
-    itemListElement: [
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Water Damage Restoration", url: `${PRODUCTION_URL}/services#water` } },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Fire & Smoke Damage Restoration", url: `${PRODUCTION_URL}/services#fire` } },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Mold Remediation & Testing", url: `${PRODUCTION_URL}/services#mold` } },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Storm & Wind Damage Repair", url: `${PRODUCTION_URL}/services#storm` } },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Sewage & Biohazard Cleanup", url: `${PRODUCTION_URL}/services#biohazard` } },
-      { "@type": "Offer", itemOffered: { "@type": "Service", name: "Reconstruction & Rebuild", url: `${PRODUCTION_URL}/services#reconstruction` } },
-    ],
+    itemListElement: FL_CONFIG.services.map(s => ({
+      "@type": "Offer",
+      itemOffered: { "@type": "Service", name: s.title, url: `${PRODUCTION_URL}${s.href}` },
+    })),
   },
 };
 
@@ -127,9 +122,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-screen flex flex-col">
         <UTMTracker />
-        <Header />
+        <Header config={FL_CONFIG} />
         <main className="flex-1">{children}</main>
-        <Footer />
+        <Footer config={FL_CONFIG} />
       </body>
     </html>
   );

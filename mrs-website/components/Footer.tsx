@@ -1,17 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
+import type { SiteConfig } from "@/lib/site-config";
 
-const PHONE = "(754) 777-8956";
-const PHONE_HREF = "tel:+17547778956";
-
-export default function Footer() {
+export default function Footer({ config }: { config: SiteConfig }) {
   return (
     <footer style={{ background: "var(--navy)", color: "#e2e8f0" }}>
       {/* Emergency bar */}
       <div style={{ background: "var(--red)", padding: "1.25rem 1rem", textAlign: "center" }}>
         <p style={{ fontFamily: "Montserrat, sans-serif", fontWeight: 700, fontSize: "1rem", color: "#fff", margin: 0 }}>
           24/7 Emergency Response — Call Now:&nbsp;
-          <a href={PHONE_HREF} style={{ color: "#fff", textDecoration: "underline", fontSize: "1.2rem" }}>{PHONE}</a>
+          <a href={config.phoneHref} style={{ color: "#fff", textDecoration: "underline", fontSize: "1.2rem" }}>{config.phone}</a>
         </p>
       </div>
 
@@ -25,7 +23,7 @@ export default function Footer() {
             </span>
           </div>
           <p style={{ fontSize: "0.875rem", lineHeight: 1.6, color: "#a0aec0", marginBottom: "0.75rem" }}>
-            Mitigation Restoration Services — South Florida&apos;s trusted property damage restoration experts.
+            {config.siteName} — {config.footerTagline}
           </p>
           <div style={{ display: "inline-block", background: "var(--red)", color: "#fff", padding: "0.3rem 0.75rem", borderRadius: 4, fontSize: "0.8rem", fontWeight: 700, fontFamily: "Montserrat, sans-serif" }}>
             Se Habla Español
@@ -45,7 +43,7 @@ export default function Footer() {
         {/* Quick Links */}
         <div>
           <h4 style={{ color: "#fff", fontSize: "0.95rem", marginBottom: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>Company</h4>
-          {[["About Us", "/about"], ["FAQ", "/faq"], ["Contact", "/contact"], ["Emergency Help", "/contact"]].map(([label, href]) => (
+          {([["About Us", "/about"], ["FAQ", "/faq"], ["Contact", "/contact"], ["Emergency Help", "/contact"]] as [string, string][]).map(([label, href]) => (
             <Link key={label} href={href} className="footer-link">
               {label}
             </Link>
@@ -55,22 +53,24 @@ export default function Footer() {
         {/* Contact */}
         <div>
           <h4 style={{ color: "#fff", fontSize: "0.95rem", marginBottom: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>Contact</h4>
-          <a href={PHONE_HREF} style={{ display: "block", color: "var(--red)", fontWeight: 800, fontSize: "1.2rem", fontFamily: "Montserrat, sans-serif", textDecoration: "none", marginBottom: "0.5rem" }}>{PHONE}</a>
-          <a href="mailto:Sam@mitigationrestorationservice.co.site" style={{ display: "block", color: "#a0aec0", fontSize: "0.8rem", textDecoration: "none", marginBottom: "0.5rem" }}>Sam@mitigationrestorationservice.co.site</a>
-          <p style={{ fontSize: "0.875rem", color: "#a0aec0", marginBottom: "0.25rem" }}>11322 Miramar Pkwy, Miramar, FL 33025</p>
+          <a href={config.phoneHref} style={{ display: "block", color: "var(--red)", fontWeight: 800, fontSize: "1.2rem", fontFamily: "Montserrat, sans-serif", textDecoration: "none", marginBottom: "0.5rem" }}>{config.phone}</a>
+          <a href={`mailto:${config.email}`} style={{ display: "block", color: "#a0aec0", fontSize: "0.8rem", textDecoration: "none", marginBottom: "0.5rem" }}>{config.email}</a>
+          {config.addressOneLiner && (
+            <p style={{ fontSize: "0.875rem", color: "#a0aec0", marginBottom: "0.25rem" }}>{config.addressOneLiner}</p>
+          )}
           <p style={{ fontSize: "0.875rem", color: "#a0aec0", marginBottom: "0.25rem" }}>Hours: 24/7 — Always Open</p>
           <p style={{ fontSize: "0.8rem", color: "#718096" }}>
-            FL Mold Lic. #MRSR5155 | IICRC Certified
+            {config.licenseNumbers ? `${config.licenseNumbers.join(' | ')} | ` : ''}IICRC Certified
           </p>
         </div>
       </div>
 
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", maxWidth: 1200, margin: "0 auto", padding: "1.25rem 1.5rem", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.5rem" }}>
         <p style={{ fontSize: "0.8rem", color: "#718096", margin: 0 }}>
-          © {new Date().getFullYear()} Mitigation Restoration Services. All rights reserved. Licensed & Insured.
+          © {new Date().getFullYear()} {config.siteName}. All rights reserved. Licensed &amp; Insured.
         </p>
         <p style={{ fontSize: "0.8rem", color: "#718096", margin: 0 }}>
-          Serving Palm Beach, Broward & Miami-Dade Counties
+          {config.footerServiceAreaLine}
         </p>
       </div>
     </footer>

@@ -2,9 +2,6 @@
 import { useState, ChangeEvent, FormEvent } from "react";
 import { getUTMs } from "@/lib/utm";
 
-const PHONE = "(754) 777-8956";
-const PHONE_HREF = "tel:+17547778956";
-
 const DAMAGE_TYPES = ["Water Damage", "Fire & Smoke", "Mold", "Storm & Wind", "Sewage & Biohazard", "Other"];
 
 interface FormData {
@@ -39,7 +36,15 @@ function formatPhone(val: string) {
   return `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
 }
 
-export default function EmergencyForm() {
+export default function EmergencyForm({
+  location = 'florida',
+  addressPlaceholder = '123 Main St, Fort Lauderdale, FL 33301',
+}: {
+  location?: 'florida' | 'newYork';
+  addressPlaceholder?: string;
+}) {
+  const phone = '(754) 777-8956';
+  const phoneHref = 'tel:+17547778956';
   const [form, setForm] = useState<FormData>(empty);
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
   const [submitted, setSubmitted] = useState(false);
@@ -102,7 +107,10 @@ export default function EmergencyForm() {
 
       const res = await fetch("/api/contact", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+          ...(location === 'newYork' ? { "x-site-location": "ny" } : {}),
+        },
         body: JSON.stringify(jsonPayload),
       });
 
@@ -126,7 +134,7 @@ export default function EmergencyForm() {
 
       setSubmitted(true);
     } catch {
-      alert("Something went wrong. Please call us directly at " + PHONE);
+      alert("Something went wrong. Please call us directly at " + phone);
     }
     setLoading(false);
   }
@@ -141,7 +149,7 @@ export default function EmergencyForm() {
         </p>
         <p style={{ fontWeight: 700, fontSize: "1.1rem" }}>
           For immediate assistance, call us now:&nbsp;
-          <a href={PHONE_HREF} className="phone-link" style={{ fontSize: "1.3rem" }}>{PHONE}</a>
+          <a href={phoneHref} className="phone-link" style={{ fontSize: "1.3rem" }}>{phone}</a>
         </p>
       </div>
     );
@@ -185,7 +193,7 @@ export default function EmergencyForm() {
         </div>
         <div className="form-group">
           <label htmlFor="address">Property Address (optional)</label>
-          <input id="address" type="text" value={form.address} onChange={e => set("address", e.target.value)} placeholder="123 Main St, Fort Lauderdale, FL 33301" />
+          <input id="address" type="text" value={form.address} onChange={e => set("address", e.target.value)} placeholder={addressPlaceholder} />
         </div>
       </div>
 
@@ -338,7 +346,7 @@ export default function EmergencyForm() {
 
       <p style={{ textAlign: "center", marginTop: "0.75rem", fontSize: "0.875rem", color: "var(--gray-mid)" }}>
         ⏱ Average response time: under 60 minutes &nbsp;|&nbsp;
-        <a href={PHONE_HREF} className="phone-link">{PHONE}</a>
+        <a href={phoneHref} className="phone-link">{phone}</a>
       </p>
     </form>
   );
