@@ -546,7 +546,7 @@ export default function IroncladConstruction() {
             <li key={l}><a href={`#${l.toLowerCase()}`}>{l}</a></li>
           ))}
         </ul>
-        <a href="#contact" className="ic-cta">Free Estimate</a>
+        <a href="/contact" className="ic-cta">Free Estimate</a>
       </nav>
 
       {/* HERO */}
@@ -566,7 +566,7 @@ export default function IroncladConstruction() {
             From ground-up construction to full remodels, roofing to HVAC — Ironclad handles every trade under one contract. 24 years. 900+ projects. Zero excuses.
           </p>
           <div className={`ic-hero-btns${heroIn ? '' : ' hide'}`}>
-            <a href="#contact" className="ic-btn ic-btn-primary">Get a Free Estimate</a>
+            <a href="/contact" className="ic-btn ic-btn-primary">Get a Free Estimate</a>
             <a href="#projects" className="ic-btn ic-btn-outline">View Our Work</a>
           </div>
         </div>
