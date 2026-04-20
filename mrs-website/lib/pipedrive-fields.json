@@ -1,8 +1,8 @@
 {
   "apiToken": "REDACTED",
-  "domain": "mitigationrestorationservices",
-  "baseUrlV1": "https://mitigationrestorationservices.pipedrive.com/v1",
-  "baseUrlV2": "https://mitigationrestorationservices.pipedrive.com/api/v2",
+  "domain": "mitigationrestorationservice",
+  "baseUrlV1": "https://mitigationrestorationservice.pipedrive.com/v1",
+  "baseUrlV2": "https://mitigationrestorationservice.pipedrive.com/api/v2",
   "fields": {
     "deal": {
       "serviceType": "bf34e2a9acea2b600795d980461d5ed53e21a1f0",
