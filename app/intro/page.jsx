@@ -30,7 +30,7 @@ export default function IntroPage() {
   ];
 
   return (
-    <main style={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
+    <main className="standalone-page" style={{ minHeight: '100vh', height: 'auto', overflow: 'visible', overflowY: 'auto', backgroundColor: '#f8fafc' }}>
       {/* Hero */}
       <section style={{ backgroundColor: '#111827', color: '#fff', padding: 'clamp(40px, 8vw, 80px) 20px', textAlign: 'center' }}>
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>
@@ -63,15 +63,6 @@ export default function IntroPage() {
               </div>
             ))}
           </div>
-        </div>
-
-        {/* Maintenance Banner */}
-        <div style={{ marginBottom: '32px', padding: '12px 16px', backgroundColor: '#fef3c7', border: '1px solid #fcd34d', borderRadius: '6px', color: '#92400e', fontSize: '15px', lineHeight: '1.5' }}>
-          This booking page is temporarily under maintenance. Please email{' '}
-          <a href="mailto:aiandwebservices@gmail.com" style={{ color: '#92400e', fontWeight: '600' }}>aiandwebservices@gmail.com</a>
-          {' '}or call{' '}
-          <a href="tel:+13155720710" style={{ color: '#92400e', fontWeight: '600' }}>(315) 572-0710</a>
-          {' '}to schedule directly.
         </div>
 
         {/* Calendar Embed */}

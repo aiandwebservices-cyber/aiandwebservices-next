@@ -1,0 +1,122 @@
+{
+  "name": "Checklist Lead Started",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "checklist-lead-started",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "ls-webhook-node",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1,
+      "position": [240, 300],
+      "webhookId": "checklist-lead-started"
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $input.first().json.body || $input.first().json;\n\nconst email = (body.email || '').toLowerCase().trim();\nconst firstName = (body.firstName || '').trim();\nconst phone = (body.phone || '').trim();\nconst companyName = (body.companyName || '').trim();\nconst source = (body.source || 'site').trim();\nconst startedAt = body.startedAt || new Date().toISOString();\n\nconst isPriority = source === 'customer';\nconst priorityLabel = isPriority ? '⚠️ CUSTOMER — URGENT' : 'Site Lead';\nconst priorityColor = isPriority ? '#dc2626' : '#2AA5A0';\n\nconst startedReadable = new Date(startedAt).toLocaleString('en-US', {\n  timeZone: 'America/New_York',\n  dateStyle: 'medium',\n  timeStyle: 'short'\n});\n\nconst emailSubject = isPriority\n  ? '⚠️ URGENT — Customer started checklist: ' + firstName + ' (' + email + ')'\n  : 'New checklist lead — started: ' + firstName + ' (' + email + ')';\n\nreturn [{\n  json: {\n    email,\n    firstName,\n    phone,\n    companyName,\n    source,\n    startedAt,\n    startedReadable,\n    isPriority,\n    priorityLabel,\n    priorityColor,\n    emailSubject,\n    hasPhone: phone.length > 0,\n    hasCompany: companyName.length > 0\n  }\n}];"
+      },
+      "id": "ls-normalize-node",
+      "name": "Normalize & Prepare",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "http://espocrm/api/v1/Lead",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"firstName\": \"{{ $json.firstName }}\",\n  \"emailAddress\": \"{{ $json.email }}\",\n  \"phoneNumber\": \"{{ $json.phone }}\",\n  \"accountName\": \"{{ $json.companyName }}\",\n  \"cDealTier\": \"Checklist Started\",\n  \"status\": \"New\",\n  \"source\": \"{{ $json.source }}\",\n  \"description\": \"Started checklist at {{ $json.startedReadable }}. Source: {{ $json.source }}. Awaiting completion.\",\n  \"cUtmSource\": \"checklist\",\n  \"cUtmMedium\": \"form\"\n}",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "ls-espocrm-node",
+      "name": "Create EspoCRM Lead",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [680, 180],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_WITH_ESPOCRM_CREDENTIAL_ID",
+          "name": "EspoCRM API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.resend.com/emails",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"from\": \"AIandWEBservices <notifications@aiandwebservices.com>\",\n  \"to\": [\"david@aiandwebservices.com\"],\n  \"reply_to\": \"{{ $json.email }}\",\n  \"subject\": \"{{ $json.emailSubject }}\",\n  \"html\": \"<div style='font-family:-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif;max-width:600px;margin:0 auto;padding:24px;'><div style='background:{{ $json.priorityColor }};padding:10px 16px;border-radius:6px;margin-bottom:20px;text-align:center;'><span style='color:#fff;font-size:13px;font-weight:800;letter-spacing:0.5px;text-transform:uppercase;'>{{ $json.priorityLabel }}</span></div><h2 style='color:#0f172a;margin:0 0 8px;font-size:20px;'>Lead Started Checklist</h2><p style='font-size:15px;color:#374151;line-height:1.6;margin:0 0 20px;'><strong>{{ $json.firstName }}</strong>{{ $json.hasCompany ? ' from <strong>' + $json.companyName + '</strong>' : '' }} just started the AI Readiness Checklist but <em>has not submitted yet</em>.</p><table style='width:100%;border-collapse:collapse;background:#f8fafc;border-radius:8px;overflow:hidden;margin-bottom:20px;'><tr><td style='padding:10px 16px;border-bottom:1px solid #e5e7eb;color:#6b7280;font-size:13px;width:90px;'>Email</td><td style='padding:10px 16px;border-bottom:1px solid #e5e7eb;'><a href='mailto:{{ $json.email }}' style='color:#2AA5A0;text-decoration:none;'>{{ $json.email }}</a></td></tr><tr><td style='padding:10px 16px;border-bottom:1px solid #e5e7eb;color:#6b7280;font-size:13px;'>Phone</td><td style='padding:10px 16px;border-bottom:1px solid #e5e7eb;'>{{ $json.hasPhone ? $json.phone : '—' }}</td></tr><tr><td style='padding:10px 16px;border-bottom:1px solid #e5e7eb;color:#6b7280;font-size:13px;'>Company</td><td style='padding:10px 16px;border-bottom:1px solid #e5e7eb;'>{{ $json.hasCompany ? $json.companyName : '—' }}</td></tr><tr><td style='padding:10px 16px;border-bottom:1px solid #e5e7eb;color:#6b7280;font-size:13px;'>Source</td><td style='padding:10px 16px;border-bottom:1px solid #e5e7eb;'>{{ $json.source }}</td></tr><tr><td style='padding:10px 16px;color:#6b7280;font-size:13px;'>Started</td><td style='padding:10px 16px;'>{{ $json.startedReadable }} EST</td></tr></table><div style='background:#f0fdf4;border-left:3px solid #2AA5A0;padding:12px 16px;border-radius:4px;margin-bottom:16px;'><p style='margin:0;font-size:13px;color:#374151;'>They will receive a score email when they submit. If they go quiet for 24h — especially a customer source — consider a proactive outreach.</p></div><p style='font-size:12px;color:#9ca3af;margin:0;'>Reply to this email to reach {{ $json.firstName }} directly — their address is set as reply-to.</p></div>\"\n}",
+        "options": {
+          "response": {
+            "response": {
+              "neverError": true
+            }
+          }
+        }
+      },
+      "id": "ls-notify-node",
+      "name": "Notify David — Lead Started",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.1,
+      "position": [680, 300],
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "REPLACE_WITH_RESEND_CREDENTIAL_ID",
+          "name": "Resend API Key"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={ \"success\": true }"
+      },
+      "id": "ls-respond-node",
+      "name": "Respond OK",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1,
+      "position": [900, 240]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [[{ "node": "Normalize & Prepare", "type": "main", "index": 0 }]]
+    },
+    "Normalize & Prepare": {
+      "main": [[
+        { "node": "Create EspoCRM Lead", "type": "main", "index": 0 },
+        { "node": "Notify David — Lead Started", "type": "main", "index": 0 }
+      ]]
+    },
+    "Create EspoCRM Lead": {
+      "main": [[{ "node": "Respond OK", "type": "main", "index": 0 }]]
+    },
+    "Notify David — Lead Started": {
+      "main": [[]]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "pinData": {},
+  "meta": {
+    "description": "Fires when user clicks Start Assessment on the checklist email step. Creates EspoCRM lead with status Checklist Started and emails David a priority-flagged notification. Source=customer triggers urgent red banner."
+  }
+}

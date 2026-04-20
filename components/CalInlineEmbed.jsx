@@ -30,13 +30,13 @@ export default function CalInlineEmbed() {
       };
     })(window, 'https://cal.com/embed/embed.js', 'init');
 
-    Cal('init', '15min', { origin: 'https://cal.com' });
-    Cal.ns['15min']('inline', {
+    Cal('init', '30min', { origin: 'https://cal.com' });
+    Cal.ns['30min']('inline', {
       elementOrSelector: '#cal-inline-embed',
       config: { layout: 'month_view' },
-      calLink: 'aiandwebservices/15min',
+      calLink: 'aiandwebservices/30min',
     });
-    Cal.ns['15min']('ui', {
+    Cal.ns['30min']('ui', {
       theme: 'light',
       cssVarsPerTheme: {
         light: { 'cal-brand': '#2aa5a0' },

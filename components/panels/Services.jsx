@@ -7,26 +7,42 @@ import { Bot, Sprout, TrendingUp, Zap, Brain, Settings, Wallet, ShoppingCart, Ey
 const PLANS = [
   {
     icon:Sprout, color:'#34d399', name:'Presence', price:'99', setup:'49', tag:'Foundation', tagC:'#34d399', href:'/services/presence',
+    squareSetupUrl:'https://square.link/u/vIhHdVt7',
     desc:'Get found, look professional, and capture leads after hours.',
     bullets:[
       'Professional 5-page website',
       'Local SEO + Google Business Profile setup',
       'Monthly SEO + site health report (traffic, rankings, speed, uptime)',
-      '1 SEO article per month',
+      '1 blog post per month',
+    ],
+  },
+  {
+    icon:Bot, color:'#3b82f6', name:'AI Automation Starter', price:'99', setup:'99', tag:'AI Chatbot', tagC:'#3b82f6', href:'/services/ai-automation-starter',
+    squareSetupUrl:'https://square.link/u/jmjUQOOc',
+    desc:'A custom AI trained on your business — captures leads, answers FAQs, books calls 24/7.',
+    bullets:[
+      'Custom AI chatbot trained on your business',
+      'Books calls to your calendar',
+      'Lead qualification via AI',
+      'CRM integration',
+      'Monthly updates included',
     ],
   },
   {
     icon:TrendingUp, color:'#60a5fa', name:'Growth', price:'179', setup:'79', tag:'Most Popular', tagC:'#60a5fa', href:'/services/growth',
+    squareSetupUrl:'https://square.link/u/6XdMcNz1',
     desc:'Everything in Presence, plus automation that keeps your pipeline full.',
     bullets:[
       'Everything in Presence',
       'CRM-integrated AI — qualifies & books leads',
       '5–7 email welcome sequence',
       '2 SEO articles/mo (24+ pages/yr)',
+      'Conversion-optimised landing pages',
     ],
   },
   {
-    icon:Zap, color:'#a78bfa', name:'Revenue Engine', price:'249', setup:'149', tag:'Best ROI', tagC:'#a78bfa', href:'/services/revenue-engine',
+    icon:Zap, color:'#a78bfa', name:'Revenue Engine', price:'249', setup:'149', tag:'Best Value', tagC:'#a78bfa', href:'/services/revenue-engine',
+    squareSetupUrl:'https://square.link/u/nS2lnfhf',
     desc:'A complete sales machine — funnel, ads, CRM, and automation all connected.',
     bullets:[
       'Everything in Growth',
@@ -34,44 +50,26 @@ const PLANS = [
       'Workflow automation (no more manual tasks)',
       'Google or Meta ads setup & management',
       'CRM integration across every touchpoint',
-      'Advanced AI assistant — trained on your knowledge base',
+      'Monthly 60-min strategy call with David',
     ],
     popular:true,
   },
   {
     icon:Brain, color:'#f59e0b', name:'AI-First', price:'499', setup:'299', tag:'Full Power', tagC:'#f59e0b', href:'/services/ai-first',
+    squareSetupUrl:'https://square.link/u/SX61e3sM',
     desc:'Advanced AI across your entire operation — voice, content, social, and data.',
     bullets:[
       'Everything in Revenue Engine',
       'Voice AI — answers calls, books appointments',
-      'Advanced AI assistant — trained on your knowledge base',
+      'Programmatic SEO (100s of pages auto-generated)',
       'AI social media — 365 posts/yr scheduled',
+      'Custom business dashboard (leads, revenue, ads)',
     ],
-  },
-  {
-    icon:Settings, color:'#2AA5A0', name:'A La Carte', tag:'Flexible', tagC:'#9ca3af', href:'/services/consulting',
-    desc:'Pick exactly what you need — combined however works for your business.',
-    bulletsLeft:[
-      'AI readiness audit',
-      'One-time AI chatbot build',
-      'Tech stack consultation',
-      'Custom integration build',
-      'Hourly advisory calls',
-    ],
-    bulletsRight:[
-      'Landing page build',
-      'Email sequence setup',
-      'CRM setup & configuration',
-      'Sales funnel design',
-      'Voice AI setup',
-    ],
-    consulting:true,
-    alaCarte:true,
   },
 ];
 
 function PlanCard({ plan, delay, isMobile }) {
-  const { icon:Icon, color, name, price, setup, tag, tagC, href, desc, bullets, bulletsLeft, bulletsRight, popular, once, consulting, alaCarte } = plan;
+  const { icon:Icon, color, name, price, setup, tag, tagC, href, squareSetupUrl, desc, bullets, popular, once, consulting } = plan;
   const reduced = useReducedMotion();
   const skip = isMobile || reduced;
   return (
@@ -95,16 +93,7 @@ function PlanCard({ plan, delay, isMobile }) {
         <div className="svc-plan-desc">{desc}</div>
 
         {/* Bullets */}
-        {alaCarte && bulletsLeft ? (
-          <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:'0 8px', marginBottom:6 }}>
-            <ul className="svc-plan-bullets" style={{ margin:0 }}>
-              {bulletsLeft.map(b => <li key={b}>{b}</li>)}
-            </ul>
-            <ul className="svc-plan-bullets" style={{ margin:0 }}>
-              {bulletsRight.map(b => <li key={b}>{b}</li>)}
-            </ul>
-          </div>
-        ) : bullets && (
+        {bullets && (
           <ul className="svc-plan-bullets">
             {bullets.map(b => <li key={b}>{b}</li>)}
           </ul>
@@ -115,9 +104,9 @@ function PlanCard({ plan, delay, isMobile }) {
           {consulting ? (
             <>
               <div className="svc-plan-price-row">
-                <span className="svc-plan-price" style={{ fontSize:16, color:'#374151' }}>Custom Quote</span>
+                <span className="svc-plan-price" style={{ fontSize:16, color:'#374151' }}>Pick what you need</span>
               </div>
-              <div className="svc-plan-setup">Project-based pricing, no retainer required</div>
+              <div className="svc-plan-setup">Fair pricing based on scope</div>
             </>
           ) : (
             <>
@@ -136,23 +125,29 @@ function PlanCard({ plan, delay, isMobile }) {
             </>
           )}
 
-          <Link
-            href={href}
-            className="svc-plan-btn"
-            style={popular
-              ? { background:'linear-gradient(135deg,#a78bfa,#8b5cf6)', color:'#fff', border:'none', '--tier-color':'#a78bfa' }
-              : { borderColor: color, color, '--tier-color': color }}
-          >
-            Learn More
-          </Link>
-          {alaCarte && (
-            <Link
-              href="/contact?interest=a-la-carte"
-              className="svc-plan-btn"
-              style={{ marginTop:6, background:'#2AA5A0', color:'#fff', border:'none', '--tier-color':'#2AA5A0' }}
-            >
-              Get a Quote
+          {consulting ? (
+            <Link href={href} className="svc-plan-btn" style={{ borderColor: color, color, '--tier-color': color }}>
+              Start a Custom Project →
             </Link>
+          ) : (
+            <div style={{ display:'flex', gap:'6px', marginTop:'auto' }}>
+              <Link
+                href={href}
+                className="svc-plan-btn svc-plan-btn-outline"
+                style={{ flex:'1', borderColor: color, color, '--tier-color': color }}
+              >
+                Learn More
+              </Link>
+              <a
+                href={squareSetupUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="svc-plan-btn svc-plan-btn-filled"
+                style={{ flex:'1', background: popular ? 'linear-gradient(135deg,#a78bfa,#8b5cf6)' : color, borderColor: popular ? '#8b5cf6' : color }}
+              >
+                Buy
+              </a>
+            </div>
           )}
         </div>
       </div>
@@ -189,54 +184,71 @@ export default function Services() {
           <p className="svc-sub">Transparent pricing. No lock-in contracts. Cancel or pause anytime.</p>
         </motion.div>
 
-        {/* AI Automation Starter — standalone hero card */}
-        <motion.div {...f(0.08)} className="svc-starter-card" id="pricing-ai-starter">
-          <div className="svc-starter-glow" />
+        {/* Consulting — standalone hero card */}
+        <motion.div {...f(0.08)} className="svc-starter-card svc-consulting-card" id="pricing-consulting">
+          <div className="svc-starter-glow" style={{ background:'rgba(42,165,160,.08)' }} />
           <div className="svc-starter-grid">
 
             {/* Col 1 — identity */}
             <div className="svc-starter-left">
-              <div className="svc-starter-eyebrow">
-                <Bot size={11} color="#f59e0b" strokeWidth={2} />
-                Best for solo operators
+              <div className="svc-starter-eyebrow" style={{ color:'#2AA5A0' }}>
+                <Settings size={11} color="#2AA5A0" strokeWidth={2} />
+                À La Carte · Consulting
               </div>
-              <div className="svc-starter-name">AI Automation Starter</div>
-              <div className="svc-starter-desc">A custom AI trained on your business — captures leads, answers FAQs, and books calls 24/7.</div>
+              <div className="svc-starter-name">Consulting</div>
+              <div className="svc-starter-desc">Not every problem fits a tier. Pick exactly what you need — combined however works for your business.</div>
             </div>
 
-            {/* Col 2 — setup bullets */}
+            {/* Col 2 — what's available */}
             <div className="svc-starter-col svc-starter-bullets-col">
-              <div className="svc-starter-col-label">Setup includes</div>
-              {['Discovery call (60 min)', 'Custom AI training on your business', 'Calendar integration (Google, Calendly, Acuity)', 'CRM integration (HubSpot, Pipedrive, Zoho, any CRM)'].map(b => (
+              <div className="svc-starter-col-label">Available services</div>
+              {['AI readiness audit', 'One-time chatbot build', 'Tech stack consultation', 'Custom integration'].map(b => (
                 <div key={b} className="svc-starter-bullet">
-                  <span className="svc-starter-check">✓</span>{b}
+                  <span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>{b}
                 </div>
               ))}
             </div>
 
-            {/* Col 3 — monthly bullets */}
+            {/* Col 3 — more options */}
             <div className="svc-starter-col svc-starter-bullets-col">
-              <div className="svc-starter-col-label">Monthly includes</div>
-              {['Monthly performance report (conversations, leads, bookings)'].map(b => (
+              <div className="svc-starter-col-label">Also available</div>
+              {['Hourly strategy calls', 'Automation workflow design', 'CRM setup & migration'].map(b => (
                 <div key={b} className="svc-starter-bullet">
-                  <span className="svc-starter-check">✓</span>{b}
+                  <span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>{b}
                 </div>
               ))}
             </div>
 
-            {/* Mobile-only: 3-bullet summary (hidden on desktop) */}
+            {/* Mobile-only: 3-bullet summary */}
             <ul className="svc-starter-bullets-mobile">
-              <li><span className="svc-starter-check">✓</span>AI Automation System (qualifies leads 24/7)</li>
-              <li><span className="svc-starter-check">✓</span>Calendar + CRM Integration</li>
-              <li><span className="svc-starter-check">✓</span>30-day launch monitoring &amp; training</li>
+              <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>AI readiness audit &amp; strategy</li>
+              <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>One-time builds — chatbot, integrations, CRM</li>
+              <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>Hourly strategy calls with David</li>
             </ul>
 
             {/* Col 4 — price + CTA */}
             <div className="svc-starter-price-col">
-              <div className="svc-starter-price"><sup>$</sup>99</div>
+              <div className="svc-starter-price" style={{ color:'#2AA5A0' }}><sup style={{ color:'#9ca3af' }}>$</sup>99</div>
               <div className="svc-starter-per">one-time setup</div>
-              <div className="svc-starter-per">then $99/mo</div>
-              <Link href="/services/ai-automation-starter" className="svc-starter-btn">Get More Info →</Link>
+              <div className="svc-starter-per">then $199/mo</div>
+              <div style={{ display:'flex', flexDirection:'row', gap:'8px', width:'100%', marginTop:'4px' }}>
+                <Link
+                  href="/services/consulting"
+                  className="svc-starter-btn"
+                  style={{ flex:1, justifyContent:'center', background:'transparent', color:'#2AA5A0', border:'2px solid #2AA5A0', boxShadow:'none' }}
+                >
+                  Learn More
+                </Link>
+                <a
+                  href="https://square.link/u/axARuYVi"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="svc-starter-btn"
+                  style={{ flex:1, justifyContent:'center', background:'linear-gradient(135deg,#2AA5A0,#1d8a85)', boxShadow:'0 4px 14px rgba(42,165,160,.35)' }}
+                >
+                  Buy
+                </a>
+              </div>
             </div>
 
           </div>
@@ -252,25 +264,28 @@ export default function Services() {
           <span>ADD-ONS</span>
         </motion.div>
 
-        {/* Add-ons cards */}
+        {/* Add-ons cards — ordered by price ascending */}
         <motion.div {...f(0.5)} className="svc-addons-grid">
           {[
-            {
-              icon: Wallet, color: '#a78bfa', label: 'Crypto Payments', price: '$299 setup',
-              desc: 'Accept Bitcoin, ETH, and stablecoins without the technical headache.',
-              bullets: ['Multi-chain wallet support', 'Stablecoin checkout flows', 'Payment analytics'],
-            },
-            {
-              icon: ShoppingCart, color: '#34d399', label: 'E-commerce Store', price: '$499 setup',
-              desc: 'Shopify or WooCommerce — fast, converting, built to scale.',
-              bullets: ['Shopify or WooCommerce', 'Speed & conversion optimised', 'Order management'],
-            },
             {
               icon: Eye, color: '#60a5fa', label: 'WCAG Accessibility', price: '$199 setup',
               desc: 'Full WCAG 2.1 AA compliance. Protect your business, reach more customers.',
               bullets: ['WCAG 2.1 AA compliance', 'Screen reader & keyboard audit', 'Compliance report'],
+              buyLink: 'https://square.link/u/Bg0py2XN',
             },
-          ].map(({ icon: Icon, color, label, price, desc, bullets }, i) => (
+            {
+              icon: Wallet, color: '#a78bfa', label: 'Crypto Payments', price: '$299 setup',
+              desc: 'Accept Bitcoin, ETH, and stablecoins without the technical headache.',
+              bullets: ['Multi-chain wallet support', 'Stablecoin checkout flows', 'Payment analytics'],
+              buyLink: 'https://square.link/u/18Hczkij',
+            },
+            {
+              icon: ShoppingCart, color: '#34d399', label: 'E-commerce Store', price: '$399 setup',
+              desc: 'Shopify or WooCommerce — fast, converting, built to scale.',
+              bullets: ['Shopify or WooCommerce', 'Speed & conversion optimised', 'Order management'],
+              buyLink: 'https://square.link/u/ZcpmwTMR',
+            },
+          ].map(({ icon: Icon, color, label, price, desc, bullets, buyLink }, i) => (
             <motion.div
               key={label}
               className="svc-addon-card"
@@ -293,9 +308,20 @@ export default function Services() {
               <ul className="svc-addon-card-bullets">
                 {bullets.map(b => <li key={b}>{b}</li>)}
               </ul>
-              <Link href="/services/add-ons" className="svc-addon-card-btn" style={{ borderColor: `${color}99`, color }}>
-                Learn More
-              </Link>
+              <div style={{ display:'flex', gap:'6px', marginTop:'auto' }}>
+                <Link href="/services/add-ons" className="svc-addon-card-btn" style={{ borderColor: `${color}99`, color, flex:1 }}>
+                  Learn More
+                </Link>
+                <a
+                  href={buyLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="svc-addon-card-btn"
+                  style={{ background: color, color:'#fff', borderColor: color, flex:1 }}
+                >
+                  Buy
+                </a>
+              </div>
             </motion.div>
           ))}
         </motion.div>
@@ -321,31 +347,32 @@ export default function Services() {
         .svc-starter-card {
           position:relative;overflow:hidden;
           background:#fff;
-          border:1px solid rgba(245,158,11,.25);
-          border-left:4px solid #f59e0b;
+          border:1px solid rgba(59,130,246,.25);
+          border-left:4px solid #3b82f6;
           border-radius:16px;padding:18px 24px;min-height:0;
           margin-bottom:20px;
-          box-shadow:0 4px 24px rgba(245,158,11,.12);
+          box-shadow:0 4px 24px rgba(59,130,246,.12);
         }
-        .svc-starter-glow { position:absolute;top:-60px;right:-40px;width:220px;height:220px;border-radius:50%;background:rgba(245,158,11,.08);filter:blur(60px);pointer-events:none; }
+        .svc-starter-glow { position:absolute;top:-60px;right:-40px;width:220px;height:220px;border-radius:50%;background:rgba(59,130,246,.08);filter:blur(60px);pointer-events:none; }
+        .svc-consulting-card { border-color:rgba(42,165,160,.25) !important;border-left-color:#2AA5A0 !important;box-shadow:0 4px 24px rgba(42,165,160,.12) !important; }
 
         .svc-starter-left { display:flex;flex-direction:column; }
-        .svc-starter-eyebrow { display:flex;align-items:center;gap:5px;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#f59e0b;margin-bottom:8px; }
-        .svc-starter-name { font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:900;color:#2AA5A0;line-height:1.15;letter-spacing:-0.5px;margin-bottom:8px; }
+        .svc-starter-eyebrow { display:flex;align-items:center;gap:5px;font-size:9px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:#3b82f6;margin-bottom:8px; }
+        .svc-starter-name { font-family:'Plus Jakarta Sans',sans-serif;font-size:18px;font-weight:900;color:#111827;line-height:1.15;letter-spacing:-0.5px;margin-bottom:8px; }
         .svc-starter-desc { font-size:11px;color:#6b7280;line-height:1.6; }
 
         .svc-starter-col { display:flex;flex-direction:column;justify-content:flex-start;align-self:flex-start;margin-top:-12px; }
         .svc-starter-col-label { font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#9ca3af;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #f3f4f6; }
         .svc-starter-bullet { display:flex;align-items:flex-start;gap:6px;font-size:11px;color:#374151;line-height:1.4;margin-bottom:5px; }
-        .svc-starter-check { color:#f59e0b;font-size:10px;font-weight:800;flex-shrink:0;margin-top:1px; }
+        .svc-starter-check { color:#3b82f6;font-size:10px;font-weight:800;flex-shrink:0;margin-top:1px; }
 
-        .svc-starter-grid { position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:24px;align-items:stretch; }
-        .svc-starter-price-col { display:flex;flex-direction:column;align-items:flex-end;text-align:right;flex-shrink:0;justify-content:flex-start; }
+        .svc-starter-grid { position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:24px;align-items:start; }
+        .svc-starter-price-col { display:flex;flex-direction:column;align-items:flex-end;text-align:right;flex-shrink:0; }
         .svc-starter-price { font-family:'Plus Jakarta Sans',sans-serif;font-size:36px;font-weight:900;color:#111827;line-height:1;margin-bottom:2px; }
         .svc-starter-price sup { font-size:14px;vertical-align:top;margin-top:6px;display:inline-block;color:#6b7280; }
         .svc-starter-per { font-size:10px;color:#9ca3af;line-height:1.7;font-weight:600; }
-        .svc-starter-btn { display:inline-flex;align-items:center;background:linear-gradient(135deg,#f59e0b,#d97706);color:#fff;border:none;border-radius:50px;padding:9px 18px;font-size:11px;font-weight:700;text-decoration:none;transition:all .2s;box-shadow:0 4px 14px rgba(245,158,11,.35);margin-top:auto;white-space:nowrap; }
-        .svc-starter-btn:hover { transform:translateY(-2px);box-shadow:0 8px 22px rgba(245,158,11,.5); }
+        .svc-starter-btn { display:inline-flex;align-items:center;background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;border:none;border-radius:50px;padding:9px 18px;font-size:11px;font-weight:700;text-decoration:none;transition:all .2s;box-shadow:0 4px 14px rgba(59,130,246,.35);margin-top:8px;white-space:nowrap; }
+        .svc-starter-btn:hover { transform:translateY(-2px);box-shadow:0 8px 22px rgba(59,130,246,.5); }
 
         /* Plans */
         .svc-plans-grid { display:grid;grid-template-columns:repeat(5,1fr);gap:12px;margin-bottom:26px; }
@@ -388,6 +415,8 @@ export default function Services() {
           transition:all .2s;margin-top:auto;
         }
         .svc-plan-btn:hover { background:var(--tier-color,#2AA5A0);border-color:var(--tier-color,#2AA5A0);color:#fff;transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.15); }
+        .svc-plan-btn-filled { background:var(--tier-color,#2AA5A0);color:#fff !important;border-color:var(--tier-color,#2AA5A0); }
+        .svc-plan-btn-filled:hover { opacity:.88;transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.18); }
 
         /* Add-ons label */
         .svc-addons-label { display:flex;align-items:center;gap:12px;margin-bottom:10px; }
@@ -451,10 +480,8 @@ export default function Services() {
 
         @media (max-width:640px) {
           .svc-starter-grid { grid-template-columns:1fr; }
-          .svc-starter-bullets-mobile { grid-row:2;grid-column:1; }
-          .svc-starter-price-col { grid-column:1;grid-row:3;align-items:flex-start;text-align:left;justify-content:flex-start; }
-          .svc-starter-btn { margin-top:12px; }
-          .svc-starter-bullets-col { grid-column:1;grid-row:4;grid-template-columns:1fr; }
+          .svc-starter-price-col { grid-column:1;grid-row:2;align-items:flex-start;text-align:left; }
+          .svc-starter-bullets-col { grid-column:1;grid-row:3;grid-template-columns:1fr; }
           .pricing-inner { padding:80px 4vw 24px; }
           .svc-plans-grid { grid-template-columns:1fr;gap:6px;margin-bottom:8px; }
           .svc-plan-card { padding:12px 12px; }

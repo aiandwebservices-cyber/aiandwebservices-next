@@ -12,8 +12,15 @@ export function useHorizontalScroll() {
     const TOTAL = 9;
     const hashNames = ['home', 'how-it-works', 'comparison', 'services', 'about', 'samples', 'faq', 'ai-readiness', 'contact'];
     const hashToPanel = Object.fromEntries(hashNames.map((h, i) => [h, i]));
-    const startHash = window.location.hash.replace('#', '');
-    let cur = hashToPanel[startHash] ?? 0;
+    const stored = sessionStorage.getItem('panelTarget');
+    let cur;
+    if (stored !== null) {
+      sessionStorage.removeItem('panelTarget');
+      cur = Math.max(0, Math.min(TOTAL - 1, parseInt(stored, 10)));
+    } else {
+      const startHash = window.location.hash.replace('#', '');
+      cur = hashToPanel[startHash] ?? 0;
+    }
     let locked = false;
     let formFocused = false;
     const isMobile = () => window.innerWidth <= 768;
