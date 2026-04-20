@@ -48,10 +48,10 @@ export default function CalContactEmbed() {
   }, []);
 
   return (
-    <div style={{ width:'100%', overflow:'hidden', borderRadius:'12px', marginTop:15 }}>
+    <div style={{ width:'100%', height:'100%', overflow:'hidden', borderRadius:'12px', marginTop:10 }}>
       <div
         id="cal-contact-embed"
-        style={{ width:'100%', height:'clamp(465px, 44.5vh, 585px)', marginTop:-38, borderRadius:'12px', overflow:'hidden' }}
+        style={{ width:'100%', height:'100%', marginTop:-38, borderRadius:'12px', overflowY:'auto' }}
       />
     </div>
   );

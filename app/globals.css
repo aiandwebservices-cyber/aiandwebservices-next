@@ -40,8 +40,9 @@
   --font-body:clamp(13px,1.8vw,16px);
   --font-sm:clamp(11px,1.5vw,14px);
 }
-html,body{width:100%;height:100%;font-family:'Inter',sans-serif;background:var(--white);color:var(--text)}
-@media(min-width:769px){html,body{overflow:hidden}}
+html,body{width:100%;font-family:'Inter',sans-serif;background:var(--white);color:var(--text)}
+body.panels-mode{height:100%}
+@media(min-width:769px){body.panels-mode{overflow:hidden}}
 /* Smooth scrolling (active on mobile where page is a normal scroll document) */
 @media(max-width:768px){html{scroll-behavior:auto}}
 /* Anchor offset — clear fixed navbar (64px) + buffer */

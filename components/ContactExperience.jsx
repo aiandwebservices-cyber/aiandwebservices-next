@@ -1,4 +1,5 @@
 'use client';
+import { Suspense } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Mail, Phone, Zap, MessageCircle } from 'lucide-react';
 import CalContactEmbed from '@/components/CalContactEmbed';
@@ -43,7 +44,7 @@ export default function ContactExperience({ standalone = false }) {
         </motion.div>
 
         <motion.div {...fade(0.04)} className="contact-grid" style={{ display: 'grid', gridTemplateColumns: 'minmax(0, 1.3fr) minmax(0, 380px)', gap: 'clamp(24px, 4vw, 40px)', alignItems: 'stretch', maxWidth: '1300px', margin: '0 auto', marginBottom: '-15px' }}>
-          <div><ContactForm /></div>
+          <div><Suspense fallback={null}><ContactForm /></Suspense></div>
           <div style={{ display: 'flex', flexDirection: 'column' }}>
             <div style={{ padding: '28px', background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.08)', borderRadius: '20px', backdropFilter: 'blur(12px)', display: 'flex', flexDirection: 'column', flex: 1 }}>
               <div style={{ marginBottom: 16, textAlign: 'center' }}>

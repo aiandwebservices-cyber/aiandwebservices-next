@@ -15,6 +15,7 @@ import Modals      from '@/components/Modals';
 import CookieBanner from '@/components/CookieBanner';
 import ScrollInit  from '@/components/ScrollInit';
 import PanelDots     from '@/components/PanelDots';
+import PanelsMode    from '@/components/PanelsMode';
 
 export default function Home() {
   return (
@@ -49,6 +50,7 @@ export default function Home() {
       <Modals />
       <CookieBanner />
       <ScrollInit />
+      <PanelsMode />
     </>
   );
 }

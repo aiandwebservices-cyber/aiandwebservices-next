@@ -1,3 +1,6 @@
+export const dynamic = 'force-dynamic';
+
+import { Suspense } from 'react';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import ChecklistForm from '@/components/ChecklistForm';
@@ -26,7 +29,7 @@ export default function ChecklistPage() {
       <AllowScroll />
       <Nav />
       <main style={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
-        <ChecklistForm hideHero={false} defaultSource="site" />
+        <Suspense fallback={null}><ChecklistForm hideHero={false} defaultSource="site" /></Suspense>
       </main>
       <Footer />
     </>
