@@ -96,7 +96,7 @@ function AIDashboard() {
       {/* Feed */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
         <div style={{ fontSize: 9, color: 'rgba(255,255,255,.55)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: 1.5, marginBottom: 2 }}>Recent Activity</div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, height: 186, overflow: 'hidden' }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, height: 'clamp(100px, 14vh, 186px)', overflow: 'hidden' }}>
           <AnimatePresence mode="popLayout">
             {FEED.slice(0, visible).map(({ icon: Icon, label, detail, ago, c }, i) => (
               <motion.div
@@ -260,14 +260,14 @@ export default function Hero() {
           align-items:center;justify-content:flex-start;
           text-align:center;
           max-width:920px;margin:0 auto;width:100%;
-          padding:120px 6vw 0;
+          padding:min(104px,9.5vh) 6vw 0;
         }
         .h-dashboard-wrap {
-          width:100%;max-width:660px;margin-top:20px;
+          width:100%;max-width:660px;margin-top:min(18px,1.8vh);
           position:relative;
         }
         .h-dashboard-wrap::before {
-          content:'';display:block;height:28px;
+          content:'';display:block;height:clamp(10px,1.5vh,20px);
           background:linear-gradient(to bottom,transparent,rgba(42,165,160,.08));
           margin-bottom:-2px;border-radius:4px;
         }
@@ -279,7 +279,7 @@ export default function Hero() {
           background:rgba(42,165,160,.08);
           border:1px solid rgba(42,165,160,.18);
           font-size:12px;font-weight:700;color:#2AA5A0;
-          letter-spacing:.4px;margin-bottom:32px;
+          letter-spacing:.4px;margin-bottom:min(32px,2.8vh);
           font-family:'Inter',sans-serif;
           width:fit-content;
         }
@@ -289,7 +289,7 @@ export default function Hero() {
           font-family:'Plus Jakarta Sans',sans-serif;
           font-size:clamp(44px,5.5vw,76px);font-weight:900;
           line-height:1.04;letter-spacing:-1.5px;color:#fff;
-          margin-bottom:40px;
+          margin-bottom:min(34px,3vh);
         }
         .h-line { display:block; }
         .h-line-accent { color:#2AA5A0; }
@@ -297,12 +297,12 @@ export default function Hero() {
         /* ── Subheadline ── */
         .h-sub {
           font-size:clamp(15px,1.6vw,17px);color:rgba(255,255,255,.65);
-          line-height:1.75;max-width:480px;margin-bottom:36px;
+          line-height:1.75;max-width:480px;margin-bottom:min(28px,2.5vh);
           font-family:'Inter',sans-serif;
         }
 
         /* ── CTAs ── */
-        .h-ctas { display:flex;gap:14px;margin-bottom:52px;flex-wrap:wrap;justify-content:center; }
+        .h-ctas { display:flex;gap:14px;margin-bottom:min(42px,3.7vh);flex-wrap:wrap;justify-content:center; }
         .h-btn-primary {
           padding:16px 36px;border-radius:50px;border:none;
           background:linear-gradient(135deg,#2AA5A0,#1B8F8A);color:#fff;
@@ -384,13 +384,18 @@ export default function Hero() {
 
         /* ── Scroll indicator ── */
         .h-scroll {
-          position:absolute;bottom:20px;left:50%;transform:translateX(-50%);
+          position:absolute;bottom:0;left:50%;transform:translateX(-50%);
           display:flex;flex-direction:column;align-items:center;gap:4px;
           background:none;border:none;cursor:pointer;padding:8px;
         }
         .h-scroll-label {
           font-size:9px;color:rgba(255,255,255,.25);font-weight:700;
           text-transform:uppercase;letter-spacing:2px;
+        }
+
+        /* ── Dashboard nudge on smaller/windowed viewports ── */
+        @media (max-height:1200px) {
+          .h-dashboard-wrap { margin-top:60px !important; }
         }
 
         /* ── Responsive ── */

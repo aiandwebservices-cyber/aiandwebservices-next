@@ -134,17 +134,24 @@ export default function Nav() {
   return (
     <>
       <nav id="nav" className="dark" role="navigation" aria-label="Main navigation">
-        {(isHomepage && currentPanel === 0) ? (
-          <div className="logo" role="img" aria-label="AIandWEBservices logo">
-            <LogoInner />
-          </div>
-        ) : (
-          <Link href="/" className="logo logo-link" onClick={closeMenu} aria-label="AIandWEBservices — go to home">
-            <LogoInner />
-          </Link>
-        )}
+        <Link
+          href="/"
+          className="logo logo-link"
+          onClick={() => { closeMenu(); if (isHomepage) window.go && window.go(0); }}
+          aria-label="AIandWEBservices — go to home"
+        >
+          <LogoInner />
+        </Link>
 
         <div className="nav-center" role="menubar" aria-label="Site sections">
+          <button
+            className={`nav-pill${currentPanel === 0 ? ' active' : ''}`}
+            onClick={() => go(0)}
+            role="menuitem"
+            aria-current={currentPanel === 0 ? 'true' : undefined}
+          >
+            Home
+          </button>
           {NAV_PANELS.map(({ idx, label }) => {
             if (label === 'Services') {
               const handleServicesClick = () => {

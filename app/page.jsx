@@ -9,9 +9,8 @@ import Services    from '@/components/panels/Services';
 import About       from '@/components/panels/About';
 import Work        from '@/components/panels/Work';
 import FAQ         from '@/components/panels/FAQ';
-import FinalCTA         from '@/components/panels/FinalCTA';
+import Contact          from '@/components/panels/Contact';
 import ChecklistTeaser from '@/components/panels/ChecklistTeaser';
-// import Contact     from '@/components/panels/Contact'; // Using new /contact page instead
 import Modals      from '@/components/Modals';
 import CookieBanner from '@/components/CookieBanner';
 import ScrollInit  from '@/components/ScrollInit';
@@ -40,7 +39,7 @@ export default function Home() {
           {/* samples */ }<Work />
           {/* p7 */ }<FAQ />
           {/* checklist-teaser */ }<ChecklistTeaser />
-          {/* p8 */ }<FinalCTA />
+          {/* p8 */ }<Contact />
         </div>
       </main>
 

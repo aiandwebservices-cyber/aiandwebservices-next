@@ -165,20 +165,29 @@ export function useHorizontalScroll() {
 
       const panelEl = document.getElementById(panelIds[cur]);
       if (panelEl) {
-        // The panel root may have overflow:hidden; find the actual scrollable child
-        let scrollEl = panelEl;
+        // Find the actual scrollable child — only honour overflow guard if it can scroll
+        let scrollEl = null;
         const computed = window.getComputedStyle(panelEl);
-        if (computed.overflowY === 'hidden' || computed.overflowY === 'clip') {
+        if (computed.overflowY === 'auto' || computed.overflowY === 'scroll') {
+          scrollEl = panelEl;
+        } else {
           const inner = panelEl.querySelector('[class$="-inner"]');
-          if (inner) scrollEl = inner;
+          if (inner) {
+            const innerStyle = window.getComputedStyle(inner);
+            if (innerStyle.overflowY === 'auto' || innerStyle.overflowY === 'scroll') {
+              scrollEl = inner;
+            }
+          }
         }
-        const { scrollTop, scrollHeight, clientHeight } = scrollEl;
-        const overflows = scrollHeight > clientHeight + 5;
-        if (overflows) {
-          const atBottom = scrollTop + clientHeight >= scrollHeight - 5;
-          const atTop    = scrollTop <= 5;
-          if (e.deltaY > 0 && !atBottom) return;
-          if (e.deltaY < 0 && !atTop)    return;
+        if (scrollEl) {
+          const { scrollTop, scrollHeight, clientHeight } = scrollEl;
+          const overflows = scrollHeight > clientHeight + 5;
+          if (overflows) {
+            const atBottom = scrollTop + clientHeight >= scrollHeight - 5;
+            const atTop    = scrollTop <= 5;
+            if (e.deltaY > 0 && !atBottom) return;
+            if (e.deltaY < 0 && !atTop)    return;
+          }
         }
       }
 

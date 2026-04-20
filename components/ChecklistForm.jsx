@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { Download, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 
@@ -68,6 +69,7 @@ function scoreTier(score) {
 export default function ChecklistForm({ hideHero = false, defaultSource = 'site' }) {
   const [step, setStep] = useState('email'); // 'email' | 'questions' | 'submitted'
   const [formData, setFormData] = useState({ firstName: '', email: '', phone: '', companyName: '' });
+  const searchParams = useSearchParams();
   // answers[id] = 'yes' | 'no' | undefined
   const [answers, setAnswers] = useState({});
   const [submitting, setSubmitting] = useState(false);
@@ -133,6 +135,9 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
           companyName: formData.companyName.trim(),
           source: defaultSource,
           answers: answersPayload,
+          utm_source:   searchParams.get('utm_source')   ?? '',
+          utm_campaign: searchParams.get('utm_campaign') ?? '',
+          utm_medium:   searchParams.get('utm_medium')   ?? '',
         }),
       });
 

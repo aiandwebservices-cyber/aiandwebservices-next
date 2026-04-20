@@ -1,5 +1,6 @@
 'use client';
 import { useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import { ArrowRight, CheckCircle2, Lock } from 'lucide-react';
 
 const TEAL = '#2AA5A0';
@@ -32,16 +33,20 @@ const fieldStyle = { marginBottom: 'clamp(12px, 2vw, 16px)' };
 export default function ContactForm() {
   const [status, setStatus] = useState('idle');
   const [messageLength, setMessageLength] = useState(0);
+  const searchParams = useSearchParams();
 
   async function handleSubmit(e) {
     e.preventDefault();
     setStatus('sending');
     const data = Object.fromEntries(new FormData(e.target));
+    const utm_source   = searchParams.get('utm_source')   ?? '';
+    const utm_campaign = searchParams.get('utm_campaign') ?? '';
+    const utm_medium   = searchParams.get('utm_medium')   ?? '';
     try {
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data),
+        body: JSON.stringify({ ...data, utm_source, utm_campaign, utm_medium }),
       });
       setStatus(res.ok ? 'success' : 'error');
     } catch {

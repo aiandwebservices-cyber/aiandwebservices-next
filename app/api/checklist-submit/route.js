@@ -84,7 +84,7 @@ export async function POST(req) {
     return Response.json({ success: false, error: 'Invalid JSON body' }, { status: 400 });
   }
 
-  const { firstName, email, companyName = '', source = 'site', answers = {} } = body;
+  const { firstName, email, companyName = '', source = 'site', answers = {}, utm_source = '', utm_campaign = '', utm_medium = '' } = body;
 
   if (!firstName || !email || typeof answers !== 'object') {
     return Response.json({ success: false, error: 'firstName, email, and answers are required' }, { status: 400 });
@@ -180,6 +180,9 @@ export async function POST(req) {
         qaPlainText,
         answeredCount,
         answeredYes,
+        utm_source,
+        utm_campaign,
+        utm_medium,
       }),
     });
 

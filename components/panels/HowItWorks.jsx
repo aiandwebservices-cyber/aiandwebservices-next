@@ -225,7 +225,7 @@ export default function HowItWorks() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.05 }}
             transition={{ duration: 0.6, ease }}
-            style={{ textAlign: 'center', marginBottom: 44 }}
+            style={{ textAlign: 'center', marginBottom: 'clamp(12px, 2.5vh, 44px)' }}
           >
             <div className="hiw-eyebrow">HOW IT WORKS</div>
             <h2 className="hiw-h2">
@@ -260,7 +260,7 @@ export default function HowItWorks() {
           </div>
 
           {/* ── Steps 3×2 grid (centered) ── */}
-          <div className="hiw-steps" style={{ marginTop: 85, rowGap: 28 }}>
+          <div className="hiw-steps" style={{ marginTop: 'clamp(16px, 4.5vh, 75px)', rowGap: 28 }}>
             {STEPS.map((step, i) => {
               const Icon = step.icon;
               return (

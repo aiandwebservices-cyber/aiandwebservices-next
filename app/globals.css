@@ -71,7 +71,7 @@ a{touch-action:manipulation}
   position:fixed;top:0;left:0;right:0;z-index:500;
   height:68px;
   display:flex;align-items:center;justify-content:space-between;
-  padding:0 56px;
+  padding:0 clamp(8px,3vw,56px);
   transition:background .4s,border-color .4s;
 }
 #nav.light{background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
@@ -79,16 +79,17 @@ a{touch-action:manipulation}
 .logo{display:flex;align-items:center;gap:0;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:17px;letter-spacing:-.3px;line-height:0;position:relative;top:8px;}
 button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;line-height:0;position:relative;top:8px;}
 .logo,.logo-link{display:flex;align-items:center;}
+.logo img,.logo-link img{width:clamp(130px,17vw,260px);height:auto}
 .logo-ai{color:var(--navy)}
 .logo-and{color:var(--blue);font-weight:600;font-size:14px;margin:0 2px}
 .logo-web{color:var(--navy)}
 .logo-svc{color:var(--blue);font-weight:600}
 #nav.dark .logo-ai,#nav.dark .logo-web{color:#FFFFFF}
 #nav.dark .logo-and,#nav.dark .logo-svc{color:var(--blue)}
-.nav-center{display:flex;align-items:center;gap:8px;position:absolute;left:50%;transform:translateX(-50%);z-index:1;white-space:nowrap}
+.nav-center{display:flex;align-items:center;gap:clamp(2px,0.55vw,8px);position:absolute;left:50%;transform:translateX(-50%);z-index:1;white-space:nowrap}
 .nav-pill{
-  font-size:11px;font-weight:600;letter-spacing:.4px;
-  padding:5px 14px;border-radius:20px;
+  font-size:clamp(9px,0.85vw,11px);font-weight:600;letter-spacing:.4px;
+  padding:5px clamp(8px,1.1vw,14px);border-radius:20px;
   color:var(--muted);
   transition:all .2s;cursor:pointer;border:none;background:none;
 }
@@ -138,9 +139,11 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 .nav-svc-item-compare{color:#2AA5A0;font-weight:600}
 .nav-svc-item-compare:hover{color:#fff}
 @media(max-width:1200px){.nav-book{display:none}}
-@media(max-width:1100px){.nav-pill{font-size:10px;padding:5px 10px;gap:4px}}
-@media(max-width:980px){.nav-pill{font-size:9px;padding:5px 8px}}
-@media(max-width:900px){.nav-cta{display:none}}
+/* Hide logo + CTA together at the same threshold — keeps header balanced */
+@media(max-width:1000px){
+  .logo,.logo-link{display:none!important}
+  .nav-cta{display:none!important}
+}
 
 /* ── BOTTOM NAV DOTS ── */
 #dots{display:none!important}
@@ -1347,14 +1350,6 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   .logo-and{font-size:11px}
 
   /* hero */
-  /* Mobile scroll-snap — Phase 2
-     Selective snap on short showcase panels; free-scroll on long content panels.
-     proximity (not mandatory) — doesn't trap users mid-scroll.
-     stop: normal — allows fast flick-through when momentum is strong. */
-  body{scroll-snap-type:y proximity}
-  #comparison,#p3,#samples,#p8{scroll-snap-align:start;scroll-snap-stop:normal}
-  #p2,#services,#p7{scroll-snap-align:none}
-
   #p0{padding-top:60px;height:auto!important;min-height:100svh;display:block}
   .hero-inner{flex-direction:column;padding:0;gap:0}
   .hero-columns{flex-direction:column;gap:0;margin-top:0;}
