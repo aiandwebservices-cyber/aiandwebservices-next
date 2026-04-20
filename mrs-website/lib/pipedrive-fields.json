@@ -1,76 +1,91 @@
 {
-  "apiToken": "948395155b489be2f33bdd0f5a03ecb526181797",
-  "domain": "aiandwebservices",
-  "baseUrlV1": "https://aiandwebservices.pipedrive.com/v1",
-  "baseUrlV2": "https://aiandwebservices.pipedrive.com/api/v2",
+  "apiToken": "REDACTED",
+  "domain": "mitigationrestorationservices",
+  "baseUrlV1": "https://mitigationrestorationservices.pipedrive.com/v1",
+  "baseUrlV2": "https://mitigationrestorationservices.pipedrive.com/api/v2",
   "fields": {
     "deal": {
-      "serviceType": "6c0cb3b8752b82f608b44065567fa95b38289bdc",
-      "emergencyLevel": "0ed0b81d4f5bec21ce54d37bdf54fbd512df49fb",
-      "insuranceClaim": "b9c131f847578edf3cd95c4f66feac9d4bf41c01",
-      "insuranceCarrier": "9f050916658e32863ef4b8f840ce056c228b978a",
-      "claimNumber": "12f00305039206d1f22232bbcbf0eaae12e65653",
-      "leadSource": "fbe80e4aa890e1723f8c66eb9a084d6171f27fc6",
-      "utmSource": "1b4f1ee8be433b3da2aa7c1d86c7f2c64074c446",
-      "utmMedium": "4390dd4b1e9777488ea3c4bb89eb842b26409bcb",
-      "utmCampaign": "2e28dbbaee74df5faf6554c2019a6f8786e24287",
-      "propertyType": "c0cdf441620157a81209915e25eaedb59f05bd6b",
-      "propertyAddress": "065c4e1da821f551e05125dca2c511f8ab2edda3"
+      "serviceType": "bf34e2a9acea2b600795d980461d5ed53e21a1f0",
+      "emergencyLevel": "cd93b4c463679c60046de5c43f315328e692f710",
+      "insuranceClaim": "bf1f7b104af01d1004f40e9d4a2c4730ef9109a5",
+      "insuranceCarrier": "d654375d25b87281540503398cd18f4d5fd19437",
+      "claimNumber": "7e2d0fcfccf1a84b828de2249490714de0bd466c",
+      "propertyType": "f1506757230a65522f7f6ee0e6aefb9c28806f2e",
+      "propertyAddress": "a59c78895bff6726bdcf4d6945a85eb4476d58d6",
+      "leadSource": "d02ae67920951ce27fad88c3097d04f183e7452e",
+      "location": "761974762cc9a363205e1de49c8ec4b67d50f582",
+      "utmSource": "949f42fb1bb28482cfc40868c955222c2acf872a",
+      "utmMedium": "e80d8f0bd3dc6a521d81786785857d90c116c1dc",
+      "utmCampaign": "0a9b6c9a827e234876847849bff191ae629e4334"
     },
     "person": {
-      "preferredContactMethod": "4e2dcfb7f6ab734cb1d45b2809ae098b58138379",
-      "bestTimeToContact": "088d8489273a1177f8736e40bc36e8631d8f2ef3",
-      "leadSourceDetail": "fac7a14fe796918bf1b235348145ebf572bf149e"
+      "preferredContactMethod": "79e6dc6fd9b169281b8fb1b6641eae3dcc0cc16e",
+      "bestTimeToContact": "7469996a21100ac00a1dd4264e813a268a6a1861",
+      "leadSourceDetail": "89497beae938da1d35e1bdc587a3661207fc685e"
     }
   },
   "options": {
     "serviceType": {
-      "waterDamage": 27,
-      "fireDamage": 28,
-      "moldRemediation": 29,
-      "smokeDamage": 30,
-      "stormDamage": 31,
-      "biohazard": 32,
-      "other": 33
+      "waterDamage": 58,
+      "fireDamage": 59,
+      "moldRemediation": 60,
+      "stormDamage": 61,
+      "biohazardCleanup": 62,
+      "other": 63
     },
     "emergencyLevel": {
-      "emergency24hr": 34,
-      "urgent48hr": 35,
-      "routine": 36
-    },
-    "propertyType": {
-      "residential": 54,
-      "commercial": 55,
-      "multifamily": 56,
-      "industrial": 57
+      "emergencyImmediateResponse": 64,
+      "urgentWithin24hrs": 65,
+      "standardWithin48hrs": 66
     },
     "insuranceClaim": {
-      "yes": 37,
-      "no": 38,
-      "unsure": 39
+      "yes": 67,
+      "no": 68,
+      "unknown": 69
+    },
+    "propertyType": {
+      "residential": 70,
+      "commercial": 71,
+      "multifamily": 72,
+      "industrial": 73
     },
     "leadSource": {
-      "websiteForm": 40,
-      "websiteChat": 41,
-      "phoneCall": 42,
-      "referral": 43,
-      "googleAds": 44,
-      "facebook": 45,
-      "other": 46
+      "websiteForm": 74,
+      "phoneCall": 75,
+      "referral": 76,
+      "google": 77,
+      "facebook": 78,
+      "other": 79
+    },
+    "location": {
+      "florida": 80,
+      "newYork": 81
     },
     "preferredContactMethod": {
-      "phone": 47,
-      "textsms": 48,
-      "email": 49
+      "phone": 82,
+      "text": 83,
+      "email": 84
     },
     "bestTimeToContact": {
-      "morning": 50,
-      "afternoon": 51,
-      "evening": 52,
-      "anytime": 53
+      "morning8am12pm": 85,
+      "afternoon12pm5pm": 86,
+      "evening5pm8pm": 87,
+      "anytime": 88
     }
   },
   "stages": {
-    "newLead": 27
+    "newLead": 6,
+    "contactedQualified": 5,
+    "onSiteScheduled": 7,
+    "assessmentComplete": 8,
+    "proposalSent": 11,
+    "insuranceFiled": 10,
+    "contractSigned": 9,
+    "jobInProgress": 12,
+    "jobComplete": 13,
+    "lost": 14
+  },
+  "pipeline": {
+    "id": 1
   }
 }

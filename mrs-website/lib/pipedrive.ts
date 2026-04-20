@@ -19,6 +19,7 @@ export interface LeadInput {
   utmMedium?: string;
   utmCampaign?: string;
   sourceUrl?: string;
+  location?: 'florida' | 'newYork';
 }
 
 const BASE = () => `https://${process.env.PIPEDRIVE_COMPANY_DOMAIN}.pipedrive.com/v1`;
@@ -35,7 +36,7 @@ function serviceTypeId(damageType: string): number | undefined {
     'Fire & Smoke':        o.serviceType.fireDamage,
     'Mold':                o.serviceType.moldRemediation,
     'Storm & Wind':        o.serviceType.stormDamage,
-    'Sewage & Biohazard':  o.serviceType.biohazard,
+    'Sewage & Biohazard':  o.serviceType.biohazardCleanup,
     'Other':               o.serviceType.other,
   };
   return map[damageType];
@@ -54,9 +55,9 @@ function propertyTypeId(val: string): number | undefined {
 
 function urgencyId(val: string): number | undefined {
   const map: Record<string, number | undefined> = {
-    emergency: o.emergencyLevel.emergency24hr,
-    urgent:    o.emergencyLevel.urgent48hr,
-    scheduled: o.emergencyLevel.routine,
+    emergency: o.emergencyLevel.emergencyImmediateResponse,
+    urgent:    o.emergencyLevel.urgentWithin24hrs,
+    scheduled: o.emergencyLevel.standardWithin48hrs,
   };
   return map[val];
 }
@@ -65,7 +66,7 @@ function insuranceId(val: string): number | undefined {
   const map: Record<string, number | undefined> = {
     'Yes':      o.insuranceClaim.yes,
     'No':       o.insuranceClaim.no,
-    'Not sure': o.insuranceClaim.unsure,
+    'Not sure': o.insuranceClaim.unknown,
   };
   return map[val];
 }
@@ -82,9 +83,9 @@ function contactMethodId(val: string): number | undefined {
 function bestTimeId(val: string): number | undefined {
   const map: Record<string, number | undefined> = {
     'ASAP':      o.bestTimeToContact.anytime,
-    'Morning':   o.bestTimeToContact.morning,
-    'Afternoon': o.bestTimeToContact.afternoon,
-    'Evening':   o.bestTimeToContact.evening,
+    'Morning':   o.bestTimeToContact.morning8am12pm,
+    'Afternoon': o.bestTimeToContact.afternoon12pm5pm,
+    'Evening':   o.bestTimeToContact.evening5pm8pm,
   };
   return map[val];
 }
@@ -154,6 +155,7 @@ export async function createLeadInPipedrive(
     [f.deal.insuranceClaim]:         input.insuranceClaim ? insuranceId(input.insuranceClaim) : undefined,
     [f.deal.insuranceCarrier]:       input.insuranceCompany ?? undefined,
     [f.deal.leadSource]:             o.leadSource.websiteForm,
+    [f.deal.location]:               input.location === 'newYork' ? o.location.newYork : o.location.florida,
     [f.deal.utmSource]:              input.utmSource ?? undefined,
     [f.deal.utmMedium]:              input.utmMedium ?? undefined,
     [f.deal.utmCampaign]:            input.utmCampaign ?? undefined,

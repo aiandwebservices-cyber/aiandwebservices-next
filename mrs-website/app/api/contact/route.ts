@@ -122,6 +122,10 @@ export async function POST(req: NextRequest) {
       ? data.damageTypes
       : (fields.damageTypes).split(",").map((s: string) => s.trim()).filter(Boolean);
 
+    const locationHeader = req.headers.get('x-site-location');
+    const locationParam  = new URL(req.url).searchParams.get('location');
+    const isNY = locationHeader === 'ny' || locationParam === 'ny';
+
     const leadInput: LeadInput = {
       name:             fields.name,
       phone:            fields.phone,
@@ -141,6 +145,7 @@ export async function POST(req: NextRequest) {
       utmMedium:        fields.utmMedium || undefined,
       utmCampaign:      fields.utmCampaign || undefined,
       sourceUrl:        fields.sourceUrl || undefined,
+      location:         isNY ? 'newYork' : 'florida',
     };
 
     // Run Pipedrive + email in parallel
