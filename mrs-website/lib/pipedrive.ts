@@ -109,9 +109,9 @@ async function apiPost(path: string, body: Record<string, unknown>): Promise<Rec
   return json.data;
 }
 
-async function apiPatch(path: string, body: Record<string, unknown>): Promise<Record<string, unknown>> {
+async function apiPut(path: string, body: Record<string, unknown>): Promise<Record<string, unknown>> {
   const res = await fetch(`${BASE()}${path}?api_token=${TOKEN()}`, {
-    method: 'PATCH',
+    method: 'PUT',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(body),
   });
@@ -156,7 +156,7 @@ export async function createLeadInPipedrive(
     [f.person.leadSourceDetail]:       input.sourceUrl ?? undefined,
   });
   if (Object.keys(personCustomFields).length > 0) {
-    await apiPatch(`/persons/${personId}`, personCustomFields as Record<string, unknown>);
+    await apiPut(`/persons/${personId}`, personCustomFields as Record<string, unknown>);
   }
 
   // --- Step B: Create Deal ---
