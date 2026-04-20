@@ -38,15 +38,12 @@ const FEATURE_ROWS = [
   { label: 'Monthly SEO + site health report',            group: 'Website & SEO',        tiers: ['presence','growth','revenue-engine','ai-first'] },
   { label: 'Email marketing + welcome sequence',          group: 'Marketing & Growth',    tiers: ['growth','revenue-engine','ai-first'] },
   { label: 'SEO content (2 articles/month)',              group: 'Website & SEO',        tiers: ['growth','revenue-engine','ai-first'] },
-  { label: 'Conversion landing pages',                    group: 'Website & SEO',        tiers: ['growth','revenue-engine','ai-first'] },
   { label: 'Sales funnel design + build',                 group: 'Marketing & Growth',    tiers: ['revenue-engine','ai-first'] },
   { label: 'Workflow automation',                         group: 'AI & Automation',       tiers: ['revenue-engine','ai-first'] },
   { label: 'Paid ads management (client funds spend)',    group: 'Marketing & Growth',    tiers: ['revenue-engine','ai-first'] },
-  { label: 'Monthly strategy call',                       group: 'Strategy & Analytics',  tiers: ['revenue-engine','ai-first'] },
+  { label: 'Advanced AI assistant (knowledge base)',      group: 'AI & Automation',       tiers: ['revenue-engine','ai-first'] },
   { label: 'Voice AI (answers calls)',                    group: 'AI & Automation',       tiers: ['ai-first'] },
-  { label: 'Programmatic SEO (100s of pages)',            group: 'Website & SEO',        tiers: ['ai-first'] },
   { label: 'Social media AI scheduling',                  group: 'AI & Automation',       tiers: ['ai-first'] },
-  { label: 'Custom analytics dashboard',                  group: 'Strategy & Analytics',  tiers: ['ai-first'] },
 ];
 
 const GROUP_ORDER = ['Website & SEO', 'AI & Automation', 'Marketing & Growth', 'Strategy & Analytics'];
@@ -72,7 +69,7 @@ export default function CompareAllPlansPage() {
       <section style={{ background: '#f8fafc', position: 'relative', overflow: 'hidden' }}>
         <div aria-hidden style={{ position: 'absolute', top: '-20%', right: '-5%', width: '600px', height: '600px', borderRadius: '50%', background: 'radial-gradient(circle,rgba(42,165,160,0.1) 0%,transparent 70%)', filter: 'blur(60px)' }} />
         <div aria-hidden style={{ position: 'absolute', inset: 0, backgroundImage: 'linear-gradient(rgba(42,165,160,0.03) 1px,transparent 1px),linear-gradient(90deg,rgba(42,165,160,0.03) 1px,transparent 1px)', backgroundSize: '60px 60px' }} />
-        <div style={{ maxWidth: '800px', margin: '0 auto', padding: '90px 20px 52px', textAlign: 'center', position: 'relative' }}>
+        <div style={{ maxWidth: '800px', margin: '0 auto', padding: 'clamp(88px,12vw,120px) 20px 52px', textAlign: 'center', position: 'relative' }}>
           <motion.div initial={{ opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.45 }}
             style={{ display: 'inline-flex', alignItems: 'center', gap: '7px', padding: '6px 14px', borderRadius: '50px', background: 'rgba(42,165,160,0.1)', border: '1px solid rgba(42,165,160,0.3)', fontSize: '11px', fontWeight: 700, color: ACCENT, letterSpacing: '1.2px', textTransform: 'uppercase', marginBottom: '24px' }}
           >
@@ -343,7 +340,7 @@ export default function CompareAllPlansPage() {
             <p style={{ fontSize: '16px', color: '#6b7280', marginBottom: '36px', lineHeight: 1.7 }}>
               Book a free audit. I&apos;ll look at your business and tell you exactly which plan makes sense — no upsell, no pressure.
             </p>
-            <Link href="/#contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '16px 36px', background: ACCENT, color: '#fff', borderRadius: '50px', fontWeight: 700, fontSize: '16px', textDecoration: 'none', boxShadow: '0 10px 36px rgba(42,165,160,0.4)' }}>
+            <Link href="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '16px 36px', background: ACCENT, color: '#fff', borderRadius: '50px', fontWeight: 700, fontSize: '16px', textDecoration: 'none', boxShadow: '0 10px 36px rgba(42,165,160,0.4)' }}>
               Get My Free Audit <ArrowRight size={18} />
             </Link>
           </div>

@@ -1,82 +1,72 @@
-import { NextResponse } from 'next/server';
+export const runtime = 'nodejs';
 
-export async function POST(request) {
+export async function POST(req) {
   let body;
   try {
-    body = await request.json();
+    body = await req.json();
   } catch {
-    return NextResponse.json({ error: 'Invalid request body.' }, { status: 400 });
+    return Response.json({ success: false, error: 'Invalid JSON body' }, { status: 400 });
   }
 
-  const { firstName, email, phone, companyName, source } = body;
+  const { firstName, email, phone = '', companyName = '', source = 'site' } = body;
 
-  if (!email || !firstName) {
-    return NextResponse.json({ error: 'Missing required fields.' }, { status: 400 });
+  if (!firstName || !email) {
+    return Response.json({ success: false, error: 'firstName and email are required' }, { status: 400 });
   }
 
-  const timestamp = new Date().toISOString();
+  const startedAt = new Date().toISOString();
+  const hubspotToken = process.env.HUBSPOT_TOKEN;
 
-  // HubSpot upsert — create/update contact with "started" status
-  const token = process.env.HUBSPOT_TOKEN;
-  if (token) {
+  // ── 1. HubSpot: create/update contact ──
+  if (hubspotToken) {
     try {
       const hsRes = await fetch('https://api.hubapi.com/crm/v3/objects/contacts/batch/upsert', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          Authorization: `Bearer ${hubspotToken}`,
         },
         body: JSON.stringify({
-          inputs: [{
-            id: email,
-            idProperty: 'email',
-            properties: {
-              email,
-              firstname: firstName,
-              phone: phone || '',
-              company: companyName || '',
-              checklist_status: 'started',
-              checklist_started_at: timestamp,
-              checklist_source: source || 'site',
+          inputs: [
+            {
+              idProperty: 'email',
+              id: email,
+              properties: {
+                firstname: firstName,
+                email,
+                phone,
+                company: companyName,
+                lifecyclestage: 'lead',
+                hs_lead_status: 'NEW',
+              },
             },
-          }],
+          ],
         }),
       });
       if (!hsRes.ok) {
         const err = await hsRes.text();
-        console.error('[checklist-lead-started] HubSpot error:', err);
+        console.error('[checklist-lead-started] HubSpot upsert failed:', hsRes.status, err);
       }
     } catch (err) {
-      console.error('[checklist-lead-started] HubSpot fetch error:', err);
+      console.error('[checklist-lead-started] HubSpot fetch error:', err.message);
     }
+  } else {
+    console.warn('[checklist-lead-started] HUBSPOT_TOKEN not set — skipping HubSpot upsert');
   }
 
-  // n8n webhook — EspoCRM lead creation + David notification
-  // Always fire when env var is set; non-blocking for caller
-  const n8nUrl = process.env.N8N_LEAD_STARTED_WEBHOOK;
-  if (n8nUrl) {
-    try {
-      const n8nRes = await fetch(n8nUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          firstName,
-          email,
-          phone: phone || '',
-          companyName: companyName || '',
-          source: source || 'site',
-          startedAt: timestamp,
-          event: 'checklist_started',
-        }),
-      });
-      if (!n8nRes.ok) {
-        const errText = await n8nRes.text();
-        console.error('[checklist-lead-started] n8n error:', errText);
-      }
-    } catch (err) {
-      console.error('[checklist-lead-started] n8n fetch error:', err);
-    }
+  // ── 2. n8n Workflow 1: fire-and-forget ──
+  const webhookUrl = process.env.N8N_LEAD_STARTED_WEBHOOK;
+  if (webhookUrl) {
+    fetch(webhookUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, firstName, phone, companyName, source, startedAt }),
+    })
+      .then(r => { if (!r.ok) console.error('[checklist-lead-started] n8n non-OK:', r.status); })
+      .catch(err => console.error('[checklist-lead-started] n8n fetch error:', err.message));
+  } else {
+    console.warn('[checklist-lead-started] N8N_LEAD_STARTED_WEBHOOK not set');
   }
 
-  return NextResponse.json({ success: true });
+  return Response.json({ success: true });
 }
