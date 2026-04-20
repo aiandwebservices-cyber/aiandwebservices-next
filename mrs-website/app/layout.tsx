@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Montserrat, Open_Sans } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
 import UTMTracker from "@/components/UTMTracker";
 import { FL_CONFIG } from "@/lib/site-config";
 
@@ -122,9 +120,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-screen flex flex-col">
         <UTMTracker />
-        <Header config={FL_CONFIG} />
-        <main className="flex-1">{children}</main>
-        <Footer config={FL_CONFIG} />
+        {children}
       </body>
     </html>
   );
