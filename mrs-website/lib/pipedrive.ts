@@ -128,13 +128,31 @@ export async function createLeadInPipedrive(
   const primaryDamage = input.damageTypes[0] ?? 'Other';
   const extraDamages  = input.damageTypes.slice(1);
 
-  // Build enhanced description
-  const descParts: string[] = [input.description];
-  if (extraDamages.length > 0)   descParts.push(`Additional damage types: ${extraDamages.join(', ')}`);
-  if (input.damageTime)          descParts.push(`Damage time: ${input.damageTime}`);
-  if (input.areaSize)            descParts.push(`Affected area: ${input.areaSize}`);
-  if (input.insuranceCompany)    descParts.push(`Insurance company: ${input.insuranceCompany}`);
-  const noteContent = descParts.join('\n');
+  // Build comprehensive note with every input field
+  const noteLines: string[] = ['MRS Lead Submission', '---'];
+  const add = (label: string, val: string | undefined) => { if (val) noteLines.push(`${label}: ${val}`); };
+  add('Name',                   input.name);
+  add('Phone',                  input.phone);
+  add('Email',                  input.email);
+  add('Property Address',       input.address);
+  add('Property Type',          input.propertyType);
+  add('Damage Types',           input.damageTypes.join(', '));
+  add('Urgency',                input.urgency);
+  add('Insurance Claim',        input.insuranceClaim);
+  add('Insurance Company',      input.insuranceCompany);
+  add('Damage Time',            input.damageTime);
+  add('Area Size',              input.areaSize);
+  add('Description',            input.description);
+  add('Preferred Contact',      input.contactMethod);
+  add('Best Time to Contact',   input.bestTime);
+  add('Location',               input.location);
+  noteLines.push('---');
+  add('UTM Source',             input.utmSource);
+  add('UTM Medium',             input.utmMedium);
+  add('UTM Campaign',           input.utmCampaign);
+  add('Source URL',             input.sourceUrl);
+  noteLines.push('---');
+  const noteContent = noteLines.join('\n');
 
   // --- Step A: Create Person (standard fields only) ---
   const personBody = strip({
@@ -166,6 +184,7 @@ export async function createLeadInPipedrive(
     title,
     person_id:                       personId,
     stage_id:                        fields.stages.newLead,
+    pipeline_id:                     fields.pipeline.id,
     [f.deal.serviceType]:            serviceTypeId(primaryDamage),
     [f.deal.emergencyLevel]:         urgencyId(input.urgency),
     [f.deal.propertyType]:           propertyTypeId(input.propertyType),
