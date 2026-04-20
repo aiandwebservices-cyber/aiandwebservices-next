@@ -287,7 +287,7 @@ export default function Hero() {
         /* ── Headline ── */
         .h-h1 {
           font-family:'Plus Jakarta Sans',sans-serif;
-          font-size:clamp(44px,5.5vw,76px);font-weight:900;
+          font-size:clamp(50px,5.5vw,64px);font-weight:900;
           line-height:1.04;letter-spacing:-1.5px;color:#fff;
           margin-bottom:min(34px,3vh);
         }
@@ -395,7 +395,11 @@ export default function Hero() {
 
         /* ── Dashboard nudge on smaller/windowed viewports ── */
         @media (max-height:1200px) {
-          .h-dashboard-wrap { margin-top:60px !important; }
+          .h-dashboard-wrap { margin-top:50px !important; }
+        }
+        @media (min-width:1200px) and (max-height:1100px) {
+          .h-ctas { margin-bottom:16px !important; }
+          .h-dashboard-wrap { margin-top:30px !important; }
         }
 
         /* ── Responsive ── */
