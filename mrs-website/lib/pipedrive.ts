@@ -74,7 +74,7 @@ function insuranceId(val: string): number | undefined {
 function contactMethodId(val: string): number | undefined {
   const map: Record<string, number | undefined> = {
     'Phone Call':    o.preferredContactMethod.phone,
-    'Text Message':  (o.preferredContactMethod as Record<string, number>)['textsms'],
+    'Text Message':  (o.preferredContactMethod as Record<string, number>)['text'],
     'Email':         o.preferredContactMethod.email,
   };
   return map[val];
@@ -109,6 +109,17 @@ async function apiPost(path: string, body: Record<string, unknown>): Promise<Rec
   return json.data;
 }
 
+async function apiPatch(path: string, body: Record<string, unknown>): Promise<Record<string, unknown>> {
+  const res = await fetch(`${BASE()}${path}?api_token=${TOKEN()}`, {
+    method: 'PATCH',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(body),
+  });
+  const json = (await res.json()) as { success: boolean; data: Record<string, unknown>; error?: string };
+  if (!json.success) throw new Error(json.error ?? `API error on ${path}`);
+  return json.data;
+}
+
 // --- Main export ---
 
 export async function createLeadInPipedrive(
@@ -125,20 +136,27 @@ export async function createLeadInPipedrive(
   if (input.insuranceCompany)    descParts.push(`Insurance company: ${input.insuranceCompany}`);
   const noteContent = descParts.join('\n');
 
-  // --- Step A: Create Person ---
+  // --- Step A: Create Person (standard fields only) ---
   const personBody = strip({
     name: input.name,
     phone: [{ value: input.phone, primary: true, label: 'mobile' }],
     email: input.email ? [{ value: input.email, primary: true, label: 'work' }] : undefined,
-    [f.person.preferredContactMethod]: contactMethodId(input.contactMethod),
-    [f.person.bestTimeToContact]:      input.bestTime ? bestTimeId(input.bestTime) : undefined,
-    [f.person.leadSourceDetail]:       input.sourceUrl ?? undefined,
   });
 
   const person = await apiPost('/persons', personBody as Record<string, unknown>);
   const personId = person.id as number;
   if (!personId || typeof personId !== 'number') {
     throw new Error(`Invalid personId returned: ${personId}`);
+  }
+
+  // --- Step A2: Patch custom fields onto person ---
+  const personCustomFields = strip({
+    [f.person.preferredContactMethod]: contactMethodId(input.contactMethod),
+    [f.person.bestTimeToContact]:      input.bestTime ? bestTimeId(input.bestTime) : undefined,
+    [f.person.leadSourceDetail]:       input.sourceUrl ?? undefined,
+  });
+  if (Object.keys(personCustomFields).length > 0) {
+    await apiPatch(`/persons/${personId}`, personCustomFields as Record<string, unknown>);
   }
 
   // --- Step B: Create Deal ---
