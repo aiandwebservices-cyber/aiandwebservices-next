@@ -17,7 +17,7 @@ async function sendEmailNotification(
     insuranceClaim: string; insuranceCompany: string; damageTime: string;
     areaSize: string; description: string; contactMethod: string;
     bestTime: string; utmSource: string; utmMedium: string;
-    utmCampaign: string; sourceUrl: string;
+    utmCampaign: string; sourceUrl: string; location: string;
   },
   photoCount: number,
   dealUrl?: string
@@ -51,6 +51,7 @@ ${pipedriveButton}
   <tr style="background:#f3f4f6"><td style="padding:8px 12px;font-weight:bold">UTM Medium</td><td style="padding:8px 12px">${fields.utmMedium || "—"}</td></tr>
   <tr><td style="padding:8px 12px;font-weight:bold">UTM Campaign</td><td style="padding:8px 12px">${fields.utmCampaign || "—"}</td></tr>
   <tr style="background:#f3f4f6"><td style="padding:8px 12px;font-weight:bold">Source URL</td><td style="padding:8px 12px">${fields.sourceUrl || "—"}</td></tr>
+  <tr><td style="padding:8px 12px;font-weight:bold">Location</td><td style="padding:8px 12px">${fields.location === "newYork" ? "New York" : "Florida"}</td></tr>
 </table>
 <p style="color:#666;font-size:12px;margin-top:16px">Submitted ${new Date().toLocaleString("en-US", { timeZone: "America/New_York" })} ET</p>
 `;
@@ -112,6 +113,7 @@ export async function POST(req: NextRequest) {
       utmMedium:        (data.utm_medium      as string) ?? "",
       utmCampaign:      (data.utm_campaign    as string) ?? "",
       sourceUrl:        (data.source_url      as string) ?? "",
+      location:         "",   // filled after isNY is resolved below
       // damageTypes is a string[] in JSON
       damageTypes:      Array.isArray(data.damageTypes)
                           ? (data.damageTypes as string[]).join(", ")
@@ -125,6 +127,7 @@ export async function POST(req: NextRequest) {
     const locationHeader = req.headers.get('x-site-location');
     const locationParam  = new URL(req.url).searchParams.get('location');
     const isNY = locationHeader === 'ny' || locationParam === 'ny';
+    fields.location = isNY ? 'newYork' : 'florida';
 
     const leadInput: LeadInput = {
       name:             fields.name,
