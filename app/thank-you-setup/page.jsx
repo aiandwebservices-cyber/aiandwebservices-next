@@ -1,3 +1,4 @@
+import { Suspense } from 'react';
 import ChecklistForm from '@/components/ChecklistForm';
 
 export const metadata = {
@@ -80,7 +81,7 @@ export default function ThankYouSetupPage() {
 
       {/* Embedded checklist — hero hidden, source=customer auto-set */}
       <section style={{ padding: '0 0 80px' }}>
-        <ChecklistForm hideHero={true} defaultSource="customer" />
+        <Suspense fallback={null}><ChecklistForm hideHero={true} defaultSource="customer" /></Suspense>
       </section>
 
     </main>
