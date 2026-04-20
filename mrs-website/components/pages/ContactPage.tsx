@@ -13,9 +13,11 @@ export default function ContactPage({ config }: { config: SiteConfig }) {
         </h1>
         <p style={{ color: "#a0c4ff", marginBottom: "1.5rem" }}>Don&apos;t wait — call us now or submit the form below.</p>
         <a href={config.phoneHref} className="btn-red" style={{ fontSize: "1.25rem", padding: "1rem 2rem" }}>{config.phone}</a>
-        <div style={{ marginTop: "1rem", display: "inline-block", background: "rgba(255,255,255,0.1)", color: "#fff", padding: "0.35rem 1rem", borderRadius: 4, fontSize: "0.875rem", fontWeight: 600 }}>
-          Se Habla Español
-        </div>
+        {config.showSpanishBadge && (
+          <div style={{ marginTop: "1rem", display: "inline-block", background: "rgba(255,255,255,0.1)", color: "#fff", padding: "0.35rem 1rem", borderRadius: 4, fontSize: "0.875rem", fontWeight: 600 }}>
+            Se Habla Español
+          </div>
+        )}
       </section>
 
       <div style={{ maxWidth: 1100, margin: "0 auto", padding: "3rem 1.5rem", display: "grid", gridTemplateColumns: "280px 1fr", gap: "3rem", alignItems: "start" }} className="contact-layout">
@@ -70,10 +72,12 @@ export default function ContactPage({ config }: { config: SiteConfig }) {
             </p>
           </div>
 
-          <div style={{ background: "var(--red)", color: "#fff", borderRadius: 8, padding: "1rem", textAlign: "center" }}>
-            <p style={{ fontWeight: 700, margin: "0 0 0.25rem", fontFamily: "Montserrat, sans-serif" }}>Se Habla Español</p>
-            <p style={{ fontSize: "0.8rem", margin: 0, opacity: 0.9 }}>Bilingual staff available</p>
-          </div>
+          {config.showSpanishBadge && (
+            <div style={{ background: "var(--red)", color: "#fff", borderRadius: 8, padding: "1rem", textAlign: "center" }}>
+              <p style={{ fontWeight: 700, margin: "0 0 0.25rem", fontFamily: "Montserrat, sans-serif" }}>Se Habla Español</p>
+              <p style={{ fontSize: "0.8rem", margin: 0, opacity: 0.9 }}>Bilingual staff available</p>
+            </div>
+          )}
 
           {config.mapsEmbedUrl && (
             <div style={{ borderRadius: 10, overflow: "hidden", marginTop: "1.25rem", boxShadow: "0 4px 16px rgba(0,0,0,0.1)" }}>

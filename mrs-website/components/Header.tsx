@@ -14,7 +14,7 @@ export default function Header({ config }: { config: SiteConfig }) {
     <header style={{ background: "var(--navy)", position: "sticky", top: 0, zIndex: 50, boxShadow: "0 2px 8px rgba(0,0,0,0.3)" }}>
       {/* Top bar */}
       <div style={{ background: "var(--red)", padding: "0.35rem 1rem", textAlign: "center", fontSize: "0.85rem", color: "#fff", fontWeight: 600, fontFamily: "Montserrat, sans-serif" }}>
-        🚨 24/7 Emergency Response — Se Habla Español
+        🚨 24/7 Emergency Response{config.showSpanishBadge ? ' — Se Habla Español' : ''}
       </div>
 
       <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 1rem", display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>

@@ -25,9 +25,11 @@ export default function Footer({ config }: { config: SiteConfig }) {
           <p style={{ fontSize: "0.875rem", lineHeight: 1.6, color: "#a0aec0", marginBottom: "0.75rem" }}>
             {config.siteName} — {config.footerTagline}
           </p>
-          <div style={{ display: "inline-block", background: "var(--red)", color: "#fff", padding: "0.3rem 0.75rem", borderRadius: 4, fontSize: "0.8rem", fontWeight: 700, fontFamily: "Montserrat, sans-serif" }}>
-            Se Habla Español
-          </div>
+          {config.showSpanishBadge && (
+            <div style={{ display: "inline-block", background: "var(--red)", color: "#fff", padding: "0.3rem 0.75rem", borderRadius: 4, fontSize: "0.8rem", fontWeight: 700, fontFamily: "Montserrat, sans-serif" }}>
+              Se Habla Español
+            </div>
+          )}
         </div>
 
         {/* Services */}

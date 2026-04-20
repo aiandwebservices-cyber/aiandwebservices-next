@@ -141,6 +141,7 @@ export type SiteConfig = {
 
   // Form
   addressPlaceholder: string;           // EmergencyForm address field placeholder
+  showSpanishBadge: boolean;            // "Se Habla Español" badge in header, footer, contact
 
   // Schema.org
   schema: SchemaOrg;
@@ -392,6 +393,7 @@ export const FL_CONFIG: SiteConfig = {
   insuranceSpecificLanguage: "Citizens Insurance, AOB, claim denials — we navigate Florida's complex insurance market.",
 
   addressPlaceholder: '123 Main St, Fort Lauderdale, FL 33301',
+  showSpanishBadge: true,
 
   schema: {
     type: 'LocalBusiness',
@@ -441,7 +443,7 @@ export const NY_CONFIG: SiteConfig = {
 
   metaTitle: 'Mitigation Restoration Services | 24/7 Emergency Restoration NYC Metro',
   metaDescription:
-    '24/7 emergency water, fire, mold & storm damage restoration serving all five NYC boroughs — Manhattan, Brooklyn, Queens, the Bronx & Staten Island. Licensed & insured. Se Habla Español.',
+    '24/7 emergency water, fire, mold & storm damage restoration serving all five NYC boroughs — Manhattan, Brooklyn, Queens, the Bronx & Staten Island. Licensed & insured.',
   ogTitle: 'Mitigation Restoration Services | 24/7 Emergency Restoration NYC Metro',
   ogDescription: 'When disaster strikes, we respond. 24/7 emergency restoration for NYC Metro. Call (754) 777-8956.',
   keywords:
@@ -658,6 +660,7 @@ export const NY_CONFIG: SiteConfig = {
   insuranceSpecificLanguage: 'We work with all major insurance carriers and document everything thoroughly to support your claim.',
 
   addressPlaceholder: '123 Main St, Brooklyn, NY 11201',
+  showSpanishBadge: false,
 
   schema: {
     type: 'LocalBusiness',
