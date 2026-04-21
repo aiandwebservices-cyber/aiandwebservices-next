@@ -206,12 +206,12 @@ export default function CompareAllPlansPage() {
                     ))}
                   </tr>
                   {/* CTA row */}
-                  <tr>
-                    <td style={{ padding: '16px' }} />
+                  <tr style={{ background: 'rgba(42,165,160,0.10)' }}>
+                    <td style={{ padding: '16px', background: 'rgba(42,165,160,0.10)' }} />
                     {TIERS_SORTED.map(tier => {
                       const color = tier.color || ACCENT;
                       return (
-                        <td key={tier.slug} style={{ padding: '12px 8px' }}>
+                        <td key={tier.slug} style={{ padding: '12px 8px', background: 'rgba(42,165,160,0.10)' }}>
                           <Link href={`/services/${tier.slug}`} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '4px', padding: '9px 8px', background: color, color: '#fff', borderRadius: '8px', fontWeight: 700, fontSize: '12px', textDecoration: 'none' }}>
                             View <ArrowRight size={12} />
                           </Link>
