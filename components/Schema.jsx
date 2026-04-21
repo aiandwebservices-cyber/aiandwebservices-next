@@ -1,3 +1,5 @@
+const PRICE_VALID_UNTIL = `${new Date().getFullYear() + 1}-12-31`;
+
 /**
  * Schema.jsx — JSON-LD structured data components for AIandWEBservices
  *
@@ -309,7 +311,7 @@ export function ServicePageSchema({ service }) {
           '@type': 'Offer',
           price: service.priceMonthly.toString(),
           priceCurrency: 'USD',
-          priceValidUntil: new Date(new Date().setFullYear(new Date().getFullYear() + 1)).toISOString().split('T')[0],
+          priceValidUntil: PRICE_VALID_UNTIL,
           description: `$${service.priceMonthly}/month${service.setupFee > 0 ? ` + $${service.setupFee} setup` : ''}`,
           availability: 'https://schema.org/InStock',
         },
