@@ -409,14 +409,14 @@ export default function Hero() {
           .h-ctas { flex-direction:column;width:100%;max-width:340px; }
           .h-btn-primary, .h-btn-ghost { width:100%;text-align:center; }
           .h-scroll { display:none; }
-          .h-h1 { font-size:clamp(50px,8vw,62px);letter-spacing:-0.5px;overflow-wrap:break-word;hyphens:auto; }
+          .h-h1 { font-size:clamp(52px,8vw,64px);letter-spacing:-0.5px;overflow-wrap:break-word;hyphens:auto; }
           .h-line-better { flex-direction:column !important; gap:0 !important; padding-left:0 !important; align-items:center !important; }
           .h-line-better > span:first-child { white-space:nowrap !important; }
           .h-line-better > span { text-align:center !important; justify-content:center !important; width:100% !important; }
         }
         @media (max-width:480px) {
           .h-eyebrow { font-size:10px;padding:6px 14px; }
-          .h-h1 { font-size:clamp(42px,7.5vw,52px);letter-spacing:-0.5px;overflow-wrap:break-word;hyphens:auto; }
+          .h-h1 { font-size:clamp(44px,7.5vw,54px);letter-spacing:-0.5px;overflow-wrap:break-word;hyphens:auto; }
           .h-dash-metrics { grid-template-columns:1fr;gap:6px; }
         }
       `}</style>
