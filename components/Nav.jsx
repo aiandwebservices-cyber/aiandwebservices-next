@@ -240,80 +240,55 @@ export default function Nav() {
         aria-label="Navigation menu"
         aria-modal={menuOpen ? 'true' : 'false'}
       >
-        {NAV_PANELS.map(({ idx, label }) => {
-          if (label === 'Services') {
-            return (
-              <div key={idx}>
-                <div className="mob-svc-row">
-                  <Link
-                    href="/services"
-                    className={`mob-link mob-svc-link${currentPanel === idx ? ' active' : ''}`}
-                    onClick={closeMenu}
-                  >
-                    Services
-                  </Link>
-                  <button
-                    className="mob-svc-caret-btn"
-                    onClick={() => setMobSvcOpen(o => !o)}
-                    aria-label={mobSvcOpen ? 'Collapse Services submenu' : 'Expand Services submenu'}
-                    aria-expanded={mobSvcOpen}
-                    aria-controls="mob-svc-sub"
-                  >
-                    {mobSvcOpen ? '▴' : '▾'}
-                  </button>
-                </div>
-                {mobSvcOpen && (
-                  <div className="mob-svc-sub" id="mob-svc-sub">
-                    {SERVICE_LINKS.map(({ label: sLabel, href }) => (
-                      <a
-                        key={sLabel}
-                        href={href}
-                        className="mob-svc-item"
-                        onClick={() => { setMobSvcOpen(false); closeMenu(); }}
-                      >
-                        {sLabel}
-                      </a>
-                    ))}
-                    <Link
-                      href="/services/compare"
-                      className="mob-svc-item mob-svc-item-compare"
-                      onClick={() => { setMobSvcOpen(false); closeMenu(); }}
-                    >
-                      Compare All Plans
-                    </Link>
-                  </div>
-                )}
-              </div>
-            );
-          }
-          if (label === 'Contact') {
-            return (
-              <Link
-                key={idx}
-                href="/contact"
-                className={`mob-link${pathname === '/contact' ? ' active' : ''}`}
-                onClick={closeMenu}
-              >
-                {label}
-              </Link>
-            );
-          }
-          return (
-            <button
-              key={idx}
-              className={`mob-link${currentPanel === idx ? ' active' : ''}`}
-              onClick={() => mGo(idx)}
+        <Link href="/" className={`mob-link${currentPanel === 0 && !isOnContactPage ? ' active' : ''}`} onClick={closeMenu}>Home</Link>
+        <Link href="/#p2" className={`mob-link${currentPanel === 1 ? ' active' : ''}`} onClick={closeMenu}>How It Works</Link>
+        <Link href="/#comparison" className={`mob-link${currentPanel === 2 ? ' active' : ''}`} onClick={closeMenu}>Comparison</Link>
+        <div>
+          <div className="mob-svc-row">
+            <Link
+              href="/services"
+              className={`mob-link mob-svc-link${currentPanel === 3 ? ' active' : ''}`}
+              onClick={closeMenu}
             >
-              {label}
+              Services
+            </Link>
+            <button
+              className="mob-svc-caret-btn"
+              onClick={() => setMobSvcOpen(o => !o)}
+              aria-label={mobSvcOpen ? 'Collapse Services submenu' : 'Expand Services submenu'}
+              aria-expanded={mobSvcOpen}
+              aria-controls="mob-svc-sub"
+            >
+              {mobSvcOpen ? '▴' : '▾'}
             </button>
-          );
-        })}
-        <button
-          className={`mob-link${isOnContactPage || currentPanel === 8 ? ' active' : ''}`}
-          onClick={() => { mGo(8); closeMenu(); }}
-        >
-          Contact
-        </button>
+          </div>
+          {mobSvcOpen && (
+            <div className="mob-svc-sub" id="mob-svc-sub">
+              {SERVICE_LINKS.map(({ label: sLabel, href }) => (
+                <a
+                  key={sLabel}
+                  href={href}
+                  className="mob-svc-item"
+                  onClick={() => { setMobSvcOpen(false); closeMenu(); }}
+                >
+                  {sLabel}
+                </a>
+              ))}
+              <Link
+                href="/services/compare"
+                className="mob-svc-item mob-svc-item-compare"
+                onClick={() => { setMobSvcOpen(false); closeMenu(); }}
+              >
+                Compare All Plans
+              </Link>
+            </div>
+          )}
+        </div>
+        <Link href="/#p3" className={`mob-link${currentPanel === 4 ? ' active' : ''}`} onClick={closeMenu}>About</Link>
+        <Link href="/#samples" className={`mob-link${currentPanel === 5 ? ' active' : ''}`} onClick={closeMenu}>Samples</Link>
+        <Link href="/#p7" className={`mob-link${currentPanel === 6 ? ' active' : ''}`} onClick={closeMenu}>FAQ</Link>
+        <Link href="/#checklist-teaser" className={`mob-link${currentPanel === 7 ? ' active' : ''}`} onClick={closeMenu}>AI Readiness</Link>
+        <Link href="/contact" className={`mob-link${isOnContactPage ? ' active' : ''}`} onClick={closeMenu}>Contact</Link>
         <Link href="/checklist" className="mob-cta" onClick={closeMenu}>Take the AI Readiness Check</Link>
       </div>
 
