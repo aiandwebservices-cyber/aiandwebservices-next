@@ -195,42 +195,44 @@ export default function Services() {
                 <Settings size={11} color="#2AA5A0" strokeWidth={2} />
                 À La Carte · Consulting
               </div>
-              <div className="svc-starter-name">À La Carte</div>
+              <div className="svc-starter-name" style={{ color:'#2AA5A0' }}>À La Carte</div>
               <div className="svc-starter-desc">Not every problem fits a tier. Pick exactly what you need — combined however works for your business.</div>
             </div>
 
-            {/* Col 2 — what's available */}
-            <div className="svc-starter-col svc-starter-bullets-col">
-              <div className="svc-starter-col-label">Available services</div>
-              {['AI readiness audit', 'One-time chatbot build', 'Tech stack consultation', 'Custom integration'].map(b => (
-                <div key={b} className="svc-starter-bullet">
-                  <span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>{b}
+            {/* Col 2 — bullets + price stacked */}
+            <div className="svc-starter-right-col">
+              {/* Desktop bullet cols */}
+              <div className="svc-starter-bullets-desktop">
+                <div className="svc-starter-col svc-starter-bullets-col">
+                  <div className="svc-starter-col-label">Available services</div>
+                  {['AI readiness audit', 'One-time chatbot build', 'Tech stack consultation', 'Custom integration'].map(b => (
+                    <div key={b} className="svc-starter-bullet">
+                      <span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>{b}
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
-
-            {/* Col 3 — more options */}
-            <div className="svc-starter-col svc-starter-bullets-col">
-              <div className="svc-starter-col-label">Also available</div>
-              {['Hourly strategy calls', 'Automation workflow design', 'CRM setup & migration'].map(b => (
-                <div key={b} className="svc-starter-bullet">
-                  <span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>{b}
+                <div className="svc-starter-col svc-starter-bullets-col">
+                  <div className="svc-starter-col-label">Also available</div>
+                  {['Hourly strategy calls', 'Automation workflow design', 'CRM setup & migration'].map(b => (
+                    <div key={b} className="svc-starter-bullet">
+                      <span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>{b}
+                    </div>
+                  ))}
                 </div>
-              ))}
-            </div>
+              </div>
 
-            {/* Mobile-only: 3-bullet summary */}
-            <ul className="svc-starter-bullets-mobile">
-              <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>AI readiness audit &amp; strategy</li>
-              <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>One-time builds — chatbot, integrations, CRM</li>
-              <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>Hourly strategy calls with David</li>
-            </ul>
+              {/* Mobile-only: 3-bullet summary */}
+              <ul className="svc-starter-bullets-mobile">
+                <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>AI readiness audit &amp; strategy</li>
+                <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>One-time builds — chatbot, integrations, CRM</li>
+                <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>Hourly strategy calls with David</li>
+              </ul>
 
-            {/* Col 4 — price + CTA */}
-            <div className="svc-starter-price-col">
-              <div className="svc-starter-price" style={{ color:'#2AA5A0' }}><sup style={{ color:'#9ca3af' }}>$</sup>99</div>
-              <div className="svc-starter-per">one-time setup</div>
-              <div className="svc-starter-per">then $199/mo</div>
+              {/* Price — below bullets */}
+              <div className="svc-starter-price-below">
+                <div style={{ fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:20, fontWeight:900, color:'#2AA5A0', lineHeight:1.1 }}>Get a Quote</div>
+                <div style={{ fontSize:12, color:'#9ca3af', fontWeight:600, marginTop:2 }}>From $99 · scope-based pricing</div>
+              </div>
             </div>
 
           </div>
@@ -368,8 +370,10 @@ export default function Services() {
         .svc-starter-bullet { display:flex;align-items:flex-start;gap:6px;font-size:11px;color:#374151;line-height:1.4;margin-bottom:5px; }
         .svc-starter-check { color:#3b82f6;font-size:10px;font-weight:800;flex-shrink:0;margin-top:1px; }
 
-        .svc-starter-grid { position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr 1fr auto;gap:24px;align-items:start; }
-        .svc-starter-price-col { display:flex;flex-direction:column;align-items:flex-end;text-align:right;flex-shrink:0; }
+        .svc-starter-grid { position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start; }
+        .svc-starter-right-col { display:flex;flex-direction:column;gap:12px; }
+        .svc-starter-bullets-desktop { display:grid;grid-template-columns:1fr 1fr;gap:24px; }
+        .svc-starter-price-below { padding-top:10px;border-top:1px solid #f3f4f6; }
         .svc-starter-price { font-family:'Plus Jakarta Sans',sans-serif;font-size:36px;font-weight:900;color:#111827;line-height:1;margin-bottom:2px; }
         .svc-starter-price sup { font-size:14px;vertical-align:top;margin-top:6px;display:inline-block;color:#6b7280; }
         .svc-starter-per { font-size:10px;color:#9ca3af;line-height:1.7;font-weight:600; }
@@ -460,11 +464,7 @@ export default function Services() {
           .svc-cta-wrap { margin-top:0px; }
         }
         @media (max-width:1000px) {
-          .svc-starter-grid { grid-template-columns:1fr auto;grid-template-rows:auto auto; }
-          .svc-starter-left { grid-column:1;grid-row:1; }
-          .svc-starter-price-col { grid-column:2;grid-row:1; }
-          .svc-starter-bullets-col { grid-column:1 / -1;grid-row:2;display:grid;grid-template-columns:1fr 1fr;gap:0 24px;margin-top:12px; }
-          .svc-starter-col { margin-top:0; }
+          .svc-starter-bullets-desktop { grid-template-columns:1fr 1fr; }
         }
         @media (max-width:900px) {
           .svc-plans-grid { grid-template-columns:repeat(2,1fr); }
@@ -476,14 +476,11 @@ export default function Services() {
         .svc-starter-bullets-mobile li { display:flex;align-items:flex-start;gap:6px;font-size:12px;color:#374151;line-height:1.5;margin-bottom:5px; }
         @media (max-width:768px) {
           .svc-starter-bullets-mobile { display:flex;flex-direction:column; }
-          .svc-starter-bullets-col { display:none; }
-          .svc-starter-col-label { display:none; }
+          .svc-starter-bullets-desktop { display:none; }
         }
 
         @media (max-width:640px) {
           .svc-starter-grid { grid-template-columns:1fr; }
-          .svc-starter-price-col { grid-column:1;grid-row:2;align-items:flex-start;text-align:left; }
-          .svc-starter-bullets-col { grid-column:1;grid-row:3;grid-template-columns:1fr; }
           .pricing-inner { padding:80px 4vw 24px; }
           .svc-plans-grid { grid-template-columns:1fr;gap:6px;margin-bottom:8px; }
           .svc-plan-card { padding:12px 12px; }
