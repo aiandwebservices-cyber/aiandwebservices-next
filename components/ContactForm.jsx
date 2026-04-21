@@ -1,6 +1,14 @@
 'use client';
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+
+function formatPhone(value) {
+  const digits = value.replace(/\D/g, '').slice(0, 10);
+  if (digits.length === 0) return '';
+  if (digits.length <= 3) return `(${digits}`;
+  if (digits.length <= 6) return `(${digits.slice(0,3)}) ${digits.slice(3)}`;
+  return `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
+}
 import { ArrowRight, CheckCircle2, Lock } from 'lucide-react';
 
 const TEAL = '#2AA5A0';
@@ -33,6 +41,7 @@ const fieldStyle = { marginBottom: 'clamp(12px, 2vw, 16px)' };
 export default function ContactForm() {
   const [status, setStatus] = useState('idle');
   const [messageLength, setMessageLength] = useState(0);
+  const [phoneVal, setPhoneVal] = useState('');
   const searchParams = useSearchParams();
 
   async function handleSubmit(e) {
@@ -119,7 +128,10 @@ export default function ContactForm() {
       {/* Phone */}
       <div style={fieldStyle}>
         <label style={labelStyle}>Phone <span style={{ color: '#f87171' }}>*</span></label>
-        <input type="tel" name="phone" placeholder="(555) 000-0000" required autoComplete="tel" style={inputStyle}
+        <input type="tel" name="phone" inputMode="numeric" placeholder="(555) 000-0000" required autoComplete="tel"
+          maxLength={14} pattern="\(\d{3}\) \d{3}-\d{4}"
+          value={phoneVal} onChange={e => setPhoneVal(formatPhone(e.target.value))}
+          style={inputStyle}
           onFocus={e => e.target.style.borderColor = 'rgba(37,99,235,.5)'}
           onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,.1)'} />
         <div style={{ fontSize: 12, color: 'rgba(255,255,255,.45)', marginTop: 4 }}>Best way to reach you</div>

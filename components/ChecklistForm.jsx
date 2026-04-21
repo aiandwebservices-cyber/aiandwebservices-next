@@ -61,6 +61,14 @@ function scoreColor(score) {
   return '#dc2626';
 }
 
+function formatPhone(value) {
+  const digits = value.replace(/\D/g, '').slice(0, 10);
+  if (digits.length === 0) return '';
+  if (digits.length <= 3) return `(${digits}`;
+  if (digits.length <= 6) return `(${digits.slice(0,3)}) ${digits.slice(3)}`;
+  return `(${digits.slice(0,3)}) ${digits.slice(3,6)}-${digits.slice(6)}`;
+}
+
 function scoreTier(score) {
   if (score >= 15) return { label: 'High Readiness', range: '15–20', desc: "You're ready for AI automation. David will map your implementation plan." };
   if (score >= 8)  return { label: 'Medium Readiness', range: '8–14', desc: 'Quick wins available. The assessment helps David prioritize what to tackle first.' };
@@ -78,6 +86,7 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
   const [error, setError] = useState(null);
   const [leadStartedFired, setLeadStartedFired] = useState(false);
   const [finalScore, setFinalScore] = useState(0);
+  const [phoneError, setPhoneError] = useState(null);
 
   // On mount: pick up form data saved by the homepage panel intro step
   useEffect(() => {
@@ -110,6 +119,12 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
   async function handleStartAssessment(e) {
     e.preventDefault();
     if (!formData.firstName.trim() || !formData.email.trim()) return;
+    const phoneDigits = formData.phone.replace(/\D/g, '');
+    if (phoneDigits.length !== 10) {
+      setPhoneError('Please enter a valid 10-digit phone number.');
+      return;
+    }
+    setPhoneError(null);
     if (leadStartedFired) { setStep('questions'); return; }
 
     fetch('/api/checklist-lead-started', {
@@ -241,9 +256,15 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
               </div>
 
               <div style={{ marginBottom: '28px' }}>
-                <label htmlFor="cl-phone" style={labelStyle}>Phone <span style={{ color: '#9ca3af', fontWeight: 400 }}>(optional)</span></label>
-                <input id="cl-phone" name="phone" type="tel" autoComplete="tel"
-                  placeholder="(555) 000-0000" value={formData.phone} onChange={handleField} style={inputStyle} />
+                <label htmlFor="cl-phone" style={labelStyle}>Phone <span style={{ color: '#ef4444' }}>*</span></label>
+                <input id="cl-phone" name="phone" type="tel" inputMode="numeric" autoComplete="tel" required
+                  placeholder="(555) 000-0000" maxLength={14}
+                  value={formData.phone}
+                  onChange={e => { setPhoneError(null); setFormData(prev => ({ ...prev, phone: formatPhone(e.target.value) })); }}
+                  style={{ ...inputStyle, borderColor: phoneError ? '#ef4444' : undefined }} />
+                {phoneError && (
+                  <p style={{ fontSize: '12px', color: '#ef4444', marginTop: '4px', marginBottom: 0 }}>{phoneError}</p>
+                )}
               </div>
 
               <button type="submit" style={primaryBtnStyle}>
