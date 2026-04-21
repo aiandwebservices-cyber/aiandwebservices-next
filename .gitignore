@@ -54,3 +54,8 @@ __pycache__/
 *.pyc
 
 templates/rendered/
+
+# Editor/Claude Code backup files — never commit these
+*.backup-*
+*.bak-*
+*.backup2-*

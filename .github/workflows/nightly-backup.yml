@@ -1,0 +1,133 @@
+name: Twice-Daily Backup
+
+on:
+  schedule:
+    - cron: "0 16 * * *"  # 16:00 UTC = 11:00 AM America/New_York (EST/EDT)
+    - cron: "0 4 * * *"   # 04:00 UTC = 11:00 PM America/New_York (EST/EDT)
+  workflow_dispatch:        # allow manual trigger from GitHub Actions UI
+
+permissions:
+  contents: write           # required to create tags and GitHub Releases
+
+jobs:
+  backup:
+    name: Create nightly backup tag, release, and zip
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      # ── 1. Full checkout (fetch-depth 0 ensures tag creation works) ──────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      # ── 2. Compute tag name and human-readable date ───────────────────────────
+      - name: Compute tag and date strings
+        id: vars
+        run: |
+          TAG="backup-$(TZ=America/New_York date +%F-%H%M)-EST"
+          DATE_READABLE="$(TZ=America/New_York date +'%Y-%m-%d %H:%M EST')"
+          COMMIT_SHA="${GITHUB_SHA}"
+          echo "tag=${TAG}"           >> "$GITHUB_OUTPUT"
+          echo "date=${DATE_READABLE}" >> "$GITHUB_OUTPUT"
+          echo "sha=${COMMIT_SHA}"    >> "$GITHUB_OUTPUT"
+
+      # ── 3. Create and push an annotated git tag ───────────────────────────────
+      - name: Create and push annotated tag
+        env:
+          TAG: ${{ steps.vars.outputs.tag }}
+          DATE_READABLE: ${{ steps.vars.outputs.date }}
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git tag -a "${TAG}" -m "Nightly backup ${DATE_READABLE}"
+          git push origin "${TAG}"
+
+      # ── 4. Build a clean zip (excludes build artefacts and backup files) ──────
+      - name: Create source zip
+        env:
+          TAG: ${{ steps.vars.outputs.tag }}
+        run: |
+          ZIP_NAME="aiandwebservices-next-${TAG}.zip"
+          zip -r "${ZIP_NAME}" . \
+            --exclude "node_modules/*" \
+            --exclude ".next/*" \
+            --exclude ".git/*" \
+            --exclude ".vercel/*" \
+            --exclude "coverage/*" \
+            --exclude "dist/*" \
+            --exclude "build/*" \
+            --exclude ".turbo/*" \
+            --exclude "*.log" \
+            --exclude ".env" \
+            --exclude ".env.*" \
+            --exclude "*.env" \
+            --exclude "*.backup-*"
+          echo "zip_name=${ZIP_NAME}" >> "$GITHUB_OUTPUT"
+        id: zip
+
+      # ── 5. Create GitHub Release and attach the zip ───────────────────────────
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: ${{ steps.vars.outputs.tag }}
+          name: "Nightly backup ${{ steps.vars.outputs.date }}"
+          prerelease: true
+          body: |
+            ## Automated nightly snapshot
+
+            This release is created automatically by the **Nightly Backup** workflow.
+            It is marked as a pre-release so it does not appear as the "Latest release".
+
+            | Field | Value |
+            |-------|-------|
+            | Snapshot date | ${{ steps.vars.outputs.date }} |
+            | Commit SHA | `${{ steps.vars.outputs.sha }}` |
+            | Branch | `main` |
+
+            ### Restore from this tag (in-place rollback)
+            ```bash
+            git fetch --tags
+            git reset --hard ${{ steps.vars.outputs.tag }}
+            git push --force-with-lease origin main
+            ```
+
+            ### Restore from the zip
+            Download the attached `.zip`, then:
+            ```bash
+            unzip aiandwebservices-next-*.zip -d aiandwebservices-next-restored
+            cd aiandwebservices-next-restored
+            npm install
+            ```
+          files: ${{ steps.zip.outputs.zip_name }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      # ── 6. Prune: keep the 90 most-recent backup releases, delete the rest ────
+      - name: Prune old backup releases (keep newest 90)
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          # List all releases whose tag starts with "backup-", oldest first
+          ALL=$(gh release list --limit 200 --json tagName,createdAt \
+            --jq '[.[] | select(.tagName | startswith("backup-"))] | sort_by(.createdAt) | .[].tagName')
+
+          TOTAL=$(echo "${ALL}" | grep -c . || true)
+          KEEP=90
+          DELETE_COUNT=$(( TOTAL - KEEP ))
+
+          if [ "${DELETE_COUNT}" -le 0 ]; then
+            echo "Only ${TOTAL} backup release(s) found — nothing to prune."
+            exit 0
+          fi
+
+          echo "Found ${TOTAL} backup releases; deleting oldest ${DELETE_COUNT}."
+
+          TO_DELETE=$(echo "${ALL}" | head -n "${DELETE_COUNT}")
+
+          while IFS= read -r tag; do
+            [ -z "${tag}" ] && continue
+            echo "Deleting release and tag: ${tag}"
+            gh release delete "${tag}" --yes --cleanup-tag || true
+          done <<< "${TO_DELETE}"
