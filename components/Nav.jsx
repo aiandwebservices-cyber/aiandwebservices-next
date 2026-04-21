@@ -202,6 +202,14 @@ export default function Nav() {
               </button>
             );
           })}
+          <Link
+            href="/contact"
+            className={`nav-pill${isOnContactPage ? ' active' : ''}`}
+            role="menuitem"
+            aria-current={isOnContactPage ? 'true' : undefined}
+          >
+            Contact
+          </Link>
         </div>
 
         <div className="nav-right">
