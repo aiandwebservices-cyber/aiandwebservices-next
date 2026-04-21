@@ -409,11 +409,11 @@ export default function Hero() {
           .h-ctas { flex-direction:column;width:100%;max-width:340px; }
           .h-btn-primary, .h-btn-ghost { width:100%;text-align:center; }
           .h-scroll { display:none; }
-          .h-h1 { font-size:clamp(52px,9.5vw,64px);letter-spacing:-0.5px;overflow-wrap:break-word;hyphens:auto; }
+          .h-h1 { font-size:clamp(54px,9.5vw,66px);letter-spacing:-0.5px;overflow-wrap:break-word;hyphens:auto; }
         }
         @media (max-width:480px) {
           .h-eyebrow { font-size:10px;padding:6px 14px; }
-          .h-h1 { font-size:clamp(42px,8.5vw,52px);letter-spacing:-0.5px;overflow-wrap:break-word;hyphens:auto; }
+          .h-h1 { font-size:clamp(44px,8.5vw,54px);letter-spacing:-0.5px;overflow-wrap:break-word;hyphens:auto; }
           .h-dash-metrics { grid-template-columns:1fr;gap:6px; }
         }
       `}</style>
