@@ -145,10 +145,10 @@ export default function Nav() {
 
         <div className="nav-center" role="menubar" aria-label="Site sections">
           <button
-            className={`nav-pill${currentPanel === 0 ? ' active' : ''}`}
+            className={`nav-pill${currentPanel === 0 && !isOnContactPage ? ' active' : ''}`}
             onClick={() => go(0)}
             role="menuitem"
-            aria-current={currentPanel === 0 ? 'true' : undefined}
+            aria-current={currentPanel === 0 && !isOnContactPage ? 'true' : undefined}
           >
             Home
           </button>
@@ -202,14 +202,14 @@ export default function Nav() {
               </button>
             );
           })}
-          <Link
-            href="/contact"
-            className={`nav-pill${isOnContactPage ? ' active' : ''}`}
+          <button
+            className={`nav-pill${isOnContactPage || currentPanel === 8 ? ' active' : ''}`}
+            onClick={() => go(8)}
             role="menuitem"
-            aria-current={isOnContactPage ? 'true' : undefined}
+            aria-current={isOnContactPage || currentPanel === 8 ? 'true' : undefined}
           >
             Contact
-          </Link>
+          </button>
         </div>
 
         <div className="nav-right">
@@ -308,13 +308,12 @@ export default function Nav() {
             </button>
           );
         })}
-        <Link
-          href="/contact"
-          className={`mob-link${pathname === '/contact' ? ' active' : ''}`}
-          onClick={closeMenu}
+        <button
+          className={`mob-link${isOnContactPage || currentPanel === 8 ? ' active' : ''}`}
+          onClick={() => { mGo(8); closeMenu(); }}
         >
           Contact
-        </Link>
+        </button>
         <Link href="/checklist" className="mob-cta" onClick={closeMenu}>Take the AI Readiness Check</Link>
       </div>
 

@@ -64,7 +64,7 @@ export function useHorizontalScroll() {
     }
 
     function updateUIVisuals() {
-      const panelMap = [0, 1, 2, 3, 4, 5, 6, 7];
+      const panelMap = [0, 1, 2, 3, 4, 5, 6, 7, 8];
       dotsEl.forEach((d, i) => {
         d.classList.toggle('on', i === cur);
         d.setAttribute('aria-selected', i === cur ? 'true' : 'false');
@@ -90,7 +90,7 @@ export function useHorizontalScroll() {
         history.replaceState({ panel: cur }, '', url);
       }
       window.dispatchEvent(new CustomEvent('panelchange', { detail: cur }));
-      const panelMap = [0, 1, 2, 3, 4, 5, 6, 7];
+      const panelMap = [0, 1, 2, 3, 4, 5, 6, 7, 8];
       dotsEl.forEach((d, i) => {
         d.classList.toggle('on', i === cur);
         d.setAttribute('aria-selected', i === cur ? 'true' : 'false');
