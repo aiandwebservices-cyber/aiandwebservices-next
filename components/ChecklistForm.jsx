@@ -241,7 +241,7 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
     return (
       <div>
         {/* Sticky score bar */}
-        <div style={{ position: 'sticky', top: 0, zIndex: 30, background: '#fff', borderBottom: '1px solid #e5e7eb', padding: '10px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
+        <div className="cl-sticky-bar" style={{ position: 'sticky', top: 0, zIndex: 30, background: '#fff', borderBottom: '1px solid #e5e7eb', padding: '10px 20px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '10px' }}>
           <div style={{ display: 'flex', alignItems: 'center', gap: '12px', flexWrap: 'wrap' }}>
             <div style={{ display: 'flex', alignItems: 'baseline', gap: '4px' }}>
               <span style={{ fontSize: '14px', fontWeight: 700, color: '#374151' }}>Score:</span>
@@ -326,7 +326,7 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
           ))}
 
           {/* Bottom submit */}
-          <div style={{ background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '12px', padding: '28px', textAlign: 'center', marginTop: '16px' }}>
+          <div className="cl-submit-card" style={{ background: '#f9fafb', border: '1px solid #e5e7eb', borderRadius: '12px', padding: '28px', textAlign: 'center', marginTop: '16px' }}>
             <div style={{ fontSize: '22px', fontWeight: 800, color: scoreColor(yesCount), marginBottom: '4px' }}>{yesCount}/20 — {tier.label}</div>
             <div style={{ fontSize: '13px', color: '#9ca3af', marginBottom: '10px' }}>Answered: {answeredCount}/20</div>
             <p style={{ fontSize: '14px', color: '#6b7280', marginBottom: '20px', lineHeight: 1.6 }}>{tier.desc}</p>
@@ -338,9 +338,19 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
             <button
               onClick={handleSubmitAssessment}
               disabled={submitting}
-              style={{ ...primaryBtnStyle, maxWidth: '320px', margin: '0 auto', display: 'inline-flex', alignItems: 'center', gap: '8px', opacity: submitting ? 0.7 : 1 }}
+              style={{ ...primaryBtnStyle, maxWidth: '320px', margin: '0 auto', display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px', opacity: submitting ? 0.7 : 1 }}
             >
               {submitting ? <><Loader2 size={16} className="spin" /> Submitting…</> : 'Submit & Get My Results'}
+            </button>
+            <button
+              type="button"
+              className="cl-print-btn"
+              onClick={() => window.print()}
+              style={{ display: 'block', margin: '12px auto 0', background: 'none', border: 'none', cursor: 'pointer', color: '#2563eb', textDecoration: 'underline', fontSize: '14px' }}
+              onMouseEnter={e => e.currentTarget.style.color = '#1e40af'}
+              onMouseLeave={e => e.currentTarget.style.color = '#2563eb'}
+            >
+              Print as PDF
             </button>
             {answeredCount === 0 && (
               <p style={{ fontSize: '12px', color: '#9ca3af', marginTop: '12px' }}>
@@ -400,7 +410,7 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
         </div>
 
         <div style={{ textAlign: 'center' }}>
-          <button onClick={handlePrint} style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '11px 22px', background: '#f3f4f6', border: '1px solid #e5e7eb', borderRadius: '8px', fontWeight: 600, fontSize: '14px', color: '#374151', cursor: 'pointer' }}>
+          <button onClick={handlePrint} className="cl-print-btn" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '11px 22px', background: '#f3f4f6', border: '1px solid #e5e7eb', borderRadius: '8px', fontWeight: 600, fontSize: '14px', color: '#374151', cursor: 'pointer' }}>
             <Download size={16} />
             Save as PDF
           </button>
@@ -462,9 +472,27 @@ const pillBase = {
 
 const printStyles = `
   @media print {
-    body { background: white; }
-    section:first-of-type { display: none !important; }
-    nav, footer, button, .floating-cta-wrap { display: none !important; }
+    /* Site chrome */
+    nav, footer, #nav, #mobile-menu, #dots, .arr,
+    .floating-cta-wrap, [id^="crisp"], [class*="crisp"] { display: none !important; }
+
+    /* Interactive chrome — sticky bar, submit buttons, print button */
+    .cl-sticky-bar, .cl-submit-card, .cl-print-btn { display: none !important; }
+
+    /* Preserve answer pill colours in print */
+    * { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+
+    /* Don't hide the answer pills — only hide non-pill buttons */
+    button:not([aria-pressed]) { display: none !important; }
+
+    /* Show pill-group buttons (Yes / No / Skip) */
+    .pill-group { display: flex !important; }
+    .pill-group button { display: inline-flex !important; }
+
+    /* Avoid breaking a question card across pages */
+    .checklist-question-card, .checklist-category { break-inside: avoid; page-break-inside: avoid; }
+
+    body { background: white !important; color: black !important; }
     * { box-shadow: none !important; }
   }
 `;

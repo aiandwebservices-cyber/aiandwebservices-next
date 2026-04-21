@@ -1,4 +1,5 @@
 'use client';
+import { Suspense } from 'react';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import { LocalBusinessSchema, HomepageFAQSchema, HomepageServiceSchema } from '@/components/Schema';
@@ -10,7 +11,7 @@ import About       from '@/components/panels/About';
 import Work        from '@/components/panels/Work';
 import FAQ         from '@/components/panels/FAQ';
 import Contact          from '@/components/panels/Contact';
-import ChecklistTeaser from '@/components/panels/ChecklistTeaser';
+import ChecklistForm   from '@/components/ChecklistForm';
 import Modals      from '@/components/Modals';
 import CookieBanner from '@/components/CookieBanner';
 import ScrollInit  from '@/components/ScrollInit';
@@ -39,7 +40,10 @@ export default function Home() {
           {/* p3 */ }<About />
           {/* samples */ }<Work />
           {/* p7 */ }<FAQ />
-          {/* checklist-teaser */ }<ChecklistTeaser />
+          {/* checklist-teaser */ }
+          <section className="panel" id="checklist-teaser" aria-label="AI Readiness Assessment" style={{ overflowY: 'auto' }}>
+            <Suspense fallback={null}><ChecklistForm /></Suspense>
+          </section>
           {/* p8 */ }<Contact />
         </div>
       </main>
