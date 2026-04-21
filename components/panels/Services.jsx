@@ -191,7 +191,7 @@ export default function Services() {
 
             {/* Col 1 — identity */}
             <div className="svc-starter-left">
-              <div className="svc-starter-name" style={{ color:'#2AA5A0', fontSize:26 }}>À La Carte</div>
+              <div className="svc-starter-name" style={{ color:'#2AA5A0', fontSize:22 }}>À La Carte</div>
               <div className="svc-starter-desc">Not every problem fits a tier. Pick exactly what you need — combined however works for your business.</div>
             </div>
 
