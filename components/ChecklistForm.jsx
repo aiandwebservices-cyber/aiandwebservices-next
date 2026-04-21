@@ -454,7 +454,7 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
           <p style={{ fontSize: '15px', color: '#374151', lineHeight: 1.65, margin: 0 }}>{tier.desc}</p>
         </div>
 
-        <div ref={emailConfirmRef} style={{ background: 'rgba(42,165,160,0.06)', border: '1px solid rgba(42,165,160,0.2)', borderRadius: '12px', padding: '24px', marginBottom: '20px', textAlign: 'center' }}>
+        <div ref={emailConfirmRef} style={{ background: 'rgba(42,165,160,0.06)', border: '1px solid rgba(42,165,160,0.2)', borderRadius: '12px', padding: '24px', marginBottom: '20px', textAlign: 'center', scrollMarginTop: '120px' }}>
           <div style={{ fontSize: '16px', fontWeight: 700, color: '#111827', marginBottom: '8px' }}>Check your email</div>
           <p style={{ fontSize: '14px', color: '#6b7280', lineHeight: 1.65, marginBottom: 0 }}>
             Your results and a booking link are on their way to <strong style={{ color: '#374151' }}>{formData.email}</strong>. David will review your submission and reach out personally.
