@@ -195,7 +195,7 @@ export default function Services() {
                 <Settings size={11} color="#2AA5A0" strokeWidth={2} />
                 À La Carte · Consulting
               </div>
-              <div className="svc-starter-name">Consulting</div>
+              <div className="svc-starter-name">À La Carte</div>
               <div className="svc-starter-desc">Not every problem fits a tier. Pick exactly what you need — combined however works for your business.</div>
             </div>
 
@@ -231,26 +231,28 @@ export default function Services() {
               <div className="svc-starter-price" style={{ color:'#2AA5A0' }}><sup style={{ color:'#9ca3af' }}>$</sup>99</div>
               <div className="svc-starter-per">one-time setup</div>
               <div className="svc-starter-per">then $199/mo</div>
-              <div style={{ display:'flex', flexDirection:'row', gap:'8px', width:'100%', marginTop:'4px' }}>
-                <Link
-                  href="/services/consulting"
-                  className="svc-starter-btn"
-                  style={{ flex:1, justifyContent:'center', background:'transparent', color:'#2AA5A0', border:'2px solid #2AA5A0', boxShadow:'none' }}
-                >
-                  Learn More
-                </Link>
-                <a
-                  href="https://square.link/u/axARuYVi"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="svc-starter-btn"
-                  style={{ flex:1, justifyContent:'center', background:'linear-gradient(135deg,#2AA5A0,#1d8a85)', boxShadow:'0 4px 14px rgba(42,165,160,.35)' }}
-                >
-                  Buy
-                </a>
-              </div>
             </div>
 
+          </div>
+
+          {/* Full-width button row — below grid so bullets sit above */}
+          <div style={{ display:'flex', gap:'8px', marginTop:'14px', position:'relative', zIndex:1 }}>
+            <Link
+              href="/services/consulting"
+              className="svc-starter-btn"
+              style={{ flex:1, justifyContent:'center', background:'transparent', color:'#2AA5A0', border:'2px solid #2AA5A0', boxShadow:'none' }}
+            >
+              Learn More
+            </Link>
+            <a
+              href="https://square.link/u/axARuYVi"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="svc-starter-btn"
+              style={{ flex:1, justifyContent:'center', background:'linear-gradient(135deg,#2AA5A0,#1d8a85)', boxShadow:'0 4px 14px rgba(42,165,160,.35)' }}
+            >
+              Buy
+            </a>
           </div>
         </motion.div>
 
