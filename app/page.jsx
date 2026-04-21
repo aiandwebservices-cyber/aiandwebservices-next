@@ -15,7 +15,6 @@ import ChecklistForm   from '@/components/ChecklistForm';
 import Modals      from '@/components/Modals';
 import CookieBanner from '@/components/CookieBanner';
 import ScrollInit  from '@/components/ScrollInit';
-import PanelDots     from '@/components/PanelDots';
 import PanelsMode    from '@/components/PanelsMode';
 
 export default function Home() {
@@ -31,7 +30,6 @@ export default function Home() {
       <Nav />
 
       <main id="main-content">
-        <PanelDots />
         <div id="track">
           {/* p0 */ }<Hero />
           {/* p2 */ }<HowItWorks />

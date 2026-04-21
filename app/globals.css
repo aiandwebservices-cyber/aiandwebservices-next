@@ -141,8 +141,8 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 .nav-svc-item-compare{color:#2AA5A0;font-weight:600}
 .nav-svc-item-compare:hover{color:#fff}
 @media(max-width:1200px){.nav-book{display:none}}
-/* Hide logo + CTA together at the same threshold — keeps header balanced */
-@media(max-width:1000px){
+/* Hide logo + CTA at tablet range — mobile has its own nav layout */
+@media(min-width:769px) and (max-width:1000px){
   .logo,.logo-link{display:none!important}
   .nav-cta{display:none!important}
 }
