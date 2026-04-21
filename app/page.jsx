@@ -42,7 +42,7 @@ export default function Home() {
           {/* p7 */ }<FAQ />
           {/* checklist-teaser */ }
           <section className="panel" id="checklist-teaser" aria-label="AI Readiness Assessment" style={{ overflowY: 'auto' }}>
-            <Suspense fallback={null}><ChecklistForm /></Suspense>
+            <Suspense fallback={null}><ChecklistForm redirectOnStart="/questionnaire" /></Suspense>
           </section>
           {/* p8 */ }<Contact />
         </div>

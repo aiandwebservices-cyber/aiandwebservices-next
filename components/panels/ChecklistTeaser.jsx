@@ -53,7 +53,7 @@ export default function ChecklistTeaser() {
         </motion.p>
 
         <motion.div {...fade(0.36)} className="ct-ctas">
-          <Link href="/checklist" className="ct-btn-primary">
+          <Link href="/questionnaire" className="ct-btn-primary">
             Start the Free Assessment <ArrowRight size={16} style={{ display: 'inline', verticalAlign: 'middle', marginLeft: '4px' }} />
           </Link>
         </motion.div>

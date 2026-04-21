@@ -1,6 +1,7 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Download, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 
@@ -66,16 +67,31 @@ function scoreTier(score) {
   return { label: 'Low Readiness', range: '0–7', desc: "You're in the right place to start. Presence and foundational AI are your fastest path." };
 }
 
-export default function ChecklistForm({ hideHero = false, defaultSource = 'site' }) {
+export default function ChecklistForm({ hideHero = false, defaultSource = 'site', redirectOnStart = null }) {
   const [step, setStep] = useState('email'); // 'email' | 'questions' | 'submitted'
   const [formData, setFormData] = useState({ firstName: '', email: '', phone: '', companyName: '' });
   const searchParams = useSearchParams();
+  const router = useRouter();
   // answers[id] = 'yes' | 'no' | undefined
   const [answers, setAnswers] = useState({});
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const [leadStartedFired, setLeadStartedFired] = useState(false);
   const [finalScore, setFinalScore] = useState(0);
+
+  // On mount: pick up form data saved by the homepage panel intro step
+  useEffect(() => {
+    const raw = sessionStorage.getItem('cl_prefill');
+    if (!raw) return;
+    try {
+      const saved = JSON.parse(raw);
+      sessionStorage.removeItem('cl_prefill');
+      setFormData({ firstName: saved.firstName || '', email: saved.email || '', phone: saved.phone || '', companyName: saved.companyName || '' });
+      setLeadStartedFired(true);
+      setStep('questions');
+    } catch { /* ignore */ }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const yesCount      = Object.values(answers).filter(v => v === 'yes').length;
   const answeredCount = Object.values(answers).filter(v => v !== undefined).length;
@@ -111,6 +127,18 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
       .catch(err => console.error('[checklist-lead-started] fetch failed:', err.message));
 
     setLeadStartedFired(true);
+
+    if (redirectOnStart) {
+      sessionStorage.setItem('cl_prefill', JSON.stringify({
+        firstName: formData.firstName.trim(),
+        email: formData.email.trim(),
+        phone: formData.phone.trim(),
+        companyName: formData.companyName.trim(),
+      }));
+      router.push(redirectOnStart);
+      return;
+    }
+
     setStep('questions');
   }
 
