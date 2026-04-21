@@ -191,7 +191,7 @@ export default function Services() {
 
             {/* Col 1 — identity */}
             <div className="svc-starter-left">
-              <div className="svc-starter-name" style={{ color:'#2AA5A0', fontSize:22 }}>À La Carte</div>
+              <div className="svc-starter-name" style={{ color:'#2AA5A0', fontSize:20 }}>À La Carte</div>
               <div className="svc-starter-desc">Not every problem fits a tier. Pick exactly what you need — combined however works for your business.</div>
             </div>
 
@@ -400,7 +400,7 @@ export default function Services() {
         .svc-pop-glow { position:absolute;top:-40px;left:50%;transform:translateX(-50%);width:160px;height:120px;border-radius:50%;background:rgba(167,139,250,.12);filter:blur(40px);pointer-events:none; }
         .svc-tag { display:inline-block;font-size:9px;font-weight:800;letter-spacing:.5px;text-transform:uppercase;margin-bottom:3px; }
         .svc-plan-icon { width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center; }
-        .svc-plan-name { font-family:'Plus Jakarta Sans',sans-serif;font-size:14px;font-weight:800;color:#111827;margin-bottom:2px; }
+        .svc-plan-name { font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:#111827;margin-bottom:2px; }
         .svc-plan-desc { font-size:11px;color:#6b7280;line-height:1.6;margin-bottom:5px; }
         .svc-plan-bullets { margin:0 0 6px;padding:0;list-style:none;display:flex;flex-direction:column;gap:2px; }
         .svc-plan-bullets li { font-size:11px;color:#374151;padding-left:14px;position:relative;line-height:1.4; }
@@ -436,7 +436,7 @@ export default function Services() {
         }
         .svc-addon-card:hover { border-color:#d1d5db;transform:translateY(-3px);box-shadow:0 12px 32px rgba(0,0,0,.08); }
         .svc-addon-card-icon { width:34px;height:34px;border-radius:9px;display:flex;align-items:center;justify-content:center; }
-        .svc-addon-card-name { font-family:'Plus Jakarta Sans',sans-serif;font-size:12px;font-weight:800;color:#111827;margin-bottom:2px; }
+        .svc-addon-card-name { font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:#111827;margin-bottom:2px; }
         .svc-addon-card-price { font-size:10px;color:#9ca3af;font-weight:600;margin-bottom:6px; }
         .svc-addon-card-desc { font-size:10px;color:#6b7280;line-height:1.5;margin-bottom:8px; }
         .svc-addon-card-bullets { margin:0 0 10px;padding:0;list-style:none;display:flex;flex-direction:column;gap:3px; }
