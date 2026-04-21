@@ -241,7 +241,7 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
               Takes 2 minutes. No credit card. David personally reviews every result.
             </p>
 
-            <form onSubmit={handleStartAssessment} noValidate>
+            <form onSubmit={handleStartAssessment} noValidate suppressHydrationWarning>
               <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '14px', marginBottom: '14px' }}>
                 <div>
                   <label htmlFor="cl-firstName" style={labelStyle}>First Name <span style={{ color: '#ef4444' }}>*</span></label>

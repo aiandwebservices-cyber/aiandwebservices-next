@@ -89,7 +89,7 @@ export default function ContactForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{
+    <form onSubmit={handleSubmit} suppressHydrationWarning style={{
       padding: 'clamp(10px, 2.5vw, 20px)',
       background: 'rgba(255,255,255,.04)',
       border: '1px solid rgba(255,255,255,.08)',
