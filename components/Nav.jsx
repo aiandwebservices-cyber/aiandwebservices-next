@@ -128,7 +128,7 @@ export default function Nav() {
 
   const LogoInner = () => (
     // eslint-disable-next-line @next/next/no-img-element
-    <img src={logoSrc} alt="AIandWEBservices" width={260} height={52} style={{ display:'block' }} />
+    <img src={logoSrc} alt="AIandWEBservices" style={{ display:'block' }} />
   );
 
   return (
