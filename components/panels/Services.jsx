@@ -191,11 +191,7 @@ export default function Services() {
 
             {/* Col 1 — identity */}
             <div className="svc-starter-left">
-              <div className="svc-starter-eyebrow" style={{ color:'#2AA5A0' }}>
-                <Settings size={11} color="#2AA5A0" strokeWidth={2} />
-                À La Carte · Consulting
-              </div>
-              <div className="svc-starter-name" style={{ color:'#2AA5A0' }}>À La Carte</div>
+              <div className="svc-starter-name" style={{ color:'#2AA5A0', fontSize:26 }}>À La Carte</div>
               <div className="svc-starter-desc">Not every problem fits a tier. Pick exactly what you need — combined however works for your business.</div>
             </div>
 
