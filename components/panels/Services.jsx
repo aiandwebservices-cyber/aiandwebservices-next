@@ -130,11 +130,11 @@ function PlanCard({ plan, delay, isMobile }) {
               Start a Custom Project →
             </Link>
           ) : (
-            <div style={{ display:'flex', gap:'6px', marginTop:'auto' }}>
+            <div className="svc-plan-btn-row" style={{ display:'flex', gap:'6px', marginTop:'auto', justifyContent:'flex-end' }}>
               <Link
                 href={href}
                 className="svc-plan-btn svc-plan-btn-outline"
-                style={{ flex:'1', borderColor: color, color, '--tier-color': color }}
+                style={{ borderColor: color, color, '--tier-color': color }}
               >
                 Learn More
               </Link>
@@ -143,7 +143,7 @@ function PlanCard({ plan, delay, isMobile }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="svc-plan-btn svc-plan-btn-filled"
-                style={{ flex:'1', background: popular ? 'linear-gradient(135deg,#a78bfa,#8b5cf6)' : color, borderColor: popular ? '#8b5cf6' : color }}
+                style={{ background: popular ? 'linear-gradient(135deg,#a78bfa,#8b5cf6)' : color, borderColor: popular ? '#8b5cf6' : color }}
               >
                 Buy
               </a>
@@ -225,7 +225,7 @@ export default function Services() {
               </ul>
 
               {/* Price — below bullets */}
-              <div className="svc-starter-price-below">
+              <div className="svc-starter-price-below" style={{ textAlign:'right' }}>
                 <div style={{ fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:20, fontWeight:900, color:'#2AA5A0', lineHeight:1.1 }}>Get a Quote</div>
                 <div style={{ fontSize:12, color:'#9ca3af', fontWeight:600, marginTop:2 }}>From $99 · scope-based pricing</div>
               </div>
@@ -402,7 +402,7 @@ export default function Services() {
         .svc-plan-icon { width:40px;height:40px;border-radius:10px;display:flex;align-items:center;justify-content:center; }
         .svc-plan-name { font-family:'Plus Jakarta Sans',sans-serif;font-size:20px;font-weight:800;color:#111827;margin-bottom:2px; }
         .svc-plan-desc { font-size:11px;color:#6b7280;line-height:1.6;margin-bottom:5px; }
-        .svc-plan-bullets { margin:0 0 6px;padding:0;list-style:none;display:flex;flex-direction:column;gap:2px; }
+        .svc-plan-bullets { margin:0 0 6px;padding:0 0 0 10px;list-style:none;display:flex;flex-direction:column;gap:2px; }
         .svc-plan-bullets li { font-size:11px;color:#374151;padding-left:14px;position:relative;line-height:1.4; }
         .svc-plan-bullets li::before { content:'✓';position:absolute;left:0;color:#2AA5A0;font-size:10px;font-weight:700; }
         .svc-plan-price-row { display:flex;align-items:baseline;gap:2px;margin-bottom:2px; }
@@ -412,9 +412,9 @@ export default function Services() {
         .svc-plan-btn {
           display:flex;align-items:center;justify-content:center;gap:5px;
           background:#fff;color:#2AA5A0;text-decoration:none;
-          border:1.5px solid #2AA5A0;
-          border-radius:50px;padding:8px 14px;font-size:11px;font-weight:700;
-          transition:all .2s;margin-top:auto;
+          border:1px solid #2AA5A0;
+          border-radius:50px;padding:5px 10px;font-size:10px;font-weight:700;
+          transition:all .2s;margin-top:0;
         }
         .svc-plan-btn:hover { background:var(--tier-color,#2AA5A0);border-color:var(--tier-color,#2AA5A0);color:#fff;transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.15); }
         .svc-plan-btn-filled { background:var(--tier-color,#2AA5A0);color:#fff !important;border-color:var(--tier-color,#2AA5A0); }
@@ -480,6 +480,8 @@ export default function Services() {
           .pricing-inner { padding:80px 4vw 24px; }
           .svc-plans-grid { grid-template-columns:1fr;gap:6px;margin-bottom:8px; }
           .svc-plan-card { padding:12px 12px; }
+          .svc-plan-btn-row { justify-content:flex-start !important; }
+          .svc-plan-btn-row .svc-plan-btn { flex:1; }
 
           .svc-addons-grid { gap:6px;margin-bottom:4px; }
           .svc-addon-card { padding:10px 12px; }
