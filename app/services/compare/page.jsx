@@ -58,11 +58,24 @@ export default function CompareAllPlansPage() {
         .cmp-table th, .cmp-table td { padding: 14px 16px; text-align: center; border-bottom: 1px solid rgba(0,0,0,0.06); }
         .cmp-table th:first-child, .cmp-table td:first-child { text-align: left; }
         .cmp-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 16px; border: 1px solid rgba(0,0,0,0.07); box-shadow: 0 4px 24px rgba(0,0,0,0.06); }
+        .cmp-scroll-outer { position: relative; }
         .tier-card { border-radius: 20px; padding: 28px; border: 2px solid; transition: transform .2s, box-shadow .2s; }
         .tier-card:hover { transform: translateY(-4px); box-shadow: 0 12px 40px rgba(42,165,160,0.15) !important; }
         .tier-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
         @media (max-width: 900px) { .tier-grid { grid-template-columns: repeat(2, 1fr); } }
         @media (max-width: 560px) { .tier-grid { grid-template-columns: 1fr; } .cmp-table th, .cmp-table td { padding: 10px 10px; font-size: 12px; } }
+        @media (max-width: 768px) {
+          .cmp-scroll-outer::after {
+            content:''; position:absolute; top:0; right:0; bottom:0; width:28px;
+            background:linear-gradient(to right,transparent,rgba(255,255,255,.92));
+            pointer-events:none; z-index:3; border-radius:0 16px 16px 0;
+          }
+          .cmp-table th:first-child, .cmp-table td:first-child {
+            position:sticky; left:0; z-index:2; background:#fff;
+            box-shadow:2px 0 6px rgba(0,0,0,.06);
+          }
+          .cmp-table thead tr th:first-child { background:#f8fafc; z-index:3; }
+        }
       `}</style>
 
       {/* HERO — trimmed */}
@@ -125,8 +138,9 @@ export default function CompareAllPlansPage() {
             </div>
           </FadeUp>
           <FadeUp delay={0.1}>
+            <div className="cmp-scroll-outer">
             <div className="cmp-scroll">
-              <table className="cmp-table" style={{ background: '#fff', minWidth: '700px' }}>
+              <table className="cmp-table" style={{ background: '#fff', minWidth: 'max-content' }}>
                 <thead>
                   <tr style={{ background: '#f8fafc', borderBottom: '2px solid rgba(0,0,0,0.08)' }}>
                     <th style={{ padding: '16px', fontWeight: 700, color: '#374151', fontSize: '13px', textAlign: 'left', minWidth: '200px' }}>Feature</th>
@@ -207,6 +221,7 @@ export default function CompareAllPlansPage() {
                   </tr>
                 </tbody>
               </table>
+            </div>
             </div>
           </FadeUp>
         </div>
