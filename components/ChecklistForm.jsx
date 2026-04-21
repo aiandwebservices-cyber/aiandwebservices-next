@@ -208,15 +208,15 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
     return (
       <div>
         {!hideHero && (
-          <section style={{ backgroundColor: '#111827', color: '#fff', padding: 'clamp(40px, 8vw, 80px) 20px', textAlign: 'center' }}>
+          <section style={{ backgroundColor: '#111827', color: '#fff', padding: '90px 20px', textAlign: 'center' }}>
             <div style={{ maxWidth: '720px', margin: '0 auto' }}>
-              <div style={{ fontSize: '12px', fontWeight: 700, letterSpacing: '1.5px', textTransform: 'uppercase', color: TEAL, marginBottom: '14px' }}>
+              <div style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '3px', textTransform: 'uppercase', color: TEAL, marginBottom: '10px' }}>
                 Free Resource · 5 minutes
               </div>
-              <h1 style={{ fontSize: 'clamp(28px, 5vw, 46px)', fontWeight: 800, marginBottom: '14px', lineHeight: 1.2 }}>
+              <h1 style={{ fontSize: 'clamp(28px, 5vw, 46px)', fontWeight: 800, marginBottom: '8px', lineHeight: 1.15, letterSpacing: '-1px' }}>
                 AI Readiness Assessment
               </h1>
-              <p style={{ fontSize: '17px', color: 'rgba(255,255,255,0.78)', lineHeight: 1.65, marginBottom: '10px' }}>
+              <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.78)', lineHeight: 1.6, marginBottom: '10px' }}>
                 20 questions across 5 categories. Get a personalised score and see exactly where AI automation would have the biggest impact on your business.
               </p>
               <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.45)', marginBottom: 0 }}>

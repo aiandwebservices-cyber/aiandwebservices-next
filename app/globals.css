@@ -1030,10 +1030,6 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 .contact-header{
   grid-column:1/-1;margin-bottom:20px;text-align:center;
 }
-.ct-eyebrow{display:block;font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#2AA5A0;margin-bottom:10px;}
-.ct-h2{font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(22px,3.8vw,46px);font-weight:800;letter-spacing:-1px;line-height:1.1;color:#ffffff;margin-bottom:10px;}
-.ct-h2-accent{color:#2AA5A0;}
-.ct-sub{font-size:13px;color:rgba(255,255,255,.65);max-width:520px;margin:0 auto;line-height:1.65;}
 .contact-steps{
   grid-column:1/-1;
   display:grid;grid-template-columns:1fr 1fr;gap:8px 40px;

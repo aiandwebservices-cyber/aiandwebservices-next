@@ -76,7 +76,7 @@ export default function ContactExperience({ standalone = false }) {
         maxWidth: '1200px', width: '100%', margin: '0 auto',
         padding: standalone
           ? 'clamp(40px, 5vh, 60px) 6vw clamp(10px, 1.2vw, 16px)'
-          : 'calc(68px + clamp(40px, 5vh, 60px)) 6vw clamp(10px, 1.2vw, 16px)',
+          : '90px 6vw clamp(10px, 1.2vw, 16px)',
         display: 'flex', flexDirection: 'column',
         flex: standalone ? 1 : undefined,
         height: standalone ? undefined : '100%',

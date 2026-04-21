@@ -34,10 +34,10 @@ export default function IntroPage() {
       {/* Hero */}
       <section style={{ backgroundColor: '#111827', color: '#fff', padding: 'clamp(40px, 8vw, 80px) 20px', textAlign: 'center' }}>
         <div style={{ maxWidth: '800px', margin: '0 auto' }}>
-          <div style={{ fontSize: '14px', fontWeight: '600', letterSpacing: '1px', textTransform: 'uppercase', color: '#2AA5A0', marginBottom: '16px' }}>
+          <div style={{ fontSize: '11px', fontWeight: '800', letterSpacing: '3px', textTransform: 'uppercase', color: '#2AA5A0', marginBottom: '10px' }}>
             Free Strategy Call
           </div>
-          <h1 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: '800', marginBottom: '16px', lineHeight: '1.2' }}>
+          <h1 style={{ fontSize: 'clamp(32px, 5vw, 48px)', fontWeight: '800', marginBottom: '8px', lineHeight: '1.15', letterSpacing: '-1px' }}>
             30-Minute Intro Call
           </h1>
           <p style={{ fontSize: '18px', color: 'rgba(255,255,255,0.8)', lineHeight: '1.6', marginBottom: '32px' }}>
