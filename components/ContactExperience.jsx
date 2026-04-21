@@ -86,8 +86,8 @@ export default function ContactExperience({ standalone = false }) {
 
         {/* Heading */}
         <motion.div {...fade(0)} style={{ maxWidth: '700px', margin: '0 auto', textAlign: 'center', flexShrink: 0 }}>
-          <div style={{ fontSize: 'clamp(9px, 1.2vw, 11px)', fontWeight: 800, letterSpacing: '3px', textTransform: 'uppercase', color: TEAL, marginBottom: 4 }}>GET IN TOUCH</div>
-          <Heading style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 'clamp(20px, 3.2vw, 38px)', fontWeight: 800, letterSpacing: '-1px', lineHeight: 1.08, color: '#fff', marginBottom: 6 }}>
+          <div style={{ fontSize: 'clamp(9px, 1.2vw, 11px)', fontWeight: 800, letterSpacing: '3px', textTransform: 'uppercase', color: TEAL, marginBottom: 24 }}>GET IN TOUCH</div>
+          <Heading style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 'clamp(20px, 3.2vw, 38px)', fontWeight: 800, letterSpacing: '-1px', lineHeight: 1.08, color: '#fff', marginBottom: 26 }}>
             Get a free 30-minute audit.<br /><span style={{ color: TEAL }}>No pitch.</span>
           </Heading>
           <p style={{ fontSize: 'clamp(11px, 1.5vw, 13px)', color: 'rgba(255,255,255,.65)', lineHeight: 1.5, maxWidth: '560px', margin: '0 auto' }}>
