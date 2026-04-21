@@ -76,8 +76,8 @@ export default function BladeRoom() {
   return (
     <div style={{ fontFamily: "'Barlow','Helvetica Neue',sans-serif", background: BLACK, color: OFF, overflowX: 'hidden' }}>
       {isPreview && <style>{`
-        .hero-h1{font-size:clamp(5rem,7.5vw,8rem) !important}
-        @media(max-width:768px){.hero-h1{font-size:clamp(3.3rem,7.5vw,8rem) !important}}
+        .hero-h1{font-size:clamp(3rem,7.5vw,8rem) !important}
+        @media(max-width:768px){.hero-h1{font-size:clamp(2.2rem,7.5vw,8rem) !important}}
         .btn-book{font-size:.58rem !important;padding:.45rem 1rem !important}
         .btn-out{font-size:.58rem !important;padding:.5rem 1.2rem !important}
         .hero-gallery{width:175px !important}
@@ -113,6 +113,7 @@ export default function BladeRoom() {
         .hero-tag.hidden{opacity:0;transform:translateY(16px)}
         .hero-tag::before{content:'';width:32px;height:1px;background:${GOLD}}
         .hero-h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(10.4rem,13.6vw,14.6rem);line-height:.9;letter-spacing:.03em;margin-bottom:2rem}
+        @media(max-width:768px){.hero-h1{font-size:clamp(2.8rem,10vw,5rem)}}
         .hero-h1 .line{display:block;transition:transform 1.3s cubic-bezier(.16,1,.3,1),opacity 1.3s cubic-bezier(.16,1,.3,1)}
         .hero-h1 .line.hidden{transform:translateY(80px);opacity:0}
         .hero-h1 .gold{color:${GOLD}}
