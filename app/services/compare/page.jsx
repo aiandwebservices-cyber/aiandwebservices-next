@@ -350,13 +350,13 @@ export default function CompareAllPlansPage() {
         <FadeUp>
           <div style={{ maxWidth: '580px', margin: '0 auto', textAlign: 'center' }}>
             <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontWeight: 900, color: '#111827', lineHeight: 1.08, letterSpacing: '-0.5px', marginBottom: '16px' }}>
-              Not Sure Where to Start?
+              Not Sure Which Plan Fits You?
             </h2>
             <p style={{ fontSize: '16px', color: '#6b7280', marginBottom: '36px', lineHeight: 1.7 }}>
-              Book a free audit. I&apos;ll look at your business and tell you exactly which plan makes sense — no upsell, no pressure.
+              Take the free AI Readiness Assessment. Answer a few quick questions about your business and get a personalized recommendation — which plan to start with, and exactly where AI will move the needle first.
             </p>
-            <Link href="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '16px 36px', background: ACCENT, color: '#fff', borderRadius: '50px', fontWeight: 700, fontSize: '16px', textDecoration: 'none', boxShadow: '0 10px 36px rgba(42,165,160,0.4)' }}>
-              Get My Free Audit <ArrowRight size={18} />
+            <Link href="/checklist" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '16px 36px', background: ACCENT, color: '#fff', borderRadius: '50px', fontWeight: 700, fontSize: '16px', textDecoration: 'none', boxShadow: '0 10px 36px rgba(42,165,160,0.4)' }}>
+              Take the AI Readiness Assessment <ArrowRight size={18} />
             </Link>
           </div>
         </FadeUp>
