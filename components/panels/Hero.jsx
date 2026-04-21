@@ -412,6 +412,7 @@ export default function Hero() {
           .h-h1 { font-size:clamp(50px,8vw,62px);letter-spacing:-0.5px;overflow-wrap:break-word;hyphens:auto; }
           .h-line-better { flex-direction:column !important; gap:0 !important; padding-left:0 !important; align-items:center !important; }
           .h-line-better > span:first-child { white-space:nowrap !important; }
+          .h-line-better > span { text-align:center !important; justify-content:center !important; width:100% !important; }
         }
         @media (max-width:480px) {
           .h-eyebrow { font-size:10px;padding:6px 14px; }
