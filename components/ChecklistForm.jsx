@@ -4,6 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { Download, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
+import CalResultsEmbed from './CalResultsEmbed';
 
 const TEAL = '#2AA5A0';
 
@@ -464,6 +465,18 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
             Save as PDF
           </button>
         </div>
+      </section>
+
+      <section style={{ maxWidth: '860px', margin: '0 auto', padding: 'clamp(36px, 6vw, 64px) 20px 64px' }}>
+        <div style={{ textAlign: 'center', marginBottom: '24px' }}>
+          <div style={{ fontSize: '20px', fontWeight: 700, color: '#111827', marginBottom: '8px' }}>
+            Book your free 30-minute intro call
+          </div>
+          <p style={{ fontSize: '14px', color: '#6b7280', lineHeight: 1.65, margin: 0 }}>
+            David will walk through your results and map the fastest path to impact for your business.
+          </p>
+        </div>
+        <CalResultsEmbed name={formData.firstName} email={formData.email} />
       </section>
 
       <style>{printStyles}</style>
