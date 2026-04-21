@@ -1,8 +1,7 @@
 'use client';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useRouter } from 'next/navigation';
-import Link from 'next/link';
 import { Download, CheckCircle2, AlertCircle, Loader2 } from 'lucide-react';
 import CalResultsEmbed from './CalResultsEmbed';
 
@@ -88,6 +87,7 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
   const [leadStartedFired, setLeadStartedFired] = useState(false);
   const [finalScore, setFinalScore] = useState(0);
   const [phoneError, setPhoneError] = useState(null);
+  const resultsRef = useRef(null);
 
   // On mount: pick up form data saved by the homepage panel intro step
   useEffect(() => {
@@ -195,6 +195,30 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
 
       setFinalScore(data.score ?? yesCount);
       setStep('submitted');
+      console.log('[scroll-debug] setStep(submitted) just called at', new Date().toISOString());
+      console.log('[scroll-debug] resultsRef.current at this moment:', resultsRef.current);
+      console.log('[scroll-debug] scrollY before any scroll:', window.scrollY);
+
+      requestAnimationFrame(() => {
+        console.log('[scroll-debug] rAF #1 fired. resultsRef.current:', resultsRef.current);
+        console.log('[scroll-debug] element rect:', resultsRef.current?.getBoundingClientRect());
+        requestAnimationFrame(() => {
+          console.log('[scroll-debug] rAF #2 fired. resultsRef.current:', resultsRef.current);
+          console.log('[scroll-debug] element rect:', resultsRef.current?.getBoundingClientRect());
+          if (resultsRef.current) {
+            console.log('[scroll-debug] calling scrollIntoView now. scrollY before:', window.scrollY);
+            resultsRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            setTimeout(() => {
+              console.log('[scroll-debug] 500ms after scrollIntoView. scrollY now:', window.scrollY);
+            }, 500);
+            setTimeout(() => {
+              console.log('[scroll-debug] 1500ms after scrollIntoView. scrollY now:', window.scrollY);
+            }, 1500);
+          } else {
+            console.log('[scroll-debug] resultsRef still null in rAF #2 — DOM not ready');
+          }
+        });
+      });
     } catch (err) {
       setError('Network error. Please check your connection and try again.');
       setSubmitting(false);
@@ -438,7 +462,7 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
         </section>
       )}
 
-      <section style={{ maxWidth: '640px', margin: '0 auto', padding: 'clamp(36px, 6vw, 64px) 20px' }}>
+      <section ref={resultsRef} style={{ maxWidth: '640px', margin: '0 auto', padding: 'clamp(36px, 6vw, 64px) 20px' }}>
         <div style={{ background: '#fff', border: `2px solid ${scoreColor(finalScore)}30`, borderRadius: '16px', padding: '28px', marginBottom: '24px', textAlign: 'center', boxShadow: '0 4px 20px rgba(0,0,0,0.07)' }}>
           <div style={{ fontSize: '13px', fontWeight: 700, color: '#6b7280', letterSpacing: '1px', textTransform: 'uppercase', marginBottom: '8px' }}>Your Score</div>
           <div style={{ fontSize: '64px', fontWeight: 900, color: scoreColor(finalScore), lineHeight: 1 }}>{finalScore}</div>
@@ -451,12 +475,9 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
 
         <div style={{ background: 'rgba(42,165,160,0.06)', border: '1px solid rgba(42,165,160,0.2)', borderRadius: '12px', padding: '24px', marginBottom: '20px', textAlign: 'center' }}>
           <div style={{ fontSize: '16px', fontWeight: 700, color: '#111827', marginBottom: '8px' }}>Check your email</div>
-          <p style={{ fontSize: '14px', color: '#6b7280', lineHeight: 1.65, marginBottom: '18px' }}>
+          <p style={{ fontSize: '14px', color: '#6b7280', lineHeight: 1.65, marginBottom: 0 }}>
             Your results and a booking link are on their way to <strong style={{ color: '#374151' }}>{formData.email}</strong>. David will review your submission and reach out personally.
           </p>
-          <Link href="/contact" style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', fontSize: '14px', fontWeight: 700, color: TEAL, textDecoration: 'none' }}>
-            Prefer to reach out directly? Contact David →
-          </Link>
         </div>
 
         <div style={{ textAlign: 'center' }}>
@@ -467,7 +488,7 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
         </div>
       </section>
 
-      <section style={{ maxWidth: '860px', margin: '0 auto', padding: 'clamp(36px, 6vw, 64px) 20px 64px' }}>
+      <section style={{ maxWidth: '860px', margin: '0 auto', padding: '16px 20px 64px' }}>
         <div style={{ textAlign: 'center', marginBottom: '24px' }}>
           <div style={{ fontSize: '20px', fontWeight: 700, color: '#111827', marginBottom: '8px' }}>
             Book your free 30-minute intro call
