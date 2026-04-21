@@ -43,8 +43,8 @@ export default function EmergencyForm({
   location?: 'florida' | 'newYork';
   addressPlaceholder?: string;
 }) {
-  const phone = '(754) 777-8956';
-  const phoneHref = 'tel:+17547778956';
+  const phone = location === 'newYork' ? '(917) 288-9730' : '(754) 777-8956';
+  const phoneHref = location === 'newYork' ? 'tel:+19172889730' : 'tel:+17547778956';
   const [form, setForm] = useState<FormData>(empty);
   const [errors, setErrors] = useState<Partial<Record<keyof FormData, string>>>({});
   const [submitted, setSubmitted] = useState(false);

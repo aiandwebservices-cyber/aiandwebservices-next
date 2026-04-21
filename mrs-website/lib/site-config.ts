@@ -426,8 +426,8 @@ export const NY_CONFIG: SiteConfig = {
   siteName: 'Mitigation Restoration Services',
   productionUrl: 'https://mitigationrestorationservice.com/ny',
 
-  phone: '(754) 777-8956',
-  phoneHref: 'tel:+17547778956',
+  phone: '(917) 288-9730',
+  phoneHref: 'tel:+19172889730',
   email: 'Sam@mitigationrestorationservice.co.site',
 
   address: null,
@@ -445,14 +445,14 @@ export const NY_CONFIG: SiteConfig = {
   metaDescription:
     '24/7 emergency water, fire, mold & storm damage restoration serving all five NYC boroughs — Manhattan, Brooklyn, Queens, the Bronx & Staten Island. Licensed & insured.',
   ogTitle: 'Mitigation Restoration Services | 24/7 Emergency Restoration NYC Metro',
-  ogDescription: 'When disaster strikes, we respond. 24/7 emergency restoration for NYC Metro. Call (754) 777-8956.',
+  ogDescription: 'When disaster strikes, we respond. 24/7 emergency restoration for NYC Metro. Call (917) 288-9730.',
   keywords:
     'water damage restoration NYC, mold remediation New York, fire damage restoration Brooklyn, storm damage Queens, flood damage Manhattan, IICRC certified, 24/7 emergency restoration New York',
 
   heroHeadline: 'When Disaster Strikes, We Respond.',
   heroSubheadline:
     '24/7 emergency water, fire, mold & storm damage restoration for NYC Metro — all five boroughs. Fast response. Licensed & insured.',
-  heroCtaPhone: '📞 Call Now: (754) 777-8956',
+  heroCtaPhone: '📞 Call Now: (917) 288-9730',
 
   servicesSectionSubhead: 'Full-service property damage restoration for NYC homes, apartments & businesses',
   seeOurWorkSubhead: 'Real restoration jobs — water damage, mold, and full reconstruction',
@@ -591,7 +591,7 @@ export const NY_CONFIG: SiteConfig = {
     },
     {
       q: 'What should I do first after water damage?',
-      a: "1) Ensure everyone is safe and the water source is stopped (turn off the water main or contact building management). 2) Call us immediately — (754) 777-8956. 3) Don't use electrical appliances in wet areas. 4) Remove valuables if safe to do so. 5) Document the damage with photos. Do NOT wait — mold can begin in 24–48 hours.",
+      a: "1) Ensure everyone is safe and the water source is stopped (turn off the water main or contact building management). 2) Call us immediately — (917) 288-9730. 3) Don't use electrical appliances in wet areas. 4) Remove valuables if safe to do so. 5) Document the damage with photos. Do NOT wait — mold can begin in 24–48 hours.",
     },
     {
       q: 'What should I do first after a fire?',
@@ -607,7 +607,7 @@ export const NY_CONFIG: SiteConfig = {
     },
     {
       q: 'Do you serve my borough?',
-      a: 'We serve all five NYC boroughs: Manhattan, Brooklyn, Queens, the Bronx, and Staten Island. We also serve surrounding NYC metro areas. If you\'re unsure, just call us at (754) 777-8956.',
+      a: 'We serve all five NYC boroughs: Manhattan, Brooklyn, Queens, the Bronx, and Staten Island. We also serve surrounding NYC metro areas. If you\'re unsure, just call us at (917) 288-9730.',
     },
     {
       q: 'Do you offer Spanish-speaking services?',
@@ -665,7 +665,7 @@ export const NY_CONFIG: SiteConfig = {
   schema: {
     type: 'LocalBusiness',
     name: 'Mitigation Restoration Services',
-    telephone: '+17547778956',
+    telephone: '+19172889730',
     email: 'Sam@mitigationrestorationservice.co.site',
     url: 'https://mitigationrestorationservice.com/ny',
     description: '24/7 emergency property damage restoration serving NYC Metro — water damage, fire, mold, storm & biohazard cleanup.',
