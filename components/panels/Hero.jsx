@@ -409,8 +409,8 @@ export default function Hero() {
           .h-ctas { flex-direction:column;width:100%;max-width:340px; }
           .h-btn-primary, .h-btn-ghost { width:100%;text-align:center; }
           .h-scroll { display:none; }
-          .h-h1 { font-size:clamp(52px,8vw,64px);letter-spacing:-0.5px;overflow-wrap:break-word;hyphens:auto; }
-          .h-line-better { flex-direction:column !important; gap:0 !important; padding-left:0 !important; align-items:center !important; }
+          .h-h1 { font-size:clamp(54px,8vw,66px);letter-spacing:-0.5px;overflow-wrap:break-word;hyphens:auto; }
+          .h-line-better { flex-direction:column !important; gap:0 !important; padding-left:0 !important; align-items:center !important; margin-bottom:8px !important; }
           .h-line-better > span:first-child { white-space:nowrap !important; }
           .h-line-better > span { text-align:center !important; justify-content:center !important; width:100% !important; }
         }
