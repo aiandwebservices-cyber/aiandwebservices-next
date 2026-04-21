@@ -151,7 +151,7 @@ export default function Hero() {
           <h1 className="h-h1">
             <motion.span {...reveal(0.1)} className="h-line">Stop losing leads</motion.span>
             <motion.span {...reveal(0.22)} className="h-line">to competitors with</motion.span>
-            <motion.span {...reveal(0.34)} className="h-line" style={{ display:'flex', alignItems:'baseline', justifyContent:'center', gap:'0.25em', paddingLeft:'0.25em' }}>
+            <motion.span {...reveal(0.34)} className="h-line h-line-better" style={{ display:'flex', alignItems:'baseline', justifyContent:'center', gap:'0.25em', paddingLeft:'0.25em' }}>
               <span>better</span>
               <span style={{ display:'inline-block', minWidth:'8ch', textAlign:'left', overflow:'hidden' }}>
                 <span className="h-line-accent"><RotatingWord reduced={reduced} /></span>
@@ -410,6 +410,7 @@ export default function Hero() {
           .h-btn-primary, .h-btn-ghost { width:100%;text-align:center; }
           .h-scroll { display:none; }
           .h-h1 { font-size:clamp(57px,9.5vw,69px);letter-spacing:-0.5px;overflow-wrap:break-word;hyphens:auto; }
+          .h-line-better { flex-direction:column !important; gap:0 !important; padding-left:0 !important; }
         }
         @media (max-width:480px) {
           .h-eyebrow { font-size:10px;padding:6px 14px; }
