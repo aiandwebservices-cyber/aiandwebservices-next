@@ -124,7 +124,7 @@ export default function Nav() {
   // Panels 0 (Hero), 2 (Comparison), 7 (Contact) have dark backgrounds
   const darkPanels = new Set([0, 8]); // Hero (0) and FinalCTA (8) are dark
   const isDarkSurface = isOnContactPage || darkPanels.has(currentPanel);
-  const logoSrc = isDarkSurface ? '/logo-gradient-test.svg' : '/logo-gradient-light.svg';
+  const logoSrc = isDarkSurface ? '/logo-gradient-dark.svg' : '/logo-gradient-light.svg';
 
   const LogoInner = () => (
     // eslint-disable-next-line @next/next/no-img-element
