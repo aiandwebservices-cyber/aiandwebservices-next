@@ -50,6 +50,7 @@ export default function ContactExperience({ standalone = false }) {
           .cal-cell{ overflow:hidden; }
           .contact-footer-wrap{ display:none; }
           .contact-legal-row{ display:flex; }
+          .contact-phone-cell{ padding-left:24px; }
         }
         @media(max-width:768px){
           .contact-main{
@@ -147,7 +148,7 @@ export default function ContactExperience({ standalone = false }) {
               <div style={{ width: '38px', height: '38px', minWidth: '38px', borderRadius: '10px', background: 'rgba(37,99,235,.15)', border: '1px solid rgba(37,99,235,.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#60a5fa' }}><Mail size={17} strokeWidth={1.75} /></div>
               <div><div style={{ fontSize: 12, fontWeight: 600, color: '#fff', marginBottom: 2 }}>Email</div><div style={{ fontSize: 12, color: '#60a5fa', fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>david@aiandwebservices.com</div></div>
             </a>
-            <a href="tel:+13155720710" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px', color: 'inherit' }}>
+            <a href="tel:+13155720710" className="contact-phone-cell" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px', color: 'inherit' }}>
               <div style={{ width: '38px', height: '38px', minWidth: '38px', borderRadius: '10px', background: 'rgba(37,99,235,.15)', border: '1px solid rgba(37,99,235,.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#60a5fa' }}><Phone size={17} strokeWidth={1.75} /></div>
               <div><div style={{ fontSize: 12, fontWeight: 600, color: '#fff', marginBottom: 2 }}>Phone</div><div style={{ fontSize: 12, color: '#60a5fa', fontWeight: 500 }}>(315) 572-0710</div></div>
             </a>
