@@ -404,7 +404,7 @@ export default function Hero() {
 
         /* ── Responsive ── */
         @media (max-width:768px) {
-          .h-top { padding:80px 5vw 20px; }
+          .h-top { padding:76px 5vw 20px; }
           .h-trust { flex-direction:column;align-items:center;gap:12px; }
           .h-ctas { flex-direction:column;width:100%;max-width:340px; }
           .h-btn-primary, .h-btn-ghost { width:100%;text-align:center; }
