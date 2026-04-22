@@ -115,7 +115,7 @@ export default function AriaRealty() {
         .hero-tag.hidden{opacity:0;transform:translateY(16px)}
         .hero-tag::before{content:'';width:28px;height:1px;background:${EM}}
         .hero-h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,5.5vw,5.5rem);font-weight:700;line-height:1;margin-bottom:1.75rem;overflow:hidden}
-        .hero-h1 .word{display:inline-block;transition:transform 1.2s cubic-bezier(.16,1,.3,1),opacity 1.2s cubic-bezier(.16,1,.3,1)}
+        .hero-h1 .word{display:block;white-space:nowrap;transition:transform 1.2s cubic-bezier(.16,1,.3,1),opacity 1.2s cubic-bezier(.16,1,.3,1)}
         .hero-h1 .word.hidden{transform:translateY(100%);opacity:0}
         .hero-h1 em{font-style:italic;color:${EM}}
         .hero-p{font-size:.9rem;line-height:1.85;color:${LIGHT}77;max-width:420px;margin-bottom:2.75rem;transition:opacity 1s .6s,transform 1s .6s cubic-bezier(.16,1,.3,1)}
