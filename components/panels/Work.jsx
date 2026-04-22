@@ -90,7 +90,7 @@ export default function Work() {
           </motion.div>
 
           {/* Browser iframe preview */}
-          <motion.div {...f(0.14)} className="wk-browser" style={{ flex:1, minHeight:0, maxHeight:'calc(53vh + 40px)' }}>
+          <motion.div {...f(0.14)} className="wk-browser" style={{ flex:1, minHeight:0, maxHeight:'calc(53vh + 60px)' }}>
             {/* Chrome bar */}
             <div className="wk-chrome">
               <div style={{ display:'flex', gap:5, flexShrink:0 }}>
