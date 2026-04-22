@@ -234,7 +234,7 @@ export default function FAQ() {
         }
 
         /* ── Blog section ── */
-        .fq-blog-wrap { margin-bottom: 8px; }
+        .fq-blog-wrap { margin-top: 40px; margin-bottom: 8px; }
         .fq-blog-header {
           display: flex; align-items: flex-end; justify-content: space-between;
           margin-bottom: 12px; gap: 12px;
@@ -293,7 +293,7 @@ export default function FAQ() {
           .fq-list { grid-template-columns: 1fr; }
           .fq-blog-grid { grid-template-columns: 1fr; }
           .faq-inner { padding: 80px 5vw 20px; }
-          .fq-blog-wrap { padding-top: 24px; }
+          .fq-blog-wrap { padding-top: 64px; }
         }
       `}</style>
     </section>
