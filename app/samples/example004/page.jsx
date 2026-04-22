@@ -558,7 +558,7 @@ export default function IroncladConstruction() {
         <img className="ic-hero-bg" src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1800&q=85" alt="Construction site" />
         <div className="ic-hero-canvas"><NetworkCanvas /></div>
         <div className="ic-hero-gradient" />
-        <div className={`ic-hero-badge${heroIn ? '' : ' hide'}`} style={{ position:'absolute', top:'5rem', left:'50%', transform:'translateX(-50%)', zIndex:3, whiteSpace:'nowrap' }}>South Florida · Licensed General Contractor</div>
+        <div className={`ic-hero-badge${heroIn ? '' : ' hide'}`} style={{ position:'absolute', top:'5rem', left:0, right:0, justifyContent:'center', zIndex:3 }}>South Florida · Licensed General Contractor</div>
         <div className="ic-hero-content">
           <h1 className="ic-h1">
             <span className={`line${heroIn ? '' : ' hide'}`} style={{ transitionDelay: '.1s' }}>We</span>
