@@ -106,7 +106,7 @@ export default function AriaRealty() {
         /* HERO - full split */
         .hero{position:relative;height:100vh;min-height:680px;display:grid;grid-template-columns:68% 32%;overflow:hidden}
         .hero-left{display:flex;flex-direction:column;justify-content:flex-end;padding:0 4rem 6rem;position:relative;z-index:2}
-        .hero-left::before{content:'';position:absolute;inset:0;background:linear-gradient(to right,${DARK} 80%,transparent 100%);z-index:-1}
+        .hero-left::before{content:'';position:absolute;inset:0;background:linear-gradient(to right,${DARK} 60%,transparent 100%);z-index:-1}
         .hero-right{position:relative;overflow:hidden}
         .hero-right img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.7) saturate(.9)}
         .hero-right::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,${DARK} 0%,transparent 35%)}
@@ -114,7 +114,7 @@ export default function AriaRealty() {
         .hero-tag{font-size:.65rem;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:${EM};margin-bottom:1.5rem;display:flex;align-items:center;gap:.75rem;transition:opacity 1s .2s,transform 1s .2s cubic-bezier(.16,1,.3,1)}
         .hero-tag.hidden{opacity:0;transform:translateY(16px)}
         .hero-tag::before{content:'';width:28px;height:1px;background:${EM}}
-        .hero-h1{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5.8vw,6rem);font-weight:700;line-height:1.1;margin-bottom:1.75rem}
+        .hero-h1{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5.8vw,6rem);font-weight:700;line-height:1.15;margin-bottom:1.75rem;overflow:hidden}
         .hero-h1 .word{display:block;white-space:nowrap;transition:transform 1.2s cubic-bezier(.16,1,.3,1),opacity 1.2s cubic-bezier(.16,1,.3,1)}
         .hero-h1 .word.hidden{transform:translateY(100%);opacity:0}
         .hero-h1 em{font-style:italic;color:${EM}}
@@ -189,7 +189,6 @@ export default function AriaRealty() {
         @media(max-width:960px){
           .ar-nav{padding:1rem 1.5rem}.ar-links{display:none}
           .hero{grid-template-columns:1fr;height:auto}
-          .hero-h1{font-size:clamp(2.8625rem,5.5vw,5.5625rem)}
           .hero-left{padding:4rem 1.5rem 5rem}
           .hero-right{display:none}
           .stats-bar{grid-template-columns:repeat(2,1fr)}
@@ -218,7 +217,7 @@ export default function AriaRealty() {
         <div className="hero-left">
           <div className={`hero-tag${heroIn ? '' : ' hidden'}`}>South Florida's Premier Real Estate</div>
           <h1 className="hero-h1">
-            <span className={`word${heroIn ? '' : ' hidden'}`} style={{ transitionDelay: '.1s' }}>Find the Home</span><br />
+            <span className={`word${heroIn ? '' : ' hidden'}`} style={{ transitionDelay: '.1s' }}>Find the Home</span>
             <span className={`word${heroIn ? '' : ' hidden'}`} style={{ transitionDelay: '.25s' }}>That Fits <em>Your Life</em></span>
           </h1>
           <p className={`hero-p${heroIn ? '' : ' hidden'}`}>Aria Realty specializes in luxury residential and waterfront properties across Miami-Dade, Broward, and Palm Beach. Over $183M closed in 2023.</p>
