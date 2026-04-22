@@ -226,10 +226,10 @@ export default function AriaRealty() {
           </div>
           <div className={`hero-tag${heroIn ? '' : ' hidden'}`}>South Florida's Premier Real Estate</div>
           <p className={`hero-p${heroIn ? '' : ' hidden'}`}>Aria Realty specializes in luxury residential and waterfront properties across Miami-Dade, Broward, and Palm Beach. Over $183M closed in 2023.</p>
-          <div className={`hero-btns${heroIn ? '' : ' hidden'}`}>
-            <a href="#listings" className="ar-cta-out">View Listings</a>
-            <Link href="/samples/example002/book" className="ar-cta">Book Free Consultation</Link>
-          </div>
+        </div>
+        <div className={`hero-btns${heroIn ? '' : ' hidden'}`} style={{ position:'absolute', bottom:'3rem', left:'50%', transform:'translateX(-50%)', zIndex:3, display:'flex', gap:'1rem' }}>
+          <a href="#listings" className="ar-cta-out">View Listings</a>
+          <Link href="/samples/example002/book" className="ar-cta">Book Free Consultation</Link>
         </div>
       </section>
 
