@@ -77,7 +77,7 @@ export default function BladeRoom() {
     <div style={{ fontFamily: "'Barlow','Helvetica Neue',sans-serif", background: BLACK, color: OFF, overflowX: 'hidden' }}>
       {isPreview && <style>{`
         .hero-h1{font-size:clamp(2.5rem,7.5vw,7.5rem) !important}
-        @media(max-width:768px){.hero-h1{font-size:clamp(1.7rem,7.5vw,7.5rem) !important}}
+        @media(max-width:768px){.hero-h1{font-size:clamp(2.2rem,7.5vw,8rem) !important}}
         .btn-book{font-size:.58rem !important;padding:.45rem 1rem !important}
         .btn-out{font-size:.58rem !important;padding:.5rem 1.2rem !important}
         .hero-gallery{width:175px !important}
