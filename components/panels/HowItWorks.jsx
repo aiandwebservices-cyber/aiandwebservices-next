@@ -306,7 +306,7 @@ export default function HowItWorks() {
       </div>
 
       <style>{`
-        .hiw-bg { position:absolute;inset:0;background:#cfd9e8;z-index:0; }
+        .hiw-bg { position:absolute;inset:0;background:#fff;z-index:0; }
         .hiw-orb { position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;animation:hiw-drift 12s ease-in-out infinite; }
         .hiw-orb-1 { width:420px;height:420px;top:-80px;left:-60px;background:radial-gradient(circle,rgba(42,165,160,.22) 0%,transparent 70%);animation-delay:0s; }
         .hiw-orb-2 { width:500px;height:500px;bottom:-100px;right:-80px;background:radial-gradient(circle,rgba(99,102,241,.18) 0%,transparent 70%);animation-delay:-6s; }
