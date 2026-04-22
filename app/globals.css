@@ -2376,24 +2376,6 @@ html:has(.svc-page-main){overflow:auto!important}
   #services .panel-cta-wrap { margin-top: -10px; }
 }
 
-@media (max-width: 768px) {
-  /* Defer off-screen panel rendering for smoother scroll */
-  #p2,
-  #comparison,
-  #services,
-  #p3,
-  #samples,
-  #p7,
-  #p8 {
-    content-visibility: auto;
-    contain-intrinsic-size: 1px 800px;
-  }
-
-  /* Hero always rendered (first panel, in viewport on load) */
-  #p0 {
-    content-visibility: visible;
-  }
-}
 
 /* ── Checklist / non-homepage pages: restore normal scroll ── */
 body.allow-scroll,
