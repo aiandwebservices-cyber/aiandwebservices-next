@@ -251,10 +251,8 @@ export default function BladeRoom() {
           <div className="hero-content">
             <div className={`hero-tag${heroIn ? '' : ' hidden'}`}>Fort Lauderdale · Walk-ins Welcome</div>
             <h1 className="hero-h1">
-              <span className={`line${heroIn ? '' : ' hidden'}`} style={{ transitionDelay: '.1s' }}>Sharp</span>
-              <span className={`line gold${heroIn ? '' : ' hidden'}`} style={{ transitionDelay: '.22s' }}>Cuts.</span>
-              <span className={`line${heroIn ? '' : ' hidden'}`} style={{ transitionDelay: '.34s' }}>Clean</span>
-              <span className={`line gold${heroIn ? '' : ' hidden'}`} style={{ transitionDelay: '.46s' }}>Fades.</span>
+              <span className={`line${heroIn ? '' : ' hidden'}`} style={{ transitionDelay: '.1s' }}>Sharp <span className="gold">Cuts</span></span>
+              <span className={`line${heroIn ? '' : ' hidden'}`} style={{ transitionDelay: '.22s' }}>Clean <span className="gold">Fades</span></span>
             </h1>
             <p className={`hero-sub${heroIn ? '' : ' hidden'}`}>Old-school craft. New-school precision. The Blade Room is where South Florida men come to look their best.</p>
             <div className={`hero-btns${heroIn ? '' : ' hidden'}`}>
