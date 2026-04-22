@@ -130,11 +130,11 @@ function PlanCard({ plan, delay, isMobile }) {
               Start a Custom Project →
             </Link>
           ) : (
-            <div className="svc-plan-btn-row" style={{ display:'flex', gap:'6px', marginTop:'auto', justifyContent:'flex-end' }}>
+            <div style={{ display:'flex', gap:'6px', marginTop:'auto' }}>
               <Link
                 href={href}
                 className="svc-plan-btn svc-plan-btn-outline"
-                style={{ borderColor: color, color, '--tier-color': color }}
+                style={{ flex:'1', borderColor: color, color, '--tier-color': color }}
               >
                 Learn More
               </Link>
@@ -143,7 +143,7 @@ function PlanCard({ plan, delay, isMobile }) {
                 target="_blank"
                 rel="noopener noreferrer"
                 className="svc-plan-btn svc-plan-btn-filled"
-                style={{ background: popular ? 'linear-gradient(135deg,#a78bfa,#8b5cf6)' : color, borderColor: popular ? '#8b5cf6' : color }}
+                style={{ flex:'1', background: popular ? 'linear-gradient(135deg,#a78bfa,#8b5cf6)' : color, borderColor: popular ? '#8b5cf6' : color }}
               >
                 Buy
               </a>
@@ -416,10 +416,6 @@ export default function Services() {
           border-radius:50px;padding:8px 14px;font-size:11px;font-weight:700;
           transition:all .2s;margin-top:auto;
         }
-        @media(min-width:641px){
-          .svc-plan-btn { padding:5px 10px;font-size:10px;border-width:1px;margin-top:0; }
-          .svc-plan-bullets { padding-left:10px; }
-        }
         .svc-plan-btn:hover { background:var(--tier-color,#2AA5A0);border-color:var(--tier-color,#2AA5A0);color:#fff;transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.15); }
         .svc-plan-btn-filled { background:var(--tier-color,#2AA5A0);color:#fff !important;border-color:var(--tier-color,#2AA5A0); }
         .svc-plan-btn-filled:hover { opacity:.88;transform:translateY(-1px);box-shadow:0 6px 16px rgba(0,0,0,.18); }
@@ -484,8 +480,6 @@ export default function Services() {
           .pricing-inner { padding:80px 4vw 24px; }
           .svc-plans-grid { grid-template-columns:1fr;gap:6px;margin-bottom:8px; }
           .svc-plan-card { padding:12px 12px; }
-          .svc-plan-btn-row { justify-content:flex-start !important; }
-          .svc-plan-btn-row .svc-plan-btn { flex:1; }
 
           .svc-addons-grid { gap:6px;margin-bottom:4px; }
           .svc-addon-card { padding:10px 12px; }
