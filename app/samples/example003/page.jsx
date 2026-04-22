@@ -123,7 +123,7 @@ export default function BladeRoom() {
         .hero-btns.hidden{opacity:0;transform:translateY(20px)}
 
         /* HERO GALLERY — absolute top-right */
-        .hero-gallery{position:absolute;top:90px;right:3rem;width:310px;display:flex;flex-direction:column;gap:6px;z-index:3;transition:opacity 1.1s 1s,transform 1.1s 1s cubic-bezier(.16,1,.3,1)}
+        .hero-gallery{position:absolute;top:90px;left:3rem;width:310px;display:flex;flex-direction:column;gap:6px;z-index:3;transition:opacity 1.1s 1s,transform 1.1s 1s cubic-bezier(.16,1,.3,1)}
         .hero-gallery.hidden{opacity:0;transform:translateY(-20px)}
         .hero-gallery-top{position:relative;border-radius:5px;overflow:hidden}
         .hero-gallery-main{width:100%;height:220px;object-fit:cover;object-position:top;display:block;filter:brightness(.9)}
