@@ -74,7 +74,8 @@ export const consultingContent = {
   ],
 
   comparisons: {
-    vsLabel: 'Full Monthly Plans',
+    usLabel: 'À La Carte',
+    vsLabel: 'Monthly Plans',
     rows: [
       { feature: 'Pay only for what you use',       us: true,  them: false, themCost: 'Bundled whether you need it or not' },
       { feature: 'No minimum commitment',           us: true,  them: false, themCost: 'Monthly contract' },

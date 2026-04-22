@@ -480,14 +480,14 @@ export default function ServicePageTemplate({ content: c, tier, theme: themeMode
             <FadeUp>
               <div style={{ textAlign: 'center', marginBottom: '48px' }}>
                 <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: t.eyebrow, marginBottom: '14px' }}>Why Not DIY?</div>
-                <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontWeight: 900, color: t.heading, lineHeight: 1.1, letterSpacing: '-0.5px' }}>Us vs. {c.comparisons.vsLabel}</h2>
+                <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontWeight: 900, color: t.heading, lineHeight: 1.1, letterSpacing: '-0.5px' }}>{c.comparisons.usLabel || 'Us'} vs. {c.comparisons.vsLabel}</h2>
               </div>
             </FadeUp>
             <FadeUp delay={0.1}>
               <div style={{ borderRadius: '18px', overflow: 'hidden', border: `1px solid ${t.cardBorder}`, boxShadow: t.cardShadow }}>
                 <div className="spt-cmp-row" style={{ background: t.cmpHeader }}>
                   <div style={{ fontSize: '11px', fontWeight: 700, color: t.muted, textTransform: 'uppercase', letterSpacing: '1px' }}>Feature</div>
-                  <div style={{ fontSize: '11px', fontWeight: 700, color: '#2AA5A0', textTransform: 'uppercase', letterSpacing: '1px', textAlign: 'center' }}>Us</div>
+                  <div style={{ fontSize: '11px', fontWeight: 700, color: '#2AA5A0', textTransform: 'uppercase', letterSpacing: '1px', textAlign: 'center' }}>{c.comparisons.usLabel || 'Us'}</div>
                   <div style={{ fontSize: '11px', fontWeight: 700, color: t.muted, textTransform: 'uppercase', letterSpacing: '1px', textAlign: 'center' }}>{c.comparisons.vsLabel}</div>
                 </div>
                 {c.comparisons.rows.map((row, i) => {
