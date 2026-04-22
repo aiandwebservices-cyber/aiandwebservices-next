@@ -121,7 +121,7 @@ export default function Work() {
                 title={s.label}
                 className="wk-iframe"
                 loading="lazy"
-                onLoad={() => setLoading(false)}
+                onLoad={(e) => { setLoading(false); setTimeout(() => e.target.contentWindow?.scrollTo(0, 150), 300); }}
               />
               {/* Clickable overlay — opens full sample in new tab */}
               <a
