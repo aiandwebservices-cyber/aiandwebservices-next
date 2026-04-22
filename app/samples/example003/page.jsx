@@ -75,16 +75,6 @@ export default function BladeRoom() {
 
   return (
     <div style={{ fontFamily: "'Barlow','Helvetica Neue',sans-serif", background: BLACK, color: OFF, overflowX: 'hidden' }}>
-      {isPreview && <style>{`
-        .hero-h1{font-size:clamp(2.5rem,7.5vw,7.5rem) !important}
-        @media(max-width:768px){.hero-h1{font-size:clamp(2.2rem,7.5vw,8rem) !important}}
-        .big-title{font-size:clamp(2.375rem,6.3vw,5.375rem) !important}
-        .btn-book{font-size:.58rem !important;padding:.45rem 1rem !important}
-        .btn-out{font-size:.58rem !important;padding:.5rem 1.2rem !important}
-        .hero-gallery{width:175px !important}
-        .hero-gallery-main{height:125px !important}
-        .hero-gallery-sm{height:65px !important}
-      `}</style>}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&family=Bebas+Neue&display=swap');
         *{box-sizing:border-box;margin:0;padding:0}
@@ -233,6 +223,16 @@ export default function BladeRoom() {
           .photo-grid{grid-template-columns:1fr}
         }
       `}</style>
+      {isPreview && <style>{`
+        .hero-h1{font-size:clamp(2.5rem,7.5vw,7.5rem) !important}
+        @media(max-width:768px){.hero-h1{font-size:clamp(2.2rem,7.5vw,8rem) !important}}
+        .big-title{font-size:clamp(2.375rem,6.3vw,5.375rem) !important}
+        .btn-book{font-size:.58rem !important;padding:.45rem 1rem !important}
+        .btn-out{font-size:.58rem !important;padding:.5rem 1.2rem !important}
+        .hero-gallery{width:175px !important}
+        .hero-gallery-main{height:125px !important}
+        .hero-gallery-sm{height:65px !important}
+      `}</style>}
 
       {/* NAV */}
       <nav className={`br-nav${scrollY > 60 ? ' scrolled' : ''}`}>
