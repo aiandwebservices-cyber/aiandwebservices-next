@@ -103,24 +103,25 @@ export default function AriaRealty() {
         .ar-cta-out{background:transparent;color:${EM};border:1px solid ${EM};padding:.75rem 2rem;font-size:.8rem;font-weight:500;letter-spacing:.04em;cursor:pointer;text-decoration:none;transition:all .25s;border-radius:2px;display:inline-block}
         .ar-cta-out:hover{background:${EM};color:#fff}
 
-        /* HERO - full split */
-        .hero{position:relative;height:100vh;min-height:680px;display:grid;grid-template-columns:68% 32%;overflow:hidden}
-        .hero-left{display:flex;flex-direction:column;justify-content:flex-end;padding:0 4rem 6rem;position:relative;z-index:2}
-        .hero-left::before{content:'';position:absolute;inset:0;background:linear-gradient(to right,${DARK} 25%,transparent 75%);z-index:-1}
-        .hero-right{position:relative;overflow:hidden}
-        .hero-right img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;filter:brightness(.7) saturate(.9)}
-        .hero-right::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,${DARK} 0%,transparent 35%)}
+        /* HERO - cinematic full-bleed */
+        .hero{position:relative;height:100vh;min-height:680px;overflow:hidden;display:flex;align-items:flex-end}
+        .hero-bg{position:absolute;inset:0;z-index:0}
+        .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:brightness(.55) saturate(.85)}
+        .hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,${DARK} 0%,${DARK}99 18%,transparent 55%)}
+        .hero-left{position:relative;z-index:2;width:100%;padding:0 5rem 5.5rem}
 
-        .hero-tag{font-size:.65rem;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:${EM};margin-bottom:1.5rem;display:flex;align-items:center;gap:.75rem;transition:opacity 1s .2s,transform 1s .2s cubic-bezier(.16,1,.3,1)}
+        .hero-tag{font-size:.65rem;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:${EM};margin-bottom:1.25rem;display:flex;align-items:center;gap:.75rem;transition:opacity 1s .2s,transform 1s .2s cubic-bezier(.16,1,.3,1)}
         .hero-tag.hidden{opacity:0;transform:translateY(16px)}
         .hero-tag::before{content:'';width:28px;height:1px;background:${EM}}
-        .hero-h1{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5.8vw,6rem);font-weight:700;line-height:1.15;margin-bottom:1.75rem}
+        .hero-h1{font-family:'Playfair Display',serif;font-size:clamp(3rem,7vw,7.5rem);font-weight:700;line-height:1.05;margin-bottom:2rem}
         .hero-h1 .word{display:block;white-space:nowrap;transition:transform 1.2s cubic-bezier(.16,1,.3,1),opacity 1.2s cubic-bezier(.16,1,.3,1)}
-        .hero-h1 .word.hidden{transform:translateY(100%);opacity:0}
+        .hero-h1 .word.hidden{transform:translateY(40px);opacity:0}
+        .hero-h1 .indent{padding-left:6rem}
         .hero-h1 em{font-style:italic;color:${EM}}
-        .hero-p{font-size:.9rem;line-height:1.85;color:${LIGHT}77;max-width:420px;margin-bottom:2.75rem;margin-left:auto;margin-right:auto;text-align:center;transition:opacity 1s .6s,transform 1s .6s cubic-bezier(.16,1,.3,1)}
+        .hero-row{display:flex;align-items:flex-end;gap:4rem}
+        .hero-p{font-size:.875rem;line-height:1.85;color:${LIGHT}77;max-width:340px;margin-bottom:0;transition:opacity 1s .6s,transform 1s .6s cubic-bezier(.16,1,.3,1)}
         .hero-p.hidden{opacity:0;transform:translateY(20px)}
-        .hero-btns{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;transition:opacity 1s .85s,transform 1s .85s cubic-bezier(.16,1,.3,1)}
+        .hero-btns{display:flex;gap:1rem;flex-wrap:wrap;margin-top:2rem;transition:opacity 1s .85s,transform 1s .85s cubic-bezier(.16,1,.3,1)}
         .hero-btns.hidden{opacity:0;transform:translateY(20px)}
 
         /* STATS BAR */
@@ -214,20 +215,24 @@ export default function AriaRealty() {
 
       {/* HERO */}
       <section className="hero">
+        <div className="hero-bg">
+          <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1400&q=90" alt="Luxury South Florida estate" />
+        </div>
         <div className="hero-left">
           <div className={`hero-tag${heroIn ? '' : ' hidden'}`}>South Florida's Premier Real Estate</div>
           <h1 className="hero-h1">
             <span className={`word${heroIn ? '' : ' hidden'}`} style={{ transitionDelay: '.1s' }}>Find the Home That Fits</span>
-            <span className={`word${heroIn ? '' : ' hidden'}`} style={{ transitionDelay: '.25s', textAlign: 'right' }}><em>Your Life</em></span>
+            <span className={`word indent${heroIn ? '' : ' hidden'}`} style={{ transitionDelay: '.3s' }}><em>Your Life</em></span>
           </h1>
-          <p className={`hero-p${heroIn ? '' : ' hidden'}`}>Aria Realty specializes in luxury residential and waterfront properties across Miami-Dade, Broward, and Palm Beach. Over $183M closed in 2023.</p>
-          <div className={`hero-btns${heroIn ? '' : ' hidden'}`}>
-            <a href="#listings" className="ar-cta-out">View Listings</a>
-            <Link href="/samples/example002/book" className="ar-cta">Book Free Consultation</Link>
+          <div className="hero-row">
+            <div>
+              <p className={`hero-p${heroIn ? '' : ' hidden'}`}>Aria Realty specializes in luxury residential and waterfront properties across Miami-Dade, Broward, and Palm Beach. Over $183M closed in 2023.</p>
+              <div className={`hero-btns${heroIn ? '' : ' hidden'}`}>
+                <a href="#listings" className="ar-cta-out">View Listings</a>
+                <Link href="/samples/example002/book" className="ar-cta">Book Free Consultation</Link>
+              </div>
+            </div>
           </div>
-        </div>
-        <div className="hero-right">
-          <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1400&q=90" alt="Luxury South Florida estate" />
         </div>
       </section>
 
