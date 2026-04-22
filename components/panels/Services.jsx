@@ -202,7 +202,7 @@ export default function Services() {
                 <div className="svc-starter-bullets-desktop">
                   <div className="svc-starter-col svc-starter-bullets-col">
                     <div className="svc-starter-col-label">Available services</div>
-                    {['AI readiness audit', 'One-time chatbot build', 'Tech stack consultation', 'Custom integration'].map(b => (
+                    {['Professional website (15 pages)', 'Advanced AI assistant (knowledge base)', 'Local SEO + Google Business Profile', 'Voice AI (answers calls)', 'AI automation system (lead qualification)'].map(b => (
                       <div key={b} className="svc-starter-bullet">
                         <span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>{b}
                       </div>
@@ -210,7 +210,7 @@ export default function Services() {
                   </div>
                   <div className="svc-starter-col svc-starter-bullets-col">
                     <div className="svc-starter-col-label">Also available</div>
-                    {['Hourly strategy calls', 'Automation workflow design', 'CRM setup & migration'].map(b => (
+                    {['Calendar + CRM integration', 'Sales funnel design + build', 'Email marketing + welcome sequence', 'Any service from the menu', 'Have something else in mind? Let\'s talk'].map(b => (
                       <div key={b} className="svc-starter-bullet">
                         <span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>{b}
                       </div>
@@ -218,9 +218,13 @@ export default function Services() {
                   </div>
                 </div>
                 <ul className="svc-starter-bullets-mobile">
-                  <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>AI readiness audit &amp; strategy</li>
-                  <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>One-time builds — chatbot, integrations, CRM</li>
-                  <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>Hourly strategy calls with David</li>
+                  <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>Professional website (15 pages)</li>
+                  <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>Advanced AI assistant (knowledge base)</li>
+                  <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>Local SEO + Google Business Profile</li>
+                  <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>Voice AI (answers calls)</li>
+                  <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>AI automation system (lead qualification)</li>
+                  <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>Any service from the menu</li>
+                  <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>Have something else in mind? Let&apos;s talk</li>
                 </ul>
               </div>
 
@@ -366,7 +370,7 @@ export default function Services() {
         .svc-starter-bullet { display:flex;align-items:flex-start;gap:6px;font-size:11px;color:#374151;line-height:1.4;margin-bottom:5px; }
         .svc-starter-check { color:#3b82f6;font-size:10px;font-weight:800;flex-shrink:0;margin-top:1px; }
 
-        .svc-starter-grid { position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start; }
+        .svc-starter-grid { position:relative;z-index:1;display:grid;grid-template-columns:2fr 3fr;gap:24px;align-items:start; }
         .svc-starter-right-col { display:flex;flex-direction:column;gap:12px; }
         .svc-starter-bullets-wrap { flex:1; }
         .svc-starter-bullets-desktop { display:grid;grid-template-columns:1fr 1fr;gap:24px; }
