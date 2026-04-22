@@ -308,7 +308,7 @@ export default function HowItWorks() {
       </div>
 
       <style>{`
-        .hiw-bg { position:absolute;inset:0;background:linear-gradient(135deg,#dbeafe 0%,#bfdbfe 60%,#c7d2fe 100%);z-index:0; }
+        .hiw-bg { position:absolute;inset:0;background:transparent;z-index:0; }
         .hiw-orb { position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;animation:hiw-drift 12s ease-in-out infinite; }
         .hiw-orb-1 { width:420px;height:420px;top:-80px;left:-60px;background:radial-gradient(circle,rgba(42,165,160,.22) 0%,transparent 70%);animation-delay:0s; }
         .hiw-orb-2 { width:500px;height:500px;bottom:-100px;right:-80px;background:radial-gradient(circle,rgba(99,102,241,.18) 0%,transparent 70%);animation-delay:-6s; }
@@ -331,6 +331,7 @@ export default function HowItWorks() {
           position:relative;overflow:hidden;
           background:#fff;border:1px solid #e5e7eb;border-radius:16px;
           padding:18px 16px 16px;
+          box-shadow:0 2px 8px rgba(15,30,61,.07);
           transition:transform .3s cubic-bezier(.21,.47,.32,.98),box-shadow .3s;
         }
         .hiw-card:hover {
@@ -378,7 +379,7 @@ export default function HowItWorks() {
         /* ── Dashboard mockup ── */
         .hiw-dashboard {
           background:#fff;border:1px solid #e5e7eb;border-radius:18px;
-          overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.05);
+          overflow:hidden;box-shadow:0 4px 16px rgba(15,30,61,.09);
           display:flex;flex-direction:column;height:293px;width:100%;
         }
         .hiw-dash-header {
@@ -410,7 +411,7 @@ export default function HowItWorks() {
         /* ── Chat mockup ── */
         .hiw-chat {
           background:#fff;border:1px solid #e5e7eb;border-radius:18px;
-          overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.05);
+          overflow:hidden;box-shadow:0 4px 16px rgba(15,30,61,.09);
           display:flex;flex-direction:column;height:293px;width:100%;
         }
         .hiw-chat-bar {

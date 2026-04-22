@@ -301,8 +301,8 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 
 /* ── SHARED PANEL CTA ── */
 /* ── SHARED PANEL CTA WRAP — sticky dock at viewport bottom ── */
-.panel-cta-wrap{position:sticky;bottom:0;z-index:10;background:linear-gradient(to top,rgba(255,255,255,0.95) 60%,rgba(255,255,255,0) 100%);backdrop-filter:blur(6px);}
-.panel-cta-card{background:#dffbf5;border:1px solid #b2f0e3;border-radius:18px;padding:18px 32px;max-width:520px;margin:0 auto 0;text-align:center;box-shadow:0 6px 28px rgba(59,130,246,.09);backdrop-filter:blur(8px);min-height:180px;display:flex;flex-direction:column;justify-content:center;}
+.panel-cta-wrap{position:sticky;bottom:0;z-index:10;background:linear-gradient(to top,rgba(238,243,250,0.97) 60%,rgba(238,243,250,0) 100%);backdrop-filter:blur(6px);}
+.panel-cta-card{background:#f1f7fc;border:1px solid #d6e2f0;border-radius:18px;padding:18px 32px;max-width:520px;margin:0 auto 0;text-align:center;box-shadow:0 6px 28px rgba(59,130,246,.09);backdrop-filter:blur(8px);min-height:180px;display:flex;flex-direction:column;justify-content:center;}
 .panel-cta-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;color:#0f172a;margin-bottom:5px;letter-spacing:-0.3px;line-height:1.25;}
 .panel-cta-sub{font-size:13px;color:#134e4a;margin-bottom:14px;line-height:1.6;}
 .panel-cta-btn{display:inline-flex;align-items:center;justify-content:center;background-color:#2AA5A0;background:#2AA5A0;color:#fff!important;border:none;border-radius:999px;padding:12px 28px;font-size:13px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;box-shadow:0 6px 22px rgba(42,165,160,.4);transition:transform .2s ease,background .2s ease,box-shadow .2s ease;letter-spacing:0.1px;text-decoration:none!important;}
@@ -378,7 +378,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 .cat-crypto:hover{box-shadow:0 12px 36px rgba(14,165,233,.12)}
 
 /* ── PANEL 2: FULL FUNNEL ── */
-#p2{background:#fff}
+#p2{background:#eef3fa}
 .funnel-inner{
   height:100%;display:flex;flex-direction:column;
   padding:clamp(60px,10vw,88px) 6vw clamp(24px,3vw,40px);
