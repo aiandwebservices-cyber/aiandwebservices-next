@@ -195,62 +195,62 @@ export default function Services() {
               <div className="svc-starter-desc">Not every problem fits a tier. Pick exactly what you need — combined however works for your business.</div>
             </div>
 
-            {/* Col 2 — bullets + price stacked */}
+            {/* Col 2 — bullets left, price+buttons right */}
             <div className="svc-starter-right-col">
-              {/* Desktop bullet cols */}
-              <div className="svc-starter-bullets-desktop">
-                <div className="svc-starter-col svc-starter-bullets-col">
-                  <div className="svc-starter-col-label">Available services</div>
-                  {['AI readiness audit', 'One-time chatbot build', 'Tech stack consultation', 'Custom integration'].map(b => (
-                    <div key={b} className="svc-starter-bullet">
-                      <span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>{b}
-                    </div>
-                  ))}
+              {/* Bullets section */}
+              <div className="svc-starter-bullets-wrap">
+                <div className="svc-starter-bullets-desktop">
+                  <div className="svc-starter-col svc-starter-bullets-col">
+                    <div className="svc-starter-col-label">Available services</div>
+                    {['AI readiness audit', 'One-time chatbot build', 'Tech stack consultation', 'Custom integration'].map(b => (
+                      <div key={b} className="svc-starter-bullet">
+                        <span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>{b}
+                      </div>
+                    ))}
+                  </div>
+                  <div className="svc-starter-col svc-starter-bullets-col">
+                    <div className="svc-starter-col-label">Also available</div>
+                    {['Hourly strategy calls', 'Automation workflow design', 'CRM setup & migration'].map(b => (
+                      <div key={b} className="svc-starter-bullet">
+                        <span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>{b}
+                      </div>
+                    ))}
+                  </div>
                 </div>
-                <div className="svc-starter-col svc-starter-bullets-col">
-                  <div className="svc-starter-col-label">Also available</div>
-                  {['Hourly strategy calls', 'Automation workflow design', 'CRM setup & migration'].map(b => (
-                    <div key={b} className="svc-starter-bullet">
-                      <span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>{b}
-                    </div>
-                  ))}
-                </div>
+                <ul className="svc-starter-bullets-mobile">
+                  <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>AI readiness audit &amp; strategy</li>
+                  <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>One-time builds — chatbot, integrations, CRM</li>
+                  <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>Hourly strategy calls with David</li>
+                </ul>
               </div>
 
-              {/* Mobile-only: 3-bullet summary */}
-              <ul className="svc-starter-bullets-mobile">
-                <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>AI readiness audit &amp; strategy</li>
-                <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>One-time builds — chatbot, integrations, CRM</li>
-                <li><span className="svc-starter-check" style={{ color:'#2AA5A0' }}>✓</span>Hourly strategy calls with David</li>
-              </ul>
-
-              {/* Price — below bullets */}
-              <div className="svc-starter-price-below" style={{ textAlign:'right' }}>
-                <div style={{ fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:20, fontWeight:900, color:'#2AA5A0', lineHeight:1.1 }}>Get a Quote</div>
-                <div style={{ fontSize:12, color:'#9ca3af', fontWeight:600, marginTop:2 }}>From $99 · scope-based pricing</div>
+              {/* Price + buttons — right side on desktop, below bullets on mobile */}
+              <div className="svc-consulting-cta-col">
+                <div className="svc-starter-price-below" style={{ textAlign:'right' }}>
+                  <div style={{ fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:20, fontWeight:900, color:'#2AA5A0', lineHeight:1.1 }}>Get a Quote</div>
+                  <div style={{ fontSize:12, color:'#9ca3af', fontWeight:600, marginTop:2 }}>From $99 · scope-based pricing</div>
+                </div>
+                <div className="svc-consulting-btn-row" style={{ position:'relative', zIndex:1 }}>
+                  <Link
+                    href="/services/consulting"
+                    className="svc-starter-btn svc-consulting-btn-learn"
+                    style={{ justifyContent:'center', background:'transparent', color:'#2AA5A0', border:'2px solid #2AA5A0', boxShadow:'none' }}
+                  >
+                    Learn More
+                  </Link>
+                  <a
+                    href="https://square.link/u/axARuYVi"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="svc-starter-btn svc-consulting-btn-buy"
+                    style={{ justifyContent:'center', background:'linear-gradient(135deg,#2AA5A0,#1d8a85)', boxShadow:'0 4px 14px rgba(42,165,160,.35)' }}
+                  >
+                    Buy
+                  </a>
+                </div>
               </div>
             </div>
 
-          </div>
-
-          {/* Full-width button row — below grid so bullets sit above */}
-          <div className="svc-consulting-btn-row" style={{ display:'flex', gap:'8px', marginTop:'14px', position:'relative', zIndex:1 }}>
-            <Link
-              href="/services/consulting"
-              className="svc-starter-btn svc-consulting-btn-learn"
-              style={{ justifyContent:'center', background:'transparent', color:'#2AA5A0', border:'2px solid #2AA5A0', boxShadow:'none' }}
-            >
-              Learn More
-            </Link>
-            <a
-              href="https://square.link/u/axARuYVi"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="svc-starter-btn svc-consulting-btn-buy"
-              style={{ justifyContent:'center', background:'linear-gradient(135deg,#2AA5A0,#1d8a85)', boxShadow:'0 4px 14px rgba(42,165,160,.35)' }}
-            >
-              Buy
-            </a>
           </div>
         </motion.div>
 
@@ -368,6 +368,7 @@ export default function Services() {
 
         .svc-starter-grid { position:relative;z-index:1;display:grid;grid-template-columns:1fr 1fr;gap:24px;align-items:start; }
         .svc-starter-right-col { display:flex;flex-direction:column;gap:12px; }
+        .svc-starter-bullets-wrap { flex:1; }
         .svc-starter-bullets-desktop { display:grid;grid-template-columns:1fr 1fr;gap:24px; }
         .svc-starter-price-below { padding-top:10px;border-top:1px solid #f3f4f6; }
         .svc-starter-price { font-family:'Plus Jakarta Sans',sans-serif;font-size:36px;font-weight:900;color:#111827;line-height:1;margin-bottom:2px; }
@@ -450,8 +451,11 @@ export default function Services() {
         .pricing-inner { height:100%;overflow-y:auto;padding:90px 5vw 0; }
 
         @media (min-width:641px) {
-          .svc-consulting-btn-row { justify-content:flex-end; }
-          .svc-consulting-btn-row .svc-starter-btn { flex:0 0 6.25%;padding:8px 10px;font-size:11px;margin-top:0; }
+          .svc-starter-right-col { flex-direction:row;align-items:center;gap:20px; }
+          .svc-consulting-cta-col { display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex-shrink:0; }
+          .svc-consulting-btn-row { display:flex;flex-direction:row;gap:8px; }
+          .svc-consulting-btn-row .svc-starter-btn { flex:0 0 auto;min-width:90px;padding:8px 12px;font-size:11px;margin-top:0; }
+          .svc-starter-price-below { border-top:none;padding-top:0; }
         }
         @media (max-width:1200px) {
           .svc-cta-wrap { margin-top:2px; }
@@ -480,6 +484,7 @@ export default function Services() {
         }
 
         @media (max-width:640px) {
+          .svc-consulting-btn-row { display:flex;flex-direction:row;gap:8px; }
           .svc-consulting-btn-row .svc-starter-btn { flex:1; }
           .svc-starter-grid { grid-template-columns:1fr; }
           .pricing-inner { padding:80px 4vw 24px; }
