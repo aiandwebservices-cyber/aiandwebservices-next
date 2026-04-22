@@ -114,8 +114,8 @@ export default function AriaRealty() {
         .hero-tag{font-size:.65rem;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:${EM};margin-bottom:1.5rem;display:flex;align-items:center;gap:.75rem;transition:opacity 1s .2s,transform 1s .2s cubic-bezier(.16,1,.3,1)}
         .hero-tag.hidden{opacity:0;transform:translateY(16px)}
         .hero-tag::before{content:'';width:28px;height:1px;background:${EM}}
-        .hero-h1{font-family:'Playfair Display',serif;font-size:clamp(2.8rem,5.5vw,5.5rem);font-weight:700;line-height:1;margin-bottom:1.75rem;overflow:hidden}
-        .hero-h1 .word{display:block;white-space:nowrap;transition:transform 1.2s cubic-bezier(.16,1,.3,1),opacity 1.2s cubic-bezier(.16,1,.3,1)}
+        .hero-h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,4vw,4rem);font-weight:700;line-height:1;margin-bottom:1.75rem;overflow:hidden}
+        .hero-h1 .word{display:block;transition:transform 1.2s cubic-bezier(.16,1,.3,1),opacity 1.2s cubic-bezier(.16,1,.3,1)}
         .hero-h1 .word.hidden{transform:translateY(100%);opacity:0}
         .hero-h1 em{font-style:italic;color:${EM}}
         .hero-p{font-size:.9rem;line-height:1.85;color:${LIGHT}77;max-width:420px;margin-bottom:2.75rem;transition:opacity 1s .6s,transform 1s .6s cubic-bezier(.16,1,.3,1)}
