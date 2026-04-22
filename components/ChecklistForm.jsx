@@ -214,7 +214,7 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
     return (
       <div>
         {!hideHero && (
-          <section style={{ backgroundColor: '#111827', color: '#fff', padding: '90px 20px 28px', textAlign: 'center' }}>
+          <section style={{ backgroundColor: '#111827', color: '#fff', padding: '40px 20px 20px', textAlign: 'center' }}>
             <div style={{ maxWidth: '720px', margin: '0 auto' }}>
               <div style={{ fontSize: '11px', fontWeight: 800, letterSpacing: '3px', textTransform: 'uppercase', color: TEAL, marginBottom: '10px' }}>
                 Free Resource · 5 minutes
