@@ -308,7 +308,7 @@ export default function HowItWorks() {
       </div>
 
       <style>{`
-        .hiw-bg { position:absolute;inset:0;background:#a8bfde;z-index:0; }
+        .hiw-bg { position:absolute;inset:0;background:#cfd9e8;z-index:0; }
         .hiw-orb { position:absolute;border-radius:50%;filter:blur(90px);pointer-events:none;animation:hiw-drift 12s ease-in-out infinite; }
         .hiw-orb-1 { width:420px;height:420px;top:-80px;left:-60px;background:radial-gradient(circle,rgba(42,165,160,.22) 0%,transparent 70%);animation-delay:0s; }
         .hiw-orb-2 { width:500px;height:500px;bottom:-100px;right:-80px;background:radial-gradient(circle,rgba(99,102,241,.18) 0%,transparent 70%);animation-delay:-6s; }
@@ -319,7 +319,7 @@ export default function HowItWorks() {
         .hiw-eyebrow { font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#2AA5A0;margin-bottom:14px; }
         .hiw-h2 { font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(26px,3.5vw,46px);font-weight:900;color:#111827;line-height:1.08;letter-spacing:-1.5px;margin-bottom:10px; }
         .hiw-h2-accent { color:#2AA5A0; }
-        .hiw-sub { font-size:14px;color:#4a5568;max-width:440px;margin:0 auto 10px;line-height:1.6; }
+        .hiw-sub { font-size:14px;color:#6b7280;max-width:440px;margin:0 auto 10px;line-height:1.6; }
 
         /* ── Steps 3×2 grid (centered) ── */
         .hiw-steps {
@@ -362,7 +362,7 @@ export default function HowItWorks() {
           margin-bottom:6px;line-height:1.2;position:relative;
         }
         .hiw-card-text {
-          font-size:12px;color:#4a5568;line-height:1.7;position:relative;margin:0;
+          font-size:12px;color:#6b7280;line-height:1.7;position:relative;margin:0;
         }
 
         /* ── Graphics row ── */
