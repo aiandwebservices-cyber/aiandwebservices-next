@@ -104,11 +104,11 @@ export default function AriaRealty() {
         .ar-cta-out:hover{background:${EM};color:#fff}
 
         /* HERO - cinematic full-bleed */
-        .hero{position:relative;height:100vh;min-height:680px;overflow:hidden;display:flex;align-items:flex-end}
+        .hero{position:relative;height:100vh;min-height:680px;overflow:hidden;display:flex;align-items:flex-start}
         .hero-bg{position:absolute;inset:0;z-index:0}
         .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:brightness(.55) saturate(.85)}
-        .hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to top,${DARK} 0%,${DARK}99 18%,transparent 55%)}
-        .hero-left{position:relative;z-index:2;width:100%;padding:0 5rem 5.5rem}
+        .hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,${DARK}cc 0%,${DARK}55 20%,transparent 50%)}
+        .hero-left{position:relative;z-index:2;width:100%;padding:7rem 3rem 0}
 
         /* Option A — magazine cover split */
         .hero-tag{font-size:.65rem;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:${EM};margin-bottom:1.25rem;display:flex;align-items:center;gap:.75rem;transition:opacity 1s .2s,transform 1s .2s cubic-bezier(.16,1,.3,1)}
@@ -220,7 +220,6 @@ export default function AriaRealty() {
           <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1400&q=90" alt="Luxury South Florida estate" />
         </div>
         <div className="hero-left">
-          <div className={`hero-tag${heroIn ? '' : ' hidden'}`}>South Florida's Premier Real Estate</div>
           <div className="hero-bottom">
             <h1 className={`hero-h1${heroIn ? '' : ' hidden'}`}>Find the Home That Fits</h1>
             <span className={`hero-h1-right${heroIn ? '' : ' hidden'}`}><em>Your Life</em></span>
