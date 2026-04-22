@@ -302,7 +302,7 @@ export default function ServicePageTemplate({ content: c, tier, theme: themeMode
           <FadeUp>
             <div style={{ textAlign: 'center', marginBottom: '56px' }}>
               <div style={{ fontSize: '11px', fontWeight: 700, letterSpacing: '2px', textTransform: 'uppercase', color: t.eyebrow, marginBottom: '14px' }}>The Problem</div>
-              <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontWeight: 900, color: t.heading, lineHeight: 1.1, letterSpacing: '-0.5px', marginBottom: '18px' }}>{c.problem.heading}</h2>
+              <h2 style={{ fontSize: 'clamp(26px,4vw,44px)', fontWeight: 900, color: t.heading, lineHeight: 1.1, letterSpacing: '-0.5px', marginBottom: '18px' }}>{c.problem.heading}{c.problem.headingLine2 && <><br />{c.problem.headingLine2}</>}</h2>
               <p style={{ fontSize: '16px', color: t.body, maxWidth: '580px', margin: '0 auto', lineHeight: 1.75 }}>{c.problem.body}</p>
             </div>
           </FadeUp>
