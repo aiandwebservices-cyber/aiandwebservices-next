@@ -558,8 +558,8 @@ export default function IroncladConstruction() {
         <img className="ic-hero-bg" src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1800&q=85" alt="Construction site" />
         <div className="ic-hero-canvas"><NetworkCanvas /></div>
         <div className="ic-hero-gradient" />
+        <div className={`ic-hero-badge${heroIn ? '' : ' hide'}`} style={{ position:'absolute', bottom:'12rem', left:'3rem', zIndex:3 }}>South Florida · Licensed General Contractor</div>
         <div className="ic-hero-content">
-          <div className={`ic-hero-badge${heroIn ? '' : ' hide'}`}>South Florida · Licensed General Contractor</div>
           <h1 className="ic-h1">
             <span className={`line${heroIn ? '' : ' hide'}`} style={{ transitionDelay: '.1s' }}>We</span>
             <span className={`line orange${heroIn ? '' : ' hide'}`} style={{ transitionDelay: '.2s' }}>Build.</span>
