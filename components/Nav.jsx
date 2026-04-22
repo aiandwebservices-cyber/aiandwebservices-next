@@ -240,13 +240,13 @@ export default function Nav() {
         aria-label="Navigation menu"
         aria-modal={menuOpen ? 'true' : 'false'}
       >
-        <Link href="/" className={`mob-link${currentPanel === 0 && !isOnContactPage ? ' active' : ''}`} onClick={closeMenu}>Home</Link>
+        <Link href="/" className={`mob-link${currentPanel === 0 && !isOnContactPage ? ' active' : ''}`} onClick={(e) => { closeMenu(); if (isHomepage) { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); } }}>Home</Link>
         <Link href="/#p2" className={`mob-link${currentPanel === 1 ? ' active' : ''}`} onClick={closeMenu}>How It Works</Link>
         <Link href="/#comparison" className={`mob-link${currentPanel === 2 ? ' active' : ''}`} onClick={closeMenu}>Comparison</Link>
         <div>
           <div className="mob-svc-row">
             <Link
-              href="/services"
+              href="/#services"
               className={`mob-link mob-svc-link${currentPanel === 3 ? ' active' : ''}`}
               onClick={closeMenu}
             >
