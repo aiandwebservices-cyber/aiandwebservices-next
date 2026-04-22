@@ -241,14 +241,14 @@ export default function Nav() {
         aria-modal={menuOpen ? 'true' : 'false'}
       >
         <Link href="/" className={`mob-link${currentPanel === 0 && !isOnContactPage ? ' active' : ''}`} onClick={(e) => { closeMenu(); if (isHomepage) { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); } }}>Home</Link>
-        <Link href="/#p2" className={`mob-link${currentPanel === 1 ? ' active' : ''}`} onClick={closeMenu}>How It Works</Link>
-        <Link href="/#comparison" className={`mob-link${currentPanel === 2 ? ' active' : ''}`} onClick={closeMenu}>Comparison</Link>
+        <Link href="/#p2" className={`mob-link${currentPanel === 1 ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); closeMenu(); window.mobileGo?.(1); }}>How It Works</Link>
+        <Link href="/#comparison" className={`mob-link${currentPanel === 2 ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); closeMenu(); window.mobileGo?.(2); }}>Comparison</Link>
         <div>
           <div className="mob-svc-row">
             <Link
               href="/#services"
               className={`mob-link mob-svc-link${currentPanel === 3 ? ' active' : ''}`}
-              onClick={closeMenu}
+              onClick={(e) => { e.preventDefault(); closeMenu(); window.mobileGo?.(3); }}
             >
               Services
             </Link>
@@ -284,10 +284,10 @@ export default function Nav() {
             </div>
           )}
         </div>
-        <Link href="/#p3" className={`mob-link${currentPanel === 4 ? ' active' : ''}`} onClick={closeMenu}>About</Link>
-        <Link href="/#samples" className={`mob-link${currentPanel === 5 ? ' active' : ''}`} onClick={closeMenu}>Samples</Link>
-        <Link href="/#p7" className={`mob-link${currentPanel === 6 ? ' active' : ''}`} onClick={closeMenu}>FAQ</Link>
-        <Link href="/#checklist-teaser" className={`mob-link${currentPanel === 7 ? ' active' : ''}`} onClick={closeMenu}>AI Readiness</Link>
+        <Link href="/#p3" className={`mob-link${currentPanel === 4 ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); closeMenu(); window.mobileGo?.(4); }}>About</Link>
+        <Link href="/#samples" className={`mob-link${currentPanel === 5 ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); closeMenu(); window.mobileGo?.(5); }}>Samples</Link>
+        <Link href="/#p7" className={`mob-link${currentPanel === 6 ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); closeMenu(); window.mobileGo?.(6); }}>FAQ</Link>
+        <Link href="/#checklist-teaser" className={`mob-link${currentPanel === 7 ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); closeMenu(); window.mobileGo?.(7); }}>AI Readiness</Link>
         <Link href="/contact" className={`mob-link${isOnContactPage ? ' active' : ''}`} onClick={closeMenu}>Contact</Link>
         <Link href="/checklist" className="mob-cta" onClick={closeMenu}>Take the AI Readiness Check</Link>
       </div>
