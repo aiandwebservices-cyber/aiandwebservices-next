@@ -146,7 +146,7 @@ export default function BladeRoom() {
         /* SERVICES */
         .section{padding:8rem 3rem;max-width:1200px;margin:0 auto}
         .eyebrow{font-size:.65rem;font-weight:700;letter-spacing:.3em;text-transform:uppercase;color:${GOLD};margin-bottom:.75rem}
-        .big-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(3rem,7vw,6rem);letter-spacing:.04em;line-height:.95}
+        .big-title{font-family:'Bebas Neue',sans-serif;font-size:clamp(2.4rem,5.6vw,4.8rem);letter-spacing:.04em;line-height:.95}
         .big-title .gold{color:${GOLD}}
         .gold-bar{width:52px;height:3px;background:${GOLD};margin:1.5rem 0 2.5rem}
 
