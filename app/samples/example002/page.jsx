@@ -193,9 +193,6 @@ export default function AriaRealty() {
           .hero-left{padding:4rem 1.5rem 5rem}
           .hero-right{display:none}
           .stats-bar{grid-template-columns:repeat(2,1fr)}
-        }
-        @media(max-width:600px){
-          .hero-h1{font-size:clamp(1.4rem,5vw,2rem) !important}
           .listing-grid{grid-template-columns:1fr}
           .svc-grid{grid-template-columns:1fr}
           .agent-wrap{grid-template-columns:1fr}
