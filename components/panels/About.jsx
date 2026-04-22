@@ -205,9 +205,11 @@ export default function About() {
           {/* ── Bottom CTA ── */}
           <motion.div {...f(0.24)} className="panel-cta-wrap">
             <div className="panel-cta-card">
-              <p className="panel-cta-title">Ready to stop losing leads at night?</p>
-              <p className="panel-cta-sub">No obligation · Honest answer · Response within 6 hours</p>
-              <a className="panel-cta-btn" href="/contact">Get Your Free Audit</a>
+              <p className="panel-cta-title">Based in Miami · Serving South Florida</p>
+              <p className="panel-cta-sub" style={{ marginBottom: 4 }}>Travel to clients throughout Miami-Dade &amp; Broward</p>
+              <p className="panel-cta-sub" style={{ marginBottom: 4 }}>Small businesses and individuals</p>
+              <p className="panel-cta-sub">Remote across the US</p>
+              <a className="panel-cta-btn" href="tel:+13155720710">Call David — (315) 572-0710</a>
             </div>
           </motion.div>
 
