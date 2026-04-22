@@ -145,7 +145,7 @@ export default function Nav() {
 
         <div className="nav-center" role="menubar" aria-label="Site sections">
           <button
-            className={`nav-pill${currentPanel === 0 && !isOnContactPage ? ' active' : ''}`}
+            className={`nav-pill${currentPanel === 0 && !isOnContactPage && !isOnServicePage ? ' active' : ''}`}
             onClick={() => go(0)}
             role="menuitem"
             aria-current={currentPanel === 0 && !isOnContactPage ? 'true' : undefined}
@@ -165,7 +165,7 @@ export default function Nav() {
               return (
                 <div key={idx} className="nav-svc-wrap" ref={svcRef}>
                   <button
-                    className={`nav-pill nav-svc-btn${currentPanel === idx ? ' active' : ''}${svcOpen ? ' nav-svc-open' : ''}`}
+                    className={`nav-pill nav-svc-btn${(currentPanel === idx || isOnServicePage) ? ' active' : ''}${svcOpen ? ' nav-svc-open' : ''}`}
                     onClick={handleServicesClick}
                     onMouseEnter={() => setSvcOpen(true)}
                     aria-haspopup="true"
@@ -240,14 +240,14 @@ export default function Nav() {
         aria-label="Navigation menu"
         aria-modal={menuOpen ? 'true' : 'false'}
       >
-        <Link href="/" className={`mob-link${currentPanel === 0 && !isOnContactPage ? ' active' : ''}`} onClick={(e) => { closeMenu(); if (isHomepage) { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); } }}>Home</Link>
+        <Link href="/" className={`mob-link${currentPanel === 0 && !isOnContactPage && !isOnServicePage ? ' active' : ''}`} onClick={(e) => { closeMenu(); if (isHomepage) { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); } }}>Home</Link>
         <Link href="/#p2" className={`mob-link${currentPanel === 1 ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); closeMenu(); window.mobileGo?.(1); }}>How It Works</Link>
         <Link href="/#comparison" className={`mob-link${currentPanel === 2 ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); closeMenu(); window.mobileGo?.(2); }}>Comparison</Link>
         <div>
           <div className="mob-svc-row">
             <Link
               href="/#services"
-              className={`mob-link mob-svc-link${currentPanel === 3 ? ' active' : ''}`}
+              className={`mob-link mob-svc-link${currentPanel === 3 || isOnServicePage ? ' active' : ''}`}
               onClick={(e) => { e.preventDefault(); closeMenu(); window.mobileGo?.(3); }}
             >
               Services
