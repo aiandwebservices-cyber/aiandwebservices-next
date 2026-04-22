@@ -288,7 +288,7 @@ export default function Nav() {
         <Link href="/#samples" className={`mob-link${currentPanel === 5 ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); closeMenu(); window.mobileGo?.(5); }}>Samples</Link>
         <Link href="/#p7" className={`mob-link${currentPanel === 6 ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); closeMenu(); window.mobileGo?.(6); }}>FAQ</Link>
         <Link href="/#checklist-teaser" className={`mob-link${currentPanel === 7 ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); closeMenu(); window.mobileGo?.(7); }}>AI Readiness</Link>
-        <Link href="/contact" className={`mob-link${isOnContactPage ? ' active' : ''}`} onClick={closeMenu}>Contact</Link>
+        <Link href="/#p8" className={`mob-link${currentPanel === 8 ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); closeMenu(); window.mobileGo?.(8); }}>Contact</Link>
         <Link href="/checklist" className="mob-cta" onClick={closeMenu}>Take the AI Readiness Check</Link>
       </div>
 
