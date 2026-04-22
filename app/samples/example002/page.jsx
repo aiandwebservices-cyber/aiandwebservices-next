@@ -218,7 +218,7 @@ export default function AriaRealty() {
           <div className={`hero-tag${heroIn ? '' : ' hidden'}`}>South Florida's Premier Real Estate</div>
           <h1 className="hero-h1">
             <span className={`word${heroIn ? '' : ' hidden'}`} style={{ transitionDelay: '.1s' }}>Find the Home That Fits</span>
-            <span className={`word${heroIn ? '' : ' hidden'}`} style={{ transitionDelay: '.25s' }}><em>Your Life</em></span>
+            <span className={`word${heroIn ? '' : ' hidden'}`} style={{ transitionDelay: '.25s', textAlign: 'right' }}><em>Your Life</em></span>
           </h1>
           <p className={`hero-p${heroIn ? '' : ' hidden'}`}>Aria Realty specializes in luxury residential and waterfront properties across Miami-Dade, Broward, and Palm Beach. Over $183M closed in 2023.</p>
           <div className={`hero-btns${heroIn ? '' : ' hidden'}`}>
