@@ -351,11 +351,11 @@ export default function Services() {
 
         /* Starter card */
         .svc-starter-card {
-          position:relative;overflow:hidden;
+          position:relative;overflow:visible;
           background:#fff;
           border:1px solid rgba(59,130,246,.25);
           border-left:4px solid #3b82f6;
-          border-radius:16px;padding:18px 24px;min-height:0;
+          border-radius:16px;padding:18px 24px;min-height:0;flex-shrink:0;
           margin-bottom:20px;
           box-shadow:0 4px 24px rgba(59,130,246,.12);
         }
