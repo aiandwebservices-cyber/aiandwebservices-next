@@ -331,14 +331,6 @@ export default function Services() {
           ))}
         </motion.div>
 
-        {/* Bottom CTA card */}
-        <motion.div {...f(0.55)} className="panel-cta-wrap svc-cta-wrap">
-          <div className="panel-cta-card">
-            <p className="panel-cta-title">Not sure which plan fits your business?</p>
-            <p className="panel-cta-sub">Tell me your goals — I&apos;ll recommend the right tier.</p>
-            <a className="panel-cta-btn" href="/contact">Get a free audit →</a>
-          </div>
-        </motion.div>
 
         </div>{/* end inner flex wrapper */}
       </div>
