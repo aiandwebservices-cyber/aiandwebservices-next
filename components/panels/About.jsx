@@ -77,7 +77,7 @@ export default function About() {
         <div style={{ position:'relative', zIndex:1, display:'flex', flexDirection:'column', height:'100%' }}>
 
           {/* ── Centered header ── */}
-          <motion.div {...f(0)} style={{ textAlign:'center', marginBottom:16, maxWidth:1100, margin:'0 auto 16px', width:'100%' }}>
+          <motion.div {...f(0)} style={{ textAlign:'center', marginBottom:16, maxWidth:1260, margin:'0 auto 16px', width:'100%' }}>
             <div className="abt-eyebrow">ABOUT</div>
             <h2 className="abt-h2">One person builds it.<br/><span className="abt-h2-accent">One person answers.</span></h2>
             <p className="abt-sub">No agencies. No middlemen. David handles everything — and stays on to make sure it keeps working.</p>
@@ -156,7 +156,7 @@ export default function About() {
                 </div>
 
                 {/* How I Work — lives in center col to fill space */}
-                <div style={{ borderTop:'1px solid #f3f4f6', paddingTop:16, marginTop:34 }}>
+                <div style={{ borderTop:'1px solid #f3f4f6', paddingTop:16, marginTop:10 }}>
                   <div style={{ fontSize:11, fontWeight:800, letterSpacing:1.5, textTransform:'uppercase', color:'#9ca3af', marginBottom:12, textAlign:'center' }}>How I Work</div>
                   <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:8 }}>
                     {HOW.map(({ n, title, desc }) => (
@@ -203,7 +203,7 @@ export default function About() {
           </div>
 
           {/* ── Bottom CTA ── */}
-          <motion.div {...f(0.24)} className="panel-cta-wrap" style={{ maxWidth:1100, margin:'auto auto 0', width:'100%' }}>
+          <motion.div {...f(0.24)} className="panel-cta-wrap" style={{ maxWidth:1260, margin:'auto auto 0', width:'100%' }}>
             <div className="panel-cta-card">
               <p className="panel-cta-title">Based in Miami · Serving South Florida</p>
               <p className="panel-cta-sub" style={{ marginBottom: 4 }}>Travel to clients throughout Miami-Dade &amp; Broward</p>
@@ -227,7 +227,7 @@ export default function About() {
         .abt-sub { font-size:14px;color:#6b7280;max-width:520px;margin:0 auto 10px;line-height:1.65; }
 
         .abt-guarantees { display:flex;flex-direction:column;gap:7px;background:rgba(42,165,160,.04);border:1px solid rgba(42,165,160,.12);border-radius:14px;padding:14px 18px; }
-        .abt-grid { display:grid;grid-template-columns:220px 1fr 220px;gap:20px;align-content:start;max-width:1100px;margin:0 auto;width:100%; }
+        .abt-grid { display:grid;grid-template-columns:220px 1fr 220px;gap:20px;align-content:start;max-width:1260px;margin:0 auto;width:100%; }
 
         .abt-david { display:flex;flex-direction:column;gap:0; }
         .abt-photo-wrap { position:relative;border-radius:16px;overflow:hidden;flex-shrink:0; }
@@ -262,7 +262,7 @@ export default function About() {
 
 
 
-        @media (max-width:1100px) { .abt-grid { grid-template-columns:200px 1fr 200px; } .abt-how-grid { grid-template-columns:repeat(3,1fr); } }
+        @media (max-width:1260px) { .abt-grid { grid-template-columns:200px 1fr 200px; } .abt-how-grid { grid-template-columns:repeat(3,1fr); } }
         @media (max-width:900px) { .abt-grid { grid-template-columns:200px 1fr; } .abt-right-col { display:none; } }
         @media (max-width:768px) {
           .abt-grid { grid-template-columns:1fr; }
