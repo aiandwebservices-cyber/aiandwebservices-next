@@ -78,6 +78,7 @@ export default function ContactExperience({ standalone = false }) {
           .contact-strip{ grid-template-columns:1fr!important; }
           #cal-contact-embed{ height:clamp(340px,36vh,460px)!important; }
           form > div[style*="grid-template-columns"] > div{ min-width:0; }
+          .contact-flex-inner{ gap:25px; justify-content:flex-start; }
         }
       `}</style>
 
@@ -87,7 +88,7 @@ export default function ContactExperience({ standalone = false }) {
       )}
 
       {/* Inner content — flex:1 on standalone (fills main), height:100% on panel (fills section) */}
-      <div style={{
+      <div className="contact-flex-inner" style={{
         position: 'relative', zIndex: 2,
         maxWidth: '1200px', width: '100%', margin: '0 auto',
         padding: standalone
@@ -101,7 +102,7 @@ export default function ContactExperience({ standalone = false }) {
       }}>
 
         {/* Heading */}
-        <motion.div {...fade(0)} style={{ maxWidth: '700px', margin: '0 auto', textAlign: 'center', flexShrink: 0 }}>
+        <motion.div {...fade(0)} className="contact-heading-block" style={{ maxWidth: '700px', margin: '0 auto', textAlign: 'center', flexShrink: 0 }}>
           <div style={{ fontSize: 'clamp(9px, 1.2vw, 11px)', fontWeight: 800, letterSpacing: '3px', textTransform: 'uppercase', color: TEAL, marginBottom: 24 }}>GET IN TOUCH</div>
           <Heading style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontSize: 'clamp(20px, 3.2vw, 38px)', fontWeight: 800, letterSpacing: '-1px', lineHeight: 1.08, color: '#fff', marginBottom: 26 }}>
             Get a free 30-minute audit.<br /><span style={{ color: TEAL }}>No pitch.</span>
