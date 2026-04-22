@@ -13,7 +13,7 @@ export const consultingContent = {
   },
 
   problem: {
-    heading: 'Most Packages Include Things You Don\'t Need',
+    heading: 'Sometimes Packages Include Things You Don\'t Need',
     body: 'Monthly plans are built for businesses ready to scale across multiple channels at once. If you\'re not there yet — or if you just need one thing done right — a full tier is overkill.',
     cards: [
       {
