@@ -195,6 +195,7 @@ export default function FAQ() {
         }
         .fq-card {
           position: relative;
+          align-self: start;
           background: rgba(255,255,255,.72);
           border: 1.5px solid rgba(15,30,61,.08);
           border-left: 3px solid transparent;
