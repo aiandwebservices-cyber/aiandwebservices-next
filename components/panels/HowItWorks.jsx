@@ -221,11 +221,9 @@ export default function HowItWorks() {
           {/* ── Header ── */}
           <motion.div
             className="hiw-header"
-            initial={reduced ? false : { opacity: 0, y: 28 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, amount: 0.05 }}
-            transition={{ duration: 0.6, ease }}
-            style={{ textAlign: 'center', marginBottom: 'clamp(12px, 2.5vh, 44px)' }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0, delay: 0 }}
+            style={{ textAlign: 'center', marginBottom: 'clamp(24px, 3vh, 48px)' }}
           >
             <div className="hiw-eyebrow">HOW IT WORKS</div>
             <h2 className="hiw-h2">
@@ -316,10 +314,11 @@ export default function HowItWorks() {
         .hiw-inner { height:100%;display:flex;flex-direction:column;padding:90px 6vw 0;overflow-y:auto; }
         .hiw-inner .panel-cta-wrap { margin-top:auto;padding-top:14px;padding-bottom:clamp(16px,2.5vh,28px); }
 
-        .hiw-eyebrow { font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#2AA5A0;margin-bottom:14px; }
-        .hiw-h2 { font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(26px,3.5vw,46px);font-weight:900;color:#111827;line-height:1.08;letter-spacing:-1.5px;margin-bottom:10px; }
+        .hiw-header { background:#111827;margin:-90px -6vw 0;padding:90px 6vw 28px; }
+        .hiw-eyebrow { font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#2AA5A0;margin-bottom:10px; }
+        .hiw-h2 { font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(28px,5vw,46px);font-weight:800;color:#fff;line-height:1.15;letter-spacing:-1px;margin-bottom:8px; }
         .hiw-h2-accent { color:#2AA5A0; }
-        .hiw-sub { font-size:14px;color:#6b7280;max-width:440px;margin:0 auto 10px;line-height:1.6; }
+        .hiw-sub { font-size:14px;color:rgba(255,255,255,0.78);max-width:440px;margin:0 auto 10px;line-height:1.6; }
 
         /* ── Steps 3×2 grid (centered) ── */
         .hiw-steps {
@@ -471,6 +470,7 @@ export default function HowItWorks() {
         /* ── Responsive ── */
         @media (max-width:768px) {
           .hiw-inner { padding:80px 5vw 36px; }
+          .hiw-header { margin:-80px -5vw 0;padding:80px 5vw 28px; }
           .hiw-steps { grid-template-columns:1fr 1fr; }
           .hiw-graphics { grid-template-columns:1fr; }
           .hiw-mobile-flex .hiw-header    { order: 0; }
