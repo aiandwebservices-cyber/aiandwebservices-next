@@ -143,7 +143,7 @@ export default function FAQ() {
 
         .faq-bg {
           position: absolute; inset: 0;
-          background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 60%, #c7d2fe 100%);
+          background: #cfd9e8;
           z-index: 0;
         }
         .faq-orb {
@@ -186,7 +186,7 @@ export default function FAQ() {
           letter-spacing: -1px; line-height: 1.1; color: #0f1e3d; margin: 0 0 8px;
         }
         .fq-h2-accent { color: #2AA5A0; }
-        .fq-sub { font-size: 13px; color: rgba(15,30,61,.45); margin-bottom: 10px; }
+        .fq-sub { font-size: 13px; color: rgba(15,30,61,.7); margin-bottom: 10px; }
 
         .fq-list {
           display: grid; grid-template-columns: 1fr 1fr;
