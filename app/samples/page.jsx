@@ -312,7 +312,7 @@ export default function SamplesPage() {
               </div>
 
               {/* bottom info strip */}
-              <div style={{
+              <div className="sample-info-strip" style={{
                 padding: '1.5rem 2.5rem',
                 borderTop: '1px solid rgba(255,255,255,0.06)',
                 display: 'flex', alignItems: 'center', justifyContent: 'space-between',
@@ -373,6 +373,7 @@ export default function SamplesPage() {
       <style>{`
         .sample-card-wrap.vis { opacity: 1 !important; transform: translateY(0) !important; }
         @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+        @media(max-width:768px){ .sample-info-strip{ padding-top: calc(1.5rem + 10px); } }
       `}</style>
     </div>
   );
