@@ -2,8 +2,10 @@
 import { Suspense, useRef, useState, useEffect } from 'react';
 import { motion, useReducedMotion } from 'framer-motion';
 import { Mail, Phone, Zap, MessageCircle } from 'lucide-react';
-import CalContactEmbed from '@/components/CalContactEmbed';
+import dynamic from 'next/dynamic';
 import ContactForm from '@/components/ContactForm';
+
+const CalContactEmbed = dynamic(() => import('@/components/CalContactEmbed'), { ssr: false });
 
 const TEAL = '#2AA5A0';
 
@@ -11,6 +13,8 @@ export default function ContactExperience({ standalone = false }) {
   const reduced = useReducedMotion();
   const formCellRef = useRef(null);
   const [calCardHeight, setCalCardHeight] = useState(null);
+  const calRef = useRef(null);
+  const [calVisible, setCalVisible] = useState(false);
 
   useEffect(() => {
     const el = formCellRef.current;
@@ -20,6 +24,17 @@ export default function ContactExperience({ standalone = false }) {
     });
     ro.observe(el);
     return () => ro.disconnect();
+  }, []);
+
+  useEffect(() => {
+    const el = calRef.current;
+    if (!el) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => { if (entry.isIntersecting) { setCalVisible(true); obs.disconnect(); } },
+      { rootMargin: '200px' }
+    );
+    obs.observe(el);
+    return () => obs.disconnect();
   }, []);
 
   const fade = (delay = 0) => standalone
@@ -134,8 +149,8 @@ export default function ContactExperience({ standalone = false }) {
                   <div style={{ fontSize: 11, color: 'rgba(255,255,255,.45)', marginTop: 2 }}>David&apos;s timezone: EST</div>
                 </div>
               </div>
-              <div style={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
-                <CalContactEmbed />
+              <div ref={calRef} style={{ flex: 1, minHeight: 0, overflow: 'hidden' }}>
+                {calVisible && <CalContactEmbed />}
               </div>
             </div>
           </div>

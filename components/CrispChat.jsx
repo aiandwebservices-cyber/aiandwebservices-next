@@ -38,10 +38,17 @@ export default function CrispChat() {
     // Also clear via SDK once ready
     window.$crisp.push(['set', 'user:nickname', ['']]);
 
-    const s = document.createElement('script');
-    s.src = 'https://client.crisp.chat/l.js';
-    s.async = true;
-    document.head.appendChild(s);
+    const loadCrisp = () => {
+      const s = document.createElement('script');
+      s.src = 'https://client.crisp.chat/l.js';
+      s.async = true;
+      document.head.appendChild(s);
+    };
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(loadCrisp, { timeout: 4000 });
+    } else {
+      setTimeout(loadCrisp, 2000);
+    }
 
     document.addEventListener('click', function (e) {
       if (!window.$crisp) return;
