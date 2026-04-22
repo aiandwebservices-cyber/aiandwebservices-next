@@ -217,7 +217,7 @@ export default function About() {
 
       <style>{`
         .about-inner { height:100%;display:flex;flex-direction:column;padding:90px 5vw 36px;overflow-y:auto;background:transparent; }
-        .about-inner .panel-cta-wrap { margin-top:auto;padding-top:14px;padding-bottom:clamp(16px,2.5vh,28px); }
+        .about-inner .panel-cta-wrap { margin-top:auto;padding-top:60px;padding-bottom:clamp(16px,2.5vh,28px); }
 
         .abt-eyebrow { display:block;font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#2AA5A0;margin-bottom:10px; }
         .abt-h2 { font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(22px,3.8vw,46px);font-weight:800;letter-spacing:-1px;line-height:1.15;color:#111827;margin-bottom:10px; }

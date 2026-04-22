@@ -300,11 +300,13 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 .funnel-arrow{text-align:center;color:rgba(255,255,255,.12);font-size:18px;line-height:1}
 
 /* ── SHARED PANEL CTA ── */
-.panel-cta-card{background:rgba(255,255,255,.82);border:1.5px solid rgba(42,165,160,.18);border-radius:18px;padding:18px 32px;max-width:520px;margin:0 auto;text-align:center;box-shadow:0 6px 28px rgba(59,130,246,.09);backdrop-filter:blur(8px);}
-.panel-cta-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;color:#0f1e3d;margin-bottom:5px;letter-spacing:-0.3px;line-height:1.25;}
-.panel-cta-sub{font-size:13px;color:rgba(15,30,61,.5);margin-bottom:14px;line-height:1.6;}
+/* ── SHARED PANEL CTA WRAP — sticky dock at viewport bottom ── */
+.panel-cta-wrap{position:sticky;bottom:0;z-index:10;background:linear-gradient(to top,rgba(255,255,255,0.95) 60%,rgba(255,255,255,0) 100%);backdrop-filter:blur(6px);}
+.panel-cta-card{background:#dffbf5;border:1px solid #b2f0e3;border-radius:18px;padding:18px 32px;max-width:520px;margin:0 auto 0;text-align:center;box-shadow:0 6px 28px rgba(59,130,246,.09);backdrop-filter:blur(8px);min-height:180px;display:flex;flex-direction:column;justify-content:center;}
+.panel-cta-title{font-family:'Plus Jakarta Sans',sans-serif;font-size:16px;font-weight:800;color:#0f172a;margin-bottom:5px;letter-spacing:-0.3px;line-height:1.25;}
+.panel-cta-sub{font-size:13px;color:#134e4a;margin-bottom:14px;line-height:1.6;}
 .panel-cta-btn{display:inline-flex;align-items:center;justify-content:center;background-color:#2AA5A0;background:#2AA5A0;color:#fff!important;border:none;border-radius:999px;padding:12px 28px;font-size:13px;font-weight:700;font-family:'Inter',sans-serif;cursor:pointer;box-shadow:0 6px 22px rgba(42,165,160,.4);transition:transform .2s ease,background .2s ease,box-shadow .2s ease;letter-spacing:0.1px;text-decoration:none!important;}
-.panel-cta-btn:hover{background:#229993;background-color:#229993;transform:translateY(-2px);box-shadow:0 12px 32px rgba(42,165,160,.55);color:#fff!important;}
+.panel-cta-btn:hover{background:#33BDB8;background-color:#33BDB8;transform:translateY(-2px);box-shadow:0 8px 24px rgba(42,165,160,.45);color:#fff!important;}
 #samples .panel-cta-btn{margin-top:12px;}
 
 /* ── PANEL 1: SERVICES ── */
@@ -2369,10 +2371,6 @@ html:has(.svc-page-main){overflow:auto!important}
 
 @media (max-width: 768px) {
   #p3 .panel-cta-wrap { margin-top: 30px; }
-}
-
-@media (min-width: 769px) {
-  #services .panel-cta-wrap { margin-top: -10px; }
 }
 
 

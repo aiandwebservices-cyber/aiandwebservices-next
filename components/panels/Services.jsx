@@ -173,6 +173,7 @@ export default function Services() {
       </div>
 
       <div className="pricing-inner" style={{ background:'transparent', position:'relative', zIndex:1 }}>
+        <div style={{ display:'flex', flexDirection:'column', height:'100%' }}>
 
         {/* Header */}
         <motion.div {...f(0)} style={{ textAlign:'center', marginBottom:28 }}>
@@ -339,6 +340,7 @@ export default function Services() {
           </div>
         </motion.div>
 
+        </div>{/* end inner flex wrapper */}
       </div>
 
       <style>{`
@@ -366,7 +368,7 @@ export default function Services() {
         .svc-starter-desc { font-size:11px;color:#6b7280;line-height:1.6; }
 
         .svc-starter-col { display:flex;flex-direction:column;justify-content:flex-start;align-self:flex-start;margin-top:-12px; }
-        .svc-starter-col-label { font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#9ca3af;margin-bottom:8px;padding-bottom:6px;border-bottom:1px solid #f3f4f6; }
+        .svc-starter-col-label { font-size:9px;font-weight:800;letter-spacing:1.5px;text-transform:uppercase;color:#9ca3af;margin-bottom:4px;padding-bottom:4px;border-bottom:1px solid #f3f4f6; }
         .svc-starter-bullet { display:flex;align-items:flex-start;gap:6px;font-size:11px;color:#374151;line-height:1.4;margin-bottom:5px; }
         .svc-starter-check { color:#3b82f6;font-size:10px;font-weight:800;flex-shrink:0;margin-top:1px; }
 
@@ -450,9 +452,9 @@ export default function Services() {
         .svc-addon-card-btn { display:inline-flex;align-items:center;justify-content:center;border:2px solid;border-radius:50px;padding:5px 12px;font-size:10px;font-weight:700;text-decoration:none;transition:all .2s;margin-top:auto; }
         .svc-addon-card-btn:hover { opacity:.8;transform:translateY(-1px); }
 
-        .svc-cta-wrap { padding-top:14px;padding-bottom:clamp(16px,2.5vh,28px); }
+        .svc-cta-wrap { margin-top:auto;padding-top:60px;padding-bottom:clamp(16px,2.5vh,28px); }
 
-        .pricing-inner { height:100%;overflow-y:auto;padding:90px 5vw 0; }
+        .pricing-inner { height:100%;display:flex;flex-direction:column;overflow-y:auto;padding:90px 5vw 0; }
 
         @media (min-width:641px) {
           .svc-starter-right-col { flex-direction:row;align-items:center;gap:20px; }

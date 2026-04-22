@@ -189,7 +189,10 @@ export default function EmberOak() {
 
         @media(max-width:900px){
           .eo-nav{padding:1.25rem 1.5rem}.eo-links{display:none}
-          .hero-title{font-size:clamp(3rem,14vw,5rem)}
+          .hero{align-items:flex-start}
+          .hero-content{padding-top:5rem}
+          .hero-badge{white-space:nowrap;letter-spacing:.18em}
+          .hero-title{font-size:clamp(3.625rem,14vw,5.625rem)}
           .section{padding:5rem 1.5rem}
           .about-grid{grid-template-columns:1fr}
           .about-img-col{height:55vw}

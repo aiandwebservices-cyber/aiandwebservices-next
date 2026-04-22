@@ -216,7 +216,7 @@ export default function Comparison() {
             viewport={{ once: true }}
           >
             <div className="panel-cta-card">
-              <p className="panel-cta-title">Same results. <span style={{ color: '#2AA5A0' }}>70% less.</span> One person.</p>
+              <p className="panel-cta-title">Same results. <span style={{ color: '#0f172a' }}>70% less.</span> One person.</p>
               <p className="panel-cta-sub">Most clients go live in 14 days. No contracts, no lock-in.</p>
               <a className="panel-cta-btn" href="/contact">Book a Call</a>
             </div>
@@ -227,7 +227,7 @@ export default function Comparison() {
 
       <style>{`
         .comparison-inner { height:100%;display:flex;flex-direction:column;padding:90px 6vw 0;overflow-y:auto; }
-        .comparison-inner .panel-cta-wrap { margin-top:auto;padding-top:14px;padding-bottom:clamp(16px,2.5vh,28px); }
+        .comparison-inner .panel-cta-wrap { margin-top:auto;padding-top:60px;padding-bottom:clamp(16px,2.5vh,28px); }
 
         .cmp-eyebrow { font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#2AA5A0;margin-bottom:10px; }
         .cmp-h2 { font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(26px,3.5vw,46px);font-weight:800;letter-spacing:-1px;line-height:1.15;color:#111827;margin-bottom:8px; }
