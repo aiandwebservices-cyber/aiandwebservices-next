@@ -89,7 +89,7 @@ export default function About() {
             {/* Col 1: David card */}
             <motion.div {...f(0.08)} className="abt-david">
               <div className="abt-photo-wrap">
-                <Image src="/david-pulis.jpg" alt="David Pulis — founder of AIandWEBservices" width={340} height={440} style={{ width:'100%', height:'auto', display:'block' }} priority />
+                <Image src="/david-pulis.jpg" alt="David Pulis — founder of AIandWEBservices" width={340} height={440} sizes="(max-width: 768px) 90vw, 340px" style={{ width:'100%', height:'auto', display:'block' }} />
               </div>
               <div className="abt-david-info">
                 <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:4 }}>
