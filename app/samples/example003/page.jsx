@@ -112,7 +112,7 @@ export default function BladeRoom() {
         .hero-tag{font-size:.68rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:${GOLD};margin-bottom:1.5rem;display:flex;align-items:center;justify-content:center;gap:.75rem;transition:opacity 1.1s .2s,transform 1.1s .2s cubic-bezier(.16,1,.3,1)}
         .hero-tag.hidden{opacity:0;transform:translateY(16px)}
         .hero-tag::before{content:'';width:32px;height:1px;background:${GOLD}}
-        .hero-h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(8.3rem,10.9vw,11.7rem);line-height:.9;letter-spacing:.03em;margin-bottom:2rem}
+        .hero-h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(6.6rem,8.7vw,9.4rem);line-height:.9;letter-spacing:.03em;margin-bottom:2rem}
         @media(max-width:768px){.hero-h1{font-size:clamp(2.8rem,10vw,5rem)}}
         .hero-h1 .line{display:block;transition:transform 1.3s cubic-bezier(.16,1,.3,1),opacity 1.3s cubic-bezier(.16,1,.3,1)}
         .hero-h1 .line.hidden{transform:translateY(80px);opacity:0}
