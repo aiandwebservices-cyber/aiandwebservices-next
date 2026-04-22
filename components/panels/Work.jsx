@@ -138,14 +138,6 @@ export default function Work() {
             </div>
           </motion.div>
 
-          {/* Bottom CTA */}
-          <div className="panel-cta-wrap">
-            <div className="panel-cta-card">
-              <p className="panel-cta-title">Like what you see? Get yours built today.</p>
-              <p className="panel-cta-sub">Not sure where to start? Find out in 2 minutes.</p>
-              <a className="panel-cta-btn" href="/checklist">Take the AI Readiness Check</a>
-            </div>
-          </div>
 
         </div>
       </div>
