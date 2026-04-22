@@ -108,7 +108,7 @@ export default function AriaRealty() {
         .hero-bg{position:absolute;inset:0;z-index:0}
         .hero-bg img{width:100%;height:100%;object-fit:cover;object-position:center 30%;filter:brightness(.55) saturate(.85)}
         .hero-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,${DARK}cc 0%,${DARK}55 20%,transparent 50%)}
-        .hero-left{position:relative;z-index:2;width:100%;padding:7rem 5rem 0}
+        .hero-left{position:relative;z-index:2;width:100%;padding:7rem 3rem 0}
 
         /* Option A — magazine cover split */
         .hero-tag{font-size:.65rem;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:${EM};margin-bottom:1.25rem;display:flex;align-items:center;gap:.75rem;transition:opacity 1s .2s,transform 1s .2s cubic-bezier(.16,1,.3,1)}
