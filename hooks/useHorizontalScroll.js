@@ -10,7 +10,7 @@ export function useHorizontalScroll() {
     window.scrollTo(0, 0);
 
     const TOTAL = 9;
-    const hashNames = ['home', 'how-it-works', 'comparison', 'services', 'about', 'samples', 'faq', 'ai-readiness', 'contact'];
+    const hashNames = ['home', 'how-it-works', 'comparison', 'samples', 'services', 'about', 'faq', 'ai-readiness', 'contact'];
     const hashToPanel = Object.fromEntries(hashNames.map((h, i) => [h, i]));
     const stored = sessionStorage.getItem('panelTarget');
     let cur;
@@ -48,11 +48,11 @@ export function useHorizontalScroll() {
 
     // Panels 0 (Hero), 2 (Comparison), 4 (About), 7 (Contact) have dark backgrounds
     // Dark-bg panels: Hero(0), About(4), FinalCTA(8). ChecklistTeaser(7) is light.
-    const darkPanels = new Set([0, 4, 8]);
+    const darkPanels = new Set([0, 5, 8]);
 
     // Maps nav index → panel DOM id (in physical #track order)
-    // 0:Hero(p0) 1:HowItWorks(p2) 2:Comparison 3:Services 4:About(p3) 5:Work 6:FAQ(p7) 7:ChecklistTeaser 8:FinalCTA(p8)
-    const panelIds = ['p0', 'p2', 'comparison', 'services', 'p3', 'samples', 'p7', 'checklist-teaser', 'p8'];
+    // 0:Hero(p0) 1:HowItWorks(p2) 2:Comparison 3:Samples 4:Services 5:About(p3) 6:FAQ(p7) 7:ChecklistTeaser 8:FinalCTA(p8)
+    const panelIds = ['p0', 'p2', 'comparison', 'samples', 'services', 'p3', 'p7', 'checklist-teaser', 'p8'];
 
     if (isMobile() && track) {
       track.style.transform = '';

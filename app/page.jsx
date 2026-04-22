@@ -34,9 +34,9 @@ export default function Home() {
           {/* p0 */ }<Hero />
           {/* p2 */ }<HowItWorks />
           {/* comparison */ }<Comparison />
+          {/* samples */ }<Work />
           {/* services */ }<Services />
           {/* p3 */ }<About />
-          {/* samples */ }<Work />
           {/* p7 */ }<FAQ />
           {/* checklist-teaser */ }
           <section className="panel" id="checklist-teaser" aria-label="AI Readiness Assessment">

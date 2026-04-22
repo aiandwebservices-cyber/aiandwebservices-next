@@ -14,21 +14,21 @@ const SERVICE_LINKS = [
   { label: 'Add-On Services',       href: '/services/add-ons'               },
 ];
 
-// 8 panels: Home(0), How It Works(1), Comparison(2), Services(3),
-// About(4), Samples(5), FAQ(6), AI Readiness(7). Contact lives at /contact route.
+// 8 panels: Home(0), How It Works(1), Comparison(2), Samples(3),
+// Services(4), About(5), FAQ(6), AI Readiness(7). Contact lives at /contact route.
 const PANELS = [
   { idx: 0, label: 'Home',           nav: false }, // logo serves as Home
   { idx: 1, label: 'How It Works',   nav: true },
   { idx: 2, label: 'Comparison',     nav: true },
-  { idx: 3, label: 'Services',       nav: true },
-  { idx: 4, label: 'About',          nav: true },
-  { idx: 5, label: 'Samples',        nav: true },
+  { idx: 3, label: 'Samples',        nav: true },
+  { idx: 4, label: 'Services',       nav: true },
+  { idx: 5, label: 'About',          nav: true },
   { idx: 6, label: 'FAQ',            nav: true },
   { idx: 7, label: 'AI Readiness',   nav: true },
   { idx: 8, label: 'Contact',        nav: false }, // CTA button serves as Contact on desktop
 ];
 const NAV_PANELS  = PANELS.filter(p => p.nav);
-const HASH_NAMES = ['home', 'how-it-works', 'comparison', 'services', 'about', 'samples', 'faq', 'ai-readiness', 'contact'];
+const HASH_NAMES = ['home', 'how-it-works', 'comparison', 'samples', 'services', 'about', 'faq', 'ai-readiness', 'contact'];
 
 export default function Nav() {
   const pathname = usePathname();
@@ -92,8 +92,8 @@ export default function Nav() {
     if (typeof window === 'undefined') return;
     if (!window.matchMedia('(max-width: 768px)').matches) return;
     const PANEL_ID_TO_IDX = {
-      'p0': 0, 'p2': 1, 'comparison': 2, 'services': 3,
-      'p3': 4, 'samples': 5, 'p7': 6, 'checklist-teaser': 7, 'p8': 8,
+      'p0': 0, 'p2': 1, 'comparison': 2, 'samples': 3,
+      'services': 4, 'p3': 5, 'p7': 6, 'checklist-teaser': 7, 'p8': 8,
     };
     const observer = new IntersectionObserver(
       (entries) => {
@@ -243,12 +243,13 @@ export default function Nav() {
         <Link href="/" className={`mob-link${currentPanel === 0 && !isOnContactPage && !isOnServicePage ? ' active' : ''}`} onClick={(e) => { closeMenu(); if (isHomepage) { e.preventDefault(); window.scrollTo({ top: 0, behavior: 'smooth' }); } }}>Home</Link>
         <Link href="/#p2" className={`mob-link${currentPanel === 1 ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); closeMenu(); window.mobileGo?.(1); }}>How It Works</Link>
         <Link href="/#comparison" className={`mob-link${currentPanel === 2 ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); closeMenu(); window.mobileGo?.(2); }}>Comparison</Link>
+        <Link href="/#samples" className={`mob-link${currentPanel === 3 ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); closeMenu(); window.mobileGo?.(3); }}>Samples</Link>
         <div>
           <div className="mob-svc-row">
             <Link
               href="/#services"
-              className={`mob-link mob-svc-link${currentPanel === 3 || isOnServicePage ? ' active' : ''}`}
-              onClick={(e) => { e.preventDefault(); closeMenu(); window.mobileGo?.(3); }}
+              className={`mob-link mob-svc-link${currentPanel === 4 || isOnServicePage ? ' active' : ''}`}
+              onClick={(e) => { e.preventDefault(); closeMenu(); window.mobileGo?.(4); }}
             >
               Services
             </Link>
@@ -284,8 +285,7 @@ export default function Nav() {
             </div>
           )}
         </div>
-        <Link href="/#p3" className={`mob-link${currentPanel === 4 ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); closeMenu(); window.mobileGo?.(4); }}>About</Link>
-        <Link href="/#samples" className={`mob-link${currentPanel === 5 ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); closeMenu(); window.mobileGo?.(5); }}>Samples</Link>
+        <Link href="/#p3" className={`mob-link${currentPanel === 5 ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); closeMenu(); window.mobileGo?.(5); }}>About</Link>
         <Link href="/#p7" className={`mob-link${currentPanel === 6 ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); closeMenu(); window.mobileGo?.(6); }}>FAQ</Link>
         <Link href="/#checklist-teaser" className={`mob-link${currentPanel === 7 ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); closeMenu(); window.mobileGo?.(7); }}>AI Readiness</Link>
         <Link href="/#p8" className={`mob-link${currentPanel === 8 ? ' active' : ''}`} onClick={(e) => { e.preventDefault(); closeMenu(); window.mobileGo?.(8); }}>Contact</Link>

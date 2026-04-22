@@ -5,9 +5,9 @@ const PANELS = [
   { id: 'p0',               label: 'Home' },
   { id: 'p2',               label: 'How It Works' },
   { id: 'comparison',       label: 'Comparison' },
+  { id: 'samples',          label: 'Work' },
   { id: 'services',         label: 'Services' },
   { id: 'p3',               label: 'About' },
-  { id: 'samples',          label: 'Work' },
   { id: 'p7',               label: 'FAQ' },
   { id: 'checklist-teaser', label: 'AI Readiness' },
 ];
