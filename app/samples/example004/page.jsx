@@ -546,7 +546,7 @@ export default function IroncladConstruction() {
           Ironclad <span style={{ color: ORANGE }}>Construction</span>
         </a>
         <ul className="ic-links">
-          {['Services','Projects','Process','Reviews','Contact'].map(l => (
+          {['Home','Services','Projects','Process','Reviews','Contact'].map(l => (
             <li key={l}><a href={`#${l.toLowerCase()}`}>{l}</a></li>
           ))}
         </ul>
