@@ -107,9 +107,9 @@ export default function BladeRoom() {
         .hero{position:relative;height:100vh;min-height:680px;display:flex;align-items:flex-end;overflow:hidden}
         .hero-bg{position:absolute;inset:0;width:100%;height:115%;object-fit:cover;object-position:center 25%;will-change:transform;filter:brightness(.85)}
         .hero-overlay{position:absolute;inset:0;background:linear-gradient(to right,${BLACK} 0%,rgba(12,12,12,.96) 25%,rgba(12,12,12,.35) 55%,rgba(12,12,12,.05) 100%)}
-        .hero-inner{position:relative;z-index:2;display:flex;align-items:flex-end;justify-content:flex-start;width:100%;padding:0 3rem 5.5rem}
-        .hero-content{max-width:620px;flex:1}
-        .hero-tag{font-size:.68rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:${GOLD};margin-bottom:1.5rem;display:flex;align-items:center;gap:.75rem;transition:opacity 1.1s .2s,transform 1.1s .2s cubic-bezier(.16,1,.3,1)}
+        .hero-inner{position:relative;z-index:2;display:flex;align-items:flex-end;justify-content:center;width:100%;padding:0 3rem 5.5rem}
+        .hero-content{max-width:620px;flex:1;text-align:center}
+        .hero-tag{font-size:.68rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:${GOLD};margin-bottom:1.5rem;display:flex;align-items:center;justify-content:center;gap:.75rem;transition:opacity 1.1s .2s,transform 1.1s .2s cubic-bezier(.16,1,.3,1)}
         .hero-tag.hidden{opacity:0;transform:translateY(16px)}
         .hero-tag::before{content:'';width:32px;height:1px;background:${GOLD}}
         .hero-h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(10.4rem,13.6vw,14.6rem);line-height:.9;letter-spacing:.03em;margin-bottom:2rem}
@@ -119,7 +119,7 @@ export default function BladeRoom() {
         .hero-h1 .gold{color:${GOLD}}
         .hero-sub{font-size:1rem;font-weight:300;color:${OFF}77;max-width:440px;line-height:1.75;margin-bottom:2.5rem;transition:opacity 1.1s .5s,transform 1.1s .5s cubic-bezier(.16,1,.3,1)}
         .hero-sub.hidden{opacity:0;transform:translateY(20px)}
-        .hero-btns{display:flex;gap:1rem;flex-wrap:wrap;transition:opacity 1.1s .75s,transform 1.1s .75s cubic-bezier(.16,1,.3,1)}
+        .hero-btns{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;transition:opacity 1.1s .75s,transform 1.1s .75s cubic-bezier(.16,1,.3,1)}
         .hero-btns.hidden{opacity:0;transform:translateY(20px)}
 
         /* HERO GALLERY — absolute top-right */
