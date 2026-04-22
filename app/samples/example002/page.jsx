@@ -108,7 +108,7 @@ export default function AriaRealty() {
         .hero-left{display:flex;flex-direction:column;justify-content:flex-end;padding:0 4rem 6rem;position:relative;z-index:2}
         .hero-left::before{content:'';position:absolute;inset:0;background:linear-gradient(to right,${DARK} 25%,transparent 75%);z-index:-1}
         .hero-right{position:relative;overflow:hidden}
-        .hero-right img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.7) saturate(.9)}
+        .hero-right img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;filter:brightness(.7) saturate(.9)}
         .hero-right::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,${DARK} 0%,transparent 35%)}
 
         .hero-tag{font-size:.65rem;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:${EM};margin-bottom:1.5rem;display:flex;align-items:center;gap:.75rem;transition:opacity 1s .2s,transform 1s .2s cubic-bezier(.16,1,.3,1)}
@@ -118,9 +118,9 @@ export default function AriaRealty() {
         .hero-h1 .word{display:block;white-space:nowrap;transition:transform 1.2s cubic-bezier(.16,1,.3,1),opacity 1.2s cubic-bezier(.16,1,.3,1)}
         .hero-h1 .word.hidden{transform:translateY(100%);opacity:0}
         .hero-h1 em{font-style:italic;color:${EM}}
-        .hero-p{font-size:.9rem;line-height:1.85;color:${LIGHT}77;max-width:420px;margin-bottom:2.75rem;transition:opacity 1s .6s,transform 1s .6s cubic-bezier(.16,1,.3,1)}
+        .hero-p{font-size:.9rem;line-height:1.85;color:${LIGHT}77;max-width:420px;margin-bottom:2.75rem;margin-left:auto;margin-right:auto;text-align:center;transition:opacity 1s .6s,transform 1s .6s cubic-bezier(.16,1,.3,1)}
         .hero-p.hidden{opacity:0;transform:translateY(20px)}
-        .hero-btns{display:flex;gap:1rem;flex-wrap:wrap;transition:opacity 1s .85s,transform 1s .85s cubic-bezier(.16,1,.3,1)}
+        .hero-btns{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;transition:opacity 1s .85s,transform 1s .85s cubic-bezier(.16,1,.3,1)}
         .hero-btns.hidden{opacity:0;transform:translateY(20px)}
 
         /* STATS BAR */
