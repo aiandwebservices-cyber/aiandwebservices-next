@@ -104,9 +104,9 @@ export default function AriaRealty() {
         .ar-cta-out:hover{background:${EM};color:#fff}
 
         /* HERO - full split */
-        .hero{position:relative;height:100vh;min-height:680px;display:grid;grid-template-columns:52% 48%;overflow:hidden}
+        .hero{position:relative;height:100vh;min-height:680px;display:grid;grid-template-columns:68% 32%;overflow:hidden}
         .hero-left{display:flex;flex-direction:column;justify-content:flex-end;padding:0 4rem 6rem;position:relative;z-index:2}
-        .hero-left::before{content:'';position:absolute;inset:0;background:linear-gradient(to right,${DARK} 75%,transparent 100%);z-index:-1}
+        .hero-left::before{content:'';position:absolute;inset:0;background:linear-gradient(to right,${DARK} 80%,transparent 100%);z-index:-1}
         .hero-right{position:relative;overflow:hidden}
         .hero-right img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(.7) saturate(.9)}
         .hero-right::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,${DARK} 0%,transparent 35%)}
@@ -114,8 +114,8 @@ export default function AriaRealty() {
         .hero-tag{font-size:.65rem;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:${EM};margin-bottom:1.5rem;display:flex;align-items:center;gap:.75rem;transition:opacity 1s .2s,transform 1s .2s cubic-bezier(.16,1,.3,1)}
         .hero-tag.hidden{opacity:0;transform:translateY(16px)}
         .hero-tag::before{content:'';width:28px;height:1px;background:${EM}}
-        .hero-h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,4vw,4rem);font-weight:700;line-height:1;margin-bottom:1.75rem;overflow:hidden}
-        .hero-h1 .word{display:block;transition:transform 1.2s cubic-bezier(.16,1,.3,1),opacity 1.2s cubic-bezier(.16,1,.3,1)}
+        .hero-h1{font-family:'Playfair Display',serif;font-size:clamp(2.5rem,5.8vw,6rem);font-weight:700;line-height:1.1;margin-bottom:1.75rem}
+        .hero-h1 .word{display:block;white-space:nowrap;transition:transform 1.2s cubic-bezier(.16,1,.3,1),opacity 1.2s cubic-bezier(.16,1,.3,1)}
         .hero-h1 .word.hidden{transform:translateY(100%);opacity:0}
         .hero-h1 em{font-style:italic;color:${EM}}
         .hero-p{font-size:.9rem;line-height:1.85;color:${LIGHT}77;max-width:420px;margin-bottom:2.75rem;transition:opacity 1s .6s,transform 1s .6s cubic-bezier(.16,1,.3,1)}
