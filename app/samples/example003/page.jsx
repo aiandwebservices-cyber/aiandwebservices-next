@@ -222,17 +222,16 @@ export default function BladeRoom() {
           .svc-grid{grid-template-columns:1fr}
           .photo-grid{grid-template-columns:1fr}
         }
+        @media(max-width:900px){
+          .hero-h1{font-size:clamp(2.5rem,7.5vw,7.5rem) !important}
+          .big-title{font-size:clamp(2.375rem,6.3vw,5.375rem) !important}
+          .btn-book{font-size:.58rem !important;padding:.45rem 1rem !important}
+          .btn-out{font-size:.58rem !important;padding:.5rem 1.2rem !important}
+          .hero-gallery{width:175px !important}
+          .hero-gallery-main{height:125px !important}
+          .hero-gallery-sm{height:65px !important}
+        }
       `}</style>
-      {isPreview && <style>{`
-        .hero-h1{font-size:clamp(2.5rem,7.5vw,7.5rem) !important}
-        @media(max-width:768px){.hero-h1{font-size:clamp(2.2rem,7.5vw,8rem) !important}}
-        .big-title{font-size:clamp(2.375rem,6.3vw,5.375rem) !important}
-        .btn-book{font-size:.58rem !important;padding:.45rem 1rem !important}
-        .btn-out{font-size:.58rem !important;padding:.5rem 1.2rem !important}
-        .hero-gallery{width:175px !important}
-        .hero-gallery-main{height:125px !important}
-        .hero-gallery-sm{height:65px !important}
-      `}</style>}
 
       {/* NAV */}
       <nav className={`br-nav${scrollY > 60 ? ' scrolled' : ''}`}>
