@@ -2,6 +2,7 @@ import './globals.css';
 import { Inter, Plus_Jakarta_Sans } from 'next/font/google';
 import Script from 'next/script';
 import CrispChat from '@/components/CrispChat';
+import { SpeedInsights } from '@vercel/speed-insights/next';
 import { OrganizationSchema, LocalBusinessSchema, WebSiteSchema, PersonSchema } from '@/components/Schema';
 
 const inter = Inter({
@@ -87,6 +88,7 @@ export default function RootLayout({ children }) {
           strategy="lazyOnload"
         />
         <CrispChat />
+        <SpeedInsights />
       </body>
     </html>
   );
