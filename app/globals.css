@@ -47,7 +47,6 @@ body.panels-mode{height:100%}
 /* Smooth scrolling (active on mobile where page is a normal scroll document) */
 @media(max-width:768px){html{scroll-behavior:auto}}
 /* Anchor offset — clear fixed navbar (64px) + buffer */
-[id^="service-"],[id^="pricing-"],#services,#pricing,#contact,#faq,#about{scroll-margin-top:100px}
 a{color:inherit;text-decoration:none}
 button{font-family:inherit;cursor:pointer;touch-action:manipulation}
 a{touch-action:manipulation}
