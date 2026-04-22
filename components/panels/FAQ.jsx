@@ -191,6 +191,7 @@ export default function FAQ() {
         .fq-list {
           display: grid; grid-template-columns: 1fr 1fr;
           gap: 7px; margin-bottom: 16px; align-content: start;
+          max-width: 920px; margin-left: auto; margin-right: auto;
         }
         .fq-card {
           position: relative;
@@ -234,7 +235,7 @@ export default function FAQ() {
         }
 
         /* ── Blog section ── */
-        .fq-blog-wrap { margin-top: 40px; margin-bottom: 8px; }
+        .fq-blog-wrap { margin-top: 40px; margin-bottom: 8px; max-width: 920px; margin-left: auto; margin-right: auto; }
         .fq-blog-header {
           display: flex; align-items: flex-end; justify-content: space-between;
           margin-bottom: 12px; gap: 12px;
