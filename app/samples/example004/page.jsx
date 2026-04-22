@@ -421,7 +421,7 @@ export default function IroncladConstruction() {
         .ic-hero-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;filter:brightness(.55)}
         .ic-hero-canvas{position:absolute;inset:0}
         .ic-hero-gradient{position:absolute;inset:0;background:linear-gradient(to right,${DARK} 0%,rgba(10,13,20,.95) 30%,rgba(10,13,20,.4) 65%,rgba(10,13,20,.1) 100%)}
-        .ic-hero-content{position:relative;z-index:2;padding:0 3rem;max-width:780px}
+        .ic-hero-content{position:relative;z-index:2;padding:22vh 3rem 0;max-width:780px}
         .ic-hero-badge{display:inline-flex;align-items:center;gap:.6rem;font-size:.65rem;font-weight:700;letter-spacing:.25em;text-transform:uppercase;color:${ORANGE};margin-bottom:1.75rem;transition:opacity .9s .1s,transform .9s .1s cubic-bezier(.16,1,.3,1)}
         .ic-hero-badge.hide{opacity:0;transform:translateX(-20px)}
         .ic-hero-badge::before{content:'';width:28px;height:2px;background:${ORANGE}}
