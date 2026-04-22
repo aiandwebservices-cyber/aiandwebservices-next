@@ -234,11 +234,11 @@ export default function Services() {
           </div>
 
           {/* Full-width button row — below grid so bullets sit above */}
-          <div style={{ display:'flex', gap:'8px', marginTop:'14px', position:'relative', zIndex:1 }}>
+          <div className="svc-consulting-btn-row" style={{ display:'flex', gap:'8px', marginTop:'14px', position:'relative', zIndex:1 }}>
             <Link
               href="/services/consulting"
-              className="svc-starter-btn"
-              style={{ flex:1, justifyContent:'center', background:'transparent', color:'#2AA5A0', border:'2px solid #2AA5A0', boxShadow:'none' }}
+              className="svc-starter-btn svc-consulting-btn-learn"
+              style={{ justifyContent:'center', background:'transparent', color:'#2AA5A0', border:'2px solid #2AA5A0', boxShadow:'none' }}
             >
               Learn More
             </Link>
@@ -246,8 +246,8 @@ export default function Services() {
               href="https://square.link/u/axARuYVi"
               target="_blank"
               rel="noopener noreferrer"
-              className="svc-starter-btn"
-              style={{ flex:1, justifyContent:'center', background:'linear-gradient(135deg,#2AA5A0,#1d8a85)', boxShadow:'0 4px 14px rgba(42,165,160,.35)' }}
+              className="svc-starter-btn svc-consulting-btn-buy"
+              style={{ justifyContent:'center', background:'linear-gradient(135deg,#2AA5A0,#1d8a85)', boxShadow:'0 4px 14px rgba(42,165,160,.35)' }}
             >
               Buy
             </a>
@@ -449,6 +449,10 @@ export default function Services() {
 
         .pricing-inner { height:100%;overflow-y:auto;padding:90px 5vw 0; }
 
+        @media (min-width:641px) {
+          .svc-consulting-btn-row { justify-content:flex-end; }
+          .svc-consulting-btn-row .svc-starter-btn { flex:0 0 6.25%;padding:8px 10px;font-size:11px;margin-top:0; }
+        }
         @media (max-width:1200px) {
           .svc-cta-wrap { margin-top:2px; }
         }
@@ -476,6 +480,7 @@ export default function Services() {
         }
 
         @media (max-width:640px) {
+          .svc-consulting-btn-row .svc-starter-btn { flex:1; }
           .svc-starter-grid { grid-template-columns:1fr; }
           .pricing-inner { padding:80px 4vw 24px; }
           .svc-plans-grid { grid-template-columns:1fr;gap:6px;margin-bottom:8px; }
