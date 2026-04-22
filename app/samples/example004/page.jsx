@@ -524,6 +524,10 @@ export default function IroncladConstruction() {
         }
         @media(max-width:768px){
           .ic-nav{padding:1rem 1.5rem}.ic-links{display:none}
+          .ic-logo{font-size:1rem}
+          .ic-logo-mark{width:22px;height:22px}
+          .ic-cta{font-size:.62rem;padding:.5rem 1rem}
+          .ic-h1{font-size:clamp(2.75rem,10vw,8.25rem)}
           .ic-hero-content{padding:0 1.5rem}
           .ic-section{padding:4rem 1.5rem}
           .ic-svc-grid{grid-template-columns:1fr}

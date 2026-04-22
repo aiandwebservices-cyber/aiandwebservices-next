@@ -189,6 +189,7 @@ export default function AriaRealty() {
         @media(max-width:960px){
           .ar-nav{padding:1rem 1.5rem}.ar-links{display:none}
           .hero{grid-template-columns:1fr;height:auto}
+          .hero-h1{font-size:clamp(1.55rem,5.5vw,4.25rem)}
           .hero-left{padding:8rem 1.5rem 5rem}
           .hero-right{display:none}
           .stats-bar{grid-template-columns:repeat(2,1fr)}
