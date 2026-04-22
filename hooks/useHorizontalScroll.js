@@ -120,14 +120,51 @@ export function useHorizontalScroll() {
       updateUI(pushHistory);
     }
 
+    function getDebugOverlay() {
+      let el = document.getElementById('__stp_overlay');
+      if (!el) {
+        el = document.createElement('div');
+        el.id = '__stp_overlay';
+        Object.assign(el.style, {
+          position: 'fixed', top: '8px', right: '8px', zIndex: '99999',
+          background: 'rgba(0,0,0,0.85)', color: '#fff',
+          fontFamily: 'monospace', fontSize: '11px',
+          padding: '8px', borderRadius: '4px', maxWidth: '260px',
+          whiteSpace: 'pre', lineHeight: '1.6', pointerEvents: 'auto',
+        });
+        el.onclick = () => el.remove();
+        document.body.appendChild(el);
+      }
+      return el;
+    }
+
     function scrollToPanel(n, pushHistory = true) {
       n = Math.max(0, Math.min(TOTAL - 1, n));
       cur = n;
       curRef.current = cur;
       const panel = document.getElementById(panelIds[n]);
       if (panel) {
-        const offset = Math.round(panel.getBoundingClientRect().top + window.scrollY) - 60;
+        const bcr = panel.getBoundingClientRect();
+        const OFFSET = 60;
+        const offset = Math.round(bcr.top + window.scrollY) - OFFSET;
+        const ov = getDebugOverlay();
+        ov.textContent = [
+          `id: ${panelIds[n]} | idx: ${n}`,
+          `rectTop: ${Math.round(bcr.top)}`,
+          `scrollY: ${Math.round(window.scrollY)}`,
+          `target: ${offset}`,
+          `offset: -${OFFSET}`,
+        ].join('\n');
         window.scrollTo({ top: offset, behavior: 'smooth' });
+        setTimeout(() => {
+          const bcrAfter = panel.getBoundingClientRect();
+          ov.textContent += [
+            '',
+            '--- after 500ms ---',
+            `scrollY: ${Math.round(window.scrollY)}`,
+            `rectTop: ${Math.round(bcrAfter.top)}`,
+          ].join('\n');
+        }, 500);
       }
       window.closeMenu && window.closeMenu();
       updateUI(pushHistory);
