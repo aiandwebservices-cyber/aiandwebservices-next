@@ -117,7 +117,7 @@ export default function BladeRoom() {
         .hero-h1 .line{display:block;transition:transform 1.3s cubic-bezier(.16,1,.3,1),opacity 1.3s cubic-bezier(.16,1,.3,1)}
         .hero-h1 .line.hidden{transform:translateY(80px);opacity:0}
         .hero-h1 .gold{color:${GOLD}}
-        .hero-sub{font-size:1rem;font-weight:300;color:${OFF}77;max-width:440px;line-height:1.75;margin-bottom:2.5rem;transition:opacity 1.1s .5s,transform 1.1s .5s cubic-bezier(.16,1,.3,1)}
+        .hero-sub{font-size:1rem;font-weight:300;color:${OFF}77;max-width:440px;line-height:1.75;margin:0 auto 2.5rem;transition:opacity 1.1s .5s,transform 1.1s .5s cubic-bezier(.16,1,.3,1)}
         .hero-sub.hidden{opacity:0;transform:translateY(20px)}
         .hero-btns{display:flex;gap:1rem;flex-wrap:wrap;justify-content:center;transition:opacity 1.1s .75s,transform 1.1s .75s cubic-bezier(.16,1,.3,1)}
         .hero-btns.hidden{opacity:0;transform:translateY(20px)}
