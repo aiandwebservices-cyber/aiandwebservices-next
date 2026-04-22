@@ -114,8 +114,7 @@ export default function AriaRealty() {
         .hero-tag{font-size:.65rem;font-weight:600;letter-spacing:.25em;text-transform:uppercase;color:${EM};margin-bottom:1.25rem;display:flex;align-items:center;gap:.75rem;transition:opacity 1s .2s,transform 1s .2s cubic-bezier(.16,1,.3,1)}
         .hero-tag.hidden{opacity:0;transform:translateY(16px)}
         .hero-tag::before{content:'';width:28px;height:1px;background:${EM}}
-        .hero-bottom{display:flex;align-items:baseline;justify-content:space-between;gap:2rem;margin-bottom:2rem}
-        .hero-h1{font-family:'Playfair Display',serif;font-size:clamp(3rem,6.5vw,7rem);font-weight:700;line-height:1.05;margin:0;white-space:nowrap}
+        .hero-h1{font-family:'Playfair Display',serif;font-size:clamp(3rem,6.5vw,7rem);font-weight:700;line-height:1.05;margin:0 0 .5rem;white-space:nowrap;display:block;width:100%;text-align:center}
         .hero-h1 em{font-style:italic;color:${EM}}
         .hero-h1-right{font-family:'Playfair Display',serif;font-size:clamp(3rem,6.5vw,7rem);font-weight:700;font-style:italic;color:${EM};white-space:nowrap;line-height:1.05;text-align:right;transition:opacity 1.2s .3s,transform 1.2s .3s cubic-bezier(.16,1,.3,1)}
         .hero-h1-right.hidden{opacity:0;transform:translateY(40px)}
@@ -220,8 +219,8 @@ export default function AriaRealty() {
           <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1400&q=90" alt="Luxury South Florida estate" />
         </div>
         <div className="hero-left">
-          <div className="hero-bottom">
-            <h1 className={`hero-h1${heroIn ? '' : ' hidden'}`}>Find the Home That Fits</h1>
+          <h1 className={`hero-h1${heroIn ? '' : ' hidden'}`}>Find the Home That Fits</h1>
+          <div style={{ display:'flex', justifyContent:'space-between', alignItems:'baseline' }}>
             <span className={`hero-h1-right${heroIn ? '' : ' hidden'}`}><em>Your Life</em></span>
           </div>
           <div className={`hero-tag${heroIn ? '' : ' hidden'}`}>South Florida's Premier Real Estate</div>
