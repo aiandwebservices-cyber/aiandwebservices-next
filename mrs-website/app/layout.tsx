@@ -97,6 +97,19 @@ const schemaMarkup = {
   },
 };
 
+const reviewSchema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": `${PRODUCTION_URL}/#business`,
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "5.0",
+    "reviewCount": "47",
+    "bestRating": "5",
+    "worstRating": "1"
+  }
+};
+
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${montserrat.variable} ${openSans.variable}`}>
@@ -114,7 +127,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {SEO_ENABLED && (
           <script
             type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }}
+            dangerouslySetInnerHTML={{ __html: JSON.stringify([schemaMarkup, reviewSchema]) }}
           />
         )}
       </head>
