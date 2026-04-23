@@ -2404,6 +2404,7 @@ body.allow-scroll main {
 
 /* Hero H1 styles - must be in globals to prevent FOUC */
 .h-h1 {
+  visibility: visible;
   font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: clamp(50px, 5.5vw, 64px);
   font-weight: 800;

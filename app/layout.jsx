@@ -69,28 +69,14 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.variable} ${plusJakarta.variable}`} suppressHydrationWarning={true}>
       <head>
-        {/* Inline critical style — hides H1 before any external CSS loads to prevent FOUC */}
-        <style dangerouslySetInnerHTML={{ __html: `
-          h1 { visibility: hidden; }
-          html.fonts-loaded h1 { visibility: visible; }
-        `}} />
+        {/* Inline critical style — hides H1 before globals.css loads to prevent FOUC */}
+        <style dangerouslySetInnerHTML={{ __html: `h1 { visibility: hidden; }`}} />
         <link rel="preconnect" href="https://client.crisp.chat" />
         <link rel="dns-prefetch" href="https://client.crisp.chat" />
         {/* Block browser scroll restoration before any rendering — must be synchronous */}
         <script dangerouslySetInnerHTML={{ __html: `
           if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
           window.scrollTo(0, 0);
-        `}} />
-        <script dangerouslySetInnerHTML={{ __html: `
-          if (document.fonts && document.fonts.ready) {
-            document.fonts.ready.then(function() {
-              document.documentElement.classList.add('fonts-loaded');
-            });
-          } else {
-            setTimeout(function() {
-              document.documentElement.classList.add('fonts-loaded');
-            }, 300);
-          }
         `}} />
         <meta name="geo.region" content="US" />
         <meta name="geo.placename" content="United States" />
