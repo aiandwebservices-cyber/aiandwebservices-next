@@ -171,7 +171,7 @@ export const FL_CONFIG: SiteConfig = {
   mapsEmbedUrl:
     'https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d462248.8319642613!2d-80.24932!3d25.9!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1713200000000!5m2!1sen!2sus',
 
-  metaTitle: 'Water Damage, Mold & Fire Restoration Miami | 24/7 Emergency | MRS',
+  metaTitle: 'Emergency Water Damage Miami | 24/7 Response <60min | (754) 777-8956',
   metaDescription:
     '24/7 emergency water, fire & mold restoration in Miami, Fort Lauderdale & Boca Raton. IICRC certified. <60min response. Call (754) 777-8956 now.',
   ogTitle: 'Mitigation Restoration Services | 24/7 Emergency Restoration South Florida',
@@ -441,7 +441,7 @@ export const NY_CONFIG: SiteConfig = {
   mapsEmbedUrl:
     'https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d193595.15831953523!2d-74.11976390014451!3d40.69766374865766!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1713200000001!5m2!1sen!2sus',
 
-  metaTitle: 'Mitigation Restoration Services | 24/7 Emergency Restoration NYC Metro',
+  metaTitle: 'Emergency Water Damage NYC | 24/7 Response <60min | MRS Restoration',
   metaDescription:
     '24/7 emergency water, fire, mold & storm damage restoration serving all five NYC boroughs — Manhattan, Brooklyn, Queens, the Bronx & Staten Island. Licensed & insured.',
   ogTitle: 'Mitigation Restoration Services | 24/7 Emergency Restoration NYC Metro',
