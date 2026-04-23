@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation';
 
 const POSTS = [
   { href: '/blog/how-ai-works-while-you-sleep',                 tag: 'AI Automation', title: 'How AI Works\nWhile You Sleep' },
-  { href: '/blog/ai-saves-small-businesses-500-2000-per-month', tag: 'AI ROI',         title: '66% of SMBs Save\n$500–$2,000/mo' },
   { href: '/blog/growing-businesses-use-ai-83-percent',         tag: 'Growth',         title: '83% of Growing\nSMBs Use AI' },
   { href: '/blog/ai-directly-boosts-revenue-91-percent-small-businesses', tag: 'AI ROI',     title: '91% of SMBs Say\nAI Boosts Revenue' },
   { href: '/blog/businesses-cut-costs-35-percent-first-year-ai',          tag: 'Cost Savings', title: 'Cut Costs 35%\nin Year One' },

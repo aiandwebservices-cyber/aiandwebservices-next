@@ -21,6 +21,11 @@ const nextConfig: NextConfig = {
         permanent: true,
       },
       {
+        source: '/blog',
+        destination: '/',
+        permanent: false,
+      },
+      {
         source: '/services/ai-automation',
         destination: '/services/compare',
         permanent: true,
