@@ -15,7 +15,7 @@ const faqSchema = {
 export const metadata: Metadata = {
   title: `FAQ — Water, Fire & Mold Restoration Questions | ${FL_CONFIG.siteName}`,
   description: "Get answers about water damage, fire & smoke cleanup, mold remediation, insurance claims, and response times for South Florida restoration services. Available 24/7.",
-  ...(process.env.NEXT_PUBLIC_SEO_ENABLED === "true" && {
+  ...(true && {
     alternates: { canonical: `${FL_CONFIG.productionUrl}/faq` },
     openGraph: {
       title: `Restoration FAQ | ${FL_CONFIG.siteName}`,

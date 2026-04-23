@@ -15,7 +15,7 @@ const faqSchema = {
 export const metadata: Metadata = {
   title: `FAQ — Water, Fire & Mold Restoration Questions | ${NY_CONFIG.siteName} NYC`,
   description: "Get answers about water damage, fire & smoke cleanup, mold remediation, insurance claims, and response times for NYC restoration services. Serving all five boroughs 24/7.",
-  ...(process.env.NEXT_PUBLIC_SEO_ENABLED === "true" && {
+  ...(true && {
     alternates: { canonical: `${NY_CONFIG.productionUrl}/faq` },
     openGraph: {
       title: `Restoration FAQ | ${NY_CONFIG.siteName} NYC`,

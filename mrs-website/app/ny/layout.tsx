@@ -6,8 +6,8 @@ import { NY_CONFIG } from "@/lib/site-config";
 export const metadata: Metadata = {
   title: NY_CONFIG.metaTitle,
   description: NY_CONFIG.metaDescription,
-  robots: process.env.NEXT_PUBLIC_SEO_ENABLED === "true" ? "index, follow" : "noindex, nofollow",
-  ...(process.env.NEXT_PUBLIC_SEO_ENABLED === "true" && {
+  robots: true ? "index, follow" : "noindex, nofollow",
+  ...(true && {
     keywords: NY_CONFIG.keywords,
     openGraph: {
       title: NY_CONFIG.ogTitle,
@@ -69,7 +69,7 @@ const schemaMarkup = {
 export default function NYLayout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      {process.env.NEXT_PUBLIC_SEO_ENABLED === "true" && (
+      {true && (
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }}

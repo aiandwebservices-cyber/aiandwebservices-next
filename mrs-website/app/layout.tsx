@@ -17,8 +17,8 @@ const openSans = Open_Sans({ subsets: ["latin"], variable: "--font-open-sans", d
 //   2. Update PRODUCTION_URL below to the real domain
 //   3. Delete or update public/robots.txt to allow indexing
 // ─────────────────────────────────────────────────────────────────────────────
-const SEO_ENABLED = process.env.NEXT_PUBLIC_SEO_ENABLED === "true";
-const PRODUCTION_URL = "https://mitigationrestorationservices.com"; // update when going live
+const SEO_ENABLED = true;
+const PRODUCTION_URL = "https://mitigationrestorationservice.com";
 
 export const metadata: Metadata = {
   title: FL_CONFIG.metaTitle,
