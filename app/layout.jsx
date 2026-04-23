@@ -69,6 +69,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.variable} ${plusJakarta.variable}`} suppressHydrationWarning={true}>
       <head>
+        {/* Inline critical style — hides H1 before any external CSS loads to prevent FOUC */}
+        <style dangerouslySetInnerHTML={{ __html: `
+          h1 { visibility: hidden; }
+          html.fonts-loaded h1 { visibility: visible; }
+        `}} />
         <link rel="preconnect" href="https://client.crisp.chat" />
         <link rel="dns-prefetch" href="https://client.crisp.chat" />
         {/* Block browser scroll restoration before any rendering — must be synchronous */}
