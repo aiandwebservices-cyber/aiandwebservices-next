@@ -399,6 +399,11 @@ export default function Hero() {
           text-transform:uppercase;letter-spacing:2px;
         }
 
+        /* ── 27" monitor (2560×1440) — extend dashboard 20px ── */
+        @media (min-width:2500px) and (min-height:1400px) {
+          .h-dashboard-wrap { padding-bottom:20px; }
+        }
+
         /* ── Dashboard nudge on smaller/windowed viewports ── */
         @media (max-height:1200px) {
           .h-dashboard-wrap { margin-top:50px !important; }
