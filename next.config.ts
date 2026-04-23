@@ -25,6 +25,11 @@ const nextConfig: NextConfig = {
         destination: '/services/compare',
         permanent: true,
       },
+      {
+        source: '/blog/ai-saves-small-businesses-500-2000-per-month',
+        destination: '/blog/ai-directly-boosts-revenue-91-percent-small-businesses',
+        permanent: true,
+      },
     ];
   },
   async headers() {
