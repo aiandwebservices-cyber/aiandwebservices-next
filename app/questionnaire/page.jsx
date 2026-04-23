@@ -28,7 +28,7 @@ export default function QuestionnairePage() {
     <>
       <AllowScroll />
       <Nav />
-      <style>{`@media(min-width:1920px){.questionnaire-main{padding-top:25px;}}`}</style>
+      <style>{`@media(min-width:1920px){.questionnaire-main{padding-top:93px;}}`}</style>
       <main className="questionnaire-main" style={{ minHeight: '100vh', backgroundColor: '#f8fafc' }}>
         <Suspense fallback={null}><ChecklistForm hideHero={false} defaultSource="site" /></Suspense>
       </main>
