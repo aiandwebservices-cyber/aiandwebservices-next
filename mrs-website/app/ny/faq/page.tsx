@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { NY_CONFIG } from "@/lib/site-config";
 import FaqPage from "@/components/pages/FaqPage";
+import BreadcrumbSchema from "@/components/BreadcrumbSchema";
 
 const faqSchema = {
   "@context": "https://schema.org",
@@ -25,9 +26,12 @@ export const metadata: Metadata = {
   }),
 };
 
+const BASE = "https://mitigationrestorationservice.com";
+
 export default function Page() {
   return (
     <>
+      <BreadcrumbSchema items={[{ name: "Home", item: `${BASE}/ny` }, { name: "FAQ", item: `${BASE}/ny/faq` }]} />
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(faqSchema) }} />
       <FaqPage config={NY_CONFIG} />
     </>
