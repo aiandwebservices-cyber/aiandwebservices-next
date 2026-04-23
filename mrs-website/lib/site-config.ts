@@ -173,7 +173,7 @@ export const FL_CONFIG: SiteConfig = {
 
   metaTitle: 'Water Damage, Mold & Fire Restoration Miami | 24/7 Emergency | MRS',
   metaDescription:
-    '24/7 emergency water, fire, mold & storm damage restoration serving Boca Raton, Fort Lauderdale, Miami & all of South Florida. Licensed & insured. Se Habla Español.',
+    '24/7 emergency water, fire & mold restoration in Miami, Fort Lauderdale & Boca Raton. IICRC certified. <60min response. Call (754) 777-8956 now.',
   ogTitle: 'Mitigation Restoration Services | 24/7 Emergency Restoration South Florida',
   ogDescription: 'When disaster strikes, we respond. 24/7 emergency restoration for South Florida. Call (754) 777-8956.',
   keywords:
