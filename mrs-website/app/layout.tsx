@@ -87,6 +87,13 @@ const schemaMarkup = {
   areaServed: sc.areaServed,
   openingHours: "Mo-Su 00:00-24:00",
   priceRange: "$$",
+  serviceOutput: "Emergency response within 60 minutes",
+  hoursAvailable: {
+    "@type": "OpeningHoursSpecification",
+    opens: "00:00",
+    closes: "23:59",
+    dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+  },
   hasOfferCatalog: {
     "@type": "OfferCatalog",
     name: "Restoration Services",
