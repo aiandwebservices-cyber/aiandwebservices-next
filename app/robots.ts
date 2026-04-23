@@ -6,7 +6,7 @@ export default function robots(): MetadataRoute.Robots {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/preview/', '/api/'],
+        disallow: ['/preview/', '/api/', '/samples/', '/intro/', '/v2/', '/v3/', '/qr-test/', '/contactold/', '/checklist/'],
       },
     ],
     sitemap: 'https://www.aiandwebservices.com/sitemap.xml',
