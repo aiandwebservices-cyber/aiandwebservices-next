@@ -290,7 +290,15 @@ export default function Hero() {
           width:fit-content;
         }
 
-        /* ── Headline ── (styles moved to globals.css to prevent FOUC) */
+        /* ── Headline ── */
+        .h-h1 {
+          font-family:'Plus Jakarta Sans',sans-serif;
+          font-size:clamp(50px,5.5vw,64px);font-weight:800;
+          line-height:1.04;letter-spacing:-1.5px;color:#fff;
+          margin-bottom:min(34px,3vh);
+        }
+        .h-line { display:block; }
+        .h-line-accent { color:#2AA5A0; }
 
         /* ── Subheadline ── */
         .h-sub {

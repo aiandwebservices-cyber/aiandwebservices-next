@@ -1,14 +1,5 @@
 @import "tailwindcss";
 
-@font-face {
-  font-family: 'Plus Jakarta Sans Fallback';
-  src: local('Arial');
-  ascent-override: 95%;
-  descent-override: 25%;
-  line-gap-override: 0%;
-  size-adjust: 107%;
-}
-
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --navy:#1B2A4A;
@@ -2401,17 +2392,3 @@ body.allow-scroll main {
   overflow: visible !important;
   min-height: 100vh;
 }
-
-/* Hero H1 styles - must be in globals to prevent FOUC */
-.h-h1 {
-  visibility: visible;
-  font-family: 'Plus Jakarta Sans', sans-serif;
-  font-size: clamp(50px, 5.5vw, 64px);
-  font-weight: 800;
-  line-height: 1.04;
-  letter-spacing: -1.5px;
-  color: #fff;
-  margin-bottom: min(34px, 3vh);
-}
-.h-line { display: block; }
-.h-line-accent { color: #2AA5A0; }

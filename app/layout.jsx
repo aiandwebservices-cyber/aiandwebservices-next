@@ -9,17 +9,14 @@ const inter = Inter({
   subsets: ['latin'],
   weight: ['400', '600', '700', '800'],
   variable: '--font-inter',
-  display: 'optional',
-  preload: true,
+  display: 'swap',
 });
 
 const plusJakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
   weight: ['700', '800'],
   variable: '--font-plus-jakarta',
-  display: 'optional',
-  preload: true,
-  fallback: ['Plus Jakarta Sans Fallback', 'system-ui', 'sans-serif'],
+  display: 'swap',
 });
 
 export const metadataBase = new URL('https://www.aiandwebservices.com');
@@ -69,8 +66,6 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.variable} ${plusJakarta.variable}`} suppressHydrationWarning={true}>
       <head>
-        {/* Inline critical style — hides H1 before globals.css loads to prevent FOUC */}
-        <style dangerouslySetInnerHTML={{ __html: `h1 { visibility: hidden; }`}} />
         <link rel="preconnect" href="https://client.crisp.chat" />
         <link rel="dns-prefetch" href="https://client.crisp.chat" />
         {/* Block browser scroll restoration before any rendering — must be synchronous */}
