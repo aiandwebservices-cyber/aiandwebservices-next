@@ -53,6 +53,15 @@ const schemaMarkup = {
       longitude: sc.geo.longitude,
     },
   }),
+  geoArea: {
+    "@type": "GeoCircle",
+    geoMidpoint: {
+      "@type": "GeoCoordinates",
+      latitude: 40.7128,
+      longitude: -74.0060,
+    },
+    geoRadius: "50000",
+  },
   areaServed: sc.areaServed,
   openingHours: "Mo-Su 00:00-24:00",
   priceRange: "$$",
