@@ -169,7 +169,7 @@ export default function FAQ() {
 
         .faq-inner {
           position: relative; z-index: 1; height: 100%;
-          overflow-y: auto; display: flex; flex-direction: column;
+          overflow: hidden; display: flex; flex-direction: column;
           padding: 90px 5vw 0;
         }
         .faq-inner .panel-cta-wrap { margin-top:auto; padding-top:14px; padding-bottom:clamp(16px,2.5vh,28px); }
@@ -288,6 +288,9 @@ export default function FAQ() {
           font-size: 11px; font-weight: 700; margin-top: 2px;
         }
 
+        @media (min-width: 1920px) {
+          .fq-blog-wrap { margin-top: 25px; }
+        }
         @media (max-width: 900px) {
           .fq-blog-grid { grid-template-columns: repeat(2, 1fr); }
         }
