@@ -2414,3 +2414,13 @@ body.allow-scroll main {
 }
 .h-line { display: block; }
 .h-line-accent { color: #2AA5A0; }
+
+/* Hide H1 until fonts are ready to prevent FOUC */
+html:not(.fonts-loaded) h1 {
+  visibility: hidden;
+  transition: visibility 0s 0.2s;
+}
+html.fonts-loaded h1 {
+  visibility: visible;
+  transition: visibility 0s;
+}
