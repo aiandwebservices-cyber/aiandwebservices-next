@@ -223,10 +223,10 @@ export default function EmberOak() {
           <div className={`hero-badge${heroVisible ? '' : ' hidden'}`} style={{ transition: 'opacity 1.2s .2s, transform 1.2s .2s cubic-bezier(.16,1,.3,1)', opacity: heroVisible ? 1 : 0, transform: heroVisible ? 'none' : 'translateY(16px)' }}>
             Fort Lauderdale · Est. 2019
           </div>
-          <div className="hero-title" aria-label="Ember & Oak">
+          <h1 className="hero-title" aria-label="Ember & Oak">
             <span className={`line${heroVisible ? '' : ' hidden'}`} style={{ transitionDelay: '.1s' }}>Ember</span>
             <span className={`line${heroVisible ? '' : ' hidden'}`} style={{ transitionDelay: '.25s' }}><em>&amp; Oak</em></span>
-          </div>
+          </h1>
           <p className={`hero-sub${heroVisible ? '' : ' hidden'}`}>Where fire meets forest · An experience beyond the plate</p>
           <div className={`hero-ctas${heroVisible ? '' : ' hidden'}`}>
             <a href="#reserve" className="btn-solid">Reserve Tonight</a>
