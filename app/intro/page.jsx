@@ -6,7 +6,7 @@ export const metadata = {
   title: '30-Min AI Automation Intro Call | AIandWEBservices',
   description: 'Free 30-minute intro call with David Pulis. I\'ll review your business, identify your biggest AI automation opportunities, and show you the fastest path to implementation.',
   alternates: { canonical: 'https://www.aiandwebservices.com/intro' },
-  robots: { index: false, follow: false },
+  robots: { index: false, follow: true },
   openGraph: {
     title: '30-Min AI Automation Intro Call',
     description: 'Free 30-minute intro call. Review your business, identify quick wins, and map your implementation.',
