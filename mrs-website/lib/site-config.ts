@@ -465,9 +465,9 @@ export const NY_CONFIG: SiteConfig = {
   ],
   testimonialSubhead: 'Real NYC homeowners, condo owners, and property managers',
   testimonials: [
-    { name: 'Maria G.', city: 'Fort Lauderdale', stars: 5, quote: 'After a pipe burst at 2am, MRS was at my door within 45 minutes. They saved my floors and handled everything with my insurance. Incredible service.' },
-    { name: 'Robert T.', city: 'Miami Beach', stars: 5, quote: 'MRS was professional, fast, and made the whole claim process painless. Highly recommend.' },
-    { name: 'Sandra L.', city: 'Boca Raton', stars: 5, quote: 'Found mold behind our bathroom wall. The MRS team was thorough, explained everything, and the remediation was perfect. They even speak Spanish — huge plus!' },
+    { name: 'James W.', city: 'Brooklyn', stars: 5, quote: 'Frozen pipe burst on a Sunday night and MRS was at my brownstone within 40 minutes. They extracted the water, set up drying equipment, and handled my insurance claim from start to finish. Saved my hardwood floors.' },
+    { name: 'Lisa M.', city: 'Manhattan', stars: 5, quote: 'Water damage in my co-op from the unit above. MRS coordinated directly with building management and my insurance adjuster — I barely had to do anything. Professional and incredibly fast.' },
+    { name: 'David T.', city: 'Queens', stars: 5, quote: 'Found mold in my basement after a nor\'easter. MRS found the moisture source, contained the mold, and did a full remediation. They gave me a clearance report for my insurance. Couldn\'t ask for better service.' },
   ],
   serviceAreaHeadline: 'Proudly Serving All of NYC Metro',
   serviceAreaGetHelpCta: 'Get Help in Your Borough →',
