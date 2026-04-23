@@ -4,7 +4,6 @@ const BASE = 'https://www.aiandwebservices.com';
 
 const BLOG_SLUGS = [
   'how-ai-works-while-you-sleep',
-  'ai-saves-small-businesses-500-2000-per-month',
   'ai-directly-boosts-revenue-91-percent-small-businesses',
   'global-ai-market-small-business-20-billion-2026',
   'businesses-cut-costs-35-percent-first-year-ai',
