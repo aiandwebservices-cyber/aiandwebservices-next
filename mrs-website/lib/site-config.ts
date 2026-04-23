@@ -171,7 +171,7 @@ export const FL_CONFIG: SiteConfig = {
   mapsEmbedUrl:
     'https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d462248.8319642613!2d-80.24932!3d25.9!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sus!4v1713200000000!5m2!1sen!2sus',
 
-  metaTitle: 'Mitigation Restoration Services | 24/7 Emergency Restoration South Florida',
+  metaTitle: 'Water Damage, Mold & Fire Restoration Miami | 24/7 Emergency | MRS',
   metaDescription:
     '24/7 emergency water, fire, mold & storm damage restoration serving Boca Raton, Fort Lauderdale, Miami & all of South Florida. Licensed & insured. Se Habla Español.',
   ogTitle: 'Mitigation Restoration Services | 24/7 Emergency Restoration South Florida',
