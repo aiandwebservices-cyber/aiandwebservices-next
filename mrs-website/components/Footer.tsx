@@ -3,6 +3,7 @@ import Image from "next/image";
 import type { SiteConfig } from "@/lib/site-config";
 
 export default function Footer({ config }: { config: SiteConfig }) {
+  const base = config.location === 'newYork' ? '/ny' : '';
   return (
     <footer style={{ background: "var(--navy)", color: "#e2e8f0" }}>
       {/* Emergency bar */}
@@ -36,7 +37,7 @@ export default function Footer({ config }: { config: SiteConfig }) {
         <div>
           <h4 style={{ color: "#fff", fontSize: "0.95rem", marginBottom: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>Services</h4>
           {["Water Damage", "Fire & Smoke", "Mold Remediation", "Storm Damage", "Biohazard Cleanup", "Reconstruction"].map(s => (
-            <Link key={s} href="/services" className="footer-link">
+            <Link key={s} href={`${base}/services`} className="footer-link">
               {s}
             </Link>
           ))}
@@ -46,7 +47,7 @@ export default function Footer({ config }: { config: SiteConfig }) {
         <div>
           <h4 style={{ color: "#fff", fontSize: "0.95rem", marginBottom: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>Company</h4>
           {([["About Us", "/about"], ["FAQ", "/faq"], ["Contact", "/contact"], ["Emergency Help", "/contact"]] as [string, string][]).map(([label, href]) => (
-            <Link key={label} href={href} className="footer-link">
+            <Link key={label} href={`${base}${href}`} className="footer-link">
               {label}
             </Link>
           ))}

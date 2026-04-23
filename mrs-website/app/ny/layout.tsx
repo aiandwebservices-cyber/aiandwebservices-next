@@ -23,7 +23,7 @@ export const metadata: Metadata = {
       description: NY_CONFIG.ogDescription,
     },
     alternates: {
-      canonical: NY_CONFIG.productionUrl,
+      canonical: `${NY_CONFIG.productionUrl}`,
     },
   }),
 };
@@ -61,7 +61,7 @@ const schemaMarkup = {
     name: "Restoration Services",
     itemListElement: NY_CONFIG.services.map(s => ({
       "@type": "Offer",
-      itemOffered: { "@type": "Service", name: s.title, url: `${NY_CONFIG.productionUrl}${s.href.replace('/ny', '')}` },
+      itemOffered: { "@type": "Service", name: s.title, url: `https://mitigationrestorationservice.com${s.href}` },
     })),
   },
 };

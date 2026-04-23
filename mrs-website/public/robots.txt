@@ -1,5 +1,4 @@
-# MRS staging/preview site — SEO intentionally blocked
-# This site is hosted at mrs.aiandwebservices.com as a client preview only.
-# Do NOT index this domain. Full SEO will be activated on the production domain.
 User-agent: *
-Disallow: /
+Allow: /
+
+Sitemap: https://mitigationrestorationservice.com/sitemap.xml
