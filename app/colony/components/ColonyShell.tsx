@@ -9,6 +9,7 @@ import ThemeToggle from './ThemeToggle'
 import CohortSwitcher, { CohortProvider } from './CohortSwitcher'
 import { SidePanelProvider } from './SidePanel'
 import { MRRWidget } from '../health/components/MRRWidget'
+import { useCommandPalette } from './CommandPaletteProvider'
 
 const NAV_ITEMS = [
   { href: '/colony', label: 'Feed', icon: Home },
@@ -30,6 +31,7 @@ export default function ColonyShell({ children }: { children: React.ReactNode })
   const pathname = usePathname()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const pageTitle = PAGE_TITLES[pathname] ?? 'Colony'
+  const { open: openPalette } = useCommandPalette()
 
   return (
     <CohortProvider>
@@ -114,6 +116,25 @@ export default function ColonyShell({ children }: { children: React.ReactNode })
               </span>
             </div>
             <div className="flex items-center gap-2">
+              <button
+                onClick={openPalette}
+                className="hidden md:flex items-center gap-1.5 px-2 py-1 rounded text-xs transition-opacity hover:opacity-80"
+                style={{
+                  border: '1px solid var(--colony-border)',
+                  color: 'var(--colony-text-secondary)',
+                  background: 'transparent',
+                }}
+                title="Open command palette"
+                aria-label="Open command palette"
+              >
+                <span>Search</span>
+                <kbd
+                  className="text-[10px] px-1 rounded"
+                  style={{ background: 'var(--colony-bg-content)' }}
+                >
+                  ⌘K
+                </kbd>
+              </button>
               <ThemeToggle />
               <MRRWidget />
               <a

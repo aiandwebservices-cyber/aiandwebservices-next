@@ -1,6 +1,7 @@
-import type { ColonyFetchers, LeadsQuery, DealsQuery, ReportsQuery, FeedQuery, MetricsQuery, MetricsPayload } from './contracts'
+import type { ColonyFetchers, LeadsQuery, DealsQuery, ReportsQuery, FeedQuery, MetricsQuery, MetricsPayload, BotsQuery, BotPayload } from './contracts'
 import type { LeadPayload, DealPayload, ReportPayload, FeedEventPayload } from './contracts'
 import { computeMetrics } from './metrics'
+import { fetchBotsFromRuns } from './bots'
 import { cache } from './cache'
 import * as espo from './espocrm'
 import * as qdrant from './qdrant'
@@ -79,5 +80,20 @@ export const fetchers: ColonyFetchers = {
     const data = await computeMetrics(cohortId)
     cache.set(key, data)
     return data
+  },
+
+  async fetchBots(cohortId, query?: BotsQuery): Promise<BotPayload[]> {
+    const key = `colony:${cohortId}:bots:${hashQuery(query)}`
+    const hit = cache.get<BotPayload[]>(key)
+    if (hit) return hit.data
+
+    const data = await fetchBotsFromRuns(cohortId)
+    cache.set(key, data)
+    return data
+  },
+
+  async updateDealStage(cohortId, dealId, newStage): Promise<boolean> {
+    if (cohortId === 'demo') return true
+    return espo.espoUpdateDealStage(cohortId, dealId, newStage)
   },
 }

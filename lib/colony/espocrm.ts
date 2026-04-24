@@ -165,6 +165,31 @@ export async function espoFetchDeals(cohortId: string, query: DealsQuery = {}): 
     .filter((d): d is DealPayload => d !== null)
 }
 
+// ─── Stage write-back ─────────────────────────────────────────────────────────
+
+export async function espoUpdateDealStage(
+  cohortId: string,
+  dealId: string,
+  newStage: string
+): Promise<boolean> {
+  void cohortId  // cohortId not needed for the PATCH — deal ID is globally unique in EspoCRM
+  const res = await fetch(`${baseUrl()}/api/v1/Opportunity/${dealId}`, {
+    method: 'PATCH',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Api-Key': apiKey(),
+    },
+    body: JSON.stringify({ salesStage: newStage }),
+    signal: AbortSignal.timeout(5000),
+  })
+
+  if (!res.ok) {
+    const text = await res.text().catch(() => res.statusText)
+    throw new ColonyFetchError('espocrm', res.status, `Stage update failed: ${text}`)
+  }
+  return true
+}
+
 // ─── Activities (Notes) ───────────────────────────────────────────────────────
 
 export async function espoFetchActivities(

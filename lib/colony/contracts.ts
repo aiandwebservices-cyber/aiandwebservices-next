@@ -62,6 +62,8 @@ export interface ColonyFetchers {
   fetchReports(cohortId: Cohort, query?: ReportsQuery): Promise<ReportPayload[]>
   fetchFeed(cohortId: Cohort, query?: FeedQuery): Promise<FeedEventPayload[]>
   fetchMetrics(cohortId: Cohort, query?: MetricsQuery): Promise<MetricsPayload>
+  fetchBots(cohortId: Cohort, query?: BotsQuery): Promise<BotPayload[]>
+  updateDealStage(cohortId: Cohort, dealId: string, newStage: DealStage): Promise<boolean>
 }
 
 // === Fetcher error types ===
@@ -120,4 +122,34 @@ export interface MetricsPayload {
 
 export interface MetricsQuery {
   // Future: date range params
+}
+
+// === Phase 9: Bot runs ===
+
+export interface BotRunPayload {
+  bot_id: string
+  bot_name: string
+  bot_role: string
+  avatar_emoji: string
+  cohort_id: Cohort
+  summary: string
+  decisions_count: number
+  ran_at: string
+  run_duration_seconds?: number
+}
+
+export interface BotsQuery {
+  since?: string
+  limit?: number
+}
+
+// === Phase 10: Deal stage write-back ===
+
+export interface DealStageUpdateRequest {
+  stage: DealStage
+}
+
+export interface DealStageUpdateResponse {
+  id: string
+  stage: DealStage
 }

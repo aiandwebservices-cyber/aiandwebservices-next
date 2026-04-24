@@ -4,6 +4,7 @@ import './colony.css'
 import PostHogProvider from './components/PostHogProvider'
 import ColonyShell from './components/ColonyShell'
 import { SidePanelProvider } from './components/SidePanel'
+import { CommandPaletteProvider } from './components/CommandPaletteProvider'
 
 export const metadata: Metadata = {
   title: 'Colony — Live Operations',
@@ -16,7 +17,9 @@ export default function ColonyLayout({ children }: { children: React.ReactNode }
       <PostHogProvider>
         <div className="colony-root" data-theme="dark" suppressHydrationWarning>
           <SidePanelProvider>
-            <ColonyShell>{children}</ColonyShell>
+            <CommandPaletteProvider>
+              <ColonyShell>{children}</ColonyShell>
+            </CommandPaletteProvider>
           </SidePanelProvider>
         </div>
       </PostHogProvider>
