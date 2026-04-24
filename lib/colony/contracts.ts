@@ -1,0 +1,98 @@
+// Colony Phase 2 Contract — READ-ONLY during Phase 2
+// All fetchers, API routes, and client calls must conform to these types.
+
+import type {
+  Cohort,
+  FeedEvent,
+  Lead,
+  Deal,
+  Bot,
+  BillNyeReport,
+  Temperature,
+  DealStage,
+} from '@/app/colony/lib/types'
+
+// === Data payload types (mirror the existing types from app/colony/lib/types.ts) ===
+export type FeedEventPayload = FeedEvent
+export type LeadPayload = Lead
+export type DealPayload = Deal
+export type BotPayload = Bot
+export type ReportPayload = BillNyeReport
+
+// === Standard API response envelope ===
+export type APIStatus = 'ok' | 'stale' | 'degraded' | 'unauthorized'
+
+export interface APIResponse<T> {
+  status: APIStatus
+  data: T | null
+  cached_at?: string      // ISO timestamp when this payload was fetched
+  last_success?: string   // ISO timestamp of last successful fetch (for stale/degraded)
+  error?: string          // human-readable error for degraded responses
+}
+
+// === Query parameter types ===
+export interface LeadsQuery {
+  temperature?: Temperature | 'ALL' | 'UNCONTACTED' | 'AGING'
+  niche?: string
+  source?: 'master_pipeline' | 'fresh_business' | 'website' | 'manual'
+  dateRange?: 'today' | 'week' | 'month' | 'all'
+  limit?: number
+  cursor?: string
+}
+
+export interface DealsQuery {
+  stage?: DealStage | 'ALL'
+  limit?: number
+}
+
+export interface FeedQuery {
+  since?: string  // ISO timestamp — only events after this
+  limit?: number
+}
+
+export interface ReportsQuery {
+  limit?: number
+  type?: 'bill_nye_weekly' | 'coach_proposal' | 'retrospective' | 'ALL'
+}
+
+// === Fetcher signatures — Stream X implements these ===
+export interface ColonyFetchers {
+  fetchLeads(cohortId: Cohort, query?: LeadsQuery): Promise<LeadPayload[]>
+  fetchDeals(cohortId: Cohort, query?: DealsQuery): Promise<DealPayload[]>
+  fetchReports(cohortId: Cohort, query?: ReportsQuery): Promise<ReportPayload[]>
+  fetchFeed(cohortId: Cohort, query?: FeedQuery): Promise<FeedEventPayload[]>
+}
+
+// === Fetcher error types ===
+export class ColonyFetchError extends Error {
+  constructor(
+    public source: 'espocrm' | 'qdrant' | 'cache' | 'unknown',
+    public statusCode: number | null,
+    message: string
+  ) {
+    super(message)
+    this.name = 'ColonyFetchError'
+  }
+}
+
+// === API endpoint contract — Stream Y must expose these ===
+// GET /api/colony/feed      → APIResponse<FeedEventPayload[]>
+// GET /api/colony/leads     → APIResponse<LeadPayload[]>    (accepts LeadsQuery as search params)
+// GET /api/colony/deals     → APIResponse<DealPayload[]>    (accepts DealsQuery)
+// GET /api/colony/reports   → APIResponse<ReportPayload[]>  (accepts ReportsQuery)
+//
+// All routes:
+//  - Read cohort_id from Clerk session (never from query params)
+//  - Return 401 with { status: 'unauthorized' } if no auth
+//  - Return 500 with { status: 'degraded', error } if fetcher throws
+//  - Cache successful responses for 60s
+//  - Cohort 'demo' short-circuits to mock-data, never hits real EspoCRM/Qdrant
+
+// === Cache key convention ===
+// cache key format: `colony:${cohortId}:${resource}:${queryHash}`
+// TTL: 60 seconds for metrics/lists, 5 seconds for single-record lookups
+
+// === Demo cohort handling ===
+// When cohortId === 'demo', ALL fetchers should short-circuit to mock-data helpers
+// from app/colony/lib/mock-data.ts — never call real external APIs.
+// This ensures sales demos are always fast, reliable, and cohort-isolated.
