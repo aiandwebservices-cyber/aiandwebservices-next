@@ -1,4 +1,4 @@
-import { resolveCohort, okResponse } from '../../../_shared/auth'
+import { resolveCohort, okResponse } from '../../_shared/auth'
 
 export async function GET(req: Request) {
   const authed = await resolveCohort(req)
