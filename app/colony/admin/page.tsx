@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Users, ClipboardList, ArrowRight } from 'lucide-react'
+import { Users, ClipboardList, ArrowRight, Building2, GitMerge, Activity } from 'lucide-react'
 
 const TOOLS = [
   {
@@ -7,6 +7,24 @@ const TOOLS = [
     icon: Users,
     title: 'Onboard a new customer',
     description: 'Create Clerk account, assign cohort ID, provision EspoCRM, Square, and Qdrant in one flow.',
+  },
+  {
+    href: '/colony/admin/customers',
+    icon: Building2,
+    title: 'Customers',
+    description: 'List of every cohort with MRR, alerts, and impersonation. Drill in for lifecycle detail.',
+  },
+  {
+    href: '/colony/admin/identity',
+    icon: GitMerge,
+    title: 'Identity merge queue',
+    description: 'Candidate duplicate records across EspoCRM and Square. Merge actions are dry-run until Phase 12B.',
+  },
+  {
+    href: '/colony/admin/system',
+    icon: Activity,
+    title: 'System health',
+    description: 'Live ping against Tailscale, EspoCRM, Qdrant, Square, Clerk, PostHog.',
   },
   {
     href: '/colony/admin/audit',

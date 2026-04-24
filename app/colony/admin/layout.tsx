@@ -36,6 +36,27 @@ export default async function AdminLayout({ children }: { children: React.ReactN
             Onboard
           </Link>
           <Link
+            href="/colony/admin/customers"
+            className="hover:opacity-80 transition-opacity"
+            style={{ color: 'var(--colony-text-secondary)' }}
+          >
+            Customers
+          </Link>
+          <Link
+            href="/colony/admin/identity"
+            className="hover:opacity-80 transition-opacity"
+            style={{ color: 'var(--colony-text-secondary)' }}
+          >
+            Identity
+          </Link>
+          <Link
+            href="/colony/admin/system"
+            className="hover:opacity-80 transition-opacity"
+            style={{ color: 'var(--colony-text-secondary)' }}
+          >
+            System
+          </Link>
+          <Link
             href="/colony/admin/audit"
             className="hover:opacity-80 transition-opacity"
             style={{ color: 'var(--colony-text-secondary)' }}

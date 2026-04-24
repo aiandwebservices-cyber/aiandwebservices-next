@@ -5,6 +5,7 @@ import PostHogProvider from './components/PostHogProvider'
 import ColonyShell from './components/ColonyShell'
 import { SidePanelProvider } from './components/SidePanel'
 import { CommandPaletteProvider } from './components/CommandPaletteProvider'
+import ImpersonationBanner from './components/ImpersonationBanner'
 
 export const metadata: Metadata = {
   title: 'Colony — Live Operations',
@@ -16,6 +17,7 @@ export default function ColonyLayout({ children }: { children: React.ReactNode }
     <ClerkProvider>
       <PostHogProvider>
         <div className="colony-root" data-theme="dark" suppressHydrationWarning>
+          <ImpersonationBanner />
           <SidePanelProvider>
             <CommandPaletteProvider>
               <ColonyShell>{children}</ColonyShell>
