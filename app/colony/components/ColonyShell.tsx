@@ -3,7 +3,7 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { UserButton } from '@clerk/nextjs'
+import { UserButton, useUser } from '@clerk/nextjs'
 import { Menu } from 'lucide-react'
 import ThemeToggle from './ThemeToggle'
 import CohortSwitcher, { CohortProvider } from './CohortSwitcher'
@@ -21,10 +21,16 @@ const NAV_ITEMS = [
   { href: '/colony/team',      label: 'Team' },
 ]
 
+const ADMIN_EMAILS = ['david@aiandwebservices.com', 'aiandwebservices@gmail.com']
+
 export default function ColonyShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const { open: openPalette } = useCommandPalette()
+  const { user } = useUser()
+
+  const userEmail = user?.emailAddresses?.[0]?.emailAddress?.toLowerCase() ?? ''
+  const isAdmin = ADMIN_EMAILS.includes(userEmail)
 
   return (
     <CohortProvider>
@@ -51,8 +57,8 @@ export default function ColonyShell({ children }: { children: React.ReactNode })
               flexShrink: 0,
             }}
           >
-            {/* Brand area */}
-            <div style={{ padding: '20px 20px', borderBottom: '1px solid rgba(255,255,255,.08)' }}>
+            {/* Brand area — Colony by [logo] only */}
+            <div style={{ padding: '20px 20px' }}>
               <Link
                 href="/colony"
                 style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}
@@ -76,28 +82,17 @@ export default function ColonyShell({ children }: { children: React.ReactNode })
                   style={{ height: 24, width: 'auto', flexShrink: 0 }}
                 />
               </Link>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginTop: 8 }}>
-                <span style={{
-                  width: 6,
-                  height: 6,
-                  borderRadius: '50%',
-                  background: '#34d399',
-                  boxShadow: '0 0 6px #34d399',
-                  animation: 'colonyPulse 2s ease-in-out infinite',
-                }} />
-                <span style={{ fontSize: 10, color: 'rgba(255,255,255,.5)', fontWeight: 600, letterSpacing: '.3px' }}>
-                  Crew online
-                </span>
-              </div>
             </div>
 
             {/* Empty space — Phase 17C will fill this */}
             <div className="flex-1" />
 
-            {/* Cohort switcher */}
-            <div className="px-3 pb-5">
-              <CohortSwitcher />
-            </div>
+            {/* Cohort switcher — admin only */}
+            {isAdmin && (
+              <div className="px-3 pb-5">
+                <CohortSwitcher />
+              </div>
+            )}
           </aside>
 
           {/* Main area */}
@@ -105,21 +100,43 @@ export default function ColonyShell({ children }: { children: React.ReactNode })
             {/* Topbar */}
             <header
               className="colony-topbar flex items-center justify-between px-4 shrink-0"
-              style={{ height: 56, gap: 8 }}
+              style={{ height: 56, position: 'relative' }}
             >
-              {/* Left: mobile menu toggle + nav pills */}
-              <div
-                className="flex items-center overflow-x-auto"
-                style={{ gap: 4, scrollbarWidth: 'none', msOverflowStyle: 'none', flexShrink: 1, minWidth: 0 }}
-              >
+              {/* LEFT: mobile menu + Crew online */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: '0 0 auto', minWidth: 140 }}>
                 <button
-                  className="lg:hidden p-1 rounded hover:opacity-70 shrink-0"
-                  style={{ color: 'var(--colony-text-primary)', marginRight: 4 }}
+                  className="lg:hidden p-1 rounded hover:opacity-70"
+                  style={{ color: 'var(--colony-text-primary)' }}
                   onClick={() => setSidebarOpen(true)}
                   aria-label="Open menu"
                 >
                   <Menu size={18} />
                 </button>
+                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <span style={{
+                    width: 7,
+                    height: 7,
+                    borderRadius: '50%',
+                    background: '#34d399',
+                    boxShadow: '0 0 8px #34d399',
+                    animation: 'colonyPulse 2s ease-in-out infinite',
+                    flexShrink: 0,
+                  }} />
+                  <span style={{ fontSize: 11, color: 'rgba(255,255,255,.55)', fontWeight: 600, letterSpacing: '.3px' }}>
+                    Crew online
+                  </span>
+                </div>
+              </div>
+
+              {/* CENTER: Nav pills — absolutely centered */}
+              <nav style={{
+                display: 'flex',
+                alignItems: 'center',
+                gap: 4,
+                position: 'absolute',
+                left: '50%',
+                transform: 'translateX(-50%)',
+              }}>
                 {NAV_ITEMS.map(({ href, label }) => {
                   const isActive = pathname === href
                   return (
@@ -137,17 +154,16 @@ export default function ColonyShell({ children }: { children: React.ReactNode })
                         transition: 'all 200ms cubic-bezier(.21,.47,.32,.98)',
                         textDecoration: 'none',
                         whiteSpace: 'nowrap',
-                        flexShrink: 0,
                       }}
                     >
                       {label}
                     </Link>
                   )
                 })}
-              </div>
+              </nav>
 
-              {/* Right: search, MRR, theme, user */}
-              <div className="flex items-center gap-2 shrink-0">
+              {/* RIGHT: search, MRR, theme, user */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: 8, flex: '0 0 auto', marginLeft: 'auto' }}>
                 <button
                   onClick={openPalette}
                   className="hidden md:flex items-center gap-1.5 transition-all"
