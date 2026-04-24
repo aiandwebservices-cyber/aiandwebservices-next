@@ -8,6 +8,7 @@ import { Home, Inbox, TrendingUp, Activity, BarChart2, Menu, Phone } from 'lucid
 import ThemeToggle from './ThemeToggle'
 import CohortSwitcher, { CohortProvider } from './CohortSwitcher'
 import { SidePanelProvider } from './SidePanel'
+import { MRRWidget } from '../health/components/MRRWidget'
 
 const NAV_ITEMS = [
   { href: '/colony', label: 'Feed', icon: Home },
@@ -114,6 +115,7 @@ export default function ColonyShell({ children }: { children: React.ReactNode })
             </div>
             <div className="flex items-center gap-2">
               <ThemeToggle />
+              <MRRWidget />
               <a
                 href="https://cal.com/david-pulis"
                 target="_blank"

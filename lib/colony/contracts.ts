@@ -61,6 +61,7 @@ export interface ColonyFetchers {
   fetchDeals(cohortId: Cohort, query?: DealsQuery): Promise<DealPayload[]>
   fetchReports(cohortId: Cohort, query?: ReportsQuery): Promise<ReportPayload[]>
   fetchFeed(cohortId: Cohort, query?: FeedQuery): Promise<FeedEventPayload[]>
+  fetchMetrics(cohortId: Cohort, query?: MetricsQuery): Promise<MetricsPayload>
 }
 
 // === Fetcher error types ===
@@ -96,3 +97,27 @@ export class ColonyFetchError extends Error {
 // When cohortId === 'demo', ALL fetchers should short-circuit to mock-data helpers
 // from app/colony/lib/mock-data.ts — never call real external APIs.
 // This ensures sales demos are always fast, reliable, and cohort-isolated.
+
+// === Phase 4: Metrics payload types ===
+
+export interface MRRBreakdown {
+  plan: string
+  count: number
+  monthly_amount: number
+}
+
+export interface MetricsPayload {
+  mrr_current: number
+  mrr_last_month: number
+  mrr_delta_pct: number
+  arr: number
+  active_subscriptions: number
+  churn_rate_30d: number
+  new_revenue_this_month: number
+  breakdown_by_plan: MRRBreakdown[]
+  computed_at: string
+}
+
+export interface MetricsQuery {
+  // Future: date range params
+}

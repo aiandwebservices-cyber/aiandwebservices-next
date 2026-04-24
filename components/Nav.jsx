@@ -10,6 +10,7 @@ const SERVICE_LINKS = [
   { label: 'Growth',                href: '/services/growth'                },
   { label: 'Revenue Engine',        href: '/services/revenue-engine'        },
   { label: 'AI-First',              href: '/services/ai-first'              },
+  { label: 'Colony Dashboard',      href: '/product/colony'                 },
   { label: 'A La Carte',            href: '/services/consulting'            },
   { label: 'Add-On Services',       href: '/services/add-ons'               },
 ];

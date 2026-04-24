@@ -1,5 +1,6 @@
-import type { ColonyFetchers, LeadsQuery, DealsQuery, ReportsQuery, FeedQuery } from './contracts'
+import type { ColonyFetchers, LeadsQuery, DealsQuery, ReportsQuery, FeedQuery, MetricsQuery, MetricsPayload } from './contracts'
 import type { LeadPayload, DealPayload, ReportPayload, FeedEventPayload } from './contracts'
+import { computeMetrics } from './metrics'
 import { cache } from './cache'
 import * as espo from './espocrm'
 import * as qdrant from './qdrant'
@@ -66,6 +67,16 @@ export const fetchers: ColonyFetchers = {
     if (hit) return hit.data
 
     const data = await buildFeed(cohortId, query ?? {})
+    cache.set(key, data)
+    return data
+  },
+
+  async fetchMetrics(cohortId, query?: MetricsQuery): Promise<MetricsPayload> {
+    const key = `colony:${cohortId}:metrics:${hashQuery(query)}`
+    const hit = cache.get<MetricsPayload>(key)
+    if (hit) return hit.data
+
+    const data = await computeMetrics(cohortId)
     cache.set(key, data)
     return data
   },

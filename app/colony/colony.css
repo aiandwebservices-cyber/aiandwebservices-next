@@ -67,3 +67,19 @@
   animation: colony-shimmer 1.2s ease-in-out infinite;
   border-radius: 6px;
 }
+
+/* Scoped wrapper for Bill Nye HTML reports — let the report's own inline styles win */
+.colony-report-content {
+  all: revert;
+  font-family: inherit;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--colony-text-primary);
+  max-width: 100%;
+  overflow-x: auto;
+}
+
+.colony-report-content * {
+  max-width: 100%;
+  box-sizing: border-box;
+}

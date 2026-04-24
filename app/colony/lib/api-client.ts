@@ -11,7 +11,7 @@ interface FetchOptions {
 }
 
 export async function colonyFetch<T>(
-  endpoint: 'feed' | 'leads' | 'deals' | 'reports' | 'ping',
+  endpoint: 'feed' | 'leads' | 'deals' | 'reports' | 'ping' | 'mrr',
   options: FetchOptions = {}
 ): Promise<APIResponse<T>> {
   const url = new URL(`${API_BASE}/${endpoint}`, window.location.origin)

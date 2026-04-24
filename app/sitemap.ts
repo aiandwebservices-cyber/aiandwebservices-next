@@ -29,6 +29,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { url: `${BASE}/services/ai-first`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
     { url: `${BASE}/services/consulting`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.85 },
     { url: `${BASE}/services/add-ons`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.8 },
+    { url: `${BASE}/product/colony`, lastModified: new Date(), changeFrequency: 'monthly', priority: 0.9 },
     { url: `${BASE}/guarantee`, lastModified: new Date(), changeFrequency: 'yearly', priority: 0.7 },
     ...blogEntries,
   ];
