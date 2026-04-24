@@ -186,16 +186,16 @@ export default function FeedEventRow({ event, index }: Props) {
 
       {/* Text */}
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-semibold leading-snug" style={{ color: 'var(--colony-text-primary)' }}>
+        <p className="leading-snug" style={{ fontSize: 14, fontWeight: 700, color: 'var(--colony-text-primary)' }}>
           {event.title}
         </p>
-        <p className="text-xs mt-0.5 truncate" style={{ color: 'var(--colony-text-secondary)' }}>
+        <p className="mt-0.5 truncate" style={{ fontSize: 12, color: 'rgba(255,255,255,.6)' }}>
           {event.subtitle}
         </p>
       </div>
 
       {/* Time */}
-      <span className="text-xs shrink-0 mt-0.5" style={{ color: 'var(--colony-text-secondary)' }}>
+      <span className="shrink-0 mt-0.5" style={{ fontSize: 11, color: 'rgba(255,255,255,.3)' }}>
         {formatRelativeTime(event.timestamp)}
       </span>
     </div>
