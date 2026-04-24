@@ -75,6 +75,12 @@ export function ActivityFeed() {
 
   return (
     <div className="space-y-5">
+      <div className="flex items-center gap-2 px-4">
+        <h3 className="colony-headline" style={{ fontSize: 18, letterSpacing: '-0.3px' }}>
+          Activity Feed
+        </h3>
+        <span className="colony-pulse" aria-hidden="true" />
+      </div>
       {status === 'stale' && (
         <div className="px-4">
           <StaleIndicator lastSuccessAt={lastSuccess ?? undefined} />
@@ -83,8 +89,7 @@ export function ActivityFeed() {
       {groups.map(group => (
         <div key={group.label}>
           <p
-            className="text-xs font-bold uppercase tracking-widest px-4 mb-1"
-            style={{ color: 'var(--colony-text-secondary)', opacity: 0.5 }}
+            className="colony-label px-4 mb-2"
           >
             {group.label}
           </p>
