@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto'
 import {
-  clerkInviteUser,
+  clerkCreateOrgAndOwner,
   espoCreateCustomerRecords,
   squareTagCustomerCohort,
   qdrantBootstrapCohort,
@@ -160,13 +160,16 @@ export async function executeOnboarding(
     auditId,
   }
 
-  // Step 1 — Clerk invitation
+  // Step 1 — Create Clerk Organization + invite owner
   try {
-    const inviteId = await clerkInviteUser(
-      input.primaryContactEmail,
+    const { inviteId } = await clerkCreateOrgAndOwner({
+      ownerEmail: input.primaryContactEmail,
+      ownerFirstName: input.primaryContactFirstName,
+      ownerLastName: input.primaryContactLastName,
+      orgName: input.businessName,
       cohortId,
-      input.plan
-    )
+      plan: input.plan,
+    })
     result.steps.clerkInvite = { success: true, inviteId }
   } catch (err) {
     result.steps.clerkInvite = {

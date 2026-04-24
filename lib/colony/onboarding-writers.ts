@@ -32,6 +32,34 @@ export async function clerkInviteUser(
   return invite.id
 }
 
+export async function clerkCreateOrgAndOwner(params: {
+  ownerEmail: string
+  ownerFirstName: string
+  ownerLastName: string
+  orgName: string
+  cohortId: string
+  plan: string
+}): Promise<{ orgId: string; ownerUserId: string; inviteId?: string }> {
+  const clerk = await clerkClient()
+  const appUrl = process.env.NEXT_PUBLIC_APP_URL ?? 'https://aiandwebservices.com'
+
+  // Create the organization with cohort_id in metadata
+  const org = await clerk.organizations.createOrganization({
+    name: params.orgName,
+    publicMetadata: { cohort_id: params.cohortId, plan: params.plan },
+  })
+
+  // Invite owner to the org (org:admin = owner role in our enum)
+  const orgInvite = await clerk.organizations.createOrganizationInvitation({
+    organizationId: org.id,
+    emailAddress: params.ownerEmail,
+    role: 'org:admin',
+    redirectUrl: `${appUrl}/colony`,
+  })
+
+  return { orgId: org.id, ownerUserId: '', inviteId: orgInvite.id }
+}
+
 // ─── EspoCRM writes ───────────────────────────────────────────────────────────
 
 function espoBase(): string {
