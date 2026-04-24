@@ -40,7 +40,7 @@
   --font-body:clamp(13px,1.8vw,16px);
   --font-sm:clamp(11px,1.5vw,14px);
 }
-html,body{width:100%;font-family:'Inter',sans-serif;background:var(--white);color:var(--text)}
+html,body{width:100%;font-family:var(--font-inter),sans-serif;background:var(--white);color:var(--text)}
 body.panels-mode{height:100%}
 @media(min-width:769px){body.panels-mode{overflow:hidden}}
 @media(min-width:769px){body.panels-mode .site-footer{display:none}}
@@ -204,7 +204,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 .edot{width:6px;height:6px;border-radius:50%;background:#2AA5A0;box-shadow:0 0 8px #2AA5A0;animation:pulse 2s ease-in-out infinite}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.4;transform:scale(.8)}}
 .hero-h1{
-  font-family:'Plus Jakarta Sans',sans-serif;
+  font-family:var(--font-plus-jakarta),sans-serif;
   font-size:clamp(52px,7vw,100px);
   font-weight:800;line-height:1.05;
   letter-spacing:-1.5px;
@@ -215,7 +215,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
 }
 .hero-slogan{
-  font-family:'Plus Jakarta Sans',sans-serif;
+  font-family:var(--font-plus-jakarta),sans-serif;
   font-size:13px;font-weight:700;letter-spacing:2px;
   text-transform:uppercase;color:#60A5FA;
   margin-bottom:14px;
