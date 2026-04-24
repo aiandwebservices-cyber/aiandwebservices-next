@@ -50,3 +50,20 @@
 .colony-bot-active .colony-bot-avatar {
   animation: bot-pulse 2.5s ease-in-out infinite;
 }
+
+@keyframes colony-shimmer {
+  0% { background-position: -200px 0; }
+  100% { background-position: calc(200px + 100%) 0; }
+}
+
+.colony-skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--colony-bg-elevated) 0%,
+    var(--colony-border) 50%,
+    var(--colony-bg-elevated) 100%
+  );
+  background-size: 200px 100%;
+  animation: colony-shimmer 1.2s ease-in-out infinite;
+  border-radius: 6px;
+}

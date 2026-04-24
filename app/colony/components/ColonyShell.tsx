@@ -7,6 +7,7 @@ import { UserButton } from '@clerk/nextjs'
 import { Home, Inbox, TrendingUp, Activity, BarChart2, Menu, Phone } from 'lucide-react'
 import ThemeToggle from './ThemeToggle'
 import CohortSwitcher, { CohortProvider } from './CohortSwitcher'
+import { SidePanelProvider } from './SidePanel'
 
 const NAV_ITEMS = [
   { href: '/colony', label: 'Feed', icon: Home },
@@ -31,6 +32,7 @@ export default function ColonyShell({ children }: { children: React.ReactNode })
 
   return (
     <CohortProvider>
+      <SidePanelProvider>
       <div className="flex min-h-screen">
         {/* Mobile overlay */}
         {sidebarOpen && (
@@ -131,6 +133,7 @@ export default function ColonyShell({ children }: { children: React.ReactNode })
           </main>
         </div>
       </div>
+      </SidePanelProvider>
     </CohortProvider>
   )
 }

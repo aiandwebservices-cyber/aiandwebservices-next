@@ -1,16 +1,57 @@
 'use client'
 
+import { useEffect, useState, useCallback } from 'react'
 import { useCohort } from './CohortSwitcher'
-import { getFeedForCohort } from '../lib/mock-data'
 import { groupByRecency } from '../lib/feed-helpers'
+import { colonyFetch } from '../lib/api-client'
+import { LoadingSkeleton } from './LoadingSkeleton'
+import { ErrorState } from './ErrorState'
+import { StaleIndicator } from './StaleIndicator'
+import { capture } from '../lib/posthog'
 import FeedEventRow from './FeedEventRow'
+import type { FeedEventPayload } from '@/lib/colony/contracts'
 
 export function ActivityFeed() {
   const { cohortId } = useCohort()
-  const events = getFeedForCohort(cohortId)
-  const groups = groupByRecency(events)
+  const [events, setEvents] = useState<FeedEventPayload[] | null>(null)
+  const [status, setStatus] = useState<'loading' | 'ok' | 'stale' | 'error'>('loading')
+  const [error, setError] = useState<string | null>(null)
+  const [lastSuccess, setLastSuccess] = useState<string | null>(null)
 
-  if (events.length === 0) {
+  const load = useCallback(async () => {
+    setStatus('loading')
+    const res = await colonyFetch<FeedEventPayload[]>('feed', { cohortId })
+    if (res.status === 'ok') {
+      setEvents(res.data ?? [])
+      setStatus('ok')
+      setLastSuccess(res.cached_at ?? new Date().toISOString())
+    } else if (res.status === 'stale') {
+      setEvents(res.data ?? [])
+      setStatus('stale')
+      setLastSuccess(res.last_success ?? null)
+      capture('colony_api_stale', { resource: 'feed' })
+    } else {
+      setStatus('error')
+      setError(res.error ?? 'Feed unavailable')
+      if (res.status !== 'unauthorized') {
+        capture('colony_api_error', { resource: 'feed', error: res.error })
+      }
+    }
+  }, [cohortId])
+
+  useEffect(() => { load() }, [load])
+
+  if (status === 'loading' && events === null) {
+    return <LoadingSkeleton variant="feed-row" count={5} />
+  }
+
+  if (status === 'error') {
+    return <ErrorState message={error ?? undefined} onRetry={load} />
+  }
+
+  const safeEvents = events ?? []
+
+  if (safeEvents.length === 0) {
     return (
       <div className="flex flex-col items-center justify-center py-24 text-center">
         <div
@@ -29,10 +70,16 @@ export function ActivityFeed() {
     )
   }
 
+  const groups = groupByRecency(safeEvents)
   let runningIndex = 0
 
   return (
     <div className="space-y-5">
+      {status === 'stale' && (
+        <div className="px-4">
+          <StaleIndicator lastSuccessAt={lastSuccess ?? undefined} />
+        </div>
+      )}
       {groups.map(group => (
         <div key={group.label}>
           <p
