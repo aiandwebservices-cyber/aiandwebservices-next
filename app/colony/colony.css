@@ -316,6 +316,23 @@
   border-bottom: 1px solid rgba(27,42,74,.08);
 }
 
+/* Nav pills visually centered to the viewport.
+   On mobile (< lg) the sidebar is overlaid (out of flex flow), so the topbar
+   spans the full viewport and 50% of the topbar = viewport center.
+   On lg+ the sidebar takes 240px on the left, so we shift the nav left by
+   120px (half the sidebar width) so its center lines up with viewport center. */
+.colony-nav-center {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+@media (min-width: 1024px) {
+  .colony-nav-center {
+    left: calc(50% - 120px);
+  }
+}
+
 /* Feed slide-in (keep Phase 1 class name for back-compat) */
 @keyframes slide-up-fade-in {
   from { opacity: 0; transform: translateY(20px); }

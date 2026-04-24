@@ -128,15 +128,15 @@ export default function ColonyShell({ children }: { children: React.ReactNode })
                 </div>
               </div>
 
-              {/* CENTER: Nav pills — absolutely centered */}
-              <nav style={{
-                display: 'flex',
-                alignItems: 'center',
-                gap: 4,
-                position: 'absolute',
-                left: '50%',
-                transform: 'translateX(-50%)',
-              }}>
+              {/* CENTER: Nav pills — visually centered to viewport (compensate for sidebar on lg+) */}
+              <nav
+                className="colony-nav-center"
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 4,
+                }}
+              >
                 {NAV_ITEMS.map(({ href, label }) => {
                   const isActive = pathname === href
                   return (
