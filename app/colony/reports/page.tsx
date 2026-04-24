@@ -5,6 +5,7 @@ import { ReportRow } from './components/ReportRow'
 import { LoadingSkeleton } from '../components/LoadingSkeleton'
 import { ErrorState } from '../components/ErrorState'
 import { capture } from '../lib/posthog'
+import { ColonyErrorBoundary } from '../components/ColonyErrorBoundary'
 
 export default function ReportsPage() {
   const { reports, status, error, reload } = useReports()
@@ -12,6 +13,7 @@ export default function ReportsPage() {
   useEffect(() => { capture('colony_reports_viewed') }, [])
 
   return (
+    <ColonyErrorBoundary>
     <main className="p-6 flex flex-col gap-4 h-[calc(100vh-56px)] overflow-y-auto">
       <header>
         <h1 className="text-2xl font-bold" style={{ color: 'var(--colony-text-primary)' }}>
@@ -31,6 +33,7 @@ export default function ReportsPage() {
         </div>
       )}
     </main>
+    </ColonyErrorBoundary>
   )
 }
 

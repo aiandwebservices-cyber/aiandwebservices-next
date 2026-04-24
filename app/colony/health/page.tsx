@@ -12,6 +12,7 @@ import { StaleIndicator } from '../components/StaleIndicator'
 import { colonyFetch } from '../lib/api-client'
 import { useCohort } from '../components/CohortSwitcher'
 import { capture } from '../lib/posthog'
+import { ColonyErrorBoundary } from '../components/ColonyErrorBoundary'
 import type { LeadPayload } from '@/lib/colony/contracts'
 
 // ─── Lead volume card (fetches independently) ────────────────────────────────
@@ -57,6 +58,7 @@ export default function HealthPage() {
     : undefined
 
   return (
+    <ColonyErrorBoundary>
     <main className="p-6 flex flex-col gap-6 h-[calc(100vh-48px)] overflow-y-auto">
       <header>
         <h1 className="text-2xl font-bold" style={{ color: 'var(--colony-text-primary)' }}>
@@ -135,5 +137,6 @@ export default function HealthPage() {
         </section>
       )}
     </main>
+    </ColonyErrorBoundary>
   )
 }

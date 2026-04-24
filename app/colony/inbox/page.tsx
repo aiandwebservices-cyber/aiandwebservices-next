@@ -10,6 +10,7 @@ import { StaleIndicator } from '../components/StaleIndicator'
 import { colonyFetch } from '../lib/api-client'
 import { filterLeads, getUniqueNiches } from '../lib/lead-helpers'
 import { capture } from '../lib/posthog'
+import { ColonyErrorBoundary } from '../components/ColonyErrorBoundary'
 import type { LeadPayload } from '@/lib/colony/contracts'
 
 // Inside Suspense boundary — safe to use useSearchParams via useInboxFilters
@@ -95,14 +96,16 @@ export default function InboxPage() {
   useEffect(() => { capture('colony_inbox_viewed') }, [])
 
   return (
-    <Suspense
-      fallback={
-        <main className="p-6">
-          <p className="text-sm" style={{ color: 'var(--colony-text-secondary)' }}>Loading inbox…</p>
-        </main>
-      }
-    >
-      <InboxContent />
-    </Suspense>
+    <ColonyErrorBoundary>
+      <Suspense
+        fallback={
+          <main className="p-6">
+            <p className="text-sm" style={{ color: 'var(--colony-text-secondary)' }}>Loading inbox…</p>
+          </main>
+        }
+      >
+        <InboxContent />
+      </Suspense>
+    </ColonyErrorBoundary>
   )
 }
