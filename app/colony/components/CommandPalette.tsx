@@ -114,7 +114,7 @@ export function CommandPalette() {
                 className="w-full text-left px-4 py-2.5 flex items-center gap-3 transition-colors"
                 style={{
                   background: i === activeIndex
-                    ? 'rgba(0,212,255,0.08)'
+                    ? 'rgba(42,165,160,0.08)'
                     : 'transparent',
                 }}
               >

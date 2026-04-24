@@ -8,6 +8,8 @@ import { formatAge } from '../lib/lead-helpers'
 import { capture } from '../lib/posthog'
 import { SendDraftModal } from './SendDraftModal'
 import { EmailSendStatus } from './EmailSendStatus'
+import SequenceStatusBadge from './SequenceStatusBadge'
+import { ReplyThread } from './ReplyThread'
 
 // ─── Research signals by niche ────────────────────────────────────────────────
 
@@ -143,7 +145,7 @@ export function LeadDetailPanel({ lead }: LeadDetailPanelProps) {
             <TemperatureBadge temperature={lead.temperature} size="md" />
             <span
               className="text-xs font-semibold px-2 py-0.5 rounded-full"
-              style={{ background: 'rgba(0,212,255,0.1)', color: 'var(--colony-accent)' }}
+              style={{ background: 'rgba(42,165,160,0.1)', color: 'var(--colony-accent)' }}
             >
               Tier {lead.deal_tier}/10
             </span>
@@ -157,6 +159,7 @@ export function LeadDetailPanel({ lead }: LeadDetailPanelProps) {
           <p className="text-xs" style={{ color: 'var(--colony-text-secondary)' }}>
             {absDate} · {relDate}
           </p>
+          <SequenceStatusBadge leadId={lead.id} />
         </div>
 
         {/* ── Contact info ── */}
@@ -201,9 +204,9 @@ export function LeadDetailPanel({ lead }: LeadDetailPanelProps) {
                 onClick={handleCopy}
                 className="flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-lg transition-all"
                 style={{
-                  background: copied ? 'rgba(16,185,129,0.15)' : 'rgba(0,212,255,0.1)',
+                  background: copied ? 'rgba(16,185,129,0.15)' : 'rgba(42,165,160,0.1)',
                   color: copied ? 'var(--colony-success)' : 'var(--colony-accent)',
-                  border: `1px solid ${copied ? 'rgba(16,185,129,0.3)' : 'rgba(0,212,255,0.2)'}`,
+                  border: `1px solid ${copied ? 'rgba(16,185,129,0.3)' : 'rgba(42,165,160,0.2)'}`,
                 }}
               >
                 {copied ? <Check size={12} /> : <Copy size={12} />}
@@ -213,9 +216,9 @@ export function LeadDetailPanel({ lead }: LeadDetailPanelProps) {
                 onClick={() => setSendModalOpen(true)}
                 className="flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-lg transition-all"
                 style={{
-                  background: 'rgba(0,212,255,0.12)',
+                  background: 'rgba(42,165,160,0.12)',
                   color: 'var(--colony-accent)',
-                  border: '1px solid rgba(0,212,255,0.25)',
+                  border: '1px solid rgba(42,165,160,0.25)',
                 }}
               >
                 <Send size={12} />
@@ -249,6 +252,9 @@ export function LeadDetailPanel({ lead }: LeadDetailPanelProps) {
           </p>
           <EmailSendStatus leadId={lead.id} />
         </div>
+
+        {/* ── Reply thread ── */}
+        <ReplyThread leadId={lead.id} />
 
         {/* ── Research signals ── */}
         <div className="px-5 py-4 border-b" style={{ borderColor: 'var(--colony-border)' }}>

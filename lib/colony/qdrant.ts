@@ -329,3 +329,28 @@ export async function qdrantMarkUnsubscribed(cohortId: string, leadId: string): 
     status_updated_at: new Date().toISOString(),
   })
 }
+
+// ─── Analytics bulk helpers ───────────────────────────────────────────────────
+
+export async function qdrantFetchAllEmailSends(
+  cohortId: string,
+  limit = 200
+): Promise<EmailSendRecord[]> {
+  const filter = cohortFilter(cohortId)
+  const raw = await qdrantScroll<Record<string, unknown>>(COLLECTIONS.emailSends, filter, limit)
+  return raw
+    .filter(r => r.id && r.lead_id)
+    .map(r => r as unknown as EmailSendRecord)
+}
+
+export async function qdrantFetchReplies(
+  cohortId: string,
+  limit = 200
+): Promise<Array<{ lead_id: string; classification?: string; received_at?: string }>> {
+  type RawReply = { lead_id?: string; classification?: string; received_at?: string }
+  const filter = cohortFilter(cohortId)
+  const raw = await qdrantScroll<RawReply>('inbound_replies', filter, limit)
+  return raw
+    .filter(r => r.lead_id)
+    .map(r => ({ lead_id: r.lead_id!, classification: r.classification, received_at: r.received_at }))
+}

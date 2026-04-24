@@ -2,6 +2,7 @@ import type { FeedEventPayload, FeedQuery } from './contracts'
 import type { FeedEventType } from '@/app/colony/lib/types'
 import { espoFetchLeads, espoFetchActivities } from './espocrm'
 import { qdrantFetchReports, qdrantFetchBotRuns } from './qdrant'
+import { qdrantFetchReplyFeedEvents } from './email/inbound/feed-emitter'
 
 const BOT_ICONS: Record<string, string> = {
   'Bill Nye': '🧪',
@@ -21,11 +22,12 @@ export async function buildFeed(cohortId: string, query: FeedQuery = {}): Promis
 
   const events: FeedEventPayload[] = []
 
-  const [leads, activities, reports, botRuns] = await Promise.allSettled([
+  const [leads, activities, reports, botRuns, replies] = await Promise.allSettled([
     espoFetchLeads(cohortId, { limit: 50 }),
     espoFetchActivities(cohortId, { since, limit: 100 }),
     qdrantFetchReports(cohortId, { limit: 10 }),
     qdrantFetchBotRuns(cohortId, { since, limit: 20 }),
+    qdrantFetchReplyFeedEvents(cohortId, since, 50),
   ])
 
   // 1. New leads from last 48h
@@ -107,7 +109,32 @@ export async function buildFeed(cohortId: string, query: FeedQuery = {}): Promis
     }
   }
 
+  // 5. Reply events (INTERESTED replies bubble to top regardless of timestamp)
+  const interestedReplyIds = new Set<string>()
+  if (replies.status === 'fulfilled') {
+    for (const reply of replies.value) {
+      if (reply.classification === 'INTERESTED') interestedReplyIds.add(reply.id)
+      events.push({
+        id: reply.id,
+        cohort_id: reply.cohort_id as FeedEventPayload['cohort_id'],
+        timestamp: reply.timestamp,
+        type: reply.type as FeedEventType,
+        title: reply.title,
+        subtitle: reply.subtitle,
+        icon: reply.icon,
+        drill_target: { type: 'lead', id: reply.drill_target_id },
+      })
+    }
+  }
+
   return events
-    .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
+    .sort((a, b) => {
+      // Priority boost: INTERESTED replies always appear before non-interested items
+      const aInterested = interestedReplyIds.has(a.id)
+      const bInterested = interestedReplyIds.has(b.id)
+      if (aInterested && !bInterested) return -1
+      if (!aInterested && bInterested) return 1
+      return new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()
+    })
     .slice(0, limit)
 }

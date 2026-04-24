@@ -36,7 +36,7 @@ export default function OnboardPreview({ preview, onConfirm, onBack, loading }: 
     <div className="space-y-4">
       <div
         className="rounded-xl px-4 py-3 flex items-center gap-3 text-sm font-semibold"
-        style={{ background: 'rgba(0,212,255,0.08)', border: '1px solid rgba(0,212,255,0.2)', color: 'var(--colony-accent)' }}
+        style={{ background: 'rgba(42,165,160,0.08)', border: '1px solid rgba(42,165,160,0.2)', color: 'var(--colony-accent)' }}
       >
         <span className="text-lg">🔍</span>
         Review what will be created — no writes until you confirm.

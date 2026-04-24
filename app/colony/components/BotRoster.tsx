@@ -32,7 +32,7 @@ export default function BotRoster() {
     return (
       <section>
         <div className="mb-3">
-          <h2 className="text-lg font-bold leading-tight" style={{ color: 'var(--colony-text-primary)' }}>
+          <h2 className="colony-headline" style={{ fontSize: 22, letterSpacing: '-0.3px' }}>
             Your Crew
           </h2>
         </div>
@@ -50,10 +50,14 @@ export default function BotRoster() {
   return (
     <section>
       <div className="mb-3">
-        <h2 className="text-lg font-bold leading-tight" style={{ color: 'var(--colony-text-primary)' }}>
+        <h2 className="colony-headline" style={{ fontSize: 22, letterSpacing: '-0.3px' }}>
           Your Crew
         </h2>
-        <p className="text-xs mt-0.5" style={{ color: 'var(--colony-text-secondary)' }}>
+        <p
+          className="mt-1 flex items-center gap-2"
+          style={{ fontSize: 12, color: 'var(--colony-text-secondary)' }}
+        >
+          <span className="colony-pulse" aria-hidden="true" />
           {bots.length} agents · Last run {mostRecentRun ? formatLastRun(mostRecentRun) : '—'}
         </p>
       </div>

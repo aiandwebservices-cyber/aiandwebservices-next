@@ -1,47 +1,341 @@
-:root {
-  --colony-bg-chrome: #0a0a0a;
-  --colony-bg-content: #ffffff;
-  --colony-bg-elevated: #f5f5f5;
-  --colony-text-primary: #0a0a0a;
-  --colony-text-secondary: #525252;
-  --colony-text-chrome: #fafafa;
-  --colony-accent: #00d4ff;
-  --colony-accent-hover: #00b8dd;
-  --colony-border: #e5e5e5;
-  --colony-success: #10b981;
-  --colony-warning: #f59e0b;
-  --colony-danger: #ef4444;
-}
-
-.colony-root[data-theme="dark"] {
-  --colony-bg-content: #0f0f0f;
-  --colony-bg-elevated: #1a1a1a;
-  --colony-text-primary: #fafafa;
-  --colony-text-secondary: #a3a3a3;
-  --colony-border: #262626;
-}
+/* Colony design system — derived from AIandWEBservices homepage (Hero.jsx) */
+/* Phase 17 — visual system rebuild: dark navy + teal + glassmorphism */
 
 .colony-root {
-  background: var(--colony-bg-content);
+  /* Brand colors (the authority) */
+  --colony-navy-900: #080d18;
+  --colony-navy-800: #1B2A4A;
+  --colony-navy-700: #111827;
+  --colony-teal-600: #2AA5A0;
+  --colony-teal-500: #33BDB8;
+  --colony-teal-50:  #D0F0EF;
+  --colony-teal-dark: #1B8F8A;
+
+  /* Glass panels */
+  --colony-panel-bg: rgba(255,255,255,.06);
+  --colony-panel-border: rgba(255,255,255,.15);
+  --colony-panel-inner: rgba(255,255,255,.08);
+  --colony-row-bg: rgba(255,255,255,.06);
+  --colony-row-border: rgba(255,255,255,.09);
+  --colony-metric-bg: rgba(255,255,255,.08);
+  --colony-metric-border: rgba(255,255,255,.1);
+
+  /* Text */
+  --colony-text-primary: #FFFFFF;
+  --colony-text-secondary: rgba(255,255,255,.65);
+  --colony-text-muted: rgba(255,255,255,.4);
+  --colony-text-faint: rgba(255,255,255,.25);
+
+  /* Functional */
+  --colony-accent: var(--colony-teal-600);
+  --colony-accent-hover: var(--colony-teal-500);
+  --colony-accent-tint: var(--colony-teal-50);
+  --colony-success: #34d399;
+  --colony-info: #60a5fa;
+  --colony-activity: #a78bfa;
+  --colony-warning: #f59e0b;
+  --colony-danger: #E11D48;
+
+  /* Surfaces (page backgrounds) */
+  --colony-bg-app: var(--colony-navy-900);
+  --colony-bg-chrome: var(--colony-navy-800);
+  --colony-bg-content: var(--colony-navy-900);
+  --colony-bg-elevated: rgba(255,255,255,.04);
+
+  /* Back-compat aliases — keep existing components working while they migrate */
+  --colony-border: rgba(255,255,255,.1);
+  --colony-text-chrome: var(--colony-text-primary);
+
+  /* Radii */
+  --colony-radius-xs: 6px;
+  --colony-radius-sm: 10px;
+  --colony-radius-md: 14px;
+  --colony-radius-lg: 20px;
+  --colony-radius-pill: 50px;
+
+  /* Timing */
+  --colony-ease: cubic-bezier(.21, .47, .32, .98);
+  --colony-fast: 200ms;
+  --colony-normal: 320ms;
+
+  /* Fonts */
+  --colony-font-headline: var(--font-plus-jakarta, 'Plus Jakarta Sans'), sans-serif;
+  --colony-font-body: var(--font-inter, 'Inter'), sans-serif;
+
+  font-family: var(--colony-font-body);
+  background: var(--colony-bg-app);
   color: var(--colony-text-primary);
   min-height: 100vh;
 }
 
+/* Light mode — muted variant of the dark system; some customers prefer it */
+.colony-root[data-theme='light'] {
+  --colony-bg-app: #F4F6F8;
+  --colony-bg-chrome: #FFFFFF;
+  --colony-bg-content: #FFFFFF;
+  --colony-bg-elevated: rgba(27,42,74,.02);
+
+  --colony-panel-bg: rgba(255,255,255,.8);
+  --colony-panel-border: rgba(27,42,74,.08);
+  --colony-panel-inner: rgba(255,255,255,.4);
+  --colony-row-bg: rgba(27,42,74,.03);
+  --colony-row-border: rgba(27,42,74,.06);
+  --colony-metric-bg: rgba(27,42,74,.04);
+  --colony-metric-border: rgba(27,42,74,.06);
+
+  --colony-text-primary: #111827;
+  --colony-text-secondary: #6B7280;
+  --colony-text-muted: rgba(17,24,39,.5);
+  --colony-text-faint: rgba(17,24,39,.25);
+
+  --colony-border: rgba(27,42,74,.08);
+  --colony-accent-tint: rgba(42,165,160,.12);
+}
+
+/* Keep dark-theme explicit override hook working */
+.colony-root[data-theme='dark'] {
+  --colony-bg-content: var(--colony-navy-900);
+  --colony-bg-elevated: rgba(255,255,255,.04);
+  --colony-text-primary: #FFFFFF;
+  --colony-text-secondary: rgba(255,255,255,.65);
+  --colony-border: rgba(255,255,255,.1);
+}
+
+/* ═══ Core reusable patterns ═══ */
+
+.colony-glass-panel {
+  background: var(--colony-panel-bg);
+  border: 1px solid var(--colony-panel-border);
+  border-radius: var(--colony-radius-lg);
+  backdrop-filter: blur(32px);
+  -webkit-backdrop-filter: blur(32px);
+  box-shadow:
+    0 24px 60px rgba(0,0,0,.35),
+    0 0 0 1px rgba(42,165,160,.1),
+    inset 0 1px 0 rgba(255,255,255,.08);
+}
+
+.colony-btn-primary {
+  padding: 12px 28px;
+  border-radius: var(--colony-radius-pill);
+  border: none;
+  background: linear-gradient(135deg, var(--colony-teal-600), var(--colony-teal-dark));
+  color: #fff;
+  font-size: 14px;
+  font-weight: 700;
+  font-family: var(--colony-font-body);
+  cursor: pointer;
+  box-shadow:
+    0 8px 24px rgba(42,165,160,.4),
+    0 0 0 1px rgba(42,165,160,.3);
+  transition: all var(--colony-normal) var(--colony-ease);
+  position: relative;
+  overflow: hidden;
+}
+
+.colony-btn-primary::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.2), transparent);
+  animation: colonyShimmer 2.8s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes colonyShimmer {
+  0%   { left: -100%; }
+  60%, 100% { left: 160%; }
+}
+
+.colony-btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 14px 36px rgba(42,165,160,.55),
+    0 0 0 1px rgba(42,165,160,.4);
+}
+
+.colony-btn-primary:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.colony-btn-ghost {
+  padding: 10px 20px;
+  border-radius: var(--colony-radius-pill);
+  border: 1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.03);
+  color: var(--colony-text-secondary);
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all var(--colony-normal) var(--colony-ease);
+  backdrop-filter: blur(8px);
+}
+
+.colony-btn-ghost:hover {
+  border-color: rgba(255,255,255,.25);
+  color: #fff;
+  background: rgba(255,255,255,.06);
+}
+
+.colony-metric-card {
+  background: var(--colony-metric-bg);
+  border: 1px solid var(--colony-metric-border);
+  border-radius: var(--colony-radius-sm);
+  padding: 16px 14px;
+}
+
+.colony-metric-value {
+  font-family: var(--colony-font-headline);
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1;
+}
+
+.colony-metric-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  font-weight: 700;
+  color: var(--colony-text-secondary);
+  margin-top: 6px;
+}
+
+.colony-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  background: var(--colony-row-bg);
+  border: 1px solid var(--colony-row-border);
+  border-radius: var(--colony-radius-sm);
+  transition: all var(--colony-fast) var(--colony-ease);
+}
+
+.colony-row:hover {
+  background: rgba(255,255,255,.08);
+  border-color: rgba(255,255,255,.15);
+}
+
+.colony-icon-circle {
+  width: 32px;
+  height: 32px;
+  border-radius: var(--colony-radius-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Pulse dot (the "live" indicator — matches Hero's .h-dash-pulse) */
+.colony-pulse {
+  display: inline-block;
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--colony-success);
+  box-shadow: 0 0 8px var(--colony-success);
+  animation: colonyPulse 2s ease-in-out infinite;
+  flex-shrink: 0;
+}
+
+@keyframes colonyPulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: .5; transform: scale(.8); }
+}
+
+/* Headline utility */
+.colony-headline {
+  font-family: var(--colony-font-headline);
+  font-weight: 800;
+  letter-spacing: -0.3px;
+  color: var(--colony-text-primary);
+}
+
+.colony-headline-hero {
+  font-family: var(--colony-font-headline);
+  font-weight: 800;
+  letter-spacing: -1px;
+  color: var(--colony-text-primary);
+}
+
+.colony-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  font-weight: 700;
+  color: var(--colony-text-secondary);
+}
+
+/* Nav pill (sidebar + small navs) */
+.colony-nav-pill {
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: .4px;
+  padding: 6px 14px;
+  border-radius: var(--colony-radius-pill);
+  color: var(--colony-text-secondary);
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  transition: all var(--colony-fast) var(--colony-ease);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.colony-nav-pill:hover {
+  color: #fff;
+  background: rgba(255,255,255,.07);
+}
+
+.colony-nav-pill.active {
+  color: var(--colony-teal-dark) !important;
+  background: var(--colony-accent-tint) !important;
+}
+
+.colony-root[data-theme='light'] .colony-nav-pill.active {
+  color: var(--colony-teal-dark) !important;
+}
+
+/* Topbar chrome */
+.colony-topbar {
+  background: rgba(27,42,74,.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+
+.colony-root[data-theme='light'] .colony-topbar {
+  background: rgba(255,255,255,.85);
+  border-bottom: 1px solid rgba(27,42,74,.08);
+}
+
+/* Feed slide-in (keep Phase 1 class name for back-compat) */
 @keyframes slide-up-fade-in {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes colonyFeedSlideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .colony-feed-row {
-  animation: slide-up-fade-in 300ms ease-out both;
+  animation: colonyFeedSlideIn 400ms var(--colony-ease) both;
 }
 
+.colony-feed-item {
+  animation: colonyFeedSlideIn 400ms var(--colony-ease) both;
+}
+
+/* Bot card subtle breathing (from Phase 1) */
 @keyframes bot-pulse {
   0%, 100% { transform: scale(1); }
   50% { transform: scale(1.08); }
@@ -51,6 +345,7 @@
   animation: bot-pulse 2.5s ease-in-out infinite;
 }
 
+/* Skeleton shimmer */
 @keyframes colony-shimmer {
   0% { background-position: -200px 0; }
   100% { background-position: calc(200px + 100%) 0; }
@@ -59,16 +354,70 @@
 .colony-skeleton {
   background: linear-gradient(
     90deg,
-    var(--colony-bg-elevated) 0%,
-    var(--colony-border) 50%,
-    var(--colony-bg-elevated) 100%
+    rgba(255,255,255,.04) 0%,
+    rgba(255,255,255,.08) 50%,
+    rgba(255,255,255,.04) 100%
   );
   background-size: 200px 100%;
   animation: colony-shimmer 1.2s ease-in-out infinite;
   border-radius: 6px;
 }
 
-/* Scoped wrapper for Bill Nye HTML reports — let the report's own inline styles win */
+/* Home hero orb background (subtle — less intense than landing page) */
+.colony-orb-bg {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.colony-orb-bg::before,
+.colony-orb-bg::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(100px);
+  will-change: transform;
+}
+
+.colony-orb-bg::before {
+  width: 500px;
+  height: 500px;
+  top: -20%;
+  right: -10%;
+  background: radial-gradient(circle, rgba(42,165,160,.15) 0%, transparent 70%);
+  animation: colonyOrb1 22s ease-in-out infinite;
+}
+
+.colony-orb-bg::after {
+  width: 400px;
+  height: 400px;
+  bottom: -15%;
+  left: -5%;
+  background: radial-gradient(circle, rgba(42,165,160,.08) 0%, transparent 70%);
+  animation: colonyOrb2 28s ease-in-out infinite;
+}
+
+@keyframes colonyOrb1 {
+  0%, 100% { transform: translate(0, 0); }
+  50%      { transform: translate(-40px, 25px); }
+}
+
+@keyframes colonyOrb2 {
+  0%, 100% { transform: translate(0, 0); }
+  50%      { transform: translate(30px, -20px); }
+}
+
+.colony-dot-pattern {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(rgba(42,165,160,.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+}
+
+/* Scoped wrapper for Bill Nye HTML reports — let report's inline styles win */
 .colony-report-content {
   all: revert;
   font-family: inherit;

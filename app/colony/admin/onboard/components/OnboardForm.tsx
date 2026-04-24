@@ -116,7 +116,7 @@ export default function OnboardForm({ value, onChange, onSubmit, loading }: Prop
                       ? '2px solid var(--colony-accent)'
                       : '1px solid var(--colony-border)',
                     background: value.plan === p.value
-                      ? 'rgba(0,212,255,0.08)'
+                      ? 'rgba(42,165,160,0.08)'
                       : 'var(--colony-bg-elevated)',
                     color: 'var(--colony-text-primary)',
                   }}

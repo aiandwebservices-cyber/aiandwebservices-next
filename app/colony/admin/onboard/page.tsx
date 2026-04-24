@@ -85,9 +85,9 @@ export default function OnboardPage() {
             <span
               className="text-xs font-semibold px-2 py-1 rounded"
               style={{
-                background: step === s ? 'rgba(0,212,255,0.1)' : 'transparent',
+                background: step === s ? 'rgba(42,165,160,0.1)' : 'transparent',
                 color: step === s ? 'var(--colony-accent)' : 'var(--colony-text-secondary)',
-                border: step === s ? '1px solid rgba(0,212,255,0.3)' : '1px solid transparent',
+                border: step === s ? '1px solid rgba(42,165,160,0.3)' : '1px solid transparent',
               }}
             >
               {STEP_LABELS[s]}

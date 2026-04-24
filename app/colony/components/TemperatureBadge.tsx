@@ -10,7 +10,7 @@ interface TemperatureBadgeProps {
 const TEMP_STYLES: Record<Temperature, { bg: string; color: string }> = {
   HOT:  { bg: 'rgba(239,68,68,0.15)',   color: '#ef4444' },
   WARM: { bg: 'rgba(245,158,11,0.15)',  color: '#f59e0b' },
-  COOL: { bg: 'rgba(0,212,255,0.12)',   color: '#7dd3fc' },
+  COOL: { bg: 'rgba(42,165,160,0.12)',   color: '#7dd3fc' },
   COLD: { bg: 'rgba(163,163,163,0.12)', color: '#a3a3a3' },
 }
 

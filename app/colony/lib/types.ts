@@ -4,7 +4,7 @@ export type Temperature = 'HOT' | 'WARM' | 'COOL' | 'COLD'
 
 export type DealStage = 'Lead' | 'Audit Scheduled' | 'Audit Complete' | 'Proposal Sent' | 'Proposal Signed' | 'Active' | 'Churned'
 
-export type FeedEventType = 'bot_run' | 'lead_new' | 'lead_hot' | 'pipeline_move' | 'revenue' | 'bill_nye_finding' | 'coach_alert'
+export type FeedEventType = 'bot_run' | 'lead_new' | 'lead_hot' | 'pipeline_move' | 'revenue' | 'bill_nye_finding' | 'coach_alert' | 'reply_received' | 'reply_interested'
 
 export interface FeedEvent {
   id: string

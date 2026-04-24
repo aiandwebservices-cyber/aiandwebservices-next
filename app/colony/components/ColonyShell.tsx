@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { UserButton } from '@clerk/nextjs'
-import { Home, Inbox, TrendingUp, Activity, BarChart2, Menu, Phone } from 'lucide-react'
+import { Home, Inbox, TrendingUp, Activity, BarChart2, LineChart, Menu, Phone } from 'lucide-react'
 import ThemeToggle from './ThemeToggle'
 import CohortSwitcher, { CohortProvider } from './CohortSwitcher'
 import { SidePanelProvider } from './SidePanel'
@@ -17,6 +17,7 @@ const NAV_ITEMS = [
   { href: '/colony/pipeline', label: 'Pipeline', icon: TrendingUp },
   { href: '/colony/health', label: 'Health', icon: Activity },
   { href: '/colony/reports', label: 'Reports', icon: BarChart2 },
+  { href: '/colony/analytics', label: 'Analytics', icon: LineChart },
 ]
 
 const PAGE_TITLES: Record<string, string> = {
@@ -25,6 +26,7 @@ const PAGE_TITLES: Record<string, string> = {
   '/colony/pipeline': 'Pipeline',
   '/colony/health': 'Health',
   '/colony/reports': 'Reports',
+  '/colony/analytics': 'Analytics',
 }
 
 export default function ColonyShell({ children }: { children: React.ReactNode }) {
@@ -51,20 +53,43 @@ export default function ColonyShell({ children }: { children: React.ReactNode })
           className={`fixed top-0 left-0 h-full z-30 flex flex-col transition-transform duration-200 lg:static lg:translate-x-0 ${
             sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
           }`}
-          style={{ width: 240, background: 'var(--colony-bg-chrome)', flexShrink: 0 }}
+          style={{
+            width: 240,
+            background: 'var(--colony-bg-chrome)',
+            borderRight: '1px solid rgba(255,255,255,.06)',
+            flexShrink: 0,
+          }}
         >
           {/* Wordmark */}
           <div className="px-5 pt-6 pb-4">
-            <div className="text-2xl font-black" style={{ color: 'var(--colony-accent)' }}>
+            <div
+              style={{
+                fontFamily: 'var(--colony-font-headline)',
+                fontSize: 22,
+                fontWeight: 800,
+                letterSpacing: '-0.5px',
+                color: 'var(--colony-text-primary)',
+                lineHeight: 1,
+              }}
+            >
               Colony
             </div>
-            <div className="text-xs mt-0.5" style={{ color: 'var(--colony-text-chrome)', opacity: 0.5 }}>
+            <div
+              style={{
+                fontSize: 10,
+                marginTop: 4,
+                color: 'var(--colony-teal-600)',
+                fontWeight: 700,
+                letterSpacing: 1.2,
+                textTransform: 'uppercase',
+              }}
+            >
               by AIandWEBservices
             </div>
           </div>
 
           {/* Nav */}
-          <nav className="flex-1 px-3 space-y-0.5 overflow-y-auto">
+          <nav className="flex-1 px-3 space-y-1 overflow-y-auto">
             {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
               const active = pathname === href
               return (
@@ -72,14 +97,15 @@ export default function ColonyShell({ children }: { children: React.ReactNode })
                   key={href}
                   href={href}
                   onClick={() => setSidebarOpen(false)}
-                  className="flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-opacity"
+                  className={`colony-nav-pill ${active ? 'active' : ''}`}
                   style={{
-                    color: active ? '#fff' : 'var(--colony-text-chrome)',
-                    background: active ? 'var(--colony-accent)' : 'transparent',
-                    opacity: active ? 1 : 0.65,
+                    width: '100%',
+                    justifyContent: 'flex-start',
+                    fontSize: 13,
+                    padding: '9px 14px',
                   }}
                 >
-                  <Icon size={16} />
+                  <Icon size={14} />
                   {label}
                 </Link>
               )
@@ -99,8 +125,8 @@ export default function ColonyShell({ children }: { children: React.ReactNode })
         <div className="flex-1 flex flex-col min-w-0" style={{ background: 'var(--colony-bg-content)' }}>
           {/* Topbar */}
           <header
-            className="flex items-center justify-between px-4 shrink-0 border-b"
-            style={{ height: 48, borderColor: 'var(--colony-border)' }}
+            className="colony-topbar flex items-center justify-between px-4 shrink-0"
+            style={{ height: 56 }}
           >
             <div className="flex items-center gap-3">
               <button
@@ -111,26 +137,43 @@ export default function ColonyShell({ children }: { children: React.ReactNode })
               >
                 <Menu size={18} />
               </button>
-              <span className="text-sm font-semibold" style={{ color: 'var(--colony-text-primary)' }}>
+              <span
+                style={{
+                  fontFamily: 'var(--colony-font-headline)',
+                  fontSize: 16,
+                  fontWeight: 800,
+                  letterSpacing: '-0.3px',
+                  color: 'var(--colony-text-primary)',
+                }}
+              >
                 {pageTitle}
               </span>
             </div>
             <div className="flex items-center gap-2">
               <button
                 onClick={openPalette}
-                className="hidden md:flex items-center gap-1.5 px-2 py-1 rounded text-xs transition-opacity hover:opacity-80"
+                className="hidden md:flex items-center gap-1.5 transition-all"
                 style={{
-                  border: '1px solid var(--colony-border)',
+                  border: '1px solid rgba(255,255,255,.12)',
+                  background: 'rgba(255,255,255,.04)',
                   color: 'var(--colony-text-secondary)',
-                  background: 'transparent',
+                  padding: '6px 12px',
+                  borderRadius: 'var(--colony-radius-pill)',
+                  fontSize: 12,
+                  fontWeight: 600,
                 }}
                 title="Open command palette"
                 aria-label="Open command palette"
               >
                 <span>Search</span>
                 <kbd
-                  className="text-[10px] px-1 rounded"
-                  style={{ background: 'var(--colony-bg-content)' }}
+                  style={{
+                    fontSize: 10,
+                    padding: '1px 5px',
+                    borderRadius: 4,
+                    background: 'rgba(255,255,255,.08)',
+                    border: '1px solid rgba(255,255,255,.1)',
+                  }}
                 >
                   ⌘K
                 </kbd>
@@ -141,8 +184,8 @@ export default function ColonyShell({ children }: { children: React.ReactNode })
                 href="https://cal.com/david-pulis"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1.5 rounded-lg"
-                style={{ background: 'var(--colony-accent)', color: '#fff' }}
+                className="colony-btn-primary hidden sm:inline-flex items-center gap-1.5"
+                style={{ padding: '8px 18px', fontSize: 12 }}
               >
                 <Phone size={12} />
                 Book a call

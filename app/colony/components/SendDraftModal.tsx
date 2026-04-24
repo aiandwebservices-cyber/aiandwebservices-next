@@ -16,6 +16,7 @@ export function SendDraftModal({ lead, draft, onClose }: SendDraftModalProps) {
   const [toEmail, setToEmail] = useState(lead.email)
   const [state, setState] = useState<SendState>('idle')
   const [errorMsg, setErrorMsg] = useState<string | null>(null)
+  const [enrollInSequence, setEnrollInSequence] = useState(true)
 
   const emailMatches = toEmail.trim().toLowerCase() === lead.email.toLowerCase()
   const canSend = emailMatches && state === 'idle'
@@ -44,6 +45,23 @@ export function SendDraftModal({ lead, draft, onClose }: SendDraftModalProps) {
       if (json.status === 'ok') {
         setState('success')
         capture('colony_email_sent', { lead_id: lead.id, temperature: lead.temperature })
+
+        if (enrollInSequence) {
+          const data = (json.data ?? {}) as { providerMessageId?: string; sendId?: string }
+          const originalSendId = data.providerMessageId ?? data.sendId ?? ''
+          if (originalSendId) {
+            fetch('/api/colony/sequences/enroll', {
+              method: 'POST',
+              credentials: 'include',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify({
+                leadId: lead.id,
+                templateId: 'default_breakup_3',
+                originalSendId,
+              }),
+            }).catch(() => null)
+          }
+        }
       } else {
         setState('error')
         setErrorMsg(json.error ?? 'Send failed. Check RESEND_API_KEY and try again.')
@@ -148,6 +166,22 @@ export function SendDraftModal({ lead, draft, onClose }: SendDraftModalProps) {
               An unsubscribe link will be appended automatically.
             </p>
           </div>
+
+          {/* Sequence enrollment toggle */}
+          <label className="flex items-center gap-2 cursor-pointer text-xs">
+            <input
+              type="checkbox"
+              checked={enrollInSequence}
+              onChange={e => setEnrollInSequence(e.target.checked)}
+              disabled={state !== 'idle'}
+            />
+            <span style={{ color: 'var(--colony-text-primary)' }}>
+              Enroll in 3-step follow-up sequence after send
+            </span>
+            <span style={{ color: 'var(--colony-text-secondary)' }}>
+              (Day 4 follow-up, Day 9 breakup)
+            </span>
+          </label>
 
           {/* Error banner */}
           {state === 'error' && errorMsg && (

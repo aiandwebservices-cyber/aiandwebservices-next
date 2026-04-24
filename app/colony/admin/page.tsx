@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { Users, ClipboardList, ArrowRight, Building2, GitMerge, Activity } from 'lucide-react'
+import { Users, ClipboardList, ArrowRight, Building2, GitMerge, Activity, Repeat } from 'lucide-react'
 
 const TOOLS = [
   {
@@ -25,6 +25,12 @@ const TOOLS = [
     icon: Activity,
     title: 'System health',
     description: 'Live ping against Tailscale, EspoCRM, Qdrant, Square, Clerk, PostHog.',
+  },
+  {
+    href: '/colony/admin/sequences',
+    icon: Repeat,
+    title: 'Follow-up sequences',
+    description: 'Manage template cadences (Day 4 / Day 9). View and halt active enrollments per cohort.',
   },
   {
     href: '/colony/admin/audit',
@@ -54,7 +60,7 @@ export default function AdminHomePage() {
             <div className="flex items-start justify-between">
               <div
                 className="w-10 h-10 rounded-lg flex items-center justify-center"
-                style={{ background: 'rgba(0,212,255,0.1)' }}
+                style={{ background: 'rgba(42,165,160,0.1)' }}
               >
                 <Icon size={18} style={{ color: 'var(--colony-accent)' }} />
               </div>
@@ -79,8 +85,8 @@ export default function AdminHomePage() {
       <div
         className="mt-8 rounded-lg px-4 py-3 text-xs"
         style={{
-          background: 'rgba(0,212,255,0.05)',
-          border: '1px solid rgba(0,212,255,0.15)',
+          background: 'rgba(42,165,160,0.05)',
+          border: '1px solid rgba(42,165,160,0.15)',
           color: 'var(--colony-text-secondary)',
         }}
       >

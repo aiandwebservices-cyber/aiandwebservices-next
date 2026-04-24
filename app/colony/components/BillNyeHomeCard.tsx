@@ -78,7 +78,7 @@ export function BillNyeHomeCard() {
         <div
           className="px-4 pt-4 pb-3"
           style={{
-            background: 'linear-gradient(135deg, rgba(0,212,255,0.08) 0%, var(--colony-bg-elevated) 100%)',
+            background: 'linear-gradient(135deg, rgba(42,165,160,0.08) 0%, var(--colony-bg-elevated) 100%)',
             borderBottom: '1px solid var(--colony-border)',
           }}
         >

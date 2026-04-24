@@ -16,7 +16,7 @@ export const STAGE_META: Record<DealStage, { label: string; probability: number;
   'Audit Complete':   { label: 'Audit Complete',   probability: 40,  accentColor: '#8b5cf6' },
   'Proposal Sent':    { label: 'Proposal Sent',    probability: 60,  accentColor: '#f59e0b' },
   'Proposal Signed':  { label: 'Proposal Signed',  probability: 100, accentColor: '#10b981' },
-  'Active':           { label: 'Active',           probability: 100, accentColor: '#00d4ff' },
+  'Active':           { label: 'Active',           probability: 100, accentColor: '#2AA5A0' },
   'Churned':          { label: 'Churned',          probability: 0,   accentColor: '#ef4444' },
 }
 
