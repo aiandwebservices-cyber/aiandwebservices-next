@@ -13,6 +13,7 @@ export interface AuditEntry {
   input: Record<string, unknown>
   result: Record<string, unknown>
   notes?: string
+  [key: string]: unknown
 }
 
 // ─── Clerk ───────────────────────────────────────────────────────────────────

@@ -1,11 +1,13 @@
 'use client'
 
 import { useState } from 'react'
-import { Copy, Check, ExternalLink } from 'lucide-react'
+import { Copy, Check, ExternalLink, Send } from 'lucide-react'
 import type { Lead } from '../lib/types'
 import { TemperatureBadge } from './TemperatureBadge'
 import { formatAge } from '../lib/lead-helpers'
 import { capture } from '../lib/posthog'
+import { SendDraftModal } from './SendDraftModal'
+import { EmailSendStatus } from './EmailSendStatus'
 
 // ─── Research signals by niche ────────────────────────────────────────────────
 
@@ -96,6 +98,7 @@ interface LeadDetailPanelProps {
 export function LeadDetailPanel({ lead }: LeadDetailPanelProps) {
   const [contacted, setContacted] = useState(false)
   const [copied, setCopied] = useState(false)
+  const [sendModalOpen, setSendModalOpen] = useState(false)
 
   const draft = generateDraft(lead)
   const signals = getSignals(lead.niche)
@@ -126,6 +129,13 @@ export function LeadDetailPanel({ lead }: LeadDetailPanelProps) {
 
   return (
     <div className="flex flex-col h-full">
+      {sendModalOpen && (
+        <SendDraftModal
+          lead={lead}
+          draft={draft}
+          onClose={() => setSendModalOpen(false)}
+        />
+      )}
       <div className="flex-1 overflow-y-auto">
         {/* ── Header meta ── */}
         <div className="px-5 pt-5 pb-4 border-b flex flex-col gap-3" style={{ borderColor: 'var(--colony-border)' }}>
@@ -186,18 +196,32 @@ export function LeadDetailPanel({ lead }: LeadDetailPanelProps) {
             <p className="text-xs font-semibold uppercase tracking-wide" style={{ color: 'var(--colony-text-secondary)' }}>
               Outreach Email — drafted by <span style={{ color: 'var(--colony-text-primary)' }}>Bob</span>
             </p>
-            <button
-              onClick={handleCopy}
-              className="flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-lg transition-all"
-              style={{
-                background: copied ? 'rgba(16,185,129,0.15)' : 'rgba(0,212,255,0.1)',
-                color: copied ? 'var(--colony-success)' : 'var(--colony-accent)',
-                border: `1px solid ${copied ? 'rgba(16,185,129,0.3)' : 'rgba(0,212,255,0.2)'}`,
-              }}
-            >
-              {copied ? <Check size={12} /> : <Copy size={12} />}
-              {copied ? 'Copied!' : 'Copy Draft'}
-            </button>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={handleCopy}
+                className="flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-lg transition-all"
+                style={{
+                  background: copied ? 'rgba(16,185,129,0.15)' : 'rgba(0,212,255,0.1)',
+                  color: copied ? 'var(--colony-success)' : 'var(--colony-accent)',
+                  border: `1px solid ${copied ? 'rgba(16,185,129,0.3)' : 'rgba(0,212,255,0.2)'}`,
+                }}
+              >
+                {copied ? <Check size={12} /> : <Copy size={12} />}
+                {copied ? 'Copied!' : 'Copy Draft'}
+              </button>
+              <button
+                onClick={() => setSendModalOpen(true)}
+                className="flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-lg transition-all"
+                style={{
+                  background: 'rgba(0,212,255,0.12)',
+                  color: 'var(--colony-accent)',
+                  border: '1px solid rgba(0,212,255,0.25)',
+                }}
+              >
+                <Send size={12} />
+                Send Draft
+              </button>
+            </div>
           </div>
 
           <div
@@ -223,6 +247,7 @@ export function LeadDetailPanel({ lead }: LeadDetailPanelProps) {
           <p className="text-xs mt-2" style={{ color: 'var(--colony-text-secondary)' }}>
             Draft generated from Bob using signals below.
           </p>
+          <EmailSendStatus leadId={lead.id} />
         </div>
 
         {/* ── Research signals ── */}

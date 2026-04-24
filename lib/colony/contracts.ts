@@ -162,3 +162,23 @@ export type AdminOnboardingInput = import('./onboarding').OnboardingInput
 export type AdminOnboardingPreview = import('./onboarding').OnboardingPreview
 export type AdminOnboardingResult = import('./onboarding').OnboardingResult
 export type AdminAuditEntry = import('./onboarding-writers').AuditEntry
+
+// === Phase 13: Email sending ===
+
+export interface EmailSendAPIRequest {
+  leadId: string
+  toEmail: string
+  subject: string
+  bodyText: string
+  bodyHTML?: string
+  draftSource?: 'bob_generated' | 'manual' | 'follow_up'
+  generatedBy?: string
+}
+
+export interface EmailSendAPIResponse {
+  success: boolean
+  demo?: boolean
+  providerMessageId?: string
+  sentAt?: string
+  error?: string
+}
