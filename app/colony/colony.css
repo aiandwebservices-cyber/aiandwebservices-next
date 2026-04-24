@@ -26,3 +26,18 @@
   color: var(--colony-text-primary);
   min-height: 100vh;
 }
+
+@keyframes slide-up-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.colony-feed-row {
+  animation: slide-up-fade-in 300ms ease-out both;
+}

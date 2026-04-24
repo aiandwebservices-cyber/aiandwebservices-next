@@ -3,6 +3,7 @@ import { ClerkProvider } from '@clerk/nextjs'
 import './colony.css'
 import PostHogProvider from './components/PostHogProvider'
 import ColonyShell from './components/ColonyShell'
+import { SidePanelProvider } from './components/SidePanel'
 
 export const metadata: Metadata = {
   title: 'Colony — Live Operations',
@@ -14,7 +15,9 @@ export default function ColonyLayout({ children }: { children: React.ReactNode }
     <ClerkProvider>
       <PostHogProvider>
         <div className="colony-root" data-theme="dark" suppressHydrationWarning>
-          <ColonyShell>{children}</ColonyShell>
+          <SidePanelProvider>
+            <ColonyShell>{children}</ColonyShell>
+          </SidePanelProvider>
         </div>
       </PostHogProvider>
     </ClerkProvider>
