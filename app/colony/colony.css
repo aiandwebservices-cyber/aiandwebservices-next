@@ -41,3 +41,12 @@
 .colony-feed-row {
   animation: slide-up-fade-in 300ms ease-out both;
 }
+
+@keyframes bot-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+}
+
+.colony-bot-active .colony-bot-avatar {
+  animation: bot-pulse 2.5s ease-in-out infinite;
+}

@@ -3,6 +3,7 @@
 import { useEffect } from 'react'
 import { ActivityFeed } from './components/ActivityFeed'
 import { RevenueMoves } from './components/RevenueMoves'
+import BotRoster from './components/BotRoster'
 import { capture } from './lib/posthog'
 
 export default function Page() {
@@ -11,7 +12,9 @@ export default function Page() {
   }, [])
 
   return (
-    <main className="flex gap-6 p-6 overflow-hidden" style={{ height: 'calc(100vh - 48px)' }}>
+    <main className="p-6 flex flex-col gap-6 overflow-hidden" style={{ height: 'calc(100vh - 48px)' }}>
+      <BotRoster />
+      <div className="flex gap-6 flex-1 overflow-hidden">
       <section className="flex-[3] min-w-0 overflow-y-auto">
         <ActivityFeed />
       </section>
@@ -21,6 +24,7 @@ export default function Page() {
       >
         <RevenueMoves />
       </aside>
+      </div>
     </main>
   )
 }
