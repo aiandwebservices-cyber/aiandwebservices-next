@@ -10,6 +10,7 @@ const COLLECTIONS = {
   emails: 'emails_sent',
   signals: 'research_signals',
   botRuns: 'bot_runs',
+  emailSends: 'email_sends',
 } as const
 
 function baseUrl(): string {
@@ -191,4 +192,140 @@ export async function qdrantFetchBotRuns(
       output_ids: r.output_ids,
     }))
     .sort((a, b) => new Date(b.ran_at).getTime() - new Date(a.ran_at).getTime())
+}
+
+// ─── Email sends ──────────────────────────────────────────────────────────────
+
+import type { EmailSendRecord } from './email/types'
+
+async function ensureEmailSendsCollection(): Promise<void> {
+  const url = `${baseUrl()}/collections/${COLLECTIONS.emailSends}`
+  const res = await fetch(url, { signal: AbortSignal.timeout(3000) })
+  if (res.ok) return
+  await fetch(url, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ vectors: { size: 1, distance: 'Cosine' } }),
+    signal: AbortSignal.timeout(5000),
+  })
+}
+
+async function qdrantUpsertPoint(
+  collection: string,
+  id: string,
+  payload: Record<string, unknown>
+): Promise<void> {
+  const url = `${baseUrl()}/collections/${collection}/points`
+  const body = JSON.stringify({
+    points: [{ id, vector: [0.0], payload }],
+  })
+  const res = await fetch(url, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body,
+    signal: AbortSignal.timeout(TIMEOUT_MS),
+  })
+  if (!res.ok) {
+    const text = await res.text().catch(() => res.statusText)
+    throw new ColonyFetchError('qdrant', res.status, `Qdrant upsert failed: ${text}`)
+  }
+}
+
+async function qdrantUpdatePayload(
+  collection: string,
+  filter: Record<string, unknown>,
+  payload: Record<string, unknown>
+): Promise<void> {
+  const url = `${baseUrl()}/collections/${collection}/points/payload`
+  const body = JSON.stringify({ payload, filter })
+  const res = await fetch(url, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body,
+    signal: AbortSignal.timeout(TIMEOUT_MS),
+  })
+  if (!res.ok && res.status !== 404) {
+    const text = await res.text().catch(() => res.statusText)
+    throw new ColonyFetchError('qdrant', res.status, `Qdrant payload update failed: ${text}`)
+  }
+}
+
+export async function qdrantUpsertEmailSend(
+  record: Omit<EmailSendRecord, 'status' | 'status_updated_at'> & { status?: EmailSendRecord['status'] }
+): Promise<void> {
+  await ensureEmailSendsCollection()
+  const now = new Date().toISOString()
+  await qdrantUpsertPoint(COLLECTIONS.emailSends, record.id, {
+    ...record,
+    status: record.status ?? 'sent',
+    status_updated_at: now,
+  })
+}
+
+export async function qdrantUpdateEmailSendStatus(
+  providerMessageId: string,
+  status: EmailSendRecord['status']
+): Promise<void> {
+  const filter = {
+    must: [{ key: 'provider_message_id', match: { value: providerMessageId } }],
+  }
+  await qdrantUpdatePayload(COLLECTIONS.emailSends, filter, {
+    status,
+    status_updated_at: new Date().toISOString(),
+  })
+}
+
+export async function qdrantFetchEmailSendsForLead(
+  cohortId: string,
+  leadId: string,
+  limit = 20
+): Promise<EmailSendRecord[]> {
+  const filter = {
+    must: [
+      { key: 'cohort_id', match: { value: cohortId } },
+      { key: 'lead_id', match: { value: leadId } },
+    ],
+  }
+  const raw = await qdrantScroll<Record<string, unknown>>(COLLECTIONS.emailSends, filter, limit)
+  return raw
+    .filter(r => r.id && r.to_email)
+    .map(r => r as unknown as EmailSendRecord)
+    .sort((a, b) => new Date(b.sent_at).getTime() - new Date(a.sent_at).getTime())
+}
+
+export async function qdrantCountRecentSends(cohortId: string, sinceMs: number): Promise<number> {
+  const since = new Date(Date.now() - sinceMs).toISOString()
+  const filter = {
+    must: [
+      { key: 'cohort_id', match: { value: cohortId } },
+      { key: 'sent_at', range: { gt: since } },
+    ],
+  }
+  const results = await qdrantScroll<Record<string, unknown>>(COLLECTIONS.emailSends, filter, 100)
+  return results.length
+}
+
+export async function qdrantCheckUnsubscribed(cohortId: string, leadId: string): Promise<boolean> {
+  const filter = {
+    must: [
+      { key: 'cohort_id', match: { value: cohortId } },
+      { key: 'lead_id', match: { value: leadId } },
+      { key: 'status', match: { value: 'unsubscribed' } },
+    ],
+  }
+  const results = await qdrantScroll<Record<string, unknown>>(COLLECTIONS.emailSends, filter, 1)
+  return results.length > 0
+}
+
+export async function qdrantMarkUnsubscribed(cohortId: string, leadId: string): Promise<void> {
+  const filter = {
+    must: [
+      { key: 'cohort_id', match: { value: cohortId } },
+      { key: 'lead_id', match: { value: leadId } },
+    ],
+  }
+  await qdrantUpdatePayload(COLLECTIONS.emailSends, filter, {
+    status: 'unsubscribed',
+    status_updated_at: new Date().toISOString(),
+  })
 }

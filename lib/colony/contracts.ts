@@ -153,3 +153,12 @@ export interface DealStageUpdateResponse {
   id: string
   stage: DealStage
 }
+
+// === Phase 11: Admin onboarding types ===
+// New customer cohort IDs (e.g. "cust_cgfd_001") are not in the Cohort union.
+// Admin operations use `string` for cohortId to allow dynamic provisioning.
+
+export type AdminOnboardingInput = import('./onboarding').OnboardingInput
+export type AdminOnboardingPreview = import('./onboarding').OnboardingPreview
+export type AdminOnboardingResult = import('./onboarding').OnboardingResult
+export type AdminAuditEntry = import('./onboarding-writers').AuditEntry
