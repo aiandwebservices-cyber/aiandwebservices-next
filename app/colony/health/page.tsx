@@ -13,6 +13,7 @@ import { colonyFetch } from '../lib/api-client'
 import { useCohort } from '../components/CohortSwitcher'
 import { capture } from '../lib/posthog'
 import { ColonyErrorBoundary } from '../components/ColonyErrorBoundary'
+import { BillNyeAccuracyWidget } from '../components/BillNyeAccuracyWidget'
 import type { LeadPayload } from '@/lib/colony/contracts'
 
 // ─── Lead volume card (fetches independently) ────────────────────────────────
@@ -136,6 +137,16 @@ export default function HealthPage() {
           <MRRBreakdownTable breakdown={metrics.breakdown_by_plan} />
         </section>
       )}
+
+      {/* Agent intelligence */}
+      <section>
+        <h2 className="text-lg font-semibold mb-3" style={{ color: 'var(--colony-text-primary)' }}>
+          Agent Intelligence
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <BillNyeAccuracyWidget />
+        </div>
+      </section>
     </main>
     </ColonyErrorBoundary>
   )
