@@ -79,14 +79,14 @@ a{touch-action:manipulation}
   height:68px;
   display:flex;align-items:center;justify-content:space-between;
   padding:0 clamp(8px,3vw,56px);
-  transition:background .4s,border-color .4s;
+  transition:background .075s,border-color .075s;
 }
 #nav.light{background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
 #nav.dark{background:rgba(26,37,64,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.08)}
 .logo{display:flex;align-items:center;gap:0;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:17px;letter-spacing:-.3px;line-height:0;position:relative;top:8px;}
 button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;line-height:0;position:relative;top:8px;}
 .logo,.logo-link{display:flex;align-items:center;}
-.logo img,.logo-link img{width:clamp(130px,17vw,260px);height:auto;}
+.logo img,.logo-link img{height:clamp(32px,3.2vw,40px);width:auto;}
 .logo-ai{color:var(--navy)}
 .logo-and{color:var(--blue);font-weight:600;font-size:14px;margin:0 2px}
 .logo-web{color:var(--navy)}
@@ -1355,7 +1355,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 
   /* logo — mobile size */
   .logo{font-size:14px}
-  .logo img,.logo-link img{width:clamp(220px,65vw,280px);margin-left:-28px}
+  .logo img,.logo-link img{height:36px;width:auto;margin-left:0}
   .logo-ai{font-size:inherit}
   .logo-web{font-size:inherit}
   .logo-svc{font-size:12px}

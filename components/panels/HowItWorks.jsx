@@ -311,10 +311,10 @@ export default function HowItWorks() {
         .hiw-orb-1 { width:420px;height:420px;top:-80px;left:-60px;background:radial-gradient(circle,rgba(42,165,160,.22) 0%,transparent 70%);animation-delay:0s; }
         .hiw-orb-2 { width:500px;height:500px;bottom:-100px;right:-80px;background:radial-gradient(circle,rgba(99,102,241,.18) 0%,transparent 70%);animation-delay:-6s; }
         @keyframes hiw-drift { 0%,100%{transform:translate(0,0) scale(1)} 33%{transform:translate(30px,-20px) scale(1.06)} 66%{transform:translate(-20px,24px) scale(.96)} }
-        .hiw-inner { height:100%;display:flex;flex-direction:column;padding:90px 6vw 0;overflow-y:auto; }
+        .hiw-inner { height:100%;display:flex;flex-direction:column;padding:96px 6vw 0;overflow-y:auto; }
         .hiw-inner .panel-cta-wrap { margin-top:auto;padding-top:14px;padding-bottom:clamp(16px,2.5vh,28px); }
 
-        .hiw-header { background:#111827;margin:-90px -6vw 0;padding:90px 6vw 28px; }
+        .hiw-header { background:#111827;margin:-96px -6vw 0;padding:96px 6vw 28px; }
         .hiw-eyebrow { font-size:11px;font-weight:800;letter-spacing:3px;text-transform:uppercase;color:#2AA5A0;margin-bottom:10px; }
         .hiw-h2 { font-family:'Plus Jakarta Sans',sans-serif;font-size:clamp(28px,5vw,46px);font-weight:800;color:#fff;line-height:1.15;letter-spacing:-1px;margin-bottom:8px; }
         .hiw-h2-accent { color:#2AA5A0; }

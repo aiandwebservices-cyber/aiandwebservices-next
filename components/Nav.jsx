@@ -96,18 +96,20 @@ export default function Nav() {
       'p0': 0, 'p2': 1, 'comparison': 2, 'samples': 3,
       'services': 4, 'p3': 5, 'p7': 6, 'checklist-teaser': 7, 'p8': 8,
     };
+    const navHeight = window.innerWidth < 768 ? 60 : 68;
     const observer = new IntersectionObserver(
       (entries) => {
-        entries.forEach(entry => {
-          if (entry.isIntersecting) {
-            const idx = PANEL_ID_TO_IDX[entry.target.id];
-            if (idx !== undefined) {
-              setCurrentPanel(prev => prev !== idx ? idx : prev);
-            }
-          }
-        });
+        const visible = entries.filter(e => e.isIntersecting);
+        if (visible.length === 0) return;
+        const most = visible.reduce((max, e) =>
+          e.intersectionRatio > max.intersectionRatio ? e : max
+        );
+        const idx = PANEL_ID_TO_IDX[most.target.id];
+        if (idx !== undefined) {
+          setCurrentPanel(prev => prev !== idx ? idx : prev);
+        }
       },
-      { rootMargin: '-60px 0px -50% 0px', threshold: 0 }
+      { threshold: [0.25, 0.5, 0.75], rootMargin: `-${navHeight}px 0px -20% 0px` }
     );
     Object.keys(PANEL_ID_TO_IDX).forEach(id => {
       const el = document.getElementById(id);
