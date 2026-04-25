@@ -18,6 +18,8 @@ import { UnitEconomicsCard } from '../components/UnitEconomicsCard'
 import { CustomerHealthAlerts } from '../components/CustomerHealthAlerts'
 import { TimeToFirstTouchCard } from '../components/TimeToFirstTouchCard'
 import { FunnelCrossTabsCard } from '../components/FunnelCrossTabsCard'
+import { StageAnalyticsCard } from '../components/StageAnalyticsCard'
+import { VariantPerformanceCard } from '../components/VariantPerformanceCard'
 import { CustomerKPICard } from '../components/CustomerKPICard'
 import type { LeadPayload } from '@/lib/colony/contracts'
 
@@ -164,6 +166,14 @@ export default function HealthPage() {
         <UnitEconomicsCard />
       </section>
 
+      {/* Stage velocity */}
+      <section>
+        <h2 className="text-lg font-semibold mb-3" style={{ color: 'var(--colony-text-primary)' }}>
+          Stage Velocity
+        </h2>
+        <StageAnalyticsCard />
+      </section>
+
       {/* Speed to Lead */}
       <section>
         <h2 className="text-lg font-semibold mb-3" style={{ color: 'var(--colony-text-primary)' }}>
@@ -174,12 +184,20 @@ export default function HealthPage() {
         </div>
       </section>
 
-      {/* Funnel Analysis */}
+      {/* Funnel Analysis + Variant Performance */}
       <section>
         <h2 className="text-lg font-semibold mb-3" style={{ color: 'var(--colony-text-primary)' }}>
           Funnel Analysis
         </h2>
         <FunnelCrossTabsCard />
+      </section>
+
+      {/* Subject variant A/B performance */}
+      <section>
+        <h2 className="text-lg font-semibold mb-3" style={{ color: 'var(--colony-text-primary)' }}>
+          Subject Variant A/B
+        </h2>
+        <VariantPerformanceCard />
       </section>
 
       {/* Agent intelligence */}
