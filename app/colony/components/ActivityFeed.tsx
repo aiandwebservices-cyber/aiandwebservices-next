@@ -75,43 +75,6 @@ export function ActivityFeed() {
 
   return (
     <div className="space-y-5">
-      <header style={{
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: 12,
-        marginBottom: 16,
-        paddingBottom: 14,
-        borderBottom: '1px solid rgba(255,255,255,.12)',
-      }}>
-        <span style={{
-          width: 7,
-          height: 7,
-          borderRadius: '50%',
-          background: '#34d399',
-          boxShadow: '0 0 8px #34d399',
-          animation: 'colonyPulse 2s ease-in-out infinite',
-          flexShrink: 0,
-        }} />
-        <span style={{
-          fontFamily: "var(--colony-font-headline, 'Plus Jakarta Sans')",
-          fontSize: 16,
-          fontWeight: 800,
-          color: '#fff',
-          letterSpacing: '-0.2px',
-        }}>
-          Activity Feed
-        </span>
-        <span style={{
-          width: 7,
-          height: 7,
-          borderRadius: '50%',
-          background: '#34d399',
-          boxShadow: '0 0 8px #34d399',
-          animation: 'colonyPulse 2s ease-in-out infinite',
-          flexShrink: 0,
-        }} />
-      </header>
       {status === 'stale' && (
         <div className="px-4">
           <StaleIndicator lastSuccessAt={lastSuccess ?? undefined} />

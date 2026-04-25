@@ -241,7 +241,7 @@ export default function Page() {
                   flexShrink: 0,
                   display: 'flex',
                   alignItems: 'center',
-                  gap: 8,
+                  gap: 10,
                 }}>
                   <span style={{
                     fontSize: 9, fontWeight: 700, textTransform: 'uppercase',
@@ -249,7 +249,15 @@ export default function Page() {
                   }}>
                     RECENT ACTIVITY
                   </span>
-                  <div className="ch-pulse" />
+                  <span style={{ color: 'rgba(255,255,255,.15)', fontSize: 12 }}>·</span>
+                  <span style={{
+                    fontFamily: "var(--colony-font-headline, 'Plus Jakarta Sans')",
+                    fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,.75)',
+                    letterSpacing: '-0.1px',
+                  }}>
+                    Activity Feed
+                  </span>
+                  <div className="ch-pulse" style={{ marginLeft: 2 }} />
                 </div>
                 <div style={{ flex: 1, overflowY: 'auto', scrollbarWidth: 'thin', paddingBottom: 8 }}>
                   <ActivityFeed />
