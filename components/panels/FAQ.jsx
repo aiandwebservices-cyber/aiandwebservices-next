@@ -25,14 +25,6 @@ const blogs = [
   { href:'https://blog.aiandwebservices.com/urgency-ai-adoption-8-in-10-companies',                  tag:'AI Trends',    title:'8 in 10 Companies Are Adopting AI Now',      desc:'The window to get ahead of your competitors is closing. Here\'s what the data says about the pace of AI adoption.' },
 ];
 
-const TAG_COLORS = {
-  'AI Automation': ['#2AA5A0', 'rgba(42,165,160,.12)'],
-  'AI ROI':        ['#3B82F6', 'rgba(59,130,246,.12)'],
-  'Growth':        ['#8B5CF6', 'rgba(139,92,246,.12)'],
-  'AI Chatbot':    ['#2AA5A0', 'rgba(42,165,160,.12)'],
-  'Local SEO':     ['#F59E0B', 'rgba(245,158,11,.12)'],
-  'Conversion':    ['#EF4444', 'rgba(239,68,68,.12)'],
-};
 
 export default function FAQ() {
   const reduced = useReducedMotion();
@@ -113,17 +105,14 @@ export default function FAQ() {
               <a href="https://blog.aiandwebservices.com" target="_blank" rel="noopener noreferrer" className="fq-blog-link">See all ↗</a>
             </div>
             <div className="fq-blog-grid">
-              {blogs.map((post, i) => {
-                const [tagColor, tagBg] = TAG_COLORS[post.tag] || [TEAL, 'rgba(42,165,160,.12)'];
-                return (
-                  <a key={post.href} href={post.href} target="_blank" rel="noopener noreferrer" className="fq-blog-card">
-                    <span className="fq-blog-tag" style={{ color: tagColor, background: tagBg }}>{post.tag}</span>
-                    <div className="fq-blog-title">{post.title}</div>
-                    <div className="fq-blog-desc">{post.desc}</div>
-                    <span className="fq-blog-read" style={{ color: tagColor }}>Read →</span>
-                  </a>
-                );
-              })}
+              {blogs.map((post) => (
+                <a key={post.href} href={post.href} target="_blank" rel="noopener noreferrer" className="fq-blog-card">
+                  <span className="fq-blog-tag">{post.tag}</span>
+                  <div className="fq-blog-title">{post.title}</div>
+                  <div className="fq-blog-desc">{post.desc}</div>
+                  <span className="fq-blog-read">Read →</span>
+                </a>
+              ))}
             </div>
           </div>
 
@@ -189,8 +178,8 @@ export default function FAQ() {
         .fq-sub { font-size: 13px; color: rgba(15,30,61,.7); margin-bottom: 10px; }
 
         .fq-list {
-          display: grid; grid-template-columns: 1fr 1fr;
-          gap: 7px; margin-bottom: 16px; align-content: start;
+          display: grid; grid-template-columns: repeat(4, 1fr);
+          gap: 7px; margin-bottom: 16px; align-content: start; align-items: start;
           max-width: 920px; margin-left: auto; margin-right: auto;
         }
         .fq-card {
@@ -276,6 +265,7 @@ export default function FAQ() {
           display: inline-block; font-size: 9px; font-weight: 800;
           letter-spacing: 1.5px; text-transform: uppercase;
           border-radius: 50px; padding: 3px 9px; width: fit-content;
+          color: rgba(0,0,0,.55); background: rgba(0,0,0,.06);
         }
         .fq-blog-title {
           font-family: 'Plus Jakarta Sans', sans-serif;
@@ -285,7 +275,7 @@ export default function FAQ() {
           font-size: 11.5px; color: rgba(15,30,61,.55); line-height: 1.6; flex: 1;
         }
         .fq-blog-read {
-          font-size: 11px; font-weight: 700; margin-top: 2px;
+          font-size: 11px; font-weight: 700; margin-top: 2px; color: #2AA5A0;
         }
 
         @media (min-width: 1920px) {
@@ -293,6 +283,9 @@ export default function FAQ() {
         }
         @media (max-width: 900px) {
           .fq-blog-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        @media (min-width: 769px) and (max-width: 1024px) {
+          .fq-list { grid-template-columns: repeat(2, 1fr); }
         }
         @media (max-width: 768px) {
           .fq-list { grid-template-columns: 1fr; }
