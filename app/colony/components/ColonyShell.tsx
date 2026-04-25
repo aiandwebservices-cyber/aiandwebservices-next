@@ -3,10 +3,10 @@
 import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { UserButton, useUser } from '@clerk/nextjs'
+import { UserButton } from '@clerk/nextjs'
 import { Menu } from 'lucide-react'
 import ThemeToggle from './ThemeToggle'
-import CohortSwitcher, { CohortProvider } from './CohortSwitcher'
+import { CohortProvider } from './CohortSwitcher'
 import { SidePanelProvider } from './SidePanel'
 import { MRRWidget } from '../health/components/MRRWidget'
 import { useCommandPalette } from './CommandPaletteProvider'
@@ -25,16 +25,10 @@ const NAV_ITEMS = [
   { href: '/colony/team',      label: 'Team' },
 ]
 
-const ADMIN_EMAILS = ['david@aiandwebservices.com', 'aiandwebservices@gmail.com']
-
 export default function ColonyShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
   const [sidebarOpen, setSidebarOpen] = useState(false)
   const { open: openPalette } = useCommandPalette()
-  const { user } = useUser()
-
-  const userEmail = user?.emailAddresses?.[0]?.emailAddress?.toLowerCase() ?? ''
-  const isAdmin = ADMIN_EMAILS.includes(userEmail)
 
   return (
     <CohortProvider>
@@ -88,22 +82,7 @@ export default function ColonyShell({ children }: { children: React.ReactNode })
               </Link>
             </div>
 
-            {/* Empty space — Phase 17C will fill this */}
             <div className="flex-1" />
-
-            {/* Cohort switcher — admin only */}
-            {isAdmin && (
-              <div style={{
-                height: 56,
-                borderTop: '1px solid rgba(255,255,255,.06)',
-                display: 'flex',
-                alignItems: 'center',
-                padding: '0 16px',
-                flexShrink: 0,
-              }}>
-                <CohortSwitcher />
-              </div>
-            )}
           </aside>
 
           {/* Main area */}
@@ -113,8 +92,8 @@ export default function ColonyShell({ children }: { children: React.ReactNode })
               className="colony-topbar flex items-center justify-between px-4 shrink-0"
               style={{ height: 56, position: 'relative' }}
             >
-              {/* LEFT: mobile menu + Crew online */}
-              <div style={{ display: 'flex', alignItems: 'center', gap: 10, flex: '0 0 auto', minWidth: 140 }}>
+              {/* LEFT: mobile menu */}
+              <div style={{ display: 'flex', alignItems: 'center', flex: '0 0 auto', minWidth: 40 }}>
                 <button
                   className="lg:hidden p-1 rounded hover:opacity-70"
                   style={{ color: 'var(--colony-text-primary)' }}
@@ -123,20 +102,6 @@ export default function ColonyShell({ children }: { children: React.ReactNode })
                 >
                   <Menu size={18} />
                 </button>
-                <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <span style={{
-                    width: 7,
-                    height: 7,
-                    borderRadius: '50%',
-                    background: '#34d399',
-                    boxShadow: '0 0 8px #34d399',
-                    animation: 'colonyPulse 2s ease-in-out infinite',
-                    flexShrink: 0,
-                  }} />
-                  <span style={{ fontSize: 11, color: 'rgba(255,255,255,.55)', fontWeight: 600, letterSpacing: '.3px' }}>
-                    Crew online
-                  </span>
-                </div>
               </div>
 
               {/* CENTER: Nav pills — visually centered to viewport (compensate for sidebar on lg+) */}
