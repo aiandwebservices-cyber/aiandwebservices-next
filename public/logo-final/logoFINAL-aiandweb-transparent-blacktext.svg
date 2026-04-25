@@ -1,5 +1,5 @@
-<svg width="700" height="240" viewBox="0 0 700 240" role="img" xmlns="http://www.w3.org/2000/svg">
-<title>AIandWEBservices - transparent bg with dark wordmark</title>
+<svg width="600" height="160" viewBox="30 40 600 160" role="img" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
+<title>AIandWEBservices - transparent bg with black wordmark (tightened viewBox)</title>
 <defs>
   <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
     <stop offset="0%" stop-color="#2AA5A0"/>
