@@ -16,6 +16,8 @@ import { ColonyErrorBoundary } from '../components/ColonyErrorBoundary'
 import { BillNyeAccuracyWidget } from '../components/BillNyeAccuracyWidget'
 import { UnitEconomicsCard } from '../components/UnitEconomicsCard'
 import { CustomerHealthAlerts } from '../components/CustomerHealthAlerts'
+import { TimeToFirstTouchCard } from '../components/TimeToFirstTouchCard'
+import { FunnelCrossTabsCard } from '../components/FunnelCrossTabsCard'
 import type { LeadPayload } from '@/lib/colony/contracts'
 
 // ─── Lead volume card (fetches independently) ────────────────────────────────
@@ -154,6 +156,24 @@ export default function HealthPage() {
           Unit Economics
         </h2>
         <UnitEconomicsCard />
+      </section>
+
+      {/* Speed to Lead */}
+      <section>
+        <h2 className="text-lg font-semibold mb-3" style={{ color: 'var(--colony-text-primary)' }}>
+          Speed to Lead
+        </h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+          <TimeToFirstTouchCard />
+        </div>
+      </section>
+
+      {/* Funnel Analysis */}
+      <section>
+        <h2 className="text-lg font-semibold mb-3" style={{ color: 'var(--colony-text-primary)' }}>
+          Funnel Analysis
+        </h2>
+        <FunnelCrossTabsCard />
       </section>
 
       {/* Agent intelligence */}
