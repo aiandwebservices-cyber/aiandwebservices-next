@@ -57,7 +57,6 @@ export default function Nav() {
   const [svcOpen,    setSvcOpen]    = useState(false);
   const [mobSvcOpen, setMobSvcOpen] = useState(false);
   const [menuOpen,   setMenuOpen]   = useState(false);
-  const [bannerTick, setBannerTick] = useState(0);
   const svcRef = useRef(null);
 
   const toggleMenu = () => setMenuOpen(o => !o);
@@ -89,56 +88,6 @@ export default function Nav() {
     return () => window.removeEventListener('panelchange', handler);
   }, []);
 
-  // MOBILE: single detector — most-centered panel wins. No IntersectionObserver.
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    if (!window.matchMedia('(max-width: 768px)').matches) return;
-
-    const PANEL_ID_TO_IDX = {
-      'p0': 0, 'p2': 1, 'comparison': 2, 'samples': 3,
-      'services': 4, 'p3': 5, 'p7': 6, 'checklist-teaser': 7, 'p8': 8,
-    };
-
-    const detectPanel = () => {
-      const navHeight = 60;
-      const viewportCenter = window.innerHeight / 2;
-      let bestId = null;
-      let bestDist = Infinity;
-      Object.keys(PANEL_ID_TO_IDX).forEach(id => {
-        const el = document.getElementById(id);
-        if (!el) return;
-        const rect = el.getBoundingClientRect();
-        if (rect.bottom <= navHeight) return;
-        if (rect.top >= window.innerHeight) return;
-        const dist = Math.abs((rect.top + rect.height / 2) - viewportCenter);
-        if (dist < bestDist) { bestDist = dist; bestId = id; }
-      });
-      if (bestId !== null) {
-        const idx = PANEL_ID_TO_IDX[bestId];
-        setCurrentPanel(prev => prev !== idx ? idx : prev);
-      }
-    };
-
-    let timer = null;
-    const throttled = () => {
-      if (timer) return;
-      timer = setTimeout(() => { detectPanel(); timer = null; }, 100);
-    };
-
-    window.addEventListener('scroll', throttled, { passive: true });
-    window.addEventListener('resize', throttled);
-    detectPanel();
-    const t1 = setTimeout(detectPanel, 50);
-    const t2 = setTimeout(detectPanel, 200);
-
-    return () => {
-      window.removeEventListener('scroll', throttled);
-      window.removeEventListener('resize', throttled);
-      if (timer) clearTimeout(timer);
-      clearTimeout(t1);
-      clearTimeout(t2);
-    };
-  }, []);
 
   useEffect(() => {
     const handler = (e) => { if (svcRef.current && !svcRef.current.contains(e.target)) setSvcOpen(false); };
@@ -146,52 +95,11 @@ export default function Nav() {
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  // Re-render on scroll while inside a banner panel so isDarkSurface recomputes live.
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    const isBannerPanel = currentPanel === 1 || currentPanel === 7;
-    if (!isBannerPanel) return;
-    let timer = null;
-    const tick = () => {
-      if (timer) return;
-      timer = setTimeout(() => { setBannerTick(t => t + 1); timer = null; }, 50);
-    };
-    const innerScroller = currentPanel === 1
-      ? document.querySelector('#p2 .hiw-inner')
-      : document.getElementById('checklist-teaser');
-    window.addEventListener('scroll', tick, { passive: true });
-    if (innerScroller) innerScroller.addEventListener('scroll', tick, { passive: true });
-    tick();
-    return () => {
-      window.removeEventListener('scroll', tick);
-      if (innerScroller) innerScroller.removeEventListener('scroll', tick);
-      if (timer) clearTimeout(timer);
-    };
-  }, [currentPanel]);
 
-  // Hero(0) and Contact(8) are always dark.
-  // How It Works(1) and AI Readiness(7) are dark ONLY while their dark banner
-  // still covers the viewport midpoint. Computed inline every render — never stale.
-  const isPureDarkPanel = currentPanel === 0 || currentPanel === 8;
-  const isBannerPanel   = currentPanel === 1 || currentPanel === 7;
-
-  const computeBannerVisible = () => {
-    if (typeof window === 'undefined') return false;
-    if (!isBannerPanel) return false;
-    const selector = currentPanel === 1
-      ? '#p2 .hiw-header'
-      : '#checklist-teaser [data-banner="dark"]';
-    const banner = document.querySelector(selector);
-    if (!banner) return false;
-    return banner.getBoundingClientRect().bottom > window.innerHeight / 2;
-  };
-
-  // bannerTick is only used to trigger re-renders while in banner panels.
-  void bannerTick;
-  const bannerStillVisible = computeBannerVisible();
-
+  // Dark panels: Hero(0), HowItWorks(1), AIReadiness(7), Contact(8)
+  // Matches hook's darkPanels set — single source of truth
   const isDarkSurface = !isOnServicePage && (
-    isOnContactPage || isPureDarkPanel || (isBannerPanel && bannerStillVisible)
+    isOnContactPage || currentPanel === 0 || currentPanel === 1 || currentPanel === 7 || currentPanel === 8
   );
   const logoSrc = isDarkSurface
     ? '/logo-final/logoFINAL-aiandweb-transparent-whitetext.svg'

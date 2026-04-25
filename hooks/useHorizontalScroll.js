@@ -46,9 +46,8 @@ export function useHorizontalScroll() {
     const mobileMenu   = document.getElementById('mobile-menu');
     const scrollHint   = document.getElementById('scroll-hint');
 
-    // Panels 0 (Hero), 2 (Comparison), 4 (About), 7 (Contact) have dark backgrounds
-    // Dark-bg panels: Hero(0), About(4), FinalCTA(8). ChecklistTeaser(7) is light.
-    const darkPanels = new Set([0, 5, 8]);
+    // Dark-bg panels: Hero(0), HowItWorks(1), AIReadiness(7), Contact(8)
+    const darkPanels = new Set([0, 1, 7, 8]);
 
     // Maps nav index → panel DOM id (in physical #track order)
     // 0:Hero(p0) 1:HowItWorks(p2) 2:Comparison 3:Samples 4:Services 5:About(p3) 6:FAQ(p7) 7:ChecklistTeaser 8:FinalCTA(p8)
