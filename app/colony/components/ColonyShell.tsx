@@ -50,16 +50,11 @@ export default function ColonyShell({ children }: { children: React.ReactNode })
                     letterSpacing: '-0.4px',
                     lineHeight: 1,
                   }}>
-                    Colony
+                    &nbsp;&nbsp;&nbsp;Colony
                   </span>
                   <span style={{ fontSize: 10, color: 'rgba(255,255,255,.4)', fontWeight: 500, lineHeight: 1 }}>
                     by
                   </span>
-                  <img
-                    src="/logo-icon-transparent.png"
-                    alt="AIandWEBservices"
-                    style={{ height: 20, width: 'auto', flexShrink: 0 }}
-                  />
                 </Link>
               </div>
 
