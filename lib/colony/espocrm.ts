@@ -117,6 +117,16 @@ export async function espoFetchLeads(cohortId: string, query: LeadsQuery = {}): 
     .filter((l): l is LeadPayload => l !== null)
 }
 
+export async function espoFetchLeadById(cohortId: string, leadId: string): Promise<LeadPayload | null> {
+  try {
+    const r = await espoGet<Record<string, unknown>>(`Lead/${leadId}`, {})
+    return mapEspoLead(r, cohortId)
+  } catch (err) {
+    if (err instanceof ColonyFetchError && err.statusCode === 404) return null
+    throw err
+  }
+}
+
 // ─── Deals (Opportunities) ────────────────────────────────────────────────────
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
