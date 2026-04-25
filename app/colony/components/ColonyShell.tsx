@@ -93,7 +93,14 @@ export default function ColonyShell({ children }: { children: React.ReactNode })
 
             {/* Cohort switcher — admin only */}
             {isAdmin && (
-              <div className="px-3 pb-5">
+              <div style={{
+                height: 56,
+                borderTop: '1px solid rgba(255,255,255,.06)',
+                display: 'flex',
+                alignItems: 'center',
+                padding: '0 16px',
+                flexShrink: 0,
+              }}>
                 <CohortSwitcher />
               </div>
             )}
