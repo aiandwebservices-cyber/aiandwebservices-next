@@ -199,7 +199,7 @@ export default function Page() {
                 </span>
 
                 {bots.map(bot => {
-                  const live = lastRunIsRecent(bot.last_run_at)
+                  const live = lastRunIsRecent(bot.last_run_at, 1)
                   return (
                     <button
                       key={bot.id}
@@ -237,7 +237,7 @@ export default function Page() {
                   fontSize: 10, fontWeight: 600,
                   color: 'rgba(255,255,255,.28)',
                 }}>
-                  {bots.filter(b => lastRunIsRecent(b.last_run_at)).length}/{bots.length} live
+                  {bots.filter(b => lastRunIsRecent(b.last_run_at, 1)).length}/{bots.length} live
                 </span>
               </motion.div>
             )}

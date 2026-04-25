@@ -46,9 +46,9 @@ function qdrantUrl(): string {
 }
 
 const STATUS_THRESHOLDS = {
-  LIVE_MIN: 5,
-  ONLINE_MIN: 30,
-  IDLE_MIN: 24 * 60,
+  LIVE_MIN: 60,        // green/live for 1 hour after completing
+  ONLINE_MIN: 4 * 60, // dimmer green for up to 4 hours
+  IDLE_MIN: 24 * 60,  // amber up to 24 hours
 }
 
 function tierFromHeartbeat(ageMinutes: number | null, status: string | null): StatusTier {
