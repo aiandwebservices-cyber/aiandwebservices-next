@@ -1,0 +1,16 @@
+<svg width="200" height="200" viewBox="0 0 200 200" role="img" xmlns="http://www.w3.org/2000/svg">
+<title>AIandWEBservices icon - transparent background</title>
+<defs>
+  <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#2AA5A0"/>
+    <stop offset="100%" stop-color="#3787E6"/>
+  </linearGradient>
+</defs>
+<line x1="100" y1="100" x2="168" y2="48" stroke="#2AA5A0" stroke-width="3.5" opacity="0.7"/>
+<line x1="100" y1="100" x2="168" y2="152" stroke="#3787E6" stroke-width="3.5" opacity="0.7"/>
+<line x1="100" y1="100" x2="32" y2="152" stroke="#2AA5A0" stroke-width="3.5" opacity="0.7"/>
+<circle cx="100" cy="100" r="28" fill="url(#g)"/>
+<circle cx="168" cy="48" r="18" fill="url(#g)" opacity="0.75"/>
+<circle cx="168" cy="152" r="18" fill="url(#g)" opacity="0.75"/>
+<circle cx="32" cy="152" r="14" fill="url(#g)" opacity="0.5"/>
+</svg>
