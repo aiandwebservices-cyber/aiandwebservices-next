@@ -3,7 +3,7 @@
  * Returns status tier for each bot for UI light indicators.
  */
 
-export type StatusTier = 'live' | 'online' | 'idle' | 'offline' | 'failed'
+export type StatusTier = 'running' | 'live' | 'online' | 'idle' | 'offline' | 'failed'
 
 export interface BotStatus {
   bot_id: string
@@ -17,6 +17,9 @@ export interface BotStatus {
   decisions_count: number | null
   run_duration_seconds: number | null
   age_minutes: number | null
+  started_at: string | null
+  completed_at: string | null
+  run_id: string | null
 }
 
 interface HeartbeatPoint {
@@ -26,7 +29,9 @@ interface HeartbeatPoint {
     bot_role?: string
     avatar_emoji?: string
     status?: string
+    run_id?: string
     started_at?: string
+    completed_at?: string
     ended_at?: string
     ran_at?: string
     summary?: string
@@ -48,6 +53,7 @@ const STATUS_THRESHOLDS = {
 
 function tierFromHeartbeat(ageMinutes: number | null, status: string | null): StatusTier {
   if (ageMinutes === null) return 'offline'
+  if (status === 'running') return 'running'
   if (status === 'failed' || status === 'error') return 'failed'
   if (ageMinutes < STATUS_THRESHOLDS.LIVE_MIN) return 'live'
   if (ageMinutes < STATUS_THRESHOLDS.ONLINE_MIN) return 'online'
@@ -97,10 +103,14 @@ export async function fetchBotStatuses(cohortId = 'aiandwebservices'): Promise<R
     safety += 1
   }
 
-  // Sort by most-recent timestamp desc, then dedupe keeping first (latest) per bot_id
+  // Sort by most-recent timestamp desc, then dedupe keeping first (latest) per bot_id.
+  // For running bots, prefer the running point over any older completed point.
   collected.sort((a, b) => {
-    const aTs = a.payload?.ended_at || a.payload?.ran_at || a.payload?.started_at || ''
-    const bTs = b.payload?.ended_at || b.payload?.ran_at || b.payload?.started_at || ''
+    const aRunning = a.payload?.status === 'running' ? 1 : 0
+    const bRunning = b.payload?.status === 'running' ? 1 : 0
+    if (aRunning !== bRunning) return bRunning - aRunning
+    const aTs = a.payload?.completed_at || a.payload?.ended_at || a.payload?.ran_at || a.payload?.started_at || ''
+    const bTs = b.payload?.completed_at || b.payload?.ended_at || b.payload?.ran_at || b.payload?.started_at || ''
     return bTs.localeCompare(aTs)
   })
 
@@ -113,7 +123,7 @@ export async function fetchBotStatuses(cohortId = 'aiandwebservices'): Promise<R
     if (seen.has(pl.bot_id)) continue
     seen.add(pl.bot_id)
 
-    const lastTs = pl.ended_at || pl.ran_at || pl.started_at
+    const lastTs = pl.completed_at || pl.ended_at || pl.ran_at || pl.started_at
     let ageMin: number | null = null
     if (lastTs) {
       ageMin = (now - new Date(lastTs).getTime()) / 60000
@@ -131,6 +141,9 @@ export async function fetchBotStatuses(cohortId = 'aiandwebservices'): Promise<R
       decisions_count: pl.decisions_count ?? null,
       run_duration_seconds: pl.run_duration_seconds ?? null,
       age_minutes: ageMin === null ? null : Math.round(ageMin * 10) / 10,
+      started_at: pl.started_at || null,
+      completed_at: pl.completed_at || null,
+      run_id: pl.run_id || null,
     }
   }
 

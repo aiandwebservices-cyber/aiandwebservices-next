@@ -6,14 +6,16 @@ import { BotStatusRing } from '../components/BotStatusRing'
 import type { BotStatus, StatusTier } from '@/lib/colony/bot-status'
 
 const TIER_ORDER: Record<StatusTier, number> = {
-  live: 0,
-  online: 1,
-  failed: 2,
-  idle: 3,
-  offline: 4,
+  running: 0,
+  live: 1,
+  online: 2,
+  failed: 3,
+  idle: 4,
+  offline: 5,
 }
 
 const TIER_LABELS: Record<StatusTier, string> = {
+  running: 'Running',
   live: 'Live',
   online: 'Online',
   idle: 'Idle',
@@ -50,7 +52,14 @@ function formatAge(minutes: number | null): string {
   return `${Math.round(minutes / 1440)}d ago`
 }
 
+function formatDuration(seconds: number): string {
+  if (seconds < 60) return `${Math.round(seconds)}s`
+  if (seconds < 3600) return `${Math.round(seconds / 60)}m`
+  return `${(seconds / 3600).toFixed(1)}h`
+}
+
 const TIER_DOT_COLOR: Record<StatusTier, string> = {
+  running: '#818cf8',
   live: '#34d399',
   online: '#10b981',
   idle: '#f59e0b',
@@ -58,8 +67,28 @@ const TIER_DOT_COLOR: Record<StatusTier, string> = {
   failed: '#ef4444',
 }
 
+const TIER_BORDER: Record<StatusTier, string> = {
+  running: 'rgba(129,140,248,0.4)',
+  live: 'rgba(52,211,153,0.25)',
+  online: 'rgba(16,185,129,0.15)',
+  idle: 'rgba(245,158,11,0.15)',
+  offline: 'var(--colony-border)',
+  failed: 'rgba(239,68,68,0.35)',
+}
+
+interface CrewStatusResponse {
+  bots: Record<string, BotStatus>
+  summary: {
+    running: number
+    live: number
+    failed: number
+    total: number
+  }
+}
+
 export default function CrewPage() {
   const [bots, setBots] = useState<Record<string, BotStatus>>({})
+  const [summary, setSummary] = useState<CrewStatusResponse['summary'] | null>(null)
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -67,10 +96,11 @@ export default function CrewPage() {
 
     const load = async () => {
       try {
-        const resp = await fetch('/api/colony/bots/status')
-        const data = await resp.json()
+        const resp = await fetch('/api/colony/crew/status')
+        const data: CrewStatusResponse = await resp.json()
         if (cancelled) return
-        setBots(data)
+        setBots(data.bots || {})
+        setSummary(data.summary || null)
         setLoading(false)
       } catch {
         if (!cancelled) setLoading(false)
@@ -78,7 +108,7 @@ export default function CrewPage() {
     }
 
     load()
-    const interval = setInterval(load, 30000)
+    const interval = setInterval(load, 15000)
     return () => {
       cancelled = true
       clearInterval(interval)
@@ -94,6 +124,7 @@ export default function CrewPage() {
   })
 
   const counts = {
+    running: botArray.filter((b) => b.status_tier === 'running').length,
     live: botArray.filter((b) => b.status_tier === 'live').length,
     online: botArray.filter((b) => b.status_tier === 'online').length,
     idle: botArray.filter((b) => b.status_tier === 'idle').length,
@@ -109,7 +140,11 @@ export default function CrewPage() {
           height: 8,
           borderRadius: '50%',
           background: TIER_DOT_COLOR[tier],
-          animation: tier === 'live' || tier === 'failed' ? 'colonyPulse 2s ease-in-out infinite' : undefined,
+          animation: tier === 'running' || tier === 'failed'
+            ? 'colonyPulse 1.2s ease-in-out infinite'
+            : tier === 'live'
+              ? 'colonyPulse 2s ease-in-out infinite'
+              : undefined,
           display: 'inline-block',
         }}
       />
@@ -119,18 +154,52 @@ export default function CrewPage() {
     </div>
   )
 
+  const renderRunningIndicator = () => (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 6,
+        padding: '2px 8px',
+        borderRadius: 6,
+        background: 'rgba(129,140,248,0.12)',
+        border: '1px solid rgba(129,140,248,0.3)',
+        fontSize: 11,
+        color: '#a5b4fc',
+        fontWeight: 600,
+        letterSpacing: '0.03em',
+      }}
+    >
+      <span
+        style={{
+          width: 6,
+          height: 6,
+          borderRadius: '50%',
+          background: '#818cf8',
+          animation: 'colonyPulse 1.2s ease-in-out infinite',
+          display: 'inline-block',
+        }}
+      />
+      RUNNING
+    </div>
+  )
+
   return (
     <main className="p-6 max-w-6xl mx-auto">
       <header className="mb-6">
-        <h1 className="text-2xl font-bold" style={{ color: 'var(--colony-text-primary)' }}>
-          Crew
-        </h1>
+        <div className="flex items-center gap-3 mb-1">
+          <h1 className="text-2xl font-bold" style={{ color: 'var(--colony-text-primary)' }}>
+            Crew
+          </h1>
+          {summary && summary.running > 0 && renderRunningIndicator()}
+        </div>
         <p className="text-sm mt-1" style={{ color: 'var(--colony-text-secondary)' }}>
-          Every agent that has reported a heartbeat. Live bots pulse green; failed bots pulse red.
+          Every agent that has reported a heartbeat. Running bots pulse indigo; failed bots pulse red.
         </p>
       </header>
 
       <div className="flex flex-wrap gap-4 mb-6 text-xs">
+        {counts.running > 0 && renderTierBadge('running', counts.running)}
         {renderTierBadge('live', counts.live)}
         {renderTierBadge('online', counts.online)}
         {renderTierBadge('idle', counts.idle)}
@@ -167,34 +236,69 @@ export default function CrewPage() {
           const displayName = bot.bot_name || fallback.name
           const displayRole = bot.bot_role || fallback.role
           const displayEmoji = bot.avatar_emoji || fallback.emoji
+          const isRunning = bot.status_tier === 'running'
+          const isFailed = bot.status_tier === 'failed'
 
           return (
             <BotStatusRing key={bot.bot_id} botId={bot.bot_id} intensity="normal">
               <div
                 className="p-4 rounded-lg h-full"
                 style={{
-                  background: 'var(--colony-bg-elevated)',
-                  border: '1px solid var(--colony-border)',
+                  background: isRunning
+                    ? 'linear-gradient(135deg, rgba(129,140,248,0.08) 0%, var(--colony-bg-elevated) 100%)'
+                    : isFailed
+                      ? 'linear-gradient(135deg, rgba(239,68,68,0.06) 0%, var(--colony-bg-elevated) 100%)'
+                      : 'var(--colony-bg-elevated)',
+                  border: `1px solid ${TIER_BORDER[bot.status_tier]}`,
                   borderRadius: 14,
+                  transition: 'border-color 0.3s ease',
                 }}
               >
                 <div className="flex items-start gap-3 mb-3">
                   <div style={{ fontSize: 28, lineHeight: 1 }}>{displayEmoji}</div>
                   <div className="flex-1 min-w-0">
-                    <div className="flex items-center gap-2">
+                    <div className="flex items-center gap-2 flex-wrap">
                       <div
                         className="text-sm font-bold truncate"
                         style={{ color: 'var(--colony-text-primary)' }}
                       >
                         {displayName}
                       </div>
-                      <BotStatusDot botId={bot.bot_id} size="sm" />
+                      {isRunning ? (
+                        <span
+                          style={{
+                            fontSize: 10,
+                            fontWeight: 700,
+                            letterSpacing: '0.05em',
+                            color: '#a5b4fc',
+                            background: 'rgba(129,140,248,0.15)',
+                            border: '1px solid rgba(129,140,248,0.3)',
+                            borderRadius: 4,
+                            padding: '1px 5px',
+                          }}
+                        >
+                          ● RUNNING
+                        </span>
+                      ) : (
+                        <BotStatusDot botId={bot.bot_id} size="sm" />
+                      )}
                     </div>
                     <div
                       className="text-xs mt-0.5"
                       style={{ color: 'var(--colony-text-secondary)' }}
                     >
-                      {TIER_LABELS[bot.status_tier]} · {formatAge(bot.age_minutes)}
+                      {isRunning ? (
+                        <>
+                          Started{' '}
+                          {bot.started_at
+                            ? formatAge((Date.now() - new Date(bot.started_at).getTime()) / 60000)
+                            : 'just now'}
+                        </>
+                      ) : (
+                        <>
+                          {TIER_LABELS[bot.status_tier]} · {formatAge(bot.age_minutes)}
+                        </>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -211,18 +315,18 @@ export default function CrewPage() {
                     className="p-2 rounded"
                     style={{
                       background: 'var(--colony-row-bg)',
-                      border: '1px solid var(--colony-row-border)',
+                      border: `1px solid ${isRunning ? 'rgba(129,140,248,0.2)' : 'var(--colony-row-border)'}`,
                     }}
                   >
                     <div
                       className="text-xs mb-1"
                       style={{ color: 'var(--colony-text-secondary)' }}
                     >
-                      Last action
+                      {isRunning ? 'In progress' : 'Last action'}
                     </div>
                     <div
                       className="text-xs"
-                      style={{ color: 'var(--colony-text-primary)' }}
+                      style={{ color: isRunning ? '#c7d2fe' : 'var(--colony-text-primary)' }}
                     >
                       {bot.last_summary}
                     </div>
@@ -241,12 +345,20 @@ export default function CrewPage() {
                       decisions
                     </div>
                   )}
-                  {bot.run_duration_seconds !== null && bot.run_duration_seconds > 0 && (
+                  {!isRunning && bot.run_duration_seconds !== null && bot.run_duration_seconds > 0 && (
                     <div>
                       <span style={{ color: 'var(--colony-text-primary)', fontWeight: 600 }}>
-                        {bot.run_duration_seconds.toFixed(1)}s
+                        {formatDuration(bot.run_duration_seconds)}
                       </span>{' '}
                       last run
+                    </div>
+                  )}
+                  {isRunning && bot.started_at && (
+                    <div style={{ color: '#a5b4fc' }}>
+                      running{' '}
+                      <span style={{ fontWeight: 600 }}>
+                        {formatDuration((Date.now() - new Date(bot.started_at).getTime()) / 1000)}
+                      </span>
                     </div>
                   )}
                 </div>
