@@ -239,9 +239,9 @@ export default function Page() {
                   padding: '18px 22px 12px',
                   borderBottom: '1px solid rgba(255,255,255,.08)',
                   flexShrink: 0,
+                  position: 'relative',
                   display: 'flex',
                   alignItems: 'center',
-                  justifyContent: 'space-between',
                 }}>
                   <span style={{
                     fontSize: 9, fontWeight: 700, textTransform: 'uppercase',
@@ -249,7 +249,14 @@ export default function Page() {
                   }}>
                     RECENT ACTIVITY
                   </span>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
+                  <div style={{
+                    position: 'absolute',
+                    left: '50%',
+                    transform: 'translateX(-50%)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: 8,
+                  }}>
                     <span style={{
                       fontFamily: "var(--colony-font-headline, 'Plus Jakarta Sans')",
                       fontSize: 17, fontWeight: 700, color: 'rgba(255,255,255,.85)',
