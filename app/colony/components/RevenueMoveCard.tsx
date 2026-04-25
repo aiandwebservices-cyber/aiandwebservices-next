@@ -1,10 +1,7 @@
 'use client'
 
 import type { RevenueMove } from '../lib/revenue-helpers'
-import { useSidePanel } from './SidePanel'
-import { useCohort } from './CohortSwitcher'
 import { capture } from '../lib/posthog'
-import { getLeadsForCohort, getDealsForCohort } from '../lib/mock-data'
 
 const URGENCY_DOT: Record<string, string> = {
   high: 'var(--colony-danger)',
@@ -13,49 +10,8 @@ const URGENCY_DOT: Record<string, string> = {
 }
 
 export default function RevenueMoveCard({ move }: { move: RevenueMove }) {
-  const { open } = useSidePanel()
-  const { cohortId } = useCohort()
-
   const handleClick = () => {
     capture('colony_revenue_move_clicked', { move_id: move.id, urgency: move.urgency })
-    const { type, id } = move.drillTarget
-
-    if (type === 'lead') {
-      const lead = getLeadsForCohort(cohortId).find(l => l.id === id)
-      if (!lead) return
-      open({
-        title: lead.business_name,
-        subtitle: `${lead.temperature} lead · ${lead.city}, ${lead.state}`,
-        children: (
-          <div className="p-5 space-y-1 text-sm">
-            {lead.first_name && (
-              <p style={{ color: 'var(--colony-text-primary)' }}>
-                {lead.first_name} {lead.last_name}
-              </p>
-            )}
-            <p style={{ color: 'var(--colony-text-secondary)' }}>{lead.email}</p>
-            {lead.phone && <p style={{ color: 'var(--colony-text-secondary)' }}>{lead.phone}</p>}
-            <p className="mt-2" style={{ color: 'var(--colony-text-secondary)' }}>
-              {lead.niche} · ${lead.deal_tier}/mo
-            </p>
-          </div>
-        ),
-      })
-    } else {
-      const deal = getDealsForCohort(cohortId).find(d => d.id === id)
-      if (!deal) return
-      open({
-        title: deal.business_name,
-        subtitle: `${deal.stage} · $${deal.amount}/mo`,
-        children: (
-          <div className="p-5 space-y-1 text-sm" style={{ color: 'var(--colony-text-secondary)' }}>
-            <p>Stage: {deal.stage}</p>
-            <p>Days in stage: {deal.days_in_stage}</p>
-            <p>Probability: {deal.probability}%</p>
-          </div>
-        ),
-      })
-    }
   }
 
   return (

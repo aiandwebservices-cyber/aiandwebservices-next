@@ -21,11 +21,9 @@ import { DealCard } from './DealCard'
 import { Toast } from './Toast'
 import { LoadingSkeleton } from '../../components/LoadingSkeleton'
 import { ErrorState } from '../../components/ErrorState'
-import { useCohort } from '../../components/CohortSwitcher'
 import { capture } from '../../lib/posthog'
 
 export function KanbanBoard() {
-  const { cohortId } = useCohort()
   const { deals, status, error, reload, optimisticMove, rollbackMove } = useDeals()
   const [activeDeal, setActiveDeal] = useState<Deal | null>(null)
   const [toast, setToast] = useState<{ type: 'error' | 'success'; message: string } | null>(null)
@@ -52,8 +50,6 @@ export function KanbanBoard() {
     capture('colony_deal_dragged', { from: deal.stage, to: newStage, deal_id: dealId })
     optimisticMove(dealId, newStage)
 
-    if (cohortId === 'demo') return  // demo: visual only, no persistence
-
     try {
       const res = await fetch(`/api/colony/deals/${dealId}/stage`, {
         method: 'POST',
@@ -67,7 +63,7 @@ export function KanbanBoard() {
       setToast({ type: 'error', message: `Couldn't update ${deal.business_name}. Reverted.` })
       capture('colony_deal_stage_failed', { deal_id: dealId, error: String(err) })
     }
-  }, [deals, cohortId, optimisticMove, rollbackMove])
+  }, [deals, optimisticMove, rollbackMove])
 
   if (status === 'loading') {
     return <LoadingSkeleton variant="card" count={5} />

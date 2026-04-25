@@ -4,7 +4,6 @@ import { useEffect, useState, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { useCohort } from './components/CohortSwitcher'
 import { colonyFetch } from './lib/api-client'
-import { getBotsForCohort } from './lib/mock-data'
 import { ActivityFeed } from './components/ActivityFeed'
 import { BillNyeHomeCard } from './components/BillNyeHomeCard'
 import { RevenueMoves } from './components/RevenueMoves'
@@ -67,11 +66,7 @@ export default function Page() {
     let cancelled = false
     colonyFetch<BotPayload[]>('bots', { cohortId }).then(res => {
       if (cancelled) return
-      setBots(
-        res.status === 'ok' && res.data && res.data.length > 0
-          ? res.data
-          : getBotsForCohort(cohortId)
-      )
+      setBots(res.status === 'ok' && res.data ? res.data : [])
     })
     return () => { cancelled = true }
   }, [cohortId])
@@ -156,7 +151,7 @@ export default function Page() {
             </div>
 
             {/* ── Bot strip ─────────────────────────────────────────── */}
-            {bots && (
+            {bots && bots.length > 0 && (
               <motion.div
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}

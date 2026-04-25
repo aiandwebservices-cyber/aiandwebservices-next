@@ -6,13 +6,6 @@ import { cache } from './cache'
 import * as espo from './espocrm'
 import * as qdrant from './qdrant'
 import { buildFeed } from './feed-builder'
-import {
-  getLeadsForCohort,
-  getDealsForCohort,
-  getReportsForCohort,
-  getFeedForCohort,
-} from '@/app/colony/lib/mock-data'
-
 function hashQuery(query: unknown): string {
   if (!query || typeof query !== 'object') return '{}'
   const sorted = Object.fromEntries(
@@ -25,8 +18,6 @@ function hashQuery(query: unknown): string {
 
 export const fetchers: ColonyFetchers = {
   async fetchLeads(cohortId, query?: LeadsQuery): Promise<LeadPayload[]> {
-    if (cohortId === 'demo') return getLeadsForCohort('demo')
-
     const key = `colony:${cohortId}:leads:${hashQuery(query)}`
     const hit = cache.get<LeadPayload[]>(key)
     if (hit) return hit.data
@@ -37,8 +28,6 @@ export const fetchers: ColonyFetchers = {
   },
 
   async fetchDeals(cohortId, query?: DealsQuery): Promise<DealPayload[]> {
-    if (cohortId === 'demo') return getDealsForCohort('demo')
-
     const key = `colony:${cohortId}:deals:${hashQuery(query)}`
     const hit = cache.get<DealPayload[]>(key)
     if (hit) return hit.data
@@ -49,8 +38,6 @@ export const fetchers: ColonyFetchers = {
   },
 
   async fetchReports(cohortId, query?: ReportsQuery): Promise<ReportPayload[]> {
-    if (cohortId === 'demo') return getReportsForCohort('demo')
-
     const key = `colony:${cohortId}:reports:${hashQuery(query)}`
     const hit = cache.get<ReportPayload[]>(key)
     if (hit) return hit.data
@@ -61,8 +48,6 @@ export const fetchers: ColonyFetchers = {
   },
 
   async fetchFeed(cohortId, query?: FeedQuery): Promise<FeedEventPayload[]> {
-    if (cohortId === 'demo') return getFeedForCohort('demo')
-
     const key = `colony:${cohortId}:feed:${hashQuery(query)}`
     const hit = cache.get<FeedEventPayload[]>(key)
     if (hit) return hit.data
@@ -93,7 +78,6 @@ export const fetchers: ColonyFetchers = {
   },
 
   async updateDealStage(cohortId, dealId, newStage): Promise<boolean> {
-    if (cohortId === 'demo') return true
     return espo.espoUpdateDealStage(cohortId, dealId, newStage)
   },
 }

@@ -1,6 +1,3 @@
-import type { Bot, Cohort } from './types'
-import { getBotsForCohort } from './mock-data'
-
 export function lastRunIsRecent(lastRunAt: string, withinHours = 1): boolean {
   const diff = Date.now() - new Date(lastRunAt).getTime()
   return diff < withinHours * 60 * 60 * 1000
@@ -8,10 +5,6 @@ export function lastRunIsRecent(lastRunAt: string, withinHours = 1): boolean {
 
 export function formatDecisionsCount(count: number): string {
   return count === 1 ? '1 decision' : `${count} decisions`
-}
-
-export function getBotById(botId: string, cohortId: Cohort): Bot | undefined {
-  return getBotsForCohort(cohortId).find(b => b.id === botId)
 }
 
 export function formatLastRun(lastRunAt: string): string {

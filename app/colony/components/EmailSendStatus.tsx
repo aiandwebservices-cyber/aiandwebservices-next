@@ -1,6 +1,5 @@
 'use client'
 import { useState, useEffect, useCallback } from 'react'
-import { useCohort } from './CohortSwitcher'
 import type { EmailSendRecord } from '@/lib/colony/email/types'
 
 const STATUS_ICON: Record<EmailSendRecord['status'], string> = {
@@ -27,7 +26,6 @@ interface EmailSendStatusProps {
 }
 
 export function EmailSendStatus({ leadId }: EmailSendStatusProps) {
-  const { cohortId } = useCohort()
   const [sends, setSends] = useState<EmailSendRecord[]>([])
   const [status, setStatus] = useState<'loading' | 'ok' | 'empty' | 'error'>('loading')
 
@@ -35,7 +33,7 @@ export function EmailSendStatus({ leadId }: EmailSendStatusProps) {
     setStatus('loading')
     try {
       const res = await fetch(
-        `/api/colony/email/send?leadId=${encodeURIComponent(leadId)}${cohortId === 'demo' ? '&cohort=demo' : ''}`,
+        `/api/colony/email/send?leadId=${encodeURIComponent(leadId)}`,
         { credentials: 'include', cache: 'no-store' }
       )
       const json = await res.json() as { status: string; data?: EmailSendRecord[] }
@@ -48,7 +46,7 @@ export function EmailSendStatus({ leadId }: EmailSendStatusProps) {
     } catch {
       setStatus('error')
     }
-  }, [leadId, cohortId])
+  }, [leadId])
 
   useEffect(() => { load() }, [load])
 

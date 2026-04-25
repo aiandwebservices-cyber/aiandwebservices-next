@@ -1,4 +1,4 @@
-export type Cohort = 'demo' | 'aiandwebservices'
+export type Cohort = 'aiandwebservices'
 
 export type Temperature = 'HOT' | 'WARM' | 'COOL' | 'COLD'
 

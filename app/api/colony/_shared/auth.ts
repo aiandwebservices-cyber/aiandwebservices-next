@@ -40,16 +40,10 @@ export async function resolveCohort(req: Request): Promise<AuthedCohort | null> 
         userId,
         cohortId: impersonated as Cohort,
         role: 'owner',
-        isDemo: impersonated === 'demo',
+        isDemo: false,
         isImpersonating: true,
       }
     }
-  }
-
-  // 2. Demo override
-  const url = new URL(req.url)
-  if (url.searchParams.get('cohort') === 'demo') {
-    return { userId, cohortId: 'demo', role: 'viewer', isDemo: true, isImpersonating: false }
   }
 
   // 3. Active Clerk Organization
@@ -65,7 +59,7 @@ export async function resolveCohort(req: Request): Promise<AuthedCohort | null> 
           cohortId: cohortId as Cohort,
           role,
           orgId,
-          isDemo: cohortId === 'demo',
+          isDemo: false,
           isImpersonating: false,
         }
       }
@@ -82,13 +76,13 @@ export async function resolveCohort(req: Request): Promise<AuthedCohort | null> 
       userId,
       cohortId: metaCohort as Cohort,
       role: 'owner',
-      isDemo: metaCohort === 'demo',
+      isDemo: false,
       isImpersonating: false,
     }
   }
 
-  // 5. No cohort found → demo as viewer
-  return { userId, cohortId: 'demo', role: 'viewer', isDemo: true, isImpersonating: false }
+  // 5. No cohort found → default cohort as viewer
+  return { userId, cohortId: 'aiandwebservices', role: 'viewer', isDemo: false, isImpersonating: false }
 }
 
 /**

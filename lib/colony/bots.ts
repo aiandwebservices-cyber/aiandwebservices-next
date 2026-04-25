@@ -1,13 +1,10 @@
 import { ColonyFetchError } from './contracts'
 import type { BotPayload, BotRunPayload } from './contracts'
 import type { Cohort } from '@/app/colony/lib/types'
-import { getBotsForCohort } from '@/app/colony/lib/mock-data'
 
 const QDRANT_URL = process.env.COLONY_QDRANT_URL
 
 export async function fetchBotsFromRuns(cohortId: Cohort): Promise<BotPayload[]> {
-  if (cohortId === 'demo') return getBotsForCohort('demo')
-
   if (!QDRANT_URL) {
     throw new ColonyFetchError('qdrant', null, 'COLONY_QDRANT_URL not set')
   }

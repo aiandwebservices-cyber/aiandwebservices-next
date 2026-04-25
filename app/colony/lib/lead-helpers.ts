@@ -1,5 +1,4 @@
-import type { Lead, Cohort } from './types'
-import { getLeadsForCohort } from './mock-data'
+import type { Lead } from './types'
 
 export interface LeadFilters {
   temperature?: 'ALL' | 'HOT' | 'WARM' | 'COOL' | 'COLD' | 'UNCONTACTED' | 'AGING'
@@ -60,10 +59,6 @@ export function formatAge(createdAt: string): string {
   if (days === 1) return 'yesterday'
   if (days < 30) return `${days}d ago`
   return `${months}mo ago`
-}
-
-export function getLeadById(leadId: string, cohortId: Cohort): Lead | undefined {
-  return getLeadsForCohort(cohortId).find((l) => l.id === leadId)
 }
 
 export function getUniqueNiches(leads: Lead[]): string[] {

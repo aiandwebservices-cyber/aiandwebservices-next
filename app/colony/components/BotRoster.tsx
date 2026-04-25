@@ -3,7 +3,6 @@
 import { useEffect, useState } from 'react'
 import { useCohort } from './CohortSwitcher'
 import { colonyFetch } from '../lib/api-client'
-import { getBotsForCohort } from '../lib/mock-data'
 import { formatLastRun } from '../lib/bot-helpers'
 import type { BotPayload } from '@/lib/colony/contracts'
 import BotCard from './BotCard'
@@ -18,13 +17,7 @@ export default function BotRoster() {
     let cancelled = false
     colonyFetch<BotPayload[]>('bots', { cohortId }).then(res => {
       if (cancelled) return
-      if (res.status === 'ok' && res.data && res.data.length > 0) {
-        setBots(res.data)
-      } else {
-        // Real cohort with no heartbeats yet — fall back to static metadata so the
-        // roster still displays before the first agent run writes to Qdrant.
-        setBots(getBotsForCohort(cohortId))
-      }
+      setBots(res.status === 'ok' && res.data ? res.data : [])
     })
     return () => { cancelled = true }
   }, [cohortId])
@@ -40,6 +33,19 @@ export default function BotRoster() {
         <div className="flex gap-3 overflow-x-auto pb-2">
           <LoadingSkeleton variant="card" count={4} />
         </div>
+      </section>
+    )
+  }
+
+  if (bots.length === 0) {
+    return (
+      <section>
+        <h2 className="colony-headline mb-3" style={{ fontSize: 22, letterSpacing: '-0.3px' }}>
+          Your Crew
+        </h2>
+        <p className="text-sm" style={{ color: 'var(--colony-text-secondary)' }}>
+          No agents have run yet. Run any pipeline to see the crew here.
+        </p>
       </section>
     )
   }

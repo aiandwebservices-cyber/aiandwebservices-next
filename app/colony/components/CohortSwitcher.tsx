@@ -19,7 +19,7 @@ export function CohortProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const stored = localStorage.getItem('colony-cohort') as Cohort | null
-    if (stored === 'demo' || stored === 'aiandwebservices') setId(stored)
+    if (stored === 'aiandwebservices') setId(stored)
   }, [])
 
   const setCohortId = (id: Cohort) => {
@@ -50,7 +50,6 @@ export default function CohortSwitcher() {
       }}
     >
       <option value="aiandwebservices">AIandWEBservices</option>
-      <option value="demo">Demo Mode</option>
     </select>
   )
 }
