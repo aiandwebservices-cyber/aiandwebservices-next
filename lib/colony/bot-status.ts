@@ -53,7 +53,7 @@ const STATUS_THRESHOLDS = {
 
 function tierFromHeartbeat(ageMinutes: number | null, status: string | null): StatusTier {
   if (ageMinutes === null) return 'offline'
-  if (status === 'running') return 'running'
+  if (status === 'running') return 'live'   // green immediately when pipeline starts
   if (status === 'failed' || status === 'error') return 'failed'
   if (ageMinutes < STATUS_THRESHOLDS.LIVE_MIN) return 'live'
   if (ageMinutes < STATUS_THRESHOLDS.ONLINE_MIN) return 'online'

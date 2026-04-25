@@ -59,7 +59,7 @@ function formatDuration(seconds: number): string {
 }
 
 const TIER_DOT_COLOR: Record<StatusTier, string> = {
-  running: '#818cf8',
+  running: '#34d399',
   live: '#34d399',
   online: '#10b981',
   idle: '#f59e0b',
@@ -68,7 +68,7 @@ const TIER_DOT_COLOR: Record<StatusTier, string> = {
 }
 
 const TIER_BORDER: Record<StatusTier, string> = {
-  running: 'rgba(129,140,248,0.4)',
+  running: 'rgba(52,211,153,0.4)',
   live: 'rgba(52,211,153,0.25)',
   online: 'rgba(16,185,129,0.15)',
   idle: 'rgba(245,158,11,0.15)',
@@ -162,10 +162,10 @@ export default function CrewPage() {
         gap: 6,
         padding: '2px 8px',
         borderRadius: 6,
-        background: 'rgba(129,140,248,0.12)',
-        border: '1px solid rgba(129,140,248,0.3)',
+        background: 'rgba(52,211,153,0.12)',
+        border: '1px solid rgba(52,211,153,0.35)',
         fontSize: 11,
-        color: '#a5b4fc',
+        color: '#34d399',
         fontWeight: 600,
         letterSpacing: '0.03em',
       }}
@@ -175,12 +175,12 @@ export default function CrewPage() {
           width: 6,
           height: 6,
           borderRadius: '50%',
-          background: '#818cf8',
+          background: '#34d399',
           animation: 'colonyPulse 1.2s ease-in-out infinite',
           display: 'inline-block',
         }}
       />
-      RUNNING
+      LIVE
     </div>
   )
 
@@ -245,7 +245,7 @@ export default function CrewPage() {
                 className="p-4 rounded-lg h-full"
                 style={{
                   background: isRunning
-                    ? 'linear-gradient(135deg, rgba(129,140,248,0.08) 0%, var(--colony-bg-elevated) 100%)'
+                    ? 'linear-gradient(135deg, rgba(52,211,153,0.08) 0%, var(--colony-bg-elevated) 100%)'
                     : isFailed
                       ? 'linear-gradient(135deg, rgba(239,68,68,0.06) 0%, var(--colony-bg-elevated) 100%)'
                       : 'var(--colony-bg-elevated)',
@@ -270,14 +270,14 @@ export default function CrewPage() {
                             fontSize: 10,
                             fontWeight: 700,
                             letterSpacing: '0.05em',
-                            color: '#a5b4fc',
-                            background: 'rgba(129,140,248,0.15)',
-                            border: '1px solid rgba(129,140,248,0.3)',
+                            color: '#34d399',
+                            background: 'rgba(52,211,153,0.12)',
+                            border: '1px solid rgba(52,211,153,0.35)',
                             borderRadius: 4,
                             padding: '1px 5px',
                           }}
                         >
-                          ● RUNNING
+                          ● LIVE
                         </span>
                       ) : (
                         <BotStatusDot botId={bot.bot_id} size="sm" />
@@ -315,7 +315,7 @@ export default function CrewPage() {
                     className="p-2 rounded"
                     style={{
                       background: 'var(--colony-row-bg)',
-                      border: `1px solid ${isRunning ? 'rgba(129,140,248,0.2)' : 'var(--colony-row-border)'}`,
+                      border: `1px solid ${isRunning ? 'rgba(52,211,153,0.2)' : 'var(--colony-row-border)'}`,
                     }}
                   >
                     <div
@@ -326,7 +326,7 @@ export default function CrewPage() {
                     </div>
                     <div
                       className="text-xs"
-                      style={{ color: isRunning ? '#c7d2fe' : 'var(--colony-text-primary)' }}
+                      style={{ color: isRunning ? '#6ee7b7' : 'var(--colony-text-primary)' }}
                     >
                       {bot.last_summary}
                     </div>
@@ -354,7 +354,7 @@ export default function CrewPage() {
                     </div>
                   )}
                   {isRunning && bot.started_at && (
-                    <div style={{ color: '#a5b4fc' }}>
+                    <div style={{ color: '#34d399' }}>
                       running{' '}
                       <span style={{ fontWeight: 600 }}>
                         {formatDuration((Date.now() - new Date(bot.started_at).getTime()) / 1000)}

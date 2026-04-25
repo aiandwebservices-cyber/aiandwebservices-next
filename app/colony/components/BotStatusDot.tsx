@@ -12,7 +12,7 @@ interface BotStatusDotProps {
 }
 
 const TIER_CONFIG: Record<StatusTier, { color: string; label: string; pulse: boolean }> = {
-  running: { color: '#818cf8', label: 'Running', pulse: true  },
+  running: { color: '#34d399', label: 'Live',    pulse: true  },
   live:    { color: '#34d399', label: 'Live',    pulse: true  },
   online:  { color: '#10b981', label: 'Online',  pulse: false },
   idle:    { color: '#f59e0b', label: 'Idle',    pulse: false },

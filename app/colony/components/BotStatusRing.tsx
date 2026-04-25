@@ -20,11 +20,11 @@ interface TierStyle {
 
 const TIER_STYLES: Record<StatusTier, TierStyle | null> = {
   running: {
-    ringColor: 'rgba(129, 140, 248, 0.7)',
+    ringColor: 'rgba(52, 211, 153, 0.7)',
     glow: {
-      subtle: '0 0 10px 3px rgba(129, 140, 248, 0.25)',
-      normal: '0 0 18px 5px rgba(129, 140, 248, 0.35)',
-      strong: '0 0 26px 7px rgba(129, 140, 248, 0.45)',
+      subtle: '0 0 10px 3px rgba(52, 211, 153, 0.30)',
+      normal: '0 0 18px 5px rgba(52, 211, 153, 0.40)',
+      strong: '0 0 26px 7px rgba(52, 211, 153, 0.50)',
     },
     animate: true,
   },
