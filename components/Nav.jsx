@@ -145,11 +145,16 @@ export default function Nav() {
       const banner = document.querySelector(bannerSelector);
       if (!banner) return;
       const rect = banner.getBoundingClientRect();
-      // Banner still covers the nav line if its bottom edge is below the nav.
-      setBannerVisible(rect.bottom > navHeight);
+      // Nav stays dark while banner bottom is below viewport midpoint.
+      // Viewport midpoint scales correctly on mobile; navHeight was too shallow.
+      setBannerVisible(rect.bottom > window.innerHeight / 2);
     };
 
     check();
+    // Deferred calls catch cases where DOM isn't fully laid out at mount time
+    // (fixes wrong nav state on direct page load / refresh to /#p2 or /#p7)
+    const t1 = setTimeout(check, 50);
+    const t2 = setTimeout(check, 200);
 
     const innerScroller = currentPanel === 1
       ? document.querySelector('#p2 .hiw-inner')
@@ -164,6 +169,8 @@ export default function Nav() {
       if (innerScroller) innerScroller.removeEventListener('scroll', check);
       window.removeEventListener('scroll', check);
       window.removeEventListener('resize', check);
+      clearTimeout(t1);
+      clearTimeout(t2);
     };
   }, [currentPanel]);
 
@@ -204,9 +211,17 @@ export default function Nav() {
     };
 
     window.addEventListener('scroll', throttled, { passive: true });
+
+    // Run immediately on mount — fixes wrong panel on direct page load (refresh to /#p2)
+    detect();
+    const dt1 = setTimeout(detect, 50);
+    const dt2 = setTimeout(detect, 200);
+
     return () => {
       window.removeEventListener('scroll', throttled);
       if (timer) clearTimeout(timer);
+      clearTimeout(dt1);
+      clearTimeout(dt2);
     };
   }, []);
 
