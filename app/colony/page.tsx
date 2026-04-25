@@ -36,7 +36,7 @@ interface HomeStats {
 export default function Page() {
   const { cohortId } = useCohort()
   const { open } = useSidePanel()
-  const [stats, setStats] = useState<HomeStats>({ leads: 0, hot: 0, replies: 0, mrr: 0 })
+  const [stats, setStats] = useState<HomeStats>({ leads: 0, signed: 0, hot: 0, replies: 0, mrr: 0 })
   const [bots, setBots] = useState<BotPayload[] | null>(null)
 
   useEffect(() => { capture('colony_feed_viewed') }, [])
