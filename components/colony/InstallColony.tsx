@@ -81,22 +81,51 @@ export default function InstallColony() {
     );
   }
 
-  if (!installPrompt) return null;
-
   const handleInstall = async () => {
-    installPrompt.prompt();
-    const { outcome } = await installPrompt.userChoice;
-    if (outcome === 'accepted') {
-      setInstallPrompt(null);
+    if (installPrompt) {
+      installPrompt.prompt();
+      const { outcome } = await installPrompt.userChoice;
+      if (outcome === 'accepted') {
+        setInstallPrompt(null);
+      }
+      return;
     }
+    setShowIOSInstructions(true);
   };
 
   return (
-    <button
-      onClick={handleInstall}
-      className="px-3 py-1.5 text-sm font-medium rounded-md border border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10 transition-colors"
-    >
-      Install Colony
-    </button>
+    <>
+      <button
+        onClick={handleInstall}
+        className="px-3 py-1.5 text-sm font-medium rounded-md border border-cyan-500/50 text-cyan-400 hover:bg-cyan-500/10 transition-colors"
+      >
+        Install Colony
+      </button>
+      {showIOSInstructions && !installPrompt && (
+        <div
+          className="fixed inset-0 bg-black/70 z-50 flex items-end sm:items-center justify-center p-4"
+          onClick={() => setShowIOSInstructions(false)}
+        >
+          <div
+            className="bg-slate-900 border border-slate-700 rounded-lg max-w-md p-6"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <h3 className="text-lg font-semibold text-white mb-3">Install Colony</h3>
+            <p className="text-sm text-slate-300 mb-3">
+              To install Colony as an app, open this site in <strong>Chrome</strong> or <strong>Edge</strong> on desktop or Android, then click the install icon in the address bar (or use the browser menu → &quot;Install Colony&quot;).
+            </p>
+            <p className="text-sm text-slate-400">
+              The install option may take a few visits to appear depending on your browser.
+            </p>
+            <button
+              onClick={() => setShowIOSInstructions(false)}
+              className="mt-6 w-full px-4 py-2 bg-cyan-600 hover:bg-cyan-700 text-white rounded-md text-sm font-medium"
+            >
+              Got it
+            </button>
+          </div>
+        </div>
+      )}
+    </>
   );
 }
