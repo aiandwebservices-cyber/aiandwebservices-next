@@ -27,6 +27,7 @@ function isToday(iso: string) {
 
 interface HomeStats {
   leads: number
+  signed: number
   hot: number
   replies: number
   mrr: number
@@ -52,6 +53,7 @@ export default function Page() {
 
     setStats({
       leads: leads.length,
+      signed: deals.filter(d => d.stage === 'Proposal Signed').length,
       hot: leads.filter(l => l.temperature === 'HOT').length,
       replies: feed.filter(e =>
         (e.type === 'reply_interested' || e.type === 'reply_received') && isToday(e.timestamp)
@@ -75,6 +77,7 @@ export default function Page() {
 
   const STAT_CARDS = [
     { label: 'ACTIVE LEADS',   value: stats.leads,   color: '#34d399', prefix: '',  suffix: '' },
+    { label: 'SIGNED',         value: stats.signed,  color: '#a78bfa', prefix: '',  suffix: '' },
     { label: 'REPLIES TODAY',  value: stats.replies,  color: '#60a5fa', prefix: '',  suffix: '' },
     { label: 'HOT RIGHT NOW',  value: stats.hot,      color: '#E11D48', prefix: '',  suffix: '' },
     { label: 'MRR PIPELINE',   value: stats.mrr,      color: '#2AA5A0', prefix: '$', suffix: 'k' },
@@ -106,7 +109,7 @@ export default function Page() {
           }}>
 
             {/* ── Stats stripe ─────────────────────────────────────── */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5, 1fr)', gap: 14 }}>
               {STAT_CARDS.map(({ label, value, color, prefix, suffix }, i) => (
                 <motion.div
                   key={label}
