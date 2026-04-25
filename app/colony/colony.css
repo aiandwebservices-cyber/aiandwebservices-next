@@ -336,11 +336,6 @@
   transform: translateX(-50%);
 }
 
-@media (min-width: 1024px) {
-  .colony-nav-center {
-    left: calc(50% - 120px);
-  }
-}
 
 /* Topbar nav link — responsive padding tightening */
 .colony-topbar-link {

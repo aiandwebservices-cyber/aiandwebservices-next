@@ -1,10 +1,8 @@
 'use client'
 
-import { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { UserButton } from '@clerk/nextjs'
-import { Menu } from 'lucide-react'
 import ThemeToggle from './ThemeToggle'
 import { CohortProvider } from './CohortSwitcher'
 import { SidePanelProvider } from './SidePanel'
@@ -27,81 +25,42 @@ const NAV_ITEMS = [
 
 export default function ColonyShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
-  const [sidebarOpen, setSidebarOpen] = useState(false)
   const { open: openPalette } = useCommandPalette()
 
   return (
     <CohortProvider>
       <SidePanelProvider>
-        <div className="flex min-h-screen">
-          {/* Mobile overlay */}
-          {sidebarOpen && (
-            <div
-              className="fixed inset-0 z-20 lg:hidden"
-              style={{ background: 'rgba(0,0,0,0.5)' }}
-              onClick={() => setSidebarOpen(false)}
-            />
-          )}
-
-          {/* Sidebar — brand only */}
-          <aside
-            className={`fixed top-0 left-0 h-full z-30 flex flex-col transition-transform duration-200 lg:static lg:translate-x-0 ${
-              sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'
-            }`}
-            style={{
-              width: 240,
-              background: 'var(--colony-bg-chrome)',
-              borderRight: '1px solid rgba(255,255,255,.06)',
-              flexShrink: 0,
-            }}
+        <div className="flex flex-col min-h-screen" style={{ background: 'var(--colony-bg-content)' }}>
+          {/* Topbar */}
+          <header
+            className="colony-topbar flex items-center justify-between px-4 shrink-0"
+            style={{ height: 56, position: 'relative' }}
           >
-            {/* Brand area — Colony by [logo] only */}
-            <div style={{ padding: '20px 20px' }}>
-              <Link
-                href="/colony"
-                style={{ display: 'flex', alignItems: 'center', gap: 10, textDecoration: 'none' }}
-              >
-                <span style={{
-                  fontFamily: "var(--colony-font-headline, 'Plus Jakarta Sans', sans-serif)",
-                  fontSize: 24,
-                  fontWeight: 800,
-                  color: '#fff',
-                  letterSpacing: '-0.5px',
-                  lineHeight: 1,
-                }}>
-                  Colony
-                </span>
-                <span style={{ fontSize: 11, color: 'rgba(255,255,255,.5)', fontWeight: 500, lineHeight: 1 }}>
-                  by
-                </span>
-                <img
-                  src="/logo-icon-transparent.png"
-                  alt="AIandWEBservices"
-                  style={{ height: 24, width: 'auto', flexShrink: 0 }}
-                />
-              </Link>
-            </div>
-
-            <div className="flex-1" />
-          </aside>
-
-          {/* Main area */}
-          <div className="flex-1 flex flex-col min-w-0" style={{ background: 'var(--colony-bg-content)' }}>
-            {/* Topbar */}
-            <header
-              className="colony-topbar flex items-center justify-between px-4 shrink-0"
-              style={{ height: 56, position: 'relative' }}
-            >
-              {/* LEFT: mobile menu */}
-              <div style={{ display: 'flex', alignItems: 'center', flex: '0 0 auto', minWidth: 40 }}>
-                <button
-                  className="lg:hidden p-1 rounded hover:opacity-70"
-                  style={{ color: 'var(--colony-text-primary)' }}
-                  onClick={() => setSidebarOpen(true)}
-                  aria-label="Open menu"
+              {/* LEFT: brand */}
+              <div style={{ display: 'flex', alignItems: 'center', flex: '0 0 auto' }}>
+                <Link
+                  href="/colony"
+                  style={{ display: 'flex', alignItems: 'center', gap: 8, textDecoration: 'none' }}
                 >
-                  <Menu size={18} />
-                </button>
+                  <span style={{
+                    fontFamily: "var(--colony-font-headline, 'Plus Jakarta Sans', sans-serif)",
+                    fontSize: 18,
+                    fontWeight: 800,
+                    color: '#fff',
+                    letterSpacing: '-0.4px',
+                    lineHeight: 1,
+                  }}>
+                    Colony
+                  </span>
+                  <span style={{ fontSize: 10, color: 'rgba(255,255,255,.4)', fontWeight: 500, lineHeight: 1 }}>
+                    by
+                  </span>
+                  <img
+                    src="/logo-icon-transparent.png"
+                    alt="AIandWEBservices"
+                    style={{ height: 20, width: 'auto', flexShrink: 0 }}
+                  />
+                </Link>
               </div>
 
               {/* CENTER: Nav pills — visually centered to viewport (compensate for sidebar on lg+) */}
@@ -170,13 +129,12 @@ export default function ColonyShell({ children }: { children: React.ReactNode })
                 <ThemeToggle />
                 <UserButton />
               </div>
-            </header>
+          </header>
 
-            {/* Page content */}
-            <main className="flex-1 overflow-auto">
-              {children}
-            </main>
-          </div>
+          {/* Page content */}
+          <main className="flex-1 overflow-auto">
+            {children}
+          </main>
         </div>
       </SidePanelProvider>
     </CohortProvider>
