@@ -1,6 +1,9 @@
 /* Colony design system — derived from AIandWEBservices homepage (Hero.jsx) */
 /* Phase 17 — visual system rebuild: dark navy + teal + glassmorphism */
 
+/* Hide Crisp chat widget — Colony has no live chat */
+#crisp-chatbox, .crisp-client, [data-id="crisp"] { display: none !important; }
+
 .colony-root {
   /* Brand colors (the authority) */
   --colony-navy-900: #080d18;
