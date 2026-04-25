@@ -57,7 +57,7 @@ export default function Nav() {
   const [svcOpen,    setSvcOpen]    = useState(false);
   const [mobSvcOpen, setMobSvcOpen] = useState(false);
   const [menuOpen,   setMenuOpen]   = useState(false);
-  const [bannerVisible, setBannerVisible] = useState(true);
+  const [bannerTick, setBannerTick] = useState(0);
   const svcRef = useRef(null);
 
   const toggleMenu = () => setMenuOpen(o => !o);
@@ -89,34 +89,55 @@ export default function Nav() {
     return () => window.removeEventListener('panelchange', handler);
   }, []);
 
-  // Mobile: panelchange never fires on scroll — use IntersectionObserver instead
+  // MOBILE: single detector — most-centered panel wins. No IntersectionObserver.
   useEffect(() => {
     if (typeof window === 'undefined') return;
     if (!window.matchMedia('(max-width: 768px)').matches) return;
+
     const PANEL_ID_TO_IDX = {
       'p0': 0, 'p2': 1, 'comparison': 2, 'samples': 3,
       'services': 4, 'p3': 5, 'p7': 6, 'checklist-teaser': 7, 'p8': 8,
     };
-    const navHeight = window.innerWidth < 768 ? 60 : 68;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries.filter(e => e.isIntersecting);
-        if (visible.length === 0) return;
-        const most = visible.reduce((max, e) =>
-          e.intersectionRatio > max.intersectionRatio ? e : max
-        );
-        const idx = PANEL_ID_TO_IDX[most.target.id];
-        if (idx !== undefined) {
-          setCurrentPanel(prev => prev !== idx ? idx : prev);
-        }
-      },
-      { threshold: [0.25, 0.5, 0.75], rootMargin: `-${navHeight}px 0px -20% 0px` }
-    );
-    Object.keys(PANEL_ID_TO_IDX).forEach(id => {
-      const el = document.getElementById(id);
-      if (el) observer.observe(el);
-    });
-    return () => observer.disconnect();
+
+    const detectPanel = () => {
+      const navHeight = 60;
+      const viewportCenter = window.innerHeight / 2;
+      let bestId = null;
+      let bestDist = Infinity;
+      Object.keys(PANEL_ID_TO_IDX).forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        if (rect.bottom <= navHeight) return;
+        if (rect.top >= window.innerHeight) return;
+        const dist = Math.abs((rect.top + rect.height / 2) - viewportCenter);
+        if (dist < bestDist) { bestDist = dist; bestId = id; }
+      });
+      if (bestId !== null) {
+        const idx = PANEL_ID_TO_IDX[bestId];
+        setCurrentPanel(prev => prev !== idx ? idx : prev);
+      }
+    };
+
+    let timer = null;
+    const throttled = () => {
+      if (timer) return;
+      timer = setTimeout(() => { detectPanel(); timer = null; }, 100);
+    };
+
+    window.addEventListener('scroll', throttled, { passive: true });
+    window.addEventListener('resize', throttled);
+    detectPanel();
+    const t1 = setTimeout(detectPanel, 50);
+    const t2 = setTimeout(detectPanel, 200);
+
+    return () => {
+      window.removeEventListener('scroll', throttled);
+      window.removeEventListener('resize', throttled);
+      if (timer) clearTimeout(timer);
+      clearTimeout(t1);
+      clearTimeout(t2);
+    };
   }, []);
 
   useEffect(() => {
@@ -125,113 +146,52 @@ export default function Nav() {
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  // Reset banner visibility whenever we (re-)enter a banner panel
-  useEffect(() => {
-    if (currentPanel === 1 || currentPanel === 7) setBannerVisible(true);
-  }, [currentPanel]);
-
-  // Track whether the dark banner of #p2 / #checklist-teaser is still covering the nav area.
-  // Listens to scroll on the inner scrollable container (desktop) and document (mobile).
+  // Re-render on scroll while inside a banner panel so isDarkSurface recomputes live.
   useEffect(() => {
     if (typeof window === 'undefined') return;
-    if (currentPanel !== 1 && currentPanel !== 7) return;
-
-    const navHeight = window.innerWidth < 768 ? 60 : 68;
-    const bannerSelector = currentPanel === 1
-      ? '#p2 .hiw-header'
-      : '#checklist-teaser [data-banner="dark"]';
-
-    const check = () => {
-      const banner = document.querySelector(bannerSelector);
-      if (!banner) return;
-      const rect = banner.getBoundingClientRect();
-      // Nav stays dark while banner bottom is below viewport midpoint.
-      // Viewport midpoint scales correctly on mobile; navHeight was too shallow.
-      setBannerVisible(rect.bottom > window.innerHeight / 2);
+    const isBannerPanel = currentPanel === 1 || currentPanel === 7;
+    if (!isBannerPanel) return;
+    let timer = null;
+    const tick = () => {
+      if (timer) return;
+      timer = setTimeout(() => { setBannerTick(t => t + 1); timer = null; }, 50);
     };
-
-    check();
-    // Deferred calls catch cases where DOM isn't fully laid out at mount time
-    // (fixes wrong nav state on direct page load / refresh to /#p2 or /#p7)
-    const t1 = setTimeout(check, 50);
-    const t2 = setTimeout(check, 200);
-
     const innerScroller = currentPanel === 1
       ? document.querySelector('#p2 .hiw-inner')
       : document.getElementById('checklist-teaser');
-
-    const opts = { passive: true };
-    if (innerScroller) innerScroller.addEventListener('scroll', check, opts);
-    window.addEventListener('scroll', check, opts);
-    window.addEventListener('resize', check);
-
+    window.addEventListener('scroll', tick, { passive: true });
+    if (innerScroller) innerScroller.addEventListener('scroll', tick, { passive: true });
+    tick();
     return () => {
-      if (innerScroller) innerScroller.removeEventListener('scroll', check);
-      window.removeEventListener('scroll', check);
-      window.removeEventListener('resize', check);
-      clearTimeout(t1);
-      clearTimeout(t2);
+      window.removeEventListener('scroll', tick);
+      if (innerScroller) innerScroller.removeEventListener('scroll', tick);
+      if (timer) clearTimeout(timer);
     };
   }, [currentPanel]);
 
-  // Mobile scroll-based fallback — catches cases where the IntersectionObserver
-  // misses (e.g., About after navigating away/back). Runs alongside the observer.
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    if (!window.matchMedia('(max-width: 768px)').matches) return;
-
-    const PANEL_ID_TO_IDX = {
-      'p0': 0, 'p2': 1, 'comparison': 2, 'samples': 3,
-      'services': 4, 'p3': 5, 'p7': 6, 'checklist-teaser': 7, 'p8': 8,
-    };
-    const navHeight = 60;
-
-    const detect = () => {
-      const center = window.innerHeight / 2;
-      let closestId = null;
-      let closestDist = Infinity;
-      Object.keys(PANEL_ID_TO_IDX).forEach(id => {
-        const el = document.getElementById(id);
-        if (!el) return;
-        const rect = el.getBoundingClientRect();
-        if (rect.bottom <= navHeight || rect.top >= window.innerHeight) return;
-        const dist = Math.abs((rect.top + rect.height / 2) - center);
-        if (dist < closestDist) { closestDist = dist; closestId = id; }
-      });
-      if (closestId) {
-        const idx = PANEL_ID_TO_IDX[closestId];
-        setCurrentPanel(prev => prev !== idx ? idx : prev);
-      }
-    };
-
-    let timer;
-    const throttled = () => {
-      if (timer) return;
-      timer = setTimeout(() => { detect(); timer = null; }, 100);
-    };
-
-    window.addEventListener('scroll', throttled, { passive: true });
-
-    // Run immediately on mount — fixes wrong panel on direct page load (refresh to /#p2)
-    detect();
-    const dt1 = setTimeout(detect, 50);
-    const dt2 = setTimeout(detect, 200);
-
-    return () => {
-      window.removeEventListener('scroll', throttled);
-      if (timer) clearTimeout(timer);
-      clearTimeout(dt1);
-      clearTimeout(dt2);
-    };
-  }, []);
-
-  // Hero(0) and Contact(8) are pure dark.
+  // Hero(0) and Contact(8) are always dark.
   // How It Works(1) and AI Readiness(7) are dark ONLY while their dark banner
-  // is still covering the nav line (bannerVisible). Once scrolled past, light.
+  // still covers the viewport midpoint. Computed inline every render — never stale.
   const isPureDarkPanel = currentPanel === 0 || currentPanel === 8;
-  const isBannerPanel = currentPanel === 1 || currentPanel === 7;
+  const isBannerPanel   = currentPanel === 1 || currentPanel === 7;
+
+  const computeBannerVisible = () => {
+    if (typeof window === 'undefined') return false;
+    if (!isBannerPanel) return false;
+    const selector = currentPanel === 1
+      ? '#p2 .hiw-header'
+      : '#checklist-teaser [data-banner="dark"]';
+    const banner = document.querySelector(selector);
+    if (!banner) return false;
+    return banner.getBoundingClientRect().bottom > window.innerHeight / 2;
+  };
+
+  // bannerTick is only used to trigger re-renders while in banner panels.
+  void bannerTick;
+  const bannerStillVisible = computeBannerVisible();
+
   const isDarkSurface = !isOnServicePage && (
-    isOnContactPage || isPureDarkPanel || (isBannerPanel && bannerVisible)
+    isOnContactPage || isPureDarkPanel || (isBannerPanel && bannerStillVisible)
   );
   const logoSrc = isDarkSurface
     ? '/logo-final/logoFINAL-aiandweb-transparent-whitetext.svg'
