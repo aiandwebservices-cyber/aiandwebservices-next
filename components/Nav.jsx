@@ -102,7 +102,7 @@ export default function Nav() {
     isOnContactPage || currentPanel === 0 || currentPanel === 1 || currentPanel === 7 || currentPanel === 8
   );
   const logoSrc = isDarkSurface
-    ? '/logo-final/logoFINAL-aiandweb-transparent-whitetext.svg'
+    ? '/logo-full-dark.jpg'
     : '/logo-final/logoFINAL-aiandweb-transparent-blacktext.svg';
 
   const LogoInner = () => (
