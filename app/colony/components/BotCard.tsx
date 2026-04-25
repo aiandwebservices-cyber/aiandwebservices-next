@@ -5,6 +5,7 @@ import { lastRunIsRecent, formatDecisionsCount } from '../lib/bot-helpers'
 import { useSidePanel } from './SidePanel'
 import BotProfilePanel from './BotProfilePanel'
 import { capture } from '../lib/posthog'
+import { BotStatusDot } from './BotStatusDot'
 
 export default function BotCard({ bot }: { bot: Bot }) {
   const { open } = useSidePanel()
@@ -37,8 +38,9 @@ export default function BotCard({ bot }: { bot: Bot }) {
       >
         {bot.avatar_emoji}
       </span>
-      <span className="text-sm font-bold leading-tight" style={{ color: 'var(--colony-text-primary)' }}>
+      <span className="flex items-center gap-1 justify-center text-sm font-bold leading-tight" style={{ color: 'var(--colony-text-primary)' }}>
         {bot.name}
+        <BotStatusDot botId={bot.id} size="sm" />
       </span>
       <span className="text-xs mt-0.5 leading-tight" style={{ color: 'var(--colony-text-secondary)' }}>
         {bot.role}

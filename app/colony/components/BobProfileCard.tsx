@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { BotStatusDot } from './BotStatusDot'
 
 interface BobProfile {
   bot_id: string
@@ -80,7 +81,9 @@ export function BobProfileCard({ cohortId, onClose }: BobProfileCardProps) {
           <div className="text-4xl">{profile.emoji}</div>
           <div>
             <h2 className="text-xl font-semibold text-zinc-100">{profile.display_name}</h2>
-            <div className={`text-xs ${statusColor} uppercase tracking-wider`}>{profile.status}</div>
+            <div className="flex items-center gap-2 mt-0.5">
+              <BotStatusDot botId="bob" cohortId={cohortId} size="md" showLabel={true} />
+            </div>
           </div>
         </div>
         {onClose && (
