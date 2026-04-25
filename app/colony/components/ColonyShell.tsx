@@ -55,6 +55,11 @@ export default function ColonyShell({ children }: { children: React.ReactNode })
                   <span style={{ fontSize: 10, color: 'rgba(255,255,255,.4)', fontWeight: 500, lineHeight: 1 }}>
                     by
                   </span>
+                  <img
+                    src="/logo-final/logoFINAL-aiandweb-transparent-whitetext.svg"
+                    alt="AIandWEBservices"
+                    style={{ height: 22, width: 'auto', flexShrink: 0 }}
+                  />
                 </Link>
               </div>
 
