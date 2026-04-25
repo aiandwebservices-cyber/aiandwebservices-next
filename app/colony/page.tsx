@@ -233,13 +233,18 @@ export default function Page() {
               transition={{ duration: 0.5, delay: 0.42 }}
               style={{
                 display: 'grid',
-                gridTemplateColumns: '65fr 35fr',
+                gridTemplateColumns: '1fr 2fr 1fr',
                 gap: 20,
                 flex: 1,
                 minHeight: 480,
               }}
             >
-              {/* Left — Activity feed */}
+              {/* Left — Bill Nye */}
+              <div className="ch-panel" style={{ padding: 20, display: 'flex', flexDirection: 'column' }}>
+                <BillNyeHomeCard />
+              </div>
+
+              {/* Center — Activity feed */}
               <div className="ch-panel" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
                 <div style={{
                   padding: '18px 22px 12px',
@@ -264,22 +269,9 @@ export default function Page() {
                 </div>
               </div>
 
-              {/* Right — Priority column */}
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
-                <div style={{
-                  fontSize: 9, fontWeight: 700, textTransform: 'uppercase',
-                  letterSpacing: '1.5px', color: 'rgba(255,255,255,.45)',
-                }}>
-                  TODAY&apos;S PRIORITY
-                </div>
-
-                <div className="ch-panel" style={{ padding: 20 }}>
-                  <BillNyeHomeCard />
-                </div>
-
-                <div className="ch-panel" style={{ padding: 20 }}>
-                  <RevenueMoves />
-                </div>
+              {/* Right — Revenue Moves */}
+              <div className="ch-panel" style={{ padding: 20, display: 'flex', flexDirection: 'column' }}>
+                <RevenueMoves />
               </div>
             </motion.div>
 
