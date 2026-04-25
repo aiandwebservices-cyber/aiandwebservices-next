@@ -15,6 +15,7 @@ import { capture } from '../lib/posthog'
 import { ColonyErrorBoundary } from '../components/ColonyErrorBoundary'
 import { BillNyeAccuracyWidget } from '../components/BillNyeAccuracyWidget'
 import { UnitEconomicsCard } from '../components/UnitEconomicsCard'
+import { CustomerHealthAlerts } from '../components/CustomerHealthAlerts'
 import type { LeadPayload } from '@/lib/colony/contracts'
 
 // ─── Lead volume card (fetches independently) ────────────────────────────────
@@ -127,6 +128,14 @@ export default function HealthPage() {
           )}
         </h2>
         <AlertsPanel alerts={alerts} />
+      </section>
+
+      {/* Customer health */}
+      <section>
+        <h2 className="text-lg font-semibold mb-3" style={{ color: 'var(--colony-text-primary)' }}>
+          Customer Health
+        </h2>
+        <CustomerHealthAlerts />
       </section>
 
       {/* MRR breakdown */}
