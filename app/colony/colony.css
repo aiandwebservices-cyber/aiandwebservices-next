@@ -342,6 +342,21 @@
   }
 }
 
+/* Topbar nav link — responsive padding tightening */
+.colony-topbar-link {
+  padding: 6px 14px;
+}
+
+@media (max-width: 1400px) {
+  .colony-topbar-link { padding: 6px 10px; }
+  .colony-nav-center  { gap: 2px; }
+}
+
+@media (max-width: 1150px) {
+  .colony-topbar-link { padding: 6px 7px; letter-spacing: 0; }
+  .colony-nav-center  { gap: 0; }
+}
+
 /* Feed slide-in (keep Phase 1 class name for back-compat) */
 @keyframes slide-up-fade-in {
   from { opacity: 0; transform: translateY(20px); }

@@ -154,11 +154,11 @@ export default function ColonyShell({ children }: { children: React.ReactNode })
                     <Link
                       key={href}
                       href={href}
+                      className="colony-topbar-link"
                       style={{
                         fontSize: 12,
                         fontWeight: 600,
                         letterSpacing: '.4px',
-                        padding: '6px 14px',
                         borderRadius: '20px',
                         color: isActive ? '#2AA5A0' : 'rgba(255,255,255,.5)',
                         background: isActive ? '#D0F0EF' : 'transparent',
