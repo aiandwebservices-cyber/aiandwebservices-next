@@ -239,33 +239,19 @@ export default function Page() {
                   padding: '18px 22px 12px',
                   borderBottom: '1px solid rgba(255,255,255,.08)',
                   flexShrink: 0,
-                  position: 'relative',
                   display: 'flex',
                   alignItems: 'center',
+                  justifyContent: 'center',
+                  gap: 8,
                 }}>
                   <span style={{
-                    fontSize: 9, fontWeight: 700, textTransform: 'uppercase',
-                    letterSpacing: '1.5px', color: 'rgba(255,255,255,.45)',
+                    fontFamily: "var(--colony-font-headline, 'Plus Jakarta Sans')",
+                    fontSize: 17, fontWeight: 700, color: 'rgba(255,255,255,.85)',
+                    letterSpacing: '-0.2px',
                   }}>
-                    RECENT ACTIVITY
+                    Activity Feed
                   </span>
-                  <div style={{
-                    position: 'absolute',
-                    left: '50%',
-                    transform: 'translateX(-50%)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: 8,
-                  }}>
-                    <span style={{
-                      fontFamily: "var(--colony-font-headline, 'Plus Jakarta Sans')",
-                      fontSize: 17, fontWeight: 700, color: 'rgba(255,255,255,.85)',
-                      letterSpacing: '-0.2px',
-                    }}>
-                      Activity Feed
-                    </span>
-                    <div className="ch-pulse" />
-                  </div>
+                  <div className="ch-pulse" />
                 </div>
                 <div style={{ flex: 1, overflowY: 'auto', scrollbarWidth: 'thin', paddingBottom: 8 }}>
                   <ActivityFeed />
