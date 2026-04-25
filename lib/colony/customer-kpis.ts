@@ -39,6 +39,13 @@ export interface CustomerKPIs {
   losses_30d: number
   win_rate_pct: number | null
 
+  // Forward-looking signals
+  customer_health_score: number | null  // 0-100
+  health_grade: 'A' | 'B' | 'C' | 'D' | 'F' | null
+  at_risk_signals: string[]
+  projected_monthly_revenue_usd: number
+  expected_next_deal_days: number | null
+
   // Meta
   cohort_id: string
   computed_at: string
@@ -126,6 +133,11 @@ export async function fetchCustomerKPIs(cohortId = 'aiandwebservices'): Promise<
     wins_30d: 0,
     losses_30d: 0,
     win_rate_pct: null,
+    customer_health_score: null,
+    health_grade: null,
+    at_risk_signals: [],
+    projected_monthly_revenue_usd: 0,
+    expected_next_deal_days: null,
     cohort_id: cohortId,
     computed_at: computedAt,
     has_data: false,
@@ -266,7 +278,94 @@ export async function fetchCustomerKPIs(cohortId = 'aiandwebservices'): Promise<
     'Stage mapping is approximate. EspoCRM lacks explicit Proposal Sent / Churned / Lost stages — using Opportunity.stage in {Lead, Active} as proxies.'
   )
 
+  // ============================================
+  // FORWARD-LOOKING SIGNALS (FIX #29)
+  // ============================================
+
+  let healthScore: number | null = null
+  const atRiskSignals: string[] = []
+
+  if (leadsCount > 0 || pipelineDealCount > 0) {
+    // Component 1: Response time (25%)
+    let responseScore = 50
+    if (medianResponse !== null) {
+      if (medianResponse < 5) responseScore = 100
+      else if (medianResponse < 60) responseScore = 85
+      else if (medianResponse < 1440) responseScore = 65
+      else if (medianResponse < 4320) responseScore = 40
+      else {
+        responseScore = 20
+        atRiskSignals.push(`Response time >3 days (median ${Math.round(medianResponse / 1440)}d)`)
+      }
+    }
+
+    // Component 2: Win rate (25%)
+    let winScore = 50
+    if (winRate !== null) {
+      if (winRate >= 50) winScore = 100
+      else if (winRate >= 30) winScore = 80
+      else if (winRate >= 15) winScore = 60
+      else {
+        winScore = 30
+        atRiskSignals.push(`Win rate ${winRate}% (below industry benchmark)`)
+      }
+    }
+
+    // Component 3: Pace vs target (25%)
+    let paceScore = 50
+    if (leadsPace !== null) {
+      if (leadsPace >= 100) paceScore = 100
+      else if (leadsPace >= 70) paceScore = 80
+      else if (leadsPace >= 40) paceScore = 55
+      else {
+        paceScore = 30
+        atRiskSignals.push(`Lead pace ${leadsPace}% of target`)
+      }
+    }
+
+    // Component 4: Active pipeline activity (25%)
+    const activeCount = opps.filter(o => (ACTIVE_MRR_STAGES as readonly string[]).includes(o.stage)).length
+    let activityScore = 50
+    if (activeCount >= 3 || wins30d >= 1) activityScore = 100
+    else if (pipelineDealCount >= 2) activityScore = 70
+    else if (pipelineDealCount === 1) activityScore = 40
+    else {
+      activityScore = 20
+      atRiskSignals.push('No active deals in pipeline')
+    }
+
+    healthScore = Math.round(
+      responseScore * 0.25 +
+      winScore * 0.25 +
+      paceScore * 0.25 +
+      activityScore * 0.25
+    )
+
+    if (losses30d > wins30d && losses30d >= 2) {
+      atRiskSignals.push(`More losses than wins last 30d (${losses30d}L / ${wins30d}W)`)
+    }
+  }
+
+  const healthGrade: CustomerKPIs['health_grade'] =
+    healthScore === null ? null :
+    healthScore >= 90 ? 'A' :
+    healthScore >= 80 ? 'B' :
+    healthScore >= 65 ? 'C' :
+    healthScore >= 50 ? 'D' : 'F'
+
+  const projectedMonthlyRevenue = activeMrr
+
+  let expectedNextDealDays: number | null = null
+  if (wins30d > 0) {
+    expectedNextDealDays = Math.round(30 / wins30d)
+  }
+
   return {
+    customer_health_score: healthScore,
+    health_grade: healthGrade,
+    at_risk_signals: atRiskSignals,
+    projected_monthly_revenue_usd: Math.round(projectedMonthlyRevenue * 100) / 100,
+    expected_next_deal_days: expectedNextDealDays,
     leads_this_month: leadsCount,
     monthly_lead_target: monthlyTarget,
     leads_pace_pct: leadsPace,

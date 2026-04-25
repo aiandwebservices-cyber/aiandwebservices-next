@@ -18,6 +18,11 @@ interface KPIs {
   wins_30d: number
   losses_30d: number
   win_rate_pct: number | null
+  customer_health_score: number | null
+  health_grade: string | null
+  at_risk_signals: string[]
+  projected_monthly_revenue_usd: number
+  expected_next_deal_days: number | null
   has_data: boolean
   warnings: string[]
 }
@@ -256,6 +261,63 @@ export function CustomerKPICard({ cohortId }: { cohortId?: string }) {
           </div>
         </div>
       </div>
+
+      {/* Looking Forward section */}
+      {kpis.customer_health_score !== null && (
+        <div style={{ marginTop: '1rem', paddingTop: '1rem', borderTop: '1px solid var(--colony-border)' }}>
+          <div style={{ fontSize: '0.7rem', color: 'var(--colony-text-muted)', textTransform: 'uppercase', letterSpacing: '0.05em', marginBottom: '0.5rem' }}>
+            Looking Forward
+          </div>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(160px, 1fr))', gap: '0.5rem' }}>
+            <div style={{ padding: '0.5rem', background: 'var(--colony-bg)', borderRadius: '4px' }}>
+              <div style={{ fontSize: '0.65rem', color: 'var(--colony-text-muted)' }}>Customer Health</div>
+              <div style={{ display: 'flex', alignItems: 'baseline', gap: '0.5rem', marginTop: '0.25rem' }}>
+                <div style={{ fontSize: '1.5rem', fontWeight: 600, color:
+                  (kpis.customer_health_score ?? 0) >= 80 ? 'var(--colony-success, #10b981)' :
+                  (kpis.customer_health_score ?? 0) >= 60 ? 'var(--colony-warning, #f59e0b)' :
+                  'var(--colony-danger, #ef4444)'
+                }}>
+                  {kpis.customer_health_score}
+                </div>
+                {kpis.health_grade && (
+                  <div style={{ fontSize: '1rem', fontWeight: 500, color: 'var(--colony-text-muted)' }}>
+                    {kpis.health_grade}
+                  </div>
+                )}
+              </div>
+            </div>
+
+            {kpis.expected_next_deal_days !== null && (
+              <div style={{ padding: '0.5rem', background: 'var(--colony-bg)', borderRadius: '4px' }}>
+                <div style={{ fontSize: '0.65rem', color: 'var(--colony-text-muted)' }}>Next Deal ETA</div>
+                <div style={{ fontSize: '1.5rem', fontWeight: 600, color: 'var(--colony-text-primary)', marginTop: '0.25rem' }}>
+                  ~{kpis.expected_next_deal_days}d
+                </div>
+              </div>
+            )}
+
+            <div style={{ padding: '0.5rem', background: 'var(--colony-bg)', borderRadius: '4px' }}>
+              <div style={{ fontSize: '0.65rem', color: 'var(--colony-text-muted)' }}>Monthly Revenue</div>
+              <div style={{ fontSize: '1.5rem', fontWeight: 600, color: 'var(--colony-success, #10b981)', marginTop: '0.25rem' }}>
+                {fmtUsd(kpis.projected_monthly_revenue_usd)}
+              </div>
+            </div>
+          </div>
+
+          {kpis.at_risk_signals.length > 0 && (
+            <div style={{ marginTop: '0.75rem', padding: '0.5rem', background: 'rgba(245, 158, 11, 0.1)', border: '1px solid rgba(245, 158, 11, 0.3)', borderRadius: '4px' }}>
+              <div style={{ fontSize: '0.7rem', color: 'var(--colony-warning, #f59e0b)', fontWeight: 500, marginBottom: '0.25rem' }}>
+                At-Risk Signals ({kpis.at_risk_signals.length})
+              </div>
+              {kpis.at_risk_signals.map((s, i) => (
+                <div key={i} style={{ fontSize: '0.7rem', color: 'var(--colony-text-secondary)', marginLeft: '0.75rem' }}>
+                  • {s}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      )}
 
       {kpis.warnings && kpis.warnings.length > 0 && (
         <div
