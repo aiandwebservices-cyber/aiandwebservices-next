@@ -32,6 +32,14 @@ const BOT_FALLBACKS: Record<string, { name: string; role: string; emoji: string 
   linkedin_agent:     { name: 'LinkedIn Agent',      role: 'LinkedIn channel outreach + content',                         emoji: '🔗' },
   seo_crew:           { name: 'SEO Crew',            role: 'Keyword research + SERP briefings for blog_writer',           emoji: '🚀' },
   email_writer:       { name: 'Email Writer',        role: 'Instantly.ai campaign push for scaled outreach',              emoji: '📧' },
+  bill_nye:           { name: 'Bill Nye',            role: 'Data analyst — lead scoring + pipeline insights',             emoji: '🧪' },
+  bill_nye_validator: { name: 'Bill Nye Validator',  role: 'Validates Bill Nye reports before publishing',               emoji: '🔬' },
+  writing_coach:      { name: 'Writing Coach',       role: 'Outreach quality review — reply-rate pattern analysis',       emoji: '✍️' },
+  syndication_agent:  { name: 'Syndication Agent',   role: 'Distributes content across channels',                         emoji: '📡' },
+  social_publisher:   { name: 'Social Publisher',    role: 'Publishes approved content to social platforms',             emoji: '📲' },
+  nudge_sender:       { name: 'Nudge Sender',        role: 'Follow-up sequences for warm leads',                          emoji: '💬' },
+  fact_checker:       { name: 'Fact Checker',        role: 'Verifies claims in outreach drafts before sending',           emoji: '✅' },
+  archivist:          { name: 'Archivist',           role: 'Seeds and maintains the Qdrant knowledge base',              emoji: '📚' },
 }
 
 function formatAge(minutes: number | null): string {
