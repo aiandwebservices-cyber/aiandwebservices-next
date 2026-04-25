@@ -18,6 +18,7 @@ import { UnitEconomicsCard } from '../components/UnitEconomicsCard'
 import { CustomerHealthAlerts } from '../components/CustomerHealthAlerts'
 import { TimeToFirstTouchCard } from '../components/TimeToFirstTouchCard'
 import { FunnelCrossTabsCard } from '../components/FunnelCrossTabsCard'
+import { CustomerKPICard } from '../components/CustomerKPICard'
 import type { LeadPayload } from '@/lib/colony/contracts'
 
 // ─── Lead volume card (fetches independently) ────────────────────────────────
@@ -73,6 +74,11 @@ export default function HealthPage() {
           Your business, at a glance. Updated every minute.
         </p>
       </header>
+
+      {/* Customer-facing outcomes — what your investment is producing */}
+      <section>
+        <CustomerKPICard />
+      </section>
 
       {/* 4 hero metric cards */}
       <section className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
