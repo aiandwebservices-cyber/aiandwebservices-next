@@ -1,8 +1,45 @@
 import type { NextConfig } from "next";
 import bundleAnalyzer from '@next/bundle-analyzer';
+import withPWAInit from '@ducanh2912/next-pwa';
 
 const withBundleAnalyzer = bundleAnalyzer({
   enabled: process.env.ANALYZE === 'true',
+});
+
+const withPWA = withPWAInit({
+  dest: 'public',
+  register: true,
+  scope: '/colony/',
+  sw: 'sw.js',
+  disable: process.env.NODE_ENV === 'development',
+  workboxOptions: {
+    skipWaiting: true,
+    runtimeCaching: [
+      {
+        urlPattern: /^https:\/\/fonts\.(googleapis|gstatic)\.com\/.*/,
+        handler: 'CacheFirst',
+        options: {
+          cacheName: 'google-fonts',
+          expiration: {
+            maxEntries: 4,
+            maxAgeSeconds: 365 * 24 * 60 * 60,
+          },
+        },
+      },
+      {
+        urlPattern: /^\/colony\/.*/,
+        handler: 'NetworkFirst',
+        options: {
+          cacheName: 'colony-pages',
+          networkTimeoutSeconds: 3,
+          expiration: {
+            maxEntries: 50,
+            maxAgeSeconds: 24 * 60 * 60,
+          },
+        },
+      },
+    ],
+  },
 });
 
 const nextConfig: NextConfig = {
@@ -92,4 +129,4 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withBundleAnalyzer(nextConfig);
+export default withBundleAnalyzer(withPWA(nextConfig));

@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { SignOutButton, useUser } from '@clerk/nextjs';
 import { useColonyTheme } from './ThemeProvider';
+import InstallColony from './InstallColony';
 
 const NAV_LINKS = [
   { href: '/colony/dashboard', label: 'Dashboard' },
@@ -41,6 +42,7 @@ export function ColonyNav() {
         </div>
       </div>
       <div className="flex items-center gap-4">
+        <InstallColony />
         <button
           onClick={toggle}
           style={{ color: 'var(--col-muted)', fontSize: '1rem', lineHeight: 1 }}
