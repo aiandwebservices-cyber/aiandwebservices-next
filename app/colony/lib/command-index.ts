@@ -66,7 +66,7 @@ const BOTS: CommandItem[] = [
   { id: 'bot-coach',         type: 'bot', label: 'Coach',          subtitle: 'Meta Reviewer',         icon: '🎯', kind: 'agent', href: '/colony#bot-coach',         searchText: 'coach meta reviewer agent bot' },
   { id: 'bot-factchecker',   type: 'bot', label: 'Fact Checker',   subtitle: 'Quality Gate',          icon: '✅', kind: 'agent', href: '/colony#bot-factchecker',   searchText: 'fact checker quality gate agent bot' },
   { id: 'bot-leadresearcher',type: 'bot', label: 'Lead Researcher',subtitle: 'Prospect Finder',       icon: '🔍', kind: 'agent', href: '/colony#bot-leadresearcher',searchText: 'lead researcher prospect finder agent bot' },
-  { id: 'bot-bob',           type: 'bot', label: 'Bob',            subtitle: 'Outreach Drafter',      icon: '✍️', kind: 'agent', href: '/colony#bot-bob',           searchText: 'bob outreach drafter agent bot' },
+  { id: 'bot-bob',           type: 'bot', label: 'Bob — Case Study Writer', subtitle: 'Case Study Writer', icon: '📝', kind: 'agent', href: '/colony#bot-bob',           searchText: 'bob case study writer agent bot' },
   { id: 'bot-scheduler',     type: 'bot', label: 'Scheduler',      subtitle: 'Pipeline Orchestrator', icon: '⏱️', kind: 'agent', href: '/colony#bot-scheduler',     searchText: 'scheduler pipeline orchestrator agent bot' },
   { id: 'bot-harvester',     type: 'bot', label: 'Harvester',      subtitle: 'Data Collector',        icon: '🌾', kind: 'agent', href: '/colony#bot-harvester',     searchText: 'harvester data collector agent bot' },
   { id: 'bot-archivist',     type: 'bot', label: 'Archivist',      subtitle: 'Knowledge Base',        icon: '📚', kind: 'agent', href: '/colony#bot-archivist',     searchText: 'archivist knowledge base agent bot' },
