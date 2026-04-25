@@ -14,6 +14,7 @@ import { useCohort } from '../components/CohortSwitcher'
 import { capture } from '../lib/posthog'
 import { ColonyErrorBoundary } from '../components/ColonyErrorBoundary'
 import { BillNyeAccuracyWidget } from '../components/BillNyeAccuracyWidget'
+import { UnitEconomicsCard } from '../components/UnitEconomicsCard'
 import type { LeadPayload } from '@/lib/colony/contracts'
 
 // ─── Lead volume card (fetches independently) ────────────────────────────────
@@ -137,6 +138,14 @@ export default function HealthPage() {
           <MRRBreakdownTable breakdown={metrics.breakdown_by_plan} />
         </section>
       )}
+
+      {/* Unit economics — CFO-grade cost-per-stage view */}
+      <section>
+        <h2 className="text-lg font-semibold mb-3" style={{ color: 'var(--colony-text-primary)' }}>
+          Unit Economics
+        </h2>
+        <UnitEconomicsCard />
+      </section>
 
       {/* Agent intelligence */}
       <section>
