@@ -82,6 +82,12 @@ function mapEspoLead(r: Record<string, any>, cohortId: string): LeadPayload | nu
     source: (r.cSource ?? 'master_pipeline') as LeadPayload['source'],
     created_at: (r.createdAt ?? new Date().toISOString()) as string,
     last_activity_at: r.modifiedAt as string | undefined,
+    square_customer_id: r.cSquareCustomerId as string | undefined,
+    payment_status: r.cPaymentStatus as LeadPayload['payment_status'],
+    last_payment_date: r.cLastPaymentDate as string | undefined,
+    subscription_plan: r.cSubscriptionPlan as string | undefined,
+    mrr: r.cMrr != null ? Number(r.cMrr) : undefined,
+    ltv: r.cLtv != null ? Number(r.cLtv) : undefined,
   }
 }
 
@@ -136,6 +142,12 @@ function mapEspoDeal(r: Record<string, any>, cohortId: string): DealPayload | nu
     days_in_stage: daysInStage,
     created_at: createdAt,
     last_activity_at: lastActivityAt,
+    square_customer_id: r.cSquareCustomerId as string | undefined,
+    payment_status: r.cPaymentStatus as DealPayload['payment_status'],
+    last_payment_date: r.cLastPaymentDate as string | undefined,
+    subscription_plan: r.cSubscriptionPlan as string | undefined,
+    mrr: r.cMrr != null ? Number(r.cMrr) : undefined,
+    ltv: r.cLtv != null ? Number(r.cLtv) : undefined,
   }
 }
 

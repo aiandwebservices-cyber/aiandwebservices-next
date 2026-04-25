@@ -4,7 +4,9 @@ export type Temperature = 'HOT' | 'WARM' | 'COOL' | 'COLD'
 
 export type DealStage = 'Lead' | 'Audit Scheduled' | 'Audit Complete' | 'Proposal Sent' | 'Proposal Signed' | 'Active' | 'Churned'
 
-export type FeedEventType = 'bot_run' | 'lead_new' | 'lead_hot' | 'pipeline_move' | 'revenue' | 'bill_nye_finding' | 'coach_alert' | 'reply_received' | 'reply_interested'
+export type FeedEventType = 'bot_run' | 'lead_new' | 'lead_hot' | 'pipeline_move' | 'revenue' | 'bill_nye_finding' | 'coach_alert' | 'reply_received' | 'reply_interested' | 'payment_received' | 'payment_failed' | 'payment_refunded'
+
+export type PaymentStatus = 'none' | 'paid' | 'failed' | 'refunded'
 
 export interface FeedEvent {
   id: string
@@ -35,6 +37,13 @@ export interface Lead {
   source: 'master_pipeline' | 'fresh_business' | 'website' | 'manual'
   created_at: string
   last_activity_at?: string
+  // Payment fields (mirrored from EspoCRM c-prefix fields)
+  square_customer_id?: string
+  payment_status?: PaymentStatus
+  last_payment_date?: string
+  subscription_plan?: string
+  mrr?: number
+  ltv?: number
 }
 
 export interface Deal {
@@ -48,6 +57,13 @@ export interface Deal {
   days_in_stage: number
   created_at: string
   last_activity_at?: string
+  // Payment fields (mirrored from EspoCRM c-prefix fields)
+  square_customer_id?: string
+  payment_status?: PaymentStatus
+  last_payment_date?: string
+  subscription_plan?: string
+  mrr?: number
+  ltv?: number
 }
 
 export interface Bot {

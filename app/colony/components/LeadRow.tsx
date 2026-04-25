@@ -71,6 +71,24 @@ export function LeadRow({ lead }: LeadRowProps) {
               AGING
             </span>
           )}
+          {lead.payment_status && lead.payment_status !== 'none' && (
+            <span
+              className="text-xs font-semibold px-1.5 py-0.5 rounded"
+              style={{
+                background:
+                  lead.payment_status === 'paid'     ? 'rgba(52,211,153,0.15)' :
+                  lead.payment_status === 'failed'   ? 'rgba(239,68,68,0.15)'  :
+                                                       'rgba(245,158,11,0.15)',
+                color:
+                  lead.payment_status === 'paid'     ? '#34d399' :
+                  lead.payment_status === 'failed'   ? '#ef4444' :
+                                                       '#f59e0b',
+              }}
+              title={lead.subscription_plan ? `Plan: ${lead.subscription_plan}` : undefined}
+            >
+              {lead.payment_status.toUpperCase()}
+            </span>
+          )}
         </div>
       </div>
 
