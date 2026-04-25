@@ -104,8 +104,6 @@ export default function Page() {
         {/* Scrollable content area */}
         <div style={{ position: 'relative', zIndex: 1, height: '100%', overflowY: 'auto', scrollbarWidth: 'thin' }}>
           <main style={{
-            maxWidth: 1400,
-            margin: '0 auto',
             padding: '24px 32px 40px',
             display: 'flex',
             flexDirection: 'column',
