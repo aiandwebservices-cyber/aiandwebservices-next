@@ -330,6 +330,52 @@ export async function qdrantMarkUnsubscribed(cohortId: string, leadId: string): 
   })
 }
 
+// ─── Delivery status (Resend webhook) ────────────────────────────────────────
+
+export async function qdrantUpdateDeliveryStatus(args: {
+  providerMessageId: string
+  deliveryStatus: string
+  deliveryStatusAt: string
+  bounceType?: string
+  bounceMessage?: string
+  complaintType?: string
+  clickLink?: string
+}): Promise<{ ok: boolean }> {
+  const { providerMessageId, deliveryStatus, deliveryStatusAt, bounceType, bounceMessage, complaintType, clickLink } = args
+
+  const payload: Record<string, unknown> = {
+    delivery_status: deliveryStatus,
+    delivery_status_at: deliveryStatusAt,
+  }
+
+  // Map to canonical status for records that track it
+  const statusMap: Record<string, string> = { delivered: 'delivered', bounced: 'bounced', complained: 'complained' }
+  if (statusMap[deliveryStatus]) {
+    payload.status = statusMap[deliveryStatus]
+    payload.status_updated_at = deliveryStatusAt
+  }
+  if (bounceType) payload.bounce_type = bounceType
+  if (bounceMessage) payload.bounce_message = bounceMessage.slice(0, 500)
+  if (complaintType) payload.complaint_type = complaintType
+  if (clickLink) payload.latest_click_link = clickLink
+
+  // Update both collections in parallel — whichever has the record gets updated; the other no-ops
+  await Promise.allSettled([
+    qdrantUpdatePayload(
+      COLLECTIONS.emailSends,
+      { must: [{ key: 'provider_message_id', match: { value: providerMessageId } }] },
+      payload
+    ),
+    qdrantUpdatePayload(
+      'emails_sent',
+      { must: [{ key: 'resend_message_id', match: { value: providerMessageId } }] },
+      payload
+    ),
+  ])
+
+  return { ok: true }
+}
+
 // ─── Analytics bulk helpers ───────────────────────────────────────────────────
 
 export async function qdrantFetchAllEmailSends(
