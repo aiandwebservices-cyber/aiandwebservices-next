@@ -248,6 +248,12 @@
   50%      { opacity: .5; transform: scale(.8); }
 }
 
+/* Soft outline pulse for live/failed bot cards (BotStatusRing) */
+@keyframes colonyRingPulse {
+  0%, 100% { opacity: 1; }
+  50%      { opacity: 0.65; }
+}
+
 /* Headline utility */
 .colony-headline {
   font-family: var(--colony-font-headline);

@@ -7,6 +7,7 @@ import { getBotsForCohort } from '../lib/mock-data'
 import { formatLastRun } from '../lib/bot-helpers'
 import type { BotPayload } from '@/lib/colony/contracts'
 import BotCard from './BotCard'
+import { BotStatusRing } from './BotStatusRing'
 import { LoadingSkeleton } from './LoadingSkeleton'
 
 export default function BotRoster() {
@@ -63,7 +64,9 @@ export default function BotRoster() {
       </div>
       <div className="flex gap-3 overflow-x-auto pb-2" style={{ scrollbarWidth: 'thin' }}>
         {bots.map(bot => (
-          <BotCard key={bot.id} bot={bot} />
+          <BotStatusRing key={bot.id} botId={bot.id} intensity="subtle" className="shrink-0">
+            <BotCard bot={bot} />
+          </BotStatusRing>
         ))}
       </div>
     </section>

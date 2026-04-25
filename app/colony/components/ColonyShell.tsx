@@ -16,6 +16,7 @@ const NAV_ITEMS = [
   { href: '/colony/inbox',     label: 'Inbox' },
   { href: '/colony/pipeline',  label: 'Pipeline' },
   { href: '/colony/health',    label: 'Health' },
+  { href: '/colony/crew',      label: 'Crew' },
   { href: '/colony/reports',   label: 'Reports' },
   { href: '/colony/coach',     label: 'Coach' },
   { href: '/colony/analytics', label: 'Analytics' },
