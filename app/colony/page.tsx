@@ -112,7 +112,7 @@ export default function Page() {
           }}>
 
             {/* ── Stats stripe ─────────────────────────────────────── */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 14 }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 14, maxWidth: 1200, margin: '0 auto', width: '100%' }}>
               {STAT_CARDS.map(({ label, value, color, prefix, suffix }, i) => (
                 <motion.div
                   key={label}
