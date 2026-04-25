@@ -142,6 +142,12 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
   text-decoration:none;transition:all .15s;white-space:nowrap;
 }
 .nav-svc-item:hover{background:rgba(42,165,160,.15);color:#fff}
+#nav.light .nav-svc-dropdown{background:#ffffff;border:1px solid rgba(0,0,0,.08);box-shadow:0 12px 32px rgba(0,0,0,.12)}
+#nav.light .nav-svc-item{color:var(--text)}
+#nav.light .nav-svc-item:hover{background:rgba(42,165,160,.10);color:var(--text)}
+#nav.light .nav-svc-divider{background:rgba(0,0,0,.08)}
+#nav.light .nav-svc-item-compare{color:#2AA5A0}
+#nav.light .nav-svc-item-compare:hover{color:#1f7e7a;background:rgba(42,165,160,.10)}
 .nav-svc-divider{height:1px;background:rgba(255,255,255,.1);margin:6px 8px}
 .nav-svc-item-compare{color:#2AA5A0;font-weight:600}
 .nav-svc-item-compare:hover{color:#fff}

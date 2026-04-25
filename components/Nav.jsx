@@ -57,6 +57,7 @@ export default function Nav() {
   const [svcOpen,    setSvcOpen]    = useState(false);
   const [mobSvcOpen, setMobSvcOpen] = useState(false);
   const [menuOpen,   setMenuOpen]   = useState(false);
+  const [bannerVisible, setBannerVisible] = useState(true);
   const svcRef = useRef(null);
 
   const toggleMenu = () => setMenuOpen(o => !o);
@@ -124,9 +125,99 @@ export default function Nav() {
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  // Dark: Hero(0), How It Works(1), AI Readiness(7), Contact(8)
-  const darkPanels = new Set([0, 1, 7, 8]);
-  const isDarkSurface = !isOnServicePage && (isOnContactPage || darkPanels.has(currentPanel));
+  // Reset banner visibility whenever we (re-)enter a banner panel
+  useEffect(() => {
+    if (currentPanel === 1 || currentPanel === 7) setBannerVisible(true);
+  }, [currentPanel]);
+
+  // Track whether the dark banner of #p2 / #checklist-teaser is still covering the nav area.
+  // Listens to scroll on the inner scrollable container (desktop) and document (mobile).
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (currentPanel !== 1 && currentPanel !== 7) return;
+
+    const navHeight = window.innerWidth < 768 ? 60 : 68;
+    const bannerSelector = currentPanel === 1
+      ? '#p2 .hiw-header'
+      : '#checklist-teaser [data-banner="dark"]';
+
+    const check = () => {
+      const banner = document.querySelector(bannerSelector);
+      if (!banner) return;
+      const rect = banner.getBoundingClientRect();
+      // Banner still covers the nav line if its bottom edge is below the nav.
+      setBannerVisible(rect.bottom > navHeight);
+    };
+
+    check();
+
+    const innerScroller = currentPanel === 1
+      ? document.querySelector('#p2 .hiw-inner')
+      : document.getElementById('checklist-teaser');
+
+    const opts = { passive: true };
+    if (innerScroller) innerScroller.addEventListener('scroll', check, opts);
+    window.addEventListener('scroll', check, opts);
+    window.addEventListener('resize', check);
+
+    return () => {
+      if (innerScroller) innerScroller.removeEventListener('scroll', check);
+      window.removeEventListener('scroll', check);
+      window.removeEventListener('resize', check);
+    };
+  }, [currentPanel]);
+
+  // Mobile scroll-based fallback — catches cases where the IntersectionObserver
+  // misses (e.g., About after navigating away/back). Runs alongside the observer.
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    if (!window.matchMedia('(max-width: 768px)').matches) return;
+
+    const PANEL_ID_TO_IDX = {
+      'p0': 0, 'p2': 1, 'comparison': 2, 'samples': 3,
+      'services': 4, 'p3': 5, 'p7': 6, 'checklist-teaser': 7, 'p8': 8,
+    };
+    const navHeight = 60;
+
+    const detect = () => {
+      const center = window.innerHeight / 2;
+      let closestId = null;
+      let closestDist = Infinity;
+      Object.keys(PANEL_ID_TO_IDX).forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        const rect = el.getBoundingClientRect();
+        if (rect.bottom <= navHeight || rect.top >= window.innerHeight) return;
+        const dist = Math.abs((rect.top + rect.height / 2) - center);
+        if (dist < closestDist) { closestDist = dist; closestId = id; }
+      });
+      if (closestId) {
+        const idx = PANEL_ID_TO_IDX[closestId];
+        setCurrentPanel(prev => prev !== idx ? idx : prev);
+      }
+    };
+
+    let timer;
+    const throttled = () => {
+      if (timer) return;
+      timer = setTimeout(() => { detect(); timer = null; }, 100);
+    };
+
+    window.addEventListener('scroll', throttled, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', throttled);
+      if (timer) clearTimeout(timer);
+    };
+  }, []);
+
+  // Hero(0) and Contact(8) are pure dark.
+  // How It Works(1) and AI Readiness(7) are dark ONLY while their dark banner
+  // is still covering the nav line (bannerVisible). Once scrolled past, light.
+  const isPureDarkPanel = currentPanel === 0 || currentPanel === 8;
+  const isBannerPanel = currentPanel === 1 || currentPanel === 7;
+  const isDarkSurface = !isOnServicePage && (
+    isOnContactPage || isPureDarkPanel || (isBannerPanel && bannerVisible)
+  );
   const logoSrc = isDarkSurface
     ? '/logo-final/logoFINAL-aiandweb-transparent-whitetext.svg'
     : '/logo-final/logoFINAL-aiandweb-transparent-blacktext.svg';
