@@ -59,21 +59,21 @@ function formatDuration(seconds: number): string {
 }
 
 const TIER_DOT_COLOR: Record<StatusTier, string> = {
-  running: '#34d399',
-  live: '#34d399',
-  online: '#10b981',
-  idle: '#f59e0b',
-  offline: '#52525b',
-  failed: '#ef4444',
+  running: '#34d399',  // strong
+  live:    '#22c47a',  // normal
+  online:  '#16a05e',  // subtle
+  idle:    '#52525b',  // off
+  offline: '#52525b',  // off
+  failed:  '#ef4444',
 }
 
 const TIER_BORDER: Record<StatusTier, string> = {
-  running: 'rgba(52,211,153,0.4)',
-  live: 'rgba(52,211,153,0.25)',
-  online: 'rgba(16,185,129,0.15)',
-  idle: 'rgba(245,158,11,0.15)',
+  running: 'rgba(52,211,153,0.55)',  // strong
+  live:    'rgba(52,211,153,0.40)',  // normal
+  online:  'rgba(52,211,153,0.25)', // subtle
+  idle:    'var(--colony-border)',
   offline: 'var(--colony-border)',
-  failed: 'rgba(239,68,68,0.35)',
+  failed:  'rgba(239,68,68,0.35)',
 }
 
 interface CrewStatusResponse {
@@ -245,10 +245,14 @@ export default function CrewPage() {
                 className="p-4 rounded-lg h-full"
                 style={{
                   background: isRunning
-                    ? 'linear-gradient(135deg, rgba(52,211,153,0.08) 0%, var(--colony-bg-elevated) 100%)'
-                    : isFailed
-                      ? 'linear-gradient(135deg, rgba(239,68,68,0.06) 0%, var(--colony-bg-elevated) 100%)'
-                      : 'var(--colony-bg-elevated)',
+                    ? 'linear-gradient(135deg, rgba(52,211,153,0.10) 0%, var(--colony-bg-elevated) 100%)'
+                    : bot.status_tier === 'live'
+                      ? 'linear-gradient(135deg, rgba(52,211,153,0.05) 0%, var(--colony-bg-elevated) 100%)'
+                      : bot.status_tier === 'online'
+                        ? 'linear-gradient(135deg, rgba(52,211,153,0.03) 0%, var(--colony-bg-elevated) 100%)'
+                        : isFailed
+                          ? 'linear-gradient(135deg, rgba(239,68,68,0.06) 0%, var(--colony-bg-elevated) 100%)'
+                          : 'var(--colony-bg-elevated)',
                   border: `1px solid ${TIER_BORDER[bot.status_tier]}`,
                   borderRadius: 14,
                   transition: 'border-color 0.3s ease',

@@ -46,18 +46,17 @@ function qdrantUrl(): string {
 }
 
 const STATUS_THRESHOLDS = {
-  LIVE_MIN: 60,        // green/live for 1 hour after completing
-  ONLINE_MIN: 4 * 60, // dimmer green for up to 4 hours
-  IDLE_MIN: 24 * 60,  // amber up to 24 hours
+  LIVE_MIN: 30,   // normal green for 0–30 min after end heartbeat
+  ONLINE_MIN: 60, // subtle green for 31–60 min after end heartbeat
+  // after 60 min → offline (grey, no green)
 }
 
 function tierFromHeartbeat(ageMinutes: number | null, status: string | null): StatusTier {
   if (ageMinutes === null) return 'offline'
-  if (status === 'running') return 'live'   // green immediately when pipeline starts
+  if (status === 'running') return 'running'                      // strong green — actively running now
   if (status === 'failed' || status === 'error') return 'failed'
-  if (ageMinutes < STATUS_THRESHOLDS.LIVE_MIN) return 'live'
-  if (ageMinutes < STATUS_THRESHOLDS.ONLINE_MIN) return 'online'
-  if (ageMinutes < STATUS_THRESHOLDS.IDLE_MIN) return 'idle'
+  if (ageMinutes < STATUS_THRESHOLDS.LIVE_MIN) return 'live'     // normal green — 0–30 min after end
+  if (ageMinutes < STATUS_THRESHOLDS.ONLINE_MIN) return 'online' // subtle green — 31–60 min after end
   return 'offline'
 }
 

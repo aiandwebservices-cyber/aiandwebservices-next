@@ -12,11 +12,11 @@ interface BotStatusDotProps {
 }
 
 const TIER_CONFIG: Record<StatusTier, { color: string; label: string; pulse: boolean }> = {
-  running: { color: '#34d399', label: 'Live',    pulse: true  },
-  live:    { color: '#34d399', label: 'Live',    pulse: true  },
-  online:  { color: '#10b981', label: 'Online',  pulse: false },
-  idle:    { color: '#f59e0b', label: 'Idle',    pulse: false },
-  offline: { color: '#52525b', label: 'Offline', pulse: false },
+  running: { color: '#34d399', label: 'Live',    pulse: true  }, // strong green, pulsing
+  live:    { color: '#22c47a', label: 'Recent',  pulse: false }, // normal green
+  online:  { color: '#16a05e', label: 'Active',  pulse: false }, // subtle green
+  idle:    { color: '#52525b', label: 'Offline', pulse: false }, // off
+  offline: { color: '#52525b', label: 'Offline', pulse: false }, // off
   failed:  { color: '#ef4444', label: 'Failed',  pulse: true  },
 }
 

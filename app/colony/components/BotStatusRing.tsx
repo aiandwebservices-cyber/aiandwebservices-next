@@ -20,42 +20,37 @@ interface TierStyle {
 
 const TIER_STYLES: Record<StatusTier, TierStyle | null> = {
   running: {
-    ringColor: 'rgba(52, 211, 153, 0.7)',
+    // strong — opacity 0.55 — actively running right now
+    ringColor: 'rgba(52, 211, 153, 0.55)',
     glow: {
       subtle: '0 0 10px 3px rgba(52, 211, 153, 0.30)',
-      normal: '0 0 18px 5px rgba(52, 211, 153, 0.40)',
-      strong: '0 0 26px 7px rgba(52, 211, 153, 0.50)',
+      normal: '0 0 18px 5px rgba(52, 211, 153, 0.45)',
+      strong: '0 0 26px 7px rgba(52, 211, 153, 0.55)',
     },
     animate: true,
   },
   live: {
-    ringColor: 'rgba(52, 211, 153, 0.6)',
+    // normal — opacity 0.40 — 0–30 min after end heartbeat
+    ringColor: 'rgba(52, 211, 153, 0.40)',
     glow: {
-      subtle: '0 0 8px 2px rgba(52, 211, 153, 0.25)',
-      normal: '0 0 16px 4px rgba(52, 211, 153, 0.35)',
-      strong: '0 0 24px 6px rgba(52, 211, 153, 0.45)',
+      subtle: '0 0 6px 2px rgba(52, 211, 153, 0.18)',
+      normal: '0 0 12px 3px rgba(52, 211, 153, 0.28)',
+      strong: '0 0 18px 4px rgba(52, 211, 153, 0.38)',
     },
-    animate: true,
+    animate: false,
   },
   online: {
-    ringColor: 'rgba(16, 185, 129, 0.5)',
+    // subtle — opacity 0.25 — 31–60 min after end heartbeat
+    ringColor: 'rgba(52, 211, 153, 0.25)',
     glow: {
-      subtle: '0 0 6px 1px rgba(16, 185, 129, 0.15)',
-      normal: '0 0 10px 2px rgba(16, 185, 129, 0.20)',
-      strong: '0 0 14px 3px rgba(16, 185, 129, 0.25)',
+      subtle: '0 0 4px 1px rgba(52, 211, 153, 0.10)',
+      normal: '0 0 8px 2px rgba(52, 211, 153, 0.18)',
+      strong: '0 0 12px 3px rgba(52, 211, 153, 0.25)',
     },
     animate: false,
   },
-  idle: {
-    ringColor: 'rgba(245, 158, 11, 0.4)',
-    glow: {
-      subtle: '0 0 6px 1px rgba(245, 158, 11, 0.15)',
-      normal: '0 0 10px 2px rgba(245, 158, 11, 0.20)',
-      strong: '0 0 14px 3px rgba(245, 158, 11, 0.25)',
-    },
-    animate: false,
-  },
-  offline: null,  // no ring for offline
+  idle: null,    // off — no ring
+  offline: null, // off — no ring
   failed: {
     ringColor: 'rgba(239, 68, 68, 0.6)',
     glow: {
