@@ -27,8 +27,8 @@ function isToday(iso: string) {
 
 interface HomeStats {
   leads: number
-  signed: number
   hot: number
+  closing: number
   replies: number
   mrr: number
 }
@@ -36,7 +36,7 @@ interface HomeStats {
 export default function Page() {
   const { cohortId } = useCohort()
   const { open } = useSidePanel()
-  const [stats, setStats] = useState<HomeStats>({ leads: 0, signed: 0, hot: 0, replies: 0, mrr: 0 })
+  const [stats, setStats] = useState<HomeStats>({ leads: 0, hot: 0, closing: 0, replies: 0, mrr: 0 })
   const [bots, setBots] = useState<BotPayload[] | null>(null)
 
   useEffect(() => { capture('colony_feed_viewed') }, [])
@@ -53,8 +53,8 @@ export default function Page() {
 
     setStats({
       leads: leads.length,
-      signed: deals.filter(d => d.stage === 'Proposal Signed').length,
       hot: leads.filter(l => l.temperature === 'HOT').length,
+      closing: deals.filter(d => d.stage === 'Proposal Sent' || d.stage === 'Proposal Signed').length,
       replies: feed.filter(e =>
         (e.type === 'reply_interested' || e.type === 'reply_received') && isToday(e.timestamp)
       ).length,
@@ -77,9 +77,9 @@ export default function Page() {
 
   const STAT_CARDS = [
     { label: 'ACTIVE LEADS',   value: stats.leads,   color: '#34d399', prefix: '',  suffix: '' },
-    { label: 'SIGNED',         value: stats.signed,  color: '#a78bfa', prefix: '',  suffix: '' },
+    { label: 'HOT LEADS',      value: stats.hot,     color: '#E11D48', prefix: '',  suffix: '' },
     { label: 'REPLIES TODAY',  value: stats.replies,  color: '#60a5fa', prefix: '',  suffix: '' },
-    { label: 'HOT RIGHT NOW',  value: stats.hot,      color: '#E11D48', prefix: '',  suffix: '' },
+    { label: 'CLOSING SOON',   value: stats.closing,  color: '#f97316', prefix: '',  suffix: '' },
     { label: 'MRR PIPELINE',   value: stats.mrr,      color: '#2AA5A0', prefix: '$', suffix: 'k' },
   ]
 
