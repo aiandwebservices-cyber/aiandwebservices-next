@@ -122,10 +122,12 @@ export default function Nav() {
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  // Panels 0 (Hero), 2 (Comparison), 7 (Contact) have dark backgrounds
-  const darkPanels = new Set([0, 8]); // Hero (0) and FinalCTA (8) are dark
-  const isDarkSurface = isOnContactPage || darkPanels.has(currentPanel);
-  const logoSrc = isDarkSurface ? '/logo-gradient-dark.svg' : '/logo-gradient-light.svg';
+  // Dark: Hero(0), How It Works(1), AI Readiness(7), Contact(8)
+  const darkPanels = new Set([0, 1, 7, 8]);
+  const isDarkSurface = !isOnServicePage && (isOnContactPage || darkPanels.has(currentPanel));
+  const logoSrc = isDarkSurface
+    ? '/logo-final/logoFINAL-aiandweb-transparent-whitetext.svg'
+    : '/logo-final/logoFINAL-aiandweb-transparent-blacktext.svg';
 
   const LogoInner = () => (
     // eslint-disable-next-line @next/next/no-img-element
@@ -134,7 +136,7 @@ export default function Nav() {
 
   return (
     <>
-      <nav id="nav" className="dark" role="navigation" aria-label="Main navigation">
+      <nav id="nav" className={isDarkSurface ? 'dark' : 'light'} role="navigation" aria-label="Main navigation">
         <Link
           href="/"
           className="logo logo-link"

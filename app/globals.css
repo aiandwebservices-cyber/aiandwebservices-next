@@ -22,6 +22,11 @@
   --border:#E2E8F0;
   --border-dk:rgba(255,255,255,.1);
   --panel-count:8;
+  --brand-teal:#2AA5A0;
+  --brand-teal-hover:#248F8B;
+  --nav-dark:#1a2540;
+  --section-tinted:#dde5ed;
+  --section-light-blue:#e2e8ee;
   /* Responsive sizing */
   --spacing-xs:clamp(8px,1.5vw,16px);
   --spacing-sm:clamp(12px,2vw,20px);
@@ -65,6 +70,7 @@ a{touch-action:manipulation}
   flex-shrink:0;
   position:relative;
   overflow:hidden;
+  scroll-margin-top:68px;
 }
 
 /* ── TOP NAV ── */
@@ -76,7 +82,7 @@ a{touch-action:manipulation}
   transition:background .4s,border-color .4s;
 }
 #nav.light{background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-bottom:1px solid var(--border)}
-#nav.dark{background:rgba(27,42,74,.85);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.08)}
+#nav.dark{background:rgba(26,37,64,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.08)}
 .logo{display:flex;align-items:center;gap:0;font-family:'Plus Jakarta Sans',sans-serif;font-weight:800;font-size:17px;letter-spacing:-.3px;line-height:0;position:relative;top:8px;}
 button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;line-height:0;position:relative;top:8px;}
 .logo,.logo-link{display:flex;align-items:center;}
@@ -380,7 +386,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 /* ── PANEL 2: FULL FUNNEL ── */
 #p2{background:#fff}
 /* ── PANEL 7: FAQ ── */
-#p7{background:#cfd9e8}
+#p7{background:#dde5ed}
 #p7 .panel-cta-card{background:#eef2f8;border:1px solid #d6e2f0;}
 /* ── COMPARISON PANEL ── */
 #comparison .panel-cta-card{background:#eef2f8;border:1px solid #d6e2f0;}
@@ -460,7 +466,7 @@ button.logo-link{background:none;border:none;padding:0;margin:0;cursor:pointer;l
 .fn4 .fnode-metric{color:#A78BFA}
 
 /* ── PANEL 3: ABOUT ── */
-#p3{background:var(--off);overflow-y:auto;}
+#p3{background:#ffffff;overflow-y:auto;}
 .about-inner{
   min-height:100%;display:grid;grid-template-columns:minmax(0,600px) minmax(0,420px);
   grid-template-rows:auto 1fr auto;

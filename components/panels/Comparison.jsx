@@ -113,7 +113,7 @@ export default function Comparison() {
   return (
     <section className="panel" id="comparison" aria-label="Why AIandWEBservices beats agencies and DIY">
       {/* Background */}
-      <div style={{ position: 'absolute', inset: 0, background: '#cfd9e8', zIndex: 0 }}>
+      <div style={{ position: 'absolute', inset: 0, background: '#dde5ed', zIndex: 0 }}>
         <div style={{ position: 'absolute', inset: 0, backgroundImage: 'radial-gradient(rgba(42,165,160,.06) 1px,transparent 1px)', backgroundSize: '28px 28px' }} />
         <div style={{ position: 'absolute', top: 0, right: 0, width: 600, height: 500, background: 'radial-gradient(circle,rgba(42,165,160,.08) 0%,transparent 70%)', filter: 'blur(80px)', pointerEvents: 'none' }} />
         {/* Extra orb bottom-left */}

@@ -26,7 +26,7 @@ export default function Blog() {
             <div key={post.title} className={`blog-card${post.source === 'AIandWEBservices' ? ' blog-card--ours' : ''}`}>
               <div className="blog-card-img" aria-hidden="true">
                 {post.source === 'AIandWEBservices'
-                  ? <Image src="/logo-icon-transparent.svg" alt="AIandWEBservices" width={180} height={180} style={{objectFit:'contain',height:'100%',width:'auto'}} />
+                  ? <Image src="/logo-final/logoFINAL-graph-transparent.svg" alt="AIandWEBservices" width={180} height={180} style={{objectFit:'contain',height:'100%',width:'auto'}} />
                   : (TAG_ICON[post.tag] ?? <Zap size={22} color="#2AA5A0" strokeWidth={1.75} />)}
               </div>
               <div className="blog-card-body">

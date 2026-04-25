@@ -14,7 +14,7 @@ export default function ThankYouSubscription() {
       {/* Logo */}
       <Link href="/" style={{ textDecoration: 'none', marginBottom: '3rem' }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
-        <img src="/logo-gradient-light.svg" alt="AIandWEBservices" width={260} height={52} style={{ display: 'block' }} />
+        <img src="/logo-final/logoFINAL-aiandweb-transparent-blacktext.svg" alt="AIandWEBservices" width={260} height={52} style={{ display: 'block' }} />
       </Link>
 
       {/* Card */}

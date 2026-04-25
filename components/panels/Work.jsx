@@ -55,7 +55,7 @@ export default function Work() {
   return (
     <section className="panel" id="samples" aria-label="Sample websites built by AIandWEBservices">
       {/* Background */}
-      <div style={{ position:'absolute', inset:0, background:'#f0f4f8', zIndex:0 }}>
+      <div style={{ position:'absolute', inset:0, background:'#ffffff', zIndex:0 }}>
         <div style={{ position:'absolute', inset:0, backgroundImage:'radial-gradient(rgba(0,0,0,.04) 1px,transparent 1px)', backgroundSize:'24px 24px' }} />
         <div style={{ position:'absolute', top:0, right:0, width:500, height:400, background:`radial-gradient(circle,${s.accent}12 0%,transparent 70%)`, filter:'blur(80px)', transition:'background .6s', pointerEvents:'none' }} />
       </div>

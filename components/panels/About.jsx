@@ -93,7 +93,7 @@ export default function About() {
               </div>
               <div className="abt-david-info">
                 <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:4 }}>
-                  <img src="/logo-icon-transparent.png" alt="AIandWEB" style={{ width:28, height:28, borderRadius:7, flexShrink:0 }} />
+                  <img src="/logo-final/logoFINAL-graph-transparent.svg" alt="AIandWEB" style={{ width:28, height:28, borderRadius:7, flexShrink:0 }} />
                   <div style={{ fontFamily:"'Plus Jakarta Sans',sans-serif", fontSize:18, fontWeight:800, color:'#111827' }}>David Pulis</div>
                 </div>
                 <div style={{ fontSize:12, color:TEAL, fontWeight:700, marginBottom:12 }}>Founder · AIandWEBservices</div>

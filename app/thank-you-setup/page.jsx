@@ -27,7 +27,7 @@ export default function ThankYouSetupPage() {
           {/* Logo */}
           <div style={{ marginBottom: '16px', display: 'flex', justifyContent: 'center', alignItems: 'center', width: '100%' }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo-gradient-test.svg" alt="AIandWEBservices" width={420} height={84} style={{ display: 'block', maxWidth: '90%', marginLeft: '-16px' }} />
+            <img src="/logo-final/logoFINAL-aiandweb-transparent-whitetext.svg" alt="AIandWEBservices" width={420} height={84} style={{ display: 'block', maxWidth: '90%', marginLeft: '-16px' }} />
           </div>
 
           {/* Payment badge */}

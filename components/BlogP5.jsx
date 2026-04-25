@@ -156,7 +156,7 @@ export default function BlogP5() {
           const cnv = p.createCanvas(W(), H());
           cnv.parent(el);
           p.textFont('Inter, system-ui, sans-serif');
-          p.loadImage('/logo-icon-transparent.svg', img => { logoImg = img; }, () => {});
+          p.loadImage('/logo-final/logoFINAL-graph-transparent.svg', img => { logoImg = img; }, () => {});
 
           const w = W(), h = H();
           const positions = homePositions(w, h);

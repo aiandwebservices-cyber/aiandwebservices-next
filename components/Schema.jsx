@@ -21,7 +21,7 @@ const ORG = {
   url: 'https://www.aiandwebservices.com',
   logo: {
     '@type': 'ImageObject',
-    url: 'https://www.aiandwebservices.com/logo-gradient-test.svg',
+    url: 'https://www.aiandwebservices.com/logo-final/logoFINAL-aiandweb-transparent-blacktext.svg',
     width: 260,
     height: 52,
   },
@@ -91,7 +91,7 @@ export function LocalBusinessSchema() {
         priceRange: '$$',
         slogan: 'Intelligent solutions. Personal service.',
         paymentAccepted: ['Credit Card', 'Bank Transfer', 'Cryptocurrency'],
-        logo: 'https://www.aiandwebservices.com/logo-gradient-test.svg',
+        logo: 'https://www.aiandwebservices.com/logo-final/logoFINAL-aiandweb-transparent-blacktext.svg',
         image: 'https://www.aiandwebservices.com/og-image.jpg',
         sameAs: ['https://t.me/aiandwebservices'],
       }}

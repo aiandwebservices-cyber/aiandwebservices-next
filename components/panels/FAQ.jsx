@@ -143,7 +143,7 @@ export default function FAQ() {
 
         .faq-bg {
           position: absolute; inset: 0;
-          background: #cfd9e8;
+          background: #dde5ed;
           z-index: 0;
         }
         .faq-orb {

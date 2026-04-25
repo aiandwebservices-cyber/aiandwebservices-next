@@ -166,7 +166,7 @@ export default function Services() {
   return (
     <section className="panel" id="services" aria-label="AIandWEBservices pricing and packages — AI automation, web development, SEO for small business">
       {/* Light blue background */}
-      <div style={{ position:'absolute', inset:0, background:'linear-gradient(160deg,#eff6ff 0%,#f0fafa 50%,#eff6ff 100%)', zIndex:0 }}>
+      <div style={{ position:'absolute', inset:0, background:'#e2e8ee', zIndex:0 }}>
         <div style={{ position:'absolute', inset:0, backgroundImage:'radial-gradient(rgba(59,130,246,.07) 1px,transparent 1px)', backgroundSize:'28px 28px' }} />
         <div style={{ position:'absolute', top:0, right:0, width:500, height:400, background:'radial-gradient(circle,rgba(42,165,160,.1) 0%,transparent 70%)', filter:'blur(80px)', pointerEvents:'none' }} />
         <div style={{ position:'absolute', bottom:0, left:0, width:400, height:400, background:'radial-gradient(circle,rgba(59,130,246,.08) 0%,transparent 70%)', filter:'blur(80px)', pointerEvents:'none' }} />
