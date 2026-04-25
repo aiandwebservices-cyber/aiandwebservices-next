@@ -58,9 +58,8 @@ export default function ContactExperience({ standalone = false }) {
         @media(min-width:769px){
           .contact-main{
             margin-top:68px;
-            height:calc(100vh - 68px);
-            overflow:hidden;
-            min-height:unset;
+            min-height:calc(100vh - 68px);
+            overflow:visible;
           }
           .cal-cell{ overflow:hidden; }
           .contact-footer-wrap{ display:none; }
