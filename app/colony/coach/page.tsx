@@ -158,7 +158,12 @@ export default function CoachPage() {
             <div key={p.path} className="p-4 rounded bg-zinc-900/50 border border-zinc-800">
               <div className="flex justify-between items-start mb-2">
                 <div>
-                  <div className="text-sm font-medium text-zinc-100">{p.filename}</div>
+                  <div className="flex items-center gap-2">
+                    <div className="text-sm font-medium text-zinc-100">{p.filename}</div>
+                    {(p.filename.includes('writing_coach') || p.preview.includes('Writing Coach')) && (
+                      <span className="text-xs px-1.5 py-0.5 rounded bg-violet-900/50 border border-violet-700 text-violet-300">✍️ Writing Coach</span>
+                    )}
+                  </div>
                   <div className="text-xs text-zinc-500">
                     {p.has_hints ? `${p.hints.length} apply hints` : 'No apply hints — manual review only'}
                   </div>
