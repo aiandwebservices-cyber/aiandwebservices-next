@@ -39,6 +39,22 @@ export default function Page() {
   const { open } = useSidePanel()
   const [stats, setStats] = useState<HomeStats>({ emailsToday: 0, leads: 0, hot: 0, closing: 0, replies: 0, mrr: 0 })
   const [bots, setBots] = useState<BotPayload[] | null>(null)
+  const [anyRunning, setAnyRunning] = useState(false)
+
+  // Poll heartbeat status — green dot when any bot is actively running
+  useEffect(() => {
+    let cancelled = false
+    const check = async () => {
+      try {
+        const res = await fetch('/api/colony/crew/status')
+        const data = await res.json()
+        if (!cancelled) setAnyRunning((data?.summary?.running ?? 0) > 0)
+      } catch { /* keep last state */ }
+    }
+    check()
+    const iv = setInterval(check, 15000)
+    return () => { cancelled = true; clearInterval(iv) }
+  }, [])
 
   useEffect(() => { capture('colony_feed_viewed') }, [])
 
@@ -262,7 +278,14 @@ export default function Page() {
                   }}>
                     Activity Feed
                   </span>
-                  <div className="ch-pulse" />
+                  <div
+                    className="ch-pulse"
+                    title={anyRunning ? 'Bots are running' : 'No bots running'}
+                    style={{
+                      background: anyRunning ? '#34d399' : '#ef4444',
+                      boxShadow: anyRunning ? '0 0 8px #34d399' : '0 0 6px #ef4444',
+                    }}
+                  />
                 </div>
                 <div style={{ flex: 1, overflowY: 'auto', scrollbarWidth: 'thin', paddingBottom: 8 }}>
                   <ActivityFeed />
