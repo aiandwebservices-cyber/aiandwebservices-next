@@ -1,20 +1,16 @@
 'use client';
 import { useEffect, useRef } from 'react';
-import { useRouter } from 'next/navigation';
 
 const POSTS = [
-  { href: '/blog/how-ai-works-while-you-sleep',                 tag: 'AI Automation', title: 'How AI Works\nWhile You Sleep' },
-  { href: '/blog/growing-businesses-use-ai-83-percent',         tag: 'Growth',         title: '83% of Growing\nSMBs Use AI' },
-  { href: '/blog/ai-directly-boosts-revenue-91-percent-small-businesses', tag: 'AI ROI',     title: '91% of SMBs Say\nAI Boosts Revenue' },
-  { href: '/blog/businesses-cut-costs-35-percent-first-year-ai',          tag: 'Cost Savings', title: 'Cut Costs 35%\nin Year One' },
-  { href: '/blog/urgency-ai-adoption-8-in-10-companies',                  tag: 'AI Trends',    title: '8 in 10 Companies\nAdopting AI Now' },
+  { href: 'https://blog.aiandwebservices.com/how-ai-works-while-you-sleep',                 tag: 'AI Automation', title: 'How AI Works\nWhile You Sleep' },
+  { href: 'https://blog.aiandwebservices.com/growing-businesses-use-ai-83-percent',         tag: 'Growth',         title: '83% of Growing\nSMBs Use AI' },
+  { href: 'https://blog.aiandwebservices.com/ai-directly-boosts-revenue-91-percent-small-businesses', tag: 'AI ROI',     title: '91% of SMBs Say\nAI Boosts Revenue' },
+  { href: 'https://blog.aiandwebservices.com/businesses-cut-costs-35-percent-first-year-ai',          tag: 'Cost Savings', title: 'Cut Costs 35%\nin Year One' },
+  { href: 'https://blog.aiandwebservices.com/urgency-ai-adoption-8-in-10-companies',                  tag: 'AI Trends',    title: '8 in 10 Companies\nAdopting AI Now' },
 ];
 
 export default function BlogP5() {
   const containerRef = useRef(null);
-  const router = useRouter();
-  const routerRef = useRef(router);
-  routerRef.current = router;
 
   useEffect(() => {
     const el = containerRef.current;
@@ -197,7 +193,7 @@ export default function BlogP5() {
 
         p.mousePressed = () => {
           if (hoveredIdx >= 0) {
-            routerRef.current.push(cards[hoveredIdx].post.href);
+            window.open(cards[hoveredIdx].post.href, '_blank', 'noopener,noreferrer');
           }
         };
 

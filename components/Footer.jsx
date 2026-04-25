@@ -31,7 +31,7 @@ export default function Footer() {
         <div className="footer-col">
           <h4 className="footer-heading">Resources</h4>
           <nav className="footer-links">
-            <Link href="/blog">Blog</Link>
+            <a href="https://blog.aiandwebservices.com" target="_blank" rel="noopener noreferrer">Blog <span aria-hidden="true" style={{fontSize:'0.75em',opacity:0.6}}>↗</span></a>
             <Link href="/intro">Free 30-Min Intro Call</Link>
             <Link href="/checklist">AI Readiness Checklist</Link>
             <a href="#faq" onClick={() => window.go && window.go(5)}>FAQ</a>

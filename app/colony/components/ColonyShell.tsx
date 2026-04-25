@@ -20,6 +20,7 @@ const NAV_ITEMS = [
   { href: '/colony/reports',   label: 'Reports' },
   { href: '/colony/coach',     label: 'Coach' },
   { href: '/colony/nudges',    label: 'Nudges' },
+  { href: '/colony/social',    label: 'Social' },
   { href: '/colony/analytics', label: 'Analytics' },
   { href: '/colony/team',      label: 'Team' },
 ]
