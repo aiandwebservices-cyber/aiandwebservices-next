@@ -41,8 +41,9 @@ export default function CohortSwitcher() {
     <select
       value={cohortId}
       onChange={(e) => setCohortId(e.target.value as Cohort)}
-      className="w-full text-xs px-2 py-1.5 rounded-md cursor-pointer"
+      className="text-xs px-2 py-1.5 rounded-md cursor-pointer"
       style={{
+        width: 180,
         background: 'rgba(255,255,255,0.08)',
         border: '1px solid rgba(255,255,255,0.12)',
         color: 'var(--colony-text-chrome)',
