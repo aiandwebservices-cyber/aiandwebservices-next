@@ -73,6 +73,25 @@ a{touch-action:manipulation}
   scroll-margin-top:68px;
 }
 
+/* SSR padding-top to match what scalePanels() in useHorizontalScroll.js applies post-hydration.
+   Without this, .hero-inner has padding-top 0 at SSR/first paint, then JS sets it to 88px on
+   hydration, causing a visible 88px layout shift of .h-top (the H1 container) at ~870ms.
+   Keep this value (88px) in sync with the constant in scalePanels(). On monitors shorter
+   than 1100px, scalePanels() will adjust by a small delta on hydration; that's acceptable
+   and below user-perception threshold for the visible "shrink" the user reported. */
+@media (min-width: 769px) {
+  .hero-inner,
+  .hiw-inner,
+  .comparison-inner,
+  .pricing-inner,
+  .about-inner,
+  .work-inner,
+  .faq-inner,
+  .contact-inner {
+    padding-top: 88px;
+  }
+}
+
 /* ── TOP NAV ── */
 #nav{
   position:fixed;top:0;left:0;right:0;z-index:500;
