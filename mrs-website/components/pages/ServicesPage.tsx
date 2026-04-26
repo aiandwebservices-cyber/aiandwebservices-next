@@ -2,17 +2,19 @@ import Link from "next/link";
 import HashScroller from "@/components/HashScroller";
 import type { SiteConfig } from "@/lib/site-config";
 
-// Optional map of service-id → dedicated detail-page URL.
-// Passing this prop renders a "Read full <Service> guide →" link inside
-// each section. Currently only FL has detail pages; NY routes omit this
-// prop so the NY hub stays as a single-page anchor view until NY detail
-// pages ship in a follow-up.
-type ServicesPageProps = {
-  config: SiteConfig;
-  detailLinks?: Record<string, string>;
+// Map FL_CONFIG.services / NY_CONFIG.services id → detail-page slug.
+// Both routes have all six dedicated detail pages; URLs differ only
+// by basePath ("" for FL, "/ny" for NY), so the same map serves both.
+const SERVICE_ID_TO_SLUG: Record<string, string> = {
+  water: "water-damage-restoration",
+  fire: "fire-damage-restoration",
+  mold: "mold-remediation",
+  storm: "storm-damage-repair",
+  biohazard: "biohazard-cleanup",
+  reconstruction: "reconstruction-rebuild",
 };
 
-export default function ServicesPage({ config, detailLinks }: ServicesPageProps) {
+export default function ServicesPage({ config }: { config: SiteConfig }) {
   const basePath = config.location === 'newYork' ? '/ny' : '';
 
   return (
@@ -62,10 +64,10 @@ export default function ServicesPage({ config, detailLinks }: ServicesPageProps)
               </div>
             </div>
 
-            {detailLinks?.[s.id] && (
-              <p style={{ marginTop: "1.25rem", marginBottom: 0 }}>
-                <Link href={detailLinks[s.id]} style={{ color: "var(--red)", fontWeight: 700, fontSize: "0.95rem", textDecoration: "none" }}>
-                  Read full {s.title} guide →
+            {SERVICE_ID_TO_SLUG[s.id] && (
+              <p className="svc-learn-more">
+                <Link href={`${basePath}/services/${SERVICE_ID_TO_SLUG[s.id]}`} className="svc-learn-more-link">
+                  Learn More →
                 </Link>
               </p>
             )}
@@ -81,6 +83,29 @@ export default function ServicesPage({ config, detailLinks }: ServicesPageProps)
         </a>
         <Link href={`${basePath}/contact`} className="btn-outline" style={{ borderColor: "#fff", color: "#fff" }}>Request Help Online</Link>
       </section>
+
+      <style>{`
+        .svc-learn-more { margin-top: 1.25rem; margin-bottom: 0; }
+        .svc-learn-more-link {
+          display: block;
+          color: var(--red);
+          font-weight: 700;
+          font-size: 16px;
+          text-decoration: none;
+          padding: 12px 0;
+          -webkit-tap-highlight-color: transparent;
+        }
+        .svc-learn-more-link:active { opacity: 0.7; }
+        @media (min-width: 768px) {
+          .svc-learn-more-link {
+            display: inline-block;
+            font-size: 15px;
+            padding: 0;
+            transition: color 0.15s ease;
+          }
+          .svc-learn-more-link:hover { color: var(--navy); }
+        }
+      `}</style>
     </>
   );
 }
