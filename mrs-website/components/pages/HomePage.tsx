@@ -5,10 +5,6 @@ import TrustBar from "@/components/TrustBar";
 import ReviewsSchema from "@/components/ReviewsSchema";
 import type { SiteConfig } from "@/lib/site-config";
 
-// TODO(David) — Google Business Profile URL for "Read all reviews" link.
-// Set this once the GBP is live so the link target is correct.
-const GOOGLE_REVIEWS_URL: string | null = null;
-
 export default function HomePage({ config }: { config: SiteConfig }) {
   const basePath = config.location === 'newYork' ? '/ny' : '';
 
@@ -160,17 +156,6 @@ export default function HomePage({ config }: { config: SiteConfig }) {
               </div>
             ))}
           </div>
-          <p style={{ marginTop: "1.5rem", textAlign: "center" }}>
-            {GOOGLE_REVIEWS_URL ? (
-              <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener noreferrer" style={{ color: "#a0c4ff", fontFamily: "Montserrat, sans-serif", fontSize: "0.95rem", textDecoration: "underline" }}>
-                Read all reviews on Google →
-              </a>
-            ) : (
-              <span style={{ color: "#a0c4ff", fontFamily: "Montserrat, sans-serif", fontSize: "0.95rem" }} title="GBP URL pending">
-                Read all reviews on Google → (TODO link)
-              </span>
-            )}
-          </p>
         </div>
         <style>{`
           .testimonial-grid {

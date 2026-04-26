@@ -57,8 +57,9 @@ ${pipedriveButton}
 `;
 
   if (!RESEND_API_KEY) {
-    console.log("📋 MRS Form Submission (no RESEND_API_KEY set):", fields);
-    return;
+    console.error("[email] ⚠️ RESEND_API_KEY not set — Sam will NOT receive a notification for this lead. Set it in Vercel env to enable.");
+    console.log("📋 MRS Form Submission (email skipped):", fields);
+    throw new Error("RESEND_API_KEY not configured");
   }
 
   const res = await fetch("https://api.resend.com/emails", {
