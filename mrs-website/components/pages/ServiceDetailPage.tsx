@@ -103,11 +103,13 @@ export default function ServiceDetailPage({ detail }: { detail: ServiceDetail })
             </div>
             <div className="card" style={{ padding: "1.5rem" }}>
               <h2 style={{ color: "var(--navy)", fontSize: "1.25rem", marginBottom: "1rem" }}>{detail.processHeading}</h2>
-              <ol style={{ paddingLeft: "1.4rem", margin: 0, color: "var(--gray-dark)", lineHeight: 1.5 }}>
+              <ul style={{ listStyle: "none", padding: 0, margin: 0 }}>
                 {detail.process.map(p => (
-                  <li key={p} style={{ fontSize: "0.95rem", padding: "0.3rem 0" }}>{p}</li>
+                  <li key={p} style={{ color: "var(--gray-dark)", fontSize: "0.95rem", lineHeight: 1.5, padding: "0.4rem 0", paddingLeft: "1.25rem", position: "relative" }}>
+                    <span style={{ position: "absolute", left: 0, color: "var(--red)" }}>›</span>{p}
+                  </li>
                 ))}
-              </ol>
+              </ul>
             </div>
           </div>
         </div>

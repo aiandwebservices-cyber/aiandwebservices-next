@@ -58,9 +58,23 @@ export default function Footer({ config }: { config: SiteConfig }) {
           <a href={config.phoneHref} style={{ display: "block", color: "var(--red)", fontWeight: 800, fontSize: "1.2rem", fontFamily: "Montserrat, sans-serif", textDecoration: "none", marginBottom: "0.5rem" }}>{config.phone}</a>
           <a href={`mailto:${config.email}`} style={{ display: "block", color: "#a0aec0", fontSize: "0.8rem", textDecoration: "none", marginBottom: "0.5rem" }}>{config.email}</a>
           {config.addressOneLiner && (
-            <p style={{ fontSize: "0.875rem", color: "#a0aec0", marginBottom: "0.25rem" }}>{config.addressOneLiner}</p>
+            // FL renders the address on two lines (street / city-state-zip).
+            // NY's addressOneLiner is null today, so this branch is FL-only
+            // until NY confirms an address — at that point we can either set
+            // addressLine1/addressLine2 fields on the config or split here.
+            config.location === 'florida' ? (
+              <address style={{ fontStyle: "normal", fontSize: "0.875rem", color: "#a0aec0", marginBottom: "0.5rem", lineHeight: 1.5 }}>
+                11322 Miramar Pkwy<br />
+                Miramar, FL 33025
+              </address>
+            ) : (
+              <p style={{ fontSize: "0.875rem", color: "#a0aec0", marginBottom: "0.25rem" }}>{config.addressOneLiner}</p>
+            )
           )}
           <p style={{ fontSize: "0.875rem", color: "#a0aec0", marginBottom: "0.25rem" }}>Hours: 24/7 — Always Open</p>
+          {config.location === 'florida' && (
+            <p style={{ fontSize: "0.8rem", color: "#a0aec0", marginBottom: "0.25rem" }}>Emergency response available every day of the year.</p>
+          )}
           <p style={{ fontSize: "0.8rem", color: "#718096" }}>
             {config.licenseNumbers ? `${config.licenseNumbers.join(' | ')} | ` : ''}IICRC Certified
           </p>

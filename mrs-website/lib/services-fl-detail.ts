@@ -97,8 +97,8 @@ export const FL_SERVICE_DETAILS: ServiceDetail[] = [
     ],
     photos: [
       { src: "/photos/water-air-movers.jpeg", alt: "Industrial air movers and dehumidifier deployed after South Florida water damage" },
-      { src: "/photos/services/water-damage-restoration/photo-2.jpg", alt: "Standing water extraction with a truck-mounted unit in a Fort Lauderdale home", todoNote: "Pexels search: 'water damage drying equipment'" },
-      { src: "/photos/services/water-damage-restoration/photo-3.jpg", alt: "Moisture mapping with an infrared camera after a Miami-area pipe burst", todoNote: "Unsplash search: 'flooded living room interior'" },
+      { src: "/photos/wall-demo-drying.jpeg", alt: "Opened wall with air mover running during South Florida water damage drying", todoNote: "Fallback to existing photo until ideal image is sourced. Original spec: Pexels 'water damage drying equipment'." },
+      { src: "/photos/dehumidifier-kitchen.jpeg", alt: "Commercial dehumidifier and air mover operating in kitchen after South Florida water loss", todoNote: "Fallback to existing photo until ideal image is sourced. Original spec: Unsplash 'flooded living room interior'." },
     ],
   },
 
@@ -160,8 +160,8 @@ export const FL_SERVICE_DETAILS: ServiceDetail[] = [
     ],
     photos: [
       { src: "/photos/services/fire-aftermath.jpg", alt: "Fire-damaged exterior of a South Florida home after a structural blaze" },
-      { src: "/photos/services/fire-damage-restoration/photo-2.jpg", alt: "Soot-covered interior wall after a Miami-Dade kitchen fire", todoNote: "Pexels search: 'house fire damage interior'" },
-      { src: "/photos/services/fire-damage-restoration/photo-3.jpg", alt: "Smoke-deodorization equipment running in a Coral Gables condo restoration", todoNote: "Unsplash search: 'smoke restoration equipment'" },
+      { src: "/photos/services/fire-burning.jpg", alt: "House fully engulfed in flames during a South Florida structure fire", todoNote: "Fallback to existing photo until ideal image is sourced. Original spec: Pexels 'house fire damage interior'." },
+      { src: "/photos/services/fire-charred.jpg", alt: "Charred structural framing inside a South Florida home after fire damage", todoNote: "Fallback to existing photo until ideal image is sourced. Original spec: Unsplash 'smoke restoration equipment'." },
     ],
   },
 
@@ -224,8 +224,8 @@ export const FL_SERVICE_DETAILS: ServiceDetail[] = [
     ],
     photos: [
       { src: "/photos/services/mold-ceiling.jpg", alt: "Mold staining spreading across drywall ceiling in a South Florida home" },
-      { src: "/photos/services/mold-remediation/photo-2.jpg", alt: "Mold inspection and swab sampling on cavity wall in a Hollywood condo", todoNote: "Pexels search: 'mold remediation equipment'" },
-      { src: "/photos/services/mold-remediation/photo-3.jpg", alt: "HEPA-filtered containment setup during a Miami mold remediation", todoNote: "Unsplash search: 'HEPA air scrubber containment'" },
+      { src: "/photos/mold-testing.jpeg", alt: "MRS technician swab-testing mold growth on wall in a South Florida home", todoNote: "Fallback to existing photo until ideal image is sourced. Original spec: Pexels 'mold remediation equipment'." },
+      { src: "/photos/services/mold-flood-ceiling.jpg", alt: "Ceiling collapse with mold damage from a South Florida flood event", todoNote: "Fallback to existing photo until ideal image is sourced. Original spec: Unsplash 'HEPA air scrubber containment'." },
     ],
   },
 
@@ -288,8 +288,8 @@ export const FL_SERVICE_DETAILS: ServiceDetail[] = [
     ],
     photos: [
       { src: "/photos/services/storm-flood.jpg", alt: "Hurricane storm-surge flooding in a South Florida residential neighborhood" },
-      { src: "/photos/services/storm-damage-repair/photo-2.jpg", alt: "Roof tarping in progress after a Broward County hurricane", todoNote: "Pexels search: 'hurricane roof tarp'" },
-      { src: "/photos/services/storm-damage-repair/photo-3.jpg", alt: "Hurricane debris removal in Miami-Dade after a named storm", todoNote: "Unsplash search: 'storm damage debris'" },
+      { src: "/photos/services/storm-lightning.jpg", alt: "Lightning storm over a South Florida neighborhood during severe weather", todoNote: "Fallback to existing photo until ideal image is sourced. Original spec: Pexels 'hurricane roof tarp'." },
+      { src: "/photos/services/storm-trees.jpg", alt: "Hurricane-downed trees blocking a South Florida home after a named storm", todoNote: "Fallback to existing photo until ideal image is sourced. Original spec: Unsplash 'storm damage debris'." },
     ],
   },
 
@@ -352,8 +352,8 @@ export const FL_SERVICE_DETAILS: ServiceDetail[] = [
     ],
     photos: [
       { src: "/photos/services/bio-spray.jpg", alt: "Technician in full PPE applying biohazard disinfection in a South Florida residence" },
-      { src: "/photos/services/biohazard-cleanup/photo-2.jpg", alt: "Sewage backup containment setup in an older Broward County home", todoNote: "Pexels search: 'biohazard cleanup PPE'" },
-      { src: "/photos/services/biohazard-cleanup/photo-3.jpg", alt: "Regulated waste handling during a South Florida biohazard cleanup", todoNote: "Pixabay search: 'hazmat disinfection'" },
+      { src: "/photos/services/bio-kitchen.jpg", alt: "Hazmat-suited worker decontaminating a South Florida kitchen during biohazard cleanup", todoNote: "Fallback to existing photo until ideal image is sourced. Original spec: Pexels 'biohazard cleanup PPE'." },
+      { src: "/photos/services/bio-suit.jpg", alt: "Technician suiting up in protective gear before South Florida biohazard cleanup", todoNote: "Fallback to existing photo until ideal image is sourced. Original spec: Pixabay 'hazmat disinfection'." },
     ],
   },
 
@@ -415,8 +415,8 @@ export const FL_SERVICE_DETAILS: ServiceDetail[] = [
     ],
     photos: [
       { src: "/photos/kitchen-after.jpeg", alt: "Fully rebuilt kitchen after South Florida water damage reconstruction" },
-      { src: "/photos/services/reconstruction-rebuild/photo-2.jpg", alt: "Drywall installation during a South Florida post-fire rebuild", todoNote: "Pexels search: 'drywall installation'" },
-      { src: "/photos/services/reconstruction-rebuild/photo-3.jpg", alt: "Final paint and trim work in a Fort Lauderdale rebuild project", todoNote: "Unsplash search: 'home renovation interior finish'" },
+      { src: "/photos/services/recon-framing.jpg", alt: "Exposed wood framing during a South Florida home reconstruction", todoNote: "Fallback to existing photo until ideal image is sourced. Original spec: Pexels 'drywall installation'." },
+      { src: "/photos/services/recon-interior.jpg", alt: "Interior rebuild in progress with new drywall during a South Florida reconstruction", todoNote: "Fallback to existing photo until ideal image is sourced. Original spec: Unsplash 'home renovation interior finish'." },
     ],
   },
 ];
