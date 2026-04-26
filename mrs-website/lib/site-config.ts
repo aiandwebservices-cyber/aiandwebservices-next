@@ -107,6 +107,8 @@ export type SiteConfig = {
   testimonialSubhead: string;           // under "What Our Customers Say"
   testimonials: Testimonial[];
   serviceAreaHeadline: string;          // "Proudly Serving All of South Florida"
+  serviceDetailAreaIntro: string;       // inline copy on /services/<slug> above "See full Service Areas" link
+  serviceDetailCtaSubtitle: string;     // bottom CTA subtitle on /services/<slug> ("24/7 emergency response across X")
   serviceAreaGetHelpCta: string;        // link text
 
   // Services (used by homepage cards + services page)
@@ -200,6 +202,8 @@ export const FL_CONFIG: SiteConfig = {
     { name: 'Sandra L.', city: 'Boca Raton', stars: 5, quote: 'Found mold behind our bathroom wall. The MRS team was thorough, explained everything, and the remediation was perfect. They even speak Spanish — huge plus!' },
   ],
   serviceAreaHeadline: 'Proudly Serving All of South Florida',
+  serviceDetailAreaIntro: 'Serving South Florida from Boca Raton through Fort Lauderdale to Miami and Homestead',
+  serviceDetailCtaSubtitle: '24/7 emergency response across South Florida.',
   serviceAreaGetHelpCta: 'Get Help in Your Area →',
 
   services: [
@@ -474,6 +478,8 @@ export const NY_CONFIG: SiteConfig = {
     { name: 'David T.', city: 'Queens', stars: 5, quote: 'Found mold in my basement after a nor\'easter. MRS found the moisture source, contained the mold, and did a full remediation. They gave me a clearance report for my insurance. Couldn\'t ask for better service.' },
   ],
   serviceAreaHeadline: 'Proudly Serving All of NYC Metro',
+  serviceDetailAreaIntro: 'Serving New York City from Manhattan through Brooklyn, Queens, The Bronx, and Staten Island',
+  serviceDetailCtaSubtitle: '24/7 emergency response across NYC Metro.',
   serviceAreaGetHelpCta: 'Get Help in Your Borough →',
 
   services: [

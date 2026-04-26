@@ -175,7 +175,7 @@ export default function ServiceDetailPage({ detail, config }: { detail: ServiceD
       {/* SERVICE AREAS */}
       <section style={{ background: "var(--off-white)", padding: "2rem 1.5rem", textAlign: "center" }}>
         <p style={{ color: "var(--gray-mid)", fontSize: "0.95rem", margin: "0 auto 0.75rem", maxWidth: 800, lineHeight: 1.6 }}>
-          Serving South Florida from Boca Raton through Fort Lauderdale to Miami and Homestead — including {config.serviceAreaCities.slice(0, 6).join(", ")}, and surrounding communities.
+          {config.serviceDetailAreaIntro} — including {config.serviceAreaCities.slice(0, 6).join(", ")}, and surrounding communities.
         </p>
         <Link href={`${basePath}/service-areas`} style={{ color: "var(--red)", fontWeight: 700, fontSize: "0.95rem" }}>
           See full Service Areas →
@@ -185,7 +185,7 @@ export default function ServiceDetailPage({ detail, config }: { detail: ServiceD
       {/* BOTTOM CTA */}
       <section style={{ background: "var(--red)", padding: "3rem 1.5rem", textAlign: "center" }}>
         <h2 style={{ color: "#fff", fontSize: "1.6rem", marginBottom: "0.75rem" }}>Need Help Now?</h2>
-        <p style={{ color: "rgba(255,255,255,0.9)", marginBottom: "1.25rem" }}>24/7 emergency response across South Florida.</p>
+        <p style={{ color: "rgba(255,255,255,0.9)", marginBottom: "1.25rem" }}>{config.serviceDetailCtaSubtitle}</p>
         <a href={config.phoneHref} style={{ background: "#fff", color: "var(--red)", padding: "1rem 2rem", borderRadius: 6, fontWeight: 800, fontSize: "1.15rem", textDecoration: "none", fontFamily: "Montserrat, sans-serif", display: "inline-block", marginRight: "0.75rem" }}>
           Call {config.phone}
         </a>
