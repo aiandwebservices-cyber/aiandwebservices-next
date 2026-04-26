@@ -8,9 +8,8 @@ export default function Footer({ config }: { config: SiteConfig }) {
     <footer style={{ background: "var(--navy)", color: "#e2e8f0" }}>
       {/* Emergency bar */}
       <div style={{ background: "var(--red)", padding: "1.25rem 1rem", textAlign: "center" }}>
-        <p style={{ fontFamily: "Montserrat, sans-serif", fontWeight: 700, fontSize: "1rem", color: "#fff", margin: 0 }}>
-          24/7 Emergency Response — Call Now:&nbsp;
-          <a href={config.phoneHref} style={{ color: "#fff", textDecoration: "underline", fontSize: "1.2rem" }}>{config.phone}</a>
+        <p style={{ fontFamily: "Montserrat, sans-serif", fontWeight: 700, fontSize: "1rem", color: "#fff", margin: 0, whiteSpace: "nowrap" }}>
+          24/7 Emergency Response — Call Now
         </p>
       </div>
 
