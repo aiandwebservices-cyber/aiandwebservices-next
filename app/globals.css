@@ -95,7 +95,7 @@ a{touch-action:manipulation}
 /* ── TOP NAV ── */
 #nav{
   position:fixed;top:0;left:0;right:0;z-index:500;
-  height:68px;
+  height:68px;min-height:64px;
   display:flex;align-items:center;justify-content:space-between;
   padding:0 clamp(8px,3vw,56px);
   transition:background .075s,border-color .075s;
