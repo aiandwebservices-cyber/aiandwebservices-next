@@ -464,6 +464,10 @@ export const NY_CONFIG: SiteConfig = {
     { icon: '📍', title: 'Local NYC Team', desc: 'Fast response across Manhattan, Brooklyn, Queens, the Bronx, and Staten Island.' },
   ],
   testimonialSubhead: 'Real NYC homeowners, condo owners, and property managers',
+  // TODO(David) — These NY testimonials are PLACEHOLDER copy. Replace with real
+  // customer quotes (with permission) before the NY route launches publicly.
+  // The shape (name = first name + last initial, stars = 1–5, quote text, city
+  // = NYC borough name) must stay identical to the FL testimonials structure.
   testimonials: [
     { name: 'James W.', city: 'Brooklyn', stars: 5, quote: 'Frozen pipe burst on a Sunday night and MRS was at my brownstone within 40 minutes. They extracted the water, set up drying equipment, and handled my insurance claim from start to finish. Saved my hardwood floors.' },
     { name: 'Lisa M.', city: 'Manhattan', stars: 5, quote: 'Water damage in my co-op from the unit above. MRS coordinated directly with building management and my insurance adjuster — I barely had to do anything. Professional and incredibly fast.' },

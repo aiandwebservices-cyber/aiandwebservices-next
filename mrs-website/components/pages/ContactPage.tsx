@@ -101,7 +101,7 @@ export default function ContactPage({ config }: { config: SiteConfig }) {
             <h2 style={{ color: "#fff", fontSize: "1.4rem", margin: 0 }}>Submit Emergency Request</h2>
           </div>
           <div className="card" style={{ borderRadius: "0 0 10px 10px" }}>
-            <EmergencyForm location={config.location} addressPlaceholder={config.addressPlaceholder} />
+            <EmergencyForm location={config.location} addressPlaceholder={config.addressPlaceholder} formContext="contact" />
           </div>
         </div>
       </div>

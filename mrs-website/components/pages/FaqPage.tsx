@@ -1,37 +1,19 @@
-"use client";
-import { useState } from "react";
 import Link from "next/link";
 import type { SiteConfig } from "@/lib/site-config";
 
-function FAQItem({ q, a, idx }: { q: string; a: string; idx: number }) {
-  const [open, setOpen] = useState(false);
-  const qId = `faq-q-${idx}`;
-  const aId = `faq-a-${idx}`;
+function FAQItem({ q, a }: { q: string; a: string }) {
   return (
-    <div style={{ borderBottom: "1px solid var(--gray-light)" }}>
-      <button
-        id={qId}
-        type="button"
-        onClick={() => setOpen(o => !o)}
-        aria-expanded={open}
-        aria-controls={aId}
-        className="faq-row"
-        style={{ width: "100%", background: "none", border: "none", display: "flex", justifyContent: "space-between", alignItems: "center", cursor: "pointer", textAlign: "left", gap: "1rem" }}
-      >
-        <span className="faq-q" style={{ fontFamily: "Montserrat, sans-serif", fontWeight: 700, color: "var(--navy)" }}>{q}</span>
-        <span aria-hidden="true" style={{ color: "var(--red)", fontSize: "1.5rem", flexShrink: 0, transition: "transform 0.2s ease", transform: open ? "rotate(45deg)" : "rotate(0deg)", lineHeight: 1, fontWeight: 400 }}>+</span>
-      </button>
-      <div
-        id={aId}
-        role="region"
-        aria-labelledby={qId}
-        className={`faq-answer${open ? " is-open" : ""}`}
-      >
+    <details className="faq-item">
+      <summary className="faq-summary">
+        <span className="faq-q">{q}</span>
+        <span aria-hidden="true" className="faq-icon">+</span>
+      </summary>
+      <div className="faq-answer">
         <div className="faq-answer-inner">
           <p className="faq-a">{a}</p>
         </div>
       </div>
-    </div>
+    </details>
   );
 }
 
@@ -48,7 +30,7 @@ export default function FaqPage({ config }: { config: SiteConfig }) {
       </section>
 
       <div style={{ maxWidth: 800, margin: "0 auto", padding: "3rem 1.5rem" }}>
-        {config.faqItems.map((f, i) => <FAQItem key={f.q} q={f.q} a={f.a} idx={i} />)}
+        {config.faqItems.map(f => <FAQItem key={f.q} q={f.q} a={f.a} />)}
 
         <div style={{ marginTop: "3rem", background: "var(--off-white)", borderRadius: 10, padding: "2rem", textAlign: "center" }}>
           <h2 style={{ color: "var(--navy)", fontSize: "1.3rem", marginBottom: "0.75rem" }}>Still Have Questions?</h2>
@@ -63,16 +45,55 @@ export default function FaqPage({ config }: { config: SiteConfig }) {
       </div>
 
       <style>{`
-        .faq-row { min-height: 56px; padding: 12px 16px; border-radius: 6px; transition: background-color 0.15s ease; }
-        .faq-row:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
-        .faq-q { font-size: 1rem; line-height: 1.4; }
-        .faq-answer { max-height: 0; opacity: 0; overflow: hidden; transition: max-height 200ms ease, opacity 200ms ease; }
-        .faq-answer.is-open { max-height: 800px; opacity: 1; }
-        .faq-answer-inner { padding: 0 16px 16px 16px; }
-        .faq-a { color: var(--gray-mid); line-height: 1.6; margin: 0; font-size: 16px; }
+        .faq-item { border-bottom: 1px solid var(--gray-light); }
+        .faq-summary {
+          list-style: none;
+          cursor: pointer;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          gap: 1rem;
+          min-height: 56px;
+          padding: 12px 16px;
+          border-radius: 6px;
+          transition: background-color 0.15s ease;
+          user-select: none;
+          -webkit-tap-highlight-color: transparent;
+        }
+        .faq-summary::-webkit-details-marker { display: none; }
+        .faq-summary::marker { content: ""; }
+        .faq-summary:focus-visible { outline: 2px solid var(--red); outline-offset: 2px; }
+        .faq-q {
+          font-family: Montserrat, sans-serif;
+          font-weight: 700;
+          color: var(--navy);
+          font-size: 1rem;
+          line-height: 1.4;
+          flex: 1 1 auto;
+        }
+        .faq-icon {
+          color: var(--red);
+          font-size: 1.5rem;
+          flex-shrink: 0;
+          transition: transform 0.2s ease;
+          line-height: 1;
+          font-weight: 400;
+        }
+        .faq-item[open] .faq-icon { transform: rotate(45deg); }
+
+        .faq-answer-inner {
+          padding: 0 16px 16px 16px;
+        }
+        .faq-a {
+          color: var(--gray-mid);
+          line-height: 1.6;
+          margin: 0;
+          font-size: 16px;
+        }
+
         @media (min-width: 769px) {
-          .faq-row { min-height: 48px; padding: 10px 24px; }
-          .faq-row:hover { background-color: rgba(0, 0, 0, 0.025); }
+          .faq-summary { min-height: 48px; padding: 10px 24px; }
+          .faq-summary:hover { background-color: rgba(0, 0, 0, 0.025); }
           .faq-q { font-size: 1.05rem; }
           .faq-answer-inner { padding: 0 24px 18px 24px; }
           .faq-a { font-size: 17px; max-width: 70ch; }

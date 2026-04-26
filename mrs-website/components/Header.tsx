@@ -4,6 +4,7 @@ import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
 import type { SiteConfig } from "@/lib/site-config";
+import { trackEvent } from "@/components/analytics/track";
 
 export default function Header({ config }: { config: SiteConfig }) {
   const basePath = config.location === 'newYork' ? '/ny' : '';
@@ -37,7 +38,7 @@ export default function Header({ config }: { config: SiteConfig }) {
 
         {/* Desktop CTA */}
         <div style={{ alignItems: "center" }} className="hidden-mobile">
-          <Link href={`${basePath}/contact`} className="btn-red" style={{ padding: "0.5rem 1rem", fontSize: "0.875rem" }}>Get Help Now</Link>
+          <Link href={`${basePath}/contact`} className="btn-red" style={{ padding: "0.5rem 1rem", fontSize: "0.875rem" }} onClick={() => trackEvent("cta_header_click")}>Get Help Now</Link>
         </div>
 
         {/* Mobile: hamburger */}
@@ -62,7 +63,7 @@ export default function Header({ config }: { config: SiteConfig }) {
               {label}{pathname === href ? " •" : ""}
             </Link>
           ))}
-          <Link href={`${basePath}/contact`} className="btn-red" style={{ textAlign: "center", marginTop: "0.5rem" }} onClick={() => setOpen(false)}>
+          <Link href={`${basePath}/contact`} className="btn-red" style={{ textAlign: "center", marginTop: "0.5rem" }} onClick={() => { trackEvent("cta_header_click"); setOpen(false); }}>
             Get Help Now →
           </Link>
         </div>

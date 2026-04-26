@@ -1,7 +1,13 @@
 import Link from "next/link";
 import Image from "next/image";
 import EmergencyForm from "@/components/EmergencyForm";
+import TrustBar from "@/components/TrustBar";
+import ReviewsSchema from "@/components/ReviewsSchema";
 import type { SiteConfig } from "@/lib/site-config";
+
+// TODO(David) — Google Business Profile URL for "Read all reviews" link.
+// Set this once the GBP is live so the link target is correct.
+const GOOGLE_REVIEWS_URL: string | null = null;
 
 export default function HomePage({ config }: { config: SiteConfig }) {
   const basePath = config.location === 'newYork' ? '/ny' : '';
@@ -111,7 +117,7 @@ export default function HomePage({ config }: { config: SiteConfig }) {
             <p style={{ color: "#a0c4ff", margin: "0.5rem 0 0" }}>Fill out this form and we&apos;ll contact you within 60 minutes — or call us now at <a href={config.phoneHref} style={{ color: "#fff", fontWeight: 700 }}>{config.phone}</a></p>
           </div>
           <div className="card" style={{ borderRadius: "0 0 10px 10px", boxShadow: "0 8px 32px rgba(0,0,0,0.12)" }}>
-            <EmergencyForm location={config.location} addressPlaceholder={config.addressPlaceholder} />
+            <EmergencyForm location={config.location} addressPlaceholder={config.addressPlaceholder} formContext="home" />
           </div>
         </div>
       </section>
@@ -134,14 +140,18 @@ export default function HomePage({ config }: { config: SiteConfig }) {
         </div>
       </section>
 
+      {/* TRUST BAR (Google reviews / BBB / license / experience) */}
+      <TrustBar config={config} />
+
       {/* TESTIMONIALS */}
+      <ReviewsSchema config={config} />
       <section className="section-pad" style={{ background: "var(--navy)" }}>
         <div style={{ maxWidth: 1200, margin: "0 auto" }}>
           <div style={{ textAlign: "center", marginBottom: "2.5rem" }}>
             <h2 style={{ color: "#fff", fontSize: "2rem" }}>What Our Customers Say</h2>
             <p style={{ color: "#a0aec0" }}>{config.testimonialSubhead}</p>
           </div>
-          <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(280px, 1fr))", gap: "1.25rem" }}>
+          <div className="testimonial-grid">
             {config.testimonials.map(t => (
               <div key={t.name} style={{ background: "rgba(255,255,255,0.07)", borderRadius: 10, padding: "1.5rem", border: "1px solid rgba(255,255,255,0.1)" }}>
                 <div style={{ color: "#fbbf24", fontSize: "1.1rem", marginBottom: "0.75rem" }}>{"★".repeat(t.stars)}</div>
@@ -150,7 +160,31 @@ export default function HomePage({ config }: { config: SiteConfig }) {
               </div>
             ))}
           </div>
+          <p style={{ marginTop: "1.5rem", textAlign: "center" }}>
+            {GOOGLE_REVIEWS_URL ? (
+              <a href={GOOGLE_REVIEWS_URL} target="_blank" rel="noopener noreferrer" style={{ color: "#a0c4ff", fontFamily: "Montserrat, sans-serif", fontSize: "0.95rem", textDecoration: "underline" }}>
+                Read all reviews on Google →
+              </a>
+            ) : (
+              <span style={{ color: "#a0c4ff", fontFamily: "Montserrat, sans-serif", fontSize: "0.95rem" }} title="GBP URL pending">
+                Read all reviews on Google → (TODO link)
+              </span>
+            )}
+          </p>
         </div>
+        <style>{`
+          .testimonial-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 16px;
+          }
+          @media (min-width: 768px) {
+            .testimonial-grid {
+              grid-template-columns: repeat(3, minmax(0, 1fr));
+              gap: 20px;
+            }
+          }
+        `}</style>
       </section>
 
       {/* SERVICE AREA */}

@@ -1,6 +1,7 @@
 "use client";
 import { useState, ChangeEvent, FormEvent } from "react";
 import { getUTMs } from "@/lib/utm";
+import { trackEvent } from "@/components/analytics/track";
 
 const DAMAGE_TYPES = ["Water Damage", "Fire & Smoke", "Mold", "Storm & Wind", "Sewage & Biohazard", "Other"];
 
@@ -39,9 +40,11 @@ function formatPhone(val: string) {
 export default function EmergencyForm({
   location = 'florida',
   addressPlaceholder = '123 Main St, Fort Lauderdale, FL 33301',
+  formContext = 'home',
 }: {
   location?: 'florida' | 'newYork';
   addressPlaceholder?: string;
+  formContext?: 'home' | 'contact';
 }) {
   const phone = location === 'newYork' ? '(917) 288-9730' : '(754) 777-8956';
   const phoneHref = location === 'newYork' ? 'tel:+19172889730' : 'tel:+17547778956';
@@ -132,6 +135,9 @@ export default function EmergencyForm({
         }
       }
 
+      trackEvent(formContext === 'contact' ? "form_submit_contact" : "form_submit_home", {
+        location,
+      });
       setSubmitted(true);
     } catch {
       alert("Something went wrong. Please call us directly at " + phone);

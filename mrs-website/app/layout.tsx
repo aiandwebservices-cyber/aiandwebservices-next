@@ -1,12 +1,16 @@
 import type { Metadata } from "next";
 import { Montserrat, Open_Sans } from "next/font/google";
+import { GoogleAnalytics } from "@next/third-parties/google";
 import "./globals.css";
 import UTMTracker from "@/components/UTMTracker";
+import PhoneClickTracker from "@/components/analytics/PhoneClickTracker";
 import { FL_CONFIG } from "@/lib/site-config";
 
 // LocalBusiness JSON-LD is emitted from per-route layouts (app/(fl)/layout.tsx
 // for FL, app/ny/layout.tsx for NY). The root layout intentionally emits no
 // location-specific schema so FL data does not leak onto NY routes.
+
+const GA_ID = process.env.NEXT_PUBLIC_GA_ID;
 
 const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat", display: "swap" });
 const openSans = Open_Sans({ subsets: ["latin"], variable: "--font-open-sans", display: "swap" });
@@ -77,7 +81,17 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className="min-h-screen flex flex-col">
         <UTMTracker />
+        <PhoneClickTracker />
+        {/*
+          TODO(David) — Paid-ad tracking is not installed yet.
+          When you're ready to run paid traffic, slot pixels in here:
+            • Meta Pixel: <MetaPixel pixelId={process.env.NEXT_PUBLIC_META_PIXEL_ID!} />
+            • Google Ads conversion tag: <GoogleAdsTag adsId={process.env.NEXT_PUBLIC_GADS_ID!} />
+          Both should mount alongside <GoogleAnalytics /> below so they cover
+          all routes (FL + NY) automatically.
+        */}
         {children}
+        {GA_ID ? <GoogleAnalytics gaId={GA_ID} /> : null}
       </body>
     </html>
   );
