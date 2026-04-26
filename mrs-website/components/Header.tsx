@@ -31,6 +31,10 @@ export default function Header({ config }: { config: SiteConfig }) {
         <nav style={{ gap: "1.5rem", alignItems: "center" }} className="hidden-mobile">
           <NavLink href={`${basePath}/`} active={pathname === `${basePath}/` || pathname === basePath}>Home</NavLink>
           <NavLink href={`${basePath}/services`} active={pathname === `${basePath}/services`}>Services</NavLink>
+          {config.location === 'florida' && (
+            // /service-areas page lands in next deploy — link is live in nav for structural prep.
+            <NavLink href="/service-areas" active={pathname === "/service-areas"}>Service Areas</NavLink>
+          )}
           <NavLink href={`${basePath}/about`} active={pathname === `${basePath}/about`}>About</NavLink>
           <NavLink href={`${basePath}/faq`} active={pathname === `${basePath}/faq`}>FAQ</NavLink>
           <NavLink href={`${basePath}/contact`} active={pathname === `${basePath}/contact`}>Contact</NavLink>
@@ -57,7 +61,15 @@ export default function Header({ config }: { config: SiteConfig }) {
       {/* Mobile menu */}
       {open && (
         <div style={{ background: "#162038", padding: "1rem", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
-          {([["Home", `${basePath}/`], ["Services", `${basePath}/services`], ["About", `${basePath}/about`], ["FAQ", `${basePath}/faq`], ["Contact", `${basePath}/contact`]] as [string, string][]).map(([label, href]) => (
+          {(([
+            ["Home", `${basePath}/`],
+            ["Services", `${basePath}/services`],
+            // /service-areas page lands in next deploy — FL only for now.
+            ...(config.location === 'florida' ? [["Service Areas", "/service-areas"]] : []),
+            ["About", `${basePath}/about`],
+            ["FAQ", `${basePath}/faq`],
+            ["Contact", `${basePath}/contact`],
+          ]) as [string, string][]).map(([label, href]) => (
             <Link key={href} href={href} onClick={() => setOpen(false)}
               style={{ color: pathname === href ? "var(--red)" : "#fff", textDecoration: "none", fontFamily: "Montserrat, sans-serif", fontWeight: 600, fontSize: "1rem", padding: "0.4rem 0", borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
               {label}{pathname === href ? " •" : ""}

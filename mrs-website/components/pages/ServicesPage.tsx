@@ -3,7 +3,17 @@ import Link from "next/link";
 import HashScroller from "@/components/HashScroller";
 import type { SiteConfig } from "@/lib/site-config";
 
-export default function ServicesPage({ config }: { config: SiteConfig }) {
+// Optional map of service-id → dedicated detail-page URL.
+// Passing this prop renders a "Read full <Service> guide →" link inside
+// each section. Currently only FL has detail pages; NY routes omit this
+// prop so the NY hub stays as a single-page anchor view until NY detail
+// pages ship in a follow-up.
+type ServicesPageProps = {
+  config: SiteConfig;
+  detailLinks?: Record<string, string>;
+};
+
+export default function ServicesPage({ config, detailLinks }: ServicesPageProps) {
   const basePath = config.location === 'newYork' ? '/ny' : '';
 
   return (
@@ -52,6 +62,14 @@ export default function ServicesPage({ config }: { config: SiteConfig }) {
                 <p style={{ fontSize: "0.875rem", color: "var(--gray-dark)", lineHeight: 1.6, margin: 0 }}>{s.callWhen}</p>
               </div>
             </div>
+
+            {detailLinks?.[s.id] && (
+              <p style={{ marginTop: "1.25rem", marginBottom: 0 }}>
+                <Link href={detailLinks[s.id]} style={{ color: "var(--red)", fontWeight: 700, fontSize: "0.95rem", textDecoration: "none" }}>
+                  Read full {s.title} guide →
+                </Link>
+              </p>
+            )}
 
             {s.photos.length > 0 && (
               <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.75rem", marginTop: "1.5rem" }}>
