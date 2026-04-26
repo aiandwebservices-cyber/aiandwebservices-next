@@ -29,10 +29,7 @@ export function BillNyeHomeCard() {
 
   if (status === 'loading') {
     return (
-      <div
-        className="rounded-xl p-4 space-y-3"
-        style={{ border: '1px solid var(--colony-border)', background: 'var(--colony-bg-elevated)' }}
-      >
+      <div className="flex flex-col gap-2 h-full">
         <div className="flex items-center gap-2">
           <span className="text-lg">🧪</span>
           <span className="text-xs font-bold" style={{ color: 'var(--colony-text-secondary)' }}>BILL NYE</span>
@@ -46,10 +43,7 @@ export function BillNyeHomeCard() {
 
   if (status === 'empty' || status === 'error') {
     return (
-      <div
-        className="rounded-xl p-4"
-        style={{ border: '1px solid var(--colony-border)', background: 'var(--colony-bg-elevated)' }}
-      >
+      <div className="flex flex-col h-full">
         <div className="flex items-center gap-2 mb-2">
           <span className="text-lg">🧪</span>
           <span className="text-xs font-bold" style={{ color: 'var(--colony-text-secondary)' }}>BILL NYE</span>
@@ -68,70 +62,48 @@ export function BillNyeHomeCard() {
 
   const daysDiff = Math.floor((Date.now() - new Date(report.generated_at).getTime()) / 86400000)
   const age = daysDiff === 0 ? 'Today' : daysDiff === 1 ? 'Yesterday' : `${daysDiff}d ago`
+  const findings = report.top_findings.slice(0, 4)
 
   return (
     <>
-      <div
-        className="rounded-xl overflow-hidden"
-        style={{ border: '1px solid var(--colony-border)' }}
-      >
-        <div
-          className="px-4 pt-4 pb-3"
-          style={{
-            background: 'linear-gradient(135deg, rgba(42,165,160,0.08) 0%, var(--colony-bg-elevated) 100%)',
-            borderBottom: '1px solid var(--colony-border)',
-          }}
-        >
-          <div className="flex items-center gap-2 mb-2">
-            <span className="text-lg">🧪</span>
-            <BotClickable
-              botId={`bot-${cohortId}-billnye`}
-              className="text-xs font-bold tracking-wide"
-            >
-              <span style={{ color: 'var(--colony-accent)' }}>BILL NYE</span>
-            </BotClickable>
-          </div>
-          <h3 className="text-sm font-bold leading-snug" style={{ color: 'var(--colony-text-primary)' }}>
-            {report.title}
-          </h3>
-          <p className="text-xs mt-0.5" style={{ color: 'var(--colony-text-secondary)' }}>
-            Generated {age}
-          </p>
+      <div className="flex flex-col h-full min-h-0">
+        <div className="flex items-center gap-2 mb-2">
+          <span className="text-lg">🧪</span>
+          <BotClickable
+            botId={`bot-${cohortId}-billnye`}
+            className="text-xs font-bold tracking-wide"
+          >
+            <span style={{ color: 'var(--colony-accent)' }}>BILL NYE</span>
+          </BotClickable>
+          <span className="text-[10px] ml-auto" style={{ color: 'var(--colony-text-secondary)' }}>
+            {age}
+          </span>
         </div>
+        <h3 className="text-sm font-bold leading-snug mb-2" style={{ color: 'var(--colony-text-primary)' }}>
+          {report.title}
+        </h3>
 
-        <div className="px-4 py-3 flex flex-col gap-2" style={{ background: 'var(--colony-bg-elevated)' }}>
-          {report.top_findings.map((finding, i) => (
-            <div
+        <div className="flex flex-col gap-1.5 flex-1 min-h-0 overflow-hidden">
+          {findings.map((finding, i) => (
+            <button
               key={i}
-              className="flex items-start gap-2 px-3 py-2 rounded-lg"
-              style={{
-                border: '1px solid var(--colony-border)',
-                background: 'var(--colony-bg-content)',
-              }}
+              onClick={() => setModalOpen(true)}
+              className="flex items-start gap-2 text-left transition-opacity hover:opacity-80"
+              style={{ color: 'var(--colony-text-primary)' }}
             >
               <span className="text-xs mt-0.5 shrink-0">🔬</span>
-              <p className="text-xs leading-snug" style={{ color: 'var(--colony-text-primary)' }}>
-                {finding}
-              </p>
-            </div>
+              <p className="text-xs leading-snug truncate">{finding}</p>
+            </button>
           ))}
         </div>
 
-        <div
-          className="px-4 py-3"
-          style={{
-            background: 'var(--colony-bg-elevated)',
-            borderTop: '1px solid var(--colony-border)',
-          }}
+        <button
+          onClick={() => setModalOpen(true)}
+          className="text-xs font-semibold transition-opacity hover:opacity-70 mt-2 self-start"
+          style={{ color: 'var(--colony-accent)' }}
         >
-          <button
-            onClick={() => setModalOpen(true)}
-            className="text-xs font-semibold transition-opacity hover:opacity-70"
-            style={{ color: 'var(--colony-accent)' }}
-          >
-            Read full report →
-          </button>
-        </div>
+          Read full report →
+        </button>
       </div>
 
       {modalOpen && <ReportModal report={report} onClose={() => setModalOpen(false)} />}

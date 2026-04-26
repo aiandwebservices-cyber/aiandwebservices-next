@@ -260,9 +260,12 @@ export default function Page() {
                 minHeight: 480,
               }}
             >
-              {/* Left — Bill Nye */}
-              <div className="ch-panel" style={{ padding: 20, display: 'flex', flexDirection: 'column' }}>
-                <BillNyeHomeCard />
+              {/* Left — Stack of square cards (Bill Nye + future siblings) */}
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 20, alignSelf: 'flex-start', width: '100%' }}>
+                <div className="ch-panel" style={{ padding: 20, aspectRatio: '1 / 1', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+                  <BillNyeHomeCard />
+                </div>
+                {/* Add additional top cells here as siblings */}
               </div>
 
               {/* Center — Activity feed */}
