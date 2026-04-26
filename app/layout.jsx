@@ -16,7 +16,8 @@ const plusJakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
   weight: ['700', '800'],
   variable: '--font-plus-jakarta',
-  display: 'optional',
+  display: 'swap',
+  adjustFontFallback: true,
 });
 
 export const metadataBase = new URL('https://www.aiandwebservices.com');
