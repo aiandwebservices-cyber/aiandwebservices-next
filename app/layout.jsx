@@ -18,6 +18,7 @@ const plusJakarta = Plus_Jakarta_Sans({
   variable: '--font-plus-jakarta',
   display: 'swap',
   adjustFontFallback: true,
+  fallback: ['Arial Black', 'Helvetica Neue', 'Arial', 'sans-serif'],
 });
 
 export const metadataBase = new URL('https://www.aiandwebservices.com');
