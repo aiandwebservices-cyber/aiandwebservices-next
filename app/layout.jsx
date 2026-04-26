@@ -16,8 +16,9 @@ const plusJakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
   weight: ['700', '800'],
   variable: '--font-plus-jakarta',
-  display: 'swap',
-  adjustFontFallback: true,
+  display: 'block',
+  preload: true,
+  adjustFontFallback: false,
   fallback: ['Arial Black', 'Helvetica Neue', 'Arial', 'sans-serif'],
 });
 
@@ -67,6 +68,13 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" className={`${inter.variable} ${plusJakarta.variable}`} suppressHydrationWarning={true}>
       <head>
+        <link
+          rel="preload"
+          href="/_next/static/media/636a5ac981f94f8b-s.p.woff2"
+          as="font"
+          type="font/woff2"
+          crossOrigin="anonymous"
+        />
         <link rel="preconnect" href="https://client.crisp.chat" />
         <link rel="dns-prefetch" href="https://client.crisp.chat" />
         {/* Block browser scroll restoration before any rendering — must be synchronous */}
