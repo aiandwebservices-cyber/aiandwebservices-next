@@ -34,7 +34,7 @@ export default function Footer({ config }: { config: SiteConfig }) {
 
         {/* Services */}
         <div>
-          <h4 style={{ color: "#fff", fontSize: "0.95rem", marginBottom: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>Services</h4>
+          <h3 style={{ color: "#fff", fontSize: "0.95rem", marginBottom: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>Services</h3>
           {["Water Damage", "Fire & Smoke", "Mold Remediation", "Storm Damage", "Biohazard Cleanup", "Reconstruction"].map(s => (
             <Link key={s} href={`${base}/services`} className="footer-link">
               {s}
@@ -44,7 +44,7 @@ export default function Footer({ config }: { config: SiteConfig }) {
 
         {/* Quick Links */}
         <div>
-          <h4 style={{ color: "#fff", fontSize: "0.95rem", marginBottom: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>Company</h4>
+          <h3 style={{ color: "#fff", fontSize: "0.95rem", marginBottom: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>Company</h3>
           {([["About Us", "/about"], ["FAQ", "/faq"], ["Contact", "/contact"], ["Emergency Help", "/contact"]] as [string, string][]).map(([label, href]) => (
             <Link key={label} href={`${base}${href}`} className="footer-link">
               {label}
@@ -54,8 +54,8 @@ export default function Footer({ config }: { config: SiteConfig }) {
 
         {/* Contact */}
         <div>
-          <h4 style={{ color: "#fff", fontSize: "0.95rem", marginBottom: "0.4rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>Contact</h4>
-          <a href={config.phoneHref} style={{ display: "block", color: "var(--red)", fontWeight: 800, fontSize: "1.2rem", fontFamily: "Montserrat, sans-serif", textDecoration: "none", marginBottom: "0.5rem" }}>{config.phone}</a>
+          <h3 style={{ color: "#fff", fontSize: "0.95rem", marginBottom: "0.4rem", textTransform: "uppercase", letterSpacing: "0.05em" }}>Contact</h3>
+          <a href={config.phoneHref} style={{ display: "block", color: "#ff8aa0", fontWeight: 800, fontSize: "1.2rem", fontFamily: "Montserrat, sans-serif", textDecoration: "none", marginBottom: "0.5rem" }}>{config.phone}</a>
           <a href={`mailto:${config.email}`} style={{ display: "block", color: "#a0aec0", fontSize: "0.8rem", textDecoration: "none", marginBottom: "0.5rem" }}>{config.email}</a>
           {config.addressOneLiner && (
             // FL renders the address on two lines (street / city-state-zip).
@@ -71,17 +71,17 @@ export default function Footer({ config }: { config: SiteConfig }) {
             )
           )}
           <p style={{ fontSize: "0.875rem", color: "#a0aec0", marginBottom: "0.25rem" }}>Hours: 24/7 — Always Open</p>
-          <p style={{ fontSize: "0.8rem", color: "#718096" }}>
+          <p style={{ fontSize: "0.8rem", color: "#a0aec0" }}>
             {config.licenseNumbers ? `${config.licenseNumbers.join(' | ')} | ` : ''}IICRC Certified
           </p>
         </div>
       </div>
 
       <div style={{ borderTop: "1px solid rgba(255,255,255,0.1)", maxWidth: 1200, margin: "0 auto", padding: "1.25rem 1.5rem", display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "0.5rem" }}>
-        <p style={{ fontSize: "0.8rem", color: "#718096", margin: 0 }}>
+        <p style={{ fontSize: "0.8rem", color: "#a0aec0", margin: 0 }}>
           © {new Date().getFullYear()} {config.siteName}. All rights reserved. Licensed &amp; Insured.
         </p>
-        <p style={{ fontSize: "0.8rem", color: "#718096", margin: 0 }}>
+        <p style={{ fontSize: "0.8rem", color: "#a0aec0", margin: 0 }}>
           {config.footerServiceAreaLine}
         </p>
       </div>

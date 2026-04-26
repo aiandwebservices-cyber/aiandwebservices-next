@@ -5,7 +5,7 @@
   --red: #C41E3A;
   --off-white: #F5F6F8;
   --gray-dark: #2D3748;
-  --gray-mid: #718096;
+  --gray-mid: #5a6677;  /* darkened from #718096 to meet WCAG AA 4.5:1 on #fff (5.4:1) and #f5f6f8 (5.0:1) */
   --gray-light: #E2E8F0;
 }
 

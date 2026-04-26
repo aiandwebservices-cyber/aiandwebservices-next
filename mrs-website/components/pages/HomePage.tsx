@@ -128,7 +128,7 @@ export default function HomePage({ config }: { config: SiteConfig }) {
               <div key={t.name} style={{ background: "rgba(255,255,255,0.07)", borderRadius: 10, padding: "1.5rem", border: "1px solid rgba(255,255,255,0.1)" }}>
                 <div style={{ color: "#fbbf24", fontSize: "1.1rem", marginBottom: "0.75rem" }}>{"★".repeat(t.stars)}</div>
                 <p style={{ color: "#e2e8f0", fontSize: "0.9rem", lineHeight: 1.7, marginBottom: "1rem", fontStyle: "italic" }}>&ldquo;{t.quote}&rdquo;</p>
-                <p style={{ color: "var(--red)", fontWeight: 700, fontSize: "0.875rem", fontFamily: "Montserrat, sans-serif" }}>{t.name} — {t.city}</p>
+                <p style={{ color: "#ff8aa0", fontWeight: 700, fontSize: "0.875rem", fontFamily: "Montserrat, sans-serif" }}>{t.name} — {t.city}</p>
               </div>
             ))}
           </div>
