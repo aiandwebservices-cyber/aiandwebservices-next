@@ -102,8 +102,8 @@ export default function Nav() {
     isOnContactPage || currentPanel === 0 || currentPanel === 1 || currentPanel === 7 || currentPanel === 8
   );
   const logoSrc = isDarkSurface
-    ? '/logo-full-dark.jpg'
-    : '/logo-final/logoFINAL-aiandweb-transparent-blacktext.svg';
+    ? '/logo-white.svg'
+    : '/logo-transparent.svg';
 
   const LogoInner = () => (
     // eslint-disable-next-line @next/next/no-img-element
