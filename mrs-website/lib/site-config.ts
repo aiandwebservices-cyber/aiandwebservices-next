@@ -367,7 +367,7 @@ export const FL_CONFIG: SiteConfig = {
   ],
   certs: [
     { name: 'IICRC Certified', desc: 'Institute of Inspection, Cleaning and Restoration Certification — the gold standard in restoration.' },
-    { name: 'FL Mold Lic. #MRSR5155', desc: 'Florida state licensed for Mold Remediation — verified and compliant.' },
+    { name: 'FL Lic. #MRSR5155', desc: 'Florida state licensed for Mold Remediation — verified and compliant.' },
     { name: 'Residential & Commercial', desc: 'We serve both homeowners and commercial property owners across South Florida.' },
     { name: 'Fully Insured', desc: 'General liability and workers compensation coverage for your peace of mind.' },
   ],
@@ -385,7 +385,7 @@ export const FL_CONFIG: SiteConfig = {
     'Appliance failures in high-humidity environments',
   ],
 
-  licenseNumbers: ['FL Mold Lic. #MRSR5155'],
+  licenseNumbers: ['FL Lic. #MRSR5155'],
 
   footerTagline: "South Florida's trusted property damage restoration experts.",
   footerServiceAreaLine: 'Serving Palm Beach, Broward & Miami-Dade Counties',

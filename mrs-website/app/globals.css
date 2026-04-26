@@ -152,3 +152,8 @@ label {
 @media (max-width: 560px) {
   .services-grid { grid-template-columns: 1fr; }
 }
+
+/* Sticky bottom call bar — toggled by StickyCallBar.tsx on scroll (mobile only) */
+@media (max-width: 767px) {
+  body.has-sticky-call { padding-bottom: 64px; }
+}
