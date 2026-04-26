@@ -164,7 +164,7 @@ export const FL_SERVICE_DETAILS: ServiceDetail[] = [
     photos: [
       { src: "/photos/services/fire-burning.jpg", alt: "House fully engulfed in flames during a South Florida structure fire", todoNote: "Fallback to existing photo. Original spec: Pexels 'house fire damage interior'." },
       { src: "/photos/services/fire-charred.jpg", alt: "Charred structural framing inside a South Florida home after fire damage", todoNote: "Fallback to existing photo. Original spec: Unsplash 'smoke restoration equipment'." },
-      { src: "/photos/damage-ceiling.jpeg", alt: "Storm and fire damage to ceiling structure in a South Florida home", todoNote: "Fallback to existing photo." },
+      { src: "/photos/services/ov-smoke-soot.jpg", alt: "Smoke and soot residue on interior surfaces of a South Florida home after fire", todoNote: "Fallback to existing photo." },
     ],
   },
 
@@ -294,7 +294,7 @@ export const FL_SERVICE_DETAILS: ServiceDetail[] = [
     photos: [
       { src: "/photos/services/storm-lightning.jpg", alt: "Lightning storm over a South Florida neighborhood during severe weather", todoNote: "Fallback to existing photo. Original spec: Pexels 'hurricane roof tarp'." },
       { src: "/photos/services/storm-trees.jpg", alt: "Hurricane-downed trees blocking a South Florida home after a named storm", todoNote: "Fallback to existing photo. Original spec: Unsplash 'storm damage debris'." },
-      { src: "/photos/damage-ceiling.jpeg", alt: "Storm damage to ceiling structure in a South Florida property", todoNote: "Fallback to existing photo." },
+      { src: "/photos/services/wiki-hurricane-flood.jpg", alt: "South Florida property with hurricane storm-surge flood damage", todoNote: "Fallback to existing photo." },
     ],
   },
 
@@ -423,7 +423,7 @@ export const FL_SERVICE_DETAILS: ServiceDetail[] = [
     photos: [
       { src: "/photos/services/recon-framing.jpg", alt: "Exposed wood framing during a South Florida home reconstruction", todoNote: "Fallback to existing photo. Original spec: Pexels 'drywall installation'." },
       { src: "/photos/services/recon-interior.jpg", alt: "Interior rebuild in progress with new drywall during a South Florida reconstruction", todoNote: "Fallback to existing photo. Original spec: Unsplash 'home renovation interior finish'." },
-      { src: "/photos/hallway-drying.jpeg", alt: "South Florida hallway after restoration and drying complete", todoNote: "Fallback to existing photo." },
+      { src: "/photos/services/wiki-fire-interior.jpg", alt: "Interior reconstruction in progress in a South Florida property", todoNote: "Fallback to existing photo." },
     ],
   },
 ];

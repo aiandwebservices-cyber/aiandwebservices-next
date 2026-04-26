@@ -1,26 +1,37 @@
 import Image from "next/image";
 import Link from "next/link";
-import { FL_CONFIG } from "@/lib/site-config";
 import BreadcrumbSchema from "@/components/BreadcrumbSchema";
+import type { SiteConfig } from "@/lib/site-config";
 import type { ServiceDetail } from "@/lib/services-fl-detail";
 
 const BASE = "https://mitigationrestorationservice.com";
 
-// Shared layout for the six FL service detail pages.
-// Each route under app/(fl)/services/[slug]/page.tsx renders this with
-// its own ServiceDetail data block (lib/services-fl-detail.ts).
+const FL_AREA_SERVED = ["Palm Beach County", "Broward County", "Miami-Dade County"];
+const NY_AREA_SERVED = [
+  "New York County",   // Manhattan
+  "Kings County",      // Brooklyn
+  "Queens County",     // Queens
+  "Bronx County",      // The Bronx
+  "Richmond County",   // Staten Island
+];
+
+// Shared layout for the FL and NY service detail pages.
+// Each route under app/(fl)/services/[slug]/page.tsx and
+// app/ny/services/[slug]/page.tsx renders this with its own
+// ServiceDetail data block plus the matching SiteConfig.
 //
 // Schema:
-//   - BreadcrumbSchema (Home → Services → [Service])
-//   - Service JSON-LD (provider links to LocalBusiness @id from FL layout)
+//   - BreadcrumbSchema (Home → Services → [Service]) — paths route-aware
+//   - Service JSON-LD (provider links to LocalBusiness @id from the
+//     FL or NY layout, areaServed = FL counties or NYC boroughs-as-counties)
 //   - FAQPage JSON-LD (page-specific FAQ block, NOT recycled from /faq)
-//
-// NY equivalents will share this template once NY service pages ship —
-// the only NY-specific bits at that time will be config and BASE URL.
 
-export default function ServiceDetailPage({ detail }: { detail: ServiceDetail }) {
-  const config = FL_CONFIG;
-  const fullUrl = `${BASE}/services/${detail.slug}`;
+export default function ServiceDetailPage({ detail, config }: { detail: ServiceDetail; config: SiteConfig }) {
+  const isNY = config.location === "newYork";
+  const basePath = isNY ? "/ny" : "";
+  const fullUrl = `${BASE}${basePath}/services/${detail.slug}`;
+  const businessId = isNY ? `${BASE}/ny/#business` : `${BASE}/#business`;
+  const areaServed = isNY ? NY_AREA_SERVED : FL_AREA_SERVED;
 
   const serviceSchema = {
     "@context": "https://schema.org",
@@ -29,8 +40,8 @@ export default function ServiceDetailPage({ detail }: { detail: ServiceDetail })
     name: detail.schemaName,
     description: detail.schemaDescription,
     url: fullUrl,
-    provider: { "@type": "LocalBusiness", "@id": `${BASE}/#business` },
-    areaServed: ["Palm Beach County", "Broward County", "Miami-Dade County"].map(name => ({
+    provider: { "@type": "LocalBusiness", "@id": businessId },
+    areaServed: areaServed.map(name => ({
       "@type": "AdministrativeArea",
       name,
     })),
@@ -50,8 +61,8 @@ export default function ServiceDetailPage({ detail }: { detail: ServiceDetail })
     <>
       <BreadcrumbSchema
         items={[
-          { name: "Home", item: BASE },
-          { name: "Services", item: `${BASE}/services` },
+          { name: "Home", item: `${BASE}${basePath}` },
+          { name: "Services", item: `${BASE}${basePath}/services` },
           { name: detail.title, item: fullUrl },
         ]}
       />
@@ -70,7 +81,7 @@ export default function ServiceDetailPage({ detail }: { detail: ServiceDetail })
             </p>
             <div style={{ display: "flex", flexWrap: "wrap", gap: "0.75rem" }}>
               <a href={config.phoneHref} className="btn-red" style={{ fontSize: "1rem" }}>📞 Call {config.phone}</a>
-              <Link href="/contact" className="btn-outline" style={{ borderColor: "#fff", color: "#fff" }}>Request Help Online</Link>
+              <Link href={`${basePath}/contact`} className="btn-outline" style={{ borderColor: "#fff", color: "#fff" }}>Request Help Online</Link>
             </div>
           </div>
           <div className="svc-hero-image">
@@ -166,7 +177,7 @@ export default function ServiceDetailPage({ detail }: { detail: ServiceDetail })
         <p style={{ color: "var(--gray-mid)", fontSize: "0.95rem", margin: "0 auto 0.75rem", maxWidth: 800, lineHeight: 1.6 }}>
           Serving South Florida from Boca Raton through Fort Lauderdale to Miami and Homestead — including {config.serviceAreaCities.slice(0, 6).join(", ")}, and surrounding communities.
         </p>
-        <Link href="/service-areas" style={{ color: "var(--red)", fontWeight: 700, fontSize: "0.95rem" }}>
+        <Link href={`${basePath}/service-areas`} style={{ color: "var(--red)", fontWeight: 700, fontSize: "0.95rem" }}>
           See full Service Areas →
         </Link>
       </section>
@@ -178,7 +189,7 @@ export default function ServiceDetailPage({ detail }: { detail: ServiceDetail })
         <a href={config.phoneHref} style={{ background: "#fff", color: "var(--red)", padding: "1rem 2rem", borderRadius: 6, fontWeight: 800, fontSize: "1.15rem", textDecoration: "none", fontFamily: "Montserrat, sans-serif", display: "inline-block", marginRight: "0.75rem" }}>
           Call {config.phone}
         </a>
-        <Link href="/contact" className="btn-outline" style={{ borderColor: "#fff", color: "#fff" }}>Request Help</Link>
+        <Link href={`${basePath}/contact`} className="btn-outline" style={{ borderColor: "#fff", color: "#fff" }}>Request Help</Link>
       </section>
 
       <style>{`

@@ -38,8 +38,8 @@ export default function AboutPage({ config }: { config: SiteConfig }) {
             </div>
             <div style={{ borderRadius: 10, overflow: "hidden" }}>
               <Image
-                src="/photos/thermal-imaging.jpeg"
-                alt="MRS technician using thermal imaging camera to detect hidden moisture"
+                src="/photos/services/ov-fire-aftermath2.jpg"
+                alt="MRS team on-site at a South Florida restoration job"
                 width={4032}
                 height={3024}
                 style={{ width: "100%", height: "auto", display: "block" }}

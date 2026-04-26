@@ -62,7 +62,7 @@ export default function Footer({ config }: { config: SiteConfig }) {
             // NY's addressOneLiner is null today, so this branch is FL-only
             // until NY confirms an address.
             config.location === 'florida' ? (
-              <address style={{ fontStyle: "normal", fontSize: "0.875rem", color: "#a0aec0", marginBottom: "0.5rem", lineHeight: 1.5 }}>
+              <address style={{ fontStyle: "normal", fontSize: "0.875rem", color: "#a0aec0", marginBottom: "1.1rem", lineHeight: 1.5 }}>
                 11322 Miramar Pkwy<br />
                 Miramar, FL 33025
               </address>

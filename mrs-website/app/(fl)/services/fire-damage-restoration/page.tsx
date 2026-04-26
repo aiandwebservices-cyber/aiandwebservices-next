@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import ServiceDetailPage from "@/components/pages/ServiceDetailPage";
+import { FL_CONFIG } from "@/lib/site-config";
 import { FL_SERVICE_DETAILS_BY_SLUG } from "@/lib/services-fl-detail";
 
 /*
@@ -28,5 +29,5 @@ export const metadata: Metadata = {
 };
 
 export default function Page() {
-  return <ServiceDetailPage detail={detail} />;
+  return <ServiceDetailPage detail={detail} config={FL_CONFIG} />;
 }

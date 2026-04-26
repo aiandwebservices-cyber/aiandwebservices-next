@@ -90,12 +90,12 @@ export default function HomePage({ config }: { config: SiteConfig }) {
           </div>
           <div className="work-grid">
             {[
-              { src: "/photos/hallway-drying.jpeg", alt: "Industrial air movers deployed in water-damaged hallway" },
-              { src: "/photos/water-air-movers.jpeg", alt: "Three air movers running during water damage drying process" },
-              { src: "/photos/dehumidifier-kitchen.jpeg", alt: "Commercial dehumidifier and air mover operating in kitchen" },
-              { src: "/photos/kitchen-after.jpeg", alt: "Beautiful kitchen after full restoration and reconstruction" },
-              { src: "/photos/job-site-thumb.jpeg", alt: "Commercial hallway with full drying equipment deployed" },
-              { src: "/photos/thermal-imaging.jpeg", alt: "Thermal imaging camera detecting hidden moisture" },
+              { src: "/photos/services/wiki-flood-ceiling.jpg", alt: "Flood and water damage to a ceiling in a South Florida home" },
+              { src: "/photos/services/ov-basement.jpg", alt: "Basement water damage and remediation work in a South Florida property" },
+              { src: "/photos/services/ov-charred-frame.jpg", alt: "Charred wood framing inside a South Florida home after fire damage" },
+              { src: "/photos/services/ov-mold-depot.jpg", alt: "Mold remediation containment setup in a South Florida property" },
+              { src: "/photos/services/wiki-hurricane-damage.jpg", alt: "South Florida home with structural damage following a hurricane" },
+              { src: "/photos/services/ov-fire-aftermath1.jpg", alt: "Smoke and fire aftermath inside a South Florida residence" },
             ].map(({ src, alt }) => (
               <div key={src} style={{ position: "relative", borderRadius: 8, overflow: "hidden", aspectRatio: "4/3" }}>
                 <Image src={src} alt={alt} fill style={{ objectFit: "cover" }} sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />

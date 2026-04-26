@@ -6,23 +6,30 @@ import Image from "next/image";
 import type { SiteConfig } from "@/lib/site-config";
 import { trackEvent } from "@/components/analytics/track";
 
-// FL service detail pages (used by both desktop dropdown and mobile expand).
-// NY does not have detail pages yet, so the dropdown is FL-only.
-const FL_SERVICE_LINKS = [
-  { label: "Water Damage Restoration", href: "/services/water-damage-restoration" },
-  { label: "Fire & Smoke Damage", href: "/services/fire-damage-restoration" },
-  { label: "Mold Remediation", href: "/services/mold-remediation" },
-  { label: "Storm & Wind Damage", href: "/services/storm-damage-repair" },
-  { label: "Sewage & Biohazard", href: "/services/biohazard-cleanup" },
-  { label: "Reconstruction & Rebuild", href: "/services/reconstruction-rebuild" },
+// Service detail pages used by both desktop dropdown and mobile expand.
+// FL and NY both have all six pages — the only difference is the URL prefix.
+const SERVICE_LABEL_AND_SLUG: { label: string; slug: string }[] = [
+  { label: "Water Damage Restoration", slug: "water-damage-restoration" },
+  { label: "Fire & Smoke Damage", slug: "fire-damage-restoration" },
+  { label: "Mold Remediation", slug: "mold-remediation" },
+  { label: "Storm & Wind Damage", slug: "storm-damage-repair" },
+  { label: "Sewage & Biohazard", slug: "biohazard-cleanup" },
+  { label: "Reconstruction & Rebuild", slug: "reconstruction-rebuild" },
 ];
+
+function serviceLinksFor(basePath: string) {
+  return SERVICE_LABEL_AND_SLUG.map(s => ({
+    label: s.label,
+    href: `${basePath}/services/${s.slug}`,
+  }));
+}
 
 export default function Header({ config }: { config: SiteConfig }) {
   const basePath = config.location === 'newYork' ? '/ny' : '';
-  const isFL = config.location === 'florida';
   const [open, setOpen] = useState(false);
   const [servicesExpanded, setServicesExpanded] = useState(false);
   const pathname = usePathname();
+  const serviceLinks = serviceLinksFor(basePath);
 
   // Body scroll lock while mobile menu is open.
   useEffect(() => {
@@ -66,31 +73,24 @@ export default function Header({ config }: { config: SiteConfig }) {
         <nav style={{ gap: "1.5rem", alignItems: "center" }} className="hidden-mobile">
           <NavLink href={`${basePath}/`} active={pathname === `${basePath}/` || pathname === basePath}>Home</NavLink>
 
-          {isFL ? (
-            <div className="svc-dd">
-              <Link
-                href={`${basePath}/services`}
-                className={`svc-dd-trigger${servicesActive ? " is-active" : ""}`}
-              >
-                Services
-                <span className="svc-dd-chevron" aria-hidden="true">▾</span>
-              </Link>
-              <div className="svc-dd-panel" role="menu" aria-label="Service categories">
-                {FL_SERVICE_LINKS.map(s => (
-                  <Link key={s.href} href={s.href} className="svc-dd-item" role="menuitem">
-                    {s.label}
-                  </Link>
-                ))}
-              </div>
+          <div className="svc-dd">
+            <Link
+              href={`${basePath}/services`}
+              className={`svc-dd-trigger${servicesActive ? " is-active" : ""}`}
+            >
+              Services
+              <span className="svc-dd-chevron" aria-hidden="true">▾</span>
+            </Link>
+            <div className="svc-dd-panel" role="menu" aria-label="Service categories">
+              {serviceLinks.map(s => (
+                <Link key={s.href} href={s.href} className="svc-dd-item" role="menuitem">
+                  {s.label}
+                </Link>
+              ))}
             </div>
-          ) : (
-            <NavLink href={`${basePath}/services`} active={servicesActive}>Services</NavLink>
-          )}
+          </div>
 
-          {isFL && (
-            // /service-areas page lands in next deploy — link is live in nav for structural prep.
-            <NavLink href="/service-areas" active={pathname === "/service-areas"}>Service Areas</NavLink>
-          )}
+          <NavLink href={`${basePath}/service-areas`} active={pathname === `${basePath}/service-areas`}>Service Areas</NavLink>
           <NavLink href={`${basePath}/about`} active={pathname === `${basePath}/about`}>About</NavLink>
           <NavLink href={`${basePath}/faq`} active={pathname === `${basePath}/faq`}>FAQ</NavLink>
           <NavLink href={`${basePath}/contact`} active={pathname === `${basePath}/contact`}>Contact</NavLink>
@@ -131,37 +131,29 @@ export default function Header({ config }: { config: SiteConfig }) {
           <nav className="mob-panel" aria-label="Site navigation">
             <Link href={`${basePath}/`} onClick={closeMenu} className="mob-link">Home</Link>
 
-            {isFL ? (
-              <>
-                <button
-                  type="button"
-                  className="mob-link mob-svc-toggle"
-                  onClick={() => setServicesExpanded(e => !e)}
-                  aria-expanded={servicesExpanded}
-                >
-                  <span>Services</span>
-                  <span className={`mob-chevron${servicesExpanded ? " is-open" : ""}`} aria-hidden="true">▾</span>
-                </button>
-                {servicesExpanded && (
-                  <div className="mob-sublist">
-                    {FL_SERVICE_LINKS.map(s => (
-                      <Link key={s.href} href={s.href} onClick={closeMenu} className="mob-sublink">
-                        {s.label}
-                      </Link>
-                    ))}
-                    <Link href={`${basePath}/services`} onClick={closeMenu} className="mob-sublink mob-sublink-overview">
-                      View overview →
-                    </Link>
-                  </div>
-                )}
-              </>
-            ) : (
-              <Link href={`${basePath}/services`} onClick={closeMenu} className="mob-link">Services</Link>
+            <button
+              type="button"
+              className="mob-link mob-svc-toggle"
+              onClick={() => setServicesExpanded(e => !e)}
+              aria-expanded={servicesExpanded}
+            >
+              <span>Services</span>
+              <span className={`mob-chevron${servicesExpanded ? " is-open" : ""}`} aria-hidden="true">▾</span>
+            </button>
+            {servicesExpanded && (
+              <div className="mob-sublist">
+                {serviceLinks.map(s => (
+                  <Link key={s.href} href={s.href} onClick={closeMenu} className="mob-sublink">
+                    {s.label}
+                  </Link>
+                ))}
+                <Link href={`${basePath}/services`} onClick={closeMenu} className="mob-sublink mob-sublink-overview">
+                  View overview →
+                </Link>
+              </div>
             )}
 
-            {isFL && (
-              <Link href="/service-areas" onClick={closeMenu} className="mob-link">Service Areas</Link>
-            )}
+            <Link href={`${basePath}/service-areas`} onClick={closeMenu} className="mob-link">Service Areas</Link>
             <Link href={`${basePath}/about`} onClick={closeMenu} className="mob-link">About</Link>
             <Link href={`${basePath}/faq`} onClick={closeMenu} className="mob-link">FAQ</Link>
             <Link href={`${basePath}/contact`} onClick={closeMenu} className="mob-link">Contact</Link>
