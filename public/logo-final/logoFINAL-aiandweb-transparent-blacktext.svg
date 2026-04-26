@@ -1,5 +1,5 @@
 <svg width="700" height="240" viewBox="0 0 700 240" role="img" xmlns="http://www.w3.org/2000/svg">
-<title>AIandWEBservices - transparent bg with dark wordmark</title>
+<title>AIandWEBservices - transparent bg with black wordmark</title>
 <defs>
   <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
     <stop offset="0%" stop-color="#2AA5A0"/>
@@ -13,6 +13,6 @@
 <circle cx="188" cy="68" r="20" fill="url(#g)" opacity="0.75"/>
 <circle cx="188" cy="172" r="20" fill="url(#g)" opacity="0.75"/>
 <circle cx="52" cy="172" r="16" fill="url(#g)" opacity="0.5"/>
-<text x="260" y="135" font-family="'Plus Jakarta Sans',system-ui,sans-serif" font-size="80" font-weight="800" fill="#0B1B33" letter-spacing="-2">AIandWEB</text>
+<text x="260" y="135" font-family="'Plus Jakarta Sans',system-ui,sans-serif" font-size="80" font-weight="800" fill="#000000" letter-spacing="-2">AIandWEB</text>
 <text x="318" y="180" font-family="'Plus Jakarta Sans',system-ui,sans-serif" font-size="32" font-weight="600" letter-spacing="21" fill="#3787E6">services</text>
 </svg>
