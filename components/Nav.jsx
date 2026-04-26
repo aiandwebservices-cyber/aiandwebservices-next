@@ -102,12 +102,12 @@ export default function Nav() {
     isOnContactPage || currentPanel === 0 || currentPanel === 1 || currentPanel === 7 || currentPanel === 8
   );
   const logoSrc = isDarkSurface
-    ? '/logo-white.svg'
-    : '/logo-transparent.svg';
+    ? '/logo-gradient-test.svg'
+    : '/logo-gradient-light.svg';
 
   const LogoInner = () => (
     // eslint-disable-next-line @next/next/no-img-element
-    <img src={logoSrc} alt="AIandWEBservices" width={340} height={56} style={{ display:'block' }} />
+    <img src={logoSrc} alt="AIandWEBservices" width={260} height={52} style={{ display:'block' }} />
   );
 
   return (
