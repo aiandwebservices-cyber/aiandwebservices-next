@@ -34,7 +34,8 @@ export type ServiceDetail = {
   whyHeading: string;
   whySFlParagraphs: string[];
   faq: ServiceDetailFaq[];
-  photos: ServiceDetailPhoto[];
+  heroPhoto: ServiceDetailPhoto;     // top-of-page hero image
+  photos: ServiceDetailPhoto[];      // bottom 3-photo strip — must NOT include heroPhoto
 };
 
 export const FL_SERVICE_DETAILS: ServiceDetail[] = [
@@ -95,10 +96,11 @@ export const FL_SERVICE_DETAILS: ServiceDetail[] = [
         a: "Most residential jobs run 3 to 5 days from extraction to dry. Hardwood floors and dense materials in coastal humidity can take longer — sometimes up to 7 days — and we monitor moisture readings daily so the equipment runs only as long as it needs to. If we pull early we risk hidden moisture and downstream mold; we keep documentation throughout so your carrier sees why each day was billed.",
       },
     ],
+    heroPhoto: { src: "/photos/water-air-movers.jpeg", alt: "Industrial air movers and dehumidifier deployed after South Florida water damage" },
     photos: [
-      { src: "/photos/water-air-movers.jpeg", alt: "Industrial air movers and dehumidifier deployed after South Florida water damage" },
-      { src: "/photos/wall-demo-drying.jpeg", alt: "Opened wall with air mover running during South Florida water damage drying", todoNote: "Fallback to existing photo until ideal image is sourced. Original spec: Pexels 'water damage drying equipment'." },
-      { src: "/photos/dehumidifier-kitchen.jpeg", alt: "Commercial dehumidifier and air mover operating in kitchen after South Florida water loss", todoNote: "Fallback to existing photo until ideal image is sourced. Original spec: Unsplash 'flooded living room interior'." },
+      { src: "/photos/wall-demo-drying.jpeg", alt: "Opened wall with air mover running during South Florida water damage drying", todoNote: "Fallback to existing photo. Original spec: Pexels 'water damage drying equipment'." },
+      { src: "/photos/dehumidifier-kitchen.jpeg", alt: "Commercial dehumidifier and air mover operating in kitchen after South Florida water loss", todoNote: "Fallback to existing photo. Original spec: Unsplash 'flooded living room interior'." },
+      { src: "/photos/hallway-drying.jpeg", alt: "Industrial air movers deployed in water-damaged South Florida hallway", todoNote: "Fallback to existing photo." },
     ],
   },
 
@@ -158,10 +160,11 @@ export const FL_SERVICE_DETAILS: ServiceDetail[] = [
         a: "Don't try to wipe soot off walls or furniture — modern soot is acidic and sets into surfaces within hours, especially in Florida humidity. Don't run the HVAC system if smoke entered the air handler, since that pushes contamination through the entire duct network. Don't throw out damaged items until they've been inventoried for the claim. Stay out of structurally compromised areas and call us.",
       },
     ],
+    heroPhoto: { src: "/photos/services/fire-aftermath.jpg", alt: "Fire-damaged exterior of a South Florida home after a structural blaze" },
     photos: [
-      { src: "/photos/services/fire-aftermath.jpg", alt: "Fire-damaged exterior of a South Florida home after a structural blaze" },
-      { src: "/photos/services/fire-burning.jpg", alt: "House fully engulfed in flames during a South Florida structure fire", todoNote: "Fallback to existing photo until ideal image is sourced. Original spec: Pexels 'house fire damage interior'." },
-      { src: "/photos/services/fire-charred.jpg", alt: "Charred structural framing inside a South Florida home after fire damage", todoNote: "Fallback to existing photo until ideal image is sourced. Original spec: Unsplash 'smoke restoration equipment'." },
+      { src: "/photos/services/fire-burning.jpg", alt: "House fully engulfed in flames during a South Florida structure fire", todoNote: "Fallback to existing photo. Original spec: Pexels 'house fire damage interior'." },
+      { src: "/photos/services/fire-charred.jpg", alt: "Charred structural framing inside a South Florida home after fire damage", todoNote: "Fallback to existing photo. Original spec: Unsplash 'smoke restoration equipment'." },
+      { src: "/photos/damage-ceiling.jpeg", alt: "Storm and fire damage to ceiling structure in a South Florida home", todoNote: "Fallback to existing photo." },
     ],
   },
 
@@ -222,10 +225,11 @@ export const FL_SERVICE_DETAILS: ServiceDetail[] = [
         a: "On a hard, sealed surface like tile, bleach can kill surface mold. On any porous material — drywall, wood, fabric — bleach kills what's on top while leaving viable spores in the substrate, and bleach plus humidity actually feeds future regrowth. IICRC S520 doesn't recognize spraying bleach as remediation for a reason. The right answer is removing or properly treating the affected material and fixing the moisture source feeding it.",
       },
     ],
+    heroPhoto: { src: "/photos/services/mold-ceiling.jpg", alt: "Mold staining spreading across drywall ceiling in a South Florida home" },
     photos: [
-      { src: "/photos/services/mold-ceiling.jpg", alt: "Mold staining spreading across drywall ceiling in a South Florida home" },
-      { src: "/photos/mold-testing.jpeg", alt: "MRS technician swab-testing mold growth on wall in a South Florida home", todoNote: "Fallback to existing photo until ideal image is sourced. Original spec: Pexels 'mold remediation equipment'." },
-      { src: "/photos/services/mold-flood-ceiling.jpg", alt: "Ceiling collapse with mold damage from a South Florida flood event", todoNote: "Fallback to existing photo until ideal image is sourced. Original spec: Unsplash 'HEPA air scrubber containment'." },
+      { src: "/photos/mold-testing.jpeg", alt: "MRS technician swab-testing mold growth on wall in a South Florida home", todoNote: "Fallback to existing photo. Original spec: Pexels 'mold remediation equipment'." },
+      { src: "/photos/services/mold-flood-ceiling.jpg", alt: "Ceiling collapse with mold damage from a South Florida flood event", todoNote: "Fallback to existing photo. Original spec: Unsplash 'HEPA air scrubber containment'." },
+      { src: "/photos/thermal-imaging.jpeg", alt: "Thermal imaging camera detecting hidden moisture behind a wall in a South Florida home", todoNote: "Fallback to existing photo." },
     ],
   },
 
@@ -286,10 +290,11 @@ export const FL_SERVICE_DETAILS: ServiceDetail[] = [
         a: "Yes, and in storm events that's where most of the value lives. Adjusters are overwhelmed in the days after a major storm; documentation that lands on their desk well-organized and clearly causation-tagged moves to the front of the queue. We provide photo logs, moisture readings, debris inventories, and wind-vs-flood causation evidence in the format carriers like Citizens, Heritage, Universal, and Tower Hill expect. We can also work directly with public adjusters when the homeowner has retained one.",
       },
     ],
+    heroPhoto: { src: "/photos/services/storm-flood.jpg", alt: "Hurricane storm-surge flooding in a South Florida residential neighborhood" },
     photos: [
-      { src: "/photos/services/storm-flood.jpg", alt: "Hurricane storm-surge flooding in a South Florida residential neighborhood" },
-      { src: "/photos/services/storm-lightning.jpg", alt: "Lightning storm over a South Florida neighborhood during severe weather", todoNote: "Fallback to existing photo until ideal image is sourced. Original spec: Pexels 'hurricane roof tarp'." },
-      { src: "/photos/services/storm-trees.jpg", alt: "Hurricane-downed trees blocking a South Florida home after a named storm", todoNote: "Fallback to existing photo until ideal image is sourced. Original spec: Unsplash 'storm damage debris'." },
+      { src: "/photos/services/storm-lightning.jpg", alt: "Lightning storm over a South Florida neighborhood during severe weather", todoNote: "Fallback to existing photo. Original spec: Pexels 'hurricane roof tarp'." },
+      { src: "/photos/services/storm-trees.jpg", alt: "Hurricane-downed trees blocking a South Florida home after a named storm", todoNote: "Fallback to existing photo. Original spec: Unsplash 'storm damage debris'." },
+      { src: "/photos/damage-ceiling.jpeg", alt: "Storm damage to ceiling structure in a South Florida property", todoNote: "Fallback to existing photo." },
     ],
   },
 
@@ -350,10 +355,11 @@ export const FL_SERVICE_DETAILS: ServiceDetail[] = [
         a: "Not unless you want them to. We run unmarked vehicles and unmarked uniforms on request for sensitive jobs, we don't post yard signs, and we keep the on-site crew small and quiet. The only thing visible should be a regulated waste disposal step at the very end, and even that we time and stage to keep the scene low-profile.",
       },
     ],
+    heroPhoto: { src: "/photos/services/bio-spray.jpg", alt: "Technician in full PPE applying biohazard disinfection in a South Florida residence" },
     photos: [
-      { src: "/photos/services/bio-spray.jpg", alt: "Technician in full PPE applying biohazard disinfection in a South Florida residence" },
-      { src: "/photos/services/bio-kitchen.jpg", alt: "Hazmat-suited worker decontaminating a South Florida kitchen during biohazard cleanup", todoNote: "Fallback to existing photo until ideal image is sourced. Original spec: Pexels 'biohazard cleanup PPE'." },
-      { src: "/photos/services/bio-suit.jpg", alt: "Technician suiting up in protective gear before South Florida biohazard cleanup", todoNote: "Fallback to existing photo until ideal image is sourced. Original spec: Pixabay 'hazmat disinfection'." },
+      { src: "/photos/services/bio-kitchen.jpg", alt: "Hazmat-suited worker decontaminating a South Florida kitchen during biohazard cleanup", todoNote: "Fallback to existing photo. Original spec: Pexels 'biohazard cleanup PPE'." },
+      { src: "/photos/services/bio-suit.jpg", alt: "Technician suiting up in protective gear before South Florida biohazard cleanup", todoNote: "Fallback to existing photo. Original spec: Pixabay 'hazmat disinfection'." },
+      { src: "/photos/job-site-thumb.jpeg", alt: "South Florida commercial job site with full restoration equipment deployed", todoNote: "Fallback to existing photo." },
     ],
   },
 
@@ -413,10 +419,11 @@ export const FL_SERVICE_DETAILS: ServiceDetail[] = [
         a: "Highly scope-dependent. A single-room rebuild might be 2–4 weeks. A whole-floor rebuild is 6–12 weeks. A full-house reconstruction after a major fire or storm event runs 3–6 months and can stretch longer if the project involves code-upgrade items or hurricane-season material delays. We give realistic milestones up front and update them in writing as the job progresses.",
       },
     ],
+    heroPhoto: { src: "/photos/kitchen-after.jpeg", alt: "Fully rebuilt kitchen after South Florida water damage reconstruction" },
     photos: [
-      { src: "/photos/kitchen-after.jpeg", alt: "Fully rebuilt kitchen after South Florida water damage reconstruction" },
-      { src: "/photos/services/recon-framing.jpg", alt: "Exposed wood framing during a South Florida home reconstruction", todoNote: "Fallback to existing photo until ideal image is sourced. Original spec: Pexels 'drywall installation'." },
-      { src: "/photos/services/recon-interior.jpg", alt: "Interior rebuild in progress with new drywall during a South Florida reconstruction", todoNote: "Fallback to existing photo until ideal image is sourced. Original spec: Unsplash 'home renovation interior finish'." },
+      { src: "/photos/services/recon-framing.jpg", alt: "Exposed wood framing during a South Florida home reconstruction", todoNote: "Fallback to existing photo. Original spec: Pexels 'drywall installation'." },
+      { src: "/photos/services/recon-interior.jpg", alt: "Interior rebuild in progress with new drywall during a South Florida reconstruction", todoNote: "Fallback to existing photo. Original spec: Unsplash 'home renovation interior finish'." },
+      { src: "/photos/hallway-drying.jpeg", alt: "South Florida hallway after restoration and drying complete", todoNote: "Fallback to existing photo." },
     ],
   },
 ];

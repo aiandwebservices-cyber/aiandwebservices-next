@@ -75,8 +75,8 @@ export default function ServiceDetailPage({ detail }: { detail: ServiceDetail })
           </div>
           <div className="svc-hero-image">
             <Image
-              src={detail.photos[0].src}
-              alt={detail.photos[0].alt}
+              src={detail.heroPhoto.src}
+              alt={detail.heroPhoto.alt}
               width={800}
               height={600}
               style={{ width: "100%", height: "auto", borderRadius: 10, objectFit: "cover" }}
@@ -129,14 +129,14 @@ export default function ServiceDetailPage({ detail }: { detail: ServiceDetail })
       <section style={{ background: "var(--off-white)", padding: "2rem 1.5rem" }}>
         <div className="svc-photo-strip" style={{ maxWidth: 1100, margin: "0 auto" }}>
           {detail.photos.slice(0, 3).map((p, i) => (
-            <div key={i} style={{ position: "relative", borderRadius: 10, overflow: "hidden", aspectRatio: "4/3" }}>
+            <div key={p.src} style={{ position: "relative", borderRadius: 10, overflow: "hidden", aspectRatio: "4/3" }}>
               <Image
                 src={p.src}
                 alt={p.alt}
                 fill
                 style={{ objectFit: "cover" }}
                 sizes="(max-width: 767px) 100vw, 33vw"
-                loading={i === 0 ? "eager" : "lazy"}
+                loading="lazy"
               />
             </div>
           ))}

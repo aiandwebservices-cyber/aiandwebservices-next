@@ -226,9 +226,10 @@ export default function Header({ config }: { config: SiteConfig }) {
           position: absolute;
           top: calc(100% + 6px);
           left: 0;
-          background: #fff;
+          background: #0f1a33;
+          border: 1px solid rgba(255,255,255,0.08);
           border-radius: 8px;
-          box-shadow: 0 8px 28px rgba(0,0,0,0.18);
+          box-shadow: 0 10px 32px rgba(0,0,0,0.45);
           padding: 8px;
           min-width: 240px;
           opacity: 0;
@@ -248,13 +249,13 @@ export default function Header({ config }: { config: SiteConfig }) {
           padding: 8px 12px;
           font-family: Montserrat, sans-serif;
           font-size: 14px;
-          color: var(--navy);
+          color: #e2e8f0;
           font-weight: 600;
           text-decoration: none;
           border-radius: 4px;
           transition: background-color 0.1s ease, color 0.1s ease;
         }
-        .svc-dd-item:hover, .svc-dd-item:focus { background: var(--off-white); color: var(--red); outline: none; }
+        .svc-dd-item:hover, .svc-dd-item:focus { background: rgba(255,255,255,0.08); color: #fff; outline: none; }
 
         /* Mobile menu overlay */
         .mob-backdrop {
