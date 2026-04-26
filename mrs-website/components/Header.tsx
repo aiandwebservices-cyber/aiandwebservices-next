@@ -1,4 +1,5 @@
 "use client";
+import { useState } from "react";
 import { usePathname } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
@@ -6,6 +7,7 @@ import type { SiteConfig } from "@/lib/site-config";
 
 export default function Header({ config }: { config: SiteConfig }) {
   const basePath = config.location === 'newYork' ? '/ny' : '';
+  const [open, setOpen] = useState(false);
   const pathname = usePathname();
 
   return (
@@ -24,8 +26,8 @@ export default function Header({ config }: { config: SiteConfig }) {
           </span>
         </Link>
 
-        {/* Nav */}
-        <nav style={{ display: "flex", gap: "1.5rem", alignItems: "center" }}>
+        {/* Desktop Nav */}
+        <nav style={{ display: "flex", gap: "1.5rem", alignItems: "center" }} className="hidden-mobile">
           <NavLink href={`${basePath}/`} active={pathname === `${basePath}/` || pathname === basePath}>Home</NavLink>
           <NavLink href={`${basePath}/services`} active={pathname === `${basePath}/services`}>Services</NavLink>
           <NavLink href={`${basePath}/about`} active={pathname === `${basePath}/about`}>About</NavLink>
@@ -33,11 +35,47 @@ export default function Header({ config }: { config: SiteConfig }) {
           <NavLink href={`${basePath}/contact`} active={pathname === `${basePath}/contact`}>Contact</NavLink>
         </nav>
 
-        {/* CTA */}
-        <div style={{ display: "flex", alignItems: "center" }}>
+        {/* Desktop CTA */}
+        <div style={{ display: "flex", alignItems: "center" }} className="hidden-mobile">
           <Link href={`${basePath}/contact`} className="btn-red" style={{ padding: "0.5rem 1rem", fontSize: "0.875rem" }}>Get Help Now</Link>
         </div>
+
+        {/* Mobile: hamburger */}
+        <div style={{ display: "flex", alignItems: "center" }} className="show-mobile">
+          <button onClick={() => setOpen(!open)} style={{ background: "none", border: "none", color: "#fff", cursor: "pointer", padding: 4 }} aria-label="Menu">
+            <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
+              {open
+                ? <><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></>
+                : <><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="21" y2="12"/><line x1="3" y1="18" x2="21" y2="18"/></>
+              }
+            </svg>
+          </button>
+        </div>
       </div>
+
+      {/* Mobile menu */}
+      {open && (
+        <div style={{ background: "#162038", padding: "1rem", display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+          {([["Home", `${basePath}/`], ["Services", `${basePath}/services`], ["About", `${basePath}/about`], ["FAQ", `${basePath}/faq`], ["Contact", `${basePath}/contact`]] as [string, string][]).map(([label, href]) => (
+            <Link key={href} href={href} onClick={() => setOpen(false)}
+              style={{ color: pathname === href ? "var(--red)" : "#fff", textDecoration: "none", fontFamily: "Montserrat, sans-serif", fontWeight: 600, fontSize: "1rem", padding: "0.4rem 0", borderBottom: "1px solid rgba(255,255,255,0.1)" }}>
+              {label}{pathname === href ? " •" : ""}
+            </Link>
+          ))}
+          <Link href={`${basePath}/contact`} className="btn-red" style={{ textAlign: "center", marginTop: "0.5rem" }} onClick={() => setOpen(false)}>
+            Get Help Now →
+          </Link>
+        </div>
+      )}
+
+      <style>{`
+        .hidden-mobile { display: flex; }
+        .show-mobile { display: none; }
+        @media (max-width: 768px) {
+          .hidden-mobile { display: none !important; }
+          .show-mobile { display: flex !important; }
+        }
+      `}</style>
     </header>
   );
 }
