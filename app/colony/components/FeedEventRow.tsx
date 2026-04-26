@@ -2,13 +2,14 @@
 
 import { useEffect, useState } from 'react'
 import type { FeedEvent } from '../lib/types'
-import type { Lead } from '../lib/types'
+import type { Lead, Bot } from '../lib/types'
 import { formatRelativeTime } from '../lib/feed-helpers'
 import { capture } from '../lib/posthog'
 import { useSidePanel } from './SidePanel'
 import { LeadDetailPanel } from './LeadDetailPanel'
 import { LoadingSkeleton } from './LoadingSkeleton'
-import { colonyFetchLead } from '../lib/api-client'
+import { colonyFetch, colonyFetchLead } from '../lib/api-client'
+import BotProfilePanel from './BotProfilePanel'
 
 // ─── Lead loader rendered inside the side panel ──────────────────────────────
 
@@ -40,6 +41,42 @@ function LeadPanelLoader({ leadId, cohortId }: { leadId: string; cohortId: strin
   return <LeadDetailPanel lead={lead} />
 }
 
+// ─── Bot loader rendered inside the side panel ───────────────────────────────
+
+function BotPanelLoader({ botId, cohortId }: { botId: string; cohortId: string }) {
+  const [bot, setBot] = useState<Bot | null>(null)
+  const [failed, setFailed] = useState(false)
+
+  useEffect(() => {
+    const ctrl = new AbortController()
+    colonyFetch<Bot[]>('bots', { cohortId, signal: ctrl.signal })
+      .then(res => {
+        if ((res.status === 'ok' || res.status === 'stale') && res.data) {
+          const slug = (s: string) => s.toLowerCase().replace(/\s+/g, '-')
+          const match = res.data.find(b => b.id === botId || slug(b.name) === botId)
+          if (match) setBot(match)
+          else setFailed(true)
+        } else {
+          setFailed(true)
+        }
+      })
+      .catch(err => { if ((err as Error).name !== 'AbortError') setFailed(true) })
+    return () => ctrl.abort()
+  }, [botId, cohortId])
+
+  if (failed) {
+    return (
+      <div className="px-5 py-8 text-sm text-center" style={{ color: 'var(--colony-text-secondary)' }}>
+        Could not load agent data.
+      </div>
+    )
+  }
+
+  if (!bot) return <LoadingSkeleton variant="feed-row" count={4} />
+
+  return <BotProfilePanel bot={bot} />
+}
+
 // ─── FeedEventRow ─────────────────────────────────────────────────────────────
 
 interface Props {
@@ -59,6 +96,13 @@ export default function FeedEventRow({ event, index }: Props) {
         title: event.title,
         subtitle: event.subtitle,
         children: <LeadPanelLoader leadId={event.drill_target.id} cohortId={event.cohort_id} />,
+        width: 'medium',
+      })
+    } else if (event.drill_target?.type === 'bot') {
+      open({
+        title: event.title,
+        subtitle: event.subtitle,
+        children: <BotPanelLoader botId={event.drill_target.id} cohortId={event.cohort_id} />,
         width: 'medium',
       })
     }
