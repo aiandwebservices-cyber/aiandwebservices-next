@@ -15,6 +15,7 @@ const localBusinessSchema = {
   telephone: sc.telephone,
   email: sc.email,
   url: PRODUCTION_URL,
+  image: `${PRODUCTION_URL}/logo-icon-transparent.png`,
   description: sc.description,
   address: {
     "@type": "PostalAddress",

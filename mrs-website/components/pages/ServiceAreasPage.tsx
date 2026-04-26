@@ -33,6 +33,7 @@ export default function ServiceAreasPage({ config, title, heroIntro, areas }: Pr
     "@type": "Service",
     serviceType: "Property Damage Restoration",
     name: title,
+    description: config.serviceAreasDescription,
     url: pageUrl,
     provider: { "@type": "LocalBusiness", "@id": businessId },
     areaServed: [

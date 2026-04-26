@@ -40,6 +40,7 @@ export default function ServiceDetailPage({ detail, config }: { detail: ServiceD
     name: detail.schemaName,
     description: detail.schemaDescription,
     url: fullUrl,
+    image: `${BASE}${detail.heroPhoto.src}`,
     provider: { "@type": "LocalBusiness", "@id": businessId },
     areaServed: areaServed.map(name => ({
       "@type": "AdministrativeArea",

@@ -55,6 +55,7 @@ const schemaMarkup = {
   telephone: sc.telephone,
   email: sc.email,
   url: NY_CONFIG.productionUrl,
+  image: "https://mitigationrestorationservice.com/logo-icon-transparent.png",
   description: sc.description,
   address: {
     "@type": "PostalAddress",
