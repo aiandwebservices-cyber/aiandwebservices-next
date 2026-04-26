@@ -82,6 +82,32 @@ export default function RootLayout({ children }) {
           if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
           window.scrollTo(0, 0);
         `}} />
+        {/* Apply panel zoom + padding-top before first paint to prevent the 88px+ layout shift
+            that scalePanels() in useHorizontalScroll.js was causing post-hydration. The values
+            depend on viewport height (compensatedPadding = ceil(88 / scale)) so they cannot be
+            expressed as static CSS — must be computed at runtime as early as possible. The
+            useEffect version of scalePanels still runs later and reapplies identical values. */}
+        <script dangerouslySetInnerHTML={{ __html: `
+          (function(){
+            function scalePanels(){
+              var sel='.hero-inner, .hiw-inner, .comparison-inner, .pricing-inner, .about-inner, .work-inner, .faq-inner, .contact-inner';
+              if(window.innerWidth<769){
+                document.querySelectorAll(sel).forEach(function(el){el.style.zoom='';el.style.paddingTop='';});
+                return;
+              }
+              var avail=window.innerHeight-64;
+              var scale=Math.min(1,avail/1100);
+              var pad=Math.ceil(88/scale);
+              document.querySelectorAll(sel).forEach(function(el){el.style.zoom=scale;el.style.paddingTop=pad+'px';});
+            }
+            if(document.readyState==='loading'){
+              document.addEventListener('DOMContentLoaded',scalePanels);
+            } else {
+              scalePanels();
+            }
+            window.addEventListener('resize',scalePanels);
+          })();
+        `}} />
         <meta name="geo.region" content="US" />
         <meta name="geo.placename" content="United States" />
         <OrganizationSchema />
