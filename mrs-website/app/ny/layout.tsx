@@ -30,21 +30,19 @@ export const metadata: Metadata = {
 
 const sc = NY_CONFIG.schema;
 
-// TODO(David) — Before NY launch, replace these placeholders with confirmed data:
-//   1. NY street address + postal code (NY_CONFIG.schema.address.streetAddress / postalCode are currently null)
-//   2. Confirm areaServed counties below. Suggested borough → county mapping:
-//        Manhattan → "New York County"
-//        Brooklyn → "Kings County"
-//        Queens → "Queens County"
-//        The Bronx → "Bronx County"
-//        Staten Island → "Richmond County"
+// TODO(David) — Before NY launch:
+//   Add NY street address + postal code (NY_CONFIG.schema.address.streetAddress / postalCode are currently null).
 // Phone is confirmed (917) 288-9730 — do NOT reuse the FL number.
-const NY_AREA_SERVED_TODO = [
-  "New York County",
-  "Kings County",
-  "Queens County",
-  "Bronx County",
-  "Richmond County",
+// areaServed (county names below) is JSON-LD only — invisible to site visitors.
+// User-visible NY copy must use borough names (Manhattan, Brooklyn, Queens,
+// The Bronx, Staten Island) — never county names. NYC market does not
+// recognize "New York County" / "Kings County" / etc.
+const NY_AREA_SERVED = [
+  "New York County",   // Manhattan
+  "Kings County",      // Brooklyn
+  "Queens County",     // Queens
+  "Bronx County",      // The Bronx
+  "Richmond County",   // Staten Island
 ];
 
 const schemaMarkup = {
@@ -81,7 +79,7 @@ const schemaMarkup = {
     },
     geoRadius: "50000",
   },
-  areaServed: NY_AREA_SERVED_TODO.map(name => ({
+  areaServed: NY_AREA_SERVED.map(name => ({
     "@type": "AdministrativeArea",
     name,
   })),
