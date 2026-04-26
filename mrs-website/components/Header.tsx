@@ -17,7 +17,7 @@ export default function Header({ config }: { config: SiteConfig }) {
         🚨 24/7 Emergency Response{config.showSpanishBadge ? ' — Se Habla Español' : ''}
       </div>
 
-      <div style={{ maxWidth: 1200, margin: "0 auto", padding: "0 1rem", display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
+      <div style={{ padding: "0 1.5rem", display: "flex", alignItems: "center", justifyContent: "space-between", height: 64 }}>
         {/* Logo */}
         <Link href="/" style={{ textDecoration: "none", display: "flex", alignItems: "center" }} onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}>
           <Image src="/logo-icon-transparent.png" alt="Mitigation Restoration Services" width={40} height={48} style={{ filter: "drop-shadow(0 1px 4px rgba(0,0,0,0.4))" }} priority />
@@ -27,7 +27,7 @@ export default function Header({ config }: { config: SiteConfig }) {
         </Link>
 
         {/* Desktop Nav */}
-        <nav style={{ display: "flex", gap: "1.5rem", alignItems: "center" }} className="hidden-mobile">
+        <nav style={{ gap: "1.5rem", alignItems: "center" }} className="hidden-mobile">
           <NavLink href={`${basePath}/`} active={pathname === `${basePath}/` || pathname === basePath}>Home</NavLink>
           <NavLink href={`${basePath}/services`} active={pathname === `${basePath}/services`}>Services</NavLink>
           <NavLink href={`${basePath}/about`} active={pathname === `${basePath}/about`}>About</NavLink>
@@ -36,12 +36,12 @@ export default function Header({ config }: { config: SiteConfig }) {
         </nav>
 
         {/* Desktop CTA */}
-        <div style={{ display: "flex", alignItems: "center" }} className="hidden-mobile">
+        <div style={{ alignItems: "center" }} className="hidden-mobile">
           <Link href={`${basePath}/contact`} className="btn-red" style={{ padding: "0.5rem 1rem", fontSize: "0.875rem" }}>Get Help Now</Link>
         </div>
 
         {/* Mobile: hamburger */}
-        <div style={{ display: "flex", alignItems: "center" }} className="show-mobile">
+        <div style={{ alignItems: "center" }} className="show-mobile">
           <button onClick={() => setOpen(!open)} style={{ background: "none", border: "none", color: "#fff", cursor: "pointer", padding: 4 }} aria-label="Menu">
             <svg width="24" height="24" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
               {open
@@ -72,8 +72,8 @@ export default function Header({ config }: { config: SiteConfig }) {
         .hidden-mobile { display: flex; }
         .show-mobile { display: none; }
         @media (max-width: 768px) {
-          .hidden-mobile { display: none !important; }
-          .show-mobile { display: flex !important; }
+          .hidden-mobile { display: none; }
+          .show-mobile { display: flex; }
         }
       `}</style>
     </header>
