@@ -81,30 +81,6 @@ export default function HomePage({ config }: { config: SiteConfig }) {
         </div>
       </section>
 
-      {/* PHOTO STRIP */}
-      <section className="section-pad" style={{ background: "#fff" }}>
-        <div style={{ maxWidth: 1200, margin: "0 auto" }}>
-          <div style={{ textAlign: "center", marginBottom: "2rem" }}>
-            <h2 className="section-title">See Our Work</h2>
-            <p style={{ color: "var(--gray-mid)", fontSize: "1rem" }}>{config.seeOurWorkSubhead}</p>
-          </div>
-          <div className="work-grid">
-            {[
-              { src: "/photos/services/wiki-flood-ceiling.jpg", alt: "Flood and water damage to a ceiling in a South Florida home" },
-              { src: "/photos/services/ov-basement.jpg", alt: "Basement water damage and remediation work in a South Florida property" },
-              { src: "/photos/services/ov-charred-frame.jpg", alt: "Charred wood framing inside a South Florida home after fire damage" },
-              { src: "/photos/services/ov-mold-depot.jpg", alt: "Mold remediation containment setup in a South Florida property" },
-              { src: "/photos/services/wiki-hurricane-damage.jpg", alt: "South Florida home with structural damage following a hurricane" },
-              { src: "/photos/services/ov-fire-aftermath1.jpg", alt: "Smoke and fire aftermath inside a South Florida residence" },
-            ].map(({ src, alt }) => (
-              <div key={src} style={{ position: "relative", borderRadius: 8, overflow: "hidden", aspectRatio: "4/3" }}>
-                <Image src={src} alt={alt} fill style={{ objectFit: "cover" }} sizes="(max-width: 560px) 100vw, (max-width: 900px) 50vw, 33vw" />
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* EMERGENCY FORM */}
       <section id="form" className="section-pad" style={{ background: "#fff" }}>
         <div style={{ maxWidth: 860, margin: "0 auto" }}>

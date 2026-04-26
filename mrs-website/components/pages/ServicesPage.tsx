@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import HashScroller from "@/components/HashScroller";
 import type { SiteConfig } from "@/lib/site-config";
@@ -69,16 +68,6 @@ export default function ServicesPage({ config, detailLinks }: ServicesPageProps)
                   Read full {s.title} guide →
                 </Link>
               </p>
-            )}
-
-            {s.photos.length > 0 && (
-              <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "0.75rem", marginTop: "1.5rem" }}>
-                {s.photos.map(({ src, alt }) => (
-                  <div key={src} style={{ position: "relative", borderRadius: 8, overflow: "hidden", aspectRatio: "4/3" }}>
-                    <Image src={src} alt={alt} fill style={{ objectFit: "cover" }} sizes="(max-width: 640px) 100vw, (max-width: 960px) 33vw, 300px" />
-                  </div>
-                ))}
-              </div>
             )}
           </section>
         ))}
