@@ -29,9 +29,28 @@ export const metadata: Metadata = {
 };
 
 const sc = NY_CONFIG.schema;
+
+// TODO(David) — Before NY launch, replace these placeholders with confirmed data:
+//   1. NY street address + postal code (NY_CONFIG.schema.address.streetAddress / postalCode are currently null)
+//   2. Confirm areaServed counties below. Suggested borough → county mapping:
+//        Manhattan → "New York County"
+//        Brooklyn → "Kings County"
+//        Queens → "Queens County"
+//        The Bronx → "Bronx County"
+//        Staten Island → "Richmond County"
+// Phone is confirmed (917) 288-9730 — do NOT reuse the FL number.
+const NY_AREA_SERVED_TODO = [
+  "New York County",
+  "Kings County",
+  "Queens County",
+  "Bronx County",
+  "Richmond County",
+];
+
 const schemaMarkup = {
   "@context": "https://schema.org",
   "@type": sc.type,
+  additionalType: "https://schema.org/EmergencyService",
   "@id": `${NY_CONFIG.productionUrl}/#business`,
   name: sc.name,
   telephone: sc.telephone,
@@ -62,8 +81,11 @@ const schemaMarkup = {
     },
     geoRadius: "50000",
   },
-  areaServed: sc.areaServed,
-  openingHours: "Mo-Su 00:00-24:00",
+  areaServed: NY_AREA_SERVED_TODO.map(name => ({
+    "@type": "AdministrativeArea",
+    name,
+  })),
+  openingHours: "Mo-Su 00:00-23:59",
   priceRange: "$$",
   serviceOutput: "Emergency response within 60 minutes",
   hoursAvailable: {

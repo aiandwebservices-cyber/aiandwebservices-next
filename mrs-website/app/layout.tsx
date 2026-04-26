@@ -4,6 +4,10 @@ import "./globals.css";
 import UTMTracker from "@/components/UTMTracker";
 import { FL_CONFIG } from "@/lib/site-config";
 
+// LocalBusiness JSON-LD is emitted from per-route layouts (app/(fl)/layout.tsx
+// for FL, app/ny/layout.tsx for NY). The root layout intentionally emits no
+// location-specific schema so FL data does not leak onto NY routes.
+
 const montserrat = Montserrat({ subsets: ["latin"], variable: "--font-montserrat", display: "swap" });
 const openSans = Open_Sans({ subsets: ["latin"], variable: "--font-open-sans", display: "swap" });
 
@@ -58,74 +62,6 @@ export const metadata: Metadata = {
   }),
 };
 
-// Schema.org LocalBusiness markup — only injected when SEO is on
-const sc = FL_CONFIG.schema;
-const schemaMarkup = {
-  "@context": "https://schema.org",
-  "@type": sc.type,
-  "@id": `${PRODUCTION_URL}/#business`,
-  name: sc.name,
-  telephone: sc.telephone,
-  email: sc.email,
-  url: PRODUCTION_URL,
-  description: sc.description,
-  address: {
-    "@type": "PostalAddress",
-    streetAddress: sc.address.streetAddress,
-    addressLocality: sc.address.addressLocality,
-    addressRegion: sc.address.addressRegion,
-    postalCode: sc.address.postalCode,
-    addressCountry: sc.address.addressCountry,
-  },
-  ...(sc.geo && {
-    geo: {
-      "@type": "GeoCoordinates",
-      latitude: sc.geo.latitude,
-      longitude: sc.geo.longitude,
-    },
-  }),
-  geoArea: {
-    "@type": "GeoCircle",
-    geoMidpoint: {
-      "@type": "GeoCoordinates",
-      latitude: 25.9786,
-      longitude: -80.2327,
-    },
-    geoRadius: "50000",
-  },
-  areaServed: sc.areaServed,
-  openingHours: "Mo-Su 00:00-24:00",
-  priceRange: "$$",
-  serviceOutput: "Emergency response within 60 minutes",
-  hoursAvailable: {
-    "@type": "OpeningHoursSpecification",
-    opens: "00:00",
-    closes: "23:59",
-    dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-  },
-  hasOfferCatalog: {
-    "@type": "OfferCatalog",
-    name: "Restoration Services",
-    itemListElement: FL_CONFIG.services.map(s => ({
-      "@type": "Offer",
-      itemOffered: { "@type": "Service", name: s.title, url: `${PRODUCTION_URL}${s.href}` },
-    })),
-  },
-};
-
-const reviewSchema = {
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "@id": `${PRODUCTION_URL}/#business`,
-  "aggregateRating": {
-    "@type": "AggregateRating",
-    "ratingValue": "5.0",
-    "reviewCount": "47",
-    "bestRating": "5",
-    "worstRating": "1"
-  }
-};
-
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en" className={`${montserrat.variable} ${openSans.variable}`}>
@@ -138,14 +74,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           s.src="https://client.crisp.chat/l.js";
           s.async=1;d.getElementsByTagName("head")[0].appendChild(s);})();
         `}} />
-
-        {/* Schema markup only injected when SEO is enabled */}
-        {SEO_ENABLED && (
-          <script
-            type="application/ld+json"
-            dangerouslySetInnerHTML={{ __html: JSON.stringify([schemaMarkup, reviewSchema]) }}
-          />
-        )}
       </head>
       <body className="min-h-screen flex flex-col">
         <UTMTracker />
