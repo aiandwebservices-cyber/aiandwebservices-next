@@ -29,7 +29,7 @@ interface HomeStats {
   emailsToday: number
   leads: number
   hot: number
-  closing: number
+  botCost: number
   replies: number
   mrr: number
 }
@@ -37,7 +37,7 @@ interface HomeStats {
 export default function Page() {
   const { cohortId } = useCohort()
   const { open } = useSidePanel()
-  const [stats, setStats] = useState<HomeStats>({ emailsToday: 0, leads: 0, hot: 0, closing: 0, replies: 0, mrr: 0 })
+  const [stats, setStats] = useState<HomeStats>({ emailsToday: 0, leads: 0, hot: 0, botCost: 0, replies: 0, mrr: 0 })
   const [bots, setBots] = useState<BotPayload[] | null>(null)
   const [anyRunning, setAnyRunning] = useState(false)
 
@@ -59,22 +59,27 @@ export default function Page() {
   useEffect(() => { capture('colony_feed_viewed') }, [])
 
   const loadStats = useCallback(async () => {
-    const [leadsRes, dealsRes, feedRes, emailStatsRes] = await Promise.all([
+    const ueParams = new URLSearchParams({ window: '30d' })
+    if (cohortId) ueParams.set('cohort_id', cohortId)
+    const [leadsRes, dealsRes, feedRes, emailStatsRes, ueRes] = await Promise.all([
       colonyFetch<LeadPayload[]>('leads', { cohortId }),
       colonyFetch<DealPayload[]>('deals', { cohortId }),
       colonyFetch<FeedEventPayload[]>('feed', { cohortId }),
       fetch('/api/colony/email/stats', { credentials: 'include' }).then(r => r.json()).catch(() => null),
+      fetch(`/api/colony/health/unit-economics?${ueParams.toString()}`, { credentials: 'include' })
+        .then(r => r.json()).catch(() => null),
     ])
     const leads = (leadsRes.status === 'ok' || leadsRes.status === 'stale') ? leadsRes.data ?? [] : []
     const deals = (dealsRes.status === 'ok' || dealsRes.status === 'stale') ? dealsRes.data ?? [] : []
     const feed  = (feedRes.status  === 'ok' || feedRes.status  === 'stale') ? feedRes.data  ?? [] : []
     const emailsToday = emailStatsRes?.data?.sent_today ?? 0
+    const botCost = Math.round(ueRes?.total_cost_usd ?? 0)
 
     setStats({
       emailsToday,
       leads: leads.length,
       hot: leads.filter(l => l.temperature === 'HOT').length,
-      closing: deals.filter(d => d.stage === 'Proposal Sent' || d.stage === 'Proposal Signed').length,
+      botCost,
       replies: feed.filter(e =>
         (e.type === 'reply_interested' || e.type === 'reply_received') && isToday(e.timestamp)
       ).length,
@@ -100,7 +105,7 @@ export default function Page() {
     { label: 'ACTIVE LEADS',   value: stats.leads,       color: '#34d399', prefix: '',  suffix: '' },
     { label: 'HOT LEADS',      value: stats.hot,         color: '#E11D48', prefix: '',  suffix: '' },
     { label: 'REPLIES TODAY',  value: stats.replies,     color: '#60a5fa', prefix: '',  suffix: '' },
-    { label: 'CLOSING SOON',   value: stats.closing,     color: '#f97316', prefix: '',  suffix: '' },
+    { label: 'BOT COST 30D',   value: stats.botCost,     color: '#f97316', prefix: '$', suffix: '' },
     { label: 'MRR PIPELINE',   value: stats.mrr,         color: '#2AA5A0', prefix: '$', suffix: 'k' },
   ]
 
