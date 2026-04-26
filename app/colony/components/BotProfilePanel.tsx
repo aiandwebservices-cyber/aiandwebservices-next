@@ -1,9 +1,20 @@
 'use client'
 
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import type { Bot } from '../lib/types'
 import { formatLastRun, formatDecisionsCount } from '../lib/bot-helpers'
+import { formatRelativeTime } from '../lib/feed-helpers'
 import { capture } from '../lib/posthog'
+import { colonyFetchBotRuns } from '../lib/api-client'
+import { useCohort } from './CohortSwitcher'
+
+interface BotRun {
+  bot_id?: string
+  bot_name: string
+  ran_at: string
+  summary: string
+  output_ids?: string[]
+}
 
 function getBotSchedule(botName: string): string {
   switch (botName) {
@@ -58,12 +69,36 @@ const BOT_DECISIONS: Record<string, string[]> = {
 }
 
 export default function BotProfilePanel({ bot }: { bot: Bot }) {
+  const { cohortId } = useCohort()
+  const [historyOpen, setHistoryOpen] = useState(false)
+  const [history, setHistory] = useState<BotRun[] | null>(null)
+  const [historyError, setHistoryError] = useState<string | null>(null)
+  const [loadingHistory, setLoadingHistory] = useState(false)
+
   useEffect(() => {
     capture('colony_bot_profile_viewed', { bot_id: bot.id, bot_name: bot.name })
   }, [bot.id, bot.name])
 
   const decisions = BOT_DECISIONS[bot.name] ?? ['Processed pipeline data', 'Updated records', 'Completed scheduled task']
   const schedule = getBotSchedule(bot.name)
+
+  async function loadHistory() {
+    setLoadingHistory(true)
+    setHistoryError(null)
+    const res = await colonyFetchBotRuns(bot.id, { cohortId, limit: 50 })
+    if ((res.status === 'ok' || res.status === 'stale') && res.data) {
+      setHistory(res.data)
+    } else {
+      setHistoryError(res.error ?? 'Could not load history')
+    }
+    setLoadingHistory(false)
+  }
+
+  function toggleHistory() {
+    capture('colony_bot_history_toggled', { bot_id: bot.id, bot_name: bot.name })
+    if (!historyOpen && history === null && !loadingHistory) loadHistory()
+    setHistoryOpen(o => !o)
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -134,14 +169,53 @@ export default function BotProfilePanel({ bot }: { bot: Bot }) {
         <p className="text-sm" style={{ color: 'var(--colony-text-primary)' }}>{schedule}</p>
       </div>
 
-      {/* Footer */}
-      <button
-        className="text-sm text-left hover:opacity-70 transition-opacity"
-        style={{ color: 'var(--colony-accent)' }}
-        onClick={() => console.log(`View all ${bot.name} history`)}
-      >
-        View all {bot.name}&rsquo;s history →
-      </button>
+      {/* History toggle + list */}
+      <div>
+        <button
+          className="text-sm text-left hover:opacity-70 transition-opacity"
+          style={{ color: 'var(--colony-accent)' }}
+          onClick={toggleHistory}
+          aria-expanded={historyOpen}
+        >
+          {historyOpen ? '▾ Hide' : '▸ View all'} {bot.name}&rsquo;s history
+        </button>
+
+        {historyOpen && (
+          <div className="mt-3">
+            {loadingHistory && (
+              <p className="text-xs" style={{ color: 'var(--colony-text-secondary)' }}>
+                Loading history…
+              </p>
+            )}
+            {historyError && (
+              <p className="text-xs" style={{ color: 'var(--colony-text-secondary)' }}>
+                {historyError}
+              </p>
+            )}
+            {!loadingHistory && !historyError && history !== null && history.length === 0 && (
+              <p className="text-xs" style={{ color: 'var(--colony-text-secondary)' }}>
+                No prior runs recorded.
+              </p>
+            )}
+            {history && history.length > 0 && (
+              <ul className="flex flex-col gap-2">
+                {history.map((run, i) => (
+                  <li
+                    key={`${run.ran_at}-${i}`}
+                    className="rounded-lg px-3 py-2 text-sm"
+                    style={{ background: 'var(--colony-bg-elevated)', color: 'var(--colony-text-primary)' }}
+                  >
+                    <p className="text-xs mb-0.5" style={{ color: 'var(--colony-text-secondary)' }}>
+                      {formatRelativeTime(run.ran_at)}
+                    </p>
+                    <p className="leading-snug">{run.summary || '(no summary)'}</p>
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
+        )}
+      </div>
     </div>
   )
 }

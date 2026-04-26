@@ -161,9 +161,10 @@ export async function qdrantFetchSignalsForLead(
 
 export async function qdrantFetchBotRuns(
   cohortId: string,
-  opts: { since?: string; limit?: number } = {}
-): Promise<Array<{ bot_name: string; ran_at: string; summary: string; output_ids?: string[] }>> {
+  opts: { since?: string; limit?: number; botId?: string } = {}
+): Promise<Array<{ bot_id?: string; bot_name: string; ran_at: string; summary: string; output_ids?: string[] }>> {
   type RawRun = {
+    bot_id?: string
     bot_name?: string
     ran_at?: string
     summary?: string
@@ -171,21 +172,17 @@ export async function qdrantFetchBotRuns(
     cohort_id?: string
   }
 
-  let filter = cohortFilter(cohortId)
-  if (opts.since) {
-    filter = {
-      must: [
-        ...((filter.must as unknown[]) ?? []),
-        { key: 'ran_at', range: { gt: opts.since } },
-      ],
-    }
-  }
+  const must: unknown[] = [...((cohortFilter(cohortId).must as unknown[]) ?? [])]
+  if (opts.since) must.push({ key: 'ran_at', range: { gt: opts.since } })
+  if (opts.botId) must.push({ key: 'bot_id', match: { value: opts.botId } })
+  const filter: Record<string, unknown> = { must }
 
   const results = await qdrantScroll<RawRun>(COLLECTIONS.botRuns, filter, opts.limit ?? 20)
 
   return results
     .filter(r => r.bot_name && r.ran_at)
     .map(r => ({
+      bot_id: r.bot_id,
       bot_name: r.bot_name!,
       ran_at: r.ran_at!,
       summary: r.summary ?? '',

@@ -50,6 +50,28 @@ export async function colonyFetch<T>(
   }
 }
 
+export async function colonyFetchBotRuns(
+  botId: string,
+  options: { cohortId?: string; signal?: AbortSignal; limit?: number } = {}
+): Promise<APIResponse<Array<{ bot_id?: string; bot_name: string; ran_at: string; summary: string; output_ids?: string[] }>>> {
+  const url = new URL(`${API_BASE}/bots/${encodeURIComponent(botId)}/runs`, window.location.origin)
+  if (options.cohortId === 'demo') url.searchParams.set('cohort', 'demo')
+  if (options.limit) url.searchParams.set('limit', String(options.limit))
+
+  try {
+    const res = await fetch(url.toString(), {
+      signal: options.signal,
+      credentials: 'include',
+      cache: 'no-store',
+    })
+    if (res.status === 401) return { status: 'unauthorized', data: null }
+    return await res.json()
+  } catch (err) {
+    if (err instanceof Error && err.name === 'AbortError') throw err
+    return { status: 'degraded', data: null, error: err instanceof Error ? err.message : 'Network error' }
+  }
+}
+
 export async function colonyFetchLead(
   leadId: string,
   options: { cohortId?: string; signal?: AbortSignal } = {}
