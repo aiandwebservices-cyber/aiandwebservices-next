@@ -134,12 +134,6 @@ export default function Hero() {
     transition: { duration: 0.7, delay, ease },
   });
 
-  // H1 lines paint immediately so the LCP element is never invisible on first render
-  const revealH1 = {
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0, delay: 0 },
-  };
-
   return (
     <section className="panel" id="p0" aria-label="AIandWEBservices — AI automation, web development and SEO for small business">
       {/* ── Background ── */}
@@ -155,14 +149,14 @@ export default function Hero() {
         {/* ── Top: Centered text ── */}
         <div className="h-top">
           <h1 className="h-h1">
-            <motion.span {...revealH1} className="h-line">Stop losing leads</motion.span>
-            <motion.span {...revealH1} className="h-line">to competitors with</motion.span>
-            <motion.span {...revealH1} className="h-line h-line-better" style={{ display:'flex', alignItems:'baseline', justifyContent:'center', gap:'0.25em', paddingLeft:'0.25em' }}>
+            <span className="h-line">Stop losing leads</span>
+            <span className="h-line">to competitors with</span>
+            <span className="h-line h-line-better" style={{ display:'flex', alignItems:'baseline', justifyContent:'center', gap:'0.25em', paddingLeft:'0.25em' }}>
               <span>better</span>
               <span style={{ display:'inline-block', minWidth:'8ch', textAlign:'left', overflow:'hidden' }}>
                 <span className="h-line-accent"><RotatingWord reduced={reduced} /></span>
               </span>
-            </motion.span>
+            </span>
           </h1>
 
           <motion.p {...reveal(0.55)} className="h-sub">
