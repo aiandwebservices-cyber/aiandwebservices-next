@@ -450,7 +450,7 @@ export default function Page() {
               </div>
 
               {/* Right — Cost per Lead */}
-              <div style={{ alignSelf: 'flex-start', width: '100%' }}>
+              <div style={{ alignSelf: 'flex-start', width: '100%', maxWidth: 'calc(100% - 50px)' }}>
                 <div className="ch-panel" style={{ padding: 20, paddingBottom: 25, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
                   <CostPerLeadCard />
                 </div>
