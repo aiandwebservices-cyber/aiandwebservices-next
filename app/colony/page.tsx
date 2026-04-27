@@ -194,11 +194,11 @@ export default function Page() {
   const arrLabel = stats.mrr > 0 ? `$${stats.mrr * 12}k ARR` : 'no active contracts'
 
   const STAT_CARDS = [
-    { label: 'EMAILS TODAY',  value: stats.emailsToday, color: '#a78bfa', prefix: '',  suffix: '', subtitle: 'outreach sent today' },
-    { label: 'ACTIVE LEADS',  value: stats.leads,       color: '#34d399', prefix: '',  suffix: '', subtitle: `${hotRate}% HOT rate` },
-    { label: 'HOT LEADS',     value: stats.hot,         color: '#E11D48', prefix: '',  suffix: '', subtitle: stats.hot > 0 ? 'respond now' : 'all followed up ✓' },
-    { label: 'REPLIES TODAY', value: stats.replies,     color: '#60a5fa', prefix: '',  suffix: '', subtitle: 'inbound signals' },
-    { label: 'BOT COST 30D',  value: stats.botCost,     color: '#f97316', prefix: '$', suffix: '', subtitle: costPerLead ?? 'this period' },
+    { label: 'EMAILS TODAY',  value: stats.emailsToday, color: '#a78bfa', prefix: '',  suffix: '',  subtitle: 'outreach sent today' },
+    { label: 'ACTIVE LEADS',  value: stats.leads,       color: '#34d399', prefix: '',  suffix: '',  subtitle: `${hotRate}% HOT rate` },
+    { label: 'BOT COST 1D',   value: stats.botCost1d,   color: '#f97316', prefix: '$', suffix: '',  subtitle: 'Anthropic · last 24h' },
+    { label: 'BOT COST 7D',   value: stats.botCost7d,   color: '#fb923c', prefix: '$', suffix: '',  subtitle: 'Anthropic · last 7d' },
+    { label: 'BOT COST 30D',  value: stats.botCost,     color: '#f59e0b', prefix: '$', suffix: '',  subtitle: costPerLead ?? 'this period' },
     { label: 'MRR PIPELINE',  value: stats.mrr,         color: '#2AA5A0', prefix: '$', suffix: 'k', subtitle: arrLabel },
   ]
 
@@ -330,16 +330,16 @@ export default function Page() {
                 <div style={{ position: 'absolute', bottom: -20, right: -8, width: 80, height: 80, borderRadius: '50%', background: '#a78bfa', opacity: 0.07, filter: 'blur(28px)', pointerEvents: 'none' }} />
               </div>
               <div className="ch-panel" style={{ padding: '18px 20px', height: 112, position: 'relative', overflow: 'hidden' }}>
-                <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: 'clamp(26px,3.5vw,40px)', color: '#f97316', lineHeight: 1, letterSpacing: '-1px', textAlign: 'center' }}>${stats.botCost1d}</div>
-                <div style={{ marginTop: 8, fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)', textAlign: 'center' }}>Bot Cost 1d</div>
-                <div style={{ marginTop: 3, fontSize: 'clamp(11px, 1vw, 14px)', color: 'rgba(255,255,255,.3)', textAlign: 'center' }}>Anthropic spend · last 24h</div>
-                <div style={{ position: 'absolute', bottom: -20, right: -8, width: 80, height: 80, borderRadius: '50%', background: '#f97316', opacity: 0.07, filter: 'blur(28px)', pointerEvents: 'none' }} />
+                <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: 'clamp(26px,3.5vw,40px)', color: '#E11D48', lineHeight: 1, letterSpacing: '-1px', textAlign: 'center' }}>{stats.hot}</div>
+                <div style={{ marginTop: 8, fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)', textAlign: 'center' }}>HOT Leads</div>
+                <div style={{ marginTop: 3, fontSize: 'clamp(11px, 1vw, 14px)', color: 'rgba(255,255,255,.3)', textAlign: 'center' }}>{hotRate}% of {stats.leads} active · {stats.hot > 0 ? 'respond now' : 'all clear ✓'}</div>
+                <div style={{ position: 'absolute', bottom: -20, right: -8, width: 80, height: 80, borderRadius: '50%', background: '#E11D48', opacity: 0.07, filter: 'blur(28px)', pointerEvents: 'none' }} />
               </div>
               <div className="ch-panel" style={{ padding: '18px 20px', height: 112, position: 'relative', overflow: 'hidden' }}>
-                <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: 'clamp(26px,3.5vw,40px)', color: '#fb923c', lineHeight: 1, letterSpacing: '-1px', textAlign: 'center' }}>${stats.botCost7d}</div>
-                <div style={{ marginTop: 8, fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)', textAlign: 'center' }}>Bot Cost 7d</div>
-                <div style={{ marginTop: 3, fontSize: 'clamp(11px, 1vw, 14px)', color: 'rgba(255,255,255,.3)', textAlign: 'center' }}>Anthropic spend · last 7 days</div>
-                <div style={{ position: 'absolute', bottom: -20, right: -8, width: 80, height: 80, borderRadius: '50%', background: '#fb923c', opacity: 0.07, filter: 'blur(28px)', pointerEvents: 'none' }} />
+                <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: 'clamp(26px,3.5vw,40px)', color: '#60a5fa', lineHeight: 1, letterSpacing: '-1px', textAlign: 'center' }}>{stats.replies}</div>
+                <div style={{ marginTop: 8, fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)', textAlign: 'center' }}>Replies Today</div>
+                <div style={{ marginTop: 3, fontSize: 'clamp(11px, 1vw, 14px)', color: 'rgba(255,255,255,.3)', textAlign: 'center' }}>{stats.emailsToday > 0 && stats.replies > 0 ? `${Math.round((stats.replies / stats.emailsToday) * 100)}% reply rate` : 'inbound signals'}</div>
+                <div style={{ position: 'absolute', bottom: -20, right: -8, width: 80, height: 80, borderRadius: '50%', background: '#60a5fa', opacity: 0.07, filter: 'blur(28px)', pointerEvents: 'none' }} />
               </div>
             </div>
 
