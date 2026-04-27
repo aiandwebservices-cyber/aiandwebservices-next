@@ -123,14 +123,16 @@ export default function Page() {
   const [bots, setBots] = useState<BotPayload[] | null>(null)
   const [anyRunning, setAnyRunning] = useState(false)
 
-  // Poll heartbeat status — green dot when any bot is actively running
+  // Poll heartbeat status — green only when a bot's last heartbeat is within 5 min
   useEffect(() => {
     let cancelled = false
     const check = async () => {
       try {
         const res = await fetch('/api/colony/crew/status')
         const data = await res.json()
-        if (!cancelled) setAnyRunning((data?.summary?.running ?? 0) > 0)
+        const bots = data?.bots ? Object.values(data.bots) as Array<{ age_minutes: number | null }> : []
+        const recent = bots.some(b => typeof b.age_minutes === 'number' && b.age_minutes < 5)
+        if (!cancelled) setAnyRunning(recent)
       } catch { /* keep last state */ }
     }
     check()
@@ -442,6 +444,14 @@ export default function Page() {
                   justifyContent: 'center',
                   gap: 8,
                 }}>
+                  <div
+                    className="ch-pulse"
+                    title={anyRunning ? 'Agent ran in last 5 min' : 'No agent activity in last 5 min'}
+                    style={{
+                      background: anyRunning ? '#34d399' : '#ef4444',
+                      boxShadow: anyRunning ? '0 0 8px #34d399' : '0 0 6px #ef4444',
+                    }}
+                  />
                   <span style={{
                     fontFamily: "var(--colony-font-headline, 'Plus Jakarta Sans')",
                     fontSize: 15, fontWeight: 700, color: 'rgba(255,255,255,.85)',
@@ -451,7 +461,7 @@ export default function Page() {
                   </span>
                   <div
                     className="ch-pulse"
-                    title={anyRunning ? 'Bots are running' : 'No bots running'}
+                    title={anyRunning ? 'Agent ran in last 5 min' : 'No agent activity in last 5 min'}
                     style={{
                       background: anyRunning ? '#34d399' : '#ef4444',
                       boxShadow: anyRunning ? '0 0 8px #34d399' : '0 0 6px #ef4444',
