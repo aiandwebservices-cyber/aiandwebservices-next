@@ -157,8 +157,8 @@ export default function Page() {
     const feed  = (feedRes.status  === 'ok' || feedRes.status  === 'stale') ? feedRes.data  ?? [] : []
     const emailsToday = emailStatsRes?.data?.sent_today ?? 0
     const botCost  = Math.round(ueRes?.total_cost_usd  ?? 0)
-    const botCost7d = Math.round((ue7Res?.total_cost_usd  ?? 0) * 100) / 100
-    const botCost1d = Math.round((ue1Res?.total_cost_usd  ?? 0) * 100) / 100
+    const botCost7d = Math.round((ue7Res?.total_cost_usd  ?? 0) * 10000) / 10000
+    const botCost1d = Math.round((ue1Res?.total_cost_usd  ?? 0) * 10000) / 10000
 
     setStats({
       emailsToday,
@@ -196,8 +196,8 @@ export default function Page() {
   const STAT_CARDS = [
     { label: 'EMAILS TODAY',  value: stats.emailsToday, color: '#a78bfa', prefix: '',  suffix: '',  subtitle: 'outreach sent today' },
     { label: 'ACTIVE LEADS',  value: stats.leads,       color: '#34d399', prefix: '',  suffix: '',  subtitle: `${hotRate}% HOT rate` },
-    { label: 'BOT COST 1D',   value: stats.botCost1d,   color: '#f97316', prefix: '$', suffix: '',  subtitle: 'Anthropic · last 24h', decimals: 2 },
-    { label: 'BOT COST 7D',   value: stats.botCost7d,   color: '#fb923c', prefix: '$', suffix: '',  subtitle: 'Anthropic · last 7d',  decimals: 2 },
+    { label: 'BOT COST 1D',   value: stats.botCost1d,   color: '#f97316', prefix: '$', suffix: '',  subtitle: 'Anthropic · last 24h', decimals: 4 },
+    { label: 'BOT COST 7D',   value: stats.botCost7d,   color: '#fb923c', prefix: '$', suffix: '',  subtitle: 'Anthropic · last 7d',  decimals: 4 },
     { label: 'BOT COST 30D',  value: stats.botCost,     color: '#f59e0b', prefix: '$', suffix: '',  subtitle: costPerLead ?? 'this period' },
     { label: 'MRR PIPELINE',  value: stats.mrr,         color: '#2AA5A0', prefix: '$', suffix: 'k', subtitle: arrLabel },
   ]
