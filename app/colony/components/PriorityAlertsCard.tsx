@@ -30,14 +30,14 @@ export function PriorityAlertsCard() {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 14, flexShrink: 0 }}>
         <span style={{ fontSize: 14, lineHeight: 1 }}>{allClear ? '✅' : '⚡'}</span>
         <span style={{
-          fontSize: 9, fontWeight: 700, letterSpacing: '1.5px',
+          fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, letterSpacing: '1.5px',
           color: 'rgba(255,255,255,.4)', textTransform: 'uppercase',
         }}>
           Today&apos;s Priorities
         </span>
         {count > 0 && (
           <span style={{
-            marginLeft: 'auto', fontSize: 9, fontWeight: 800,
+            marginLeft: 'auto', fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 800,
             background: 'rgba(239,68,68,.15)', color: '#f87171',
             border: '1px solid rgba(239,68,68,.25)',
             borderRadius: 6, padding: '2px 7px', flexShrink: 0,
@@ -54,10 +54,10 @@ export function PriorityAlertsCard() {
           alignItems: 'center', justifyContent: 'center', gap: 8,
         }}>
           <div style={{ fontSize: 32, color: '#34d399', lineHeight: 1 }}>✓</div>
-          <p style={{ fontSize: 12, fontWeight: 700, color: 'rgba(255,255,255,.75)', textAlign: 'center', margin: 0 }}>
+          <p style={{ fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, color: 'rgba(255,255,255,.75)', textAlign: 'center', margin: 0 }}>
             You&apos;re ahead of everything
           </p>
-          <p style={{ fontSize: 10, color: 'rgba(255,255,255,.3)', textAlign: 'center', margin: 0 }}>
+          <p style={{ fontSize: 'clamp(11px, 1vw, 14px)', color: 'rgba(255,255,255,.3)', textAlign: 'center', margin: 0 }}>
             No urgent items right now
           </p>
         </div>
@@ -67,7 +67,7 @@ export function PriorityAlertsCard() {
           <div style={{ display: 'flex', gap: 6, marginBottom: 12, flexShrink: 0, flexWrap: 'wrap' }}>
             {critical.length > 0 && (
               <span style={{
-                fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 6,
+                fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, padding: '2px 8px', borderRadius: 6,
                 background: 'rgba(239,68,68,.12)', color: '#f87171',
                 border: '1px solid rgba(239,68,68,.2)',
               }}>
@@ -76,7 +76,7 @@ export function PriorityAlertsCard() {
             )}
             {important.length > 0 && (
               <span style={{
-                fontSize: 10, fontWeight: 700, padding: '2px 8px', borderRadius: 6,
+                fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, padding: '2px 8px', borderRadius: 6,
                 background: 'rgba(245,158,11,.10)', color: '#fbbf24',
                 border: '1px solid rgba(245,158,11,.2)',
               }}>
@@ -99,14 +99,14 @@ export function PriorityAlertsCard() {
                 }}
               >
                 <p style={{
-                  fontSize: 11, fontWeight: 600,
+                  fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 600,
                   color: 'rgba(255,255,255,.82)',
                   lineHeight: 1.35, margin: 0,
                 }}>
                   {alert.icon} {alert.title}
                 </p>
                 <p style={{
-                  fontSize: 10, color: 'rgba(255,255,255,.38)',
+                  fontSize: 'clamp(11px, 1vw, 14px)', color: 'rgba(255,255,255,.38)',
                   marginTop: 3, lineHeight: 1.3, margin: '3px 0 0',
                 }}>
                   {alert.context}
@@ -115,7 +115,7 @@ export function PriorityAlertsCard() {
             ))}
 
             {alerts.filter((a) => a.urgency !== 'fyi').length > 3 && (
-              <p style={{ fontSize: 10, color: 'rgba(255,255,255,.3)', margin: 0 }}>
+              <p style={{ fontSize: 'clamp(11px, 1vw, 14px)', color: 'rgba(255,255,255,.3)', margin: 0 }}>
                 +{alerts.filter((a) => a.urgency !== 'fyi').length - 3} more
               </p>
             )}
@@ -125,7 +125,7 @@ export function PriorityAlertsCard() {
           <Link
             href="/colony/health"
             style={{
-              marginTop: 12, fontSize: 10, fontWeight: 700, flexShrink: 0,
+              marginTop: 12, fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, flexShrink: 0,
               color: 'var(--colony-accent, #2AA5A0)', textDecoration: 'none',
               letterSpacing: '0.3px', alignSelf: 'flex-start',
               transition: 'opacity 150ms',
