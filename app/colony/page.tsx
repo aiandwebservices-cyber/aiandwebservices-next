@@ -123,15 +123,23 @@ export default function Page() {
   const [bots, setBots] = useState<BotPayload[] | null>(null)
   const [anyRunning, setAnyRunning] = useState(false)
 
-  // Poll heartbeat status — green only when a bot's last heartbeat is within 5 min
+  // Poll heartbeat status — green only when a bot's last heartbeat is within 5 min.
+  // Uses client-side Date.now() against last_heartbeat_at so the value keeps ageing
+  // between polls. cache: 'no-store' + cache-bust query param avoid any SW/CDN cache.
   useEffect(() => {
     let cancelled = false
+    const FIVE_MIN_MS = 5 * 60 * 1000
     const check = async () => {
       try {
-        const res = await fetch('/api/colony/crew/status')
+        const res = await fetch(`/api/colony/crew/status?_=${Date.now()}`, { cache: 'no-store' })
         const data = await res.json()
-        const bots = data?.bots ? Object.values(data.bots) as Array<{ age_minutes: number | null }> : []
-        const recent = bots.some(b => typeof b.age_minutes === 'number' && b.age_minutes < 5)
+        const bots = data?.bots ? Object.values(data.bots) as Array<{ last_heartbeat_at: string | null }> : []
+        const now = Date.now()
+        const recent = bots.some(b => {
+          if (!b.last_heartbeat_at) return false
+          const ts = Date.parse(b.last_heartbeat_at)
+          return Number.isFinite(ts) && (now - ts) < FIVE_MIN_MS
+        })
         if (!cancelled) setAnyRunning(recent)
       } catch { /* keep last state */ }
     }
