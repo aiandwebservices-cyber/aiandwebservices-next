@@ -34,7 +34,7 @@ export function CostPerLeadCard() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}>
       {/* Header */}
-      <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '1.5px', color: 'rgba(255,255,255,.4)', textTransform: 'uppercase', marginBottom: 12 }}>
+      <div style={{ fontSize: 16, fontWeight: 700, letterSpacing: '1.5px', color: 'rgba(255,255,255,.4)', textTransform: 'uppercase', marginBottom: 12 }}>
         Cost per Lead · 7d
       </div>
 
