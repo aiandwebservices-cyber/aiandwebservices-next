@@ -39,6 +39,29 @@ export function startOfDayInTz(daysAgo = 0, timeZone: string = tz()): Date {
 }
 
 /**
+ * UTC-day-aligned variant of windowToISO. Required for the Anthropic Admin
+ * cost_report API, which rejects same-day ranges and buckets daily by UTC.
+ * The returned range is the minimal set of full UTC days that covers the
+ * Eastern calendar window — slight over-inclusion at the boundaries (a few
+ * Eastern-evening hours from the day before / after) is accepted as the
+ * trade-off for UTC-bucketed billing data.
+ */
+export function windowToUtcDayISO(window: TimeWindow): { start: string; end: string } {
+  const now = new Date()
+  const tomorrowUtcMidnight = new Date(
+    Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()) + DAY_MS,
+  )
+  const end = tomorrowUtcMidnight.toISOString()
+
+  // Anchor the start at the UTC midnight of "Eastern start-of-window" floored down.
+  const easternStart = windowToISO(window).start
+  if (window === 'all') return { start: ALL_FLOOR_ISO, end }
+  const startMs = new Date(easternStart).getTime()
+  const startUtcDay = new Date(Math.floor(startMs / DAY_MS) * DAY_MS)
+  return { start: startUtcDay.toISOString(), end }
+}
+
+/**
  * Calendar window boundaries in ISO. End is "now" so the latest data is
  * always included. Semantics:
  *   1d  → today since local midnight

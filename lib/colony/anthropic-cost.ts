@@ -11,7 +11,7 @@
  * full account history against known wallet balance.
  */
 
-import { windowToISO, type TimeWindow } from './time-window'
+import { windowToUtcDayISO, type TimeWindow } from './time-window'
 
 const ANTHROPIC_API = 'https://api.anthropic.com'
 const ANTHROPIC_VERSION = '2023-06-01'
@@ -51,7 +51,12 @@ export async function fetchAnthropicCost(window: TimeWindow): Promise<AnthropicC
   const key = process.env.ANTHROPIC_ADMIN_KEY
   if (!key) return null
 
-  const { start, end } = windowToISO(window)
+  // Anthropic only finalizes daily buckets after the UTC day closes, so the
+  // 1d window can never return today's data — fall back to bot_runs (the
+  // per-bot instrumentation, which is real-time).
+  if (window === '1d') return null
+
+  const { start, end } = windowToUtcDayISO(window)
   const daily: Array<{ date: string; cost_usd: number }> = []
   let totalCents = 0
   let nextPage: string | null = null
