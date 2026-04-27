@@ -34,7 +34,7 @@ export function CostPerLeadCard() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}>
       {/* Header */}
-      <div style={{ fontSize: 16, fontWeight: 700, letterSpacing: '1.5px', color: 'rgba(255,255,255,.4)', textTransform: 'uppercase', marginBottom: 12, textAlign: 'center' }}>
+      <div style={{ fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, letterSpacing: '1.5px', color: 'rgba(255,255,255,.4)', textTransform: 'uppercase', marginBottom: 12, textAlign: 'center' }}>
         Cost per Lead · 7d
       </div>
 
@@ -61,26 +61,26 @@ export function CostPerLeadCard() {
             {cpl != null ? `$${cpl < 1 ? cpl.toFixed(3) : cpl.toFixed(2)}` : 'No data yet'}
           </div>
 
-          <div style={{ marginTop: 8, fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)', textAlign: 'center' }}>
+          <div style={{ marginTop: 8, fontSize: 'clamp(9px, 0.75vw, 11px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)', textAlign: 'center' }}>
             {cpl != null ? 'per lead · Anthropic cost' : 'awaiting run data'}
           </div>
 
           {/* Breakdown */}
           <div style={{ marginTop: 16, paddingTop: 12, borderTop: '1px solid rgba(255,255,255,.06)', display: 'flex', flexDirection: 'column', gap: 5 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: 16, color: 'rgba(255,255,255,.3)' }}>Total spend (7d)</span>
-              <span style={{ fontSize: 16, fontWeight: 700, color: 'rgba(255,255,255,.6)' }}>
+              <span style={{ fontSize: 'clamp(11px, 1vw, 14px)', color: 'rgba(255,255,255,.3)' }}>Total spend (7d)</span>
+              <span style={{ fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, color: 'rgba(255,255,255,.6)' }}>
                 ${totalCost < 0.01 ? totalCost.toFixed(4) : totalCost.toFixed(2)}
               </span>
             </div>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-              <span style={{ fontSize: 16, color: 'rgba(255,255,255,.3)' }}>Leads in window</span>
-              <span style={{ fontSize: 16, fontWeight: 700, color: 'rgba(255,255,255,.6)' }}>{leadsInWindow}</span>
+              <span style={{ fontSize: 'clamp(11px, 1vw, 14px)', color: 'rgba(255,255,255,.3)' }}>Leads in window</span>
+              <span style={{ fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, color: 'rgba(255,255,255,.6)' }}>{leadsInWindow}</span>
             </div>
             {hotWarm > 0 && (
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: 16, color: 'rgba(255,255,255,.3)' }}>HOT + WARM Leads</span>
-                <span style={{ fontSize: 16, fontWeight: 700, color: '#34d399' }}>{hotWarm}</span>
+                <span style={{ fontSize: 'clamp(11px, 1vw, 14px)', color: 'rgba(255,255,255,.3)' }}>HOT + WARM Leads</span>
+                <span style={{ fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, color: '#34d399' }}>{hotWarm}</span>
               </div>
             )}
             {!hasRealCost && status === 'ok' && (
