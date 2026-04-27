@@ -291,9 +291,21 @@ export default function Page() {
                   }}
                 />
               </div>
-              {/* Cost per Lead */}
-              <div className="ch-panel" style={{ padding: 20, height: 200, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                <CostPerLeadCard />
+              {/* MRR snapshot */}
+              <div className="ch-panel" style={{ padding: 20, height: 200, position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '1.5px', color: 'rgba(255,255,255,.4)', textTransform: 'uppercase', marginBottom: 12 }}>Revenue</div>
+                <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: 'clamp(28px,4vw,44px)', color: '#2AA5A0', lineHeight: 1, letterSpacing: '-1px' }}>
+                  ${stats.mrr}k
+                </div>
+                <div style={{ marginTop: 8, fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)' }}>MRR Pipeline</div>
+                <div style={{ marginTop: 3, fontSize: 10, color: 'rgba(255,255,255,.3)' }}>{arrLabel}</div>
+                <div style={{ marginTop: 'auto', paddingTop: 12, borderTop: '1px solid rgba(255,255,255,.06)' }}>
+                  <div style={{ fontSize: 10, color: 'rgba(255,255,255,.3)', marginBottom: 2 }}>Bot investment 30d</div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,.6)' }}>
+                    ${stats.botCost} · {costPerLead ?? 'tracking cost/lead'}
+                  </div>
+                </div>
+                <div style={{ position: 'absolute', bottom: -20, right: -8, width: 90, height: 90, borderRadius: '50%', background: '#2AA5A0', opacity: 0.08, filter: 'blur(30px)', pointerEvents: 'none' }} />
               </div>
             </motion.div>
 
@@ -311,11 +323,8 @@ export default function Page() {
                 <div style={{ marginTop: 3, fontSize: 10, color: 'rgba(255,255,255,.3)' }}>{hotRate}% of {stats.leads} active · {stats.hot > 0 ? 'respond now' : 'all clear ✓'}</div>
                 <div style={{ position: 'absolute', bottom: -20, right: -8, width: 80, height: 80, borderRadius: '50%', background: '#E11D48', opacity: 0.07, filter: 'blur(28px)', pointerEvents: 'none' }} />
               </div>
-              <div className="ch-panel" style={{ padding: '18px 20px', height: 112, position: 'relative', overflow: 'hidden' }}>
-                <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: 'clamp(26px,3.5vw,40px)', color: '#60a5fa', lineHeight: 1, letterSpacing: '-1px' }}>{stats.replies}</div>
-                <div style={{ marginTop: 8, fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)' }}>Replies Today</div>
-                <div style={{ marginTop: 3, fontSize: 10, color: 'rgba(255,255,255,.3)' }}>{stats.emailsToday > 0 && stats.replies > 0 ? `${Math.round((stats.replies / stats.emailsToday) * 100)}% reply rate` : 'inbound signals'}</div>
-                <div style={{ position: 'absolute', bottom: -20, right: -8, width: 80, height: 80, borderRadius: '50%', background: '#60a5fa', opacity: 0.07, filter: 'blur(28px)', pointerEvents: 'none' }} />
+              <div className="ch-panel" style={{ padding: 20, height: 112, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                <CostPerLeadCard />
               </div>
             </div>
 
