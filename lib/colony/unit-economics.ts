@@ -75,6 +75,11 @@ export interface UnitEconomics {
 
   has_data: boolean
   warnings: string[]
+
+  // Where total_cost_usd came from. 'anthropic_admin_api' is the org-billed
+  // ground truth from the Admin API; 'bot_runs' is the per-run instrumentation
+  // sum (lower bound — only counts bots that ship cost data).
+  cost_source: 'anthropic_admin_api' | 'bot_runs'
 }
 
 const QDRANT_URL = process.env.COLONY_QDRANT_URL || process.env.QDRANT_URL || 'http://localhost:6333'
@@ -252,13 +257,26 @@ export async function fetchUnitEconomics(
   const warnings: string[] = []
   const { start, end } = windowToISO(window)
 
-  // Pull bot_runs costs
-  let botRuns: BotRunPayload[] = []
-  try {
-    botRuns = await qdrantScrollBotRuns(cohortId, start)
-  } catch (e) {
-    warnings.push(`bot_runs fetch failed: ${(e as Error).message}`)
-  }
+  // Pull bot_runs costs and (in parallel) Anthropic-billed total when an admin
+  // key is configured. The Admin API number is the org-billed ground truth and
+  // is used as total_cost_usd when available; bot_runs still feeds per-bot/
+  // per-model breakdowns since the Admin API doesn't expose those for this org.
+  const { fetchAnthropicCost, hasAnthropicAdminKey } = await import('./anthropic-cost')
+  const useAdminApi = hasAnthropicAdminKey()
+
+  const [botRunsResult, anthropicResult] = await Promise.all([
+    qdrantScrollBotRuns(cohortId, start).catch((e: Error) => {
+      warnings.push(`bot_runs fetch failed: ${e.message}`)
+      return [] as BotRunPayload[]
+    }),
+    useAdminApi
+      ? fetchAnthropicCost(window).catch((e: Error) => {
+          warnings.push(`anthropic cost_report fetch failed: ${e.message}`)
+          return null
+        })
+      : Promise.resolve(null),
+  ])
+  const botRuns: BotRunPayload[] = botRunsResult
 
   // Aggregate costs
   let totalCost = 0
@@ -346,12 +364,16 @@ export async function fetchUnitEconomics(
     'Stage mapping is approximate. EspoCRM lacks explicit Audit Scheduled/Proposal Sent stages — using Lead.status proxies (Assigned, In Process) and Opportunity.stage in {Lead, Active}.'
   )
 
-  // Compute unit economics
-  const costPerLead = safeDiv(totalCost, leadsCount)
-  const costPerAuditScheduled = safeDiv(totalCost, auditScheduledCount)
-  const costPerAuditComplete = safeDiv(totalCost, auditCompleteCount)
-  const costPerProposalSent = safeDiv(totalCost, proposalSentCount)
-  const costPerSignedDeal = safeDiv(totalCost, proposalSignedCount)
+  // Prefer Anthropic-billed total when available; otherwise fall back to bot_runs sum.
+  const billedTotal = anthropicResult ? anthropicResult.total_cost_usd : totalCost
+  const costSource: 'anthropic_admin_api' | 'bot_runs' = anthropicResult ? 'anthropic_admin_api' : 'bot_runs'
+
+  // Cost-per-stage uses the billed total — truer cost than per-bot instrumentation.
+  const costPerLeadOut = safeDiv(billedTotal, leadsCount)
+  const costPerAuditScheduledOut = safeDiv(billedTotal, auditScheduledCount)
+  const costPerAuditCompleteOut = safeDiv(billedTotal, auditCompleteCount)
+  const costPerProposalSentOut = safeDiv(billedTotal, proposalSentCount)
+  const costPerSignedDealOut = safeDiv(billedTotal, proposalSignedCount)
 
   const leadToAuditPct = safePct(auditScheduledCount, leadsCount)
   const auditToProposalPct = safePct(proposalSentCount, auditCompleteCount)
@@ -360,12 +382,9 @@ export async function fetchUnitEconomics(
 
   const avgDeal = safeDiv(totalSignedAmount, signedCount)
 
-  // Payback: rough estimate using avg deal amount as monthly-revenue proxy.
-  // True LTV needs subscription tier/MRR data; this is the best signal we have today.
-  let estimatedPaybackDays: number | null = null
-  if (costPerSignedDeal !== null && avgDeal !== null && avgDeal > 0) {
-    const monthsToPayback = costPerSignedDeal / avgDeal
-    estimatedPaybackDays = Math.round(monthsToPayback * 30 * 10) / 10
+  let estPaybackDaysOut: number | null = null
+  if (costPerSignedDealOut !== null && avgDeal !== null && avgDeal > 0) {
+    estPaybackDaysOut = Math.round((costPerSignedDealOut / avgDeal) * 30 * 10) / 10
   }
 
   return {
@@ -374,7 +393,7 @@ export async function fetchUnitEconomics(
     window_end: end,
     cohort_id: cohortId,
 
-    total_cost_usd: Math.round(totalCost * 10000) / 10000,
+    total_cost_usd: Math.round(billedTotal * 10000) / 10000,
     total_api_calls: totalCalls,
     total_tokens_in: totalTokensIn,
     total_tokens_out: totalTokensOut,
@@ -391,11 +410,11 @@ export async function fetchUnitEconomics(
     active_customers_count: activeCount,
     churned_count: churnedCount,
 
-    cost_per_lead: costPerLead,
-    cost_per_audit_scheduled: costPerAuditScheduled,
-    cost_per_audit_complete: costPerAuditComplete,
-    cost_per_proposal_sent: costPerProposalSent,
-    cost_per_signed_deal: costPerSignedDeal,
+    cost_per_lead: costPerLeadOut,
+    cost_per_audit_scheduled: costPerAuditScheduledOut,
+    cost_per_audit_complete: costPerAuditCompleteOut,
+    cost_per_proposal_sent: costPerProposalSentOut,
+    cost_per_signed_deal: costPerSignedDealOut,
 
     lead_to_audit_pct: leadToAuditPct,
     audit_to_proposal_pct: auditToProposalPct,
@@ -405,9 +424,10 @@ export async function fetchUnitEconomics(
     total_signed_amount_usd: Math.round(totalSignedAmount * 100) / 100,
     avg_deal_size_usd: avgDeal,
 
-    estimated_payback_days: estimatedPaybackDays,
+    estimated_payback_days: estPaybackDaysOut,
 
-    has_data: botRuns.length > 0 || leadsCount > 0 || activeCount > 0,
+    has_data: botRuns.length > 0 || leadsCount > 0 || activeCount > 0 || (anthropicResult?.total_cost_usd ?? 0) > 0,
     warnings,
+    cost_source: costSource,
   }
 }

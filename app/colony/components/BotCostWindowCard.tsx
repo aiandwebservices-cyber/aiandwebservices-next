@@ -91,6 +91,14 @@ export function BotCostWindowCard({ window: w }: { window: '7d' | '30d' }) {
       <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: '38px', color: trendColor, lineHeight: 1, letterSpacing: '-1px', textAlign: 'center' }}>
         ${totalCost < 0.01 ? totalCost.toFixed(4) : totalCost.toFixed(2)}
       </div>
+      {primary?.cost_source === 'anthropic_admin_api' && (
+        <div
+          title="Total comes from Anthropic Admin API cost report (org-billed truth)"
+          style={{ marginTop: 4, fontSize: 'clamp(8px, 0.65vw, 10px)', color: 'rgba(52,211,153,.7)', textAlign: 'center', letterSpacing: '0.5px' }}
+        >
+          billed · Anthropic
+        </div>
+      )}
       <div style={{ marginTop: 8, fontSize: 'clamp(9px, 0.75vw, 11px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: trendColor, textAlign: 'center' }}>
         {trendLabel}
       </div>
