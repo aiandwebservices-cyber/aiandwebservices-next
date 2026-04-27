@@ -407,7 +407,7 @@ export default function Page() {
               transition={{ duration: 0.5, delay: 0.52 }}
               style={{
                 display: 'grid',
-                gridTemplateColumns: '1fr 2fr 1fr',
+                gridTemplateColumns: '1fr 2fr 0.75fr',
                 gap: 20,
                 flex: 1,
                 minHeight: 300,
@@ -453,7 +453,7 @@ export default function Page() {
               </div>
 
               {/* Right — Cost per Lead */}
-              <div style={{ alignSelf: 'flex-start', width: '100%', maxWidth: 'calc(100% - 90px)' }}>
+              <div style={{ alignSelf: 'flex-start', width: '100%' }}>
                 <div className="ch-panel" style={{ padding: 20, paddingBottom: 25, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
                   <CostPerLeadCard />
                 </div>
