@@ -32,7 +32,7 @@ export function CostPerLeadCard() {
   const hotWarm = (data?.audit_scheduled_count ?? 0) + (data?.audit_complete_count ?? 0)
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%', position: 'relative' }}>
+    <div style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}>
       {/* Header */}
       <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '1.5px', color: 'rgba(255,255,255,.4)', textTransform: 'uppercase', marginBottom: 12 }}>
         Cost per Lead · 7d
@@ -65,7 +65,7 @@ export function CostPerLeadCard() {
           </div>
 
           {/* Breakdown */}
-          <div style={{ marginTop: 'auto', paddingTop: 12, borderTop: '1px solid rgba(255,255,255,.06)', display: 'flex', flexDirection: 'column', gap: 5 }}>
+          <div style={{ marginTop: 16, paddingTop: 12, borderTop: '1px solid rgba(255,255,255,.06)', display: 'flex', flexDirection: 'column', gap: 5 }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
               <span style={{ fontSize: 10, color: 'rgba(255,255,255,.3)' }}>Total spend (7d)</span>
               <span style={{ fontSize: 11, fontWeight: 700, color: 'rgba(255,255,255,.6)' }}>
