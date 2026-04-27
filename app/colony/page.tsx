@@ -14,6 +14,7 @@ import { capture } from './lib/posthog'
 import { CountUp } from './components/ui/CountUp'
 import { lastRunIsRecent } from './lib/bot-helpers'
 import { PriorityAlertsCard } from './components/PriorityAlertsCard'
+import { CostPerLeadCard } from './components/CostPerLeadCard'
 import type { LeadPayload, DealPayload, FeedEventPayload, BotPayload } from '@/lib/colony/contracts'
 
 const EASE: [number, number, number, number] = [0.21, 0.47, 0.32, 0.98]
@@ -290,21 +291,9 @@ export default function Page() {
                   }}
                 />
               </div>
-              {/* MRR snapshot */}
-              <div className="ch-panel" style={{ padding: 20, height: 200, position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '1.5px', color: 'rgba(255,255,255,.4)', textTransform: 'uppercase', marginBottom: 12 }}>Revenue</div>
-                <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: 'clamp(28px,4vw,44px)', color: '#2AA5A0', lineHeight: 1, letterSpacing: '-1px' }}>
-                  ${stats.mrr}k
-                </div>
-                <div style={{ marginTop: 8, fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)' }}>MRR Pipeline</div>
-                <div style={{ marginTop: 3, fontSize: 10, color: 'rgba(255,255,255,.3)' }}>{arrLabel}</div>
-                <div style={{ marginTop: 'auto', paddingTop: 12, borderTop: '1px solid rgba(255,255,255,.06)' }}>
-                  <div style={{ fontSize: 10, color: 'rgba(255,255,255,.3)', marginBottom: 2 }}>Bot investment 30d</div>
-                  <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,.6)' }}>
-                    ${stats.botCost} · {costPerLead ?? 'tracking cost/lead'}
-                  </div>
-                </div>
-                <div style={{ position: 'absolute', bottom: -20, right: -8, width: 90, height: 90, borderRadius: '50%', background: '#2AA5A0', opacity: 0.08, filter: 'blur(30px)', pointerEvents: 'none' }} />
+              {/* Cost per Lead */}
+              <div className="ch-panel" style={{ padding: 20, height: 200, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                <CostPerLeadCard />
               </div>
             </motion.div>
 
