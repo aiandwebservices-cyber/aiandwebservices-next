@@ -52,16 +52,16 @@ export function CostPerLeadCard() {
           <div style={{
             fontFamily: "'Plus Jakarta Sans', sans-serif",
             fontWeight: 800,
-            fontSize: cpl !== null ? 'clamp(28px,4vw,44px)' : 'clamp(18px,2.5vw,26px)',
-            color: cpl !== null && cpl < 20 ? '#34d399' : cpl !== null && cpl < 50 ? '#fbbf24' : '#ef4444',
+            fontSize: cpl != null ? 'clamp(28px,4vw,44px)' : 'clamp(18px,2.5vw,26px)',
+            color: cpl != null && cpl < 20 ? '#34d399' : cpl != null && cpl < 50 ? '#fbbf24' : '#ef4444',
             lineHeight: 1,
             letterSpacing: '-1px',
           }}>
-            {cpl !== null ? `$${cpl < 1 ? cpl.toFixed(3) : cpl.toFixed(2)}` : 'No data yet'}
+            {cpl != null ? `$${cpl < 1 ? cpl.toFixed(3) : cpl.toFixed(2)}` : 'No data yet'}
           </div>
 
           <div style={{ marginTop: 8, fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)' }}>
-            {cpl !== null ? 'per lead · Anthropic cost' : 'awaiting run data'}
+            {cpl != null ? 'per lead · Anthropic cost' : 'awaiting run data'}
           </div>
 
           {/* Breakdown */}
@@ -90,7 +90,7 @@ export function CostPerLeadCard() {
           </div>
 
           {/* Threshold color legend */}
-          {cpl !== null && (
+          {cpl != null && (
             <div style={{ marginTop: 8, fontSize: 9, color: 'rgba(255,255,255,.2)', letterSpacing: '0.3px' }}>
               &lt;$20 healthy · $20-50 caution · &gt;$50 review targeting
             </div>
