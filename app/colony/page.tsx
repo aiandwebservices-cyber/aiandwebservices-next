@@ -16,6 +16,7 @@ import { lastRunIsRecent } from './lib/bot-helpers'
 import { PriorityAlertsCard } from './components/PriorityAlertsCard'
 import { CostPerLeadCard } from './components/CostPerLeadCard'
 import { BotCostDayCard } from './components/BotCostDayCard'
+import { BotCostWindowCard } from './components/BotCostWindowCard'
 import type { LeadPayload, DealPayload, FeedEventPayload, BotPayload } from '@/lib/colony/contracts'
 
 const EASE: [number, number, number, number] = [0.21, 0.47, 0.32, 0.98]
@@ -462,13 +463,19 @@ export default function Page() {
                 </div>
               </div>
 
-              {/* Right — Cost per Lead + Bot Spend Today */}
+              {/* Right — Cost per Lead + Bot Spend Today / 7d / 30d */}
               <div style={{ alignSelf: 'flex-start', width: '100%', display: 'flex', flexDirection: 'column', gap: 14 }}>
                 <div className="ch-panel" style={{ padding: 20, paddingBottom: 25, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
                   <CostPerLeadCard />
                 </div>
                 <div className="ch-panel" style={{ padding: 20, paddingBottom: 25, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
                   <BotCostDayCard />
+                </div>
+                <div className="ch-panel" style={{ padding: 20, paddingBottom: 25, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+                  <BotCostWindowCard window="7d" />
+                </div>
+                <div className="ch-panel" style={{ padding: 20, paddingBottom: 25, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+                  <BotCostWindowCard window="30d" />
                 </div>
               </div>
             </motion.div>
