@@ -27,7 +27,7 @@ export function PriorityAlertsCard() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: '100%', minHeight: 0 }}>
       {/* Header */}
-      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 14, flexShrink: 0 }}>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 14, flexShrink: 0 }}>
         <span style={{ fontSize: 14, lineHeight: 1 }}>{allClear ? '✅' : '⚡'}</span>
         <span style={{
           fontSize: 9, fontWeight: 700, letterSpacing: '1.5px',
