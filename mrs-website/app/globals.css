@@ -157,3 +157,8 @@ label {
 @media (max-width: 767px) {
   body.has-sticky-call { padding-bottom: 64px; }
 }
+
+/* Lift home hero content 20px up on mobile only — keeps desktop centering intact */
+@media (max-width: 767px) {
+  .home-hero-content { transform: translateY(-20px); }
+}

@@ -17,7 +17,7 @@ export default function HomePage({ config }: { config: SiteConfig }) {
       }}>
         <Image src="/photos/damage-ceiling.jpeg" alt="Storm damage restoration in progress" fill style={{ objectFit: "cover", opacity: 0.22 }} priority />
 
-        <div style={{ maxWidth: 1200, margin: "0 auto", padding: "4rem 1.5rem 3rem", position: "relative", zIndex: 1, width: "100%", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
+        <div className="home-hero-content" style={{ maxWidth: 1200, margin: "0 auto", padding: "4rem 1.5rem 3rem", position: "relative", zIndex: 1, width: "100%", display: "flex", flexDirection: "column", alignItems: "center", textAlign: "center" }}>
           <div style={{ display: "flex", flexDirection: "column", alignItems: "center", marginBottom: "1.75rem" }}>
             <Image
               src="/logo-icon-transparent.png"
