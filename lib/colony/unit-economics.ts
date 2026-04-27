@@ -14,7 +14,9 @@
  * If David later adds explicit "Audit Scheduled" / "Proposal Sent" stages, update STAGE_MAP.
  */
 
-export type TimeWindow = '1d' | '7d' | '30d' | '90d' | 'all'
+import { windowToISO, type TimeWindow } from './time-window'
+
+export type { TimeWindow }
 
 interface BotRunPayload {
   bot_id?: string
@@ -95,32 +97,6 @@ const STAGE_MAP = {
   ACTIVE_OPP: ['Active'],
   CHURNED_OPP: ['Churned'], // not currently used in EspoCRM but harmless if absent
 } as const
-
-function windowToISO(window: TimeWindow): { start: string; end: string } {
-  const now = new Date()
-  const end = now.toISOString()
-  let startMs: number
-  switch (window) {
-    case '1d':
-      startMs = now.getTime() - 1 * 86400000
-      break
-    case '7d':
-      startMs = now.getTime() - 7 * 86400000
-      break
-    case '30d':
-      startMs = now.getTime() - 30 * 86400000
-      break
-    case '90d':
-      startMs = now.getTime() - 90 * 86400000
-      break
-    case 'all':
-    default:
-      // Earliest possible — Colony cohort's onboarding floor
-      startMs = new Date('2026-01-01').getTime()
-      break
-  }
-  return { start: new Date(startMs).toISOString(), end }
-}
 
 async function qdrantScrollBotRuns(cohortId: string, startISO: string): Promise<BotRunPayload[]> {
   const out: BotRunPayload[] = []

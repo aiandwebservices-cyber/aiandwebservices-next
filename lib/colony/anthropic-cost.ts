@@ -11,7 +11,7 @@
  * full account history against known wallet balance.
  */
 
-import type { TimeWindow } from './unit-economics'
+import { windowToISO, type TimeWindow } from './time-window'
 
 const ANTHROPIC_API = 'https://api.anthropic.com'
 const ANTHROPIC_VERSION = '2023-06-01'
@@ -41,23 +41,6 @@ export interface AnthropicCostSummary {
   window_end: string
   source: 'anthropic_admin_api'
   fetched_at: string
-}
-
-function windowToISO(window: TimeWindow): { start: string; end: string } {
-  const now = new Date()
-  // Use UTC midnight boundaries so daily buckets line up with Anthropic's report.
-  const todayUTC = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate()))
-  const endMs = todayUTC.getTime() + 86400000 // include today fully
-  let startMs: number
-  switch (window) {
-    case '1d': startMs = endMs - 1 * 86400000; break
-    case '7d': startMs = endMs - 7 * 86400000; break
-    case '30d': startMs = endMs - 30 * 86400000; break
-    case '90d': startMs = endMs - 90 * 86400000; break
-    case 'all':
-    default: startMs = new Date('2026-01-01T00:00:00Z').getTime(); break
-  }
-  return { start: new Date(startMs).toISOString(), end: new Date(endMs).toISOString() }
 }
 
 export function hasAnthropicAdminKey(): boolean {
