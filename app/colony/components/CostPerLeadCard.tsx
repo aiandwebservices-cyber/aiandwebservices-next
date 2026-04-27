@@ -34,7 +34,7 @@ export function CostPerLeadCard() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', position: 'relative' }}>
       {/* Header */}
-      <div style={{ fontSize: 16, fontWeight: 700, letterSpacing: '1.5px', color: 'rgba(255,255,255,.4)', textTransform: 'uppercase', marginBottom: 12 }}>
+      <div style={{ fontSize: 16, fontWeight: 700, letterSpacing: '1.5px', color: 'rgba(255,255,255,.4)', textTransform: 'uppercase', marginBottom: 12, textAlign: 'center' }}>
         Cost per Lead · 7d
       </div>
 
@@ -56,11 +56,12 @@ export function CostPerLeadCard() {
             color: cpl != null && cpl < 20 ? '#34d399' : cpl != null && cpl < 50 ? '#fbbf24' : '#ef4444',
             lineHeight: 1,
             letterSpacing: '-1px',
+            textAlign: 'center',
           }}>
             {cpl != null ? `$${cpl < 1 ? cpl.toFixed(3) : cpl.toFixed(2)}` : 'No data yet'}
           </div>
 
-          <div style={{ marginTop: 8, fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)' }}>
+          <div style={{ marginTop: 8, fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)', textAlign: 'center' }}>
             {cpl != null ? 'per lead · Anthropic cost' : 'awaiting run data'}
           </div>
 
