@@ -271,76 +271,6 @@ export default function Page() {
               ))}
             </div>
 
-            {/* ── Bot strip ─────────────────────────────────────────── */}
-            {bots && bots.length > 0 && (
-              <motion.div
-                initial={{ opacity: 0, y: 12 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.45, delay: 0.32, ease: EASE }}
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: 10,
-                  padding: '10px 18px',
-                  background: 'rgba(255,255,255,.04)',
-                  border: '1px solid rgba(255,255,255,.10)',
-                  borderRadius: 14,
-                  overflowX: 'auto',
-                  scrollbarWidth: 'none',
-                }}
-              >
-                <span style={{
-                  fontSize: 9, fontWeight: 700, textTransform: 'uppercase',
-                  letterSpacing: '1.5px', color: 'rgba(255,255,255,.35)',
-                  flexShrink: 0, marginRight: 6,
-                }}>
-                  CREW
-                </span>
-
-                {bots.map(bot => {
-                  const live = lastRunIsRecent(bot.last_run_at, 1)
-                  return (
-                    <button
-                      key={bot.id}
-                      onClick={() => {
-                        capture('colony_bot_clicked', { bot_id: bot.id, bot_name: bot.name, source: 'home_strip' })
-                        open({
-                          title: bot.name,
-                          subtitle: bot.role,
-                          width: 'medium',
-                          children: <BotProfilePanel bot={bot} />,
-                        })
-                      }}
-                      className="ch-bot-chip"
-                      style={{
-                        background: live ? 'rgba(52,211,153,.08)' : 'rgba(255,255,255,.04)',
-                        border: `1px solid ${live ? 'rgba(52,211,153,.20)' : 'rgba(255,255,255,.08)'}`,
-                      }}
-                    >
-                      <span style={{ fontSize: 15, lineHeight: 1 }}>{bot.avatar_emoji}</span>
-                      <span style={{
-                        fontSize: 11, fontWeight: 700,
-                        color: live ? '#fff' : 'rgba(255,255,255,.5)',
-                        letterSpacing: '0.1px',
-                        whiteSpace: 'nowrap',
-                      }}>
-                        {bot.name.split(' ')[0]}
-                      </span>
-                      {live && <div className="ch-pulse" />}
-                    </button>
-                  )
-                })}
-
-                <span style={{
-                  marginLeft: 'auto', flexShrink: 0,
-                  fontSize: 10, fontWeight: 600,
-                  color: 'rgba(255,255,255,.28)',
-                }}>
-                  {bots.filter(b => lastRunIsRecent(b.last_run_at, 1)).length}/{bots.length} live
-                </span>
-              </motion.div>
-            )}
-
             {/* ── Row 1: Priority Alerts · Crew Status · MRR snapshot ── */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
@@ -399,6 +329,72 @@ export default function Page() {
                 <div style={{ position: 'absolute', bottom: -20, right: -8, width: 80, height: 80, borderRadius: '50%', background: '#60a5fa', opacity: 0.07, filter: 'blur(28px)', pointerEvents: 'none' }} />
               </div>
             </div>
+
+            {/* ── Crew strip — centered, just above activity feed ── */}
+            {bots && bots.length > 0 && (
+              <motion.div
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.45, delay: 0.48, ease: EASE }}
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  padding: '10px 18px',
+                  background: 'rgba(255,255,255,.04)',
+                  border: '1px solid rgba(255,255,255,.10)',
+                  borderRadius: 14,
+                }}
+              >
+                <span style={{
+                  fontSize: 9, fontWeight: 700, textTransform: 'uppercase',
+                  letterSpacing: '1.5px', color: 'rgba(255,255,255,.35)',
+                  flexShrink: 0,
+                }}>
+                  CREW
+                </span>
+
+                {/* Chips centered between label and count */}
+                <div style={{ flex: 1, display: 'flex', justifyContent: 'center', gap: 10, overflowX: 'auto', scrollbarWidth: 'none' }}>
+                  {bots.map(bot => {
+                    const live = lastRunIsRecent(bot.last_run_at, 1)
+                    return (
+                      <button
+                        key={bot.id}
+                        onClick={() => {
+                          capture('colony_bot_clicked', { bot_id: bot.id, bot_name: bot.name, source: 'home_strip' })
+                          open({
+                            title: bot.name,
+                            subtitle: bot.role,
+                            width: 'medium',
+                            children: <BotProfilePanel bot={bot} />,
+                          })
+                        }}
+                        className="ch-bot-chip"
+                        style={{
+                          background: live ? 'rgba(52,211,153,.08)' : 'rgba(255,255,255,.04)',
+                          border: `1px solid ${live ? 'rgba(52,211,153,.20)' : 'rgba(255,255,255,.08)'}`,
+                        }}
+                      >
+                        <span style={{ fontSize: 15, lineHeight: 1 }}>{bot.avatar_emoji}</span>
+                        <span style={{
+                          fontSize: 11, fontWeight: 700,
+                          color: live ? '#fff' : 'rgba(255,255,255,.5)',
+                          letterSpacing: '0.1px',
+                          whiteSpace: 'nowrap',
+                        }}>
+                          {bot.name.split(' ')[0]}
+                        </span>
+                        {live && <div className="ch-pulse" />}
+                      </button>
+                    )
+                  })}
+                </div>
+
+                <span style={{ flexShrink: 0, fontSize: 10, fontWeight: 600, color: 'rgba(255,255,255,.28)' }}>
+                  {bots.filter(b => lastRunIsRecent(b.last_run_at, 1)).length}/{bots.length} live
+                </span>
+              </motion.div>
+            )}
 
             {/* ── Original 3 columns, moved down and shorter ── */}
             <motion.div
