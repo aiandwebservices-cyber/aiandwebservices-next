@@ -13,6 +13,7 @@ import BotProfilePanel from './components/BotProfilePanel'
 import { capture } from './lib/posthog'
 import { CountUp } from './components/ui/CountUp'
 import { lastRunIsRecent } from './lib/bot-helpers'
+import { PriorityAlertsCard } from './components/PriorityAlertsCard'
 import type { LeadPayload, DealPayload, FeedEventPayload, BotPayload } from '@/lib/colony/contracts'
 
 const EASE: [number, number, number, number] = [0.21, 0.47, 0.32, 0.98]
@@ -100,13 +101,19 @@ export default function Page() {
 
   useEffect(() => { loadStats() }, [loadStats])
 
+  const hotRate = stats.leads > 0 ? Math.round((stats.hot / stats.leads) * 100) : 0
+  const costPerLead = stats.leads > 0 && stats.botCost > 0
+    ? `~$${Math.round(stats.botCost / stats.leads)}/lead`
+    : null
+  const arrLabel = stats.mrr > 0 ? `$${stats.mrr * 12}k ARR` : 'no active contracts'
+
   const STAT_CARDS = [
-    { label: 'EMAILS TODAY',   value: stats.emailsToday, color: '#a78bfa', prefix: '',  suffix: '' },
-    { label: 'ACTIVE LEADS',   value: stats.leads,       color: '#34d399', prefix: '',  suffix: '' },
-    { label: 'HOT LEADS',      value: stats.hot,         color: '#E11D48', prefix: '',  suffix: '' },
-    { label: 'REPLIES TODAY',  value: stats.replies,     color: '#60a5fa', prefix: '',  suffix: '' },
-    { label: 'BOT COST 30D',   value: stats.botCost,     color: '#f97316', prefix: '$', suffix: '' },
-    { label: 'MRR PIPELINE',   value: stats.mrr,         color: '#2AA5A0', prefix: '$', suffix: 'k' },
+    { label: 'EMAILS TODAY',  value: stats.emailsToday, color: '#a78bfa', prefix: '',  suffix: '', subtitle: 'outreach sent today' },
+    { label: 'ACTIVE LEADS',  value: stats.leads,       color: '#34d399', prefix: '',  suffix: '', subtitle: `${hotRate}% HOT rate` },
+    { label: 'HOT LEADS',     value: stats.hot,         color: '#E11D48', prefix: '',  suffix: '', subtitle: stats.hot > 0 ? 'respond now' : 'all followed up ✓' },
+    { label: 'REPLIES TODAY', value: stats.replies,     color: '#60a5fa', prefix: '',  suffix: '', subtitle: 'inbound signals' },
+    { label: 'BOT COST 30D',  value: stats.botCost,     color: '#f97316', prefix: '$', suffix: '', subtitle: costPerLead ?? 'this period' },
+    { label: 'MRR PIPELINE',  value: stats.mrr,         color: '#2AA5A0', prefix: '$', suffix: 'k', subtitle: arrLabel },
   ]
 
   return (
@@ -134,7 +141,7 @@ export default function Page() {
 
             {/* ── Stats stripe ─────────────────────────────────────── */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 14, maxWidth: 1200, margin: '0 auto', width: '100%' }}>
-              {STAT_CARDS.map(({ label, value, color, prefix, suffix }, i) => (
+              {STAT_CARDS.map(({ label, value, color, prefix, suffix, subtitle }, i) => (
                 <motion.div
                   key={label}
                   initial={{ opacity: 0, y: 28 }}
@@ -145,7 +152,7 @@ export default function Page() {
                   <div style={{
                     fontFamily: "'Plus Jakarta Sans', sans-serif",
                     fontWeight: 800,
-                    fontSize: 'clamp(32px, 4.5vw, 54px)',
+                    fontSize: 'clamp(28px, 4vw, 48px)',
                     color,
                     lineHeight: 1,
                     letterSpacing: '-1px',
@@ -162,6 +169,17 @@ export default function Page() {
                   }}>
                     {label}
                   </div>
+                  {subtitle && (
+                    <div style={{
+                      marginTop: 4,
+                      fontSize: 10,
+                      color: 'rgba(255,255,255,.32)',
+                      fontWeight: 500,
+                      letterSpacing: '0.2px',
+                    }}>
+                      {subtitle}
+                    </div>
+                  )}
                   {/* Corner glow matching stat color */}
                   <div style={{
                     position: 'absolute',
@@ -260,12 +278,14 @@ export default function Page() {
                 minHeight: 480,
               }}
             >
-              {/* Left — Stack of square cards (Bill Nye + future siblings) */}
+              {/* Left — Stack of cards (Bill Nye + Priority Alerts) */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: 20, alignSelf: 'flex-start', width: '100%' }}>
                 <div className="ch-panel" style={{ padding: 20, aspectRatio: '1 / 1', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
                   <BillNyeHomeCard />
                 </div>
-                {/* Add additional top cells here as siblings */}
+                <div className="ch-panel" style={{ padding: 20, display: 'flex', flexDirection: 'column', minHeight: 200 }}>
+                  <PriorityAlertsCard />
+                </div>
               </div>
 
               {/* Center — Activity feed */}
