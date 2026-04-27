@@ -18,6 +18,82 @@ import type { LeadPayload, DealPayload, FeedEventPayload, BotPayload } from '@/l
 
 const EASE: [number, number, number, number] = [0.21, 0.47, 0.32, 0.98]
 
+function timeAgo(iso: string | null | undefined): string {
+  if (!iso) return 'never'
+  const mins = Math.floor((Date.now() - new Date(iso).getTime()) / 60000)
+  if (mins < 60) return `${mins}m ago`
+  if (mins < 1440) return `${Math.floor(mins / 60)}h ago`
+  return `${Math.floor(mins / 1440)}d ago`
+}
+
+function CrewSummaryCard({
+  bots,
+  onBotClick,
+}: {
+  bots: BotPayload[] | null
+  onBotClick: (bot: BotPayload) => void
+}) {
+  if (!bots) {
+    return (
+      <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+        <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '1.5px', color: 'rgba(255,255,255,.4)', textTransform: 'uppercase', marginBottom: 12 }}>Crew Status</div>
+        <div style={{ fontSize: 12, color: 'rgba(255,255,255,.3)' }}>Loading…</div>
+      </div>
+    )
+  }
+
+  const live = bots.filter(b => lastRunIsRecent(b.last_run_at, 1))
+  const lastRan = [...bots]
+    .filter(b => b.last_run_at)
+    .sort((a, b) => (b.last_run_at ?? '').localeCompare(a.last_run_at ?? ''))[0]
+
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+        <span style={{ fontSize: 14, lineHeight: 1 }}>🤖</span>
+        <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '1.5px', color: 'rgba(255,255,255,.4)', textTransform: 'uppercase' }}>Crew Status</span>
+      </div>
+
+      <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: 'clamp(28px, 4vw, 44px)', color: live.length > 0 ? '#34d399' : 'rgba(255,255,255,.35)', lineHeight: 1, letterSpacing: '-1px' }}>
+        {live.length}/{bots.length}
+      </div>
+      <div style={{ marginTop: 8, fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)' }}>BOTS LIVE</div>
+      {lastRan && (
+        <div style={{ marginTop: 4, fontSize: 10, color: 'rgba(255,255,255,.3)' }}>
+          Last: {lastRan.name.split(' ')[0]} · {timeAgo(lastRan.last_run_at)}
+        </div>
+      )}
+
+      <div style={{ marginTop: 'auto', display: 'flex', gap: 5, flexWrap: 'wrap', paddingTop: 12 }}>
+        {bots.slice(0, 8).map(bot => {
+          const isLive = lastRunIsRecent(bot.last_run_at, 1)
+          return (
+            <button
+              key={bot.id}
+              onClick={() => onBotClick(bot)}
+              title={bot.name}
+              style={{
+                width: 28, height: 28, borderRadius: 7, cursor: 'pointer',
+                background: isLive ? 'rgba(52,211,153,.12)' : 'rgba(255,255,255,.05)',
+                border: `1px solid ${isLive ? 'rgba(52,211,153,.25)' : 'rgba(255,255,255,.08)'}`,
+                fontSize: 14, display: 'flex', alignItems: 'center', justifyContent: 'center',
+                transition: 'transform 150ms',
+              }}
+            >
+              {bot.avatar_emoji}
+            </button>
+          )
+        })}
+        {bots.length > 8 && (
+          <div style={{ width: 28, height: 28, borderRadius: 7, background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, color: 'rgba(255,255,255,.3)', fontWeight: 700 }}>
+            +{bots.length - 8}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
 function isToday(iso: string) {
   const d = new Date(iso)
   const now = new Date()
@@ -152,7 +228,7 @@ export default function Page() {
                   <div style={{
                     fontFamily: "'Plus Jakarta Sans', sans-serif",
                     fontWeight: 800,
-                    fontSize: 'clamp(28px, 4vw, 48px)',
+                    fontSize: 'clamp(32px, 4.5vw, 54px)',
                     color,
                     lineHeight: 1,
                     letterSpacing: '-1px',
@@ -265,33 +341,89 @@ export default function Page() {
               </motion.div>
             )}
 
-            {/* ── Main content: Feed (left) + Priority column (right) ── */}
+            {/* ── Row 1: Priority Alerts · Crew Status · MRR snapshot ── */}
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.38, ease: EASE }}
+              style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}
+            >
+              <div className="ch-panel" style={{ padding: 20, height: 200, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                <PriorityAlertsCard />
+              </div>
+              <div className="ch-panel" style={{ padding: 20, height: 200, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                <CrewSummaryCard
+                  bots={bots}
+                  onBotClick={(bot) => {
+                    capture('colony_bot_clicked', { bot_id: bot.id, bot_name: bot.name, source: 'home_crew_card' })
+                    open({ title: bot.name, subtitle: bot.role, width: 'medium', children: <BotProfilePanel bot={bot} /> })
+                  }}
+                />
+              </div>
+              {/* MRR snapshot */}
+              <div className="ch-panel" style={{ padding: 20, height: 200, position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
+                <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '1.5px', color: 'rgba(255,255,255,.4)', textTransform: 'uppercase', marginBottom: 12 }}>Revenue</div>
+                <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: 'clamp(28px,4vw,44px)', color: '#2AA5A0', lineHeight: 1, letterSpacing: '-1px' }}>
+                  ${stats.mrr}k
+                </div>
+                <div style={{ marginTop: 8, fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)' }}>MRR Pipeline</div>
+                <div style={{ marginTop: 3, fontSize: 10, color: 'rgba(255,255,255,.3)' }}>{arrLabel}</div>
+                <div style={{ marginTop: 'auto', paddingTop: 12, borderTop: '1px solid rgba(255,255,255,.06)' }}>
+                  <div style={{ fontSize: 10, color: 'rgba(255,255,255,.3)', marginBottom: 2 }}>Bot investment 30d</div>
+                  <div style={{ fontSize: 13, fontWeight: 700, color: 'rgba(255,255,255,.6)' }}>
+                    ${stats.botCost} · {costPerLead ?? 'tracking cost/lead'}
+                  </div>
+                </div>
+                <div style={{ position: 'absolute', bottom: -20, right: -8, width: 90, height: 90, borderRadius: '50%', background: '#2AA5A0', opacity: 0.08, filter: 'blur(30px)', pointerEvents: 'none' }} />
+              </div>
+            </motion.div>
+
+            {/* ── Row 2: Quick outreach pulse ── */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
+              <div className="ch-panel" style={{ padding: '18px 20px', height: 112, position: 'relative', overflow: 'hidden' }}>
+                <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: 'clamp(26px,3.5vw,40px)', color: '#a78bfa', lineHeight: 1, letterSpacing: '-1px' }}>{stats.emailsToday}</div>
+                <div style={{ marginTop: 8, fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)' }}>Sent Today</div>
+                <div style={{ marginTop: 3, fontSize: 10, color: 'rgba(255,255,255,.3)' }}>{stats.replies > 0 ? `${stats.replies} repl${stats.replies === 1 ? 'y' : 'ies'} back` : 'no replies yet'}</div>
+                <div style={{ position: 'absolute', bottom: -20, right: -8, width: 80, height: 80, borderRadius: '50%', background: '#a78bfa', opacity: 0.07, filter: 'blur(28px)', pointerEvents: 'none' }} />
+              </div>
+              <div className="ch-panel" style={{ padding: '18px 20px', height: 112, position: 'relative', overflow: 'hidden' }}>
+                <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: 'clamp(26px,3.5vw,40px)', color: '#E11D48', lineHeight: 1, letterSpacing: '-1px' }}>{stats.hot}</div>
+                <div style={{ marginTop: 8, fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)' }}>HOT Leads</div>
+                <div style={{ marginTop: 3, fontSize: 10, color: 'rgba(255,255,255,.3)' }}>{hotRate}% of {stats.leads} active · {stats.hot > 0 ? 'respond now' : 'all clear ✓'}</div>
+                <div style={{ position: 'absolute', bottom: -20, right: -8, width: 80, height: 80, borderRadius: '50%', background: '#E11D48', opacity: 0.07, filter: 'blur(28px)', pointerEvents: 'none' }} />
+              </div>
+              <div className="ch-panel" style={{ padding: '18px 20px', height: 112, position: 'relative', overflow: 'hidden' }}>
+                <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: 'clamp(26px,3.5vw,40px)', color: '#60a5fa', lineHeight: 1, letterSpacing: '-1px' }}>{stats.replies}</div>
+                <div style={{ marginTop: 8, fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)' }}>Replies Today</div>
+                <div style={{ marginTop: 3, fontSize: 10, color: 'rgba(255,255,255,.3)' }}>{stats.emailsToday > 0 && stats.replies > 0 ? `${Math.round((stats.replies / stats.emailsToday) * 100)}% reply rate` : 'inbound signals'}</div>
+                <div style={{ position: 'absolute', bottom: -20, right: -8, width: 80, height: 80, borderRadius: '50%', background: '#60a5fa', opacity: 0.07, filter: 'blur(28px)', pointerEvents: 'none' }} />
+              </div>
+            </div>
+
+            {/* ── Original 3 columns, moved down and shorter ── */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.42 }}
+              transition={{ duration: 0.5, delay: 0.52 }}
               style={{
                 display: 'grid',
                 gridTemplateColumns: '1fr 2fr 1fr',
                 gap: 20,
                 flex: 1,
-                minHeight: 480,
+                minHeight: 300,
               }}
             >
-              {/* Left — Stack of cards (Bill Nye + Priority Alerts) */}
+              {/* Left — Bill Nye */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: 20, alignSelf: 'flex-start', width: '100%' }}>
                 <div className="ch-panel" style={{ padding: 20, aspectRatio: '1 / 1', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
                   <BillNyeHomeCard />
-                </div>
-                <div className="ch-panel" style={{ padding: 20, display: 'flex', flexDirection: 'column', minHeight: 200 }}>
-                  <PriorityAlertsCard />
                 </div>
               </div>
 
               {/* Center — Activity feed */}
               <div className="ch-panel" style={{ display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
                 <div style={{
-                  padding: '18px 22px 12px',
+                  padding: '14px 22px 10px',
                   borderBottom: '1px solid rgba(255,255,255,.08)',
                   flexShrink: 0,
                   display: 'flex',
@@ -301,7 +433,7 @@ export default function Page() {
                 }}>
                   <span style={{
                     fontFamily: "var(--colony-font-headline, 'Plus Jakarta Sans')",
-                    fontSize: 17, fontWeight: 700, color: 'rgba(255,255,255,.85)',
+                    fontSize: 15, fontWeight: 700, color: 'rgba(255,255,255,.85)',
                     letterSpacing: '-0.2px',
                   }}>
                     Activity Feed
