@@ -14,7 +14,7 @@
  * If David later adds explicit "Audit Scheduled" / "Proposal Sent" stages, update STAGE_MAP.
  */
 
-export type TimeWindow = '7d' | '30d' | '90d' | 'all'
+export type TimeWindow = '1d' | '7d' | '30d' | '90d' | 'all'
 
 interface BotRunPayload {
   bot_id?: string
@@ -96,6 +96,9 @@ function windowToISO(window: TimeWindow): { start: string; end: string } {
   const end = now.toISOString()
   let startMs: number
   switch (window) {
+    case '1d':
+      startMs = now.getTime() - 1 * 86400000
+      break
     case '7d':
       startMs = now.getTime() - 7 * 86400000
       break

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { fetchUnitEconomics, type TimeWindow } from '@/lib/colony/unit-economics'
 
-const VALID_WINDOWS: TimeWindow[] = ['7d', '30d', '90d', 'all']
+const VALID_WINDOWS: TimeWindow[] = ['1d', '7d', '30d', '90d', 'all']
 
 export async function GET(req: NextRequest) {
   try {

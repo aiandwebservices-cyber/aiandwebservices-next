@@ -108,6 +108,8 @@ interface HomeStats {
   leads: number
   hot: number
   botCost: number
+  botCost1d: number
+  botCost7d: number
   replies: number
   mrr: number
 }
@@ -115,7 +117,7 @@ interface HomeStats {
 export default function Page() {
   const { cohortId } = useCohort()
   const { open } = useSidePanel()
-  const [stats, setStats] = useState<HomeStats>({ emailsToday: 0, leads: 0, hot: 0, botCost: 0, replies: 0, mrr: 0 })
+  const [stats, setStats] = useState<HomeStats>({ emailsToday: 0, leads: 0, hot: 0, botCost: 0, botCost1d: 0, botCost7d: 0, replies: 0, mrr: 0 })
   const [bots, setBots] = useState<BotPayload[] | null>(null)
   const [anyRunning, setAnyRunning] = useState(false)
 
@@ -137,27 +139,34 @@ export default function Page() {
   useEffect(() => { capture('colony_feed_viewed') }, [])
 
   const loadStats = useCallback(async () => {
-    const ueParams = new URLSearchParams({ window: '30d' })
-    if (cohortId) ueParams.set('cohort_id', cohortId)
-    const [leadsRes, dealsRes, feedRes, emailStatsRes, ueRes] = await Promise.all([
+    const ueParams30 = new URLSearchParams({ window: '30d' })
+    const ueParams7  = new URLSearchParams({ window: '7d' })
+    const ueParams1  = new URLSearchParams({ window: '1d' })
+    if (cohortId) { ueParams30.set('cohort_id', cohortId); ueParams7.set('cohort_id', cohortId); ueParams1.set('cohort_id', cohortId) }
+    const [leadsRes, dealsRes, feedRes, emailStatsRes, ueRes, ue7Res, ue1Res] = await Promise.all([
       colonyFetch<LeadPayload[]>('leads', { cohortId }),
       colonyFetch<DealPayload[]>('deals', { cohortId }),
       colonyFetch<FeedEventPayload[]>('feed', { cohortId }),
       fetch('/api/colony/email/stats', { credentials: 'include' }).then(r => r.json()).catch(() => null),
-      fetch(`/api/colony/health/unit-economics?${ueParams.toString()}`, { credentials: 'include' })
-        .then(r => r.json()).catch(() => null),
+      fetch(`/api/colony/health/unit-economics?${ueParams30.toString()}`, { credentials: 'include' }).then(r => r.json()).catch(() => null),
+      fetch(`/api/colony/health/unit-economics?${ueParams7.toString()}`,  { credentials: 'include' }).then(r => r.json()).catch(() => null),
+      fetch(`/api/colony/health/unit-economics?${ueParams1.toString()}`,  { credentials: 'include' }).then(r => r.json()).catch(() => null),
     ])
     const leads = (leadsRes.status === 'ok' || leadsRes.status === 'stale') ? leadsRes.data ?? [] : []
     const deals = (dealsRes.status === 'ok' || dealsRes.status === 'stale') ? dealsRes.data ?? [] : []
     const feed  = (feedRes.status  === 'ok' || feedRes.status  === 'stale') ? feedRes.data  ?? [] : []
     const emailsToday = emailStatsRes?.data?.sent_today ?? 0
-    const botCost = Math.round(ueRes?.total_cost_usd ?? 0)
+    const botCost  = Math.round(ueRes?.total_cost_usd  ?? 0)
+    const botCost7d = Math.round((ue7Res?.total_cost_usd  ?? 0) * 100) / 100
+    const botCost1d = Math.round((ue1Res?.total_cost_usd  ?? 0) * 100) / 100
 
     setStats({
       emailsToday,
       leads: leads.length,
       hot: leads.filter(l => l.temperature === 'HOT').length,
       botCost,
+      botCost1d,
+      botCost7d,
       replies: feed.filter(e =>
         (e.type === 'reply_interested' || e.type === 'reply_received') && isToday(e.timestamp)
       ).length,
@@ -321,16 +330,16 @@ export default function Page() {
                 <div style={{ position: 'absolute', bottom: -20, right: -8, width: 80, height: 80, borderRadius: '50%', background: '#a78bfa', opacity: 0.07, filter: 'blur(28px)', pointerEvents: 'none' }} />
               </div>
               <div className="ch-panel" style={{ padding: '18px 20px', height: 112, position: 'relative', overflow: 'hidden' }}>
-                <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: 'clamp(26px,3.5vw,40px)', color: '#E11D48', lineHeight: 1, letterSpacing: '-1px', textAlign: 'center' }}>{stats.hot}</div>
-                <div style={{ marginTop: 8, fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)', textAlign: 'center' }}>HOT Leads</div>
-                <div style={{ marginTop: 3, fontSize: 'clamp(11px, 1vw, 14px)', color: 'rgba(255,255,255,.3)', textAlign: 'center' }}>{hotRate}% of {stats.leads} active · {stats.hot > 0 ? 'respond now' : 'all clear ✓'}</div>
-                <div style={{ position: 'absolute', bottom: -20, right: -8, width: 80, height: 80, borderRadius: '50%', background: '#E11D48', opacity: 0.07, filter: 'blur(28px)', pointerEvents: 'none' }} />
+                <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: 'clamp(26px,3.5vw,40px)', color: '#f97316', lineHeight: 1, letterSpacing: '-1px', textAlign: 'center' }}>${stats.botCost1d}</div>
+                <div style={{ marginTop: 8, fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)', textAlign: 'center' }}>Bot Cost 1d</div>
+                <div style={{ marginTop: 3, fontSize: 'clamp(11px, 1vw, 14px)', color: 'rgba(255,255,255,.3)', textAlign: 'center' }}>Anthropic spend · last 24h</div>
+                <div style={{ position: 'absolute', bottom: -20, right: -8, width: 80, height: 80, borderRadius: '50%', background: '#f97316', opacity: 0.07, filter: 'blur(28px)', pointerEvents: 'none' }} />
               </div>
               <div className="ch-panel" style={{ padding: '18px 20px', height: 112, position: 'relative', overflow: 'hidden' }}>
-                <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: 'clamp(26px,3.5vw,40px)', color: '#60a5fa', lineHeight: 1, letterSpacing: '-1px', textAlign: 'center' }}>{stats.replies}</div>
-                <div style={{ marginTop: 8, fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)', textAlign: 'center' }}>Replies Today</div>
-                <div style={{ marginTop: 3, fontSize: 'clamp(11px, 1vw, 14px)', color: 'rgba(255,255,255,.3)', textAlign: 'center' }}>{stats.emailsToday > 0 && stats.replies > 0 ? `${Math.round((stats.replies / stats.emailsToday) * 100)}% reply rate` : 'inbound signals'}</div>
-                <div style={{ position: 'absolute', bottom: -20, right: -8, width: 80, height: 80, borderRadius: '50%', background: '#60a5fa', opacity: 0.07, filter: 'blur(28px)', pointerEvents: 'none' }} />
+                <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: 'clamp(26px,3.5vw,40px)', color: '#fb923c', lineHeight: 1, letterSpacing: '-1px', textAlign: 'center' }}>${stats.botCost7d}</div>
+                <div style={{ marginTop: 8, fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)', textAlign: 'center' }}>Bot Cost 7d</div>
+                <div style={{ marginTop: 3, fontSize: 'clamp(11px, 1vw, 14px)', color: 'rgba(255,255,255,.3)', textAlign: 'center' }}>Anthropic spend · last 7 days</div>
+                <div style={{ position: 'absolute', bottom: -20, right: -8, width: 80, height: 80, borderRadius: '50%', background: '#fb923c', opacity: 0.07, filter: 'blur(28px)', pointerEvents: 'none' }} />
               </div>
             </div>
 
