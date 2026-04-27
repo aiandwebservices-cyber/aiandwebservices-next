@@ -91,9 +91,9 @@ export function BotCostDayCard() {
         </div>
         {topBot && (
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-            <span style={{ fontSize: 'clamp(11px, 1vw, 14px)', color: 'rgba(255,255,255,.3)' }}>Top bot</span>
+            <span style={{ fontSize: 'clamp(11px, 1vw, 14px)', color: 'rgba(255,255,255,.3)' }}>{topBot[0]}</span>
             <span style={{ fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, color: '#f97316' }}>
-              {topBot[0]} · ${topBot[1].cost_usd.toFixed(4)}
+              ${topBot[1].cost_usd.toFixed(2)}
             </span>
           </div>
         )}
