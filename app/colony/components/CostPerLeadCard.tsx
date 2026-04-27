@@ -52,7 +52,7 @@ export function CostPerLeadCard() {
           <div style={{
             fontFamily: "'Plus Jakarta Sans', sans-serif",
             fontWeight: 800,
-            fontSize: cpl != null ? 'clamp(28px,4vw,44px)' : 'clamp(18px,2.5vw,26px)',
+            fontSize: '38px',
             color: cpl != null && cpl < 20 ? '#34d399' : cpl != null && cpl < 50 ? '#fbbf24' : '#ef4444',
             lineHeight: 1,
             letterSpacing: '-1px',

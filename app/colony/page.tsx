@@ -55,7 +55,7 @@ function CrewSummaryCard({
         <span style={{ fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, letterSpacing: '1.5px', color: 'rgba(255,255,255,.4)', textTransform: 'uppercase' }}>Crew Status</span>
       </div>
 
-      <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: 'clamp(28px, 4vw, 44px)', color: live.length > 0 ? '#34d399' : 'rgba(255,255,255,.35)', lineHeight: 1, letterSpacing: '-1px', textAlign: 'center' }}>
+      <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: '38px', color: live.length > 0 ? '#34d399' : 'rgba(255,255,255,.35)', lineHeight: 1, letterSpacing: '-1px', textAlign: 'center' }}>
         {live.length}/{bots.length}
       </div>
       <div style={{ marginTop: 8, fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)', textAlign: 'center' }}>BOTS LIVE</div>
@@ -238,7 +238,7 @@ export default function Page() {
                   <div style={{
                     fontFamily: "'Plus Jakarta Sans', sans-serif",
                     fontWeight: 800,
-                    fontSize: 'clamp(32px, 4.5vw, 54px)',
+                    fontSize: '38px',
                     color,
                     lineHeight: 1,
                     letterSpacing: '-1px',
@@ -306,7 +306,7 @@ export default function Page() {
               {/* MRR snapshot */}
               <div className="ch-panel" style={{ padding: 20, height: 200, position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
                 <div style={{ fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, letterSpacing: '1.5px', color: 'rgba(255,255,255,.4)', textTransform: 'uppercase', marginBottom: 12, textAlign: 'center' }}>Revenue</div>
-                <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: 'clamp(28px,4vw,44px)', color: '#2AA5A0', lineHeight: 1, letterSpacing: '-1px', textAlign: 'center' }}>
+                <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: '38px', color: '#2AA5A0', lineHeight: 1, letterSpacing: '-1px', textAlign: 'center' }}>
                   ${stats.mrr}k
                 </div>
                 <div style={{ marginTop: 8, fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)', textAlign: 'center' }}>MRR Pipeline</div>
@@ -324,19 +324,19 @@ export default function Page() {
             {/* ── Row 2: Quick outreach pulse ── */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}>
               <div className="ch-panel" style={{ padding: '18px 20px', height: 112, position: 'relative', overflow: 'hidden' }}>
-                <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: 'clamp(26px,3.5vw,40px)', color: '#a78bfa', lineHeight: 1, letterSpacing: '-1px', textAlign: 'center' }}>{stats.emailsToday}</div>
+                <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: '38px', color: '#a78bfa', lineHeight: 1, letterSpacing: '-1px', textAlign: 'center' }}>{stats.emailsToday}</div>
                 <div style={{ marginTop: 8, fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)', textAlign: 'center' }}>Sent Today</div>
                 <div style={{ marginTop: 3, fontSize: 'clamp(11px, 1vw, 14px)', color: 'rgba(255,255,255,.3)', textAlign: 'center' }}>{stats.replies > 0 ? `${stats.replies} repl${stats.replies === 1 ? 'y' : 'ies'} back` : 'no replies yet'}</div>
                 <div style={{ position: 'absolute', bottom: -20, right: -8, width: 80, height: 80, borderRadius: '50%', background: '#a78bfa', opacity: 0.07, filter: 'blur(28px)', pointerEvents: 'none' }} />
               </div>
               <div className="ch-panel" style={{ padding: '18px 20px', height: 112, position: 'relative', overflow: 'hidden' }}>
-                <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: 'clamp(26px,3.5vw,40px)', color: '#E11D48', lineHeight: 1, letterSpacing: '-1px', textAlign: 'center' }}>{stats.hot}</div>
+                <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: '38px', color: '#E11D48', lineHeight: 1, letterSpacing: '-1px', textAlign: 'center' }}>{stats.hot}</div>
                 <div style={{ marginTop: 8, fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)', textAlign: 'center' }}>HOT Leads</div>
                 <div style={{ marginTop: 3, fontSize: 'clamp(11px, 1vw, 14px)', color: 'rgba(255,255,255,.3)', textAlign: 'center' }}>{hotRate}% of {stats.leads} active · {stats.hot > 0 ? 'respond now' : 'all clear ✓'}</div>
                 <div style={{ position: 'absolute', bottom: -20, right: -8, width: 80, height: 80, borderRadius: '50%', background: '#E11D48', opacity: 0.07, filter: 'blur(28px)', pointerEvents: 'none' }} />
               </div>
               <div className="ch-panel" style={{ padding: '18px 20px', height: 112, position: 'relative', overflow: 'hidden' }}>
-                <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: 'clamp(26px,3.5vw,40px)', color: '#60a5fa', lineHeight: 1, letterSpacing: '-1px', textAlign: 'center' }}>{stats.replies}</div>
+                <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: '38px', color: '#60a5fa', lineHeight: 1, letterSpacing: '-1px', textAlign: 'center' }}>{stats.replies}</div>
                 <div style={{ marginTop: 8, fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)', textAlign: 'center' }}>Replies Today</div>
                 <div style={{ marginTop: 3, fontSize: 'clamp(11px, 1vw, 14px)', color: 'rgba(255,255,255,.3)', textAlign: 'center' }}>{stats.emailsToday > 0 && stats.replies > 0 ? `${Math.round((stats.replies / stats.emailsToday) * 100)}% reply rate` : 'inbound signals'}</div>
                 <div style={{ position: 'absolute', bottom: -20, right: -8, width: 80, height: 80, borderRadius: '50%', background: '#60a5fa', opacity: 0.07, filter: 'blur(28px)', pointerEvents: 'none' }} />
