@@ -79,7 +79,7 @@ export function CostPerLeadCard() {
             </div>
             {hotWarm > 0 && (
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-                <span style={{ fontSize: 16, color: 'rgba(255,255,255,.3)' }}>HOT + WARM engaged</span>
+                <span style={{ fontSize: 16, color: 'rgba(255,255,255,.3)' }}>HOT + WARM Leads</span>
                 <span style={{ fontSize: 16, fontWeight: 700, color: '#34d399' }}>{hotWarm}</span>
               </div>
             )}
@@ -90,12 +90,6 @@ export function CostPerLeadCard() {
             )}
           </div>
 
-          {/* Threshold color legend */}
-          {cpl != null && (
-            <div style={{ marginTop: 8, fontSize: 9, color: 'rgba(255,255,255,.2)', letterSpacing: '0.3px' }}>
-              &lt;$20 healthy · $20-50 caution · &gt;$50 review targeting
-            </div>
-          )}
         </>
       )}
 
