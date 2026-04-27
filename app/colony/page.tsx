@@ -249,7 +249,7 @@ export default function Page() {
                   {subtitle && (
                     <div style={{
                       marginTop: 4,
-                      fontSize: 'clamp(9px, 0.75vw, 11px)',
+                      fontSize: 'clamp(11px, 1vw, 14px)',
                       color: 'rgba(255,255,255,.32)',
                       fontWeight: 500,
                       letterSpacing: '0.2px',
