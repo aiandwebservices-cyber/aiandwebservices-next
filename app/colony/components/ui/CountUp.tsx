@@ -1,7 +1,7 @@
 'use client'
 import { useState, useEffect, useRef } from 'react'
 
-export function CountUp({ end, suffix = '', prefix = '' }: { end: number; suffix?: string; prefix?: string }) {
+export function CountUp({ end, suffix = '', prefix = '', decimals = 0 }: { end: number; suffix?: string; prefix?: string; decimals?: number }) {
   const [n, setN] = useState(0)
   const ref = useRef<HTMLSpanElement>(null)
   const ran = useRef(false)
@@ -17,12 +17,13 @@ export function CountUp({ end, suffix = '', prefix = '' }: { end: number; suffix
       const id = setInterval(() => {
         t += 16
         const p = Math.min(t / 1400, 1)
-        setN(Math.round((1 - Math.pow(1 - p, 3)) * end))
+        const raw = (1 - Math.pow(1 - p, 3)) * end
+        setN(parseFloat(raw.toFixed(decimals)))
         if (p >= 1) clearInterval(id)
       }, 16)
     }, { threshold: 0.1 })
     if (ref.current) obs.observe(ref.current)
     return () => obs.disconnect()
-  }, [end])
-  return <span ref={ref}>{prefix}{n}{suffix}</span>
+  }, [end, decimals])
+  return <span ref={ref}>{prefix}{decimals > 0 ? n.toFixed(decimals) : n}{suffix}</span>
 }

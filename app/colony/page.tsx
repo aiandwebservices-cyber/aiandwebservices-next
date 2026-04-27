@@ -196,8 +196,8 @@ export default function Page() {
   const STAT_CARDS = [
     { label: 'EMAILS TODAY',  value: stats.emailsToday, color: '#a78bfa', prefix: '',  suffix: '',  subtitle: 'outreach sent today' },
     { label: 'ACTIVE LEADS',  value: stats.leads,       color: '#34d399', prefix: '',  suffix: '',  subtitle: `${hotRate}% HOT rate` },
-    { label: 'BOT COST 1D',   value: stats.botCost1d,   color: '#f97316', prefix: '$', suffix: '',  subtitle: 'Anthropic · last 24h' },
-    { label: 'BOT COST 7D',   value: stats.botCost7d,   color: '#fb923c', prefix: '$', suffix: '',  subtitle: 'Anthropic · last 7d' },
+    { label: 'BOT COST 1D',   value: stats.botCost1d,   color: '#f97316', prefix: '$', suffix: '',  subtitle: 'Anthropic · last 24h', decimals: 2 },
+    { label: 'BOT COST 7D',   value: stats.botCost7d,   color: '#fb923c', prefix: '$', suffix: '',  subtitle: 'Anthropic · last 7d',  decimals: 2 },
     { label: 'BOT COST 30D',  value: stats.botCost,     color: '#f59e0b', prefix: '$', suffix: '',  subtitle: costPerLead ?? 'this period' },
     { label: 'MRR PIPELINE',  value: stats.mrr,         color: '#2AA5A0', prefix: '$', suffix: 'k', subtitle: arrLabel },
   ]
@@ -227,7 +227,7 @@ export default function Page() {
 
             {/* ── Stats stripe ─────────────────────────────────────── */}
             <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 14, maxWidth: 1200, margin: '0 auto', width: '100%' }}>
-              {STAT_CARDS.map(({ label, value, color, prefix, suffix, subtitle }, i) => (
+              {STAT_CARDS.map(({ label, value, color, prefix, suffix, subtitle, decimals }, i) => (
                 <motion.div
                   key={label}
                   initial={{ opacity: 0, y: 28 }}
@@ -244,7 +244,7 @@ export default function Page() {
                     letterSpacing: '-1px',
                     textAlign: 'center',
                   }}>
-                    <CountUp end={value} prefix={prefix} suffix={suffix} />
+                    <CountUp end={value} prefix={prefix} suffix={suffix} decimals={decimals ?? 0} />
                   </div>
                   <div style={{
                     marginTop: 10,
