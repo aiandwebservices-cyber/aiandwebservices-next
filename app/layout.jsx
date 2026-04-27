@@ -122,6 +122,13 @@ export default function RootLayout({ children }) {
           src="//js.hs-scripts.com/245878112.js"
           strategy="lazyOnload"
         />
+        <Script
+          id="vtag-ai-js"
+          src="https://r2.leadsy.ai/tag.js"
+          data-pid="XNfRiCKRtvN3kZ3r"
+          data-version="062024"
+          strategy="afterInteractive"
+        />
         <CrispChat />
         <SpeedInsights />
       </body>
