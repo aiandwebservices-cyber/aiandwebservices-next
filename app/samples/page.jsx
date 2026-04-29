@@ -38,6 +38,7 @@ const SAMPLES = [
     desc: 'Bold barber brand with animated service cards, stylist profiles, and online booking CTA.',
     tags: ['Barber', 'Booking', 'Local Business'],
     href: '/samples/example003',
+    centerHero: true,
   },
 ];
 
@@ -201,46 +202,62 @@ export default function SamplesPage() {
                   }}>
                     {/* mini page preview */}
                     <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
-                      <div style={{
-                        height: '12%',
-                        background: s.bg,
-                        borderBottom: `1px solid ${s.accent}20`,
-                        display: 'flex', alignItems: 'center', padding: '0 8%', gap: '5%',
-                      }}>
-                        <div style={{ width: '15%', height: 6, borderRadius: 3, background: s.accent }} />
-                        {[1,2,3].map(n => <div key={n} style={{ width: '8%', height: 4, borderRadius: 2, background: 'rgba(255,255,255,0.2)' }} />)}
-                        <div style={{ marginLeft: 'auto', width: '12%', height: 20, borderRadius: 4, background: s.accent, opacity: 0.8 }} />
-                      </div>
-                      <div style={{
-                        height: '45%',
-                        background: `linear-gradient(160deg, ${s.bg} 0%, ${s.accent}18 100%)`,
-                        display: 'flex', flexDirection: 'column', justifyContent: 'center',
-                        alignItems: 'center', gap: 6, padding: '0 10%',
-                      }}>
-                        <div style={{ width: '60%', height: 8, borderRadius: 4, background: s.accent, opacity: 0.9 }} />
-                        <div style={{ width: '45%', height: 5, borderRadius: 3, background: 'rgba(255,255,255,0.3)' }} />
-                        <div style={{ width: '30%', height: 5, borderRadius: 3, background: 'rgba(255,255,255,0.2)' }} />
-                        <div style={{ marginTop: 8, width: '22%', height: 18, borderRadius: 4, background: s.accent }} />
-                      </div>
-                      <div style={{
-                        height: '43%',
-                        padding: '6% 8%',
-                        display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '4%',
-                        background: '#0d0d18',
-                      }}>
-                        {[1,2,3].map(n => (
-                          <div key={n} style={{
-                            background: `${s.accent}12`, borderRadius: 6,
-                            border: `1px solid ${s.accent}25`,
-                            display: 'flex', flexDirection: 'column', gap: 4, padding: '8% 8%',
+                      {s.centerHero ? (
+                        <div style={{
+                          height: '100%',
+                          background: `linear-gradient(160deg, ${s.bg} 0%, ${s.accent}18 100%)`,
+                          display: 'flex', flexDirection: 'column', justifyContent: 'center',
+                          alignItems: 'center', gap: 6,
+                        }}>
+                          <div style={{ width: '60%', height: 8, borderRadius: 4, background: s.accent, opacity: 0.9 }} />
+                          <div style={{ width: '45%', height: 5, borderRadius: 3, background: 'rgba(255,255,255,0.3)' }} />
+                          <div style={{ width: '30%', height: 5, borderRadius: 3, background: 'rgba(255,255,255,0.2)' }} />
+                          <div style={{ marginTop: 8, width: '22%', height: 18, borderRadius: 4, background: s.accent }} />
+                        </div>
+                      ) : (
+                        <>
+                          <div style={{
+                            height: '12%',
+                            background: s.bg,
+                            borderBottom: `1px solid ${s.accent}20`,
+                            display: 'flex', alignItems: 'center', padding: '0 8%', gap: '5%',
                           }}>
-                            <div style={{ width: 14, height: 14, borderRadius: 3, background: s.accent, marginBottom: 2 }} />
-                            <div style={{ width: '80%', height: 4, borderRadius: 2, background: 'rgba(255,255,255,0.5)' }} />
-                            <div style={{ width: '60%', height: 3, borderRadius: 2, background: 'rgba(255,255,255,0.2)' }} />
-                            <div style={{ width: '70%', height: 3, borderRadius: 2, background: 'rgba(255,255,255,0.2)' }} />
+                            <div style={{ width: '15%', height: 6, borderRadius: 3, background: s.accent }} />
+                            {[1,2,3].map(n => <div key={n} style={{ width: '8%', height: 4, borderRadius: 2, background: 'rgba(255,255,255,0.2)' }} />)}
+                            <div style={{ marginLeft: 'auto', width: '12%', height: 20, borderRadius: 4, background: s.accent, opacity: 0.8 }} />
                           </div>
-                        ))}
-                      </div>
+                          <div style={{
+                            height: '45%',
+                            background: `linear-gradient(160deg, ${s.bg} 0%, ${s.accent}18 100%)`,
+                            display: 'flex', flexDirection: 'column', justifyContent: 'center',
+                            alignItems: 'center', gap: 6, padding: '0 10%',
+                          }}>
+                            <div style={{ width: '60%', height: 8, borderRadius: 4, background: s.accent, opacity: 0.9 }} />
+                            <div style={{ width: '45%', height: 5, borderRadius: 3, background: 'rgba(255,255,255,0.3)' }} />
+                            <div style={{ width: '30%', height: 5, borderRadius: 3, background: 'rgba(255,255,255,0.2)' }} />
+                            <div style={{ marginTop: 8, width: '22%', height: 18, borderRadius: 4, background: s.accent }} />
+                          </div>
+                          <div style={{
+                            height: '43%',
+                            padding: '6% 8%',
+                            display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '4%',
+                            background: '#0d0d18',
+                          }}>
+                            {[1,2,3].map(n => (
+                              <div key={n} style={{
+                                background: `${s.accent}12`, borderRadius: 6,
+                                border: `1px solid ${s.accent}25`,
+                                display: 'flex', flexDirection: 'column', gap: 4, padding: '8% 8%',
+                              }}>
+                                <div style={{ width: 14, height: 14, borderRadius: 3, background: s.accent, marginBottom: 2 }} />
+                                <div style={{ width: '80%', height: 4, borderRadius: 2, background: 'rgba(255,255,255,0.5)' }} />
+                                <div style={{ width: '60%', height: 3, borderRadius: 2, background: 'rgba(255,255,255,0.2)' }} />
+                                <div style={{ width: '70%', height: 3, borderRadius: 2, background: 'rgba(255,255,255,0.2)' }} />
+                              </div>
+                            ))}
+                          </div>
+                        </>
+                      )}
                     </div>
                   </div>
                   {/* monitor stand */}
