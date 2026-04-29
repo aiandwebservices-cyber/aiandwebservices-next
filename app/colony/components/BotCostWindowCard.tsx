@@ -36,19 +36,22 @@ export function BotCostWindowCard({ window: w }: { window: '7d' | '30d' }) {
   const [primary, setPrimary] = useState<UnitEconomics | null>(null)
   const [compare, setCompare] = useState<UnitEconomics | null>(null)
   const [ext, setExt] = useState<ExternalCostSummary | null>(null)
+  const [extCompare, setExtCompare] = useState<ExternalCostSummary | null>(null)
   const [status, setStatus] = useState<'loading' | 'ok' | 'error'>('loading')
 
   const load = useCallback(async () => {
     try {
       const p = cohortId ? `&cohort_id=${cohortId}` : ''
-      const [pData, cData, eData] = await Promise.all([
+      const [pData, cData, eData, ecData] = await Promise.all([
         fetch(`/api/colony/health/unit-economics?window=${cfg.window}${p}`, { credentials: 'include' }).then(r => r.json()),
         fetch(`/api/colony/health/unit-economics?window=${cfg.compareWindow}${p}`, { credentials: 'include' }).then(r => r.json()),
         fetch(`/api/colony/external-cost?window=${cfg.window}${p}`, { credentials: 'include' }).then(r => r.json()).catch(() => null),
+        fetch(`/api/colony/external-cost?window=${cfg.compareWindow}${p}`, { credentials: 'include' }).then(r => r.json()).catch(() => null),
       ])
       setPrimary(pData)
       setCompare(cData)
       setExt(eData)
+      setExtCompare(ecData)
       setStatus('ok')
     } catch {
       setStatus('error')
@@ -64,13 +67,15 @@ export function BotCostWindowCard({ window: w }: { window: '7d' | '30d' }) {
     <div style={{ fontSize: 'clamp(11px, 1vw, 14px)', color: 'rgba(239,68,68,.7)' }}>Cost data unavailable</div>
   )
 
-  const totalCost = primary?.total_cost_usd ?? 0
+  const anthropicCost = primary?.total_cost_usd ?? 0
+  const externalCost = ext?.total_plan_a_usd ?? 0
+  const totalCost = anthropicCost + externalCost
   const runs = primary?.bot_runs_count ?? 0
   const runsWithCost = primary?.bot_runs_with_cost ?? 0
   const apiCalls = primary?.total_api_calls ?? 0
   const avgCostPerRun = runsWithCost > 0 ? totalCost / runsWithCost : null
 
-  const compareTotal = compare?.total_cost_usd ?? 0
+  const compareTotal = (compare?.total_cost_usd ?? 0) + (extCompare?.total_plan_a_usd ?? 0)
   const baseline = compareTotal > 0 ? compareTotal / cfg.compareDivisor : 0
   const vsAvg = baseline > 0 ? ((totalCost - baseline) / baseline) * 100 : null
 

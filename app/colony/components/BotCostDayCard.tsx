@@ -10,19 +10,22 @@ export function BotCostDayCard() {
   const [day, setDay] = useState<UnitEconomics | null>(null)
   const [week, setWeek] = useState<UnitEconomics | null>(null)
   const [ext, setExt] = useState<ExternalCostSummary | null>(null)
+  const [extWeek, setExtWeek] = useState<ExternalCostSummary | null>(null)
   const [status, setStatus] = useState<'loading' | 'ok' | 'error'>('loading')
 
   const load = useCallback(async () => {
     try {
       const p = cohortId ? `&cohort_id=${cohortId}` : ''
-      const [d, w, e] = await Promise.all([
+      const [d, w, e, ew] = await Promise.all([
         fetch(`/api/colony/health/unit-economics?window=1d${p}`, { credentials: 'include' }).then(r => r.json()),
         fetch(`/api/colony/health/unit-economics?window=7d${p}`, { credentials: 'include' }).then(r => r.json()),
         fetch(`/api/colony/external-cost?window=1d${p}`, { credentials: 'include' }).then(r => r.json()).catch(() => null),
+        fetch(`/api/colony/external-cost?window=7d${p}`, { credentials: 'include' }).then(r => r.json()).catch(() => null),
       ])
       setDay(d)
       setWeek(w)
       setExt(e)
+      setExtWeek(ew)
       setStatus('ok')
     } catch {
       setStatus('error')
@@ -38,13 +41,16 @@ export function BotCostDayCard() {
     <div style={{ fontSize: 'clamp(11px, 1vw, 14px)', color: 'rgba(239,68,68,.7)' }}>Cost data unavailable</div>
   )
 
-  const totalCost = day?.total_cost_usd ?? 0
+  const anthropicCost = day?.total_cost_usd ?? 0
+  const externalCost = ext?.total_plan_a_usd ?? 0
+  const totalCost = anthropicCost + externalCost
   const runs = day?.bot_runs_count ?? 0
   const runsWithCost = day?.bot_runs_with_cost ?? 0
   const apiCalls = day?.total_api_calls ?? 0
   const avgCostPerRun = runsWithCost > 0 ? totalCost / runsWithCost : null
 
-  const weekDailyAvg = (week?.total_cost_usd ?? 0) / 7
+  const weekTotalCost = (week?.total_cost_usd ?? 0) + (extWeek?.total_plan_a_usd ?? 0)
+  const weekDailyAvg = weekTotalCost / 7
   const vsAvg = weekDailyAvg > 0 ? ((totalCost - weekDailyAvg) / weekDailyAvg) * 100 : null
 
   // Top bot by cost
