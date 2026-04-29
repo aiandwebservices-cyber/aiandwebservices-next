@@ -204,17 +204,19 @@ export default function SamplesPage() {
                     <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
                       {s.centerHero ? (
                         <div style={{
-                          width: '100%', height: '100%',
+                          position: 'absolute', inset: 0,
                           background: s.bg,
-                          display: 'flex', justifyContent: 'center', alignItems: 'center',
                         }}>
                           <div style={{
+                            position: 'absolute', top: '50%', left: '50%',
+                            transform: 'translate(-50%, -50%)',
                             display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
+                            width: '80%',
                           }}>
-                            <div style={{ width: 60, height: 8, borderRadius: 4, background: s.accent, opacity: 0.9 }} />
-                            <div style={{ width: 45, height: 5, borderRadius: 3, background: 'rgba(255,255,255,0.3)' }} />
-                            <div style={{ width: 30, height: 5, borderRadius: 3, background: 'rgba(255,255,255,0.2)' }} />
-                            <div style={{ marginTop: 8, width: 22, height: 18, borderRadius: 4, background: s.accent }} />
+                            <div style={{ width: '60%', height: 8, borderRadius: 4, background: s.accent, opacity: 0.9 }} />
+                            <div style={{ width: '45%', height: 5, borderRadius: 3, background: 'rgba(255,255,255,0.3)' }} />
+                            <div style={{ width: '30%', height: 5, borderRadius: 3, background: 'rgba(255,255,255,0.2)' }} />
+                            <div style={{ marginTop: 8, width: '22%', height: 18, borderRadius: 4, background: s.accent }} />
                           </div>
                         </div>
                       ) : (
