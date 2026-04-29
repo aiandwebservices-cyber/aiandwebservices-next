@@ -4,12 +4,25 @@ import { useEffect, useState } from 'react'
 
 type TimeWindow = '7d' | '30d' | '90d' | 'all'
 
+interface ExternalCostBreakdownEntry {
+  calls: number
+  units: number
+  plan_a_usd: number
+  plan_b_usd: number
+  plan_a_name: string
+  plan_b_name: string
+}
+
 interface UnitEconomics {
   window: TimeWindow
   window_start: string
   window_end: string
   cohort_id: string
   total_cost_usd: number
+  anthropic_cost_usd: number
+  external_cost_plan_a_usd: number
+  external_api_call_count: number
+  external_cost_breakdown: Record<string, ExternalCostBreakdownEntry>
   total_api_calls: number
   total_tokens_in: number
   total_tokens_out: number
@@ -46,6 +59,11 @@ function fmtUsd(v: number | null): string {
   if (v < 1) return `$${v.toFixed(3)}`
   if (v < 100) return `$${v.toFixed(2)}`
   return `$${Math.round(v).toLocaleString()}`
+}
+
+function fmtUsd2(v: number | null | undefined): string {
+  if (v === null || v === undefined) return '—'
+  return `$${v.toFixed(2)}`
 }
 
 function fmtPct(v: number | null): string {
@@ -210,6 +228,69 @@ export function UnitEconomicsCard({ cohortId }: { cohortId?: string }) {
             <div className="text-xs" style={{ color: 'var(--colony-text-secondary)' }}>Lead → Customer</div>
             <div style={{ color: '#34d399' }}>{fmtPct(data.overall_lead_to_customer_pct)}</div>
           </div>
+        </div>
+      </div>
+
+      {/* Cost Composition — Anthropic vs external APIs */}
+      <div className="mb-4">
+        <div className="text-xs uppercase tracking-wider mb-2" style={{ color: 'var(--colony-text-secondary)' }}>
+          Cost Composition ({window})
+        </div>
+        <div className="p-3 rounded" style={panelStyle}>
+          <div className="space-y-1 text-sm font-mono">
+            <div className="flex justify-between">
+              <span style={{ color: 'var(--colony-text-secondary)' }} className="font-sans">Anthropic</span>
+              <span style={{ color: 'var(--colony-text-primary)' }}>{fmtUsd2(data.anthropic_cost_usd)}</span>
+            </div>
+            <div className="flex justify-between">
+              <span style={{ color: 'var(--colony-text-secondary)' }} className="font-sans">
+                External APIs
+                {data.external_api_call_count > 0 && (
+                  <span className="ml-2 text-xs" style={{ opacity: 0.7 }}>
+                    ({data.external_api_call_count.toLocaleString()} calls)
+                  </span>
+                )}
+              </span>
+              <span style={{ color: 'var(--colony-text-primary)' }}>{fmtUsd2(data.external_cost_plan_a_usd)}</span>
+            </div>
+            <div
+              className="flex justify-between pt-1 mt-1"
+              style={{ borderTop: '1px solid var(--colony-border)' }}
+            >
+              <span style={{ color: 'var(--colony-text-primary)' }} className="font-sans font-semibold">Total</span>
+              <span style={{ color: 'var(--colony-text-primary)' }} className="font-semibold">
+                {fmtUsd2(data.total_cost_usd)}
+              </span>
+            </div>
+          </div>
+
+          {Object.keys(data.external_cost_breakdown).length > 0 && (
+            <div className="mt-3 pt-3" style={{ borderTop: '1px solid var(--colony-border)' }}>
+              <div className="text-xs uppercase tracking-wider mb-2" style={{ color: 'var(--colony-text-secondary)' }}>
+                External APIs by service
+              </div>
+              <div className="space-y-1 text-xs font-mono">
+                {Object.entries(data.external_cost_breakdown)
+                  .sort((a, b) => b[1].plan_a_usd - a[1].plan_a_usd)
+                  .map(([svc, v]) => (
+                    <div key={svc} className="flex justify-between">
+                      <span style={{ color: 'var(--colony-text-secondary)' }} className="font-sans">
+                        {svc}
+                        {v.plan_a_name && (
+                          <span className="ml-2" style={{ opacity: 0.6 }}>({v.plan_a_name})</span>
+                        )}
+                      </span>
+                      <span style={{ color: 'var(--colony-text-primary)' }}>
+                        {fmtUsd2(v.plan_a_usd)}
+                        <span className="ml-2" style={{ color: 'var(--colony-text-secondary)', opacity: 0.7 }}>
+                          ({v.calls.toLocaleString()} calls)
+                        </span>
+                      </span>
+                    </div>
+                  ))}
+              </div>
+            </div>
+          )}
         </div>
       </div>
 

@@ -18,6 +18,15 @@ import { windowToISO, type TimeWindow } from './time-window'
 
 export type { TimeWindow }
 
+export interface ExternalCostBreakdownEntry {
+  calls: number
+  units: number
+  plan_a_usd: number
+  plan_b_usd: number
+  plan_a_name: string
+  plan_b_name: string
+}
+
 interface BotRunPayload {
   bot_id?: string
   cost_usd?: number
@@ -28,6 +37,10 @@ interface BotRunPayload {
   ran_at_unix?: number
   cohort_id?: string
   cost_by_model?: Record<string, { cost_usd: number; calls: number }>
+  external_cost_plan_a_usd?: number
+  external_cost_plan_b_usd?: number
+  external_cost_breakdown?: Record<string, Partial<ExternalCostBreakdownEntry>>
+  external_api_call_count?: number
 }
 
 export interface UnitEconomics {
@@ -36,8 +49,14 @@ export interface UnitEconomics {
   window_end: string
   cohort_id: string
 
-  // Cost side (from bot_runs)
+  // Cost side (from bot_runs).
+  // total_cost_usd = anthropic_cost_usd + external_cost_plan_a_usd (combined true cost).
+  // cost-per-stage divisions below use total_cost_usd, so they reflect Anthropic + external APIs.
   total_cost_usd: number
+  anthropic_cost_usd: number
+  external_cost_plan_a_usd: number
+  external_api_call_count: number
+  external_cost_breakdown: Record<string, ExternalCostBreakdownEntry>
   total_api_calls: number
   total_tokens_in: number
   total_tokens_out: number
@@ -260,8 +279,11 @@ export async function fetchUnitEconomics(
   let totalTokensIn = 0
   let totalTokensOut = 0
   let runsWithCost = 0
+  let externalPlanAUsd = 0
+  let externalApiCalls = 0
   const costByBot: Record<string, { cost_usd: number; calls: number }> = {}
   const costByModel: Record<string, { cost_usd: number; calls: number }> = {}
+  const externalBreakdown: Record<string, ExternalCostBreakdownEntry> = {}
 
   for (const pl of botRuns) {
     const cost = typeof pl.cost_usd === 'number' ? pl.cost_usd : 0
@@ -285,6 +307,30 @@ export async function fetchUnitEconomics(
         if (!costByModel[m]) costByModel[m] = { cost_usd: 0, calls: 0 }
         costByModel[m].cost_usd += v.cost_usd || 0
         costByModel[m].calls += v.calls || 0
+      }
+    }
+
+    // External API costs (firecrawl, outscraper, instantly, etc.)
+    if (typeof pl.external_cost_plan_a_usd === 'number') externalPlanAUsd += pl.external_cost_plan_a_usd
+    if (typeof pl.external_api_call_count === 'number') externalApiCalls += pl.external_api_call_count
+    if (pl.external_cost_breakdown) {
+      for (const [svc, v] of Object.entries(pl.external_cost_breakdown)) {
+        if (!externalBreakdown[svc]) {
+          externalBreakdown[svc] = {
+            calls: 0,
+            units: 0,
+            plan_a_usd: 0,
+            plan_b_usd: 0,
+            plan_a_name: v?.plan_a_name || '',
+            plan_b_name: v?.plan_b_name || '',
+          }
+        }
+        externalBreakdown[svc].calls += v?.calls || 0
+        externalBreakdown[svc].units += v?.units || 0
+        externalBreakdown[svc].plan_a_usd += v?.plan_a_usd || 0
+        externalBreakdown[svc].plan_b_usd += v?.plan_b_usd || 0
+        if (!externalBreakdown[svc].plan_a_name && v?.plan_a_name) externalBreakdown[svc].plan_a_name = v.plan_a_name
+        if (!externalBreakdown[svc].plan_b_name && v?.plan_b_name) externalBreakdown[svc].plan_b_name = v.plan_b_name
       }
     }
   }
@@ -341,15 +387,19 @@ export async function fetchUnitEconomics(
   )
 
   // Prefer Anthropic-billed total when available; otherwise fall back to bot_runs sum.
-  const billedTotal = anthropicResult ? anthropicResult.total_cost_usd : totalCost
+  const anthropicCostUsd = anthropicResult ? anthropicResult.total_cost_usd : totalCost
   const costSource: 'anthropic_admin_api' | 'bot_runs' = anthropicResult ? 'anthropic_admin_api' : 'bot_runs'
 
-  // Cost-per-stage uses the billed total — truer cost than per-bot instrumentation.
-  const costPerLeadOut = safeDiv(billedTotal, leadsCount)
-  const costPerAuditScheduledOut = safeDiv(billedTotal, auditScheduledCount)
-  const costPerAuditCompleteOut = safeDiv(billedTotal, auditCompleteCount)
-  const costPerProposalSentOut = safeDiv(billedTotal, proposalSentCount)
-  const costPerSignedDealOut = safeDiv(billedTotal, proposalSignedCount)
+  // Combined cost = Anthropic + external Plan A (Firecrawl, Outscraper, Instantly, etc.).
+  // This is the true cost per pipeline run and is what cost-per-stage divisions use.
+  const combinedCostUsd = anthropicCostUsd + externalPlanAUsd
+
+  // Cost-per-stage uses combined cost (Anthropic + external APIs) — truer than Anthropic alone.
+  const costPerLeadOut = safeDiv(combinedCostUsd, leadsCount)
+  const costPerAuditScheduledOut = safeDiv(combinedCostUsd, auditScheduledCount)
+  const costPerAuditCompleteOut = safeDiv(combinedCostUsd, auditCompleteCount)
+  const costPerProposalSentOut = safeDiv(combinedCostUsd, proposalSentCount)
+  const costPerSignedDealOut = safeDiv(combinedCostUsd, proposalSignedCount)
 
   const leadToAuditPct = safePct(auditScheduledCount, leadsCount)
   const auditToProposalPct = safePct(proposalSentCount, auditCompleteCount)
@@ -369,7 +419,11 @@ export async function fetchUnitEconomics(
     window_end: end,
     cohort_id: cohortId,
 
-    total_cost_usd: Math.round(billedTotal * 10000) / 10000,
+    total_cost_usd: Math.round(combinedCostUsd * 10000) / 10000,
+    anthropic_cost_usd: Math.round(anthropicCostUsd * 10000) / 10000,
+    external_cost_plan_a_usd: Math.round(externalPlanAUsd * 10000) / 10000,
+    external_api_call_count: externalApiCalls,
+    external_cost_breakdown: externalBreakdown,
     total_api_calls: totalCalls,
     total_tokens_in: totalTokensIn,
     total_tokens_out: totalTokensOut,
@@ -402,7 +456,12 @@ export async function fetchUnitEconomics(
 
     estimated_payback_days: estPaybackDaysOut,
 
-    has_data: botRuns.length > 0 || leadsCount > 0 || activeCount > 0 || (anthropicResult?.total_cost_usd ?? 0) > 0,
+    has_data:
+      botRuns.length > 0 ||
+      leadsCount > 0 ||
+      activeCount > 0 ||
+      (anthropicResult?.total_cost_usd ?? 0) > 0 ||
+      externalPlanAUsd > 0,
     warnings,
     cost_source: costSource,
   }
