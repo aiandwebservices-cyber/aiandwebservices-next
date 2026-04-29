@@ -32,7 +32,6 @@ interface HomeStats {
   emailsToday: number
   leads: number
   hot: number
-  botCost: number
   extCost1d: number
   extCost7d: number
   replies: number
@@ -42,7 +41,7 @@ interface HomeStats {
 export default function Page() {
   const { cohortId } = useCohort()
   const { open } = useSidePanel()
-  const [stats, setStats] = useState<HomeStats>({ emailsToday: 0, leads: 0, hot: 0, botCost: 0, extCost1d: 0, extCost7d: 0, replies: 0, mrr: 0 })
+  const [stats, setStats] = useState<HomeStats>({ emailsToday: 0, leads: 0, hot: 0, extCost1d: 0, extCost7d: 0, replies: 0, mrr: 0 })
   const [bots, setBots] = useState<BotPayload[] | null>(null)
   const [anyRunning, setAnyRunning] = useState(false)
 
@@ -74,19 +73,16 @@ export default function Page() {
   useEffect(() => { capture('colony_feed_viewed') }, [])
 
   const loadStats = useCallback(async () => {
-    const ueParams30 = new URLSearchParams({ window: '30d' })
     const extParams1 = new URLSearchParams({ window: '1d' })
     const extParams7 = new URLSearchParams({ window: '7d' })
     if (cohortId) {
-      ueParams30.set('cohort_id', cohortId)
       extParams1.set('cohort_id', cohortId); extParams7.set('cohort_id', cohortId)
     }
-    const [leadsRes, dealsRes, feedRes, emailStatsRes, ueRes, ext1Res, ext7Res] = await Promise.all([
+    const [leadsRes, dealsRes, feedRes, emailStatsRes, ext1Res, ext7Res] = await Promise.all([
       colonyFetch<LeadPayload[]>('leads', { cohortId }),
       colonyFetch<DealPayload[]>('deals', { cohortId }),
       colonyFetch<FeedEventPayload[]>('feed', { cohortId }),
       fetch('/api/colony/email/stats', { credentials: 'include' }).then(r => r.json()).catch(() => null),
-      fetch(`/api/colony/health/unit-economics?${ueParams30.toString()}`, { credentials: 'include' }).then(r => r.json()).catch(() => null),
       fetch(`/api/colony/external-cost?${extParams1.toString()}`, { credentials: 'include' }).then(r => r.json()).catch(() => null),
       fetch(`/api/colony/external-cost?${extParams7.toString()}`, { credentials: 'include' }).then(r => r.json()).catch(() => null),
     ])
@@ -94,7 +90,6 @@ export default function Page() {
     const deals = (dealsRes.status === 'ok' || dealsRes.status === 'stale') ? dealsRes.data ?? [] : []
     const feed  = (feedRes.status  === 'ok' || feedRes.status  === 'stale') ? feedRes.data  ?? [] : []
     const emailsToday = emailStatsRes?.data?.sent_today ?? 0
-    const botCost = Math.round(ueRes?.total_cost_usd ?? 0)
     const extCost1d = Math.round((ext1Res?.total_plan_a_usd ?? 0) * 10000) / 10000
     const extCost7d = Math.round((ext7Res?.total_plan_a_usd ?? 0) * 10000) / 10000
 
@@ -102,7 +97,6 @@ export default function Page() {
       emailsToday,
       leads: leads.length,
       hot: leads.filter(l => l.temperature === 'HOT').length,
-      botCost,
       extCost1d,
       extCost7d,
       replies: feed.filter(e =>
@@ -128,9 +122,6 @@ export default function Page() {
   const hotRate = stats.leads > 0 ? Math.round((stats.hot / stats.leads) * 100) : 0
   const replyRate = stats.emailsToday > 0 && stats.replies > 0
     ? Math.round((stats.replies / stats.emailsToday) * 100)
-    : null
-  const costPerLead = stats.leads > 0 && stats.botCost > 0
-    ? `~$${Math.round(stats.botCost / stats.leads)}/lead`
     : null
   const arrLabel = stats.mrr > 0 ? `$${stats.mrr * 12}k ARR` : 'no active contracts'
 
