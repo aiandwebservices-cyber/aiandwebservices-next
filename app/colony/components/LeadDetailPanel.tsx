@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { Copy, Check, ExternalLink, Send } from 'lucide-react'
 import type { Lead } from '../lib/types'
 import { TemperatureBadge } from './TemperatureBadge'
@@ -10,6 +10,16 @@ import { SendDraftModal } from './SendDraftModal'
 import { EmailSendStatus } from './EmailSendStatus'
 import SequenceStatusBadge from './SequenceStatusBadge'
 import { ReplyThread } from './ReplyThread'
+
+// ─── Draft payload from Qdrant emails_sent ────────────────────────────────────
+
+export interface DraftData {
+  subject: string
+  body: string
+  draft_only: boolean
+  delivered: boolean
+  created_at: string
+}
 
 // ─── Research signals by niche ────────────────────────────────────────────────
 
@@ -95,14 +105,30 @@ AIandWEBservices`,
 
 interface LeadDetailPanelProps {
   lead: Lead
+  // undefined = fetch in-flight, null = no draft in Qdrant, DraftData = real Bob email
+  draft?: DraftData | null
 }
 
-export function LeadDetailPanel({ lead }: LeadDetailPanelProps) {
+export function LeadDetailPanel({ lead, draft: propDraft }: LeadDetailPanelProps) {
   const [contacted, setContacted] = useState(false)
   const [copied, setCopied] = useState(false)
   const [sendModalOpen, setSendModalOpen] = useState(false)
 
-  const draft = generateDraft(lead)
+  const draftLoading = propDraft === undefined
+  // When loading: show placeholder. When null: fall back to template. When DraftData: use real email.
+  const displayDraft = draftLoading ? null : (propDraft ?? generateDraft(lead))
+
+  let outreachLabel: React.ReactNode
+  if (draftLoading) {
+    outreachLabel = 'Outreach Email — loading…'
+  } else if (propDraft?.delivered) {
+    outreachLabel = <>Outreach Email — sent by <span style={{ color: 'var(--colony-text-primary)' }}>Bob</span></>
+  } else if (propDraft) {
+    outreachLabel = <>Outreach Email — drafted by <span style={{ color: 'var(--colony-text-primary)' }}>Bob</span></>
+  } else {
+    outreachLabel = <>Outreach Email — <span style={{ color: 'var(--colony-text-primary)' }}>preview</span></>
+  }
+
   const signals = getSignals(lead.niche)
 
   const sourceLabel: Record<string, string> = {
@@ -118,7 +144,8 @@ export function LeadDetailPanel({ lead }: LeadDetailPanelProps) {
   const relDate = formatAge(lead.created_at)
 
   const handleCopy = async () => {
-    const fullText = `Subject: ${draft.subject}\n\n${draft.body}`
+    if (!displayDraft) return
+    const fullText = `Subject: ${displayDraft.subject}\n\n${displayDraft.body}`
     await navigator.clipboard.writeText(fullText)
     setCopied(true)
     setTimeout(() => setCopied(false), 2000)
@@ -131,10 +158,10 @@ export function LeadDetailPanel({ lead }: LeadDetailPanelProps) {
 
   return (
     <div className="flex flex-col h-full">
-      {sendModalOpen && (
+      {sendModalOpen && displayDraft && (
         <SendDraftModal
           lead={lead}
-          draft={draft}
+          draft={displayDraft}
           onClose={() => setSendModalOpen(false)}
         />
       )}
@@ -197,16 +224,18 @@ export function LeadDetailPanel({ lead }: LeadDetailPanelProps) {
         <div className="px-5 py-4 border-b" style={{ borderColor: 'var(--colony-border)' }}>
           <div className="flex items-center justify-between mb-3">
             <p className="text-xs font-semibold uppercase tracking-wide" style={{ color: 'var(--colony-text-secondary)' }}>
-              Outreach Email — drafted by <span style={{ color: 'var(--colony-text-primary)' }}>Bob</span>
+              {outreachLabel}
             </p>
             <div className="flex items-center gap-2">
               <button
                 onClick={handleCopy}
+                disabled={draftLoading || !displayDraft}
                 className="flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-lg transition-all"
                 style={{
                   background: copied ? 'rgba(16,185,129,0.15)' : 'rgba(42,165,160,0.1)',
                   color: copied ? 'var(--colony-success)' : 'var(--colony-accent)',
                   border: `1px solid ${copied ? 'rgba(16,185,129,0.3)' : 'rgba(42,165,160,0.2)'}`,
+                  opacity: draftLoading ? 0.4 : 1,
                 }}
               >
                 {copied ? <Check size={12} /> : <Copy size={12} />}
@@ -214,11 +243,13 @@ export function LeadDetailPanel({ lead }: LeadDetailPanelProps) {
               </button>
               <button
                 onClick={() => setSendModalOpen(true)}
+                disabled={draftLoading || !displayDraft}
                 className="flex items-center gap-1.5 text-xs font-medium px-2.5 py-1 rounded-lg transition-all"
                 style={{
                   background: 'rgba(42,165,160,0.12)',
                   color: 'var(--colony-accent)',
                   border: '1px solid rgba(42,165,160,0.25)',
+                  opacity: draftLoading ? 0.4 : 1,
                 }}
               >
                 <Send size={12} />
@@ -227,25 +258,38 @@ export function LeadDetailPanel({ lead }: LeadDetailPanelProps) {
             </div>
           </div>
 
-          <div
-            className="rounded-lg p-4 space-y-2 text-sm"
-            style={{
-              background: 'rgba(163,163,163,0.06)',
-              border: '1px solid var(--colony-border)',
-            }}
-          >
-            <p className="text-xs font-semibold" style={{ color: 'var(--colony-text-secondary)' }}>
-              Subject: {draft.subject}
-            </p>
-            <div style={{ color: 'var(--colony-text-primary)', lineHeight: 1.7 }}>
-              {draft.body.split('\n').map((line, i) => (
-                <span key={i}>
-                  {line || <br />}
-                  {i < draft.body.split('\n').length - 1 && <br />}
-                </span>
-              ))}
+          {draftLoading ? (
+            <div
+              className="rounded-lg p-4 text-sm"
+              style={{
+                background: 'rgba(163,163,163,0.06)',
+                border: '1px solid var(--colony-border)',
+                color: 'var(--colony-text-secondary)',
+              }}
+            >
+              Loading draft…
             </div>
-          </div>
+          ) : displayDraft && (
+            <div
+              className="rounded-lg p-4 space-y-2 text-sm"
+              style={{
+                background: 'rgba(163,163,163,0.06)',
+                border: '1px solid var(--colony-border)',
+              }}
+            >
+              <p className="text-xs font-semibold" style={{ color: 'var(--colony-text-secondary)' }}>
+                Subject: {displayDraft.subject}
+              </p>
+              <div style={{ color: 'var(--colony-text-primary)', lineHeight: 1.7 }}>
+                {displayDraft.body.split('\n').map((line, i) => (
+                  <span key={i}>
+                    {line || <br />}
+                    {i < displayDraft.body.split('\n').length - 1 && <br />}
+                  </span>
+                ))}
+              </div>
+            </div>
+          )}
 
           <p className="text-xs mt-2" style={{ color: 'var(--colony-text-secondary)' }}>
             Draft generated from Bob using signals below.

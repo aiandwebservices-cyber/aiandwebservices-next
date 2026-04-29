@@ -7,6 +7,7 @@ import { formatRelativeTime } from '../lib/feed-helpers'
 import { capture } from '../lib/posthog'
 import { useSidePanel } from './SidePanel'
 import { LeadDetailPanel } from './LeadDetailPanel'
+import type { DraftData } from './LeadDetailPanel'
 import { LoadingSkeleton } from './LoadingSkeleton'
 import { colonyFetch, colonyFetchLead } from '../lib/api-client'
 import BotProfilePanel from './BotProfilePanel'
@@ -16,15 +17,31 @@ import BotProfilePanel from './BotProfilePanel'
 function LeadPanelLoader({ leadId, cohortId }: { leadId: string; cohortId: string }) {
   const [lead, setLead] = useState<Lead | null>(null)
   const [failed, setFailed] = useState(false)
+  // undefined = fetch in-flight, null = no draft found, DraftData = real draft
+  const [draft, setDraft] = useState<DraftData | null | undefined>(undefined)
 
   useEffect(() => {
     const ctrl = new AbortController()
+
     colonyFetchLead(leadId, { cohortId, signal: ctrl.signal })
       .then(res => {
         if (res.status === 'ok' && res.data) setLead(res.data)
         else setFailed(true)
       })
       .catch(err => { if ((err as Error).name !== 'AbortError') setFailed(true) })
+
+    fetch(`/api/colony/leads/${encodeURIComponent(leadId)}/draft`, {
+      signal: ctrl.signal,
+      credentials: 'include',
+      cache: 'no-store',
+    })
+      .then(async r => {
+        if (!r.ok) { setDraft(null); return }
+        const json = await r.json() as { status?: string; data?: DraftData }
+        setDraft(json.status === 'ok' && json.data ? json.data : null)
+      })
+      .catch(err => { if ((err as Error).name !== 'AbortError') setDraft(null) })
+
     return () => ctrl.abort()
   }, [leadId, cohortId])
 
@@ -38,7 +55,7 @@ function LeadPanelLoader({ leadId, cohortId }: { leadId: string; cohortId: strin
 
   if (!lead) return <LoadingSkeleton variant="feed-row" count={4} />
 
-  return <LeadDetailPanel lead={lead} />
+  return <LeadDetailPanel lead={lead} draft={draft} />
 }
 
 // ─── Bot loader rendered inside the side panel ───────────────────────────────

@@ -109,12 +109,15 @@ export async function qdrantFetchReports(
 export async function qdrantFetchDraftForLead(
   cohortId: string,
   leadId: string
-): Promise<{ subject: string; body: string; generated_by: string; generated_at: string } | null> {
+): Promise<{ subject: string; body: string; generated_by: string; generated_at: string; delivered: boolean; draft_only: boolean } | null> {
   type RawDraft = {
     subject?: string
     body?: string
     generated_by?: string
     generated_at?: string
+    sent_at?: string
+    delivery_status?: string
+    draft_only?: boolean
     lead_id?: string
     cohort_id?: string
   }
@@ -134,7 +137,9 @@ export async function qdrantFetchDraftForLead(
     subject: r.subject,
     body: r.body,
     generated_by: r.generated_by ?? 'Bob',
-    generated_at: r.generated_at ?? new Date().toISOString(),
+    generated_at: r.generated_at ?? r.sent_at ?? new Date().toISOString(),
+    delivered: r.delivery_status === 'delivered',
+    draft_only: r.draft_only ?? false,
   }
 }
 
