@@ -1,6 +1,5 @@
 'use client';
 import { motion, type Variants } from 'framer-motion';
-import type { ExternalCostSummary } from '@/lib/colony/external-cost';
 
 const EASE: [number, number, number, number] = [0.25, 0.46, 0.45, 0.94];
 
@@ -14,49 +13,14 @@ const STAGGER: Variants = {
   show: { transition: { staggerChildren: 0.08 } },
 };
 
-const PLACEHOLDER_METRICS = [
+const METRICS = [
   { label: 'Active Automations', value: '—', sub: 'Coming soon' },
   { label: 'Leads This Month', value: '—', sub: 'Coming soon' },
+  { label: 'Hours Saved', value: '—', sub: 'Coming soon' },
+  { label: 'Revenue Impact', value: '—', sub: 'Coming soon' },
 ];
 
-function formatUsd(value: number): string {
-  if (!Number.isFinite(value)) return '$0.00';
-  return `$${value.toFixed(2)}`;
-}
-
-function externalCostSub(summary: ExternalCostSummary): string {
-  if (!summary.has_data) return 'No tracked runs in window';
-  const services = Object.keys(summary.by_service);
-  const svcLabel =
-    services.length === 0
-      ? `${summary.total_api_calls} API call${summary.total_api_calls === 1 ? '' : 's'}`
-      : `${summary.total_api_calls} calls · ${services.join(', ')}`;
-  return svcLabel;
-}
-
-export function DashboardContent({
-  plan,
-  externalCost1d,
-  externalCost7d,
-}: {
-  plan?: string;
-  externalCost1d: ExternalCostSummary;
-  externalCost7d: ExternalCostSummary;
-}) {
-  const metrics = [
-    {
-      label: 'External API Cost · 1d',
-      value: formatUsd(externalCost1d.total_plan_a_usd),
-      sub: externalCostSub(externalCost1d),
-    },
-    {
-      label: 'External API Cost · 7d',
-      value: formatUsd(externalCost7d.total_plan_a_usd),
-      sub: externalCostSub(externalCost7d),
-    },
-    ...PLACEHOLDER_METRICS,
-  ];
-
+export function DashboardContent({ plan }: { plan?: string }) {
   return (
     <main className="px-6 py-10 max-w-6xl mx-auto">
       <motion.div variants={STAGGER} initial="hidden" animate="show">
@@ -84,7 +48,7 @@ export function DashboardContent({
           variants={SLIDE_UP}
           className="grid grid-cols-2 gap-4 mb-8 lg:grid-cols-4"
         >
-          {metrics.map(({ label, value, sub }) => (
+          {METRICS.map(({ label, value, sub }) => (
             <div
               key={label}
               style={{

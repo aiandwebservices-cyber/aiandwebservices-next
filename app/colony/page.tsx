@@ -112,6 +112,8 @@ interface HomeStats {
   botCost: number
   botCost1d: number
   botCost7d: number
+  extCost1d: number
+  extCost7d: number
   replies: number
   mrr: number
 }
@@ -119,7 +121,7 @@ interface HomeStats {
 export default function Page() {
   const { cohortId } = useCohort()
   const { open } = useSidePanel()
-  const [stats, setStats] = useState<HomeStats>({ emailsToday: 0, leads: 0, hot: 0, botCost: 0, botCost1d: 0, botCost7d: 0, replies: 0, mrr: 0 })
+  const [stats, setStats] = useState<HomeStats>({ emailsToday: 0, leads: 0, hot: 0, botCost: 0, botCost1d: 0, botCost7d: 0, extCost1d: 0, extCost7d: 0, replies: 0, mrr: 0 })
   const [bots, setBots] = useState<BotPayload[] | null>(null)
   const [anyRunning, setAnyRunning] = useState(false)
 
@@ -154,8 +156,13 @@ export default function Page() {
     const ueParams30 = new URLSearchParams({ window: '30d' })
     const ueParams7  = new URLSearchParams({ window: '7d' })
     const ueParams1  = new URLSearchParams({ window: '1d' })
-    if (cohortId) { ueParams30.set('cohort_id', cohortId); ueParams7.set('cohort_id', cohortId); ueParams1.set('cohort_id', cohortId) }
-    const [leadsRes, dealsRes, feedRes, emailStatsRes, ueRes, ue7Res, ue1Res] = await Promise.all([
+    const extParams1 = new URLSearchParams({ window: '1d' })
+    const extParams7 = new URLSearchParams({ window: '7d' })
+    if (cohortId) {
+      ueParams30.set('cohort_id', cohortId); ueParams7.set('cohort_id', cohortId); ueParams1.set('cohort_id', cohortId)
+      extParams1.set('cohort_id', cohortId); extParams7.set('cohort_id', cohortId)
+    }
+    const [leadsRes, dealsRes, feedRes, emailStatsRes, ueRes, ue7Res, ue1Res, ext1Res, ext7Res] = await Promise.all([
       colonyFetch<LeadPayload[]>('leads', { cohortId }),
       colonyFetch<DealPayload[]>('deals', { cohortId }),
       colonyFetch<FeedEventPayload[]>('feed', { cohortId }),
@@ -163,6 +170,8 @@ export default function Page() {
       fetch(`/api/colony/health/unit-economics?${ueParams30.toString()}`, { credentials: 'include' }).then(r => r.json()).catch(() => null),
       fetch(`/api/colony/health/unit-economics?${ueParams7.toString()}`,  { credentials: 'include' }).then(r => r.json()).catch(() => null),
       fetch(`/api/colony/health/unit-economics?${ueParams1.toString()}`,  { credentials: 'include' }).then(r => r.json()).catch(() => null),
+      fetch(`/api/colony/external-cost?${extParams1.toString()}`, { credentials: 'include' }).then(r => r.json()).catch(() => null),
+      fetch(`/api/colony/external-cost?${extParams7.toString()}`, { credentials: 'include' }).then(r => r.json()).catch(() => null),
     ])
     const leads = (leadsRes.status === 'ok' || leadsRes.status === 'stale') ? leadsRes.data ?? [] : []
     const deals = (dealsRes.status === 'ok' || dealsRes.status === 'stale') ? dealsRes.data ?? [] : []
@@ -171,6 +180,8 @@ export default function Page() {
     const botCost  = Math.round(ueRes?.total_cost_usd  ?? 0)
     const botCost7d = Math.round((ue7Res?.total_cost_usd  ?? 0) * 10000) / 10000
     const botCost1d = Math.round((ue1Res?.total_cost_usd  ?? 0) * 10000) / 10000
+    const extCost1d = Math.round((ext1Res?.total_plan_a_usd ?? 0) * 10000) / 10000
+    const extCost7d = Math.round((ext7Res?.total_plan_a_usd ?? 0) * 10000) / 10000
 
     setStats({
       emailsToday,
@@ -179,6 +190,8 @@ export default function Page() {
       botCost,
       botCost1d,
       botCost7d,
+      extCost1d,
+      extCost7d,
       replies: feed.filter(e =>
         (e.type === 'reply_interested' || e.type === 'reply_received') && isToday(e.timestamp)
       ).length,
@@ -206,12 +219,14 @@ export default function Page() {
   const arrLabel = stats.mrr > 0 ? `$${stats.mrr * 12}k ARR` : 'no active contracts'
 
   const STAT_CARDS = [
-    { label: 'EMAILS TODAY',  value: stats.emailsToday, color: '#a78bfa', prefix: '',  suffix: '',  subtitle: 'outreach sent today' },
-    { label: 'ACTIVE LEADS',  value: stats.leads,       color: '#34d399', prefix: '',  suffix: '',  subtitle: `${hotRate}% HOT rate` },
-    { label: 'BOT COST 1D',   value: stats.botCost1d,   color: '#f97316', prefix: '$', suffix: '',  subtitle: 'Anthropic · last 24h', decimals: 2 },
-    { label: 'BOT COST 7D',   value: stats.botCost7d,   color: '#fb923c', prefix: '$', suffix: '',  subtitle: 'Anthropic · last 7d',  decimals: 2 },
-    { label: 'BOT COST 30D',  value: stats.botCost,     color: '#f59e0b', prefix: '$', suffix: '',  subtitle: costPerLead ?? 'this period' },
-    { label: 'MRR PIPELINE',  value: stats.mrr,         color: '#2AA5A0', prefix: '$', suffix: 'k', subtitle: arrLabel },
+    { label: 'EMAILS TODAY',     value: stats.emailsToday, color: '#a78bfa', prefix: '',  suffix: '',  subtitle: 'outreach sent today' },
+    { label: 'ACTIVE LEADS',     value: stats.leads,       color: '#34d399', prefix: '',  suffix: '',  subtitle: `${hotRate}% HOT rate` },
+    { label: 'BOT COST 1D',      value: stats.botCost1d,   color: '#f97316', prefix: '$', suffix: '',  subtitle: 'Anthropic · last 24h', decimals: 2 },
+    { label: 'BOT COST 7D',      value: stats.botCost7d,   color: '#fb923c', prefix: '$', suffix: '',  subtitle: 'Anthropic · last 7d',  decimals: 2 },
+    { label: 'BOT COST 30D',     value: stats.botCost,     color: '#f59e0b', prefix: '$', suffix: '',  subtitle: costPerLead ?? 'this period' },
+    { label: 'EXT API COST 1D',  value: stats.extCost1d,   color: '#22d3ee', prefix: '$', suffix: '',  subtitle: 'Plan A · since 12 AM ET', decimals: 2 },
+    { label: 'EXT API COST 7D',  value: stats.extCost7d,   color: '#06b6d4', prefix: '$', suffix: '',  subtitle: 'Plan A · last 7d',        decimals: 2 },
+    { label: 'MRR PIPELINE',     value: stats.mrr,         color: '#2AA5A0', prefix: '$', suffix: 'k', subtitle: arrLabel },
   ]
 
   return (
@@ -238,7 +253,7 @@ export default function Page() {
           }}>
 
             {/* ── Stats stripe ─────────────────────────────────────── */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6, 1fr)', gap: 14, maxWidth: 1200, margin: '0 auto', width: '100%' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14, maxWidth: 1200, margin: '0 auto', width: '100%' }}>
               {STAT_CARDS.map(({ label, value, color, prefix, suffix, subtitle, decimals }, i) => (
                 <motion.div
                   key={label}
