@@ -6,7 +6,6 @@ import { useCohort } from './components/CohortSwitcher'
 import { colonyFetch } from './lib/api-client'
 import { ActivityFeed } from './components/ActivityFeed'
 import { BillNyeHomeCard } from './components/BillNyeHomeCard'
-import { RevenueMoves } from './components/RevenueMoves'
 import { ColonyErrorBoundary } from './components/ColonyErrorBoundary'
 import { useSidePanel } from './components/SidePanel'
 import BotProfilePanel from './components/BotProfilePanel'
@@ -20,82 +19,6 @@ import { BotCostWindowCard } from './components/BotCostWindowCard'
 import type { LeadPayload, DealPayload, FeedEventPayload, BotPayload } from '@/lib/colony/contracts'
 
 const EASE: [number, number, number, number] = [0.21, 0.47, 0.32, 0.98]
-
-function timeAgo(iso: string | null | undefined): string {
-  if (!iso) return 'never'
-  const mins = Math.floor((Date.now() - new Date(iso).getTime()) / 60000)
-  if (mins < 60) return `${mins}m ago`
-  if (mins < 1440) return `${Math.floor(mins / 60)}h ago`
-  return `${Math.floor(mins / 1440)}d ago`
-}
-
-function CrewSummaryCard({
-  bots,
-  onBotClick,
-}: {
-  bots: BotPayload[] | null
-  onBotClick: (bot: BotPayload) => void
-}) {
-  if (!bots) {
-    return (
-      <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-        <div style={{ fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, letterSpacing: '1.5px', color: 'rgba(255,255,255,.4)', textTransform: 'uppercase', marginBottom: 12 }}>Crew Status</div>
-        <div style={{ fontSize: 'clamp(11px, 1vw, 14px)', color: 'rgba(255,255,255,.3)' }}>Loading…</div>
-      </div>
-    )
-  }
-
-  const live = bots.filter(b => lastRunIsRecent(b.last_run_at, 1))
-  const lastRan = [...bots]
-    .filter(b => b.last_run_at)
-    .sort((a, b) => (b.last_run_at ?? '').localeCompare(a.last_run_at ?? ''))[0]
-
-  return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 8, marginBottom: 12 }}>
-        <span style={{ fontSize: 14, lineHeight: 1 }}>🤖</span>
-        <span style={{ fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, letterSpacing: '1.5px', color: 'rgba(255,255,255,.4)', textTransform: 'uppercase' }}>Crew Status</span>
-      </div>
-
-      <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: '38px', color: live.length > 0 ? '#34d399' : 'rgba(255,255,255,.35)', lineHeight: 1, letterSpacing: '-1px', textAlign: 'center' }}>
-        {live.length}/{bots.length}
-      </div>
-      <div style={{ marginTop: 8, fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)', textAlign: 'center' }}>BOTS LIVE</div>
-      {lastRan && (
-        <div style={{ marginTop: 4, fontSize: 'clamp(11px, 1vw, 14px)', color: 'rgba(255,255,255,.3)', textAlign: 'center' }}>
-          Last: {lastRan.name.split(' ')[0]} · {timeAgo(lastRan.last_run_at)}
-        </div>
-      )}
-
-      <div style={{ marginTop: 'auto', display: 'flex', gap: 5, flexWrap: 'wrap', paddingTop: 12, justifyContent: 'center' }}>
-        {bots.slice(0, 8).map(bot => {
-          const isLive = lastRunIsRecent(bot.last_run_at, 1)
-          return (
-            <button
-              key={bot.id}
-              onClick={() => onBotClick(bot)}
-              title={bot.name}
-              style={{
-                width: 28, height: 28, borderRadius: 7, cursor: 'pointer',
-                background: isLive ? 'rgba(52,211,153,.12)' : 'rgba(255,255,255,.05)',
-                border: `1px solid ${isLive ? 'rgba(52,211,153,.25)' : 'rgba(255,255,255,.08)'}`,
-                fontSize: 14, display: 'flex', alignItems: 'center', justifyContent: 'center',
-                transition: 'transform 150ms',
-              }}
-            >
-              {bot.avatar_emoji}
-            </button>
-          )
-        })}
-        {bots.length > 8 && (
-          <div style={{ width: 28, height: 28, borderRadius: 7, background: 'rgba(255,255,255,.04)', border: '1px solid rgba(255,255,255,.08)', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, color: 'rgba(255,255,255,.3)', fontWeight: 700 }}>
-            +{bots.length - 8}
-          </div>
-        )}
-      </div>
-    </div>
-  )
-}
 
 function isToday(iso: string) {
   const d = new Date(iso)
@@ -318,40 +241,21 @@ export default function Page() {
               ))}
             </div>
 
-            {/* ── Row 1: Priority Alerts · Crew Status · MRR snapshot ── */}
+            {/* ── Row 2: Bot Spend · Today / 7d / 30d (each with Ext API line) ── */}
             <motion.div
               initial={{ opacity: 0, y: 12 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5, delay: 0.38, ease: EASE }}
-              style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20 }}
+              style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 20, alignItems: 'stretch' }}
             >
-              <div className="ch-panel" style={{ padding: 20, height: 200, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                <PriorityAlertsCard />
+              <div className="ch-panel" style={{ padding: 20, paddingBottom: 22, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+                <BotCostDayCard />
               </div>
-              <div className="ch-panel" style={{ padding: 20, height: 200, overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                <CrewSummaryCard
-                  bots={bots}
-                  onBotClick={(bot) => {
-                    capture('colony_bot_clicked', { bot_id: bot.id, bot_name: bot.name, source: 'home_crew_card' })
-                    open({ title: bot.name, subtitle: bot.role, width: 'medium', children: <BotProfilePanel bot={bot} /> })
-                  }}
-                />
+              <div className="ch-panel" style={{ padding: 20, paddingBottom: 22, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+                <BotCostWindowCard window="7d" />
               </div>
-              {/* MRR snapshot */}
-              <div className="ch-panel" style={{ padding: 20, height: 200, position: 'relative', overflow: 'hidden', display: 'flex', flexDirection: 'column' }}>
-                <div style={{ fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, letterSpacing: '1.5px', color: 'rgba(255,255,255,.4)', textTransform: 'uppercase', marginBottom: 12, textAlign: 'center' }}>Revenue</div>
-                <div style={{ fontFamily: "'Plus Jakarta Sans', sans-serif", fontWeight: 800, fontSize: '38px', color: '#2AA5A0', lineHeight: 1, letterSpacing: '-1px', textAlign: 'center' }}>
-                  ${stats.mrr}k
-                </div>
-                <div style={{ marginTop: 8, fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '1.5px', color: 'rgba(255,255,255,.55)', textAlign: 'center' }}>MRR Pipeline</div>
-                <div style={{ marginTop: 3, fontSize: 'clamp(11px, 1vw, 14px)', color: 'rgba(255,255,255,.3)', textAlign: 'center' }}>{arrLabel}</div>
-                <div style={{ marginTop: 'auto', paddingTop: 12, borderTop: '1px solid rgba(255,255,255,.06)', textAlign: 'center' }}>
-                  <div style={{ fontSize: 'clamp(11px, 1vw, 14px)', color: 'rgba(255,255,255,.3)', marginBottom: 2 }}>Bot investment 30d</div>
-                  <div style={{ fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, color: 'rgba(255,255,255,.6)' }}>
-                    ${stats.botCost} · {costPerLead ?? 'tracking cost/lead'}
-                  </div>
-                </div>
-                <div style={{ position: 'absolute', bottom: -20, right: -8, width: 90, height: 90, borderRadius: '50%', background: '#2AA5A0', opacity: 0.08, filter: 'blur(30px)', pointerEvents: 'none' }} />
+              <div className="ch-panel" style={{ padding: 20, paddingBottom: 22, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+                <BotCostWindowCard window="30d" />
               </div>
             </motion.div>
 
@@ -456,8 +360,11 @@ export default function Page() {
                 minHeight: 300,
               }}
             >
-              {/* Left — Bill Nye */}
+              {/* Left — Today's Priorities, then Bill Nye */}
               <div style={{ display: 'flex', flexDirection: 'column', gap: 20, alignSelf: 'flex-start', width: '100%' }}>
+                <div className="ch-panel" style={{ padding: 20, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
+                  <PriorityAlertsCard />
+                </div>
                 <div className="ch-panel" style={{ padding: 20, aspectRatio: '1 / 1', display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
                   <BillNyeHomeCard />
                 </div>
@@ -503,19 +410,10 @@ export default function Page() {
                 </div>
               </div>
 
-              {/* Right — Cost per Lead + Bot Spend Today / 7d / 30d */}
+              {/* Right — Cost per Lead (Bot Spend cards now in row 2) */}
               <div style={{ alignSelf: 'flex-start', width: '100%', display: 'flex', flexDirection: 'column', gap: 14 }}>
                 <div className="ch-panel" style={{ padding: 20, paddingBottom: 25, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
                   <CostPerLeadCard />
-                </div>
-                <div className="ch-panel" style={{ padding: 20, paddingBottom: 25, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-                  <BotCostDayCard />
-                </div>
-                <div className="ch-panel" style={{ padding: 20, paddingBottom: 25, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-                  <BotCostWindowCard window="7d" />
-                </div>
-                <div className="ch-panel" style={{ padding: 20, paddingBottom: 25, display: 'flex', flexDirection: 'column', overflow: 'hidden' }}>
-                  <BotCostWindowCard window="30d" />
                 </div>
               </div>
             </motion.div>
