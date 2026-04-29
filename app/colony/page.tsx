@@ -253,45 +253,52 @@ export default function Page() {
           }}>
 
             {/* ── Stats stripe ─────────────────────────────────────── */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 14, maxWidth: 1200, margin: '0 auto', width: '100%' }}>
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(8, 1fr)', gap: 10, maxWidth: 1400, margin: '0 auto', width: '100%' }}>
               {STAT_CARDS.map(({ label, value, color, prefix, suffix, subtitle, decimals }, i) => (
                 <motion.div
                   key={label}
                   initial={{ opacity: 0, y: 28 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ duration: 0.55, delay: i * 0.07, ease: EASE }}
-                  className="ch-stat-card"
+                  className="ch-stat-card ch-stat-card--dense"
                 >
                   <div style={{
                     fontFamily: "'Plus Jakarta Sans', sans-serif",
                     fontWeight: 800,
-                    fontSize: '38px',
+                    fontSize: 'clamp(20px, 2.1vw, 30px)',
                     color,
                     lineHeight: 1,
                     letterSpacing: '-1px',
                     textAlign: 'center',
+                    whiteSpace: 'nowrap',
                   }}>
                     <CountUp end={value} prefix={prefix} suffix={suffix} decimals={decimals ?? 0} />
                   </div>
                   <div style={{
-                    marginTop: 10,
-                    fontSize: 'clamp(11px, 1vw, 14px)',
+                    marginTop: 8,
+                    fontSize: 'clamp(9px, 0.7vw, 11px)',
                     fontWeight: 700,
                     textTransform: 'uppercase',
-                    letterSpacing: '1.5px',
+                    letterSpacing: '1.2px',
                     color: 'rgba(255,255,255,.6)',
                     textAlign: 'center',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
                   }}>
                     {label}
                   </div>
                   {subtitle && (
                     <div style={{
-                      marginTop: 4,
-                      fontSize: 'clamp(11px, 1vw, 14px)',
+                      marginTop: 3,
+                      fontSize: 'clamp(9px, 0.7vw, 11px)',
                       color: 'rgba(255,255,255,.32)',
                       fontWeight: 500,
-                      letterSpacing: '0.2px',
+                      letterSpacing: '0.1px',
                       textAlign: 'center',
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
                     }}>
                       {subtitle}
                     </div>
@@ -581,6 +588,11 @@ export default function Page() {
             0 28px 68px rgba(0,0,0,.42),
             inset 0 1px 0 rgba(255,255,255,.08);
         }
+        /* Dense variant — used when 8 cards share the top row */
+        .ch-stat-card--dense {
+          padding: 16px 10px 14px;
+          border-radius: 14px;
+        }
 
         /* ── Bot strip chip ── */
         .ch-bot-chip {
@@ -607,6 +619,7 @@ export default function Page() {
         /* ── Responsive ── */
         @media (max-width: 1024px) {
           .ch-stat-card { padding: 18px 16px; }
+          .ch-stat-card--dense { padding: 12px 8px 10px; }
         }
         @media (max-width: 900px) {
           /* two-up stats, stacked layout */
