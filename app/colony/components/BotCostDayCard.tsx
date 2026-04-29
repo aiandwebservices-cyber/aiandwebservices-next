@@ -3,22 +3,26 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useCohort } from './CohortSwitcher'
 import type { UnitEconomics } from '@/lib/colony/unit-economics'
+import type { ExternalCostSummary } from '@/lib/colony/external-cost'
 
 export function BotCostDayCard() {
   const { cohortId } = useCohort()
   const [day, setDay] = useState<UnitEconomics | null>(null)
   const [week, setWeek] = useState<UnitEconomics | null>(null)
+  const [ext, setExt] = useState<ExternalCostSummary | null>(null)
   const [status, setStatus] = useState<'loading' | 'ok' | 'error'>('loading')
 
   const load = useCallback(async () => {
     try {
       const p = cohortId ? `&cohort_id=${cohortId}` : ''
-      const [d, w] = await Promise.all([
+      const [d, w, e] = await Promise.all([
         fetch(`/api/colony/health/unit-economics?window=1d${p}`, { credentials: 'include' }).then(r => r.json()),
         fetch(`/api/colony/health/unit-economics?window=7d${p}`, { credentials: 'include' }).then(r => r.json()),
+        fetch(`/api/colony/external-cost?window=1d${p}`, { credentials: 'include' }).then(r => r.json()).catch(() => null),
       ])
       setDay(d)
       setWeek(w)
+      setExt(e)
       setStatus('ok')
     } catch {
       setStatus('error')
@@ -103,6 +107,16 @@ export function BotCostDayCard() {
             ${weekDailyAvg.toFixed(2)}
           </span>
         </div>
+      </div>
+
+      {/* External API cost · 1d */}
+      <div style={{ marginTop: 10, paddingTop: 10, borderTop: '1px solid rgba(34,211,238,.15)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span style={{ fontSize: 'clamp(11px, 1vw, 14px)', color: 'rgba(34,211,238,.55)', fontWeight: 600, letterSpacing: '0.3px' }} title="Outscraper + Firecrawl + Instantly @ Plan A">
+          Ext API · 1d
+        </span>
+        <span style={{ fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, color: '#22d3ee' }}>
+          ${(ext?.total_plan_a_usd ?? 0).toFixed(2)}
+        </span>
       </div>
 
       {/* Corner glow */}

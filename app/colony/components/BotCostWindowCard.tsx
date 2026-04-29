@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { useCohort } from './CohortSwitcher'
 import type { UnitEconomics } from '@/lib/colony/unit-economics'
+import type { ExternalCostSummary } from '@/lib/colony/external-cost'
 
 type WindowConfig = {
   window: '7d' | '30d'
@@ -34,17 +35,20 @@ export function BotCostWindowCard({ window: w }: { window: '7d' | '30d' }) {
   const { cohortId } = useCohort()
   const [primary, setPrimary] = useState<UnitEconomics | null>(null)
   const [compare, setCompare] = useState<UnitEconomics | null>(null)
+  const [ext, setExt] = useState<ExternalCostSummary | null>(null)
   const [status, setStatus] = useState<'loading' | 'ok' | 'error'>('loading')
 
   const load = useCallback(async () => {
     try {
       const p = cohortId ? `&cohort_id=${cohortId}` : ''
-      const [pData, cData] = await Promise.all([
+      const [pData, cData, eData] = await Promise.all([
         fetch(`/api/colony/health/unit-economics?window=${cfg.window}${p}`, { credentials: 'include' }).then(r => r.json()),
         fetch(`/api/colony/health/unit-economics?window=${cfg.compareWindow}${p}`, { credentials: 'include' }).then(r => r.json()),
+        fetch(`/api/colony/external-cost?window=${cfg.window}${p}`, { credentials: 'include' }).then(r => r.json()).catch(() => null),
       ])
       setPrimary(pData)
       setCompare(cData)
+      setExt(eData)
       setStatus('ok')
     } catch {
       setStatus('error')
@@ -134,6 +138,16 @@ export function BotCostWindowCard({ window: w }: { window: '7d' | '30d' }) {
             ${baseline.toFixed(2)}
           </span>
         </div>
+      </div>
+
+      {/* External API cost · matches this card's window */}
+      <div style={{ marginTop: 10, paddingTop: 10, borderTop: '1px solid rgba(34,211,238,.15)', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+        <span style={{ fontSize: 'clamp(11px, 1vw, 14px)', color: 'rgba(34,211,238,.55)', fontWeight: 600, letterSpacing: '0.3px' }} title="Outscraper + Firecrawl + Instantly @ Plan A">
+          Ext API · {cfg.label}
+        </span>
+        <span style={{ fontSize: 'clamp(11px, 1vw, 14px)', fontWeight: 700, color: '#22d3ee' }}>
+          ${(ext?.total_plan_a_usd ?? 0).toFixed(2)}
+        </span>
       </div>
 
       <div style={{ position: 'absolute', bottom: -20, right: -8, width: 90, height: 90, borderRadius: '50%', background: '#f97316', opacity: 0.07, filter: 'blur(30px)', pointerEvents: 'none' }} />
