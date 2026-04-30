@@ -59,6 +59,16 @@ export default function FAQ() {
                   transition={{ duration:.4, ease:[0.22,1,0.36,1], delay: i * 0.03 }}
                   className={`fq-card${isOpen ? ' fq-card-open' : ''}`}
                   onClick={() => setActive(isOpen ? null : i)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setActive(isOpen ? null : i);
+                    }
+                  }}
+                  role="button"
+                  tabIndex={0}
+                  aria-expanded={isOpen}
+                  aria-controls={`fq-answer-${i}`}
                 >
                   <div className="fq-card-row">
                     <div className="fq-num" style={{ color: isOpen ? TEAL : 'rgba(15,30,61,.2)' }}>
@@ -81,6 +91,7 @@ export default function FAQ() {
                   <AnimatePresence initial={false}>
                     {isOpen && (
                       <motion.div
+                        id={`fq-answer-${i}`}
                         initial={{ height:0, opacity:0 }}
                         animate={{ height:'auto', opacity:1, transition:{ duration:.32, ease:[0.22,1,0.36,1] } }}
                         exit={{ height:0, opacity:0, transition:{ duration:.18 } }}
@@ -102,7 +113,7 @@ export default function FAQ() {
                 <span className="fq-blog-eyebrow">DIVE DEEPER</span>
                 <div className="fq-blog-heading">Detailed guides on these topics</div>
               </div>
-              <a href="https://blog.aiandwebservices.com" target="_blank" rel="noopener noreferrer" className="fq-blog-link">See all ↗</a>
+              <a href="https://blog.aiandwebservices.com" target="_blank" rel="noopener noreferrer" className="fq-blog-link" aria-label="See all blog posts">See all ↗</a>
             </div>
             <div className="fq-blog-grid">
               {blogs.map((post) => (

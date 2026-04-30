@@ -9,7 +9,7 @@ export default function Footer() {
         <div className="footer-col">
           <div className="footer-brand">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src="/logo-final/logoFINAL-aiandweb-transparent-whitetext.svg" alt="AIandWEBservices" className="footer-logo" />
+            <img src="/logo-final/logoFINAL-aiandweb-transparent-whitetext.svg" alt="AIandWEBservices" width="700" height="240" className="footer-logo" />
           </div>
           <p className="footer-tagline">AI automation, agents & chatbots for small business</p>
         </div>
