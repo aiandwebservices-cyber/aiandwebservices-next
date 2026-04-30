@@ -72,6 +72,12 @@ a{touch-action:manipulation}
   overflow:hidden;
   scroll-margin-top:68px;
 }
+/* Skip rendering work for below-fold panels until they scroll into view.
+   Content stays in DOM for SEO; layout space is reserved via intrinsic-size. */
+#track > .panel:not(:first-child) {
+  content-visibility: auto;
+  contain-intrinsic-size: 100vh 100vw;
+}
 
 /* SSR padding-top to match what scalePanels() in useHorizontalScroll.js applies post-hydration.
    Without this, .hero-inner has padding-top 0 at SSR/first paint, then JS sets it to 88px on
