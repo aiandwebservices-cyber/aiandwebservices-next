@@ -449,8 +449,8 @@ export default function Services() {
         .pricing-inner { height:100%;display:flex;flex-direction:column;overflow-y:auto;padding:90px 5vw 0; }
 
         @media (min-width:641px) {
-          .svc-starter-right-col { flex-direction:row;align-items:center;gap:20px; }
-          .svc-consulting-cta-col { display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex-shrink:0; }
+          .svc-starter-right-col { flex-direction:row;align-items:stretch;gap:20px; }
+          .svc-consulting-cta-col { display:flex;flex-direction:column;align-items:flex-end;gap:10px;flex-shrink:0;justify-content:flex-end; }
           .svc-consulting-btn-row { display:flex;flex-direction:row;gap:8px; }
           .svc-consulting-btn-row .svc-starter-btn { flex:0 0 auto;min-width:90px;padding:8px 12px;font-size:11px;margin-top:0; }
           .svc-starter-price-below { border-top:none;padding-top:0; }
