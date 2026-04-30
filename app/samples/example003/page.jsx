@@ -61,16 +61,32 @@ function SlideIn({ children, delay = 0, x = -70, style = {} }) {
 
 export default function BladeRoom() {
   const [openIdx, setOpenIdx] = useState(null);
-  const [scrollY, setScrollY] = useState(0);
+  const [navScrolled, setNavScrolled] = useState(false);
   const [heroIn, setHeroIn] = useState(false);
   const [isPreview, setIsPreview] = useState(false);
+  const heroBgRef = useRef(null);
 
   useEffect(() => {
     setIsPreview(window.self !== window.top);
     setTimeout(() => setHeroIn(true), 120);
-    const fn = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', fn, { passive: true });
-    return () => window.removeEventListener('scroll', fn);
+    let rafId = null;
+    const onScroll = () => {
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        const sy = window.scrollY;
+        if (heroBgRef.current) {
+          heroBgRef.current.style.transform = `translateY(${sy * 0.2}px)`;
+        }
+        const scrolled = sy > 60;
+        setNavScrolled(prev => prev !== scrolled ? scrolled : prev);
+        rafId = null;
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   return (
@@ -237,7 +253,7 @@ export default function BladeRoom() {
       `}</style>
 
       {/* NAV */}
-      <nav className={`br-nav${scrollY > 60 ? ' scrolled' : ''}`}>
+      <nav className={`br-nav${navScrolled ? ' scrolled' : ''}`}>
         <a href="#" className="br-logo">The <span>Blade</span> Room</a>
         <ul className="br-links">
           {['Services','Gallery','Team','Book'].map(l => <li key={l}><a href={`#${l.toLowerCase()}`}>{l}</a></li>)}
@@ -247,7 +263,7 @@ export default function BladeRoom() {
 
       {/* HERO */}
       <section className="hero">
-        <img className="hero-bg" src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1800&q=90&auto=format,compress" alt="Barber shop interior" fetchPriority="high" style={{ transform: `translateY(${scrollY * 0.2}px)` }} />
+        <img ref={heroBgRef} className="hero-bg" src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1800&q=90&auto=format,compress" alt="Barber shop interior" fetchPriority="high" />
         <div className="hero-overlay" />
         <div className="br-hero-inner">
           <div className="hero-content">

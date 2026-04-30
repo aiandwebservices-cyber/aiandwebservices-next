@@ -73,14 +73,25 @@ function CounterCell({ value, prefix = '', suffix = '', label }) {
 }
 
 export default function AriaRealty() {
-  const [scrollY, setScrollY] = useState(0);
+  const [navScrolled, setNavScrolled] = useState(false);
   const [heroIn, setHeroIn] = useState(false);
 
   useEffect(() => {
     setTimeout(() => setHeroIn(true), 120);
-    const fn = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', fn, { passive: true });
-    return () => window.removeEventListener('scroll', fn);
+    let rafId = null;
+    const onScroll = () => {
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        const scrolled = window.scrollY > 60;
+        setNavScrolled(prev => prev !== scrolled ? scrolled : prev);
+        rafId = null;
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   return (
@@ -207,7 +218,7 @@ export default function AriaRealty() {
       `}</style>
 
       {/* NAV */}
-      <nav className={`ar-nav${scrollY > 60 ? ' scrolled' : ''}`}>
+      <nav className={`ar-nav${navScrolled ? ' scrolled' : ''}`}>
         <a href="#" className="ar-logo">Aria <em>Realty</em></a>
         <ul className="ar-links">
           {['Listings','Services','About','Contact'].map(l => <li key={l}><a href={`#${l.toLowerCase()}`}>{l}</a></li>)}

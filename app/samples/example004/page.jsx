@@ -387,14 +387,25 @@ function EstimateForm() {
 }
 
 export default function IroncladConstruction() {
-  const [scrollY, setScrollY] = useState(0);
+  const [navScrolled, setNavScrolled] = useState(false);
   const [heroIn, setHeroIn]   = useState(false);
 
   useEffect(() => {
     setTimeout(() => setHeroIn(true), 100);
-    const fn = () => setScrollY(window.scrollY);
-    window.addEventListener('scroll', fn, { passive: true });
-    return () => window.removeEventListener('scroll', fn);
+    let rafId = null;
+    const onScroll = () => {
+      if (rafId !== null) return;
+      rafId = requestAnimationFrame(() => {
+        const scrolled = window.scrollY > 50;
+        setNavScrolled(prev => prev !== scrolled ? scrolled : prev);
+        rafId = null;
+      });
+    };
+    window.addEventListener('scroll', onScroll, { passive: true });
+    return () => {
+      window.removeEventListener('scroll', onScroll);
+      if (rafId !== null) cancelAnimationFrame(rafId);
+    };
   }, []);
 
   return (
@@ -542,7 +553,7 @@ export default function IroncladConstruction() {
       `}</style>
 
       {/* NAV */}
-      <nav className={`ic-nav${scrollY > 50 ? ' scrolled' : ''}`}>
+      <nav className={`ic-nav${navScrolled ? ' scrolled' : ''}`}>
         <a href="#" className="ic-logo">
           <div className="ic-logo-mark" />
           Ironclad <span style={{ color: ORANGE }}>Construction</span>
