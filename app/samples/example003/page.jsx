@@ -104,7 +104,7 @@ export default function BladeRoom() {
         .btn-out:hover{background:${GOLD};color:${BLACK}}
 
         /* HERO */
-        .hero{position:relative;height:100vh;min-height:680px;display:flex;align-items:center;overflow:hidden}
+        .hero{position:relative;height:100vh;min-height:680px;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
         .hero-bg{position:absolute;inset:0;width:100%;height:115%;object-fit:cover;object-position:center 25%;will-change:transform;filter:brightness(.85)}
         .hero-overlay{position:absolute;inset:0;background:linear-gradient(to right,${BLACK} 0%,rgba(12,12,12,.96) 25%,rgba(12,12,12,.35) 55%,rgba(12,12,12,.05) 100%)}
         .hero-inner{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;width:100%;padding:0 3rem}
