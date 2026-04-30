@@ -104,10 +104,10 @@ export default function BladeRoom() {
         .btn-out:hover{background:${GOLD};color:${BLACK}}
 
         /* HERO */
-        .hero{position:relative;height:100vh;min-height:680px;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
+        .hero{position:relative;height:100vh;min-height:680px;overflow:hidden}
         .hero-bg{position:absolute;inset:0;width:100%;height:115%;object-fit:cover;object-position:center 25%;will-change:transform;filter:brightness(.85)}
         .hero-overlay{position:absolute;inset:0;background:linear-gradient(to right,${BLACK} 0%,rgba(12,12,12,.96) 25%,rgba(12,12,12,.35) 55%,rgba(12,12,12,.05) 100%)}
-        .br-hero-inner{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;width:100%;padding:0 3rem}
+        .br-hero-inner{position:absolute;top:50%;left:0;right:0;transform:translateY(-50%);z-index:2;display:flex;align-items:center;justify-content:center;padding:0 3rem}
         .hero-content{max-width:620px;flex:1;text-align:center}
         .hero-tag{font-size:.68rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:${GOLD};margin-bottom:1.5rem;display:flex;align-items:center;justify-content:center;gap:.75rem;transition:opacity 1.1s .2s,transform 1.1s .2s cubic-bezier(.16,1,.3,1)}
         .hero-tag.hidden{opacity:0;transform:translateY(16px)}
@@ -133,7 +133,8 @@ export default function BladeRoom() {
         .hero-gallery-label{font-size:.55rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:${GOLD}77;text-align:center;padding-top:2px}
 
         @media(max-width:900px){
-          .br-hero-inner{flex-direction:column;align-items:flex-start;padding:0 1.5rem 4.5rem}
+          .hero{display:flex;flex-direction:column;justify-content:flex-end}
+          .br-hero-inner{position:relative;top:auto;transform:none;flex-direction:column;align-items:flex-start;padding:5rem 1.5rem 2.5rem}
           .hero-gallery{display:none}
         }
 
