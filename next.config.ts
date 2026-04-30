@@ -45,6 +45,10 @@ const withPWA = withPWAInit({
 const nextConfig: NextConfig = {
   allowedDevOrigins: ['192.168.50.143', '*.local'],
 
+  experimental: {
+    optimizePackageImports: ['lucide-react'],
+  },
+
   images: {
     formats: ['image/avif', 'image/webp'],
     minimumCacheTTL: 31536000,
