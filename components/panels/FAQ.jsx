@@ -179,12 +179,11 @@ export default function FAQ() {
 
         .fq-list {
           display: grid; grid-template-columns: repeat(4, 1fr);
-          gap: 7px; margin-bottom: 16px; align-content: start; align-items: start;
+          gap: 7px; margin-bottom: 16px; align-content: start;
           max-width: 920px; margin-left: auto; margin-right: auto;
         }
         .fq-card {
           position: relative;
-          align-self: start;
           background: rgba(255,255,255,.72);
           border: 1.5px solid rgba(15,30,61,.08);
           border-left: 3px solid transparent;
