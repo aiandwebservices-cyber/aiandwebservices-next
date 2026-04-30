@@ -108,7 +108,7 @@ export default function BookPage() {
         </p>
         <div style={{ background:STEEL, border:`1px solid ${EM}25`, borderRadius:12, padding:'1.5rem 2rem', marginBottom:'2rem', textAlign:'left' }}>
           <div style={{ display:'flex', alignItems:'center', gap:'1rem', marginBottom:'1.25rem', paddingBottom:'1.25rem', borderBottom:'1px solid rgba(232,240,247,.08)' }}>
-            <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=120&q=85&auto=format,compress" alt="Sophia Whitmore" style={{ width:52, height:52, borderRadius:&auto=format,compress'50%', objectFit:'cover', border:`2px solid ${EM}` }} />
+            <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=120&q=85&auto=format,compress" alt="Sophia Whitmore" style={{ width:52, height:52, borderRadius:'50%', objectFit:'cover', border:`2px solid ${EM}` }} />
             <div>
               <div style={{ fontWeight:700, color:LIGHT, fontSize:'.95rem' }}>Sophia Whitmore</div>
               <div style={{ fontSize:'.75rem', color:`${LIGHT}55` }}>Luxury Real Estate · South Florida</div>
@@ -267,7 +267,7 @@ export default function BookPage() {
 
               {/* Agent card */}
               <div style={{ background:NAVY, borderRadius:16, padding:'1.75rem', border:'1px solid rgba(232,240,247,.08)' }}>
-                <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&q=85&auto=format,compress" alt="Sophia Whitmore" style={{ width:&auto=format,compress'100%', height:200, objectFit:'cover', objectPosition:'top', borderRadius:10, marginBottom:'1.25rem' }} />
+                <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&q=85&auto=format,compress" alt="Sophia Whitmore" style={{ width:'100%', height:200, objectFit:'cover', objectPosition:'top', borderRadius:10, marginBottom:'1.25rem' }} />
                 <div style={{ fontFamily:"'Playfair Display',serif", fontSize:'1.4rem', color:LIGHT, marginBottom:'.25rem' }}>Sophia Whitmore</div>
                 <div style={{ fontSize:'.88rem', color:EM, fontWeight:600, letterSpacing:'.08em', marginBottom:'1rem' }}>LUXURY REAL ESTATE · 14 YRS</div>
                 <div style={{ display:'flex', flexDirection:'column', gap:'.6rem' }}>
