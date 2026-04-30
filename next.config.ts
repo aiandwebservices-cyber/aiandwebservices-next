@@ -48,7 +48,6 @@ const nextConfig: NextConfig = {
   experimental: {
     optimizePackageImports: ['lucide-react'],
     optimizeCss: true,
-    cssChunking: false,
   },
 
   images: {
