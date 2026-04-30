@@ -107,7 +107,7 @@ export default function BladeRoom() {
         .hero{position:relative;height:100vh;min-height:680px;display:flex;flex-direction:column;justify-content:center;overflow:hidden}
         .hero-bg{position:absolute;inset:0;width:100%;height:115%;object-fit:cover;object-position:center 25%;will-change:transform;filter:brightness(.85)}
         .hero-overlay{position:absolute;inset:0;background:linear-gradient(to right,${BLACK} 0%,rgba(12,12,12,.96) 25%,rgba(12,12,12,.35) 55%,rgba(12,12,12,.05) 100%)}
-        .hero-inner{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;width:100%;padding:0 3rem}
+        .br-hero-inner{position:relative;z-index:2;display:flex;align-items:center;justify-content:center;width:100%;padding:0 3rem}
         .hero-content{max-width:620px;flex:1;text-align:center}
         .hero-tag{font-size:.68rem;font-weight:600;letter-spacing:.3em;text-transform:uppercase;color:${GOLD};margin-bottom:1.5rem;display:flex;align-items:center;justify-content:center;gap:.75rem;transition:opacity 1.1s .2s,transform 1.1s .2s cubic-bezier(.16,1,.3,1)}
         .hero-tag.hidden{opacity:0;transform:translateY(16px)}
@@ -133,7 +133,7 @@ export default function BladeRoom() {
         .hero-gallery-label{font-size:.55rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:${GOLD}77;text-align:center;padding-top:2px}
 
         @media(max-width:900px){
-          .hero-inner{flex-direction:column;align-items:flex-start;padding:0 1.5rem 4.5rem}
+          .br-hero-inner{flex-direction:column;align-items:flex-start;padding:0 1.5rem 4.5rem}
           .hero-gallery{display:none}
         }
 
@@ -246,7 +246,7 @@ export default function BladeRoom() {
       <section className="hero">
         <img className="hero-bg" src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1800&q=90" alt="Barber shop interior" style={{ transform: `translateY(${scrollY * 0.2}px)` }} />
         <div className="hero-overlay" />
-        <div className="hero-inner">
+        <div className="br-hero-inner">
           {/* Left: headline */}
           <div className="hero-content">
             <div className={`hero-tag${heroIn ? '' : ' hidden'}`}>Fort Lauderdale · Walk-ins Welcome</div>
