@@ -288,17 +288,20 @@ export function WebSiteSchema() {
 }
 
 // ─── 7. Service schema — individual service pages ──────────────────────────────
+// Accepts the Tier shape from lib/pricing.ts: { slug, name, tagline, monthlyFee, setupFee }
 
-export function ServicePageSchema({ service }) {
+export function ServicePageSchema({ tier }) {
+  const monthly = Number(tier.monthlyFee) || 0;
+  const setup = Number(tier.setupFee) || 0;
   return (
     <SchemaScript
       data={{
         '@context': 'https://schema.org',
         '@type': 'Service',
-        '@id': `https://www.aiandwebservices.com/services/${service.slug}/#service`,
-        name: service.tier,
-        description: service.oneLiner,
-        url: `https://www.aiandwebservices.com/services/${service.slug}`,
+        '@id': `https://www.aiandwebservices.com/services/${tier.slug}/#service`,
+        name: tier.name,
+        description: tier.tagline,
+        url: `https://www.aiandwebservices.com/services/${tier.slug}`,
         provider: {
           '@id': 'https://www.aiandwebservices.com/#organization',
         },
@@ -309,10 +312,12 @@ export function ServicePageSchema({ service }) {
         serviceType: 'AI Automation & Digital Services',
         offers: {
           '@type': 'Offer',
-          price: service.priceMonthly.toString(),
+          price: monthly.toString(),
           priceCurrency: 'USD',
           priceValidUntil: PRICE_VALID_UNTIL,
-          description: `$${service.priceMonthly}/month${service.setupFee > 0 ? ` + $${service.setupFee} setup` : ''}`,
+          description: monthly > 0
+            ? `$${monthly}/month${setup > 0 ? ` + $${setup} setup` : ''}`
+            : 'Custom quote — project-based pricing',
           availability: 'https://schema.org/InStock',
         },
       }}

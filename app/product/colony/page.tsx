@@ -4,6 +4,13 @@ import type { Metadata } from 'next'
 import FeatureBlock from './components/FeatureBlock'
 import FAQItem from './components/FAQItem'
 import RequestAccessForm from './components/RequestAccessForm'
+import { BreadcrumbSchema } from '@/components/Schema'
+
+const BASE = 'https://www.aiandwebservices.com'
+const BREADCRUMB_ITEMS = [
+  { name: 'Home', url: BASE },
+  { name: 'Colony', url: `${BASE}/product/colony` },
+]
 
 export const metadata: Metadata = {
   title: 'Colony — AI Workforce Dashboard | AIandWEBservices',
@@ -49,6 +56,7 @@ const FAQS = [
 export default function ColonyMarketingPage() {
   return (
     <div style={{ background: '#050a18', minHeight: '100vh' }}>
+      <BreadcrumbSchema items={BREADCRUMB_ITEMS} />
       {/* Hero */}
       <section
         className="relative px-6 pt-24 pb-20 lg:pt-32 lg:pb-28"

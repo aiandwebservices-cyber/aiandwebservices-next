@@ -1,4 +1,5 @@
-import { BreadcrumbSchema } from '@/components/Schema';
+import { BreadcrumbSchema, ServicePageSchema } from '@/components/Schema';
+import { getTier } from '@/lib/pricing';
 
 export const metadata = {
   title: 'AI Automation Starter Plan | AIandWEBservices',
@@ -23,5 +24,12 @@ const ITEMS = [
 ];
 
 export default function Layout({ children }) {
-  return <><BreadcrumbSchema items={ITEMS} />{children}</>;
+  const tier = getTier('ai-automation-starter');
+  return (
+    <>
+      <BreadcrumbSchema items={ITEMS} />
+      {tier && <ServicePageSchema tier={tier} />}
+      {children}
+    </>
+  );
 }
