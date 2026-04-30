@@ -203,22 +203,21 @@ export default function SamplesPage() {
                     {/* mini page preview */}
                     <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
                       {s.centerHero ? (
-                        <div style={{
-                          position: 'absolute', inset: 0,
-                          background: s.bg,
-                        }}>
+                        <>
+                          <div style={{ height: '27.5%', background: s.bg }} />
                           <div style={{
-                            position: 'absolute', top: '50%', left: '50%',
-                            transform: 'translate(-50%, -50%)',
-                            display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
-                            width: '80%',
+                            height: '45%',
+                            background: `linear-gradient(160deg, ${s.bg} 0%, ${s.accent}18 100%)`,
+                            display: 'flex', flexDirection: 'column', justifyContent: 'center',
+                            alignItems: 'center', gap: 6, padding: '0 10%',
                           }}>
                             <div style={{ width: '60%', height: 8, borderRadius: 4, background: s.accent, opacity: 0.9 }} />
                             <div style={{ width: '45%', height: 5, borderRadius: 3, background: 'rgba(255,255,255,0.3)' }} />
                             <div style={{ width: '30%', height: 5, borderRadius: 3, background: 'rgba(255,255,255,0.2)' }} />
                             <div style={{ marginTop: 8, width: '22%', height: 18, borderRadius: 4, background: s.accent }} />
                           </div>
-                        </div>
+                          <div style={{ height: '27.5%', background: s.bg }} />
+                        </>
                       ) : (
                         <>
                           <div style={{
