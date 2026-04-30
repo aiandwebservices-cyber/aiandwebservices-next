@@ -126,11 +126,6 @@ export default function RootLayout({ children }) {
       <body>
         {children}
         <Script
-          id="hs-script"
-          src="//js.hs-scripts.com/245878112.js"
-          strategy="lazyOnload"
-        />
-        <Script
           id="vtag-ai-js"
           src="https://r2.leadsy.ai/tag.js"
           data-pid="XNfRiCKRtvN3kZ3r"
