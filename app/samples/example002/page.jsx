@@ -85,8 +85,10 @@ export default function AriaRealty() {
 
   return (
     <div style={{ fontFamily: "'Inter','Helvetica Neue',sans-serif", background: DARK, color: LIGHT, overflowX: 'hidden' }}>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" />
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap');
         *{box-sizing:border-box;margin:0;padding:0}
         ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:${DARK}}::-webkit-scrollbar-thumb{background:${EM}66}
         ::selection{background:${EM}33}

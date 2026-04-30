@@ -89,23 +89,31 @@ export default function RootLayout({ children }) {
             useEffect version of scalePanels still runs later and reapplies identical values. */}
         <script dangerouslySetInnerHTML={{ __html: `
           (function(){
+            var sel='.hero-inner, .hiw-inner, .comparison-inner, .pricing-inner, .about-inner, .work-inner, .faq-inner, .contact-inner, .contact-flex-inner';
+            var applied=false,rafId;
             function scalePanels(){
-              var sel='.hero-inner, .hiw-inner, .comparison-inner, .pricing-inner, .about-inner, .work-inner, .faq-inner, .contact-inner, .contact-flex-inner';
               if(window.innerWidth<769){
-                document.querySelectorAll(sel).forEach(function(el){el.style.zoom='';el.style.paddingTop='';});
+                if(applied){
+                  document.querySelectorAll(sel).forEach(function(el){el.style.zoom='';el.style.paddingTop='';});
+                  applied=false;
+                }
                 return;
               }
               var avail=window.innerHeight-64;
               var scale=Math.min(1,avail/1100);
               var pad=Math.ceil(88/scale);
               document.querySelectorAll(sel).forEach(function(el){el.style.zoom=scale;el.style.paddingTop=pad+'px';});
+              applied=true;
             }
             if(document.readyState==='loading'){
               document.addEventListener('DOMContentLoaded',scalePanels);
             } else {
               scalePanels();
             }
-            window.addEventListener('resize',scalePanels);
+            window.addEventListener('resize',function(){
+              if(rafId)cancelAnimationFrame(rafId);
+              rafId=requestAnimationFrame(scalePanels);
+            });
           })();
         `}} />
         <meta name="geo.region" content="US" />

@@ -84,8 +84,10 @@ export default function BladeRoom() {
         .hero-gallery-main{height:155px !important}
         .hero-gallery-sm{height:80px !important}
       `}</style>}
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&family=Bebas+Neue&display=swap" />
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Barlow:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300&family=Bebas+Neue&display=swap');
         *{box-sizing:border-box;margin:0;padding:0}
         ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:${BLACK}}::-webkit-scrollbar-thumb{background:${GOLD}77}
         ::selection{background:${GOLD}33}
@@ -245,7 +247,7 @@ export default function BladeRoom() {
 
       {/* HERO */}
       <section className="hero">
-        <img className="hero-bg" src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1800&q=90&auto=format,compress" alt="Barber shop interior" style={{ transform: &auto=format,compress`translateY(${scrollY * 0.2}px)` }} />
+        <img className="hero-bg" src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1800&q=90&auto=format,compress" alt="Barber shop interior" fetchPriority="high" style={{ transform: `translateY(${scrollY * 0.2}px)` }} />
         <div className="hero-overlay" />
         <div className="br-hero-inner">
           <div className="hero-content">

@@ -399,8 +399,10 @@ export default function IroncladConstruction() {
 
   return (
     <div style={{ fontFamily: "'Inter','Helvetica Neue',sans-serif", background: DARK, color: '#e2e8f0', overflowX: 'hidden' }}>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700;800;900&display=swap" />
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Barlow+Condensed:wght@400;600;700;800;900&display=swap');
         *{box-sizing:border-box;margin:0;padding:0}
         ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:${DARK}}::-webkit-scrollbar-thumb{background:${ORANGE}88}
         ::selection{background:${ORANGE}33}

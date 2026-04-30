@@ -80,8 +80,10 @@ export default function EmberOak() {
 
   return (
     <div style={{ fontFamily: "'Cormorant Garamond', Georgia, serif", background: DARK, color: CREAM, overflowX: 'hidden' }}>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;600;700&display=swap" />
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400;1,600&family=Montserrat:wght@300;400;600;700&display=swap');
         *{box-sizing:border-box;margin:0;padding:0}
         ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:#111}::-webkit-scrollbar-thumb{background:${GOLD}88}
         ::selection{background:${GOLD}33}
@@ -217,7 +219,7 @@ export default function EmberOak() {
 
       {/* HERO */}
       <section className="hero">
-        <img className="hero-bg" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1800&q=90&auto=format,compress" alt="Fine dining" style={{ transform: &auto=format,compress`translateY(${scrollY * 0.25}px)` }} />
+        <img className="hero-bg" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1800&q=90&auto=format,compress" alt="Fine dining" fetchPriority="high" style={{ transform: `translateY(${scrollY * 0.25}px)` }} />
         <div className="hero-overlay" />
         <div className="hero-content">
           <div className={`hero-badge${heroVisible ? '' : ' hidden'}`} style={{ transition: 'opacity 1.2s .2s, transform 1.2s .2s cubic-bezier(.16,1,.3,1)', opacity: heroVisible ? 1 : 0, transform: heroVisible ? 'none' : 'translateY(16px)' }}>

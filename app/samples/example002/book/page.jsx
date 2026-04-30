@@ -96,7 +96,10 @@ export default function BookPage() {
 
   if (done) return (
     <div style={{ minHeight:'100vh', background:DARK, display:'flex', alignItems:'center', justifyContent:'center', padding:'2rem', fontFamily:"'Inter',sans-serif" }}>
-      <style>{`@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap');*{box-sizing:border-box;margin:0;padding:0}`}</style>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" />
+      <style>{`*{box-sizing:border-box;margin:0;padding:0}`}</style>
       <div style={{ textAlign:'center', maxWidth:520 }}>
         <div style={{ width:80, height:80, borderRadius:'50%', background:`${EM}18`, border:`2px solid ${EM}`, display:'flex', alignItems:'center', justifyContent:'center', fontSize:'2rem', margin:'0 auto 2rem' }}>✓</div>
         <div style={{ fontFamily:"'Playfair Display',serif", fontSize:'2.2rem', fontStyle:'italic', color:LIGHT, marginBottom:'.75rem' }}>You're confirmed.</div>
@@ -135,8 +138,10 @@ export default function BookPage() {
 
   return (
     <div style={{ minHeight:'100vh', background:DARK, fontFamily:"'Inter',sans-serif", color:LIGHT }}>
+      <link rel="preconnect" href="https://fonts.googleapis.com" />
+      <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+      <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap" />
       <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400;1,700&display=swap');
         *{box-sizing:border-box;margin:0;padding:0}
         ::-webkit-scrollbar{width:4px}::-webkit-scrollbar-track{background:${DARK}}::-webkit-scrollbar-thumb{background:${EM}44}
         input::placeholder,textarea::placeholder{color:rgba(232,240,247,.25)}
