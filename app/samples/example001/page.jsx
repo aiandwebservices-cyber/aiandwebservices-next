@@ -66,6 +66,7 @@ function ScaleIn({ children, delay = 0, style = {} }) {
 export default function EmberOak() {
   const [activeTab, setActiveTab] = useState('Starters');
   const [heroVisible, setHeroVisible] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const heroBgRef = useRef(null);
 
   useEffect(() => {
@@ -77,6 +78,8 @@ export default function EmberOak() {
         if (heroBgRef.current) {
           heroBgRef.current.style.transform = `translateY(${window.scrollY * 0.25}px)`;
         }
+        const isScrolled = window.scrollY > 60;
+        setScrolled(prev => prev !== isScrolled ? isScrolled : prev);
         rafId = null;
       });
     };
@@ -221,7 +224,7 @@ export default function EmberOak() {
       `}</style>
 
       {/* NAV */}
-      <nav className={`eo-nav${scrollY > 60 ? ' scrolled' : ''}`}>
+      <nav className={`eo-nav${scrolled ? ' scrolled' : ''}`}>
         <a href="#" className="eo-logo">Ember <em>&amp;</em> Oak</a>
         <ul className="eo-links">
           {['Menu','Gallery','About','Reserve'].map(l => <li key={l}><a href={`#${l.toLowerCase()}`}>{l}</a></li>)}
