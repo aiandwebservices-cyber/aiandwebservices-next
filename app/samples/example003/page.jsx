@@ -248,7 +248,6 @@ export default function BladeRoom() {
         <img className="hero-bg" src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1800&q=90" alt="Barber shop interior" style={{ transform: `translateY(${scrollY * 0.2}px)` }} />
         <div className="hero-overlay" />
         <div className="br-hero-inner">
-          {/* Left: headline */}
           <div className="hero-content">
             <div className={`hero-tag${heroIn ? '' : ' hidden'}`}>Fort Lauderdale · Walk-ins Welcome</div>
             <h1 className="hero-h1">
@@ -261,22 +260,22 @@ export default function BladeRoom() {
               <a href="#services" className="btn-out">See Services</a>
             </div>
           </div>
+        </div>
 
-          {/* Top-right: photo showcase — absolute, no longer in flex row */}
-          <div className={`hero-gallery${heroIn ? '' : ' hidden'}`}>
-            <div className="hero-gallery-top">
-              <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=600&q=85" alt="Fresh fade" className="hero-gallery-main" />
-              <div className="hero-gallery-badge">
-                <div style={{ fontSize:'1.1rem', fontWeight:800, color:GOLD, fontFamily:"'Bebas Neue',sans-serif", letterSpacing:'.06em' }}>4.9 ★</div>
-                <div style={{ fontSize:'.6rem', color:`${OFF}88`, letterSpacing:'.08em', textTransform:'uppercase' }}>247 Reviews</div>
-              </div>
+        {/* Photo showcase — absolute top-left, positioned relative to .hero */}
+        <div className={`hero-gallery${heroIn ? '' : ' hidden'}`}>
+          <div className="hero-gallery-top">
+            <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=600&q=85" alt="Fresh fade" className="hero-gallery-main" />
+            <div className="hero-gallery-badge">
+              <div style={{ fontSize:'1.1rem', fontWeight:800, color:GOLD, fontFamily:"'Bebas Neue',sans-serif", letterSpacing:'.06em' }}>4.9 ★</div>
+              <div style={{ fontSize:'.6rem', color:`${OFF}88`, letterSpacing:'.08em', textTransform:'uppercase' }}>247 Reviews</div>
             </div>
-            <div className="hero-gallery-row">
-              <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=400&q=80" alt="Cut detail" className="hero-gallery-sm" />
-              <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=400&q=80" alt="Barber chair" className="hero-gallery-sm" />
-            </div>
-            <div className="hero-gallery-label">Fresh out the chair ✦ Fort Lauderdale</div>
           </div>
+          <div className="hero-gallery-row">
+            <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=400&q=80" alt="Cut detail" className="hero-gallery-sm" />
+            <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=400&q=80" alt="Barber chair" className="hero-gallery-sm" />
+          </div>
+          <div className="hero-gallery-label">Fresh out the chair ✦ Fort Lauderdale</div>
         </div>
       </section>
 
