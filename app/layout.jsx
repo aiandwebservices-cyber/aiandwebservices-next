@@ -90,7 +90,7 @@ export default function RootLayout({ children }) {
         <script dangerouslySetInnerHTML={{ __html: `
           (function(){
             function scalePanels(){
-              var sel='.hero-inner, .hiw-inner, .comparison-inner, .pricing-inner, .about-inner, .work-inner, .faq-inner, .contact-inner';
+              var sel='.hero-inner, .hiw-inner, .comparison-inner, .pricing-inner, .about-inner, .work-inner, .faq-inner, .contact-inner, .contact-flex-inner';
               if(window.innerWidth<769){
                 document.querySelectorAll(sel).forEach(function(el){el.style.zoom='';el.style.paddingTop='';});
                 return;

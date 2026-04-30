@@ -241,7 +241,7 @@ export function useHorizontalScroll() {
     // Scale panel inner containers to fit any monitor height
     const INNER_SELECTORS = [
       '.hero-inner', '.hiw-inner', '.comparison-inner', '.pricing-inner',
-      '.about-inner', '.work-inner', '.faq-inner', '.contact-inner',
+      '.about-inner', '.work-inner', '.faq-inner', '.contact-inner', '.contact-flex-inner',
     ].join(',');
     const BASE_HEIGHT = 1100;
     const NAV_H       = 64;
