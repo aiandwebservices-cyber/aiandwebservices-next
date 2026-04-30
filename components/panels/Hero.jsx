@@ -128,12 +128,6 @@ export default function Hero() {
   const reduced = useReducedMotion();
   const ease = [0.21, 0.47, 0.32, 0.98];
 
-  const reveal = (delay = 0) => ({
-    initial: reduced ? false : { opacity: 0, y: 36 },
-    animate: { opacity: 1, y: 0 },
-    transition: { duration: 0.7, delay, ease },
-  });
-
   return (
     <section className="panel" id="p0" aria-label="AIandWEBservices — AI automation, web development and SEO for small business">
       {/* ── Background ── */}
@@ -159,17 +153,17 @@ export default function Hero() {
             </span>
           </h1>
 
-          <motion.p {...reveal(0.55)} className="h-sub">
+          <p className="h-sub">
             AI automation, a converting website, and SEO that ranks. One person. One price.
-          </motion.p>
+          </p>
 
-          <motion.div {...reveal(0.68)} className="h-ctas">
+          <div className="h-ctas">
             <a className="h-btn-primary" href="/contact">
               Get Your Free Audit
             </a>
-          </motion.div>
+          </div>
 
-          <motion.div {...reveal(0.82)} className="h-trust">
+          <div className="h-trust">
             {[
               { icon: Shield, text: 'No contracts',          color: '#34d399' },
               { icon: Zap,    text: '6-hour response time',  color: '#2AA5A0' },
@@ -180,16 +174,11 @@ export default function Hero() {
                 <span>{text}</span>
               </div>
             ))}
-          </motion.div>
+          </div>
 
-          <motion.div
-            className="h-dashboard-wrap"
-            initial={reduced ? false : { opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, delay: 0.95, ease }}
-          >
+          <div className="h-dashboard-wrap">
             <AIDashboard />
-          </motion.div>
+          </div>
         </div>
 
         {/* ── Scroll indicator ── */}

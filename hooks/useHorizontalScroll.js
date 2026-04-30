@@ -155,6 +155,24 @@ export function useHorizontalScroll() {
     };
     document.addEventListener('click', handleOutsideClick);
 
+    // Pre-compute scrollable child per panel once — avoids two getComputedStyle
+    // calls on every wheel event (was the top forced-reflow source in Lighthouse).
+    const scrollableChildMap = new Map();
+    panelIds.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const ov = window.getComputedStyle(el).overflowY;
+      if (ov === 'auto' || ov === 'scroll') {
+        scrollableChildMap.set(id, el);
+      } else {
+        const inner = el.querySelector('[class$="-inner"]');
+        if (inner) {
+          const innerOv = window.getComputedStyle(inner).overflowY;
+          scrollableChildMap.set(id, (innerOv === 'auto' || innerOv === 'scroll') ? inner : null);
+        }
+      }
+    });
+
     let wheelBuf = 0, wheelTimer = null;
     const handleWheel = (e) => {
       if (isMobile()) return;
@@ -162,31 +180,15 @@ export function useHorizontalScroll() {
       const crispBox = document.getElementById('crisp-chatbox');
       if (crispBox && crispBox.contains(e.target)) return;
 
-      const panelEl = document.getElementById(panelIds[cur]);
-      if (panelEl) {
-        // Find the actual scrollable child — only honour overflow guard if it can scroll
-        let scrollEl = null;
-        const computed = window.getComputedStyle(panelEl);
-        if (computed.overflowY === 'auto' || computed.overflowY === 'scroll') {
-          scrollEl = panelEl;
-        } else {
-          const inner = panelEl.querySelector('[class$="-inner"]');
-          if (inner) {
-            const innerStyle = window.getComputedStyle(inner);
-            if (innerStyle.overflowY === 'auto' || innerStyle.overflowY === 'scroll') {
-              scrollEl = inner;
-            }
-          }
-        }
-        if (scrollEl) {
-          const { scrollTop, scrollHeight, clientHeight } = scrollEl;
-          const overflows = scrollHeight > clientHeight + 5;
-          if (overflows) {
-            const atBottom = scrollTop + clientHeight >= scrollHeight - 5;
-            const atTop    = scrollTop <= 5;
-            if (e.deltaY > 0 && !atBottom) return;
-            if (e.deltaY < 0 && !atTop)    return;
-          }
+      const scrollEl = scrollableChildMap.get(panelIds[cur]) ?? null;
+      if (scrollEl) {
+        const { scrollTop, scrollHeight, clientHeight } = scrollEl;
+        const overflows = scrollHeight > clientHeight + 5;
+        if (overflows) {
+          const atBottom = scrollTop + clientHeight >= scrollHeight - 5;
+          const atTop    = scrollTop <= 5;
+          if (e.deltaY > 0 && !atBottom) return;
+          if (e.deltaY < 0 && !atTop)    return;
         }
       }
 

@@ -2505,6 +2505,20 @@ body.allow-scroll main {
 }
 .h-line { display:block; }
 .h-line-accent { color:#2AA5A0; }
+/* CSS-driven entry animations for above-fold hero elements.
+   Starting from stylesheet load (no JS/hydration dependency) keeps LCP fast.
+   Previously these were Framer Motion initial:opacity-0 animations that couldn't
+   paint until after JS hydration — causing ~2.5s element render delay. */
+@keyframes h-fadeup {
+  from { opacity:0; transform:translateY(24px); }
+  to   { opacity:1; transform:translateY(0); }
+}
+@media (prefers-reduced-motion: no-preference) {
+  .h-sub           { animation: h-fadeup .7s cubic-bezier(.21,.47,.32,.98) .3s  both; }
+  .h-ctas          { animation: h-fadeup .7s cubic-bezier(.21,.47,.32,.98) .45s both; }
+  .h-trust         { animation: h-fadeup .7s cubic-bezier(.21,.47,.32,.98) .6s  both; }
+  .h-dashboard-wrap{ animation: h-fadeup .8s cubic-bezier(.21,.47,.32,.98) .75s both; }
+}
 .h-sub {
   font-size:clamp(15px,1.6vw,17px);color:rgba(255,255,255,.65);
   line-height:1.75;max-width:480px;margin-bottom:min(28px,2.5vh);
