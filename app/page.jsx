@@ -1,5 +1,6 @@
 'use client';
 import { Suspense } from 'react';
+import dynamic from 'next/dynamic';
 import Nav from '@/components/Nav';
 import Footer from '@/components/Footer';
 import { LocalBusinessSchema, HomepageFAQSchema, HomepageServiceSchema } from '@/components/Schema';
@@ -12,10 +13,11 @@ import Work        from '@/components/panels/Work';
 import FAQ         from '@/components/panels/FAQ';
 import Contact          from '@/components/panels/Contact';
 import ChecklistForm   from '@/components/ChecklistForm';
-import Modals      from '@/components/Modals';
 import CookieBanner from '@/components/CookieBanner';
 import ScrollInit  from '@/components/ScrollInit';
 import PanelsMode    from '@/components/PanelsMode';
+
+const Modals = dynamic(() => import('@/components/Modals'), { ssr: false });
 
 export default function Home() {
   return (

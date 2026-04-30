@@ -46,7 +46,7 @@ const nextConfig: NextConfig = {
   allowedDevOrigins: ['192.168.50.143', '*.local'],
 
   experimental: {
-    optimizePackageImports: ['lucide-react'],
+    optimizePackageImports: ['lucide-react', 'framer-motion'],
     optimizeCss: true,
   },
 
