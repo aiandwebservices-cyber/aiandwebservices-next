@@ -8,9 +8,9 @@ const DARK = '#0F1923';
 const LIGHT = '#E8F0F7';
 
 const LISTINGS = [
-  { badge: 'Featured', addr: '2847 Palmetto Bay Drive', city: 'Coral Gables, FL', beds: 5, baths: 4, sqft: '4,820', price: '$3,200,000', img: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=85' },
-  { badge: 'New', addr: '1104 Brickell Key Blvd #3201', city: 'Miami, FL', beds: 3, baths: 3, sqft: '2,150', price: '$1,480,000', img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=85' },
-  { badge: 'Sold', addr: '880 Intracoastal Dr', city: 'Fort Lauderdale, FL', beds: 4, baths: 3, sqft: '3,200', price: '$2,100,000', img: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&q=85' },
+  { badge: 'Featured', addr: '2847 Palmetto Bay Drive', city: 'Coral Gables, FL', beds: 5, baths: 4, sqft: '4,820', price: '$3,200,000', img: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=85&auto=format,compress' },
+  { badge: 'New', addr: '1104 Brickell Key Blvd #3201', city: 'Miami, FL', beds: 3, baths: 3, sqft: '2,150', price: '$1,480,000', img: 'https://images.unsplash.com/photo-1512917774080-9991f1c4c750?w=800&q=85&auto=format,compress' },
+  { badge: 'Sold', addr: '880 Intracoastal Dr', city: 'Fort Lauderdale, FL', beds: 4, baths: 3, sqft: '3,200', price: '$2,100,000', img: 'https://images.unsplash.com/photo-1580587771525-78b9dba3b914?w=800&q=85&auto=format,compress' },
 ];
 
 const SERVICES = [
@@ -216,7 +216,7 @@ export default function AriaRealty() {
       {/* HERO */}
       <section className="hero">
         <div className="hero-bg">
-          <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1400&q=90" alt="Luxury South Florida estate" />
+          <img src="https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=1400&q=90&auto=format,compress" alt="Luxury South Florida estate" />
         </div>
         <div className="hero-left">
           <h1 className={`hero-h1${heroIn ? '' : ' hidden'}`}>Find the Home That Fits</h1>
@@ -302,7 +302,7 @@ export default function AriaRealty() {
       <section className="agent-wrap" id="about">
         <SlideIn x={-80}>
           <div className="agent-img-col" style={{ minHeight: 500 }}>
-            <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=900&q=85" alt="Sophia Whitmore" />
+            <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=900&q=85&auto=format,compress" alt="Sophia Whitmore" />
           </div>
         </SlideIn>
         <div className="agent-text-col">

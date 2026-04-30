@@ -27,10 +27,10 @@ const STATS = [
 ];
 
 const PROJECTS = [
-  { label: 'Custom Home Build',    sub: 'Miami Beach · 4,200 sq ft',  img: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=85', tag: 'New Construction' },
-  { label: 'Commercial Remodel',   sub: 'Brickell · 12,000 sq ft',    img: 'https://images.unsplash.com/photo-mO8voqjIA7w?w=800&q=85', tag: 'Commercial' },
-  { label: 'Full Home Renovation', sub: 'Coral Gables · Historic',    img: 'https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=800&q=85', tag: 'Renovation' },
-  { label: 'Roofing & HVAC',       sub: 'Fort Lauderdale · Storm',    img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=85', tag: 'Roofing' },
+  { label: 'Custom Home Build',    sub: 'Miami Beach · 4,200 sq ft',  img: 'https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=85&auto=format,compress', tag: 'New Construction' },
+  { label: 'Commercial Remodel',   sub: 'Brickell · 12,000 sq ft',    img: 'https://images.unsplash.com/photo-mO8voqjIA7w?w=800&q=85&auto=format,compress', tag: 'Commercial' },
+  { label: 'Full Home Renovation', sub: 'Coral Gables · Historic',    img: 'https://images.unsplash.com/photo-1560185127-6ed189bf02f4?w=800&q=85&auto=format,compress', tag: 'Renovation' },
+  { label: 'Roofing & HVAC',       sub: 'Fort Lauderdale · Storm',    img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=800&q=85&auto=format,compress', tag: 'Roofing' },
 ];
 
 const REVIEWS = [
@@ -491,7 +491,7 @@ export default function IroncladConstruction() {
         /* CTA SECTION */
         .ic-cta-section{position:relative;overflow:hidden;background:${STEEL};padding:8rem 3rem;border-top:1px solid rgba(255,107,43,.15)}
         @media(max-width:900px){.ic-cta-section .ic-form-grid{grid-template-columns:1fr !important;gap:3rem !important}}
-        .ic-cta-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1600&q=80');background-size:cover;background-position:center right;filter:brightness(.55)}
+        .ic-cta-bg{position:absolute;inset:0;background-image:url('https://images.unsplash.com/photo-1541888946425-d81bb19240f5?w=1600&q=80&auto=format,compress');background-size:cover;background-position:center right;filter:brightness(.55)}
         .ic-cta-bg::after{content:'';position:absolute;inset:0;background:linear-gradient(to right,${STEEL} 0%,rgba(26,32,53,.85) 40%,rgba(26,32,53,.4) 100%)}
         .ic-cta-content{position:relative;z-index:2;max-width:700px}
         .ic-cta-title{font-family:'Barlow Condensed',sans-serif;font-weight:900;font-size:clamp(3rem,8vw,7rem);text-transform:uppercase;line-height:.9;letter-spacing:.02em;margin-bottom:2rem}
@@ -555,7 +555,7 @@ export default function IroncladConstruction() {
 
       {/* HERO */}
       <section className="ic-hero">
-        <img className="ic-hero-bg" src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1800&q=85" alt="Construction site" />
+        <img className="ic-hero-bg" src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1800&q=85&auto=format,compress" alt="Construction site" />
         <div className="ic-hero-canvas"><NetworkCanvas /></div>
         <div className="ic-hero-gradient" />
         <div className={`ic-hero-badge${heroIn ? '' : ' hide'}`} style={{ position:'absolute', top:'5rem', left:0, right:0, justifyContent:'center', zIndex:3 }}>South Florida · Licensed General Contractor</div>

@@ -16,7 +16,7 @@ const plusJakarta = Plus_Jakarta_Sans({
   subsets: ['latin'],
   weight: ['700', '800'],
   variable: '--font-plus-jakarta',
-  display: 'block',
+  display: 'swap',
   preload: true,
   adjustFontFallback: false,
   fallback: ['Arial Black', 'Helvetica Neue', 'Arial', 'sans-serif'],

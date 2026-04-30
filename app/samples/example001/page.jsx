@@ -217,7 +217,7 @@ export default function EmberOak() {
 
       {/* HERO */}
       <section className="hero">
-        <img className="hero-bg" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1800&q=90" alt="Fine dining" style={{ transform: `translateY(${scrollY * 0.25}px)` }} />
+        <img className="hero-bg" src="https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=1800&q=90&auto=format,compress" alt="Fine dining" style={{ transform: &auto=format,compress`translateY(${scrollY * 0.25}px)` }} />
         <div className="hero-overlay" />
         <div className="hero-content">
           <div className={`hero-badge${heroVisible ? '' : ' hidden'}`} style={{ transition: 'opacity 1.2s .2s, transform 1.2s .2s cubic-bezier(.16,1,.3,1)', opacity: heroVisible ? 1 : 0, transform: heroVisible ? 'none' : 'translateY(16px)' }}>
@@ -298,11 +298,11 @@ export default function EmberOak() {
         <Reveal delay={.1}><h2 className="section-title" style={{ marginBottom: '2.5rem' }}>Crafted <em>Ambiance</em></h2></Reveal>
         <ScaleIn delay={.15}>
           <div className="mosaic">
-            <div className="mosaic-item mosaic-tall"><img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=900&q=85" alt="Restaurant interior" /></div>
-            <div className="mosaic-item"><img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=700&q=80" alt="Table setting" /></div>
-            <div className="mosaic-item"><img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=700&q=80" alt="Wine selection" /></div>
-            <div className="mosaic-item"><img src="https://images.unsplash.com/photo-1550966871-3ed3cfd6b0cb?w=700&q=80" alt="Bar" /></div>
-            <div className="mosaic-item"><img src="https://images.unsplash.com/photo-1484980972926-edee96e0960d?w=700&q=80" alt="Plated dish" /></div>
+            <div className="mosaic-item mosaic-tall"><img src="https://images.unsplash.com/photo-1551218808-94e220e084d2?w=900&q=85&auto=format,compress" alt="Restaurant interior" /></div>
+            <div className="mosaic-item"><img src="https://images.unsplash.com/photo-1528605248644-14dd04022da1?w=700&q=80&auto=format,compress" alt="Table setting" /></div>
+            <div className="mosaic-item"><img src="https://images.unsplash.com/photo-1559339352-11d035aa65de?w=700&q=80&auto=format,compress" alt="Wine selection" /></div>
+            <div className="mosaic-item"><img src="https://images.unsplash.com/photo-1550966871-3ed3cfd6b0cb?w=700&q=80&auto=format,compress" alt="Bar" /></div>
+            <div className="mosaic-item"><img src="https://images.unsplash.com/photo-1484980972926-edee96e0960d?w=700&q=80&auto=format,compress" alt="Plated dish" /></div>
           </div>
         </ScaleIn>
       </section>
@@ -311,7 +311,7 @@ export default function EmberOak() {
       <section className="about-grid" id="about">
         <SlideIn x={-80}>
           <div className="about-img-col" style={{ position: 'relative', height: '100%', minHeight: 500 }}>
-            <img src="https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?w=900&q=85" alt="Executive Chef Marcus Laurent" />
+            <img src="https://images.unsplash.com/photo-1600565193348-f74bd3c7ccdf?w=900&q=85&auto=format,compress" alt="Executive Chef Marcus Laurent" />
             <div style={{ position: 'absolute', inset: 0, background: 'linear-gradient(to right, transparent 70%, #0a0a0a 100%)' }} />
           </div>
         </SlideIn>

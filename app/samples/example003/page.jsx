@@ -18,9 +18,9 @@ const SERVICES = [
 ];
 
 const BARBERS = [
-  { name: 'Marcus Webb', title: 'Master Barber · 12 yrs', spec: 'Fades · Textures · Creative cuts', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=85' },
-  { name: 'Diego Cruz', title: 'Senior Barber · 8 yrs', spec: 'Classic cuts · Beard sculpting', img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&q=85' },
-  { name: 'Jordan Price', title: 'Barber · 5 yrs', spec: 'Fades · Afro textures · Lineups', img: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&q=85' },
+  { name: 'Marcus Webb', title: 'Master Barber · 12 yrs', spec: 'Fades · Textures · Creative cuts', img: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=85&auto=format,compress' },
+  { name: 'Diego Cruz', title: 'Senior Barber · 8 yrs', spec: 'Classic cuts · Beard sculpting', img: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=600&q=85&auto=format,compress' },
+  { name: 'Jordan Price', title: 'Barber · 5 yrs', spec: 'Fades · Afro textures · Lineups', img: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=600&q=85&auto=format,compress' },
 ];
 
 const REVIEWS = [
@@ -245,7 +245,7 @@ export default function BladeRoom() {
 
       {/* HERO */}
       <section className="hero">
-        <img className="hero-bg" src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1800&q=90" alt="Barber shop interior" style={{ transform: `translateY(${scrollY * 0.2}px)` }} />
+        <img className="hero-bg" src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1800&q=90&auto=format,compress" alt="Barber shop interior" style={{ transform: &auto=format,compress`translateY(${scrollY * 0.2}px)` }} />
         <div className="hero-overlay" />
         <div className="br-hero-inner">
           <div className="hero-content">
@@ -265,15 +265,15 @@ export default function BladeRoom() {
         {/* Photo showcase — absolute top-left, positioned relative to .hero */}
         <div className={`hero-gallery${heroIn ? '' : ' hidden'}`}>
           <div className="hero-gallery-top">
-            <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=600&q=85" alt="Fresh fade" className="hero-gallery-main" />
+            <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=600&q=85&auto=format,compress" alt="Fresh fade" className="hero-gallery-main" />
             <div className="hero-gallery-badge">
               <div style={{ fontSize:'1.1rem', fontWeight:800, color:GOLD, fontFamily:"'Bebas Neue',sans-serif", letterSpacing:'.06em' }}>4.9 ★</div>
               <div style={{ fontSize:'.6rem', color:`${OFF}88`, letterSpacing:'.08em', textTransform:'uppercase' }}>247 Reviews</div>
             </div>
           </div>
           <div className="hero-gallery-row">
-            <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=400&q=80" alt="Cut detail" className="hero-gallery-sm" />
-            <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=400&q=80" alt="Barber chair" className="hero-gallery-sm" />
+            <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=400&q=80&auto=format,compress" alt="Cut detail" className="hero-gallery-sm" />
+            <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=400&q=80&auto=format,compress" alt="Barber chair" className="hero-gallery-sm" />
           </div>
           <div className="hero-gallery-label">Fresh out the chair ✦ Fort Lauderdale</div>
         </div>
@@ -320,23 +320,23 @@ export default function BladeRoom() {
         <Reveal delay={.15}>
           <div className="photo-grid">
             <div className="ph ph-tall">
-              <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=800&q=85" alt="Barber at work" />
+              <img src="https://images.unsplash.com/photo-1599351431202-1e0f0137899a?w=800&q=85&auto=format,compress" alt="Barber at work" />
               <div className="ph-caption">The Chair</div>
             </div>
             <div className="ph">
-              <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=700&q=80" alt="Barber tools" />
+              <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?w=700&q=80&auto=format,compress" alt="Barber tools" />
               <div className="ph-caption">The Tools</div>
             </div>
             <div className="ph">
-              <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=700&q=80" alt="Barber shop chair" />
+              <img src="https://images.unsplash.com/photo-1622286342621-4bd786c2447c?w=700&q=80&auto=format,compress" alt="Barber shop chair" />
               <div className="ph-caption">The Space</div>
             </div>
             <div className="ph">
-              <img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=700&q=80" alt="Fresh fade" />
+              <img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?w=700&q=80&auto=format,compress" alt="Fresh fade" />
               <div className="ph-caption">The Fade</div>
             </div>
             <div className="ph">
-              <img src="https://images.unsplash.com/photo-1493256338651-d82f7acb2b38?w=700&q=80" alt="Classic shop interior" />
+              <img src="https://images.unsplash.com/photo-1493256338651-d82f7acb2b38?w=700&q=80&auto=format,compress" alt="Classic shop interior" />
               <div className="ph-caption">Classic Vibes</div>
             </div>
           </div>
@@ -388,7 +388,7 @@ export default function BladeRoom() {
 
       {/* BOOK */}
       <section className="book-section" id="book">
-        <img className="book-bg-img" src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1200&q=60" alt="" aria-hidden />
+        <img className="book-bg-img" src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?w=1200&q=60&auto=format,compress" alt="" aria-hidden />
         <div className="book-content">
           <Reveal><div className="eyebrow">Ready to Look Sharp?</div></Reveal>
           <Reveal delay={.1}>
