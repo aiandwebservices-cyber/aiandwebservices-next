@@ -75,11 +75,24 @@ function computeScenario(s, deal) {
   return { ...s, fees, fniRev, down, amountFinanced, monthly, frontGross, backGross, totalGross, tradeOver, netProfit, commission };
 }
 
+const LENDER_OPTIONS = [
+  { id: 'capitalOne',  label: 'Capital One Auto Finance', defaultChecked: true  },
+  { id: 'ally',        label: 'Ally Financial',           defaultChecked: true  },
+  { id: 'chase',       label: 'Chase Auto',               defaultChecked: true  },
+  { id: 'wellsFargo',  label: 'Wells Fargo Dealer Services', defaultChecked: false },
+  { id: 'bofa',        label: 'Bank of America',          defaultChecked: false },
+  { id: 'localCU',     label: 'Local Credit Union',       defaultChecked: true  },
+];
+
 /* ─── DealCard — manages its own scenario / lender state ─────────── */
-function DealCard({ deal, updateDeal, onMarkSold, openCredit, isOpen, onToggle, flash }) {
+function DealCard({ deal, updateDeal, onMarkSold, openCredit, isOpen, onToggle, flash, dealerSlug }) {
   const [scenarios, setScenarios] = useState(() => initScenarios(deal));
   const [targetGross, setTargetGross]       = useState('');
-  const [lenderApprovals, setLenderApprovals] = useState(null);
+  const [lenderPlatform, setLenderPlatform] = useState('routeone');
+  const [selectedLenders, setSelectedLenders] = useState(
+    () => LENDER_OPTIONS.filter(l => l.defaultChecked).map(l => l.label),
+  );
+  const [lenderResults, setLenderResults]   = useState(null);
   const [lenderLoading, setLenderLoading]   = useState(false);
 
   const computed = scenarios.map(s => computeScenario(s, deal));
@@ -103,9 +116,43 @@ function DealCard({ deal, updateDeal, onMarkSold, openCredit, isOpen, onToggle, 
     ngMonthly = calcPayment(ngFinanced, sc.apr, sc.term);
   }
 
-  const runLenderSubmission = () => {
+  const runLenderSubmission = async () => {
     setLenderLoading(true);
-    setTimeout(() => { setLenderApprovals(LENDERS); setLenderLoading(false); }, 1800);
+    try {
+      const res = await fetch(`/api/dealer/${dealerSlug}/integrations/lenders`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'submit',
+          platform: lenderPlatform,
+          dealId: deal.id,
+          customerInfo: { name: deal.customerName, income: deal.monthlyIncome },
+          vehicleInfo: { vin: deal.vin, year: deal.year, make: deal.make, model: deal.model, price: deal.salePrice },
+          financeTerms: { amount: deal.amountFinanced, term: deal.termMonths, apr: deal.apr },
+          selectedLenders,
+        }),
+      });
+      const data = await res.json();
+      if (data.ok && data.results) {
+        setLenderResults(data.results);
+        flash(`Submitted to ${data.submissions} lender${data.submissions !== 1 ? 's' : ''}`);
+      } else {
+        flash('Lender submission failed');
+      }
+    } catch {
+      flash('Lender submission failed — network error');
+    } finally {
+      setLenderLoading(false);
+    }
+  };
+
+  const applyBestRate = () => {
+    if (!lenderResults) return;
+    const approved = lenderResults.filter(l => l.status === 'approved' && l.apr);
+    if (!approved.length) { flash('No approved offers to apply'); return; }
+    const best = approved.reduce((a, b) => a.apr < b.apr ? a : b);
+    updateDeal(deal.id, { apr: best.apr, lender: best.lender, preApproved: true });
+    flash(`Best rate applied: ${best.lender} at ${best.apr}%`);
   };
 
   const updateScenario = (i, field, value) =>
@@ -411,54 +458,87 @@ function DealCard({ deal, updateDeal, onMarkSold, openCredit, isOpen, onToggle, 
                 <div className="text-[10px] smallcaps font-semibold text-stone-500 mb-3 flex items-center gap-1.5">
                   <Send className="w-3 h-3" /> Lender Submission
                 </div>
-                <div className="flex gap-4 mb-4 flex-wrap">
-                  {LENDERS.map(l => (
-                    <div key={l.name} className="flex flex-col items-center gap-1">
-                      <div className="w-11 h-11 rounded-full flex items-center justify-center text-white font-bold text-[9px] text-center leading-tight"
-                        style={{ backgroundColor: l.color }}>
-                        {l.name.split(' ').map(w => w[0]).join('')}
-                      </div>
-                      <div className="text-[9px] text-stone-500 text-center w-12 leading-tight">{l.name}</div>
-                      {lenderApprovals && (
-                        <div className={`text-[8px] font-bold ${l.result.approved ? 'text-emerald-600' : 'text-red-500'}`}>
-                          {l.result.approved ? '✓ APPRVD' : '✗ DECL'}
-                        </div>
-                      )}
-                    </div>
+
+                {/* Platform tabs */}
+                <div className="flex bg-stone-100 rounded-md p-0.5 mb-3 w-fit">
+                  {['routeone', 'dealertrack'].map((p) => (
+                    <button key={p} onClick={() => setLenderPlatform(p)}
+                      className={`px-3 py-1.5 text-xs font-semibold rounded smallcaps transition ${lenderPlatform === p ? 'bg-white shadow-sm text-stone-900' : 'text-stone-500'}`}>
+                      {p === 'routeone' ? 'RouteOne' : 'DealerTrack'}
+                    </button>
                   ))}
                 </div>
-                {lenderApprovals && (
+
+                {/* Lender checklist */}
+                <div className="mb-3">
+                  <div className="flex items-center justify-between mb-2">
+                    <div className="text-[10px] text-stone-500">Select lenders</div>
+                    <div className="flex gap-3 text-[10px]">
+                      <button className="text-stone-400 hover:text-stone-600"
+                        onClick={() => setSelectedLenders(LENDER_OPTIONS.map(l => l.label))}>
+                        Select All
+                      </button>
+                      <button className="text-stone-400 hover:text-stone-600"
+                        onClick={() => setSelectedLenders([])}>
+                        Deselect All
+                      </button>
+                    </div>
+                  </div>
+                  <div className="grid grid-cols-2 gap-1">
+                    {LENDER_OPTIONS.map((l) => {
+                      const checked = selectedLenders.includes(l.label);
+                      return (
+                        <button key={l.id} type="button"
+                          onClick={() => setSelectedLenders(prev =>
+                            checked ? prev.filter(x => x !== l.label) : [...prev, l.label],
+                          )}
+                          className="flex items-center gap-1.5 px-2 py-1.5 rounded text-left text-[11px] hover:bg-stone-50">
+                          <div className="w-3.5 h-3.5 rounded flex items-center justify-center shrink-0"
+                            style={checked ? { backgroundColor: GOLD } : { border: '1.5px solid #d6d2c8' }}>
+                            {checked && <Check className="w-2.5 h-2.5 text-white" strokeWidth={3} />}
+                          </div>
+                          <span className="truncate text-stone-600">{l.label}</span>
+                        </button>
+                      );
+                    })}
+                  </div>
+                </div>
+
+                {/* Results */}
+                {lenderResults && (
                   <div className="space-y-1.5 mb-3">
-                    {LENDERS.filter(l => l.result.approved).map(l => (
-                      <div key={l.name} className="flex items-center gap-2 text-[11px] p-2 rounded bg-emerald-50 border border-emerald-200">
-                        <span className="text-emerald-600 font-bold">✅</span>
-                        <span className="font-semibold text-stone-700">{l.name}:</span>
-                        <span className="text-stone-600">Approved — {l.result.tier}, {l.result.apr}% APR, up to {fmtMoney(l.result.max)}</span>
-                      </div>
-                    ))}
-                    {LENDERS.filter(l => !l.result.approved).map(l => (
-                      <div key={l.name} className="flex items-center gap-2 text-[11px] p-2 rounded bg-red-50 border border-red-200">
-                        <span>❌</span>
-                        <span className="font-semibold text-stone-700">{l.name}:</span>
-                        <span className="text-stone-400">Declined</span>
-                      </div>
-                    ))}
+                    {lenderResults.map((l) => {
+                      const icon = l.status === 'approved' ? '✅' : l.status === 'declined' ? '❌' : '⏳';
+                      const bg   = l.status === 'approved' ? 'bg-emerald-50 border-emerald-200' : l.status === 'declined' ? 'bg-red-50 border-red-200' : 'bg-amber-50 border-amber-200';
+                      return (
+                        <div key={l.lender} className={`flex items-start gap-2 text-[11px] p-2 rounded border ${bg}`}>
+                          <span>{icon}</span>
+                          <div className="flex-1 min-w-0">
+                            <span className="font-semibold text-stone-700">{l.lender}: </span>
+                            {l.status === 'approved' && <span className="text-stone-600">Approved — {l.tier}, {l.apr}% APR, up to {fmtMoney(l.maxAmount)}{l.conditions && l.conditions !== 'None' ? ` · ${l.conditions}` : ''}</span>}
+                            {l.status === 'declined' && <span className="text-stone-400">Declined — {l.reason}</span>}
+                            {l.status === 'pending' && <span className="text-amber-700">{l.note}</span>}
+                          </div>
+                        </div>
+                      );
+                    })}
                   </div>
                 )}
-                <div className="grid grid-cols-2 gap-2">
+
+                <div className="flex gap-2">
                   <Btn size="sm" variant="outlineGold" icon={Send}
                     onClick={runLenderSubmission}
+                    disabled={lenderLoading || selectedLenders.length === 0}
                     className={lenderLoading ? 'opacity-60 cursor-not-allowed' : ''}>
-                    {lenderLoading ? 'Submitting…' : lenderApprovals ? 'Resubmit (Demo)' : 'Submit to Lenders (Demo)'}
+                    {lenderLoading
+                      ? `Submitting to ${selectedLenders.length}…`
+                      : lenderResults
+                        ? 'Resubmit'
+                        : `Submit to ${selectedLenders.length} Lender${selectedLenders.length !== 1 ? 's' : ''}`}
                   </Btn>
-                  <div className="space-y-1">
-                    <div className="text-[10px] px-2 py-1.5 border border-stone-100 rounded text-stone-300 cursor-not-allowed">
-                      🔗 RouteOne — Connect in Settings
-                    </div>
-                    <div className="text-[10px] px-2 py-1.5 border border-stone-100 rounded text-stone-300 cursor-not-allowed">
-                      🔗 DealerTrack — Connect in Settings
-                    </div>
-                  </div>
+                  {lenderResults && lenderResults.some(l => l.status === 'approved') && (
+                    <Btn size="sm" variant="gold" icon={Check} onClick={applyBestRate}>Apply Best Rate</Btn>
+                  )}
                 </div>
               </div>
             </div>
@@ -534,33 +614,54 @@ function DealCard({ deal, updateDeal, onMarkSold, openCredit, isOpen, onToggle, 
 /* ─────────────────────────────────────────────────────────────────── */
 
 export function DealsTab({ deals, setDeals, inventory, onMarkSold, flash }) {
+  const cfg = useAdminConfig();
+  const dealerSlug = cfg?.dealerSlug || 'demo';
+
   const [expanded, setExpanded] = useState(deals[0]?.id || null);
   const [filter, setFilter] = useState('active');
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(25);
-  const [creditDeal, setCreditDeal] = useState(null);   // deal awaiting credit pre-qual
+  const [creditDeal, setCreditDeal] = useState(null);
   const [creditForm, setCreditForm] = useState({ ssn: '', dob: '', address: '', income: '' });
   const [creditState, setCreditState] = useState('idle'); // idle | loading | result
   const [creditResult, setCreditResult] = useState(null);
 
-  const runSoftPull = () => {
+  const runSoftPull = async () => {
     setCreditState('loading');
-    setTimeout(() => {
-      const result = {
-        approved: true,
-        tier: 'Tier 1 — Excellent',
-        apr: 4.9,
-        maxAmount: 45000,
-        lender: 'Capital One Auto Finance'
-      };
-      setCreditResult(result);
-      setCreditState('result');
-    }, 2000);
+    try {
+      const res = await fetch(`/api/dealer/${dealerSlug}/integrations/credit`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'pull',
+          type: 'soft',
+          customerName: creditDeal?.customerName || 'Customer',
+          ssn: creditForm.ssn || '000-00-0000',
+          dob: creditForm.dob || '1990-01-01',
+          address: creditForm.address,
+          monthlyIncome: Number(creditForm.income) || 0,
+        }),
+      });
+      const data = await res.json();
+      if (data.ok && data.result) {
+        setCreditResult(data.result);
+        setCreditState('result');
+      } else {
+        setCreditState('idle');
+        flash('Credit pull failed — check integration settings');
+      }
+    } catch {
+      setCreditState('idle');
+      flash('Credit pull failed — network error');
+    }
   };
   const applyCreditResult = () => {
     if (creditResult && creditDeal) {
-      setDeals(arr => arr.map(d => d.id === creditDeal.id ? { ...d, apr: creditResult.apr, lender: creditResult.lender, preApproved: true } : d));
-      flash(`Pre-approved at ${creditResult.apr}% — APR auto-filled`);
+      setDeals(arr => arr.map(d => d.id === creditDeal.id
+        ? { ...d, apr: creditResult.estimatedApr ?? creditResult.apr, lender: creditResult.bureau || '700Credit', preApproved: true }
+        : d,
+      ));
+      flash(`Pre-approved at ${creditResult.estimatedApr ?? creditResult.apr}% — APR auto-filled`);
     }
     closeCredit();
   };
@@ -684,6 +785,7 @@ export function DealsTab({ deals, setDeals, inventory, onMarkSold, flash }) {
               isOpen={expanded === deal.id}
               onToggle={() => setExpanded(expanded === deal.id ? null : deal.id)}
               flash={flash}
+              dealerSlug={dealerSlug}
             />
           ))}
           <Card><Paginator total={filtered.length} page={page} pageSize={pageSize} onPage={setPage} onPageSize={setPageSize} label="deal" /></Card>
@@ -738,18 +840,52 @@ export function DealsTab({ deals, setDeals, inventory, onMarkSold, flash }) {
               )}
               {creditState === 'result' && creditResult && (
                 <div className="space-y-3">
-                  <div className="rounded-md p-4" style={{ backgroundColor: '#D1FAE5', border: '1px solid #10B981' }}>
-                    <div className="text-2xl font-display font-bold text-emerald-800 mb-1">✓ PRE-APPROVED</div>
-                    <div className="text-xs text-emerald-700">{creditResult.lender}</div>
+                  {creditResult.approved ? (
+                    <div className="rounded-md p-4" style={{ backgroundColor: '#D1FAE5', border: '1px solid #10B981' }}>
+                      <div className="text-xl font-display font-bold text-emerald-800 mb-0.5">✓ PRE-APPROVED</div>
+                      <div className="text-xs text-emerald-700">{creditResult.bureau} · Pull ID: {creditResult.pullId}</div>
+                    </div>
+                  ) : (
+                    <div className="rounded-md p-4 bg-red-50 border border-red-200">
+                      <div className="text-xl font-display font-bold text-red-700">✗ Not Approved</div>
+                    </div>
+                  )}
+                  {creditResult.creditScore && (
+                    <div className="flex items-center gap-3">
+                      <div className="text-4xl font-display font-bold tabular"
+                        style={{ color: creditResult.creditScore >= 750 ? '#059669' : creditResult.creditScore >= 700 ? '#2563EB' : creditResult.creditScore >= 650 ? '#D97706' : '#DC2626' }}>
+                        {creditResult.creditScore}
+                      </div>
+                      <div>
+                        <div className="text-[10px] smallcaps text-stone-500">Credit Score</div>
+                        <div className="text-xs font-semibold">{creditResult.tier} — {creditResult.creditScore >= 750 ? 'Excellent' : creditResult.creditScore >= 700 ? 'Good' : creditResult.creditScore >= 650 ? 'Fair' : 'Poor'}</div>
+                        <div className="text-[10px] text-stone-400">{creditResult.bureau}</div>
+                      </div>
+                    </div>
+                  )}
+                  <div className="grid grid-cols-2 gap-3 text-sm">
+                    <div><div className="text-[10px] smallcaps font-semibold" style={{ color: 'var(--text-muted)' }}>Max Approved</div><div className="font-semibold tabular">${(creditResult.maxAmount || 0).toLocaleString()}</div></div>
+                    <div><div className="text-[10px] smallcaps font-semibold" style={{ color: 'var(--text-muted)' }}>Est. APR</div><div className="font-semibold tabular" style={{ color: GOLD }}>{creditResult.estimatedApr}%</div></div>
                   </div>
-                  <div className="grid grid-cols-3 gap-3 text-sm">
-                    <div><div className="text-[10px] smallcaps font-semibold" style={{ color: 'var(--text-muted)' }}>Tier</div><div className="font-semibold">{creditResult.tier.split(' — ')[0]}</div></div>
-                    <div><div className="text-[10px] smallcaps font-semibold" style={{ color: 'var(--text-muted)' }}>APR</div><div className="font-semibold tabular" style={{ color: GOLD }}>{creditResult.apr}%</div></div>
-                    <div><div className="text-[10px] smallcaps font-semibold" style={{ color: 'var(--text-muted)' }}>Max Approved</div><div className="font-semibold tabular">${creditResult.maxAmount.toLocaleString()}</div></div>
+                  {Array.isArray(creditResult.factors) && creditResult.factors.length > 0 && (
+                    <div className="bg-stone-50 border border-stone-200 rounded-md p-3">
+                      <div className="text-[10px] smallcaps font-semibold text-stone-500 mb-2">Credit Factors</div>
+                      <ul className="space-y-1">
+                        {creditResult.factors.map((f) => (
+                          <li key={f} className="text-[11px] text-stone-600 flex items-start gap-1.5">
+                            <span className="text-stone-300 shrink-0">·</span>{f}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  <div className="pt-1">
+                    <button disabled
+                      className="w-full text-left text-[11px] px-3 py-2 border border-stone-200 rounded-md text-stone-400 cursor-not-allowed flex items-center justify-between">
+                      <span>Run Hard Pull</span>
+                      <span className="text-[10px] text-stone-300">700Credit Premium — impacts credit score</span>
+                    </button>
                   </div>
-                  <p className="text-[10px] mt-3" style={{ color: 'var(--text-muted)' }}>
-                    In production, connected to <strong>700Credit / RouteOne</strong> for real-time lender decisions.
-                  </p>
                 </div>
               )}
             </div>

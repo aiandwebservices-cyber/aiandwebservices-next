@@ -116,6 +116,28 @@ export function FleetCard({ v, priceMode, onView, onBuildDeal, isSaved, onToggle
           }}>{v.eng} · {v.tx}</div>
         </div>
 
+        {/* History badges — derived from v.flags[] OR explicit booleans */}
+        {(() => {
+          const flagsArr = Array.isArray(v.flags) ? v.flags.map(f => String(f).toUpperCase()) : [];
+          const has = (s) => flagsArr.some(f => f.includes(s));
+          const items = [
+            { show: !!v.noAccidents || has('NO ACCIDENT'),  label: 'No Accidents' },
+            { show: !!v.oneOwner    || has('ONE-OWNER') || has('ONE OWNER'), label: '1-Owner' },
+            { show: !!v.cleanTitle  || has('CLEAN TITLE'),  label: 'Clean Title' },
+          ].filter(x => x.show);
+          if (items.length === 0) return null;
+          return (
+            <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginTop: 8 }}>
+              {items.map(it => (
+                <span key={it.label} style={{
+                  fontFamily: FONT_MONO, fontSize: 9, letterSpacing: 1,
+                  color: '#22C55E', fontWeight: 700,
+                }}>✓ {it.label.toUpperCase()}</span>
+              ))}
+            </div>
+          );
+        })()}
+
         {/* price + payment - always shown */}
         <div style={{
           marginTop: 'auto', paddingTop: 10,

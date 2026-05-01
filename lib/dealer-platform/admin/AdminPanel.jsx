@@ -453,6 +453,8 @@ function AdminPanelBody({ config, slug }) {
               />}
               {activeTab === 'addVehicle' && <VehicleFormTab
                 vehicle={editingVehicleId ? inventory.find(v => v.id === editingVehicleId) : null}
+                settings={settings}
+                setActiveTab={setActiveTab}
                 flash={flash}
                 onSave={(v, addAnother) => {
                   if (editingVehicleId) {

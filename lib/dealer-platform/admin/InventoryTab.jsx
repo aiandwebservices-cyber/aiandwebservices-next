@@ -613,6 +613,27 @@ export function InventoryTab({ inventory, setInventory, updateVehicle, removeVeh
                           </>
                         )}
                       </div>
+                      {/* History badge pills */}
+                      {(v.history?.noAccidents || v.history?.oneOwner || v.history?.cleanTitle || v.history?.serviceRecords) && (
+                        <div className="flex items-center gap-1.5 mt-1 flex-wrap">
+                          {v.history?.noAccidents && (
+                            <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-semibold rounded"
+                              style={{ background: '#ECFDF5', color: '#065F46' }}>✓ No Accidents</span>
+                          )}
+                          {v.history?.oneOwner && (
+                            <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-semibold rounded"
+                              style={{ background: '#EFF6FF', color: '#1E40AF' }}>✓ 1-Owner</span>
+                          )}
+                          {v.history?.cleanTitle && (
+                            <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-semibold rounded"
+                              style={{ background: '#ECFDF5', color: '#065F46' }}>✓ Clean Title</span>
+                          )}
+                          {v.history?.serviceRecords && (
+                            <span className="inline-flex items-center gap-0.5 px-1.5 py-0.5 text-[10px] font-semibold rounded"
+                              style={{ background: '#F3F4F6', color: '#374151' }}>✓ Records</span>
+                          )}
+                        </div>
+                      )}
                     </td>
                     <td className="px-3 py-3 text-stone-600">{v.trim}</td>
                     <td className="px-3 py-3 text-right tabular">

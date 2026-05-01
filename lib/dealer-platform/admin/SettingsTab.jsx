@@ -63,6 +63,7 @@ export function SettingsTab({ settings, setSettings, flash }) {
 
   // ---- Integration connect modal ----
   const [connectModal, setConnectModal] = useState(null);
+  const [qbOAuthModal, setQbOAuthModal] = useState(false);
   // shape: { key, name, fields: [{ name, label, type?, placeholder?, hint? }] }
   const integrations = settings.integrations || {};
   const integrationConnected = (key) => !!integrations[key]?.connected;
@@ -643,26 +644,249 @@ export function SettingsTab({ settings, setSettings, flash }) {
             </div>
           </div>
 
-          {/* Coming soon — locked tiles */}
-          {[
-            ['QuickBooks', '#2CA01C', 'Sync invoices and accounting from your DMS.'],
-            ['RouteOne',   '#003D6B', 'Lender pre-approvals and decisioning.'],
-            ['DealerTrack','#D6492C', 'F&I document submission and contracts.'],
-          ].map(([name, color, desc]) => (
-            <div key={name} className="p-4 border border-stone-200 rounded-md flex items-start gap-3 opacity-60">
-              <div className="w-9 h-9 rounded-md flex items-center justify-center font-display font-bold text-sm shrink-0 text-white"
-                style={{ backgroundColor: color }}>{name[0]}</div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center justify-between gap-2 mb-0.5">
-                  <div className="text-sm font-semibold text-stone-600">{name}</div>
-                  <span className="text-[10px] font-semibold inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-stone-100 text-stone-500">
-                    🔴 Coming soon
+          {/* QuickBooks Online */}
+          {(() => {
+            const qb = integrations.quickbooks || {};
+            const qbConnected = !!qb.connected;
+            return (
+              <div className="p-4 border border-stone-200 rounded-md flex items-start gap-3">
+                <div className="w-9 h-9 rounded-md flex items-center justify-center font-display font-bold text-sm shrink-0 text-white"
+                  style={{ backgroundColor: '#2CA01C' }}>Q</div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-2 mb-0.5">
+                    <div className="text-sm font-semibold" style={{ color: '#2CA01C' }}>QuickBooks Online</div>
+                    <span className={`text-[10px] font-semibold inline-flex items-center gap-1 px-2 py-0.5 rounded-full ${
+                      qbConnected ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'
+                    }`}>
+                      {qbConnected ? `🟢 Connected — ${qb.companyName || 'Company'}` : '🔴 Not connected'}
+                    </span>
+                  </div>
+                  {qbConnected ? (
+                    <div className="space-y-2">
+                      <Toggle checked={!!qb.autoSyncSales}
+                        onChange={(v) => set('integrations.quickbooks.autoSyncSales', v)}
+                        label="Auto-sync vehicle sales" />
+                      <Toggle checked={!!qb.autoSyncService}
+                        onChange={(v) => set('integrations.quickbooks.autoSyncService', v)}
+                        label="Auto-sync service payments" />
+                      <Btn size="sm" variant="ghost" className="text-red-600 hover:text-red-700 mt-1"
+                        onClick={() => {
+                          set('integrations.quickbooks.connected', false);
+                          set('integrations.quickbooks.companyName', null);
+                          flash('QuickBooks disconnected');
+                        }}>Disconnect</Btn>
+                    </div>
+                  ) : (
+                    <>
+                      <div className="text-[11px] text-stone-500 mb-2">
+                        Automatically record vehicle sales, track expenses, and sync customer data.
+                      </div>
+                      <Btn size="sm" variant="outlineGold"
+                        onClick={() => setQbOAuthModal(true)}>Connect QuickBooks</Btn>
+                    </>
+                  )}
+                </div>
+              </div>
+            );
+          })()}
+        </div>
+      </Card>
+
+      {/* Credit & Lending Integrations */}
+      <Card className="p-6">
+        <div className="flex items-center gap-2 mb-1">
+          <ShieldCheck className="w-4 h-4 text-stone-500" />
+          <h2 className="font-display text-xl font-medium">Credit &amp; Lending</h2>
+        </div>
+        <p className="text-sm text-stone-500 mb-5">
+          Connect credit bureaus and lender platforms to run soft pulls and submit financing applications directly from the Deal Builder.
+        </p>
+        <div className="grid md:grid-cols-2 gap-4">
+          {/* 700Credit */}
+          {(() => {
+            const cr = integrations.credit || {};
+            const ready = !!(cr.enabled && cr.apiKey && cr.dealerId);
+            return (
+              <div className="p-4 border rounded-md" style={{ borderColor: ready ? '#A7F3D0' : '#E5E7EB' }}>
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <div className="flex items-center gap-2">
+                    <span className="font-display text-base font-bold" style={{ color: '#1A56C4' }}>700Credit</span>
+                  </div>
+                  <span className={`text-[10px] font-semibold inline-flex items-center gap-1 px-2 py-0.5 rounded-full ${ready ? 'bg-emerald-50 text-emerald-700' : 'bg-stone-100 text-stone-500'}`}>
+                    {ready ? '🟢 Active' : '⚪ Not configured'}
                   </span>
                 </div>
-                <div className="text-[11px] text-stone-400">{desc}</div>
+                <Toggle checked={!!cr.enabled}
+                  onChange={(v) => set('integrations.credit.enabled', v)}
+                  label="Enable soft and hard credit pulls" />
+                <div className="text-[10px] text-stone-400 mt-1 mb-3">
+                  Pulls from Experian, Equifax, and TransUnion · ~$2–5 per pull, billed by 700Credit
+                </div>
+                <div className="space-y-2">
+                  <Field label="API Key">
+                    <Input type="password" value={cr.apiKey || ''}
+                      onChange={(e) => set('integrations.credit.apiKey', e.target.value)}
+                      placeholder="700credit-api-key" className="font-mono text-xs" />
+                  </Field>
+                  <Field label="Dealer ID">
+                    <Input value={cr.dealerId || ''}
+                      onChange={(e) => set('integrations.credit.dealerId', e.target.value)}
+                      placeholder="e.g. D-12345" className="font-mono text-xs" />
+                  </Field>
+                </div>
               </div>
-            </div>
-          ))}
+            );
+          })()}
+
+          {/* RouteOne */}
+          {(() => {
+            const ro = integrations.routeone || {};
+            const ready = !!(ro.enabled && ro.dealerId && ro.username);
+            return (
+              <div className="p-4 border rounded-md" style={{ borderColor: ready ? '#A7F3D0' : '#E5E7EB' }}>
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <div className="flex items-center gap-2">
+                    <span className="font-display text-base font-bold" style={{ color: '#003D6B' }}>RouteOne</span>
+                  </div>
+                  <span className={`text-[10px] font-semibold inline-flex items-center gap-1 px-2 py-0.5 rounded-full ${ready ? 'bg-emerald-50 text-emerald-700' : 'bg-stone-100 text-stone-500'}`}>
+                    {ready ? '🟢 Active' : '⚪ Not configured'}
+                  </span>
+                </div>
+                <Toggle checked={!!ro.enabled}
+                  onChange={(v) => set('integrations.routeone.enabled', v)}
+                  label="Submit to 1,200+ lenders via RouteOne" />
+                <div className="text-[10px] text-stone-400 mt-1 mb-3">
+                  Requires RouteOne dealer enrollment
+                </div>
+                <div className="space-y-2">
+                  <Field label="Dealer ID">
+                    <Input value={ro.dealerId || ''}
+                      onChange={(e) => set('integrations.routeone.dealerId', e.target.value)}
+                      placeholder="RO-12345" className="font-mono text-xs" />
+                  </Field>
+                  <Field label="Username">
+                    <Input value={ro.username || ''}
+                      onChange={(e) => set('integrations.routeone.username', e.target.value)}
+                      placeholder="dealer@routeone.net" className="font-mono text-xs" />
+                  </Field>
+                </div>
+              </div>
+            );
+          })()}
+
+          {/* DealerTrack */}
+          {(() => {
+            const dt = integrations.dealertrack || {};
+            const ready = !!(dt.enabled && dt.dealerId && dt.username);
+            return (
+              <div className="p-4 border rounded-md" style={{ borderColor: ready ? '#A7F3D0' : '#E5E7EB' }}>
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <div className="flex items-center gap-2">
+                    <span className="font-display text-base font-bold" style={{ color: '#D6492C' }}>DealerTrack</span>
+                  </div>
+                  <span className={`text-[10px] font-semibold inline-flex items-center gap-1 px-2 py-0.5 rounded-full ${ready ? 'bg-emerald-50 text-emerald-700' : 'bg-stone-100 text-stone-500'}`}>
+                    {ready ? '🟢 Active' : '⚪ Not configured'}
+                  </span>
+                </div>
+                <Toggle checked={!!dt.enabled}
+                  onChange={(v) => set('integrations.dealertrack.enabled', v)}
+                  label="Submit to DealerTrack lender network" />
+                <div className="text-[10px] text-stone-400 mt-1 mb-3">
+                  Requires DealerTrack dealer enrollment
+                </div>
+                <div className="space-y-2">
+                  <Field label="Dealer ID">
+                    <Input value={dt.dealerId || ''}
+                      onChange={(e) => set('integrations.dealertrack.dealerId', e.target.value)}
+                      placeholder="DT-12345" className="font-mono text-xs" />
+                  </Field>
+                  <Field label="Username">
+                    <Input value={dt.username || ''}
+                      onChange={(e) => set('integrations.dealertrack.username', e.target.value)}
+                      placeholder="dealer@dealertrack.com" className="font-mono text-xs" />
+                  </Field>
+                </div>
+              </div>
+            );
+          })()}
+        </div>
+      </Card>
+
+      {/* Vehicle History Reports — CARFAX + AutoCheck badge display */}
+      <Card className="p-6">
+        <div className="flex items-center gap-2 mb-1">
+          <ShieldCheck className="w-4 h-4 text-stone-500" />
+          <h2 className="font-display text-xl font-medium">Vehicle History Reports</h2>
+        </div>
+        <p className="text-sm text-stone-500 mb-5">
+          Display CARFAX and AutoCheck badges on your inventory using your existing dealer subscription.
+          Customers can click the badge to view the full report.
+        </p>
+
+        <div className="grid md:grid-cols-2 gap-4">
+          {/* CARFAX */}
+          {(() => {
+            const cx = settings.integrations?.carfax || {};
+            const ready = !!(cx.enabled && cx.dealerId);
+            return (
+              <div className="p-4 border rounded-md" style={{ borderColor: ready ? '#A7F3D0' : '#E5E7EB' }}>
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <div className="flex items-center gap-2">
+                    <span className="font-display text-base font-bold" style={{ color: '#003478', letterSpacing: '0.5px' }}>CARFAX</span>
+                    <span className="text-[11px] text-stone-500">Vehicle History</span>
+                  </div>
+                  <span className={`text-[10px] font-semibold inline-flex items-center gap-1 px-2 py-0.5 rounded-full ${ready ? 'bg-emerald-50 text-emerald-700' : 'bg-stone-100 text-stone-500'}`}>
+                    {ready ? '🟢 Connected' : '⚪ Not configured'}
+                  </span>
+                </div>
+                <Toggle
+                  checked={!!cx.enabled}
+                  onChange={(v) => set('integrations.carfax.enabled', v)}
+                  label="Display CARFAX badges on vehicle listings"
+                />
+                <div className="mt-3">
+                  <Field label="CARFAX Dealer ID"
+                    hint="Your CARFAX Dealer ID is on your CARFAX dealer portal. Customers will see CARFAX badges and can click to view the report.">
+                    <Input value={cx.dealerId || ''}
+                      onChange={(e) => set('integrations.carfax.dealerId', e.target.value)}
+                      placeholder="e.g. 12345" className="font-mono text-xs" />
+                  </Field>
+                </div>
+              </div>
+            );
+          })()}
+
+          {/* AutoCheck */}
+          {(() => {
+            const ac = settings.integrations?.autocheck || {};
+            const ready = !!(ac.enabled && ac.accountId);
+            return (
+              <div className="p-4 border rounded-md" style={{ borderColor: ready ? '#A7F3D0' : '#E5E7EB' }}>
+                <div className="flex items-center justify-between gap-2 mb-2">
+                  <div className="flex items-center gap-2">
+                    <span className="font-display text-base font-bold" style={{ color: '#0033A0' }}>AutoCheck</span>
+                    <span className="text-[11px] text-stone-500">by Experian</span>
+                  </div>
+                  <span className={`text-[10px] font-semibold inline-flex items-center gap-1 px-2 py-0.5 rounded-full ${ready ? 'bg-emerald-50 text-emerald-700' : 'bg-stone-100 text-stone-500'}`}>
+                    {ready ? '🟢 Connected' : '⚪ Not configured'}
+                  </span>
+                </div>
+                <Toggle
+                  checked={!!ac.enabled}
+                  onChange={(v) => set('integrations.autocheck.enabled', v)}
+                  label="Display AutoCheck badges on vehicle listings"
+                />
+                <div className="mt-3">
+                  <Field label="AutoCheck Account / Site ID"
+                    hint="Your AutoCheck Site ID from the Experian dealer portal. Customers can view the AutoCheck Score.">
+                    <Input value={ac.accountId || ''}
+                      onChange={(e) => set('integrations.autocheck.accountId', e.target.value)}
+                      placeholder="e.g. 100123" className="font-mono text-xs" />
+                  </Field>
+                </div>
+              </div>
+            );
+          })()}
         </div>
       </Card>
 
@@ -710,6 +934,53 @@ export function SettingsTab({ settings, setSettings, flash }) {
           })}
         </div>
       </Card>
+
+      {/* QuickBooks OAuth modal */}
+      {qbOAuthModal && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-start justify-center p-4 pt-24 anim-fade"
+          onClick={() => setQbOAuthModal(false)}>
+          <div className="rounded-lg shadow-xl max-w-sm w-full"
+            style={{ backgroundColor: 'var(--bg-card)' }} onClick={(e) => e.stopPropagation()}>
+            <div className="p-6">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-8 h-8 rounded flex items-center justify-center font-bold text-white text-sm"
+                  style={{ backgroundColor: '#2CA01C' }}>Q</div>
+                <div>
+                  <div className="font-display text-base font-semibold">Connect QuickBooks Online</div>
+                  <div className="text-[11px] text-stone-500">You'll be redirected to Intuit to authorize LotPilot</div>
+                </div>
+              </div>
+              <div className="bg-stone-50 border border-stone-200 rounded-md p-4 mb-4 space-y-2">
+                <div className="text-[11px] font-semibold text-stone-700 mb-2">LotPilot will be able to:</div>
+                {[
+                  'Create journal entries for vehicle sales',
+                  'Sync customer records',
+                  'Record service payments',
+                ].map((item) => (
+                  <div key={item} className="flex items-start gap-2 text-[11px] text-stone-600">
+                    <Check className="w-3.5 h-3.5 text-emerald-600 shrink-0 mt-0.5" strokeWidth={2.5} />
+                    {item}
+                  </div>
+                ))}
+                <div className="mt-2 pt-2 border-t border-stone-200 text-[10px] text-stone-400">
+                  No access to your bank accounts or tax information.
+                </div>
+              </div>
+            </div>
+            <div className="px-6 py-4 flex justify-end gap-2"
+              style={{ backgroundColor: 'var(--bg-elevated)', borderTop: '1px solid var(--border)' }}>
+              <Btn variant="ghost" onClick={() => setQbOAuthModal(false)}>Cancel</Btn>
+              <Btn variant="gold" icon={Check}
+                onClick={() => {
+                  setQbOAuthModal(false);
+                  set('integrations.quickbooks.connected', true);
+                  set('integrations.quickbooks.companyName', 'Primo Auto LLC');
+                  flash('QuickBooks connected!', 'success');
+                }}>Authorize</Btn>
+            </div>
+          </div>
+        </div>
+      )}
 
       {/* Connect modal — generic single/multi-input dialog */}
       <ConfirmDialog

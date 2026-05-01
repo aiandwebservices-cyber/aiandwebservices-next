@@ -72,6 +72,10 @@ function computeCommission(sale, rules) {
 }
 
 export function SoldTab({ sold, setSold, onRestore, flash, settings, setSettings }) {
+  const cfg = useAdminConfig();
+  const dealerSlug = cfg?.dealerSlug || 'demo';
+  const qbConnected = !!(settings?.integrations?.quickbooks?.connected);
+
   const [reviewModal, setReviewModal] = useState(null);
   const [reviewMethod, setReviewMethod] = useState('email');
   const [confirmRestore, setConfirmRestore] = useState(null);
@@ -80,6 +84,27 @@ export function SoldTab({ sold, setSold, onRestore, flash, settings, setSettings
   const [selectedSold, setSelectedSold] = useState(new Set());
   const [expandedSold, setExpandedSold] = useState(null);
   const commissionRules = settings?.commission || {};
+
+  const syncToQB = async (sale) => {
+    try {
+      await fetch(`/api/dealer/${dealerSlug}/integrations/quickbooks`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          action: 'sync',
+          vehicleId: sale.id,
+          salePrice: sale.salePrice,
+          costBasis: sale.cost,
+          buyerName: sale.buyerName,
+          saleDate: sale.saleDate,
+        }),
+      });
+      setSold(arr => arr.map(s => s.id === sale.id ? { ...s, qbSynced: true } : s));
+      flash('Sale recorded in QuickBooks ✓');
+    } catch {
+      flash('QuickBooks sync failed');
+    }
+  };
 
   // Per-sale commission rows (memoized once per sold list).
   const commissionRows = useMemo(
@@ -295,12 +320,13 @@ export function SoldTab({ sold, setSold, onRestore, flash, settings, setSettings
                 <th className="px-3 py-2.5 text-right">Days</th>
                 <th className="px-3 py-2.5 text-left">Buyer</th>
                 <th className="px-3 py-2.5 text-left">Review</th>
+                {qbConnected && <th className="px-3 py-2.5 text-center">QB</th>}
                 <th className="px-3 py-2.5 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-stone-100">
               {sold.length === 0 ? (
-                <tr><td colSpan={12} className="text-center py-16 px-4">
+                <tr><td colSpan={qbConnected ? 13 : 12} className="text-center py-16 px-4">
                   <Archive className="w-10 h-10 mx-auto mb-3 text-stone-300" strokeWidth={1.5} />
                   <div className="font-display text-lg font-semibold text-stone-900 mb-1">No sold vehicles</div>
                   <div className="text-sm text-stone-500 max-w-xs mx-auto">Vehicles you mark as sold from inventory will appear here with full sale history.</div>
@@ -360,6 +386,20 @@ export function SoldTab({ sold, setSold, onRestore, flash, settings, setSettings
                           <span className="text-[11px] text-stone-400">Not sent</span>
                         )}
                       </td>
+                      {qbConnected && (
+                        <td className="px-3 py-3 text-center" onClick={(e) => e.stopPropagation()}>
+                          {s.qbSynced ? (
+                            <span className="inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-700 bg-emerald-50 border border-emerald-200 rounded px-1.5 py-0.5">
+                              QB ✓
+                            </span>
+                          ) : (
+                            <button className="text-[10px] text-stone-400 hover:text-emerald-700 underline underline-offset-2"
+                              onClick={() => syncToQB(s)}>
+                              Sync to QB
+                            </button>
+                          )}
+                        </td>
+                      )}
                       <td className="px-3 py-3 text-right" onClick={(e) => e.stopPropagation()}>
                         <div className="flex items-center justify-end gap-1">
                           {r.status === 'not-sent' && (
@@ -376,7 +416,7 @@ export function SoldTab({ sold, setSold, onRestore, flash, settings, setSettings
                     </tr>
                     {isOpen && (
                       <tr>
-                        <td colSpan={12} className="bg-stone-50 px-6 py-4 anim-slide">
+                        <td colSpan={qbConnected ? 13 : 12} className="bg-stone-50 px-6 py-4 anim-slide">
                           <div className="grid sm:grid-cols-2 gap-4 max-w-2xl">
                             <div className="bg-white border border-stone-200 rounded-md p-4 text-sm">
                               <div className="text-[10px] smallcaps font-semibold text-stone-500 mb-2 flex items-center gap-1.5">

@@ -150,7 +150,7 @@ const BLANK_VEHICLE = {
   inspection: null, inspectionDate: '', inspectionPassed: false,
 };
 
-export function VehicleFormTab({ vehicle, onSave, onCancel, flash }) {
+export function VehicleFormTab({ vehicle, onSave, onCancel, flash, settings, setActiveTab }) {
   const config = useAdminConfig();
   const isEdit = !!vehicle;
   const [form, setForm] = useState(() => vehicle ? { ...BLANK_VEHICLE, ...vehicle } : { ...BLANK_VEHICLE });
@@ -1034,6 +1034,71 @@ export function VehicleFormTab({ vehicle, onSave, onCancel, flash }) {
               </label>
             ))}
           </div>
+
+          {/* CARFAX / AutoCheck report links — pulls from dealer settings */}
+          {(() => {
+            const cx = settings?.integrations?.carfax || {};
+            const ac = settings?.integrations?.autocheck || {};
+            const cxReady = !!(cx.enabled && cx.dealerId);
+            const acReady = !!(ac.enabled && ac.accountId);
+            const vin = (form.vin || '').trim();
+            const hasVin = !!vin;
+            if (!cxReady && !acReady) {
+              return (
+                <div className="mt-4 p-3 rounded-md text-xs flex items-center gap-2"
+                  style={{ background: '#FFFBEB', border: '1px solid #FCD34D', color: '#92400E' }}>
+                  <AlertCircle className="w-3.5 h-3.5 shrink-0" />
+                  <span className="flex-1">
+                    Configure CARFAX or AutoCheck in Settings to display vehicle history badges on your listings.
+                  </span>
+                  <button type="button" onClick={() => setActiveTab && setActiveTab('settings')}
+                    className="text-xs font-semibold underline">Open Settings</button>
+                </div>
+              );
+            }
+            return (
+              <div className="mt-4 grid md:grid-cols-2 gap-3">
+                {cxReady && (
+                  <div className="p-3 rounded-md border" style={{ borderColor: '#A7F3D0', background: '#F0FDF4' }}>
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="font-display text-sm font-bold" style={{ color: '#003478' }}>CARFAX</span>
+                      <Check className="w-3.5 h-3.5" style={{ color: '#15803D' }} strokeWidth={3} />
+                      <span className="text-[11px] text-stone-600">enabled</span>
+                    </div>
+                    {hasVin ? (
+                      <a href={`https://www.carfax.com/VehicleHistory/p/Report.cfx?partner=DEL_${encodeURIComponent(cx.dealerId)}&vin=${encodeURIComponent(vin)}`}
+                        target="_blank" rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-1 rounded-md hover:bg-blue-100"
+                        style={{ background: '#DBEAFE', color: '#1E40AF' }}>
+                        Run CARFAX <ExternalLink className="w-3 h-3" />
+                      </a>
+                    ) : (
+                      <div className="text-[11px] text-stone-500">Add a VIN to generate the report link</div>
+                    )}
+                  </div>
+                )}
+                {acReady && (
+                  <div className="p-3 rounded-md border" style={{ borderColor: '#A7F3D0', background: '#F0FDF4' }}>
+                    <div className="flex items-center gap-2 mb-2">
+                      <span className="font-display text-sm font-bold" style={{ color: '#0033A0' }}>AutoCheck</span>
+                      <Check className="w-3.5 h-3.5" style={{ color: '#15803D' }} strokeWidth={3} />
+                      <span className="text-[11px] text-stone-600">enabled</span>
+                    </div>
+                    {hasVin ? (
+                      <a href={`https://www.autocheck.com/vehiclehistory/autocheck/actionForm?vin=${encodeURIComponent(vin)}&siteID=${encodeURIComponent(ac.accountId)}`}
+                        target="_blank" rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1.5 text-[11px] font-semibold px-2.5 py-1 rounded-md hover:bg-blue-100"
+                        style={{ background: '#DBEAFE', color: '#1E40AF' }}>
+                        Run AutoCheck <ExternalLink className="w-3 h-3" />
+                      </a>
+                    ) : (
+                      <div className="text-[11px] text-stone-500">Add a VIN to generate the report link</div>
+                    )}
+                  </div>
+                )}
+              </div>
+            );
+          })()}
         </Card>
 
         {/* DESCRIPTION */}

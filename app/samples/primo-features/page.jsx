@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef, useState } from 'react';
+import { Fragment, useEffect, useRef, useState } from 'react';
 import { Cormorant_Garamond, DM_Sans } from 'next/font/google';
 import {
   Check, Star, Phone, Mail, ArrowRight, ChevronDown, Lock,
@@ -959,6 +959,490 @@ function AiSavingsTable() {
   );
 }
 
+/* ── Choose Your Plan: tier data + feature matrix ───────────── */
+
+const PLAN_TIERS = [
+  {
+    key: 'growth',
+    name: 'Growth',
+    price: 699,
+    setup: 499,
+    target: '5–30 vehicles, 1 location, getting started',
+    featured: false,
+    intro: null,
+    features: [
+      'Custom dealer website',
+      'Admin panel + CRM',
+      'VIN decoder + NHTSA data',
+      'Photo management',
+      'Dark / light mode',
+      'AI chat agent (website)',
+      'AI description writer',
+      'AI review responder',
+      'Service scheduling',
+      '150-point inspection',
+      'Google reviews',
+      'CARFAX / AutoCheck badges',
+      'PWA installable dashboard',
+      'Email support',
+      'Vehicle limit: 50',
+    ],
+    locked: [
+      'AI SMS agent', 'AI lead scoring', 'AI price intelligence',
+      'AI follow-up sequences', 'Auto-pricing rules',
+      'Advanced desking', 'Stripe payments', 'Documents + forms',
+      'Credit pre-qualification', 'Salesperson assignment',
+      'Commission tracking', 'Recon pipeline', 'Listing syndication',
+      'n8n automation', 'QuickBooks', 'Mobile photo app',
+      'Push notifications', 'Owner dashboard mobile',
+      'Priority phone support',
+    ],
+  },
+  {
+    key: 'professional',
+    name: 'Professional',
+    price: 1199,
+    setup: 999,
+    target: '20–100 vehicles, full AI power, serious growth',
+    featured: true,
+    badge: 'Most dealers pick this',
+    intro: 'Everything in Growth plus:',
+    features: [
+      'AI SMS agent',
+      'AI lead scoring',
+      'AI price intelligence',
+      'AI follow-up sequences',
+      'Auto-pricing rules',
+      'Advanced desking (profit matrix)',
+      'Stripe deposits + payments',
+      'Documents + forms',
+      'Credit pre-qualification',
+      'Salesperson assignment + round-robin',
+      'Commission tracking',
+      'Recon pipeline (Kanban)',
+      'Listing syndication (Cars.com, AutoTrader, CarGurus, Facebook)',
+      'n8n automation workflows',
+      'QuickBooks integration',
+      'Mobile photo capture app',
+      'Push notifications',
+      'Owner dashboard (mobile)',
+      'Priority phone support',
+      'Unlimited vehicles',
+    ],
+    locked: [],
+  },
+  {
+    key: 'enterprise',
+    name: 'Enterprise',
+    price: 1799,
+    setup: 1999,
+    target: 'Multi-location, custom work, white glove',
+    featured: false,
+    intro: 'Everything in Professional plus:',
+    features: [
+      'Lender submission (RouteOne / DealerTrack)',
+      '700Credit bureau pulls',
+      'Multi-location support',
+      'Dedicated CRM instance',
+      'Custom integrations + API access',
+      'Dedicated account manager',
+      'SLA guarantee',
+      'Quarterly strategy review',
+      'Custom AI training',
+    ],
+    locked: [],
+  },
+];
+
+const MATRIX_GROUPS = [
+  {
+    label: 'Website + CRM',
+    rows: [
+      ['Custom dealer website',          'check', 'check', 'check'],
+      ['Admin panel + CRM',              'check', 'check', 'check'],
+      ['VIN decoder + NHTSA data',       'check', 'check', 'check'],
+      ['Photo management',               'check', 'check', 'check'],
+      ['Dark / light mode',              'check', 'check', 'check'],
+      ['Vehicle inventory limit',        '50',    'Unlimited', 'Unlimited'],
+    ],
+  },
+  {
+    label: 'AI Features',
+    rows: [
+      ['AI chat agent (website)',        'check', 'check', 'check'],
+      ['AI description writer',          'check', 'check', 'check'],
+      ['AI review responder',            'check', 'check', 'check'],
+      ['AI SMS agent',                   'pro',   'check', 'check'],
+      ['AI lead scoring',                'pro',   'check', 'check'],
+      ['AI price intelligence',          'pro',   'check', 'check'],
+      ['AI follow-up sequences',         'pro',   'check', 'check'],
+      ['Auto-pricing rules',             'pro',   'check', 'check'],
+    ],
+  },
+  {
+    label: 'Deal Flow + Payments',
+    rows: [
+      ['Basic deal builder',             'check', 'check', 'check'],
+      ['Advanced desking (profit matrix)', 'pro', 'check', 'check'],
+      ['Stripe deposits + payments',     'pro',   'check', 'check'],
+      ['Documents + forms',              'pro',   'check', 'check'],
+      ['Credit pre-qualification',       'pro',   'check', 'check'],
+      ['Lender submission (RouteOne)',   'ent',   'ent',   'check'],
+    ],
+  },
+  {
+    label: 'Operations',
+    rows: [
+      ['Service scheduling',             'check', 'check', 'check'],
+      ['Salesperson assignment',         'pro',   'check', 'check'],
+      ['Commission tracking',            'pro',   'check', 'check'],
+      ['Recon pipeline',                 'pro',   'check', 'check'],
+      ['150-point inspection',           'check', 'check', 'check'],
+      ['Listing syndication feeds',      'pro',   'check', 'check'],
+      ['n8n automation workflows',       'pro',   'check', 'check'],
+    ],
+  },
+  {
+    label: 'Integrations',
+    rows: [
+      ['Google reviews',                 'check', 'check', 'check'],
+      ['CARFAX / AutoCheck badges',      'check', 'check', 'check'],
+      ['QuickBooks integration',         'pro',   'check', 'check'],
+      ['700Credit bureau pulls',         'ent',   'ent',   'check'],
+      ['Multi-location support',         'ent',   'ent',   'check'],
+      ['Dedicated CRM instance',         'ent',   'ent',   'check'],
+      ['Custom integrations + API',      'ent',   'ent',   'check'],
+    ],
+  },
+  {
+    label: 'Mobile + Apps',
+    rows: [
+      ['PWA installable dashboard',      'check', 'check', 'check'],
+      ['Mobile photo capture app',       'pro',   'check', 'check'],
+      ['Push notifications',             'pro',   'check', 'check'],
+      ['Owner dashboard (mobile)',       'pro',   'check', 'check'],
+    ],
+  },
+  {
+    label: 'Support',
+    rows: [
+      ['Email support',                  'check', 'check', 'check'],
+      ['Priority phone support',         'pro',   'check', 'check'],
+      ['Dedicated account manager',      'ent',   'ent',   'check'],
+      ['SLA guarantee',                  'ent',   'ent',   'check'],
+    ],
+  },
+];
+
+function MatrixCell({ val, highlight }) {
+  if (val === 'check') {
+    return (
+      <div style={{ display: 'flex', justifyContent: 'center' }}>
+        <span style={{
+          display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+          width: 22, height: 22, borderRadius: '50%',
+          background: highlight ? `${GOLD}22` : '#4ADE8020',
+          border: `1px solid ${highlight ? `${GOLD}55` : '#4ADE8040'}`,
+        }}>
+          <Check size={12} color={highlight ? GOLD : '#4ADE80'} strokeWidth={3} />
+        </span>
+      </div>
+    );
+  }
+  if (val === 'pro') {
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <span style={{
+          fontSize: 10, fontWeight: 700, letterSpacing: '0.08em',
+          color: '#6f6555', whiteSpace: 'nowrap',
+        }}>Pro+</span>
+      </div>
+    );
+  }
+  if (val === 'ent') {
+    return (
+      <div style={{ textAlign: 'center' }}>
+        <span style={{
+          fontSize: 10, fontWeight: 700, letterSpacing: '0.08em',
+          color: '#6f6555', whiteSpace: 'nowrap',
+        }}>Ent</span>
+      </div>
+    );
+  }
+  // arbitrary string (e.g., "50", "Unlimited")
+  return (
+    <div style={{
+      textAlign: 'center', fontSize: 12, fontWeight: 600,
+      color: highlight ? GOLD : '#c8c0a8', whiteSpace: 'nowrap',
+    }}>{val}</div>
+  );
+}
+
+function ChooseYourPlanSection() {
+  const tierColStyle = (isFeatured) => ({
+    padding: '14px 12px', textAlign: 'center',
+    fontSize: 12, fontWeight: 700, letterSpacing: '0.04em',
+    color: isFeatured ? GOLD : MUTED,
+    background: isFeatured ? `${GOLD}12` : 'transparent',
+    borderBottom: `2px solid ${isFeatured ? `${GOLD}55` : '#ffffff0a'}`,
+    whiteSpace: 'nowrap',
+  });
+
+  return (
+    <section id="choose-your-plan" style={{
+      padding: '96px 0',
+      background: '#0a0a0a',
+      borderBottom: `1px solid ${GOLD}18`,
+      scrollMarginTop: 80,
+    }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 24px' }}>
+
+        {/* Header */}
+        <FadeSection>
+          <Label>Choose Your Plan</Label>
+          <div style={{ marginBottom: 52 }}>
+            <h2 style={{
+              fontFamily: "var(--font-cormorant), serif",
+              fontSize: 'clamp(36px, 5vw, 56px)',
+              fontWeight: 700, lineHeight: 1.05, color: TEXT, marginBottom: 16,
+            }}>Everything you need. One platform.</h2>
+            <p style={{ fontSize: 18, color: MUTED, lineHeight: 1.65, maxWidth: 680 }}>
+              Three plans, zero hidden fees. Every plan includes a custom dealer website,
+              full admin panel, and core AI features.
+            </p>
+          </div>
+        </FadeSection>
+
+        {/* Tier cards */}
+        <FadeSection delay={0.1}>
+          <div className="tier-grid"
+            style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 22, marginBottom: 64 }}>
+            {PLAN_TIERS.map((tier) => (
+              <div key={tier.key}
+                style={{
+                  borderRadius: 16, padding: 32,
+                  display: 'flex', flexDirection: 'column',
+                  position: 'relative', overflow: 'hidden',
+                  background: tier.featured ? '#0b0e08' : 'rgba(255,255,255,0.025)',
+                  border: tier.featured ? `2px solid ${GOLD}` : '1px solid rgba(255,255,255,0.08)',
+                  boxShadow: tier.featured ? `0 0 64px ${GOLD}18` : 'none',
+                }}>
+                {tier.badge && (
+                  <div style={{
+                    position: 'absolute', top: 0, right: 0,
+                    background: GOLD, color: '#080808',
+                    fontSize: 10, fontWeight: 800, letterSpacing: '0.1em',
+                    textTransform: 'uppercase', padding: '6px 14px',
+                    borderRadius: '0 14px 0 10px',
+                  }}>{tier.badge}</div>
+                )}
+
+                <div style={{ marginBottom: 18 }}>
+                  <div style={{
+                    fontSize: 11, fontWeight: 700, letterSpacing: '0.2em',
+                    textTransform: 'uppercase',
+                    color: tier.featured ? GOLD : MUTED, marginBottom: 12,
+                  }}>{tier.name}</div>
+                  <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, marginBottom: 6 }}>
+                    <span style={{
+                      fontFamily: "var(--font-cormorant), serif",
+                      fontSize: 48, fontWeight: 700,
+                      color: tier.featured ? GOLD : TEXT, lineHeight: 1,
+                    }}>${tier.price.toLocaleString()}</span>
+                    <span style={{ fontSize: 15, color: MUTED }}>/mo</span>
+                  </div>
+                  <div style={{ fontSize: 12, color: MUTED, marginBottom: 14 }}>
+                    ${tier.setup.toLocaleString()} one-time setup
+                  </div>
+                  <div style={{
+                    fontSize: 12, color: '#a09680', fontStyle: 'italic',
+                    lineHeight: 1.45, paddingBottom: 16,
+                    borderBottom: `1px solid ${tier.featured ? `${GOLD}22` : '#ffffff0c'}`,
+                  }}>{tier.target}</div>
+                </div>
+
+                {tier.intro && (
+                  <div style={{
+                    fontSize: 12, fontWeight: 700, color: tier.featured ? GOLD : '#a8a08c',
+                    letterSpacing: '0.04em', marginBottom: 12, textTransform: 'uppercase',
+                  }}>{tier.intro}</div>
+                )}
+
+                <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 8, marginBottom: 22 }}>
+                  {tier.features.map((label) => (
+                    <div key={label} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                      <div style={{
+                        width: 18, height: 18, borderRadius: '50%', flexShrink: 0, marginTop: 1,
+                        background: tier.featured ? `${GOLD}22` : 'rgba(74,222,128,0.15)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      }}>
+                        <Check size={10} color={tier.featured ? GOLD : '#4ADE80'} strokeWidth={3} />
+                      </div>
+                      <span style={{ fontSize: 13, lineHeight: 1.45, color: '#c8c0a8' }}>{label}</span>
+                    </div>
+                  ))}
+                  {tier.locked && tier.locked.length > 0 && (
+                    <>
+                      <div style={{
+                        fontSize: 10, fontWeight: 700, color: '#5a5145',
+                        letterSpacing: '0.1em', marginTop: 14, marginBottom: 4, textTransform: 'uppercase',
+                      }}>Not included — upgrade to unlock</div>
+                      {tier.locked.map((label) => (
+                        <div key={label} style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
+                          <Lock size={13} color="#4a4038" strokeWidth={2} style={{ marginTop: 2, flexShrink: 0 }} />
+                          <span style={{ fontSize: 12, lineHeight: 1.45, color: '#5a5145' }}>{label}</span>
+                          <span style={{
+                            fontSize: 9, fontWeight: 700, letterSpacing: '0.08em',
+                            color: '#6f6555', marginLeft: 'auto',
+                          }}>Pro+</span>
+                        </div>
+                      ))}
+                    </>
+                  )}
+                </div>
+
+                <a href="#" style={{
+                  display: 'block', textAlign: 'center',
+                  padding: '13px 0',
+                  background: tier.featured ? GOLD : 'transparent',
+                  border: `1px solid ${tier.featured ? GOLD : `${GOLD}44`}`,
+                  color: tier.featured ? '#080808' : TEXT,
+                  fontWeight: 700, fontSize: 14, borderRadius: 8,
+                  textDecoration: 'none', letterSpacing: '0.02em',
+                }}>
+                  {tier.featured ? 'Start with Professional' : `Choose ${tier.name}`}
+                </a>
+              </div>
+            ))}
+          </div>
+        </FadeSection>
+
+        {/* Feature matrix table */}
+        <FadeSection delay={0.15}>
+          <h3 style={{
+            fontFamily: "var(--font-cormorant), serif",
+            fontSize: 'clamp(24px, 3vw, 32px)', fontWeight: 700,
+            color: TEXT, marginBottom: 8,
+          }}>Compare every feature, side by side</h3>
+          <p style={{ fontSize: 14, color: MUTED, marginBottom: 28, lineHeight: 1.6 }}>
+            <span style={{ color: '#4ADE80', fontWeight: 700 }}>✓</span> = included ·
+            <span style={{ color: '#6f6555', fontWeight: 700, marginLeft: 6 }}>Pro+</span> = Professional or Enterprise ·
+            <span style={{ color: '#6f6555', fontWeight: 700, marginLeft: 6 }}>Ent</span> = Enterprise only
+          </p>
+          <div className="comp-table-scroll" style={{
+            border: '1px solid #ffffff0a', borderRadius: 12, overflow: 'hidden',
+            background: '#0d0d0d',
+          }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 640 }}>
+              <thead>
+                <tr>
+                  <th style={{
+                    padding: '14px 16px', textAlign: 'left',
+                    fontSize: 12, fontWeight: 700, color: MUTED,
+                    borderBottom: '2px solid #ffffff0a',
+                    letterSpacing: '0.04em',
+                  }}>Feature</th>
+                  <th style={tierColStyle(false)}>Growth<br /><span style={{ fontSize: 10, color: MUTED, fontWeight: 600 }}>$699/mo</span></th>
+                  <th style={tierColStyle(true)}>Professional<br /><span style={{ fontSize: 10, color: GOLD, fontWeight: 600 }}>$1,199/mo · most popular</span></th>
+                  <th style={tierColStyle(false)}>Enterprise<br /><span style={{ fontSize: 10, color: MUTED, fontWeight: 600 }}>$1,799/mo</span></th>
+                </tr>
+              </thead>
+              <tbody>
+                {MATRIX_GROUPS.map((group) => (
+                  <Fragment key={group.label}>
+                    <tr>
+                      <td colSpan={4} style={{
+                        padding: '14px 16px 8px',
+                        background: '#000000',
+                        fontSize: 10, fontWeight: 800, letterSpacing: '0.18em',
+                        textTransform: 'uppercase', color: GOLD,
+                        borderTop: `1px solid ${GOLD}22`,
+                        borderBottom: `1px solid ${GOLD}22`,
+                      }}>{group.label}</td>
+                    </tr>
+                    {group.rows.map(([feature, g, p, e], idx) => (
+                      <tr key={feature}
+                        style={{
+                          background: idx % 2 === 1 ? '#ffffff03' : 'transparent',
+                        }}>
+                        <td style={{
+                          padding: '12px 16px', fontSize: 13, color: '#c8c0a8',
+                          borderBottom: '1px solid #ffffff05',
+                        }}>{feature}</td>
+                        <td style={{
+                          padding: '12px 8px', borderBottom: '1px solid #ffffff05',
+                        }}><MatrixCell val={g} /></td>
+                        <td style={{
+                          padding: '12px 8px', borderBottom: '1px solid #ffffff05',
+                          background: `${GOLD}08`,
+                        }}><MatrixCell val={p} highlight /></td>
+                        <td style={{
+                          padding: '12px 8px', borderBottom: '1px solid #ffffff05',
+                        }}><MatrixCell val={e} /></td>
+                      </tr>
+                    ))}
+                  </Fragment>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </FadeSection>
+
+        {/* Callouts */}
+        <FadeSection delay={0.2}>
+          <div className="tier-grid"
+            style={{
+              display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: 18, marginTop: 56,
+            }}>
+            <div style={{
+              padding: 26, borderRadius: 14,
+              background: `linear-gradient(135deg, ${GOLD}10 0%, transparent 70%)`,
+              border: `1px solid ${GOLD}33`,
+            }}>
+              <div style={{
+                fontSize: 11, fontWeight: 700, letterSpacing: '0.18em',
+                textTransform: 'uppercase', color: GOLD, marginBottom: 12,
+              }}>Not sure which plan?</div>
+              <p style={{ fontSize: 14, color: '#c8c0a8', lineHeight: 1.6, marginBottom: 18 }}>
+                Start with Growth — upgrade anytime with zero downtime. Your data,
+                settings, and AI configurations carry over automatically.
+              </p>
+              <a href="#" style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                padding: '11px 20px',
+                background: GOLD, color: '#080808',
+                fontSize: 13, fontWeight: 700, borderRadius: 8,
+                textDecoration: 'none', letterSpacing: '0.02em',
+              }}>
+                Schedule a Demo <ArrowRight size={14} strokeWidth={2.5} />
+              </a>
+            </div>
+
+            <div style={{
+              padding: 26, borderRadius: 14,
+              background: 'rgba(255,255,255,0.025)',
+              border: '1px solid rgba(255,255,255,0.08)',
+            }}>
+              <div style={{
+                fontSize: 11, fontWeight: 700, letterSpacing: '0.18em',
+                textTransform: 'uppercase', color: '#a8a08c', marginBottom: 12,
+              }}>Already have a website?</div>
+              <p style={{ fontSize: 14, color: '#c8c0a8', lineHeight: 1.6, marginBottom: 14 }}>
+                LotPilot.ai can plug into your existing dealer website. Add our AI
+                chat agent, CRM, and admin panel without replacing your current site.
+              </p>
+              <p style={{ fontSize: 13, color: GOLD, fontWeight: 700 }}>
+                Ask us about our Overlay plan →
+              </p>
+            </div>
+          </div>
+        </FadeSection>
+
+      </div>
+    </section>
+  );
+}
+
 /* ── AI Showcase Section ──────────────────────────────────── */
 function AiShowcaseSection() {
   return (
@@ -1300,6 +1784,9 @@ export default function PrimoFeaturesPage() {
 
       {/* ─── COMPETITIVE COMPARISON (Section 1) ──────────── */}
       <CompetitiveSection />
+
+      {/* ─── CHOOSE YOUR PLAN (Section 1.5) ──────────────── */}
+      <ChooseYourPlanSection />
 
       {/* ─── AI SHOWCASE (Section 2) ─────────────────────── */}
       <AiShowcaseSection />

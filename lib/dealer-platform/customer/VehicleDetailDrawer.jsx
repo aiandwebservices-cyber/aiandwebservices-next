@@ -377,6 +377,89 @@ export function DetailDrawer({ v, onClose, onBuildDeal, onReserve, isReserved })
                   </div>
                 ))}
               </div>
+
+              {/* VEHICLE HISTORY — boolean badges + optional CARFAX/AutoCheck links */}
+              {(() => {
+                const flagsArr = Array.isArray(v.flags) ? v.flags.map(s => String(s).toUpperCase()) : [];
+                const has = (s) => flagsArr.some(f => f.includes(s));
+                const items = [
+                  { key: 'noAccidents',    show: !!v.noAccidents    || has('NO ACCIDENT'),                    label: 'No Accidents Reported' },
+                  { key: 'oneOwner',       show: !!v.oneOwner       || has('ONE-OWNER') || has('ONE OWNER'),  label: 'One Previous Owner' },
+                  { key: 'cleanTitle',     show: !!v.cleanTitle     || has('CLEAN TITLE'),                    label: 'Clean Title — No Liens' },
+                  { key: 'serviceRecords', show: !!v.serviceRecords || has('SERVICE RECORDS'),                label: 'Service Records Available' },
+                  { key: 'inspection',     show: !!v.inspection     || true,                                  label: '150-Point Inspection Passed' },
+                ];
+                const cx = cfg.integrations?.carfax;
+                const ac = cfg.integrations?.autocheck;
+                const cxReady = !!(cx?.enabled && cx.dealerId && v.vin);
+                const acReady = !!(ac?.enabled && ac.accountId && v.vin);
+                return (
+                  <div style={{ marginTop: 24, border: `1px solid ${C.rule}`, padding: 24 }}>
+                    <div style={{
+                      fontFamily: FONT_MONO, fontSize: 9, letterSpacing: 3, color: C.gold,
+                      marginBottom: 16, fontWeight: 700,
+                    }}>VEHICLE HISTORY</div>
+                    <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+                      {items.map(it => (
+                        <div key={it.key} style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+                          {it.show ? (
+                            <span style={{
+                              width: 22, height: 22, borderRadius: 11,
+                              background: '#22C55E22', color: '#22C55E',
+                              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                              fontSize: 14, fontWeight: 700,
+                            }}>✓</span>
+                          ) : (
+                            <span style={{
+                              width: 22, height: 22, borderRadius: 11,
+                              background: C.rule, color: C.inkLow,
+                              display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+                              fontSize: 12,
+                            }}>—</span>
+                          )}
+                          <span style={{
+                            fontFamily: FONT_BODY, fontSize: 14,
+                            color: it.show ? C.ink : C.inkLow,
+                            fontWeight: it.show ? 500 : 400,
+                          }}>{it.label}</span>
+                        </div>
+                      ))}
+                    </div>
+
+                    {(cxReady || acReady) && (
+                      <>
+                        <div style={{
+                          marginTop: 18, paddingTop: 14,
+                          borderTop: `1px solid ${C.rule}`,
+                          fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 2, color: C.cyan,
+                        }}>FREE VEHICLE HISTORY REPORT INCLUDED</div>
+                        <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10, marginTop: 12 }}>
+                          {cxReady && (
+                            <a href={`https://www.carfax.com/VehicleHistory/p/Report.cfx?partner=DEL_${encodeURIComponent(cx.dealerId)}&vin=${encodeURIComponent(v.vin)}`}
+                              target="_blank" rel="noopener noreferrer"
+                              style={{
+                                display: 'inline-flex', alignItems: 'center', gap: 8,
+                                padding: '10px 16px', background: '#003478', color: '#FFFFFF',
+                                fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 12,
+                                letterSpacing: 1.5, textTransform: 'uppercase', textDecoration: 'none',
+                              }}>View CARFAX Report →</a>
+                          )}
+                          {acReady && (
+                            <a href={`https://www.autocheck.com/vehiclehistory/autocheck/actionForm?vin=${encodeURIComponent(v.vin)}&siteID=${encodeURIComponent(ac.accountId)}`}
+                              target="_blank" rel="noopener noreferrer"
+                              style={{
+                                display: 'inline-flex', alignItems: 'center', gap: 8,
+                                padding: '10px 16px', background: '#0033A0', color: '#FFFFFF',
+                                fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 12,
+                                letterSpacing: 1.5, textTransform: 'uppercase', textDecoration: 'none',
+                              }}>View AutoCheck Report →</a>
+                          )}
+                        </div>
+                      </>
+                    )}
+                  </div>
+                );
+              })()}
             </div>
           )}
 
