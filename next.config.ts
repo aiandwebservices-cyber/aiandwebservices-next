@@ -119,15 +119,24 @@ const nextConfig: NextConfig = {
   async headers() {
     return [
       {
+        // Catch-all security headers; embed route overrides X-Frame-Options below.
         source: '/(.*)',
         headers: [
-          { key: 'X-Frame-Options', value: 'SAMEORIGIN' },
+          { key: 'X-Frame-Options',       value: 'SAMEORIGIN' },
           { key: 'X-Content-Type-Options', value: 'nosniff' },
-          { key: 'Referrer-Policy', value: 'strict-origin-when-cross-origin' },
-          { key: 'Permissions-Policy', value: 'camera=(), microphone=(), geolocation=()' },
+          { key: 'X-XSS-Protection',       value: '1; mode=block' },
+          { key: 'Referrer-Policy',        value: 'strict-origin-when-cross-origin' },
+          { key: 'Permissions-Policy',     value: 'camera=(self), microphone=(), geolocation=(self)' },
           ...(process.env.NODE_ENV === 'production'
             ? [{ key: 'Strict-Transport-Security', value: 'max-age=63072000; includeSubDomains; preload' }]
             : []),
+        ],
+      },
+      {
+        // Embed routes must be iframeable by dealer websites.
+        source: '/api/dealer/:dealerId/embed/:path*',
+        headers: [
+          { key: 'X-Frame-Options', value: 'ALLOWALL' },
         ],
       },
     ];
