@@ -9,13 +9,36 @@ import { useCustomerConfig } from './CustomerConfigContext';
 export function ReserveModal({ vehicle, onClose, onReserve }) {
   const [open, setOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState('');
+  const [rvName, setRvName] = useState('');
+  const [rvEmail, setRvEmail] = useState('');
+  const [rvPhone, setRvPhone] = useState('');
+  const config = useCustomerConfig();
   useEffect(() => { requestAnimationFrame(() => setOpen(true)); }, []);
   const close = () => { setOpen(false); setTimeout(onClose, 240); };
 
-  const submit = (e) => {
+  const submit = async (e) => {
     e.preventDefault();
-    onReserve(vehicle.id);
-    setSubmitted(true);
+    if (!rvName || (!rvEmail && !rvPhone)) return;
+    setSubmitting(true); setFormError('');
+    try {
+      const slug = config.dealerSlug || 'primo';
+      const res = await fetch(`/api/dealer/${slug}/reserve`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          vehicleId: vehicle.id,
+          customerName: rvName,
+          customerEmail: rvEmail,
+          customerPhone: rvPhone,
+          depositAmount: 500,
+        }),
+      });
+      const data = await res.json();
+      if (data.ok) { onReserve && onReserve(vehicle.id); setSubmitted(true); }
+      else setFormError(`Something went wrong. Call us at ${config.phone || 'the dealership'} for immediate help.`);
+    } catch { setFormError(`Something went wrong. Call us at ${config.phone || 'the dealership'} for immediate help.`); }
+    finally { setSubmitting(false); }
   };
 
   return (
@@ -112,10 +135,14 @@ export function ReserveModal({ vehicle, onClose, onReserve }) {
             </p>
 
             <div style={{ display: 'grid', gap: 14, marginBottom: 18 }}>
-              {[['NAME','text','Jane Doe'], ['EMAIL','email','you@email.com'], ['PHONE','tel','(305) 555-0123']].map(([lab, t, ph]) => (
+              {[
+                ['NAME',  'text',  'Jane Doe',          rvName,  setRvName],
+                ['EMAIL', 'email', 'you@email.com',     rvEmail, setRvEmail],
+                ['PHONE', 'tel',   '(305) 555-0123',    rvPhone, setRvPhone],
+              ].map(([lab, t, ph, val, setter]) => (
                 <div key={lab}>
                   <div style={{ fontFamily: FONT_MONO, fontSize: 9, letterSpacing: 2, color: C.inkLow, marginBottom: 4 }}>{lab}</div>
-                  <input type={t} placeholder={ph} required style={{
+                  <input type={t} placeholder={ph} value={val} onChange={e => setter(e.target.value)} style={{
                     width: '100%', background: 'transparent', border: 'none',
                     borderBottom: `1px solid ${C.rule2}`,
                     color: C.ink, fontFamily: FONT_DISPLAY, fontWeight: 600, fontSize: 16,
@@ -125,12 +152,19 @@ export function ReserveModal({ vehicle, onClose, onReserve }) {
               ))}
             </div>
 
-            <button type="submit" style={{
-              width: '100%', padding: 16, background: C.gold, color: '#08080A',
-              border: 'none', cursor: 'pointer',
+            {formError && (
+              <div style={{ marginBottom: 10, color: '#EF4444', fontFamily: FONT_BODY, fontSize: 13 }}>
+                {formError}
+              </div>
+            )}
+
+            <button type="submit" disabled={submitting} style={{
+              width: '100%', padding: 16, background: submitting ? C.rule2 : C.gold,
+              color: submitting ? C.inkLow : '#08080A',
+              border: 'none', cursor: submitting ? 'not-allowed' : 'pointer',
               fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 14, letterSpacing: 2,
               textTransform: 'uppercase',
-            }}>▸ Reserve Now · $500</button>
+            }}>{submitting ? 'Submitting...' : '▸ Reserve Now · $500'}</button>
 
             <div style={{
               marginTop: 14, padding: 12, background: C.bg2,

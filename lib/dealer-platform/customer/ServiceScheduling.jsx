@@ -9,6 +9,15 @@ import { useCustomerConfig } from './CustomerConfigContext';
 export function ServiceSchedule() {
   const [ref, seen] = useInView();
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState('');
+  const config = useCustomerConfig();
+  const [sv, setSv] = useState({
+    name: '', phone: '', email: '',
+    vYear: '2024', vMake: 'BMW', vModel: '',
+    serviceType: '', date: '', time: '8:00 AM', notes: '',
+  });
+  const sf = k => e => setSv(p => ({ ...p, [k]: e.target.value }));
 
   const services = [
     ['Oil Change & Filter',       49.95],
@@ -80,17 +89,48 @@ export function ServiceSchedule() {
                 }}>+ BOOK ANOTHER</button>
               </div>
             ) : (
-              <form onSubmit={(e) => { e.preventDefault(); setSubmitted(true); }}>
+              <form onSubmit={async (e) => {
+                e.preventDefault();
+                if (!sv.name || (!sv.email && !sv.phone)) return;
+                setSubmitting(true); setFormError('');
+                try {
+                  const slug = config.dealerSlug || 'primo';
+                  const [firstName, ...rest] = sv.name.trim().split(' ');
+                  const res = await fetch(`/api/dealer/${slug}/service`, {
+                    method: 'POST', headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                      customerName: sv.name,
+                      customerPhone: sv.phone,
+                      customerEmail: sv.email,
+                      vehicleYear: sv.vYear,
+                      vehicleMake: sv.vMake,
+                      vehicleModel: sv.vModel,
+                      serviceType: sv.serviceType || services[0][0],
+                      requestedDate: sv.date,
+                      requestedTime: sv.time,
+                      notes: sv.notes,
+                    }),
+                  });
+                  const data = await res.json();
+                  if (data.ok) setSubmitted(true);
+                  else setFormError(`Something went wrong. Call us at ${config.phone || 'the dealership'} for immediate help.`);
+                } catch { setFormError(`Something went wrong. Call us at ${config.phone || 'the dealership'} for immediate help.`); }
+                finally { setSubmitting(false); }
+              }}>
                 <div style={{
                   fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 2, color: C.cyan, marginBottom: 18,
                 }}>★ APPOINTMENT REQUEST</div>
 
                 {/* contact row */}
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 14, marginBottom: 14 }} className="srv-row3">
-                  {[['NAME', 'text', 'Jane Doe'], ['PHONE', 'tel', '(305) 555-0123'], ['EMAIL', 'email', 'you@email.com']].map(([lab, t, ph]) => (
+                  {[
+                    ['NAME',  'text',  'Jane Doe',       'name',  sv.name],
+                    ['PHONE', 'tel',   '(305) 555-0123', 'phone', sv.phone],
+                    ['EMAIL', 'email', 'you@email.com',  'email', sv.email],
+                  ].map(([lab, t, ph, key, val]) => (
                     <div key={lab}>
                       <div style={{ fontFamily: FONT_MONO, fontSize: 9, letterSpacing: 2, color: C.inkLow, marginBottom: 4 }}>{lab}</div>
-                      <input type={t} placeholder={ph} required style={{
+                      <input type={t} placeholder={ph} value={val} onChange={sf(key)} style={{
                         width: '100%', background: 'transparent', border: 'none',
                         borderBottom: `1px solid ${C.rule2}`,
                         color: C.ink, fontFamily: FONT_DISPLAY, fontWeight: 600, fontSize: 15,
@@ -104,7 +144,7 @@ export function ServiceSchedule() {
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: 14, marginBottom: 14 }} className="srv-row3">
                   <div>
                     <div style={{ fontFamily: FONT_MONO, fontSize: 9, letterSpacing: 2, color: C.inkLow, marginBottom: 4 }}>VEHICLE YEAR</div>
-                    <select style={{
+                    <select value={sv.vYear} onChange={sf('vYear')} style={{
                       width: '100%', appearance: 'none', background: 'transparent',
                       border: 'none', borderBottom: `1px solid ${C.rule2}`,
                       color: C.ink, fontFamily: FONT_DISPLAY, fontWeight: 600, fontSize: 15,
@@ -117,7 +157,7 @@ export function ServiceSchedule() {
                   </div>
                   <div>
                     <div style={{ fontFamily: FONT_MONO, fontSize: 9, letterSpacing: 2, color: C.inkLow, marginBottom: 4 }}>MAKE</div>
-                    <select style={{
+                    <select value={sv.vMake} onChange={sf('vMake')} style={{
                       width: '100%', appearance: 'none', background: 'transparent',
                       border: 'none', borderBottom: `1px solid ${C.rule2}`,
                       color: C.ink, fontFamily: FONT_DISPLAY, fontWeight: 600, fontSize: 15,
@@ -130,7 +170,7 @@ export function ServiceSchedule() {
                   </div>
                   <div>
                     <div style={{ fontFamily: FONT_MONO, fontSize: 9, letterSpacing: 2, color: C.inkLow, marginBottom: 4 }}>MODEL</div>
-                    <input type="text" placeholder="X5" required style={{
+                    <input type="text" placeholder="X5" value={sv.vModel} onChange={sf('vModel')} style={{
                       width: '100%', background: 'transparent', border: 'none',
                       borderBottom: `1px solid ${C.rule2}`,
                       color: C.ink, fontFamily: FONT_DISPLAY, fontWeight: 600, fontSize: 15,
@@ -142,14 +182,14 @@ export function ServiceSchedule() {
                 {/* service type */}
                 <div style={{ marginBottom: 14 }}>
                   <div style={{ fontFamily: FONT_MONO, fontSize: 9, letterSpacing: 2, color: C.inkLow, marginBottom: 4 }}>SERVICE TYPE</div>
-                  <select required style={{
+                  <select value={sv.serviceType} onChange={sf('serviceType')} style={{
                     width: '100%', appearance: 'none', background: 'transparent',
                     border: 'none', borderBottom: `1px solid ${C.rule2}`,
                     color: C.ink, fontFamily: FONT_DISPLAY, fontWeight: 600, fontSize: 15,
                     padding: '6px 0', cursor: 'pointer', letterSpacing: 0.5,
                   }}>
                     {services.map(([name, price]) => (
-                      <option key={name} style={{ background: C.panel }}>
+                      <option key={name} value={name} style={{ background: C.panel }}>
                         {name}{price === 0 ? '  ·  FREE' : price ? `  ·  $${price.toFixed(2)}` : ''}
                       </option>
                     ))}
@@ -160,7 +200,7 @@ export function ServiceSchedule() {
                 <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 14, marginBottom: 14 }}>
                   <div>
                     <div style={{ fontFamily: FONT_MONO, fontSize: 9, letterSpacing: 2, color: C.inkLow, marginBottom: 4 }}>PREFERRED DATE</div>
-                    <input type="date" required style={{
+                    <input type="date" value={sv.date} onChange={sf('date')} style={{
                       width: '100%', background: 'transparent', border: 'none',
                       borderBottom: `1px solid ${C.rule2}`,
                       color: C.ink, fontFamily: FONT_MONO, fontSize: 14,
@@ -169,7 +209,7 @@ export function ServiceSchedule() {
                   </div>
                   <div>
                     <div style={{ fontFamily: FONT_MONO, fontSize: 9, letterSpacing: 2, color: C.inkLow, marginBottom: 4 }}>PREFERRED TIME</div>
-                    <select required style={{
+                    <select value={sv.time} onChange={sf('time')} style={{
                       width: '100%', appearance: 'none', background: 'transparent',
                       border: 'none', borderBottom: `1px solid ${C.rule2}`,
                       color: C.ink, fontFamily: FONT_DISPLAY, fontWeight: 600, fontSize: 15,
@@ -185,7 +225,7 @@ export function ServiceSchedule() {
                 {/* notes */}
                 <div style={{ marginBottom: 18 }}>
                   <div style={{ fontFamily: FONT_MONO, fontSize: 9, letterSpacing: 2, color: C.inkLow, marginBottom: 4 }}>NOTES (OPTIONAL)</div>
-                  <textarea rows={3} placeholder="ANYTHING WE SHOULD KNOW..." style={{
+                  <textarea rows={3} placeholder="ANYTHING WE SHOULD KNOW..." value={sv.notes} onChange={sf('notes')} style={{
                     width: '100%', background: 'transparent', border: 'none',
                     borderBottom: `1px solid ${C.rule2}`,
                     color: C.ink, fontFamily: FONT_DISPLAY, fontWeight: 600, fontSize: 15,
@@ -193,12 +233,20 @@ export function ServiceSchedule() {
                   }} />
                 </div>
 
-                <button type="submit" style={{
+                {formError && (
+                  <div style={{ marginBottom: 10, color: '#EF4444', fontFamily: FONT_BODY, fontSize: 13 }}>
+                    {formError}
+                  </div>
+                )}
+
+                <button type="submit" disabled={submitting} style={{
                   width: '100%', padding: '16px 20px',
-                  background: C.gold, color: '#08080A', border: 'none', cursor: 'pointer',
+                  background: submitting ? C.rule2 : C.gold,
+                  color: submitting ? C.inkLow : '#08080A',
+                  border: 'none', cursor: submitting ? 'not-allowed' : 'pointer',
                   fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 14, letterSpacing: 2,
                   textTransform: 'uppercase',
-                }}>▸ Schedule Now</button>
+                }}>{submitting ? 'Submitting...' : '▸ Schedule Now'}</button>
               </form>
             )}
           </div>

@@ -13,6 +13,31 @@ export function Contact() {
   const addrCityState = `${(config.address?.city || '').toUpperCase()}, ${(config.address?.state || '').toUpperCase()} ${config.address?.zip || ''}`.trim();
   const [ref, seen] = useInView();
   const [driveZip, setDriveZip] = useState('');
+  const [cv, setCv] = useState({ name: '', phone: '', email: '', message: '' });
+  const cf = k => e => setCv(p => ({ ...p, [k]: e.target.value }));
+  const [submitting, setSubmitting] = useState(false);
+  const [submitted, setSubmitted] = useState(false);
+  const [formError, setFormError] = useState('');
+
+  const handleContact = async () => {
+    if (!cv.name || (!cv.email && !cv.phone)) return;
+    setSubmitting(true); setFormError('');
+    try {
+      const slug = config.dealerSlug || 'primo';
+      const [firstName, ...rest] = cv.name.trim().split(' ');
+      const res = await fetch(`/api/dealer/${slug}/lead`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          source: 'Contact', firstName, lastName: rest.join(' '),
+          email: cv.email, phone: cv.phone, message: cv.message,
+        }),
+      });
+      const data = await res.json();
+      if (data.ok) setSubmitted(true);
+      else setFormError(`Something went wrong. Call us at ${config.phone || 'the dealership'} for immediate help.`);
+    } catch { setFormError(`Something went wrong. Call us at ${config.phone || 'the dealership'} for immediate help.`); }
+    finally { setSubmitting(false); }
+  };
   const driveZipValid = /^\d{5}$/.test(driveZip);
   let driveMsg = null, driveTone = C.cyan;
   if (driveZipValid) {
@@ -166,39 +191,59 @@ export function Contact() {
               color: C.ink, letterSpacing: -0.3, marginBottom: 24,
             }}>WE REPLY WITHIN THE HOUR.</div>
 
-            <div style={{ display: 'grid', gap: 16 }}>
-              {[
-                { lab: 'NAME',     t: 'text',     ph: 'YOUR NAME' },
-                { lab: 'PHONE',    t: 'tel',      ph: '(305) 555-0123' },
-                { lab: 'EMAIL',    t: 'email',    ph: 'YOU@EMAIL.COM' },
-                { lab: 'MESSAGE',  t: 'textarea', ph: 'WHAT CAN WE HELP YOU FIND?' },
-              ].map(f => (
-                <div key={f.lab}>
-                  <div style={{ fontFamily: FONT_MONO, fontSize: 9, letterSpacing: 2, color: C.inkLow, marginBottom: 4 }}>{f.lab}</div>
-                  {f.t === 'textarea' ? (
-                    <textarea placeholder={f.ph} rows={4} style={{
-                      width: '100%', background: 'transparent', border: 'none',
-                      borderBottom: `1px solid ${C.rule2}`,
-                      color: C.ink, fontFamily: FONT_DISPLAY, fontWeight: 600, fontSize: 16,
-                      padding: '6px 0', resize: 'vertical',
-                    }} />
-                  ) : (
-                    <input type={f.t} placeholder={f.ph} style={{
-                      width: '100%', background: 'transparent', border: 'none',
-                      borderBottom: `1px solid ${C.rule2}`,
-                      color: C.ink, fontFamily: FONT_DISPLAY, fontWeight: 600, fontSize: 16,
-                      padding: '6px 0', letterSpacing: 0.5,
-                    }} />
-                  )}
+            {submitted ? (
+              <div style={{ padding: '32px 0', textAlign: 'center' }}>
+                <div style={{ fontSize: 48, marginBottom: 14 }}>✅</div>
+                <div style={{
+                  fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 20,
+                  color: C.ink, letterSpacing: -0.3, textTransform: 'uppercase', marginBottom: 8,
+                }}>Thanks {cv.name.split(' ')[0]}!</div>
+                <div style={{ fontFamily: FONT_BODY, color: C.inkDim, fontSize: 14, lineHeight: 1.55 }}>
+                  We'll be in touch shortly.
                 </div>
-              ))}
-              <button style={{
-                marginTop: 8, padding: 16,
-                background: C.red, color: C.ink, border: 'none', cursor: 'pointer',
-                fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 14, letterSpacing: 2,
-                textTransform: 'uppercase',
-              }}>▸ TRANSMIT</button>
-            </div>
+              </div>
+            ) : (
+              <div style={{ display: 'grid', gap: 16 }}>
+                {[
+                  { lab: 'NAME',    t: 'text',     ph: 'YOUR NAME',               key: 'name',    val: cv.name },
+                  { lab: 'PHONE',   t: 'tel',      ph: '(305) 555-0123',           key: 'phone',   val: cv.phone },
+                  { lab: 'EMAIL',   t: 'email',    ph: 'YOU@EMAIL.COM',            key: 'email',   val: cv.email },
+                  { lab: 'MESSAGE', t: 'textarea', ph: 'WHAT CAN WE HELP YOU FIND?', key: 'message', val: cv.message },
+                ].map(f => (
+                  <div key={f.lab}>
+                    <div style={{ fontFamily: FONT_MONO, fontSize: 9, letterSpacing: 2, color: C.inkLow, marginBottom: 4 }}>{f.lab}</div>
+                    {f.t === 'textarea' ? (
+                      <textarea placeholder={f.ph} rows={4} value={f.val} onChange={cf(f.key)} style={{
+                        width: '100%', background: 'transparent', border: 'none',
+                        borderBottom: `1px solid ${C.rule2}`,
+                        color: C.ink, fontFamily: FONT_DISPLAY, fontWeight: 600, fontSize: 16,
+                        padding: '6px 0', resize: 'vertical',
+                      }} />
+                    ) : (
+                      <input type={f.t} placeholder={f.ph} value={f.val} onChange={cf(f.key)} style={{
+                        width: '100%', background: 'transparent', border: 'none',
+                        borderBottom: `1px solid ${C.rule2}`,
+                        color: C.ink, fontFamily: FONT_DISPLAY, fontWeight: 600, fontSize: 16,
+                        padding: '6px 0', letterSpacing: 0.5,
+                      }} />
+                    )}
+                  </div>
+                ))}
+                {formError && (
+                  <div style={{ color: '#EF4444', fontFamily: FONT_BODY, fontSize: 13 }}>
+                    {formError}
+                  </div>
+                )}
+                <button onClick={handleContact} disabled={submitting} style={{
+                  marginTop: 8, padding: 16,
+                  background: submitting ? C.rule2 : C.red,
+                  color: submitting ? C.inkLow : C.ink,
+                  border: 'none', cursor: submitting ? 'not-allowed' : 'pointer',
+                  fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 14, letterSpacing: 2,
+                  textTransform: 'uppercase',
+                }}>{submitting ? 'Submitting...' : '▸ TRANSMIT'}</button>
+              </div>
+            )}
           </div>
         </div>
       </div>

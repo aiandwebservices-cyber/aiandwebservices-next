@@ -10,6 +10,19 @@ export function TradeIn() {
   const [ref, seen] = useInView();
   const [out, setOut] = useState(null);
   const [running, setRunning] = useState(false);
+  const config = useCustomerConfig();
+  const [tradeYear, setTradeYear] = useState('2024');
+  const [tradeMake, setTradeMake] = useState('TOYOTA');
+  const [tradeModel, setTradeModel] = useState('MODEL');
+  const [tradeMileage, setTradeMileage] = useState('<30K');
+  const [tradeCondition, setTradeCondition] = useState('');
+  const [tiFirstName, setTiFirstName] = useState('');
+  const [tiLastName, setTiLastName] = useState('');
+  const [tiEmail, setTiEmail] = useState('');
+  const [tiPhone, setTiPhone] = useState('');
+  const [tiSubmitting, setTiSubmitting] = useState(false);
+  const [tiSubmitted, setTiSubmitted] = useState(false);
+  const [tiError, setTiError] = useState('');
 
   const run = () => {
     setRunning(true);
@@ -18,6 +31,29 @@ export function TradeIn() {
       setOut({ low: 12400, high: 14200 });
       setRunning(false);
     }, 1100);
+  };
+
+  const handleTradeSubmit = async () => {
+    if (!tiFirstName || (!tiEmail && !tiPhone)) return;
+    setTiSubmitting(true); setTiError('');
+    try {
+      const slug = config.dealerSlug || 'primo';
+      const tradeEstimate = out ? Math.round((out.low + out.high) / 2) : 0;
+      const res = await fetch(`/api/dealer/${slug}/lead`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          source: 'TradeIn',
+          firstName: tiFirstName, lastName: tiLastName,
+          email: tiEmail, phone: tiPhone,
+          tradeYear, tradeMake, tradeModel, tradeMileage,
+          tradeCondition, tradeEstimate,
+        }),
+      });
+      const data = await res.json();
+      if (data.ok) setTiSubmitted(true);
+      else setTiError(`Something went wrong. Call us at ${config.phone || 'the dealership'} for immediate help.`);
+    } catch { setTiError(`Something went wrong. Call us at ${config.phone || 'the dealership'} for immediate help.`); }
+    finally { setTiSubmitting(false); }
   };
 
   return (
@@ -86,17 +122,17 @@ export function TradeIn() {
           {/* form rows */}
           <div style={{ padding: 24 }}>
             {[
-              { lab: 'YEAR',     opts: ['2024', '2023', '2022', '2021', '2020', 'OLDER'] },
-              { lab: 'MAKE',     opts: ['TOYOTA', 'HONDA', 'FORD', 'CHEVY', 'NISSAN', 'OTHER'] },
-              { lab: 'MODEL',    opts: ['MODEL'] },
-              { lab: 'MILEAGE',  opts: ['<30K', '30-60K', '60-100K', '>100K'] },
+              { lab: 'YEAR',    val: tradeYear,    setter: setTradeYear,    opts: ['2024', '2023', '2022', '2021', '2020', 'OLDER'] },
+              { lab: 'MAKE',    val: tradeMake,    setter: setTradeMake,    opts: ['TOYOTA', 'HONDA', 'FORD', 'CHEVY', 'NISSAN', 'OTHER'] },
+              { lab: 'MODEL',   val: tradeModel,   setter: setTradeModel,   opts: ['MODEL'] },
+              { lab: 'MILEAGE', val: tradeMileage, setter: setTradeMileage, opts: ['<30K', '30-60K', '60-100K', '>100K'] },
             ].map(d => (
               <div key={d.lab} style={{
                 display: 'grid', gridTemplateColumns: '120px 1fr',
                 alignItems: 'center', marginBottom: 12,
               }}>
                 <span style={{ color: C.cyan, fontSize: 11, letterSpacing: 1.5 }}>$ {d.lab}</span>
-                <select style={{
+                <select value={d.val} onChange={e => d.setter(e.target.value)} style={{
                   appearance: 'none', background: 'transparent',
                   border: 'none', borderBottom: `1px dashed ${C.rule2}`,
                   color: C.ink, fontFamily: FONT_MONO, fontSize: 13, padding: '6px 4px',
@@ -113,9 +149,11 @@ export function TradeIn() {
               <span style={{ color: C.cyan, fontSize: 11, letterSpacing: 1.5 }}>$ CONDITION</span>
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 4 }}>
                 {['EXC', 'GOOD', 'FAIR', 'POOR'].map(c => (
-                  <button key={c} style={{
-                    background: 'transparent', border: `1px solid ${C.rule2}`,
-                    color: C.inkDim, fontFamily: FONT_MONO, fontSize: 10,
+                  <button key={c} onClick={() => setTradeCondition(c)} style={{
+                    background: tradeCondition === c ? C.cyan : 'transparent',
+                    border: `1px solid ${tradeCondition === c ? C.cyan : C.rule2}`,
+                    color: tradeCondition === c ? C.bg : C.inkDim,
+                    fontFamily: FONT_MONO, fontSize: 10,
                     padding: '6px 0', cursor: 'pointer', letterSpacing: 1,
                   }}>{c}</button>
                 ))}
@@ -154,6 +192,49 @@ export function TradeIn() {
                 </div>
               )}
             </div>
+
+            {/* contact section — appears after estimate */}
+            {out && !tiSubmitted && (
+              <div style={{ marginTop: 20, borderTop: `1px dashed ${C.rule2}`, paddingTop: 18 }}>
+                <div style={{ color: C.gold, fontSize: 11, letterSpacing: 1.5, marginBottom: 12 }}>
+                  {'> LOCK IN YOUR ESTIMATE — ENTER YOUR INFO:'}
+                </div>
+                {[
+                  ['FIRST NAME', 'text',  tiFirstName, setTiFirstName],
+                  ['LAST NAME',  'text',  tiLastName,  setTiLastName],
+                  ['EMAIL',      'email', tiEmail,     setTiEmail],
+                  ['PHONE',      'tel',   tiPhone,     setTiPhone],
+                ].map(([lab, t, val, setter]) => (
+                  <div key={lab} style={{ display: 'grid', gridTemplateColumns: '120px 1fr', alignItems: 'center', marginBottom: 10 }}>
+                    <span style={{ color: C.cyan, fontSize: 11, letterSpacing: 1.5 }}>$ {lab}</span>
+                    <input type={t} value={val} onChange={e => setter(e.target.value)} style={{
+                      appearance: 'none', background: 'transparent',
+                      border: 'none', borderBottom: `1px dashed ${C.rule2}`,
+                      color: C.ink, fontFamily: FONT_MONO, fontSize: 13, padding: '6px 4px',
+                    }} />
+                  </div>
+                ))}
+                {tiError && (
+                  <div style={{ color: '#EF4444', fontSize: 11, marginBottom: 8 }}>{tiError}</div>
+                )}
+                <button onClick={handleTradeSubmit} disabled={tiSubmitting || !tiFirstName || (!tiEmail && !tiPhone)} style={{
+                  width: '100%', padding: '12px',
+                  background: (tiSubmitting || !tiFirstName || (!tiEmail && !tiPhone)) ? C.rule : C.gold,
+                  color: (tiSubmitting || !tiFirstName || (!tiEmail && !tiPhone)) ? C.inkLow : C.bg,
+                  border: 'none', cursor: (tiSubmitting || !tiFirstName || (!tiEmail && !tiPhone)) ? 'not-allowed' : 'pointer',
+                  fontFamily: FONT_MONO, fontSize: 12, fontWeight: 700, letterSpacing: 2,
+                  marginTop: 8,
+                }}>{tiSubmitting ? 'SUBMITTING...' : '▸ CLAIM MY ESTIMATE'}</button>
+              </div>
+            )}
+            {out && tiSubmitted && (
+              <div style={{ marginTop: 20, borderTop: `1px dashed ${C.rule2}`, paddingTop: 18 }}>
+                <div style={{ color: C.gold, fontSize: 11, letterSpacing: 1.5, lineHeight: 1.7 }}>
+                  {'> ✅ Thanks '}{tiFirstName}{'! We\'ll be in touch shortly.'}<br />
+                  {`> ESTIMATE VALID 7 DAYS`}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       </div>

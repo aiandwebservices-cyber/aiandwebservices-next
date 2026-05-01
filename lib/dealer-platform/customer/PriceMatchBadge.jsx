@@ -35,8 +35,34 @@ export function BeatPriceBadge({ onClick }) {
 export function BeatPriceModal({ onClose }) {
   const [open, setOpen] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState('');
+  const config = useCustomerConfig();
+  const [pm, setPm] = useState({ dealer: '', price: '', link: '', name: '', phone: '' });
+  const pf = k => e => setPm(p => ({ ...p, [k]: e.target.value }));
   useEffect(() => { requestAnimationFrame(() => setOpen(true)); }, []);
   const close = () => { setOpen(false); setTimeout(onClose, 240); };
+
+  const handlePriceMatch = async () => {
+    if (!pm.name || !pm.phone) return;
+    setSubmitting(true); setFormError('');
+    try {
+      const slug = config.dealerSlug || 'primo';
+      const [firstName, ...rest] = pm.name.trim().split(' ');
+      const res = await fetch(`/api/dealer/${slug}/lead`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          source: 'Contact', firstName, lastName: rest.join(' '),
+          phone: pm.phone,
+          message: `Price match request — competitor price: ${pm.price} at ${pm.dealer}${pm.link ? ` (${pm.link})` : ''}`,
+        }),
+      });
+      const data = await res.json();
+      if (data.ok) setSubmitted(true);
+      else setFormError(`Something went wrong. Call us at ${config.phone || 'the dealership'} for immediate help.`);
+    } catch { setFormError(`Something went wrong. Call us at ${config.phone || 'the dealership'} for immediate help.`); }
+    finally { setSubmitting(false); }
+  };
 
   return (
     <div onClick={close} style={{
@@ -98,15 +124,15 @@ export function BeatPriceModal({ onClose }) {
         ) : (
           <div style={{ padding: 24, display: 'grid', gap: 14 }}>
             {[
-              { lab: 'COMPETITOR DEALER', t: 'text', ph: 'Joe\'s Used Cars' },
-              { lab: 'COMPETITOR PRICE',  t: 'text', ph: '$38,500' },
-              { lab: 'LINK TO LISTING',   t: 'url',  ph: 'https://...' },
-              { lab: 'YOUR NAME',         t: 'text', ph: 'Jane Doe' },
-              { lab: 'PHONE',             t: 'tel',  ph: '(305) 555-0123' },
+              { lab: 'COMPETITOR DEALER', key: 'dealer', t: 'text', ph: "Joe's Used Cars" },
+              { lab: 'COMPETITOR PRICE',  key: 'price',  t: 'text', ph: '$38,500' },
+              { lab: 'LINK TO LISTING',   key: 'link',   t: 'url',  ph: 'https://...' },
+              { lab: 'YOUR NAME',         key: 'name',   t: 'text', ph: 'Jane Doe' },
+              { lab: 'PHONE',             key: 'phone',  t: 'tel',  ph: '(305) 555-0123' },
             ].map(f => (
               <div key={f.lab}>
                 <div style={{ fontFamily: FONT_MONO, fontSize: 9, letterSpacing: 2, color: C.inkLow, marginBottom: 4 }}>{f.lab}</div>
-                <input type={f.t} placeholder={f.ph} style={{
+                <input type={f.t} placeholder={f.ph} value={pm[f.key]} onChange={pf(f.key)} style={{
                   width: '100%', background: 'transparent', border: 'none',
                   borderBottom: `1px solid ${C.rule2}`,
                   color: C.ink, fontFamily: FONT_DISPLAY, fontWeight: 600, fontSize: 16,
@@ -114,12 +140,19 @@ export function BeatPriceModal({ onClose }) {
                 }} />
               </div>
             ))}
-            <button onClick={() => setSubmitted(true)} style={{
-              marginTop: 8, padding: 16, background: C.gold, color: '#08080A',
-              border: 'none', cursor: 'pointer',
+            {formError && (
+              <div style={{ color: '#EF4444', fontFamily: FONT_BODY, fontSize: 13 }}>
+                {formError}
+              </div>
+            )}
+            <button onClick={handlePriceMatch} disabled={submitting || !pm.name || !pm.phone} style={{
+              marginTop: 8, padding: 16,
+              background: (submitting || !pm.name || !pm.phone) ? C.rule2 : C.gold,
+              color: (submitting || !pm.name || !pm.phone) ? C.inkLow : '#08080A',
+              border: 'none', cursor: (submitting || !pm.name || !pm.phone) ? 'not-allowed' : 'pointer',
               fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 14, letterSpacing: 2,
               textTransform: 'uppercase',
-            }}>▸ Submit Price Match</button>
+            }}>{submitting ? 'Submitting...' : '▸ Submit Price Match'}</button>
           </div>
         )}
       </div>

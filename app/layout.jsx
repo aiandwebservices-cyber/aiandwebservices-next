@@ -1,7 +1,6 @@
 import './globals.css';
 import { Inter, Plus_Jakarta_Sans } from 'next/font/google';
 import Script from 'next/script';
-import CrispChat from '@/components/CrispChat';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import { OrganizationSchema, LocalBusinessSchema, WebSiteSchema, PersonSchema } from '@/components/Schema';
 
@@ -75,8 +74,6 @@ export default function RootLayout({ children }) {
           type="font/woff2"
           crossOrigin="anonymous"
         />
-        <link rel="preconnect" href="https://client.crisp.chat" />
-        <link rel="dns-prefetch" href="https://client.crisp.chat" />
         {/* Block browser scroll restoration before any rendering — must be synchronous */}
         <script dangerouslySetInnerHTML={{ __html: `
           if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
@@ -132,7 +129,6 @@ export default function RootLayout({ children }) {
           data-version="062024"
           strategy="afterInteractive"
         />
-        <CrispChat />
         <SpeedInsights />
       </body>
     </html>

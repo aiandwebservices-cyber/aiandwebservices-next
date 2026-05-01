@@ -6,6 +6,8 @@ import {
 } from './_internals';
 import { useCustomerConfig } from './CustomerConfigContext';
 import { QRBlock } from './QRCode';
+import { useDealerInventory } from './InventoryGrid';
+import { findSimilarVehicles } from '@/lib/dealer-platform/ai/similar-vehicles';
 
 export function DetailDrawer({ v, onClose, onBuildDeal, onReserve, isReserved }) {
   const [tab, setTab]   = useState('specs');
@@ -20,6 +22,63 @@ export function DetailDrawer({ v, onClose, onBuildDeal, onReserve, isReserved })
   const [textOpen, setTextOpen] = useState(false);
   const [textPhone, setTextPhone] = useState('');
   const [textSent, setTextSent] = useState(false);
+  // Form 1 — Get E-Price
+  const [epName, setEpName] = useState('');
+  const [epEmail, setEpEmail] = useState('');
+  const [epPhone, setEpPhone] = useState('');
+  const [epSubmitting, setEpSubmitting] = useState(false);
+  const [epSubmitted, setEpSubmitted] = useState(false);
+  const [epError, setEpError] = useState('');
+  // Form 4 — Test Drive
+  const [tdDate, setTdDate] = useState('');
+  const [tdTime, setTdTime] = useState('10:00 AM');
+  const [tdName, setTdName] = useState('');
+  const [tdPhone, setTdPhone] = useState('');
+  const [tdSubmitting, setTdSubmitting] = useState(false);
+  const [tdSubmitted, setTdSubmitted] = useState(false);
+  const [tdError, setTdError] = useState('');
+
+  const handleEPrice = async () => {
+    if (!epName || (!epEmail && !epPhone)) return;
+    setEpSubmitting(true); setEpError('');
+    try {
+      const [firstName, ...rest] = epName.trim().split(' ');
+      const res = await fetch(`/api/dealer/${dealerSlug}/lead`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          source: 'GetEPrice', firstName, lastName: rest.join(' '),
+          email: epEmail, phone: epPhone,
+          vehicleOfInterest: `${v.y} ${v.mk} ${v.md}`,
+          message: 'Requesting e-price',
+        }),
+      });
+      const data = await res.json();
+      if (data.ok) setEpSubmitted(true);
+      else setEpError(`Something went wrong. Call us at ${cfg.phone || 'the dealership'} for immediate help.`);
+    } catch { setEpError(`Something went wrong. Call us at ${cfg.phone || 'the dealership'} for immediate help.`); }
+    finally { setEpSubmitting(false); }
+  };
+
+  const handleTestDrive = async () => {
+    if (!tdName || !tdPhone) return;
+    setTdSubmitting(true); setTdError('');
+    try {
+      const [firstName, ...rest] = tdName.trim().split(' ');
+      const res = await fetch(`/api/dealer/${dealerSlug}/lead`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          source: 'TestDrive', firstName, lastName: rest.join(' '),
+          phone: tdPhone,
+          vehicleOfInterest: `${v.y} ${v.mk} ${v.md}`,
+          message: `Test drive requested for ${tdDate || 'TBD'} at ${tdTime}`,
+        }),
+      });
+      const data = await res.json();
+      if (data.ok) setTdSubmitted(true);
+      else setTdError(`Something went wrong. Call us at ${cfg.phone || 'the dealership'} for immediate help.`);
+    } catch { setTdError(`Something went wrong. Call us at ${cfg.phone || 'the dealership'} for immediate help.`); }
+    finally { setTdSubmitting(false); }
+  };
 
   const aprMap = {
     'Excellent (750+)':  5.4,
@@ -44,6 +103,22 @@ export function DetailDrawer({ v, onClose, onBuildDeal, onReserve, isReserved })
   const delFee = delValidZip ? (delZipFL ? 0 : (parseInt(delZip[2]) > 5 ? 199 : 99)) : null;
 
   const thumbs = v.imgs || [v.img, v.img, v.img, v.img, v.img];
+
+  // Live similar vehicles — pulled from the same module-level cache the
+  // inventory grid populates, so this is usually instant after the grid mount.
+  const cfg = useCustomerConfig();
+  const dealerSlug = cfg?.dealerSlug || 'primo';
+  const { vehicles: liveInventory } = useDealerInventory(dealerSlug);
+  const similar = useMemo(() => {
+    const pool = (liveInventory && liveInventory.length ? liveInventory : FLEET)
+      .filter((x) => x && x.id !== v.id);
+    // findSimilarVehicles returns score summaries keyed by id — re-hydrate
+    // back to the original FLEET-shape entries so the existing card render
+    // (which reads v.img / v.mk / v.md / v.y / v.price) Just Works.
+    const ranked = findSimilarVehicles(v, pool, 4);
+    const byId = new Map(pool.map((p) => [p.id, p]));
+    return ranked.map((r) => byId.get(r.id)).filter(Boolean);
+  }, [liveInventory, v]);
 
   // anim in
   const [open, setOpen] = useState(false);
@@ -454,20 +529,46 @@ export function DetailDrawer({ v, onClose, onBuildDeal, onReserve, isReserved })
                   color: C.ink, letterSpacing: -0.5, textTransform: 'uppercase',
                 }}>Get the dealer's best number, sent to your inbox.</div>
               </div>
-              <div style={{ display: 'grid', gap: 12, marginBottom: 18 }}>
-                {[['Full Name', 'text'], ['Email Address', 'email'], ['Phone Number', 'tel']].map(([ph, t]) => (
-                  <input key={ph} type={t} placeholder={ph} style={{
-                    background: C.panel, border: `1px solid ${C.rule2}`,
-                    color: C.ink, fontFamily: FONT_BODY, fontSize: 14, padding: '14px 16px',
-                  }} />
-                ))}
-              </div>
-              <button style={{
-                width: '100%', padding: '16px 20px',
-                background: C.red, color: C.ink, border: 'none', cursor: 'pointer',
-                fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 14,
-                letterSpacing: 2, textTransform: 'uppercase',
-              }}>Send Me My E-Price ▸</button>
+              {epSubmitted ? (
+                <div style={{ padding: '32px 0', textAlign: 'center' }}>
+                  <div style={{ fontSize: 48, marginBottom: 14 }}>✅</div>
+                  <div style={{
+                    fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 22,
+                    color: C.ink, letterSpacing: -0.3, textTransform: 'uppercase', marginBottom: 8,
+                  }}>Thanks {epName.split(' ')[0]}!</div>
+                  <div style={{ fontFamily: FONT_BODY, color: C.inkDim, fontSize: 14, lineHeight: 1.55 }}>
+                    We'll be in touch shortly.
+                  </div>
+                </div>
+              ) : (
+                <>
+                  <div style={{ display: 'grid', gap: 12, marginBottom: 18 }}>
+                    {[
+                      ['Full Name',     'text',  epName,  setEpName],
+                      ['Email Address', 'email', epEmail, setEpEmail],
+                      ['Phone Number',  'tel',   epPhone, setEpPhone],
+                    ].map(([ph, t, val, setter]) => (
+                      <input key={ph} type={t} placeholder={ph} value={val} onChange={e => setter(e.target.value)} style={{
+                        background: C.panel, border: `1px solid ${C.rule2}`,
+                        color: C.ink, fontFamily: FONT_BODY, fontSize: 14, padding: '14px 16px',
+                      }} />
+                    ))}
+                  </div>
+                  {epError && (
+                    <div style={{ marginBottom: 12, color: '#EF4444', fontFamily: FONT_BODY, fontSize: 13 }}>
+                      {epError}
+                    </div>
+                  )}
+                  <button onClick={handleEPrice} disabled={epSubmitting || !epName || (!epEmail && !epPhone)} style={{
+                    width: '100%', padding: '16px 20px',
+                    background: (epSubmitting || !epName || (!epEmail && !epPhone)) ? C.rule2 : C.red,
+                    color: (epSubmitting || !epName || (!epEmail && !epPhone)) ? C.inkLow : C.ink,
+                    border: 'none', cursor: (epSubmitting || !epName || (!epEmail && !epPhone)) ? 'not-allowed' : 'pointer',
+                    fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 14,
+                    letterSpacing: 2, textTransform: 'uppercase',
+                  }}>{epSubmitting ? 'Submitting...' : 'Send Me My E-Price ▸'}</button>
+                </>
+              )}
 
               <div style={{
                 marginTop: 28, paddingTop: 20, borderTop: `1px solid ${C.rule}`,
@@ -499,43 +600,65 @@ export function DetailDrawer({ v, onClose, onBuildDeal, onReserve, isReserved })
                   color: C.ink, letterSpacing: -0.5, textTransform: 'uppercase',
                 }}>Pick a slot. Car will be detailed and ready.</div>
               </div>
-              <div style={{ display: 'grid', gap: 12 }}>
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
-                  <div>
-                    <div style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 2, color: C.inkLow, marginBottom: 6 }}>DATE</div>
-                    <input type="date" style={{
-                      width: '100%', background: C.panel, border: `1px solid ${C.rule2}`,
-                      color: C.ink, fontFamily: FONT_BODY, fontSize: 13, padding: '12px 14px',
-                      colorScheme: 'dark',
-                    }} />
-                  </div>
-                  <div>
-                    <div style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 2, color: C.inkLow, marginBottom: 6 }}>TIME SLOT</div>
-                    <select style={{
-                      width: '100%', appearance: 'none',
-                      background: C.panel, border: `1px solid ${C.rule2}`,
-                      color: C.ink, fontFamily: FONT_BODY, fontSize: 13, padding: '12px 14px',
-                      cursor: 'pointer',
-                    }}>
-                      <option>10:00 AM</option><option>11:30 AM</option>
-                      <option>1:00 PM</option><option>2:30 PM</option>
-                      <option>4:00 PM</option><option>5:30 PM</option>
-                    </select>
+              {tdSubmitted ? (
+                <div style={{ padding: '32px 0', textAlign: 'center', marginBottom: 24 }}>
+                  <div style={{ fontSize: 48, marginBottom: 14 }}>✅</div>
+                  <div style={{
+                    fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 22,
+                    color: C.ink, letterSpacing: -0.3, textTransform: 'uppercase', marginBottom: 8,
+                  }}>Thanks {tdName.split(' ')[0]}!</div>
+                  <div style={{ fontFamily: FONT_BODY, color: C.inkDim, fontSize: 14, lineHeight: 1.55 }}>
+                    We'll be in touch shortly.
                   </div>
                 </div>
-                {['Full Name', 'Phone Number'].map(ph => (
-                  <input key={ph} type="text" placeholder={ph} style={{
+              ) : (
+                <div style={{ display: 'grid', gap: 12 }}>
+                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                    <div>
+                      <div style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 2, color: C.inkLow, marginBottom: 6 }}>DATE</div>
+                      <input type="date" value={tdDate} onChange={e => setTdDate(e.target.value)} style={{
+                        width: '100%', background: C.panel, border: `1px solid ${C.rule2}`,
+                        color: C.ink, fontFamily: FONT_BODY, fontSize: 13, padding: '12px 14px',
+                        colorScheme: 'dark',
+                      }} />
+                    </div>
+                    <div>
+                      <div style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 2, color: C.inkLow, marginBottom: 6 }}>TIME SLOT</div>
+                      <select value={tdTime} onChange={e => setTdTime(e.target.value)} style={{
+                        width: '100%', appearance: 'none',
+                        background: C.panel, border: `1px solid ${C.rule2}`,
+                        color: C.ink, fontFamily: FONT_BODY, fontSize: 13, padding: '12px 14px',
+                        cursor: 'pointer',
+                      }}>
+                        <option>10:00 AM</option><option>11:30 AM</option>
+                        <option>1:00 PM</option><option>2:30 PM</option>
+                        <option>4:00 PM</option><option>5:30 PM</option>
+                      </select>
+                    </div>
+                  </div>
+                  <input type="text" placeholder="Full Name" value={tdName} onChange={e => setTdName(e.target.value)} style={{
                     background: C.panel, border: `1px solid ${C.rule2}`,
                     color: C.ink, fontFamily: FONT_BODY, fontSize: 14, padding: '12px 14px',
                   }} />
-                ))}
-                <button style={{
-                  padding: '16px 20px', background: C.gold, color: C.bg,
-                  border: 'none', cursor: 'pointer',
-                  fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 14,
-                  letterSpacing: 2, textTransform: 'uppercase', marginTop: 4,
-                }}>Lock My Slot ▸</button>
-              </div>
+                  <input type="tel" placeholder="Phone Number" value={tdPhone} onChange={e => setTdPhone(e.target.value)} style={{
+                    background: C.panel, border: `1px solid ${C.rule2}`,
+                    color: C.ink, fontFamily: FONT_BODY, fontSize: 14, padding: '12px 14px',
+                  }} />
+                  {tdError && (
+                    <div style={{ color: '#EF4444', fontFamily: FONT_BODY, fontSize: 13 }}>
+                      {tdError}
+                    </div>
+                  )}
+                  <button onClick={handleTestDrive} disabled={tdSubmitting || !tdName || !tdPhone} style={{
+                    padding: '16px 20px',
+                    background: (tdSubmitting || !tdName || !tdPhone) ? C.rule2 : C.gold,
+                    color: (tdSubmitting || !tdName || !tdPhone) ? C.inkLow : C.bg,
+                    border: 'none', cursor: (tdSubmitting || !tdName || !tdPhone) ? 'not-allowed' : 'pointer',
+                    fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 14,
+                    letterSpacing: 2, textTransform: 'uppercase', marginTop: 4,
+                  }}>{tdSubmitting ? 'Submitting...' : 'Lock My Slot ▸'}</button>
+                </div>
+              )}
 
               {/* HOME DELIVERY */}
               <div style={{
@@ -650,31 +773,42 @@ export function DetailDrawer({ v, onClose, onBuildDeal, onReserve, isReserved })
         }}>
           <div style={{
             fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 2, color: C.inkLow,
-            marginBottom: 14,
+            marginBottom: 4,
           }}>SIMILAR DOSSIERS</div>
-          <div style={{ display: 'flex', gap: 10, overflowX: 'auto', paddingBottom: 4 }}>
-            {FLEET.filter(x => x.id !== v.id).slice(0, 4).map(s => (
-              <div key={s.id} style={{
-                flex: '0 0 200px',
-                border: `1px solid ${C.rule}`, background: C.panel, cursor: 'pointer',
-              }}>
-                <div style={{ aspectRatio: '16/10', background: `url('${s.img}') center/cover` }} />
-                <div style={{ padding: 10 }}>
-                  <div style={{
-                    fontFamily: FONT_MONO, fontSize: 9, letterSpacing: 1.5, color: C.inkLow,
-                  }}>{s.id} · {s.y}</div>
-                  <div style={{
-                    fontFamily: FONT_DISPLAY, fontWeight: 600, fontSize: 14,
-                    color: C.ink, letterSpacing: 0.5, marginTop: 2,
-                  }}>{s.mk} {s.md}</div>
-                  <div style={{
-                    fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 16,
-                    color: C.gold, marginTop: 4,
-                  }}>{fmt(s.price)}</div>
+          <div style={{
+            fontFamily: FONT_DISPLAY, fontWeight: 600, fontSize: 13,
+            color: C.ink, letterSpacing: 0.5, marginBottom: 14,
+          }}>You might also like</div>
+          {similar.length === 0 ? (
+            <div style={{
+              fontFamily: FONT_MONO, fontSize: 11, letterSpacing: 1, color: C.inkLow,
+              padding: '14px 0',
+            }}>No close matches in current inventory.</div>
+          ) : (
+            <div style={{ display: 'flex', gap: 10, overflowX: 'auto', paddingBottom: 4 }}>
+              {similar.map((s) => (
+                <div key={s.id} style={{
+                  flex: '0 0 200px',
+                  border: `1px solid ${C.rule}`, background: C.panel, cursor: 'pointer',
+                }}>
+                  <div style={{ aspectRatio: '16/10', background: s.img ? `url('${s.img}') center/cover` : C.bg2 }} />
+                  <div style={{ padding: 10 }}>
+                    <div style={{
+                      fontFamily: FONT_MONO, fontSize: 9, letterSpacing: 1.5, color: C.inkLow,
+                    }}>{s.id} · {s.y}</div>
+                    <div style={{
+                      fontFamily: FONT_DISPLAY, fontWeight: 600, fontSize: 14,
+                      color: C.ink, letterSpacing: 0.5, marginTop: 2,
+                    }}>{s.mk} {s.md}</div>
+                    <div style={{
+                      fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 16,
+                      color: C.gold, marginTop: 4,
+                    }}>{fmt(s.price)}</div>
+                  </div>
                 </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </div>
       </div>
     </div>

@@ -27,6 +27,39 @@ export function DealWizard({ vehicle, onClose }) {
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
   const [submitted, setSubmitted] = useState(false);
+  const config = useCustomerConfig();
+  const [submitting, setSubmitting] = useState(false);
+  const [formError, setFormError] = useState('');
+
+  const handleSubmitDeal = async () => {
+    if (!name || !email || !phone) return;
+    setSubmitting(true); setFormError('');
+    try {
+      const slug = config.dealerSlug || 'primo';
+      const [firstName, ...rest] = name.trim().split(' ');
+      const tradeEstimate = hasTrade ? tradeCredit : 0;
+      const res = await fetch(`/api/dealer/${slug}/lead`, {
+        method: 'POST', headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          source: 'BuildYourDeal',
+          firstName, lastName: rest.join(' '),
+          email, phone,
+          vehicleOfInterest: `${vehicle.y} ${vehicle.mk} ${vehicle.md}`,
+          tradeYear: hasTrade ? tradeYear : '', tradeMake: hasTrade ? tradeMake : '',
+          tradeModel: hasTrade ? tradeModel : '', tradeMileage: hasTrade ? tradeMiles : '',
+          tradeCondition: hasTrade ? tradeCondition : '',
+          tradeEstimate,
+          downPayment: down, financeTerm: term, creditTier: credit,
+          estimatedPayment: monthly,
+          dealStatus: 'NewDeal',
+        }),
+      });
+      const data = await res.json();
+      if (data.ok) setSubmitted(true);
+      else setFormError(`Something went wrong. Call us at ${config.phone || 'the dealership'} for immediate help.`);
+    } catch { setFormError(`Something went wrong. Call us at ${config.phone || 'the dealership'} for immediate help.`); }
+    finally { setSubmitting(false); }
+  };
 
   useEffect(() => { requestAnimationFrame(() => setOpen(true)); }, []);
   const close = () => { setOpen(false); setTimeout(onClose, 260); };
@@ -556,6 +589,11 @@ export function DealWizard({ vehicle, onClose }) {
                 ▸ DOWN: {fmt(down)} · TRADE: {hasTrade ? fmt(tradeCredit) : 'NONE'}<br />
                 ▸ PROTECTION: {selectedAddons.length === 0 ? 'NONE' : `${selectedAddons.length} ITEM${selectedAddons.length === 1 ? '' : 'S'} · +$${addonsMonthly}/MO`}
               </div>
+              {formError && (
+                <div style={{ marginTop: 12, color: '#EF4444', fontFamily: FONT_BODY, fontSize: 13 }}>
+                  {formError}
+                </div>
+              )}
             </div>
           )}
 
@@ -608,13 +646,13 @@ export function DealWizard({ vehicle, onClose }) {
                 fontFamily: FONT_MONO, fontSize: 11, letterSpacing: 1.5, fontWeight: 700,
               }}>{step === 2 && hasTrade === null ? 'SKIP →' : 'CONTINUE →'}</button>
             ) : (
-              <button onClick={() => setSubmitted(true)} disabled={!name || !email || !phone} style={{
+              <button onClick={handleSubmitDeal} disabled={!name || !email || !phone || submitting} style={{
                 padding: '12px 28px',
-                background: (!name || !email || !phone) ? C.rule2 : C.gold,
-                color: (!name || !email || !phone) ? C.inkLow : '#08080A',
-                border: 'none', cursor: (!name || !email || !phone) ? 'not-allowed' : 'pointer',
+                background: (!name || !email || !phone || submitting) ? C.rule2 : C.gold,
+                color: (!name || !email || !phone || submitting) ? C.inkLow : '#08080A',
+                border: 'none', cursor: (!name || !email || !phone || submitting) ? 'not-allowed' : 'pointer',
                 fontFamily: FONT_MONO, fontSize: 11, letterSpacing: 1.5, fontWeight: 700,
-              }}>▸ SUBMIT MY DEAL</button>
+              }}>{submitting ? 'Submitting...' : '▸ SUBMIT MY DEAL'}</button>
             )}
           </div>
         )}
