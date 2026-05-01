@@ -1,5 +1,5 @@
 'use client';
-import { useEffect, useRef, useState, useMemo } from 'react';
+import { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 import {
   C, THEMES, I18N, FONT_DISPLAY, FONT_BODY, FONT_MONO,
   FLEET, monthlyPayment, fmt, fmtMi, useInView, VTag,
@@ -10,6 +10,23 @@ import { useDealerInventory } from './InventoryGrid';
 import { findSimilarVehicles } from '@/lib/dealer-platform/ai/similar-vehicles';
 import { VehicleSchema } from './VehicleSchema';
 import { generateVehicleSlug } from './utils';
+
+function deriveSized(imgUrl, size) {
+  if (!imgUrl) return imgUrl;
+  const m = imgUrl.match(/\/full-([a-f0-9]+\.webp)$/);
+  if (!m) return imgUrl;
+  const base = imgUrl.slice(0, imgUrl.lastIndexOf('/full-'));
+  return `${base}/${size}-${m[1]}`;
+}
+
+function buildSrcSet(imgUrl) {
+  if (!imgUrl) return undefined;
+  const m = imgUrl.match(/\/full-([a-f0-9]+\.webp)$/);
+  if (!m) return undefined;
+  const base = imgUrl.slice(0, imgUrl.lastIndexOf('/full-'));
+  const suffix = m[1];
+  return `${base}/thumb-${suffix} 400w, ${base}/medium-${suffix} 800w, ${imgUrl} 1600w`;
+}
 
 export function DetailDrawer({ v, onClose, onBuildDeal, onReserve, isReserved }) {
   const [tab, setTab]   = useState('specs');
@@ -271,9 +288,19 @@ export function DetailDrawer({ v, onClose, onBuildDeal, onReserve, isReserved })
         <div style={{ padding: 28, paddingBottom: 0 }}>
           <div style={{
             aspectRatio: '16/9',
-            background: `url('${thumbs[shot]}') center/cover no-repeat`,
-            border: `1px solid ${C.rule}`, position: 'relative',
+            background: C.bg2,
+            border: `1px solid ${C.rule}`, position: 'relative', overflow: 'hidden',
           }}>
+            {thumbs[shot] && (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                src={thumbs[shot]}
+                srcSet={buildSrcSet(thumbs[shot])}
+                sizes="(max-width: 768px) 100vw, 960px"
+                alt={`${v.y} ${v.mk} ${v.md} — photo ${shot + 1}`}
+                style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+              />
+            )}
             {/* registration corners */}
             {[
               { top: 8, left: 8 },
@@ -307,11 +334,20 @@ export function DetailDrawer({ v, onClose, onBuildDeal, onReserve, isReserved })
           <div style={{ display: 'flex', gap: 6, marginTop: 8 }}>
             {thumbs.map((t, i) => (
               <button key={i} onClick={() => setShot(i)} style={{
-                width: 80, height: 56,
-                background: `url('${t}') center/cover`,
+                width: 80, height: 56, flexShrink: 0,
+                position: 'relative', overflow: 'hidden',
                 border: `1px solid ${shot === i ? C.gold : C.rule}`,
                 cursor: 'pointer', padding: 0, opacity: shot === i ? 1 : 0.6,
-              }} />
+                background: C.bg2,
+              }}>
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img
+                  src={deriveSized(t, 'thumb') || t}
+                  alt={`Photo ${i + 1}`}
+                  loading="lazy"
+                  style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+                />
+              </button>
             ))}
           </div>
         </div>
@@ -882,7 +918,17 @@ export function DetailDrawer({ v, onClose, onBuildDeal, onReserve, isReserved })
                   flex: '0 0 200px',
                   border: `1px solid ${C.rule}`, background: C.panel, cursor: 'pointer',
                 }}>
-                  <div style={{ aspectRatio: '16/10', background: s.img ? `url('${s.img}') center/cover` : C.bg2 }} />
+                  <div style={{ aspectRatio: '16/10', background: C.bg2, position: 'relative', overflow: 'hidden' }}>
+                    {s.img && (
+                      // eslint-disable-next-line @next/next/no-img-element
+                      <img
+                        src={deriveSized(s.img, 'thumb') || s.img}
+                        alt={`${s.mk} ${s.md}`}
+                        loading="lazy"
+                        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    )}
+                  </div>
                   <div style={{ padding: 10 }}>
                     <div style={{
                       fontFamily: FONT_MONO, fontSize: 9, letterSpacing: 1.5, color: C.inkLow,

@@ -1,11 +1,11 @@
 'use client';
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useImageOptimizer } from '../hooks/useImageOptimizer.js';
 
 const MAX_PHOTOS = 20;
 const MAX_AT_ONCE = 10;
 const MAX_FILE_BYTES = 10 * 1024 * 1024; // 10 MB
-const RESIZE_MAX_DIM = 2000;
 const ACCEPTED_TYPES = ['image/jpeg', 'image/png', 'image/heic', 'image/heif', 'image/webp'];
 
 function genId() {
@@ -13,71 +13,32 @@ function genId() {
   return `local-${Date.now()}-${Math.random().toString(36).slice(2)}`;
 }
 
-async function resizeImage(file) {
-  // HEIC can't be decoded by canvas in most browsers — pass through.
-  if (file.type === 'image/heic' || file.type === 'image/heif') return file;
-
-  return new Promise((resolve) => {
-    const url = URL.createObjectURL(file);
-    const img = new Image();
-    img.onload = () => {
-      try {
-        const { width, height } = img;
-        const longest = Math.max(width, height);
-        if (longest <= RESIZE_MAX_DIM) {
-          URL.revokeObjectURL(url);
-          resolve(file);
-          return;
-        }
-        const scale = RESIZE_MAX_DIM / longest;
-        const w = Math.round(width * scale);
-        const h = Math.round(height * scale);
-        const canvas = document.createElement('canvas');
-        canvas.width = w;
-        canvas.height = h;
-        const ctx = canvas.getContext('2d');
-        ctx.drawImage(img, 0, 0, w, h);
-        const outType = file.type === 'image/png' ? 'image/png' : 'image/jpeg';
-        canvas.toBlob(
-          (blob) => {
-            URL.revokeObjectURL(url);
-            if (!blob) {
-              resolve(file);
-              return;
-            }
-            const newName = file.name.replace(/\.\w+$/, outType === 'image/png' ? '.png' : '.jpg');
-            resolve(new File([blob], newName, { type: outType }));
-          },
-          outType,
-          0.88,
-        );
-      } catch {
-        URL.revokeObjectURL(url);
-        resolve(file);
-      }
-    };
-    img.onerror = () => {
-      URL.revokeObjectURL(url);
-      resolve(file);
-    };
-    img.src = url;
-  });
+function fmtBytes(bytes) {
+  if (!bytes) return '?';
+  if (bytes < 1024) return `${bytes} B`;
+  if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
+  return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
 }
 
-function uploadWithProgress(uploadUrl, file, onProgress) {
+function uploadFileWithProgress(url, formData, onProgress) {
   return new Promise((resolve, reject) => {
     const xhr = new XMLHttpRequest();
-    xhr.open('PUT', uploadUrl);
-    xhr.setRequestHeader('Content-Type', file.type || 'application/octet-stream');
+    xhr.open('POST', url);
     xhr.upload.onprogress = (e) => {
       if (e.lengthComputable) onProgress(Math.round((e.loaded / e.total) * 100));
     };
     xhr.onload = () => {
-      if (xhr.status >= 200 && xhr.status < 300) resolve();
-      else reject(new Error(`Upload failed: ${xhr.status} ${xhr.statusText}`));
+      if (xhr.status >= 200 && xhr.status < 300) {
+        try { resolve(JSON.parse(xhr.responseText)); }
+        catch { reject(new Error('Invalid server response')); }
+      } else {
+        let msg = `Upload failed: ${xhr.status}`;
+        try { msg = JSON.parse(xhr.responseText)?.error || msg; } catch { /* noop */ }
+        reject(new Error(msg));
+      }
     };
     xhr.onerror = () => reject(new Error('Network error during upload'));
-    xhr.send(file);
+    xhr.send(formData);
   });
 }
 
@@ -92,7 +53,11 @@ export default function PhotoUploader({
       id: genId(),
       key: p.key,
       publicUrl: p.publicUrl,
+      thumbUrl: p.thumbUrl || null,
+      mediumUrl: p.mediumUrl || null,
       fileName: p.fileName || '',
+      originalSize: p.originalSize || null,
+      optimizedSize: p.optimizedSize || null,
       status: 'done',
       progress: 100,
     })),
@@ -101,19 +66,21 @@ export default function PhotoUploader({
   const [toast, setToast] = useState(null);
   const inputRef = useRef(null);
   const dragKeyRef = useRef(null);
+  const optimizer = useImageOptimizer();
 
-  // Notify parent on every change.
   const onPhotosChangeRef = useRef(onPhotosChange);
-  useEffect(() => {
-    onPhotosChangeRef.current = onPhotosChange;
-  }, [onPhotosChange]);
+  useEffect(() => { onPhotosChangeRef.current = onPhotosChange; }, [onPhotosChange]);
   useEffect(() => {
     if (typeof onPhotosChangeRef.current === 'function') {
       onPhotosChangeRef.current(
         photos.filter((p) => p.status === 'done').map((p) => ({
           key: p.key,
           publicUrl: p.publicUrl,
+          thumbUrl: p.thumbUrl,
+          mediumUrl: p.mediumUrl,
           fileName: p.fileName,
+          originalSize: p.originalSize,
+          optimizedSize: p.optimizedSize,
         })),
       );
     }
@@ -121,7 +88,7 @@ export default function PhotoUploader({
 
   const showToast = useCallback((message, kind = 'error') => {
     setToast({ message, kind });
-    setTimeout(() => setToast(null), 4000);
+    setTimeout(() => setToast(null), 5000);
   }, []);
 
   const updatePhoto = useCallback((id, patch) => {
@@ -135,43 +102,45 @@ export default function PhotoUploader({
   const uploadOne = useCallback(
     async (entry, file) => {
       try {
-        const resized = await resizeImage(file);
         updatePhoto(entry.id, { status: 'uploading', progress: 1 });
 
-        const presignRes = await fetch(
-          `/api/dealer/${encodeURIComponent(dealerId)}/photos/upload`,
-          {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              vehicleId,
-              fileName: resized.name,
-              contentType: resized.type || 'image/jpeg',
-            }),
-          },
-        );
-        const presign = await presignRes.json();
-        if (!presignRes.ok || !presign.ok) {
-          throw new Error(presign.error || 'Failed to get upload URL');
-        }
+        const formData = new FormData();
+        formData.append('vehicleId', vehicleId);
+        formData.append('image', file);
 
-        await uploadWithProgress(presign.uploadUrl, resized, (pct) =>
-          updatePhoto(entry.id, { progress: pct }),
+        const result = await uploadFileWithProgress(
+          `/api/dealer/${encodeURIComponent(dealerId)}/photos/upload`,
+          formData,
+          (pct) => updatePhoto(entry.id, { progress: Math.round(pct * 0.7) }), // 0-70% = upload
         );
+
+        if (!result.ok) throw new Error(result.error || 'Upload failed');
+
+        // If R2 not configured, fall back gracefully
+        if (result.degraded === 'r2_unavailable') {
+          optimizer.setWarning('Photos uploaded without optimization — configure R2 for optimized delivery');
+        }
 
         updatePhoto(entry.id, {
           status: 'done',
           progress: 100,
-          key: presign.key,
-          publicUrl: presign.publicUrl,
-          fileName: resized.name,
+          key: result.key || result.publicUrl,
+          publicUrl: result.publicUrl,
+          thumbUrl: result.thumb?.url || null,
+          mediumUrl: result.medium?.url || null,
+          fileName: file.name,
+          originalSize: result.originalSize || file.size,
+          optimizedSize: result.optimizedSize || null,
         });
+
+        optimizer.completeOne();
       } catch (err) {
         updatePhoto(entry.id, { status: 'error', error: err.message });
         showToast(err.message || 'Upload failed');
+        optimizer.completeOne({ warning: err.message });
       }
     },
-    [dealerId, vehicleId, updatePhoto, showToast],
+    [dealerId, vehicleId, updatePhoto, showToast, optimizer],
   );
 
   const handleFiles = useCallback(
@@ -180,16 +149,11 @@ export default function PhotoUploader({
       if (files.length === 0) return;
 
       const room = MAX_PHOTOS - photos.length;
-      if (room <= 0) {
-        showToast(`Photo limit reached (${MAX_PHOTOS}).`);
-        return;
-      }
+      if (room <= 0) { showToast(`Photo limit reached (${MAX_PHOTOS}).`); return; }
+
       const accepted = [];
       for (const f of files.slice(0, Math.min(MAX_AT_ONCE, room))) {
-        if (f.size > MAX_FILE_BYTES) {
-          showToast(`${f.name}: file is over 10 MB`);
-          continue;
-        }
+        if (f.size > MAX_FILE_BYTES) { showToast(`${f.name}: file is over 10 MB`); continue; }
         if (!ACCEPTED_TYPES.includes(f.type) && !/\.(jpe?g|png|heic|heif|webp)$/i.test(f.name)) {
           showToast(`${f.name}: unsupported file type`);
           continue;
@@ -198,56 +162,48 @@ export default function PhotoUploader({
       }
       if (accepted.length === 0) return;
 
+      optimizer.startBatch(accepted.length);
+
       const newEntries = accepted.map((f) => ({
         id: genId(),
         key: null,
         publicUrl: URL.createObjectURL(f),
+        thumbUrl: null,
+        mediumUrl: null,
         fileName: f.name,
+        originalSize: f.size,
+        optimizedSize: null,
         status: 'pending',
         progress: 0,
         _isObjectUrl: true,
       }));
       setPhotos((prev) => [...prev, ...newEntries]);
 
-      await Promise.all(
-        newEntries.map((entry, i) => uploadOne(entry, accepted[i])),
-      );
+      await Promise.all(newEntries.map((entry, i) => uploadOne(entry, accepted[i])));
     },
-    [photos.length, showToast, uploadOne],
+    [photos.length, showToast, uploadOne, optimizer],
   );
 
-  const onDrop = useCallback(
-    (e) => {
-      e.preventDefault();
-      setIsDragging(false);
-      handleFiles(e.dataTransfer?.files);
-    },
-    [handleFiles],
-  );
+  const onDrop = useCallback((e) => {
+    e.preventDefault();
+    setIsDragging(false);
+    handleFiles(e.dataTransfer?.files);
+  }, [handleFiles]);
 
-  const onPick = useCallback(
-    (e) => {
-      handleFiles(e.target.files);
-      e.target.value = '';
-    },
-    [handleFiles],
-  );
+  const onPick = useCallback((e) => {
+    handleFiles(e.target.files);
+    e.target.value = '';
+  }, [handleFiles]);
 
   const handleDelete = useCallback(
     async (entry) => {
-      if (entry.status !== 'done' || !entry.key) {
-        removeLocal(entry.id);
-        return;
-      }
+      if (entry.status !== 'done' || !entry.key) { removeLocal(entry.id); return; }
       try {
-        const res = await fetch(
-          `/api/dealer/${encodeURIComponent(dealerId)}/photos`,
-          {
-            method: 'DELETE',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ key: entry.key }),
-          },
-        );
+        const res = await fetch(`/api/dealer/${encodeURIComponent(dealerId)}/photos`, {
+          method: 'DELETE',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ key: entry.key }),
+        });
         const data = await res.json();
         if (!res.ok || !data.ok) throw new Error(data.error || 'Delete failed');
         removeLocal(entry.id);
@@ -269,13 +225,8 @@ export default function PhotoUploader({
     });
   }, []);
 
-  // Native HTML5 drag for reorder.
-  const onCardDragStart = (id) => () => {
-    dragKeyRef.current = id;
-  };
-  const onCardDragOver = (e) => {
-    e.preventDefault();
-  };
+  const onCardDragStart = (id) => () => { dragKeyRef.current = id; };
+  const onCardDragOver = (e) => { e.preventDefault(); };
   const onCardDrop = (targetId) => (e) => {
     e.preventDefault();
     const fromId = dragKeyRef.current;
@@ -292,10 +243,7 @@ export default function PhotoUploader({
     });
   };
 
-  const doneCount = useMemo(
-    () => photos.filter((p) => p.status === 'done').length,
-    [photos],
-  );
+  const doneCount = useMemo(() => photos.filter((p) => p.status === 'done').length, [photos]);
 
   const dropzoneCls = [
     'rounded-lg border-2 border-dashed p-8 text-center transition-colors cursor-pointer',
@@ -318,13 +266,8 @@ export default function PhotoUploader({
         tabIndex={0}
         className={dropzoneCls}
         onClick={() => inputRef.current?.click()}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter' || e.key === ' ') inputRef.current?.click();
-        }}
-        onDragOver={(e) => {
-          e.preventDefault();
-          setIsDragging(true);
-        }}
+        onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') inputRef.current?.click(); }}
+        onDragOver={(e) => { e.preventDefault(); setIsDragging(true); }}
         onDragLeave={() => setIsDragging(false)}
         onDrop={onDrop}
       >
@@ -335,68 +278,112 @@ export default function PhotoUploader({
           Supports JPG, PNG, HEIC — up to {MAX_PHOTOS} photos per vehicle
         </div>
         <div className="mt-2 text-xs text-gray-400">
-          {doneCount} of {MAX_PHOTOS} photos
+          {doneCount} of {MAX_PHOTOS} photos · Uploaded photos are auto-optimized to WebP
         </div>
       </div>
 
+      {/* Batch optimization progress bar */}
+      {optimizer.active && (
+        <div className="mt-3 rounded-md border border-teal-200 bg-teal-50 px-4 py-3">
+          <div className="flex items-center justify-between text-sm">
+            <span className="font-medium text-teal-800">
+              Optimizing… ({optimizer.done} of {optimizer.total} photos)
+            </span>
+            <span className="text-teal-600">{optimizer.progressPct}%</span>
+          </div>
+          <div className="mt-2 h-1.5 w-full rounded-full bg-teal-200">
+            <div
+              className="h-1.5 rounded-full bg-teal-500 transition-all"
+              style={{ width: `${optimizer.progressPct}%` }}
+            />
+          </div>
+        </div>
+      )}
+
+      {/* R2 not configured warning */}
+      {optimizer.warning && (
+        <div className="mt-2 rounded-md border border-yellow-200 bg-yellow-50 px-3 py-2 text-xs text-yellow-800">
+          ⚠ {optimizer.warning}
+        </div>
+      )}
+
       {photos.length > 0 && (
         <ul className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4">
-          {photos.map((p, i) => (
-            <li
-              key={p.id}
-              draggable={p.status === 'done'}
-              onDragStart={onCardDragStart(p.id)}
-              onDragOver={onCardDragOver}
-              onDrop={onCardDrop(p.id)}
-              className="group relative overflow-hidden rounded-md border border-gray-200 bg-white"
-            >
-              <div className="relative aspect-square bg-gray-100">
-                {p.publicUrl ? (
-                  // eslint-disable-next-line @next/next/no-img-element
-                  <img
-                    src={p.publicUrl}
-                    alt={p.fileName || 'photo'}
-                    className="h-full w-full object-cover"
-                  />
-                ) : null}
-                {i === 0 && p.status === 'done' && (
-                  <span className="absolute left-1 top-1 rounded bg-yellow-400 px-1.5 py-0.5 text-[10px] font-semibold text-black">
-                    HERO
-                  </span>
-                )}
-                {p.status !== 'done' && (
-                  <div className="absolute inset-x-0 bottom-0 bg-black/60 px-2 py-1 text-[11px] text-white">
-                    {p.status === 'error' ? `Error: ${p.error || 'failed'}` : `Uploading… ${p.progress}%`}
-                    <div className="mt-1 h-1 w-full rounded bg-white/20">
-                      <div
-                        className={`h-1 rounded ${p.status === 'error' ? 'bg-red-500' : 'bg-teal-400'}`}
-                        style={{ width: `${p.progress}%` }}
-                      />
+          {photos.map((p, i) => {
+            const saved = p.originalSize && p.optimizedSize
+              ? Math.round((1 - p.optimizedSize / p.originalSize) * 100)
+              : null;
+            return (
+              <li
+                key={p.id}
+                draggable={p.status === 'done'}
+                onDragStart={onCardDragStart(p.id)}
+                onDragOver={onCardDragOver}
+                onDrop={onCardDrop(p.id)}
+                className="group relative overflow-hidden rounded-md border border-gray-200 bg-white"
+              >
+                <div className="relative aspect-square bg-gray-100">
+                  {p.publicUrl ? (
+                    // eslint-disable-next-line @next/next/no-img-element
+                    <img
+                      src={p.thumbUrl || p.publicUrl}
+                      alt={p.fileName || 'photo'}
+                      loading="lazy"
+                      className="h-full w-full object-cover"
+                    />
+                  ) : null}
+                  {i === 0 && p.status === 'done' && (
+                    <span className="absolute left-1 top-1 rounded bg-yellow-400 px-1.5 py-0.5 text-[10px] font-semibold text-black">
+                      HERO
+                    </span>
+                  )}
+                  {saved !== null && p.status === 'done' && (
+                    <span className="absolute right-1 top-1 rounded bg-green-600 px-1.5 py-0.5 text-[10px] font-semibold text-white">
+                      -{saved}%
+                    </span>
+                  )}
+                  {p.status !== 'done' && (
+                    <div className="absolute inset-x-0 bottom-0 bg-black/60 px-2 py-1 text-[11px] text-white">
+                      {p.status === 'error' ? `Error: ${p.error || 'failed'}` : `Uploading… ${p.progress}%`}
+                      <div className="mt-1 h-1 w-full rounded bg-white/20">
+                        <div
+                          className={`h-1 rounded ${p.status === 'error' ? 'bg-red-500' : 'bg-teal-400'}`}
+                          style={{ width: `${p.progress}%` }}
+                        />
+                      </div>
                     </div>
+                  )}
+                </div>
+
+                {/* size savings label */}
+                {p.originalSize && p.optimizedSize && p.status === 'done' && (
+                  <div className="border-t border-gray-100 px-2 py-1 text-[10px] text-gray-400">
+                    {fmtBytes(p.originalSize)} → {fmtBytes(p.optimizedSize)}
                   </div>
                 )}
-              </div>
-              <div className="flex items-center justify-between gap-1 p-1">
-                <button
-                  type="button"
-                  className="rounded px-2 py-1 text-xs text-yellow-700 hover:bg-yellow-50 disabled:opacity-30"
-                  onClick={() => makeHero(p.id)}
-                  disabled={i === 0 || p.status !== 'done'}
-                  title="Make hero image"
-                >
-                  ★ Hero
-                </button>
-                <button
-                  type="button"
-                  className="rounded px-2 py-1 text-xs text-red-600 hover:bg-red-50"
-                  onClick={() => handleDelete(p)}
-                  title="Delete photo"
-                >
-                  ✕
-                </button>
-              </div>
-            </li>
-          ))}
+
+                <div className="flex items-center justify-between gap-1 p-1">
+                  <button
+                    type="button"
+                    className="rounded px-2 py-1 text-xs text-yellow-700 hover:bg-yellow-50 disabled:opacity-30"
+                    onClick={() => makeHero(p.id)}
+                    disabled={i === 0 || p.status !== 'done'}
+                    title="Make hero image"
+                  >
+                    ★ Hero
+                  </button>
+                  <button
+                    type="button"
+                    className="rounded px-2 py-1 text-xs text-red-600 hover:bg-red-50"
+                    onClick={() => handleDelete(p)}
+                    title="Delete photo"
+                  >
+                    ✕
+                  </button>
+                </div>
+              </li>
+            );
+          })}
         </ul>
       )}
 

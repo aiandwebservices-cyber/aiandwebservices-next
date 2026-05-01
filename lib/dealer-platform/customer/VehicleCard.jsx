@@ -1,10 +1,21 @@
 'use client';
-import { useEffect, useRef, useState, useMemo } from 'react';
+import { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 import {
   C, THEMES, I18N, FONT_DISPLAY, FONT_BODY, FONT_MONO,
   FLEET, monthlyPayment, fmt, fmtMi, useInView, VTag,
 } from './_internals';
 import { useCustomerConfig } from './CustomerConfigContext';
+
+// Derives srcset from the optimized URL convention:
+// .../full-{hash}.webp → thumb-{hash}.webp 400w, medium-{hash}.webp 800w, full-{hash}.webp 1600w
+function buildSrcSet(imgUrl) {
+  if (!imgUrl) return undefined;
+  const m = imgUrl.match(/\/full-([a-f0-9]+\.webp)$/);
+  if (!m) return undefined;
+  const base = imgUrl.slice(0, imgUrl.lastIndexOf('/full-'));
+  const suffix = m[1];
+  return `${base}/thumb-${suffix} 400w, ${base}/medium-${suffix} 800w, ${imgUrl} 1600w`;
+}
 
 export function FleetCard({ v, url, priceMode, onView, onBuildDeal, isSaved, onToggleSave, isAlerted, onTogglePriceAlert, isReserved, idx }) {
   const [ref, seen] = useInView();
@@ -33,8 +44,23 @@ export function FleetCard({ v, url, priceMode, onView, onBuildDeal, isSaved, onT
       <div style={{
         position: 'relative', overflow: 'hidden',
         aspectRatio: '16/10',
-        background: `url('${v.img}') center/cover no-repeat ${C.bg2}`,
+        background: C.bg2,
       }}>
+        {v.img && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={v.img}
+            srcSet={buildSrcSet(v.img)}
+            sizes="(max-width: 768px) 400px, 800px"
+            alt={`${v.y} ${v.mk} ${v.md}`}
+            loading="lazy"
+            style={{
+              position: 'absolute', inset: 0,
+              width: '100%', height: '100%',
+              objectFit: 'cover',
+            }}
+          />
+        )}
         {/* RESERVED overlay */}
         {isReserved && (
           <>

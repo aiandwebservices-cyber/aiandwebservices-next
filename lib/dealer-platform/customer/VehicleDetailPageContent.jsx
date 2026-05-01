@@ -1,6 +1,23 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
+
+function deriveSized(imgUrl, size) {
+  if (!imgUrl) return imgUrl;
+  const m = imgUrl.match(/\/full-([a-f0-9]+\.webp)$/);
+  if (!m) return imgUrl;
+  const base = imgUrl.slice(0, imgUrl.lastIndexOf('/full-'));
+  return `${base}/${size}-${m[1]}`;
+}
+
+function buildSrcSet(imgUrl) {
+  if (!imgUrl) return undefined;
+  const m = imgUrl.match(/\/full-([a-f0-9]+\.webp)$/);
+  if (!m) return undefined;
+  const base = imgUrl.slice(0, imgUrl.lastIndexOf('/full-'));
+  const suffix = m[1];
+  return `${base}/thumb-${suffix} 400w, ${base}/medium-${suffix} 800w, ${imgUrl} 1600w`;
+}
 import {
   C, THEMES, FONT_DISPLAY, FONT_BODY, FONT_MONO,
   monthlyPayment, fmt, fmtMi,
@@ -114,9 +131,21 @@ export function VehicleDetailPageContent({
             <div style={{ marginBottom: 28 }}>
               <div style={{
                 aspectRatio: '16/9',
-                background: `url('${thumbs[shot]}') center/cover no-repeat ${C.bg2}`,
+                background: C.bg2,
                 border: `1px solid ${C.rule}`,
-              }} />
+                position: 'relative', overflow: 'hidden',
+              }}>
+                {thumbs[shot] && (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={thumbs[shot]}
+                    srcSet={buildSrcSet(thumbs[shot])}
+                    sizes="(max-width: 860px) 100vw, calc(100vw - 380px)"
+                    alt={`${v.y || v.year} ${v.mk || v.make} ${v.md || v.model} — photo ${shot + 1}`}
+                    style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+                  />
+                )}
+              </div>
               {thumbs.length > 1 && (
                 <div style={{ display: 'flex', gap: 6, marginTop: 8, flexWrap: 'wrap' }}>
                   {thumbs.map((t, i) => (
@@ -125,14 +154,23 @@ export function VehicleDetailPageContent({
                       onClick={() => setShot(i)}
                       aria-label={`Photo ${i + 1}`}
                       style={{
-                        width: 80, height: 56,
-                        background: `url('${t}') center/cover`,
+                        width: 80, height: 56, flexShrink: 0,
+                        position: 'relative', overflow: 'hidden',
                         border: `1px solid ${shot === i ? C.gold : C.rule}`,
                         cursor: 'pointer', padding: 0,
                         opacity: shot === i ? 1 : 0.6,
+                        background: C.bg2,
                         transition: 'opacity 150ms, border-color 150ms',
                       }}
-                    />
+                    >
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={deriveSized(t, 'thumb') || t}
+                        alt={`Photo ${i + 1}`}
+                        loading="lazy"
+                        style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover' }}
+                      />
+                    </button>
                   ))}
                 </div>
               )}

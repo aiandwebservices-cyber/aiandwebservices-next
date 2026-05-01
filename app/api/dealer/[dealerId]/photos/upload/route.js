@@ -1,17 +1,8 @@
-import { randomUUID } from 'node:crypto';
-import { PutObjectCommand } from '@aws-sdk/client-s3';
-import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { getDealerConfig } from '../../../_lib/espocrm.js';
-import {
-  getR2Client,
-  R2_BUCKET,
-  isR2Configured,
-  publicUrlForKey,
-} from '../../../_lib/r2.js';
-
-function bad(error, status = 400) {
-  return Response.json({ ok: false, error }, { status });
-}
+import { isR2Configured } from '../../../_lib/r2.js';
+import { withErrorHandling } from '../../../../../lib/dealer-platform/utils/error-handler.js';
+import { rateLimit } from '../../../../../lib/dealer-platform/middleware/rate-limit.js';
+import { optimizeAndUpload } from '../optimize/route.js';
 
 const SAFE_NAME_RE = /[^a-zA-Z0-9._-]+/g;
 
@@ -21,55 +12,61 @@ function sanitizeFileName(name) {
   return trimmed.replace(SAFE_NAME_RE, '-').replace(/^-+|-+$/g, '') || 'photo.jpg';
 }
 
-export async function POST(req, { params }) {
+export const POST = withErrorHandling(async (req, { params }) => {
+  const limited = rateLimit(req, { limit: 30, window: 60 });
+  if (limited) return limited;
+
   const { dealerId } = await params;
   const dealerConfig = getDealerConfig(dealerId);
-  if (!dealerConfig) return bad(`Unknown dealer: ${dealerId}`, 404);
+  if (!dealerConfig) {
+    return Response.json({ ok: false, error: `Unknown dealer: ${dealerId}` }, { status: 404 });
+  }
 
   if (!isR2Configured()) {
-    return bad('R2 storage is not configured on the server', 500);
+    return Response.json({ ok: false, error: 'R2 storage is not configured on the server', degraded: 'r2_unavailable' }, { status: 500 });
   }
 
-  let body;
-  try {
-    body = await req.json();
-  } catch {
-    return bad('Invalid JSON body');
+  const contentType = req.headers.get('content-type') || '';
+  let imageBuffer, vehicleId, originalSize;
+
+  if (contentType.includes('multipart/form-data')) {
+    const form = await req.formData();
+    vehicleId = form.get('vehicleId');
+    const file = form.get('image');
+    if (!file || typeof file === 'string') {
+      return Response.json({ ok: false, error: 'image file is required' }, { status: 400 });
+    }
+    originalSize = file.size;
+    imageBuffer = Buffer.from(await file.arrayBuffer());
+    sanitizeFileName(file.name);
+  } else {
+    let body;
+    try { body = await req.json(); } catch { return Response.json({ ok: false, error: 'Invalid request body' }, { status: 400 }); }
+    vehicleId = body?.vehicleId;
+    const imageData = body?.imageData;
+    if (!imageData) return Response.json({ ok: false, error: 'multipart/form-data with image field required' }, { status: 400 });
+    imageBuffer = Buffer.from(imageData.replace(/^data:image\/[a-z+]+;base64,/, ''), 'base64');
+    originalSize = imageBuffer.length;
   }
 
-  const { vehicleId, fileName, contentType } = body || {};
   if (!vehicleId || typeof vehicleId !== 'string') {
-    return bad('vehicleId is required');
-  }
-  if (!contentType || typeof contentType !== 'string') {
-    return bad('contentType is required');
-  }
-  if (!contentType.startsWith('image/')) {
-    return bad('contentType must be an image/* type');
+    return Response.json({ ok: false, error: 'vehicleId is required' }, { status: 400 });
   }
 
-  const safeName = sanitizeFileName(fileName);
-  const key =
-    `dealers/${encodeURIComponent(dealerId)}` +
-    `/vehicles/${encodeURIComponent(vehicleId)}` +
-    `/${randomUUID()}-${safeName}`;
+  const versions = await optimizeAndUpload(imageBuffer, dealerId, vehicleId);
 
-  try {
-    const client = getR2Client();
-    const command = new PutObjectCommand({
-      Bucket: R2_BUCKET,
-      Key: key,
-      ContentType: contentType,
-    });
-    const uploadUrl = await getSignedUrl(client, command, { expiresIn: 300 });
-
-    return Response.json({
-      ok: true,
-      uploadUrl,
-      publicUrl: publicUrlForKey(key),
-      key,
-    });
-  } catch (err) {
-    return bad(err?.message || 'Failed to create presigned URL', 500);
-  }
-}
+  return Response.json({
+    ok: true,
+    // Backward-compat fields (full WebP as primary URL)
+    publicUrl: versions.full.url,
+    key: versions.full.url,
+    // Optimized variants
+    full: versions.full,
+    medium: versions.medium,
+    thumb: versions.thumb,
+    fullJpeg: versions.fullJpeg,
+    // Size savings info
+    originalSize: originalSize || imageBuffer.length,
+    optimizedSize: versions.full.size,
+  });
+});
