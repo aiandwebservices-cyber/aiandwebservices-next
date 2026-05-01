@@ -55,4 +55,4 @@ export const PUT = withErrorHandling(async (req, { params }) => {
     return Response.json({ ok: false, error: result.error }, { status: 502 });
   }
   return Response.json({ ok: true, lead: result.data });
-}
+});

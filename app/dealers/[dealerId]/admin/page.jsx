@@ -5,9 +5,9 @@ import { AdminPanel } from '@/lib/dealer-platform/admin/AdminPanel';
 // Static routes (lotcrm, sunshine-motors, primo) take precedence over this
 // dynamic fallback. Update this map when adding a new dealer.
 const dealerConfigs = {
-  lotcrm: () => import('../lotcrm/config').then((m) => m.config),
-  primo: () => import('../primo/config').then((m) => m.config),
-  'sunshine-motors': () => import('../sunshine-motors/config').then((m) => m.config),
+  lotcrm: () => import('../../lotcrm/config').then((m) => m.config),
+  primo: () => import('../../primo/config').then((m) => m.config),
+  'sunshine-motors': () => import('../../sunshine-motors/config').then((m) => m.config),
 };
 
 export default async function DealerAdminPage({ params }) {

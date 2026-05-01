@@ -32,6 +32,8 @@ import { SEED_FNI_HISTORY } from '@/lib/dealer-platform/data/seed-deals';
 import { SEED_APPT_HISTORY } from '@/lib/dealer-platform/data/seed-appointments';
 import { ActivityLog } from './ActivityLog';
 import { BreadcrumbBar } from './BreadcrumbBar';
+import { useRouter } from 'next/navigation';
+import VinScanner from './VinScanner';
 
 const RECON_STAGES = [
   { key: 'acquired',    label: 'Acquired',    color: '#374151', bg: '#F3F4F6', accent: '#9CA3AF' },
@@ -82,7 +84,9 @@ export function InventoryTab({ inventory, setInventory, updateVehicle, removeVeh
   const [pageSize, setPageSize] = useState(25);
   const [savedOpen, setSavedOpen] = useState(false);
   const [showSaveView, setShowSaveView] = useState(false);
+  const [quickScanOpen, setQuickScanOpen] = useState(false);
   const savedViews = settings?.savedViews?.inventory || [];
+  const router = useRouter();
 
   const applyView = (v) => {
     setSearch(v.filter.search || '');
@@ -786,6 +790,26 @@ export function InventoryTab({ inventory, setInventory, updateVehicle, removeVeh
         </Card>
         </div>
       )}
+
+      {/* Quick Add FAB — mobile only */}
+      <button
+        onClick={() => setQuickScanOpen(true)}
+        className="fixed bottom-6 right-6 z-50 flex sm:hidden items-center justify-center w-14 h-14 rounded-full text-white shadow-xl active:scale-95 transition-transform"
+        style={{ backgroundColor: '#2AA5A0' }}
+        aria-label="Quick add vehicle"
+      >
+        <Plus className="w-7 h-7" />
+      </button>
+
+      <VinScanner
+        isOpen={quickScanOpen}
+        onClose={() => setQuickScanOpen(false)}
+        onVinDetected={(vin) => {
+          setQuickScanOpen(false);
+          router.replace('?' + new URLSearchParams({ vin }).toString());
+          onAdd();
+        }}
+      />
 
       <ConfirmDialog
         isOpen={!!confirmDelete}

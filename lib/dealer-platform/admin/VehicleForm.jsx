@@ -33,6 +33,7 @@ import { SEED_APPT_HISTORY } from '@/lib/dealer-platform/data/seed-appointments'
 import { ActivityLog } from './ActivityLog';
 import { BreadcrumbBar } from './BreadcrumbBar';
 import { useVehicleHistory } from '@/lib/dealer-platform/hooks/useVehicleHistory';
+import VinScanner from './VinScanner';
 
 function SearchableSelect({ value, onChange, items, popular = [], loading, placeholder, error, disabled, allLabel = 'All' }) {
   const [open, setOpen] = useState(false);
@@ -179,6 +180,28 @@ export function VehicleFormTab({ vehicle, onSave, onCancel, flash, settings, set
   const [savingEspo, setSavingEspo] = useState(false);
   const [aiGenerating, setAiGenerating] = useState(false);
   const [aiGenerated, setAiGenerated] = useState(false);
+  const [vinScannerOpen, setVinScannerOpen] = useState(false);
+  const pendingDecodeRef = useRef(null);
+
+  // On mount: read ?vin= URL param and auto-trigger decode for Quick Add flow
+  useEffect(() => {
+    if (isEdit) return;
+    const params = new URLSearchParams(window.location.search);
+    const vin = params.get('vin');
+    if (vin && validVin(vin.toUpperCase())) {
+      const v = vin.toUpperCase();
+      pendingDecodeRef.current = v;
+      setVinInput(v);
+    }
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // Fire decode once vinInput is synced with the pending ?vin= param
+  useEffect(() => {
+    if (pendingDecodeRef.current && vinInput === pendingDecodeRef.current) {
+      pendingDecodeRef.current = null;
+      decodeVin();
+    }
+  }, [vinInput]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
     if (vehicle) {
@@ -556,6 +579,15 @@ export function VehicleFormTab({ vehicle, onSave, onCancel, flash, settings, set
                 placeholder="Enter 17-character VIN to auto-fill vehicle details"
                 className={`font-mono text-sm tracking-wider ${errors.vin ? 'border-red-400' : ''}`} />
             </div>
+            <button
+              type="button"
+              onClick={() => setVinScannerOpen(true)}
+              className="flex items-center justify-center gap-1.5 px-3 py-2 rounded-md border border-stone-200 bg-white text-stone-600 hover:bg-stone-50 hover:border-stone-300 text-sm font-medium transition-colors"
+              title="Scan VIN barcode with camera"
+            >
+              <Camera className="w-4 h-4" />
+              <span className="sm:hidden">Scan Barcode</span>
+            </button>
             <Btn variant="gold" icon={vinDecoding ? RefreshCw : Sparkles} disabled={vinDecoding || !vinInput}
               onClick={decodeVin} className={vinDecoding ? '[&>svg]:animate-spin' : ''}>
               {vinDecoding ? 'Decoding…' : 'Decode VIN'}
@@ -1232,6 +1264,17 @@ export function VehicleFormTab({ vehicle, onSave, onCancel, flash, settings, set
           </Btn>
         </div>
       </div>
+
+      <VinScanner
+        isOpen={vinScannerOpen}
+        onClose={() => setVinScannerOpen(false)}
+        onVinDetected={(vin) => {
+          setVinInput(vin);
+          setForm(f => ({ ...f, vin }));
+          setVinScannerOpen(false);
+          pendingDecodeRef.current = vin;
+        }}
+      />
     </div>
   );
 }
