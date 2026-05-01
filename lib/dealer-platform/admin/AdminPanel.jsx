@@ -21,6 +21,7 @@ import { defaultConfig } from '@/lib/dealer-platform/config/default-config';
 import { THEMES } from '@/lib/dealer-platform/theme/colors';
 
 import { AdminConfigContext } from './AdminConfigContext';
+import { useEspoCRMSync } from './useEspoCRMSync';
 import {
   storage, setStorageErrorHandler, buildSeedSettings,
   TODAY, isoAt, newId, GOLD,
@@ -72,6 +73,8 @@ function AdminPanelBody({ config, slug }) {
   // Per-dealer storage key namespacing
   const KEY = (k) => `${slug}-${k}`;
 
+  const espo = useEspoCRMSync(slug);
+
   /* ---------- chrome state ---------- */
   const [activeTab, setActiveTab] = useState('dashboard');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
@@ -102,7 +105,16 @@ function AdminPanelBody({ config, slug }) {
   useEffect(() => {
     let mounted = true;
     (async () => {
-      const [inv, lds, dls, sld, st, apts, rsvs, rvws, act, tks, msgs] = await Promise.all([
+      // Run EspoCRM fetches and storage reads in parallel.
+      // API fetches return null when EspoCRM is unavailable — no errors thrown.
+      const [
+        apiVehicles, apiLeads, apiAppointments, apiReservations,
+        inv, lds, dls, sld, st, apts, rsvs, rvws, act, tks, msgs,
+      ] = await Promise.all([
+        espo.fetchVehicles(),
+        espo.fetchLeads(),
+        espo.fetchAppointments(),
+        espo.fetchReservations(),
         storage.get(KEY('inventory'), null),
         storage.get(KEY('leads'), null),
         storage.get(KEY('deals'), null),
@@ -116,18 +128,48 @@ function AdminPanelBody({ config, slug }) {
         storage.get(KEY('messages'), null),
       ]);
       if (!mounted) return;
-      if (inv) setInventory(inv); else await storage.set(KEY('inventory'), SEED_INVENTORY);
-      if (lds) setLeads(lds); else await storage.set(KEY('leads'), SEED_LEADS);
+
+      // For each collection: prefer EspoCRM data, then storage, then seed.
+      // When API data is used, write it to storage as backup.
+      const finalInv = apiVehicles || inv || SEED_INVENTORY;
+      setInventory(finalInv);
+      if (apiVehicles) await storage.set(KEY('inventory'), finalInv);
+      else if (!inv) await storage.set(KEY('inventory'), SEED_INVENTORY);
+
+      const finalLeads = apiLeads || lds || SEED_LEADS;
+      setLeads(finalLeads);
+      if (apiLeads) await storage.set(KEY('leads'), finalLeads);
+      else if (!lds) await storage.set(KEY('leads'), SEED_LEADS);
+
+      // Deals and sold have no API endpoint — storage only.
       if (dls) setDeals(dls); else await storage.set(KEY('deals'), SEED_DEALS);
       if (sld) setSold(sld); else await storage.set(KEY('sold'), SEED_SOLD);
-      if (st) { setSettings(st); if (st.adminTheme === 'dark' || st.adminTheme === 'light') setAdminTheme(st.adminTheme); }
-      else { const seed = buildSeedSettings(config); setSettings(seed); await storage.set(KEY('settings'), seed); }
-      if (apts) setAppointments(apts); else await storage.set(KEY('appointments'), SEED_APPOINTMENTS);
-      if (rsvs) setReservations(rsvs); else await storage.set(KEY('reservations'), SEED_RESERVATIONS);
+
+      if (st) {
+        setSettings(st);
+        if (st.adminTheme === 'dark' || st.adminTheme === 'light') setAdminTheme(st.adminTheme);
+      } else {
+        const seed = buildSeedSettings(config);
+        setSettings(seed);
+        await storage.set(KEY('settings'), seed);
+      }
+
+      const finalApts = apiAppointments || apts || SEED_APPOINTMENTS;
+      setAppointments(finalApts);
+      if (apiAppointments) await storage.set(KEY('appointments'), finalApts);
+      else if (!apts) await storage.set(KEY('appointments'), SEED_APPOINTMENTS);
+
+      const finalRsvs = apiReservations || rsvs || SEED_RESERVATIONS;
+      setReservations(finalRsvs);
+      if (apiReservations) await storage.set(KEY('reservations'), finalRsvs);
+      else if (!rsvs) await storage.set(KEY('reservations'), SEED_RESERVATIONS);
+
+      // Reviews, activity, tasks, messages — storage only.
       if (rvws) setReviews(rvws); else await storage.set(KEY('reviews'), SEED_REVIEWS);
       if (act) setActivity(act); else await storage.set(KEY('activity'), SEED_ACTIVITY);
       if (tks) setTasks(tks); else await storage.set(KEY('tasks'), SEED_TASKS);
       if (msgs) setMessages(msgs); else await storage.set(KEY('messages'), SEED_MESSAGES);
+
       setLoaded(true);
     })();
     return () => { mounted = false; };
@@ -193,19 +235,34 @@ function AdminPanelBody({ config, slug }) {
   }, []);
 
   /* ---------- mutations ---------- */
-  const updateVehicle = (id, patch) => setInventory(arr => arr.map(v => v.id === id ? { ...v, ...patch } : v));
-  const removeVehicle = (id) => setInventory(arr => arr.filter(v => v.id !== id));
-  const addVehicle = (v) => setInventory(arr => [{ ...v, id: newId('v') }, ...arr]);
+  const updateVehicle = (id, patch) => {
+    const current = inventory.find(v => v.id === id);
+    setInventory(arr => arr.map(v => v.id === id ? { ...v, ...patch } : v));
+    if (current) espo.saveVehicle({ ...current, ...patch });
+  };
+
+  const removeVehicle = (id) => {
+    const v = inventory.find(x => x.id === id);
+    setInventory(arr => arr.filter(x => x.id !== id));
+    if (v?.espoId) espo.deleteVehicle(v.espoId);
+  };
+
+  const addVehicle = (v) => {
+    const withId = { ...v, id: newId('v') };
+    setInventory(arr => [withId, ...arr]);
+    espo.saveVehicle(withId);
+  };
 
   const markSoldVehicle = (id, buyerName, finalSalePrice) => {
     const v = inventory.find(x => x.id === id);
     if (!v) return;
+    const soldPrice = finalSalePrice ?? (v.salePrice ?? v.listPrice);
     const sale = {
       id: newId('s'),
       year: v.year, make: v.make, model: v.model, trim: v.trim,
       saleDate: new Date(TODAY).toISOString().slice(0, 10),
       listedPrice: v.listPrice,
-      salePrice: finalSalePrice ?? (v.salePrice ?? v.listPrice),
+      salePrice: soldPrice,
       cost: v.cost,
       daysOnLotAtSale: v.daysOnLot,
       buyerName: buyerName || 'Walk-in Buyer',
@@ -213,7 +270,12 @@ function AdminPanelBody({ config, slug }) {
       review: { status: 'not-sent', stars: null, method: 'email', sentAt: null }
     };
     setSold(arr => [sale, ...arr]);
-    removeVehicle(id);
+    // removeVehicle is now API-aware — pass espoId so EspoCRM is updated too
+    const toRemove = { ...v };
+    setInventory(arr => arr.filter(x => x.id !== id));
+    if (toRemove.espoId) {
+      espo.saveVehicle({ ...toRemove, status: 'Sold', finalSalePrice: soldPrice, buyerName: sale.buyerName });
+    }
     addActivity({
       type: 'sold',
       title: `${v.year} ${v.make} ${v.model} marked Sold to ${sale.buyerName}`,
@@ -246,15 +308,18 @@ function AdminPanelBody({ config, slug }) {
   const releaseReservation = (id) => {
     const released = reservations.find(r => r.id === id);
     setReservations(arr => arr.filter(r => r.id !== id));
+    if (released?.espoId) espo.saveReservation(released.espoId, 'release');
     flash('Reservation released', {
       tone: 'destructive',
       undo: () => released && setReservations(arr => [released, ...arr]),
     });
   };
   const extendReservation = (id) => {
-    setReservations(arr => arr.map(r => r.id === id
-      ? { ...r, expiresAt: new Date(new Date(r.expiresAt).getTime() + 24 * 3600 * 1000).toISOString() }
-      : r));
+    const r = reservations.find(x => x.id === id);
+    setReservations(arr => arr.map(x => x.id === id
+      ? { ...x, expiresAt: new Date(new Date(x.expiresAt).getTime() + 24 * 3600 * 1000).toISOString() }
+      : x));
+    if (r?.espoId) espo.saveReservation(r.espoId, 'extend');
     flash('Hold extended by 24 hours');
   };
   const confirmReservation = (id) => {
@@ -262,6 +327,7 @@ function AdminPanelBody({ config, slug }) {
     if (!r) return;
     setLeads(arr => arr.map(l => l.id === r.leadId ? { ...l, status: 'Appointment Set' } : l));
     setReservations(arr => arr.filter(x => x.id !== id));
+    if (r?.espoId) espo.saveReservation(r.espoId, 'confirm');
     flash(`${r.customerName} confirmed — moved to Appointments Set`);
   };
 
@@ -342,6 +408,7 @@ function AdminPanelBody({ config, slug }) {
         leads={leads} setLeads={setLeads}
         reservations={reservations} appointments={appointments}
         setActiveTab={setActiveTab} flash={flash}
+        espoAvailable={espo.espoAvailable}
       />
 
       <div className="flex">

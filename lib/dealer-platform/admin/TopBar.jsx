@@ -32,6 +32,7 @@ export function TopBar({
   unreadLeads, reservationCount,
   leads, setLeads, reservations, appointments,
   setActiveTab, flash,
+  espoAvailable,
 }) {
   const pageTitle = PAGE_TITLES[activeTab] || 'Dashboard';
   const userName = settings?.dealerName || config?.dealerName || 'Dealer';
@@ -63,6 +64,18 @@ export function TopBar({
           <kbd className="hidden md:inline-flex items-center px-1 py-0.5 ml-1 rounded text-[9px] font-mono"
             style={{ background: '#F9FAFB', color: '#9CA3AF', border: '1px solid #E5E7EB' }}>⌘K</kbd>
         </button>
+
+        <div className="hidden sm:flex items-center gap-1.5 px-2 py-1 rounded-md text-[11px] font-medium select-none"
+          title={espoAvailable ? 'Connected to EspoCRM' : 'Running in demo mode (local storage)'}
+          style={{
+            background: espoAvailable ? '#F0FDF4' : '#FEFCE8',
+            color: espoAvailable ? '#15803D' : '#92400E',
+            border: `1px solid ${espoAvailable ? '#BBF7D0' : '#FDE68A'}`,
+          }}>
+          <span className="w-1.5 h-1.5 rounded-full shrink-0"
+            style={{ backgroundColor: espoAvailable ? '#22C55E' : '#EAB308' }} />
+          {espoAvailable ? 'CRM' : 'Demo'}
+        </div>
 
         <button onClick={toggleTheme}
           title={adminTheme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
