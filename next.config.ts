@@ -110,13 +110,16 @@ const nextConfig: NextConfig = {
       },
       // LotPilot moved to its own domain
       { source: '/dealers/:path*',                destination: 'https://lotpilot.ai/dealers/:path*',  permanent: true },
+      { source: '/samples/example005',            destination: 'https://lotpilot.ai/dealers/lotcrm', permanent: true },
+      { source: '/samples/primo-admin/:path*',    destination: 'https://lotpilot.ai/dealers/lotcrm/admin', permanent: true },
+      { source: '/samples/primo-admin',           destination: 'https://lotpilot.ai/dealers/lotcrm/admin', permanent: true },
       { source: '/samples/primo-features/:path*', destination: 'https://lotpilot.ai/features',        permanent: true },
       { source: '/lotpilot/:path*',               destination: 'https://lotpilot.ai/:path*',          permanent: true },
       { source: '/embed/:path*',                  destination: 'https://lotpilot.ai/embed/:path*',    permanent: true },
       { source: '/api/dealer/:path*',             destination: 'https://lotpilot.ai/api/dealer/:path*', permanent: true },
     ];
   },
-  headers() {
+  async headers() {
     return [
       {
         // Catch-all security headers; embed route overrides X-Frame-Options below.
