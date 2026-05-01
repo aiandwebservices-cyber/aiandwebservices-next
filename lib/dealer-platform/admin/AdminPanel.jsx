@@ -16,7 +16,6 @@
  * isolated state.
  */
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
-import { Smartphone, X } from 'lucide-react';
 import { defaultConfig } from '@/lib/dealer-platform/config/default-config';
 import { THEMES } from '@/lib/dealer-platform/theme/colors';
 
@@ -47,6 +46,9 @@ import { PerformanceTab } from './PerformanceTab';
 import { TasksTab } from './TasksTab';
 import { CustomersTab } from './CustomersTab';
 import { ReportingTab } from './ReportingTab';
+import PWAInstallBanner from './PWAInstallBanner';
+import OfflineIndicator from './OfflineIndicator';
+import { useServiceWorker } from '@/lib/dealer-platform/hooks/useServiceWorker';
 
 import { SEED_VEHICLES as SEED_INVENTORY } from '@/lib/dealer-platform/data/seed-vehicles';
 import { SEED_LEADS } from '@/lib/dealer-platform/data/seed-leads';
@@ -83,7 +85,6 @@ function AdminPanelBody({ config, slug }) {
   const [helpOpen, setHelpOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const [adminTheme, setAdminTheme] = useState('light');
-  const [pwaDismissed, setPwaDismissed] = useState(false);
   const [loaded, setLoaded] = useState(false);
   const [toast, setToast] = useState(null);
   const [editingVehicleId, setEditingVehicleId] = useState(null);
@@ -198,6 +199,8 @@ function AdminPanelBody({ config, slug }) {
     setToast({ msg, tone, undo, id });
     setTimeout(() => setToast(t => (t?.id === id ? null : t)), ms);
   }, []);
+
+  useServiceWorker(flash);
 
   const addActivity = useCallback((entry) => {
     setActivity(arr => [{
@@ -377,24 +380,7 @@ function AdminPanelBody({ config, slug }) {
       style={{ ...THEMES[adminTheme], backgroundColor: 'var(--bg-app)', color: 'var(--text-primary)' }}>
       <FontStyles />
 
-      {!pwaDismissed && (
-        <div className="md:hidden no-print" style={{ background: `linear-gradient(to right, ${GOLD}22, ${GOLD}11)`, borderBottom: `1px solid ${GOLD}55` }}>
-          <div className="px-4 py-2.5 flex items-center gap-3">
-            <Smartphone className="w-5 h-5 shrink-0" style={{ color: '#7A5A0F' }} />
-            <div className="flex-1 min-w-0">
-              <div className="text-[13px] font-semibold leading-tight">Install {config.dealerName} Dashboard</div>
-              <div className="text-[10px]" style={{ color: 'var(--text-muted)' }}>Add to home screen — works offline, manage your lot from anywhere</div>
-            </div>
-            <button onClick={() => { flash('Add to Home Screen — use your browser menu'); setPwaDismissed(true); }}
-              className="text-[11px] font-bold px-3 py-1.5 rounded shrink-0"
-              style={{ backgroundColor: GOLD, color: '#1A1612' }}>Install</button>
-            <button onClick={() => setPwaDismissed(true)} aria-label="Dismiss"
-              className="p-1 text-stone-500 hover:text-stone-900 shrink-0">
-              <X className="w-4 h-4" />
-            </button>
-          </div>
-        </div>
-      )}
+      <OfflineIndicator />
 
       <TopBar
         config={config} settings={settings}
@@ -582,6 +568,8 @@ function AdminPanelBody({ config, slug }) {
           </div>
         </div>
       )}
+
+      <PWAInstallBanner flash={flash} />
     </div>
   );
 }

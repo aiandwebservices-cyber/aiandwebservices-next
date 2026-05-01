@@ -22,10 +22,23 @@ const mono = JetBrains_Mono({
   display: 'swap',
 });
 
+export const viewport = {
+  themeColor: '#2AA5A0',
+};
+
 export const metadata = {
   title: `${config.dealerName} — ${config.tagline}`,
   description: config.subtitle,
   robots: { index: false, follow: false },
+  manifest: '/lotpilot-manifest.json',
+  appleWebApp: {
+    capable: true,
+    statusBarStyle: 'black-translucent',
+    title: 'LotPilot',
+  },
+  icons: {
+    apple: '/icons/lotpilot-192.svg',
+  },
 };
 
 export default function PrimoDealerLayout({ children }) {
