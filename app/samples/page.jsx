@@ -1,8 +1,20 @@
 'use client';
-import { useEffect, useRef } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
 
 const SAMPLES = [
+  {
+    id: 'example005',
+    label: '05',
+    name: 'Primo Auto Group',
+    industry: 'Used Car Dealership',
+    tagline: 'Luxury for less. No games. No hidden fees.',
+    accent: '#D4AF37',
+    bg: '#0a0a0a',
+    desc: 'Flashy dealership site with payment toggle, vehicle modal w/ live calculator, trade-in tool, and finance pre-approval.',
+    tags: ['Dealership', 'Finance', 'Inventory'],
+    href: '/samples/example005',
+  },
   {
     id: 'example001',
     label: '01',
@@ -40,33 +52,14 @@ const SAMPLES = [
     href: '/samples/example003',
     centerHero: true,
   },
-  {
-    id: 'example005',
-    name: 'Primo Auto Group',
-    label: '05',
-    industry: 'Used Car Dealership',
-    tagline: "Luxury for less. No games. No hidden fees.",
-    accent: '#D4AF37',
-    bg: '#0a0a0a',
-    desc: 'Flashy dealership site with payment toggle, vehicle modal w/ live calculator, trade-in tool, and finance pre-approval.',
-    tags: ['Dealership', 'Finance', 'Inventory'],
-    href: '/samples/example005',
-  },
 ];
 
 export default function SamplesPage() {
-  const cardsRef = useRef([]);
+  const [idx, setIdx] = useState(0);
+  const s = SAMPLES[idx];
 
-  useEffect(() => {
-    const obs = new IntersectionObserver(
-      (entries) => entries.forEach(e => {
-        if (e.isIntersecting) e.target.classList.add('vis');
-      }),
-      { threshold: 0.15 }
-    );
-    cardsRef.current.forEach(el => el && obs.observe(el));
-    return () => obs.disconnect();
-  }, []);
+  const prev = () => setIdx(i => (i - 1 + SAMPLES.length) % SAMPLES.length);
+  const next = () => setIdx(i => (i + 1) % SAMPLES.length);
 
   return (
     <div style={{ background: '#080810', minHeight: '100vh', fontFamily: "'Inter', sans-serif", overflowX: 'hidden' }}>
@@ -94,14 +87,12 @@ export default function SamplesPage() {
       </nav>
 
       {/* HERO */}
-      <header style={{ paddingTop: 120, paddingBottom: 80, textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
-        {/* grid background */}
+      <header style={{ paddingTop: 120, paddingBottom: 64, textAlign: 'center', position: 'relative', overflow: 'hidden' }}>
         <div style={{
           position: 'absolute', inset: 0, zIndex: 0,
           backgroundImage: 'linear-gradient(rgba(42,165,160,0.07) 1px, transparent 1px), linear-gradient(90deg, rgba(42,165,160,0.07) 1px, transparent 1px)',
           backgroundSize: '48px 48px',
         }} />
-        {/* glow */}
         <div style={{
           position: 'absolute', top: '20%', left: '50%', transform: 'translateX(-50%)',
           width: 600, height: 300, borderRadius: '50%',
@@ -127,36 +118,59 @@ export default function SamplesPage() {
             </span>
           </h1>
           <p style={{ color: 'rgba(255,255,255,0.5)', fontSize: '1.1rem', lineHeight: 1.7, maxWidth: 520, margin: '0 auto 2.5rem' }}>
-            Browse 3 fully-built sample sites across different industries. Each one is custom-designed, scroll-animated, and ready to deploy for your business.
+            Browse 4 fully-built sample sites across different industries. Each one is custom-designed, scroll-animated, and ready to deploy for your business.
           </p>
-          <div style={{ display: 'flex', gap: 12, justifyContent: 'center', flexWrap: 'wrap' }}>
-            {SAMPLES.map(s => (
-              <a key={s.id} href={`#${s.id}`} style={{
-                padding: '8px 20px', borderRadius: 100,
-                background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
-                color: 'rgba(255,255,255,0.7)', fontSize: 13, fontWeight: 600,
-                textDecoration: 'none', transition: 'all 0.2s',
-              }}>
-                {s.industry}
-              </a>
+          {/* Sample selector pills */}
+          <div style={{ display: 'flex', gap: 10, justifyContent: 'center', flexWrap: 'wrap' }}>
+            {SAMPLES.map((sample, i) => (
+              <button
+                key={sample.id}
+                onClick={() => setIdx(i)}
+                style={{
+                  padding: '8px 20px', borderRadius: 100, border: 'none', cursor: 'pointer',
+                  background: i === idx
+                    ? sample.accent
+                    : 'rgba(255,255,255,0.06)',
+                  boxShadow: i === idx ? `0 0 20px ${sample.accent}50` : 'none',
+                  color: i === idx ? '#000' : 'rgba(255,255,255,0.7)',
+                  fontSize: 13, fontWeight: 700,
+                  transition: 'all 0.25s',
+                  outline: 'none',
+                }}
+              >
+                {sample.industry}
+              </button>
             ))}
           </div>
         </div>
       </header>
 
-      {/* SAMPLE CARDS */}
-      <section style={{ maxWidth: 1160, margin: '0 auto', padding: '2rem 1.5rem 8rem' }}>
-        {SAMPLES.map((s, i) => (
+      {/* SAMPLE CARD CAROUSEL */}
+      <section style={{ maxWidth: 1200, margin: '0 auto', padding: '0 1rem 8rem' }}>
+
+        {/* Arrow + card + arrow row */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+
+          {/* Left arrow */}
+          <button
+            onClick={prev}
+            aria-label="Previous sample"
+            style={{
+              flexShrink: 0, width: 44, height: 44, borderRadius: '50%',
+              background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
+              color: 'rgba(255,255,255,0.7)', fontSize: 18, cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              transition: 'all 0.2s', outline: 'none',
+            }}
+          >
+            ←
+          </button>
+
+          {/* Card */}
           <div
             key={s.id}
-            id={s.id}
-            ref={el => cardsRef.current[i] = el}
-            className="sample-card-wrap"
-            style={{
-              marginBottom: i < SAMPLES.length - 1 ? '7rem' : 0,
-              opacity: 0, transform: 'translateY(60px)',
-              transition: 'opacity 0.8s ease, transform 0.8s ease',
-            }}
+            className="sample-card-enter"
+            style={{ flex: 1, minWidth: 0 }}
           >
             {/* number + label row */}
             <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: '1.5rem' }}>
@@ -173,7 +187,7 @@ export default function SamplesPage() {
             <div style={{
               background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.08)',
               borderRadius: 24, overflow: 'hidden',
-              boxShadow: `0 0 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04)`,
+              boxShadow: `0 0 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(255,255,255,0.04), 0 0 80px ${s.accent}10`,
             }}>
               {/* top bar */}
               <div style={{
@@ -212,7 +226,6 @@ export default function SamplesPage() {
                     boxShadow: `0 20px 60px rgba(0,0,0,0.6), 0 0 40px ${s.accent}15`,
                     overflow: 'hidden', aspectRatio: '16/10',
                   }}>
-                    {/* mini page preview */}
                     <div style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}>
                       {s.centerHero ? (
                         <>
@@ -276,7 +289,6 @@ export default function SamplesPage() {
                       )}
                     </div>
                   </div>
-                  {/* monitor stand */}
                   <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <div style={{ width: '3%', height: 16, background: '#333', margin: '0 auto' }} />
                     <div style={{ width: '25%', height: 4, borderRadius: 2, background: '#333' }} />
@@ -375,7 +387,39 @@ export default function SamplesPage() {
               </div>
             </div>
           </div>
-        ))}
+
+          {/* Right arrow */}
+          <button
+            onClick={next}
+            aria-label="Next sample"
+            style={{
+              flexShrink: 0, width: 44, height: 44, borderRadius: '50%',
+              background: 'rgba(255,255,255,0.06)', border: '1px solid rgba(255,255,255,0.1)',
+              color: 'rgba(255,255,255,0.7)', fontSize: 18, cursor: 'pointer',
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              transition: 'all 0.2s', outline: 'none',
+            }}
+          >
+            →
+          </button>
+        </div>
+
+        {/* Dot indicators */}
+        <div style={{ display: 'flex', gap: 8, justifyContent: 'center', marginTop: '1.75rem', alignItems: 'center' }}>
+          {SAMPLES.map((sample, i) => (
+            <button
+              key={sample.id}
+              onClick={() => setIdx(i)}
+              aria-label={`Go to ${sample.name}`}
+              style={{
+                width: i === idx ? 28 : 8, height: 8, borderRadius: 4,
+                background: i === idx ? s.accent : 'rgba(255,255,255,0.2)',
+                border: 'none', cursor: 'pointer', padding: 0,
+                transition: 'all 0.3s', outline: 'none',
+              }}
+            />
+          ))}
+        </div>
       </section>
 
       {/* CTA FOOTER */}
@@ -404,8 +448,9 @@ export default function SamplesPage() {
       </section>
 
       <style>{`
-        .sample-card-wrap.vis { opacity: 1 !important; transform: translateY(0) !important; }
         @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+        @keyframes cardEnter { from { opacity:0; transform:translateY(24px); } to { opacity:1; transform:translateY(0); } }
+        .sample-card-enter { animation: cardEnter 0.4s ease both; }
         @media(max-width:768px){ .sample-info-strip{ padding-top: calc(1.5rem + 10px); } }
       `}</style>
     </div>
