@@ -2,7 +2,7 @@ import { defaultConfig } from '@/lib/dealer-platform/config/default-config';
 
 export const config = {
   ...defaultConfig,
-  dealerName: 'LotPilot.ai',
+  dealerName: 'LotCRM',
   dealerSlug: 'lotcrm',
   tagline:    'The CRM Built for Car Dealers',
   subtitle:   'Close More Deals. Follow Up Faster. Powered by LotPilot.ai.',
@@ -22,7 +22,7 @@ export const config = {
   },
   hero: {
     title1: 'Powered by',
-    title2: 'LotCRM',
+    title2: 'LotPilot.ai',
   },
   espocrm: {
     ...defaultConfig.espocrm,
