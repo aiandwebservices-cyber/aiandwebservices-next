@@ -332,6 +332,7 @@ function AdminPanelBody({ config, slug }) {
 
       <TopBar
         config={config} settings={settings}
+        activeTab={activeTab}
         setSidebarOpen={setSidebarOpen}
         searchOpen={searchOpen} setSearchOpen={setSearchOpen}
         adminTheme={adminTheme} toggleTheme={toggleTheme}

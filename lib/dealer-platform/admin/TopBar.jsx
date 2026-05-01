@@ -2,20 +2,28 @@
 import { Menu, Search, Moon, Sun, HelpCircle, Bell } from 'lucide-react';
 import { GOLD, RED_ACCENT } from './_internals';
 import { NotificationDropdown } from './NotificationDropdown';
+import { NAV_ITEMS } from './Sidebar';
 
-/**
- * Topbar — sticky at top, hosts:
- *   - Mobile hamburger (opens sidebar drawer)
- *   - Dealer logo + name + "Dealer Dashboard" tagline
- *   - "Signed in as" indicator
- *   - Search button (Cmd+K)
- *   - Theme toggle (sun/moon)
- *   - Help button
- *   - Notification bell + dropdown
- *   - User avatar (initials)
- */
+const PAGE_TITLES = {
+  dashboard:    'Dashboard',
+  inventory:    'Inventory',
+  addVehicle:   'Add Vehicle',
+  leads:        'Leads',
+  customers:    'Customers',
+  tasks:        'Tasks',
+  deals:        'Deal Builder',
+  documents:    'Documents',
+  appointments: 'Service',
+  sold:         'Sold Vehicles',
+  marketing:    'Marketing',
+  reporting:    'Reporting',
+  performance:  'Performance',
+  settings:     'Settings',
+};
+
 export function TopBar({
   config, settings,
+  activeTab,
   setSidebarOpen,
   searchOpen, setSearchOpen,
   adminTheme, toggleTheme,
@@ -25,60 +33,65 @@ export function TopBar({
   leads, setLeads, reservations, appointments,
   setActiveTab, flash,
 }) {
+  const pageTitle = PAGE_TITLES[activeTab] || 'Dashboard';
+  const userName = settings?.dealerName || config?.dealerName || 'Dealer';
+  const initials = userName.split(' ').map(p => p[0]).slice(0, 2).join('').toUpperCase();
+
   return (
-    <header className="sticky top-0 z-30 bg-white border-b border-stone-200 no-print">
-      <div className="flex items-center h-14 px-4 lg:px-6 gap-4">
+    <header className="sticky top-0 z-30 no-print"
+      style={{ background: '#FFFFFF', borderBottom: '1px solid #E5E7EB' }}>
+      <div className="flex items-center px-4 lg:px-6 gap-3" style={{ height: 56 }}>
         <button onClick={() => setSidebarOpen(true)}
-          className="p-1.5 rounded hover:bg-stone-100 lg:hidden">
-          <Menu className="w-5 h-5" />
+          className="p-1.5 rounded-md transition lg:hidden hover:bg-[#F9FAFB]">
+          <Menu className="w-5 h-5" style={{ color: '#1A1A1A' }} />
         </button>
-        <div className="flex items-center gap-3 min-w-0">
-          <div className="w-7 h-7 rounded-sm flex items-center justify-center"
-            style={{ background: `linear-gradient(135deg, ${GOLD} 0%, #9a7d28 100%)` }}>
-            <span className="font-display font-bold text-[13px] text-white">P</span>
-          </div>
-          <div className="min-w-0">
-            <div className="flex items-baseline gap-2">
-              <span className="font-display text-[15px] font-semibold tracking-tight">{config.dealerName || 'Demo Auto Group'}</span>
-              <span className="text-stone-300 hidden sm:inline">/</span>
-              <span className="text-[12px] smallcaps text-stone-500 hidden sm:inline">Dealer Dashboard</span>
-            </div>
-          </div>
-        </div>
+
+        <h1 className="text-base font-semibold tracking-tight truncate" style={{ color: '#1A1A1A' }}>
+          {pageTitle}
+        </h1>
 
         <div className="flex-1" />
 
-        <div className="hidden md:flex items-center gap-2 text-xs text-stone-600">
-          <span className="smallcaps text-stone-400">Signed in as</span>
-          <span className="font-medium text-stone-900">{settings.dealerName || config.dealerName || 'Dealer'}</span>
-        </div>
-
         <button onClick={() => setSearchOpen(true)}
           title="Search (⌘K)"
-          className="hidden sm:inline-flex items-center gap-2 px-2.5 py-1.5 rounded-md border border-stone-200 hover:bg-stone-100 text-xs text-stone-500 transition">
+          className="hidden sm:inline-flex items-center gap-2 px-3 rounded-md transition text-xs"
+          style={{ height: 36, border: '1px solid #E5E7EB', background: '#FFFFFF', color: '#6B7280' }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = '#F9FAFB'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = '#FFFFFF'; }}>
           <Search className="w-3.5 h-3.5" />
           <span className="hidden md:inline">Search</span>
-          <kbd className="hidden md:inline-flex items-center px-1 py-0.5 ml-1 rounded text-[9px] font-mono bg-stone-100 text-stone-500 border border-stone-200">⌘K</kbd>
+          <kbd className="hidden md:inline-flex items-center px-1 py-0.5 ml-1 rounded text-[9px] font-mono"
+            style={{ background: '#F9FAFB', color: '#9CA3AF', border: '1px solid #E5E7EB' }}>⌘K</kbd>
         </button>
 
         <button onClick={toggleTheme}
           title={adminTheme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
-          className="p-2 rounded hover:bg-stone-100 transition">
+          className="rounded-md transition flex items-center justify-center"
+          style={{ width: 36, height: 36 }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = '#F9FAFB'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}>
           {adminTheme === 'light'
-            ? <Moon className="w-4 h-4 text-stone-700" strokeWidth={2} />
-            : <Sun className="w-4 h-4 text-amber-400" strokeWidth={2} />}
+            ? <Moon className="w-4 h-4" strokeWidth={2} style={{ color: '#6B7280' }} />
+            : <Sun className="w-4 h-4" strokeWidth={2} style={{ color: '#F59E0B' }} />}
         </button>
 
         <button onClick={() => setHelpOpen(true)}
           title="Help"
-          className="p-2 rounded hover:bg-stone-100 transition">
-          <HelpCircle className="w-4 h-4 text-stone-700" strokeWidth={2} />
+          className="rounded-md transition flex items-center justify-center"
+          style={{ width: 36, height: 36 }}
+          onMouseEnter={(e) => { e.currentTarget.style.background = '#F9FAFB'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}>
+          <HelpCircle className="w-4 h-4" strokeWidth={2} style={{ color: '#6B7280' }} />
         </button>
 
         <div className="relative">
-          <button className="relative p-2 rounded hover:bg-stone-100" onClick={() => setNotifOpen(o => !o)}
-            title="Notifications">
-            <Bell className="w-4 h-4 text-stone-700" strokeWidth={2} />
+          <button className="relative rounded-md transition flex items-center justify-center"
+            style={{ width: 36, height: 36 }}
+            onClick={() => setNotifOpen(o => !o)}
+            title="Notifications"
+            onMouseEnter={(e) => { e.currentTarget.style.background = '#F9FAFB'; }}
+            onMouseLeave={(e) => { e.currentTarget.style.background = 'transparent'; }}>
+            <Bell className="w-4 h-4" strokeWidth={2} style={{ color: '#6B7280' }} />
             {(unreadLeads + reservationCount) > 0 && (
               <span className="absolute top-1 right-1 min-w-[16px] h-4 px-1 rounded-full text-[9px] font-bold text-white flex items-center justify-center pulse-dot"
                 style={{ backgroundColor: RED_ACCENT }}>{unreadLeads + reservationCount}</span>
@@ -94,8 +107,10 @@ export function TopBar({
           )}
         </div>
 
-        <div className="w-7 h-7 rounded-full bg-stone-200 flex items-center justify-center text-[11px] font-semibold text-stone-700">
-          {(settings.dealerName || config.dealerName || 'M E').split(' ').map(p => p[0]).slice(0, 2).join('')}
+        <div className="flex items-center justify-center rounded-full text-xs font-semibold"
+          style={{ width: 32, height: 32, background: '#F9FAFB', border: '1px solid #E5E7EB', color: '#1A1A1A' }}
+          title={userName}>
+          {initials || 'D'}
         </div>
       </div>
     </header>

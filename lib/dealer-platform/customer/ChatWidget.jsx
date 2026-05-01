@@ -434,7 +434,7 @@ export function AIChatWidget({ open, onToggle }) {
               fontSize: 10, color: '#9CA3AF',
               textAlign: 'center', marginTop: 8,
             }}>
-              Powered by AutoRival AI
+              Powered by LotPilot AI
             </div>
           </div>
         </div>

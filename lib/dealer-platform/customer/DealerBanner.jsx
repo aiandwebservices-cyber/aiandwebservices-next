@@ -38,7 +38,7 @@ export function DealerBanner() {
         boxShadow: '0 2px 8px rgba(0,0,0,0.18)',
       }}>
         <span className="dealer-banner-text" style={{ textAlign: 'center' }}>
-          🚗 Car Dealer? See How AutoRival.ai Can Transform Your Dealership
+          🚗 Car Dealer? See How LotPilot.ai Can Transform Your Dealership
         </span>
         <a href="/samples/primo-features" style={{
           color: '#0a0a0a', textDecoration: 'underline', fontWeight: 700,

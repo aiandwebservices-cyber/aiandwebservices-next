@@ -127,7 +127,7 @@ const FEATURE_GROUPS = [
 
 const TESTIMONIALS = [
   {
-    quote: "We cut our software spend by $14,000 last year switching to AutoRival.ai. The admin panel alone is worth it — I manage everything from my phone.",
+    quote: "We cut our software spend by $14,000 last year switching to LotPilot.ai. The admin panel alone is worth it — I manage everything from my phone.",
     name: 'Marcus Reid',
     title: 'Owner',
     dealership: 'Reid Family Auto Sales',
@@ -166,25 +166,25 @@ const STEPS = [
 
 /* ── Comparison table data ────────────────────────────────── */
 const COMP_ROWS = [
-  { feature: 'Dealer website',              dealeron: 'check', dealercom: 'check', dealerai: 'cross', autorival: 'check' },
-  { feature: 'Admin panel / CRM',           dealeron: 'addon', dealercom: 'addon', dealerai: 'cross', autorival: 'check' },
-  { feature: 'AI sales agent (chat + SMS)', dealeron: 'cross', dealercom: 'cross', dealerai: 'check', autorival: 'check' },
-  { feature: 'AI description writer',       dealeron: 'cross', dealercom: 'cross', dealerai: 'cross', autorival: 'check' },
-  { feature: 'AI lead scoring',             dealeron: 'cross', dealercom: 'addon', dealerai: 'cross', autorival: 'check' },
-  { feature: 'AI price intelligence',       dealeron: 'cross', dealercom: 'cross', dealerai: 'cross', autorival: 'check' },
-  { feature: 'AI follow-up sequences',      dealeron: 'cross', dealercom: 'cross', dealerai: 'addon', autorival: 'check' },
-  { feature: 'AI review responder',         dealeron: 'cross', dealercom: 'cross', dealerai: 'cross', autorival: 'check' },
-  { feature: 'Stripe payments + deposits',  dealeron: 'addon', dealercom: 'addon', dealerai: 'cross', autorival: 'check' },
-  { feature: 'Service scheduling',          dealeron: 'addon', dealercom: 'check', dealerai: 'cross', autorival: 'check' },
-  { feature: 'VIN decoder + NHTSA data',   dealeron: 'check', dealercom: 'check', dealerai: 'cross', autorival: 'check' },
-  { feature: 'Photo management',            dealeron: 'check', dealercom: 'check', dealerai: 'cross', autorival: 'check' },
-  { feature: 'n8n automation workflows',   dealeron: 'cross', dealercom: 'cross', dealerai: 'cross', autorival: 'check' },
+  { feature: 'Dealer website',              dealeron: 'check', dealercom: 'check', dealerai: 'cross', lotpilot: 'check' },
+  { feature: 'Admin panel / CRM',           dealeron: 'addon', dealercom: 'addon', dealerai: 'cross', lotpilot: 'check' },
+  { feature: 'AI sales agent (chat + SMS)', dealeron: 'cross', dealercom: 'cross', dealerai: 'check', lotpilot: 'check' },
+  { feature: 'AI description writer',       dealeron: 'cross', dealercom: 'cross', dealerai: 'cross', lotpilot: 'check' },
+  { feature: 'AI lead scoring',             dealeron: 'cross', dealercom: 'addon', dealerai: 'cross', lotpilot: 'check' },
+  { feature: 'AI price intelligence',       dealeron: 'cross', dealercom: 'cross', dealerai: 'cross', lotpilot: 'check' },
+  { feature: 'AI follow-up sequences',      dealeron: 'cross', dealercom: 'cross', dealerai: 'addon', lotpilot: 'check' },
+  { feature: 'AI review responder',         dealeron: 'cross', dealercom: 'cross', dealerai: 'cross', lotpilot: 'check' },
+  { feature: 'Stripe payments + deposits',  dealeron: 'addon', dealercom: 'addon', dealerai: 'cross', lotpilot: 'check' },
+  { feature: 'Service scheduling',          dealeron: 'addon', dealercom: 'check', dealerai: 'cross', lotpilot: 'check' },
+  { feature: 'VIN decoder + NHTSA data',   dealeron: 'check', dealercom: 'check', dealerai: 'cross', lotpilot: 'check' },
+  { feature: 'Photo management',            dealeron: 'check', dealercom: 'check', dealerai: 'cross', lotpilot: 'check' },
+  { feature: 'n8n automation workflows',   dealeron: 'cross', dealercom: 'cross', dealerai: 'cross', lotpilot: 'check' },
 ];
 
 const SAVINGS_BARS = [
   { label: 'DealerOn + vAuto + VinSolutions', price: 2799, pct: 100, color: '#FF5555' },
   { label: 'Dealer.com + DealerAI',           price: 2150, pct: 77,  color: '#FF7777' },
-  { label: 'AutoRival.ai Professional',        price: 1199, pct: 43,  color: GOLD },
+  { label: 'LotPilot.ai Professional',        price: 1199, pct: 43,  color: GOLD },
 ];
 
 const PRICING_TIERS = [
@@ -394,9 +394,9 @@ function CompetitiveSection() {
               fontFamily: "var(--font-cormorant), serif",
               fontSize: 'clamp(36px, 5vw, 56px)',
               fontWeight: 700, lineHeight: 1.05, color: TEXT, marginBottom: 16,
-            }}>Why dealers switch to AutoRival.ai</h2>
+            }}>Why dealers switch to LotPilot.ai</h2>
             <p style={{ fontSize: 18, color: MUTED, lineHeight: 1.65, maxWidth: 640 }}>
-              DealerOn and Dealer.com charge $1,499–$1,650/mo — and you still pay extra for CRM, AI, and automation. AutoRival.ai includes it all.
+              DealerOn and Dealer.com charge $1,499–$1,650/mo — and you still pay extra for CRM, AI, and automation. LotPilot.ai includes it all.
             </p>
           </div>
         </FadeSection>
@@ -416,7 +416,7 @@ function CompetitiveSection() {
                   {headerCell('DealerOn', false)}
                   {headerCell('Dealer.com', false)}
                   {headerCell('DealerAI', false)}
-                  {headerCell('AutoRival.ai ✦', true)}
+                  {headerCell('LotPilot.ai ✦', true)}
                 </tr>
               </thead>
               <tbody>
@@ -431,7 +431,7 @@ function CompetitiveSection() {
                     <td style={{ ...colStyle(false), padding: '13px 10px' }}><CompCell val={row.dealeron} /></td>
                     <td style={{ ...colStyle(false), padding: '13px 10px' }}><CompCell val={row.dealercom} /></td>
                     <td style={{ ...colStyle(false), padding: '13px 10px' }}><CompCell val={row.dealerai} /></td>
-                    <td style={{ ...colStyle(true), padding: '13px 10px' }}><CompCell val={row.autorival} highlight /></td>
+                    <td style={{ ...colStyle(true), padding: '13px 10px' }}><CompCell val={row.lotpilot} highlight /></td>
                   </tr>
                 ))}
                 {/* Price row */}
@@ -517,7 +517,7 @@ function CompetitiveSection() {
                   fontSize: 'clamp(26px, 4vw, 38px)', fontWeight: 700, color: GOLD, lineHeight: 1.1,
                 }}>Save $950–1,600/mo</div>
                 <div style={{ fontSize: 15, color: '#c8c0a8', marginTop: 6 }}>
-                  That&rsquo;s <strong style={{ color: TEXT }}>$11,400–19,200 per year</strong> switching to AutoRival.ai Professional
+                  That&rsquo;s <strong style={{ color: TEXT }}>$11,400–19,200 per year</strong> switching to LotPilot.ai Professional
                 </div>
               </div>
               <a href="#pricing-tiers" style={{
@@ -657,9 +657,9 @@ const AI_FEATURES = [
     title: '24/7 AI Sales Agent',
     subtitle: 'Never miss a lead again — even at 2am',
     desc: 'When a customer asks "Do you have any SUVs under $40K?" at 11pm, your AI agent responds in seconds with real vehicles from your inventory, accurate monthly payments, and books a test drive — all while your team sleeps. Handles chat on your website AND incoming text messages.',
-    stats: ['Responds in <5 seconds', 'Knows your entire inventory', 'Captures leads automatically'],
+    stats: ['<5 sec response', 'Knows entire inventory', 'Auto-captures leads'],
     demo: '/samples/example005',
-    competitor: 'DriveCentric charges $500+/mo for their auto-responder. Ours is included.',
+    competitor: 'Replaces: BDC staff ($3,000–5,000/mo)',
   },
   {
     key: 'descriptions',
@@ -679,17 +679,18 @@ const AI_FEATURES = [
     subtitle: 'Know who to call first — every time',
     desc: 'Not every lead is equal. The AI analyzes what each customer did on your site — which vehicles they viewed, whether they used the payment calculator, if they started Build Your Deal — and scores them 0–100. Your hottest leads surface to the top automatically.',
     scoreboard: true,
-    competitor: 'VinSolutions charges $300+/mo for lead scoring. Ours is built in.',
+    competitor: 'Replaces: VinSolutions ($300/mo)',
   },
   {
     key: 'pricing',
     IconComp: TrendingUp,
     color: '#FB923C',
     title: 'AI Pricing Intelligence',
-    subtitle: 'Stop guessing — know when to drop the price',
-    desc: "The AI monitors every vehicle's days on lot, margin, and market position. When your 2021 Lexus RX hits 52 days, you get a specific recommendation: \"Drop to $29,995 — estimated to sell within 2 weeks at $4,195 gross.\" Set auto-pricing rules and let the AI manage aging inventory for you.",
+    subtitle: 'Monitors days on lot, margin, and market position.',
+    desc: "Set auto-pricing rules and let the AI manage aging inventory for you. When a vehicle hits 45+ days on lot or drifts above market, you get a specific, margin-aware recommendation — not a generic alert.",
+    pricingRec: true,
     stats: ['Daily lot health score', 'Auto-price rules', 'Margin-aware recommendations'],
-    competitor: 'vAuto charges $500+/mo for pricing intelligence. Ours is included.',
+    competitor: 'Replaces: vAuto ($500/mo)',
   },
   {
     key: 'followup',
@@ -712,7 +713,7 @@ const AI_FEATURES = [
 ];
 
 function AiCard({ feat }) {
-  const { IconComp, color, title, subtitle, desc, stats, competitor, demo, beforeAfter, scoreboard, followupStages } = feat;
+  const { IconComp, color, title, subtitle, desc, stats, competitor, demo, beforeAfter, scoreboard, pricingRec, followupStages } = feat;
   return (
     <div
       style={{
@@ -783,6 +784,37 @@ function AiCard({ feat }) {
           <div style={{ background: '#071310', border: '1px solid #4ADE8020', borderRadius: 8, padding: '14px 16px' }}>
             <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#4ADE80', marginBottom: 6 }}>After (AI Generated)</div>
             <p style={{ fontSize: 13, color: '#90b07a', lineHeight: 1.55 }}>One-owner 2023 BMW X5 with the M Sport package, panoramic roof, and just 28K highway miles. Finished in Alpine White over Black leather. Passed our 150-point inspection — this spec doesn&rsquo;t come up often.</p>
+          </div>
+        </div>
+      )}
+
+      {pricingRec && (
+        <div style={{
+          marginBottom: 16, background: '#0d0906',
+          border: '1px solid #FB923C28', borderRadius: 10,
+          overflow: 'hidden', fontFamily: 'monospace',
+        }}>
+          <div style={{
+            padding: '8px 14px', borderBottom: '1px solid #FB923C18',
+            background: '#FB923C0a',
+            fontSize: 10, fontWeight: 700, letterSpacing: '0.12em',
+            textTransform: 'uppercase', color: '#FB923C99',
+          }}>AI RECOMMENDATION · 2021 LEXUS RX 350</div>
+          <div style={{ padding: '14px 16px', display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+              {[
+                ['52 days on lot', '#FF7070'],
+                ['$3,800 above market', '#FBBF24'],
+              ].map(([label, c]) => (
+                <span key={label} style={{
+                  fontSize: 11, fontWeight: 700, padding: '3px 10px',
+                  borderRadius: 4, background: `${c}14`, border: `1px solid ${c}30`, color: c,
+                }}>{label}</span>
+              ))}
+            </div>
+            <div style={{ fontSize: 13, color: '#FB923C', lineHeight: 1.5 }}>
+              → Drop to $29,995 — sell in 2 weeks at $4,195 gross
+            </div>
           </div>
         </div>
       )}
@@ -879,7 +911,7 @@ function AiSavingsTable() {
         marginBottom: 40, maxWidth: 580, marginLeft: 'auto', marginRight: 'auto',
       }}>
         DriveCentric, VinSolutions, and vAuto charge $500–1,500/mo <em>each</em> for individual AI features.
-        AutoRival.ai includes all 6 in every plan.
+        LotPilot.ai includes all 6 in every plan.
       </p>
 
       <div style={{ maxWidth: 660, margin: '0 auto' }}>
@@ -891,7 +923,7 @@ function AiSavingsTable() {
         }}>
           <span style={{ textAlign: 'left' }}>Competitor Feature</span>
           <span style={{ textAlign: 'right' }}>Their Price</span>
-          <span style={{ textAlign: 'right' }}>AutoRival.ai</span>
+          <span style={{ textAlign: 'right' }}>LotPilot.ai</span>
         </div>
 
         {rows.map(([label, price], i) => (
@@ -950,11 +982,11 @@ function AiShowcaseSection() {
               fontFamily: "var(--font-cormorant), serif",
               fontSize: 'clamp(36px, 5vw, 56px)',
               fontWeight: 700, lineHeight: 1.05, color: TEXT, marginBottom: 16,
-            }}>6 AI agents included in every plan</h2>
+            }}>6 AI Agents. Zero Extra Cost.</h2>
             <p style={{ fontSize: 18, color: MUTED, lineHeight: 1.65, maxWidth: 620 }}>
               Your competitors charge{' '}
               <span style={{ color: '#FF8080', fontWeight: 700 }}>$500+/mo for ONE AI feature.</span>{' '}
-              <span style={{ color: GOLD, fontWeight: 700 }}>AutoRival.ai</span> includes all six.
+              <span style={{ color: GOLD, fontWeight: 700 }}>LotPilot.ai</span> includes all six.
             </p>
           </div>
         </FadeSection>
@@ -993,7 +1025,7 @@ function AiShowcaseSection() {
               </span>
             ))}
             <span style={{ color: '#3a3028', margin: '0 8px' }}>→</span>
-            <span style={{ fontSize: 14, fontWeight: 800, color: GOLD }}>All included with AutoRival.ai</span>
+            <span style={{ fontSize: 14, fontWeight: 800, color: GOLD }}>All included with LotPilot.ai</span>
           </div>
         </FadeSection>
       </div>
@@ -1036,7 +1068,7 @@ export default function PrimoFeaturesPage() {
               fontSize: 11, fontWeight: 700, letterSpacing: '0.18em',
               textTransform: 'uppercase', color: GOLD, marginBottom: 36,
             }}>
-              AutoRival.ai — AI-Powered Dealer Platform · from $699/mo
+              LotPilot.ai — AI-Powered Dealer Platform · from $699/mo
             </div>
           </FadeSection>
 
@@ -1055,7 +1087,7 @@ export default function PrimoFeaturesPage() {
 
           <FadeSection delay={0.2}>
             <p style={{ fontSize: 19, color: MUTED, lineHeight: 1.65, maxWidth: 560, marginBottom: 52 }}>
-              AutoRival.ai gives independent car dealers a complete digital platform — custom website, dealer admin panel, CRM, 6 AI agents, and automation — at a price that finally makes sense.
+              LotPilot.ai gives independent car dealers a complete digital platform — custom website, dealer admin panel, CRM, 6 AI agents, and automation — at a price that finally makes sense.
             </p>
           </FadeSection>
 
@@ -1162,7 +1194,7 @@ export default function PrimoFeaturesPage() {
             </div>
           </FadeSection>
 
-          {/* AutoRival.ai */}
+          {/* LotPilot.ai */}
           <FadeSection delay={0.2}>
             <div style={{
               background: '#080f07', border: `1px solid ${GOLD}55`,
@@ -1180,7 +1212,7 @@ export default function PrimoFeaturesPage() {
               <p style={{
                 fontSize: 11, fontWeight: 700, letterSpacing: '0.2em',
                 textTransform: 'uppercase', color: GOLD, marginBottom: 24,
-              }}>AutoRival.ai — Everything Included</p>
+              }}>LotPilot.ai — Everything Included</p>
 
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 {[
@@ -1242,7 +1274,7 @@ export default function PrimoFeaturesPage() {
               }}>🤖 AI Built Into Every Feature</h2>
               <p style={{ fontSize: 18, color: MUTED, lineHeight: 1.65, maxWidth: 640 }}>
                 Your competitors are paying $500+/mo for basic automation.{' '}
-                <span style={{ color: GOLD, fontWeight: 700 }}>AutoRival.ai</span> includes{' '}
+                <span style={{ color: GOLD, fontWeight: 700 }}>LotPilot.ai</span> includes{' '}
                 <span style={{ color: GOLD, fontWeight: 700 }}>6 AI agents</span> at no extra cost.
               </p>
             </div>

@@ -717,13 +717,13 @@ export function MarketingTab({ inventory, setInventory, settings, setSettings, s
               <div className="mt-3 p-3 rounded-md flex items-center justify-between gap-3"
                 style={{ backgroundColor: '#FFFCF2', border: `1px solid ${GOLD}33` }}>
                 <div className="text-sm">
-                  <span className="font-semibold" style={{ color: '#7A5A0F' }}>Your website (AutoRival):</span>
+                  <span className="font-semibold" style={{ color: '#7A5A0F' }}>Your website (LotPilot):</span>
                   <span className="ml-2 tabular">6,200 views, 12 leads — Free</span>
                 </div>
                 <span className="text-[11px] smallcaps font-semibold" style={{ color: GOLD }}>Owned channel</span>
               </div>
               <div className="mt-2 text-[11px] text-stone-500 italic">
-                AutoRival.ai manages your listings across all platforms from one dashboard.
+                LotPilot.ai manages your listings across all platforms from one dashboard.
               </div>
             </Card>
           </>

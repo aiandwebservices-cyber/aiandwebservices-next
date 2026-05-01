@@ -488,7 +488,7 @@ export const FontStyles = () => (
     .scrollbar-thin::-webkit-scrollbar { width: 6px; height: 6px; }
     .scrollbar-thin::-webkit-scrollbar-thumb { background: #d6d2c8; border-radius: 3px; }
     .scrollbar-thin::-webkit-scrollbar-track { background: transparent; }
-    .ring-gold:focus { outline: none; box-shadow: 0 0 0 2px #fff, 0 0 0 4px ${GOLD}; }
+    .ring-gold:focus { outline: none; border-color: ${GOLD} !important; box-shadow: 0 0 0 3px ${GOLD}30; }
     @keyframes slide-in { from { transform: translateY(8px); opacity: 0 } to { transform: translateY(0); opacity: 1 } }
     .anim-slide { animation: slide-in 240ms cubic-bezier(.2,.8,.2,1) both; }
     @keyframes pulse-dot { 0%, 100% { box-shadow: 0 0 0 0 rgba(195,59,59,0.7) } 50% { box-shadow: 0 0 0 6px rgba(195,59,59,0) } }
@@ -592,8 +592,8 @@ export const Toggle = ({ checked, onChange, label, description, disabled }) => (
 export const Field = ({ label, hint, required, children, className = '' }) => (
   <div className={`flex flex-col gap-1.5 ${className}`}>
     {label && (
-      <label className="text-[11px] font-semibold smallcaps" style={{ color: 'var(--text-secondary)' }}>
-        {label}{required && <span className="text-red-700 ml-0.5">*</span>}
+      <label className="text-xs font-medium" style={{ color: '#374151' }}>
+        {label}{required && <span className="ml-0.5" style={{ color: '#EF4444' }}>*</span>}
       </label>
     )}
     {children}
@@ -603,16 +603,16 @@ export const Field = ({ label, hint, required, children, className = '' }) => (
 
 export const Input = React.forwardRef(({ className = '', style, ...props }, ref) => (
   <input ref={ref} {...props}
-    style={{ backgroundColor: 'var(--bg-input)', borderColor: 'var(--border-strong)', color: 'var(--text-primary)', ...style }}
-    className={`w-full px-3 py-2 border rounded-md text-sm placeholder:text-stone-400 ring-gold transition ${className}`} />
+    style={{ backgroundColor: 'var(--bg-input)', borderColor: 'var(--border-strong)', color: 'var(--text-primary)', height: 40, ...style }}
+    className={`w-full px-3 border rounded-md text-sm placeholder:text-stone-400 ring-gold transition-all duration-150 ${className}`} />
 ));
 Input.displayName = 'Input';
 
 export const Select = ({ children, className = '', style, ...props }) => (
   <div className="relative">
     <select {...props}
-      style={{ backgroundColor: 'var(--bg-input)', borderColor: 'var(--border-strong)', color: 'var(--text-primary)', ...style }}
-      className={`w-full pl-3 pr-9 py-2 border rounded-md text-sm appearance-none ring-gold ${className}`}>
+      style={{ backgroundColor: 'var(--bg-input)', borderColor: 'var(--border-strong)', color: 'var(--text-primary)', height: 40, ...style }}
+      className={`w-full pl-3 pr-9 border rounded-md text-sm appearance-none ring-gold transition-all duration-150 ${className}`}>
       {children}
     </select>
     <ChevronDown className="w-4 h-4 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--text-muted)' }} />
@@ -622,30 +622,36 @@ export const Select = ({ children, className = '', style, ...props }) => (
 export const Textarea = ({ className = '', style, ...props }) => (
   <textarea {...props}
     style={{ backgroundColor: 'var(--bg-input)', borderColor: 'var(--border-strong)', color: 'var(--text-primary)', ...style }}
-    className={`w-full px-3 py-2 border rounded-md text-sm placeholder:text-stone-400 ring-gold resize-y ${className}`} />
+    className={`w-full px-3 py-2.5 border rounded-md text-sm placeholder:text-stone-400 ring-gold resize-y transition-all duration-150 ${className}`} />
 );
 
 export const Btn = ({ variant = 'default', size = 'md', icon: Icon, children, className = '', ...props }) => {
   const sizes = {
-    sm: 'px-2.5 py-1.5 text-xs gap-1.5',
-    md: 'px-3.5 py-2 text-sm gap-2',
-    lg: 'px-5 py-2.5 text-sm gap-2'
+    sm: 'px-2.5 text-xs gap-1.5 h-7',
+    md: 'px-4 text-sm gap-2 h-9',
+    lg: 'px-5 text-sm gap-2 h-10'
   };
   const variants = {
-    default: 'bg-white border border-stone-300 text-stone-800 hover:bg-stone-50',
-    gold: 'text-stone-900 border border-transparent hover:brightness-95',
-    dark: 'bg-stone-900 text-white border border-stone-900 hover:bg-stone-800',
-    ghost: 'bg-transparent border border-transparent text-stone-700 hover:bg-stone-100',
-    outlineGold: 'bg-white border text-stone-900 hover:bg-amber-50',
-    danger: 'bg-white border border-red-300 text-red-700 hover:bg-red-50',
-    soft: 'bg-stone-100 border border-transparent text-stone-800 hover:bg-stone-200'
+    default: 'bg-white border text-[#1A1A1A] hover:bg-[#F9FAFB]',
+    gold: 'text-[#1A1A1A] border border-transparent hover:brightness-95',
+    dark: 'bg-[#1A1A1A] text-white border border-[#1A1A1A] hover:bg-[#2A2A2A]',
+    ghost: 'bg-transparent border border-transparent text-[#6B7280] hover:bg-[#F9FAFB]',
+    outlineGold: 'bg-white border text-[#1A1A1A] hover:bg-amber-50',
+    danger: 'bg-white border text-[#EF4444] hover:bg-red-50',
+    soft: 'border border-transparent text-[#1A1A1A]'
   };
-  const goldStyle = variant === 'gold' ? { backgroundColor: GOLD } : (variant === 'outlineGold' ? { borderColor: GOLD, color: '#7A5A0F' } : undefined);
+  const styleMap = {
+    default: { borderColor: '#E5E7EB' },
+    gold: { backgroundColor: GOLD },
+    danger: { borderColor: '#E5E7EB' },
+    outlineGold: { borderColor: GOLD, color: '#7A5A0F' },
+    soft: { backgroundColor: '#F9FAFB' },
+  };
   return (
     <button {...props}
-      style={goldStyle}
-      className={`inline-flex items-center justify-center font-semibold rounded-md transition ring-gold ${sizes[size]} ${variants[variant]} ${className}`}>
-      {Icon && <Icon className={size === 'sm' ? 'w-3.5 h-3.5' : 'w-4 h-4'} strokeWidth={2.25} />}
+      style={styleMap[variant]}
+      className={`inline-flex items-center justify-center font-medium rounded-md transition-all duration-150 ring-gold ${sizes[size]} ${variants[variant]} ${className}`}>
+      {Icon && <Icon className={size === 'sm' ? 'w-3.5 h-3.5' : 'w-4 h-4'} strokeWidth={2} />}
       {children}
     </button>
   );
@@ -668,8 +674,13 @@ export const IconBtn = ({ icon: Icon, title, onClick, tone = 'default' }) => {
 };
 
 export const Card = ({ children, className = '' }) => (
-  <div className={`rounded-lg ${className}`}
-    style={{ backgroundColor: 'var(--bg-card)', borderWidth: 1, borderStyle: 'solid', borderColor: 'var(--border)', color: 'var(--text-primary)' }}>
+  <div className={`rounded-lg shadow-sm transition-shadow ${className}`}
+    style={{
+      backgroundColor: 'var(--bg-card)',
+      borderWidth: 1, borderStyle: 'solid', borderColor: 'var(--border)',
+      color: 'var(--text-primary)',
+      boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
+    }}>
     {children}
   </div>
 );
@@ -722,14 +733,18 @@ export const VehiclePhoto = ({ vehicle, size = 'md' }) => {
 };
 
 export const StatCard = ({ label, value, sub, accent, icon: Icon }) => (
-  <div className="rounded-lg p-4 relative"
-    style={{ backgroundColor: 'var(--bg-card)', borderWidth: 1, borderStyle: 'solid', borderColor: 'var(--border)' }}>
-    <div className="flex items-start justify-between mb-3">
-      <span className="text-[10px] font-semibold smallcaps" style={{ color: 'var(--text-muted)' }}>{label}</span>
-      {Icon && <Icon className="w-4 h-4" style={{ color: accent || 'var(--text-muted)' }} strokeWidth={1.75} />}
+  <div className="rounded-lg p-5 relative transition-shadow"
+    style={{
+      backgroundColor: 'var(--bg-card)',
+      borderWidth: 1, borderStyle: 'solid', borderColor: 'var(--border)',
+      boxShadow: '0 1px 2px rgba(0,0,0,0.04)',
+    }}>
+    <div className="flex items-start justify-between mb-2">
+      <span className="text-xs font-medium" style={{ color: 'var(--text-secondary)' }}>{label}</span>
+      {Icon && <Icon className="w-4 h-4 opacity-50" style={{ color: accent || 'var(--text-muted)' }} strokeWidth={1.75} />}
     </div>
-    <div className="font-display text-2xl font-medium tracking-tight tabular leading-none" style={{ color: 'var(--text-primary)' }}>{value}</div>
-    {sub && <div className="text-[11px] mt-2" style={{ color: 'var(--text-muted)' }}>{sub}</div>}
+    <div className="text-2xl font-semibold tabular tracking-tight leading-none" style={{ color: 'var(--text-primary)' }}>{value}</div>
+    {sub && <div className="text-xs mt-2" style={{ color: 'var(--text-muted)' }}>{sub}</div>}
   </div>
 );
 
@@ -752,9 +767,9 @@ export const ConfirmDialog = ({ isOpen, title, message, confirmLabel = 'Confirm'
   };
   const goldStyle = confirmColor === 'gold' ? { backgroundColor: GOLD } : undefined;
   return (
-    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 anim-fade no-print" onClick={onCancel}>
+    <div className="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4 anim-fade no-print" onClick={onCancel}>
       <div className="rounded-lg shadow-xl max-w-md w-full max-h-[85vh] overflow-y-auto"
-        style={{ backgroundColor: 'var(--bg-card)', color: 'var(--text-primary)' }}
+        style={{ backgroundColor: 'var(--bg-card)', color: 'var(--text-primary)', boxShadow: '0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1)' }}
         onClick={e => e.stopPropagation()}>
         <div className="p-5">
           <h3 className="font-display text-lg font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>{title}</h3>
