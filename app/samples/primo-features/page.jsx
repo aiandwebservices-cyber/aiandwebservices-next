@@ -2,7 +2,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { Cormorant_Garamond, DM_Sans } from 'next/font/google';
 import {
-  Check, Star, Phone, Mail, ArrowRight, ChevronDown,
+  Check, Star, Phone, Mail, ArrowRight, ChevronDown, Lock,
   Car, Users, Shield, Cpu, LayoutDashboard, Globe,
   MessageSquare, FileText, Target, TrendingUp,
 } from 'lucide-react';
@@ -133,7 +133,7 @@ const TESTIMONIALS = [
     dealership: 'Reid Family Auto Sales',
   },
   {
-    quote: "I was skeptical at $249/mo — I thought there'd be a catch. There isn't. It does everything DealerSocket does at a fraction of the price, and the website looks better.",
+    quote: "I was skeptical at first — I thought there'd be a catch. There isn't. It does everything DealerSocket does at a fraction of the price, and the website looks better.",
     name: 'Carmen Vega',
     title: 'General Manager',
     dealership: 'Vega Auto Group',
@@ -161,6 +161,87 @@ const STEPS = [
     num: '03',
     title: 'More leads. More deals. Less overhead.',
     desc: 'Your site works 24/7 — capturing leads, showing reviews, calculating payments for buyers. You handle the relationships; the platform handles everything else.',
+  },
+];
+
+/* ── Comparison table data ────────────────────────────────── */
+const COMP_ROWS = [
+  { feature: 'Dealer website',              dealeron: 'check', dealercom: 'check', dealerai: 'cross', autorival: 'check' },
+  { feature: 'Admin panel / CRM',           dealeron: 'addon', dealercom: 'addon', dealerai: 'cross', autorival: 'check' },
+  { feature: 'AI sales agent (chat + SMS)', dealeron: 'cross', dealercom: 'cross', dealerai: 'check', autorival: 'check' },
+  { feature: 'AI description writer',       dealeron: 'cross', dealercom: 'cross', dealerai: 'cross', autorival: 'check' },
+  { feature: 'AI lead scoring',             dealeron: 'cross', dealercom: 'addon', dealerai: 'cross', autorival: 'check' },
+  { feature: 'AI price intelligence',       dealeron: 'cross', dealercom: 'cross', dealerai: 'cross', autorival: 'check' },
+  { feature: 'AI follow-up sequences',      dealeron: 'cross', dealercom: 'cross', dealerai: 'addon', autorival: 'check' },
+  { feature: 'AI review responder',         dealeron: 'cross', dealercom: 'cross', dealerai: 'cross', autorival: 'check' },
+  { feature: 'Stripe payments + deposits',  dealeron: 'addon', dealercom: 'addon', dealerai: 'cross', autorival: 'check' },
+  { feature: 'Service scheduling',          dealeron: 'addon', dealercom: 'check', dealerai: 'cross', autorival: 'check' },
+  { feature: 'VIN decoder + NHTSA data',   dealeron: 'check', dealercom: 'check', dealerai: 'cross', autorival: 'check' },
+  { feature: 'Photo management',            dealeron: 'check', dealercom: 'check', dealerai: 'cross', autorival: 'check' },
+  { feature: 'n8n automation workflows',   dealeron: 'cross', dealercom: 'cross', dealerai: 'cross', autorival: 'check' },
+];
+
+const SAVINGS_BARS = [
+  { label: 'DealerOn + vAuto + VinSolutions', price: 2799, pct: 100, color: '#FF5555' },
+  { label: 'Dealer.com + DealerAI',           price: 2150, pct: 77,  color: '#FF7777' },
+  { label: 'AutoRival.ai Professional',        price: 1199, pct: 43,  color: GOLD },
+];
+
+const PRICING_TIERS = [
+  {
+    name: 'Growth',
+    price: 699,
+    setup: 499,
+    featured: false,
+    features: [
+      { label: 'Custom dealership website',       locked: false },
+      { label: 'Full admin panel + CRM',           locked: false },
+      { label: 'AI sales agent (chat + SMS)',       locked: false },
+      { label: 'AI description writer',            locked: false },
+      { label: 'AI review responder',              locked: false },
+      { label: 'AI lead scoring',                  locked: true  },
+      { label: 'AI price intelligence',            locked: true  },
+      { label: 'AI follow-up sequences',           locked: true  },
+      { label: 'Stripe payments + deposits',       locked: true  },
+      { label: 'n8n automation workflows',        locked: true  },
+    ],
+  },
+  {
+    name: 'Professional',
+    price: 1199,
+    setup: 999,
+    featured: true,
+    badge: 'Most Popular',
+    features: [
+      { label: 'Everything in Growth',             locked: false },
+      { label: 'All 6 AI agents',                 locked: false },
+      { label: 'SMS + Twilio integration',         locked: false },
+      { label: 'Stripe payments + deposits',       locked: false },
+      { label: 'n8n automation workflows',        locked: false },
+      { label: 'Service appointment scheduling',   locked: false },
+      { label: 'F&I tracking + deal builder',      locked: false },
+      { label: 'Market pricing intelligence',      locked: false },
+      { label: 'Reputation management center',     locked: false },
+      { label: 'Multi-user staff access',          locked: false },
+    ],
+  },
+  {
+    name: 'Enterprise',
+    price: 1799,
+    setup: 1999,
+    featured: false,
+    features: [
+      { label: 'Everything in Professional',       locked: false },
+      { label: 'Multi-location support',           locked: false },
+      { label: 'Dedicated EspoCRM instance',       locked: false },
+      { label: 'Custom integrations',              locked: false },
+      { label: 'Priority support + onboarding',    locked: false },
+      { label: 'Custom AI voice & branding',       locked: false },
+      { label: 'White-label option',               locked: false },
+      { label: 'API access',                       locked: false },
+      { label: 'Dedicated success manager',        locked: false },
+      { label: 'SLA guarantee',                    locked: false },
+    ],
   },
 ];
 
@@ -207,6 +288,11 @@ function FontStyles() {
       ::-webkit-scrollbar { width: 4px; }
       ::-webkit-scrollbar-track { background: ${BG2}; }
       ::-webkit-scrollbar-thumb { background: ${GOLD}44; border-radius: 4px; }
+      @media (max-width: 700px) {
+        .comp-table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+        .tier-grid { grid-template-columns: 1fr !important; }
+        .ai-showcase-grid { grid-template-columns: 1fr !important; }
+      }
     `}</style>
   );
 }
@@ -253,7 +339,316 @@ function Stars() {
   );
 }
 
-/* ── AI feature data ──────────────────────────────────────── */
+/* ── Comparison cell atom ─────────────────────────────────── */
+function CompCell({ val, highlight }) {
+  if (val === 'check') return (
+    <div style={{ display: 'flex', justifyContent: 'center' }}>
+      <span style={{
+        display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
+        width: 24, height: 24, borderRadius: '50%',
+        background: '#4ADE8020', border: '1px solid #4ADE8040',
+      }}>
+        <Check size={13} color="#4ADE80" strokeWidth={3} />
+      </span>
+    </div>
+  );
+  if (val === 'cross') return (
+    <div style={{ textAlign: 'center', fontSize: 16, color: highlight ? '#FF6060' : '#4a4038', lineHeight: 1 }}>✕</div>
+  );
+  if (val === 'addon') return (
+    <div style={{ textAlign: 'center' }}>
+      <span style={{
+        fontSize: 10, fontWeight: 700, letterSpacing: '0.08em',
+        color: '#FBBF24', background: '#FBBF2412', border: '1px solid #FBBF2430',
+        borderRadius: 4, padding: '2px 7px', whiteSpace: 'nowrap',
+      }}>Add-on</span>
+    </div>
+  );
+  return null;
+}
+
+/* ── Competitive Comparison Section ──────────────────────── */
+function CompetitiveSection() {
+  const colStyle = (isAuto) => ({
+    minWidth: 110, textAlign: 'center', padding: '0 8px',
+    background: isAuto ? `${GOLD}0a` : 'transparent',
+  });
+  const headerCell = (label, isAuto) => (
+    <th key={label} style={{
+      padding: '14px 10px', textAlign: 'center',
+      fontSize: 12, fontWeight: 700, color: isAuto ? GOLD : MUTED,
+      letterSpacing: '0.04em', borderBottom: `2px solid ${isAuto ? GOLD + '55' : '#ffffff0a'}`,
+      background: isAuto ? `${GOLD}12` : 'transparent', whiteSpace: 'nowrap',
+    }}>{label}</th>
+  );
+
+  return (
+    <section style={{ padding: '96px 0', background: '#0a0a0a', borderTop: `1px solid ${GOLD}18`, borderBottom: `1px solid ${GOLD}18` }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 24px' }}>
+
+        {/* Header */}
+        <FadeSection>
+          <Label>Competitive Comparison</Label>
+          <div style={{ marginBottom: 52 }}>
+            <h2 style={{
+              fontFamily: "var(--font-cormorant), serif",
+              fontSize: 'clamp(36px, 5vw, 56px)',
+              fontWeight: 700, lineHeight: 1.05, color: TEXT, marginBottom: 16,
+            }}>Why dealers switch to AutoRival.ai</h2>
+            <p style={{ fontSize: 18, color: MUTED, lineHeight: 1.65, maxWidth: 640 }}>
+              DealerOn and Dealer.com charge $1,499–$1,650/mo — and you still pay extra for CRM, AI, and automation. AutoRival.ai includes it all.
+            </p>
+          </div>
+        </FadeSection>
+
+        {/* A. Comparison table */}
+        <FadeSection delay={0.1}>
+          <div className="comp-table-scroll" style={{ marginBottom: 64, borderRadius: 14, border: `1px solid ${GOLD}22`, overflow: 'hidden' }}>
+            <table style={{ width: '100%', borderCollapse: 'collapse', minWidth: 620 }}>
+              <thead>
+                <tr style={{ background: '#111' }}>
+                  <th style={{
+                    padding: '16px 20px', textAlign: 'left',
+                    fontSize: 11, fontWeight: 700, color: MUTED,
+                    letterSpacing: '0.15em', textTransform: 'uppercase',
+                    borderBottom: '2px solid #ffffff0a', minWidth: 200,
+                  }}>Feature</th>
+                  {headerCell('DealerOn', false)}
+                  {headerCell('Dealer.com', false)}
+                  {headerCell('DealerAI', false)}
+                  {headerCell('AutoRival.ai ✦', true)}
+                </tr>
+              </thead>
+              <tbody>
+                {COMP_ROWS.map((row, i) => (
+                  <tr key={row.feature} style={{
+                    background: i % 2 === 0 ? 'rgba(255,255,255,0.015)' : 'transparent',
+                    borderBottom: '1px solid #ffffff06',
+                  }}>
+                    <td style={{ padding: '13px 20px', fontSize: 13.5, color: '#c8c0a8', lineHeight: 1.4 }}>
+                      {row.feature}
+                    </td>
+                    <td style={{ ...colStyle(false), padding: '13px 10px' }}><CompCell val={row.dealeron} /></td>
+                    <td style={{ ...colStyle(false), padding: '13px 10px' }}><CompCell val={row.dealercom} /></td>
+                    <td style={{ ...colStyle(false), padding: '13px 10px' }}><CompCell val={row.dealerai} /></td>
+                    <td style={{ ...colStyle(true), padding: '13px 10px' }}><CompCell val={row.autorival} highlight /></td>
+                  </tr>
+                ))}
+                {/* Price row */}
+                <tr style={{ background: '#0e0c08', borderTop: `2px solid ${GOLD}22` }}>
+                  <td style={{ padding: '16px 20px', fontSize: 13, fontWeight: 700, color: TEXT }}>Monthly price</td>
+                  {[
+                    { label: '$1,499/mo', gold: false },
+                    { label: '$1,650/mo', gold: false },
+                    { label: '$500/mo',   gold: false },
+                    { label: 'from $699/mo', gold: true },
+                  ].map(({ label, gold }) => (
+                    <td key={label} style={{
+                      ...colStyle(gold), padding: '16px 10px',
+                      textAlign: 'center',
+                    }}>
+                      <span style={{
+                        fontFamily: "var(--font-cormorant), serif",
+                        fontSize: 18, fontWeight: 700,
+                        color: gold ? GOLD : '#FF7070',
+                      }}>{label}</span>
+                    </td>
+                  ))}
+                </tr>
+              </tbody>
+            </table>
+            <div style={{
+              padding: '10px 20px', background: '#0c0c0c',
+              borderTop: '1px solid #ffffff06',
+              display: 'flex', gap: 20, flexWrap: 'wrap',
+            }}>
+              <span style={{ fontSize: 12, color: '#4ADE80', display: 'flex', alignItems: 'center', gap: 6 }}>
+                <Check size={11} strokeWidth={3} color="#4ADE80" /> Included
+              </span>
+              <span style={{ fontSize: 12, color: '#FBBF24' }}>Add-on = extra cost</span>
+              <span style={{ fontSize: 12, color: '#FF7070' }}>✕ = not available</span>
+            </div>
+          </div>
+        </FadeSection>
+
+        {/* B. Savings comparison bars */}
+        <FadeSection delay={0.15}>
+          <div style={{ marginBottom: 64 }}>
+            <h3 style={{
+              fontFamily: "var(--font-cormorant), serif",
+              fontSize: 'clamp(24px, 3vw, 36px)', fontWeight: 700,
+              color: TEXT, marginBottom: 36,
+            }}>Total monthly software cost — head-to-head</h3>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 18 }}>
+              {SAVINGS_BARS.map((bar) => (
+                <div key={bar.label}>
+                  <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 8, alignItems: 'baseline', gap: 12 }}>
+                    <span style={{ fontSize: 13.5, color: '#b8b0a0' }}>{bar.label}</span>
+                    <span style={{
+                      fontFamily: "var(--font-cormorant), serif",
+                      fontSize: 22, fontWeight: 700, color: bar.color, flexShrink: 0,
+                    }}>${bar.price.toLocaleString()}/mo</span>
+                  </div>
+                  <div style={{ height: 10, background: '#ffffff08', borderRadius: 100, overflow: 'hidden' }}>
+                    <div style={{
+                      height: '100%', width: `${bar.pct}%`,
+                      background: bar.color === GOLD
+                        ? `linear-gradient(90deg, ${GOLD}, ${GOLD2})`
+                        : `linear-gradient(90deg, ${bar.color}cc, ${bar.color}66)`,
+                      borderRadius: 100,
+                      transition: 'width 1s ease',
+                    }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Gold callout */}
+            <div style={{
+              marginTop: 40, padding: '24px 32px',
+              background: `${GOLD}0c`, border: `1px solid ${GOLD}44`,
+              borderRadius: 12,
+              display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+              flexWrap: 'wrap', gap: 16,
+            }}>
+              <div>
+                <div style={{
+                  fontFamily: "var(--font-cormorant), serif",
+                  fontSize: 'clamp(26px, 4vw, 38px)', fontWeight: 700, color: GOLD, lineHeight: 1.1,
+                }}>Save $950–1,600/mo</div>
+                <div style={{ fontSize: 15, color: '#c8c0a8', marginTop: 6 }}>
+                  That&rsquo;s <strong style={{ color: TEXT }}>$11,400–19,200 per year</strong> switching to AutoRival.ai Professional
+                </div>
+              </div>
+              <a href="#pricing-tiers" style={{
+                display: 'inline-flex', alignItems: 'center', gap: 8,
+                padding: '13px 26px', background: GOLD, color: '#080808',
+                fontWeight: 800, fontSize: 14, borderRadius: 6, textDecoration: 'none',
+                whiteSpace: 'nowrap', transition: 'background 0.2s',
+              }}
+                onMouseEnter={e => e.currentTarget.style.background = GOLD2}
+                onMouseLeave={e => e.currentTarget.style.background = GOLD}
+              >
+                See pricing <ArrowRight size={15} />
+              </a>
+            </div>
+          </div>
+        </FadeSection>
+
+        {/* C. Pricing tier cards */}
+        <FadeSection delay={0.2}>
+          <div id="pricing-tiers" style={{ scrollMarginTop: 80 }}>
+            <h3 style={{
+              fontFamily: "var(--font-cormorant), serif",
+              fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 700,
+              color: TEXT, marginBottom: 8,
+            }}>Simple, all-inclusive pricing</h3>
+            <p style={{ fontSize: 16, color: MUTED, marginBottom: 40, lineHeight: 1.6 }}>
+              One monthly fee. No per-seat charges. No hidden add-ons.
+            </p>
+            <div
+              className="tier-grid"
+              style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 22 }}
+            >
+              {PRICING_TIERS.map((tier) => (
+                <div
+                  key={tier.name}
+                  style={{
+                    borderRadius: 16, padding: 32,
+                    display: 'flex', flexDirection: 'column',
+                    position: 'relative', overflow: 'hidden',
+                    background: tier.featured ? '#0b0e08' : 'rgba(255,255,255,0.025)',
+                    border: tier.featured ? `2px solid ${GOLD}` : '1px solid rgba(255,255,255,0.08)',
+                    boxShadow: tier.featured ? `0 0 64px ${GOLD}18` : 'none',
+                    transition: 'border-color 0.2s',
+                  }}
+                  onMouseEnter={e => { if (!tier.featured) e.currentTarget.style.borderColor = `${GOLD}33`; }}
+                  onMouseLeave={e => { if (!tier.featured) e.currentTarget.style.borderColor = 'rgba(255,255,255,0.08)'; }}
+                >
+                  {tier.badge && (
+                    <div style={{
+                      position: 'absolute', top: 0, right: 0,
+                      background: GOLD, color: '#080808',
+                      fontSize: 10, fontWeight: 800, letterSpacing: '0.1em',
+                      textTransform: 'uppercase', padding: '6px 16px',
+                      borderRadius: '0 14px 0 10px',
+                    }}>{tier.badge}</div>
+                  )}
+
+                  <div style={{ marginBottom: 24 }}>
+                    <div style={{
+                      fontSize: 11, fontWeight: 700, letterSpacing: '0.2em',
+                      textTransform: 'uppercase',
+                      color: tier.featured ? GOLD : MUTED,
+                      marginBottom: 12,
+                    }}>{tier.name}</div>
+                    <div style={{ display: 'flex', alignItems: 'baseline', gap: 4, marginBottom: 6 }}>
+                      <span style={{
+                        fontFamily: "var(--font-cormorant), serif",
+                        fontSize: 48, fontWeight: 700,
+                        color: tier.featured ? GOLD : TEXT, lineHeight: 1,
+                      }}>${tier.price.toLocaleString()}</span>
+                      <span style={{ fontSize: 15, color: MUTED }}>/mo</span>
+                    </div>
+                    <div style={{ fontSize: 12, color: MUTED }}>
+                      ${tier.setup.toLocaleString()} one-time setup
+                    </div>
+                  </div>
+
+                  <div style={{ flex: 1, display: 'flex', flexDirection: 'column', gap: 9, marginBottom: 28 }}>
+                    {tier.features.map((f) => (
+                      <div key={f.label} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+                        {f.locked ? (
+                          <Lock size={13} color="#4a4038" strokeWidth={2} />
+                        ) : (
+                          <div style={{
+                            width: 18, height: 18, borderRadius: '50%', flexShrink: 0,
+                            background: tier.featured ? `${GOLD}22` : 'rgba(74,222,128,0.15)',
+                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                          }}>
+                            <Check size={10} color={tier.featured ? GOLD : '#4ADE80'} strokeWidth={3} />
+                          </div>
+                        )}
+                        <span style={{
+                          fontSize: 13, lineHeight: 1.45,
+                          color: f.locked ? '#4a4038' : '#c8c0a8',
+                        }}>{f.label}</span>
+                      </div>
+                    ))}
+                  </div>
+
+                  <a href="mailto:david@aiandwebservices.com" style={{
+                    display: 'block', textAlign: 'center',
+                    padding: '13px 0',
+                    background: tier.featured ? GOLD : 'transparent',
+                    border: `1px solid ${tier.featured ? GOLD : GOLD + '44'}`,
+                    color: tier.featured ? '#080808' : TEXT,
+                    fontWeight: 700, fontSize: 14, borderRadius: 8,
+                    textDecoration: 'none', transition: 'all 0.2s',
+                    letterSpacing: '0.02em',
+                  }}
+                    onMouseEnter={e => {
+                      e.currentTarget.style.background = tier.featured ? GOLD2 : `${GOLD}18`;
+                      e.currentTarget.style.borderColor = GOLD;
+                    }}
+                    onMouseLeave={e => {
+                      e.currentTarget.style.background = tier.featured ? GOLD : 'transparent';
+                      e.currentTarget.style.borderColor = tier.featured ? GOLD : `${GOLD}44`;
+                    }}
+                  >
+                    Get started
+                  </a>
+                </div>
+              ))}
+            </div>
+          </div>
+        </FadeSection>
+      </div>
+    </section>
+  );
+}
+
+/* ── AI features data ──────────────────────────────────────── */
 const AI_FEATURES = [
   {
     key: 'agent',
@@ -328,7 +723,6 @@ function AiCard({ feat }) {
       onMouseEnter={e => { e.currentTarget.style.borderColor = `${color}55`; e.currentTarget.style.background = `${color}08`; }}
       onMouseLeave={e => { e.currentTarget.style.borderColor = `${color}28`; e.currentTarget.style.background = 'rgba(255,255,255,0.025)'; }}
     >
-      {/* header */}
       <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, marginBottom: 20 }}>
         <div style={{
           width: 48, height: 48, borderRadius: 12, flexShrink: 0,
@@ -346,10 +740,8 @@ function AiCard({ feat }) {
         </div>
       </div>
 
-      {/* description */}
       <p style={{ fontSize: 14.5, color: '#b0a890', lineHeight: 1.72, marginBottom: 20 }}>{desc}</p>
 
-      {/* stats row */}
       {stats && (
         <div style={{
           display: 'flex', marginBottom: 20,
@@ -367,7 +759,6 @@ function AiCard({ feat }) {
         </div>
       )}
 
-      {/* demo link */}
       {demo && (
         <div style={{ marginBottom: 16 }}>
           <a href={demo} style={{
@@ -383,7 +774,6 @@ function AiCard({ feat }) {
         </div>
       )}
 
-      {/* before / after */}
       {beforeAfter && (
         <div style={{ marginBottom: 16, display: 'flex', flexDirection: 'column', gap: 8 }}>
           <div style={{ background: '#160808', border: '1px solid #FF444420', borderRadius: 8, padding: '14px 16px' }}>
@@ -397,7 +787,6 @@ function AiCard({ feat }) {
         </div>
       )}
 
-      {/* lead scoreboard */}
       {scoreboard && (
         <div style={{
           marginBottom: 16, background: 'rgba(255,255,255,0.02)',
@@ -426,7 +815,6 @@ function AiCard({ feat }) {
         </div>
       )}
 
-      {/* follow-up stage previews */}
       {followupStages && (
         <div style={{ marginBottom: 16, display: 'flex', flexDirection: 'column', gap: 7 }}>
           {[
@@ -454,7 +842,6 @@ function AiCard({ feat }) {
         </div>
       )}
 
-      {/* competitor note */}
       {competitor && (
         <div style={{
           marginTop: 'auto', paddingTop: 16,
@@ -540,6 +927,80 @@ function AiSavingsTable() {
   );
 }
 
+/* ── AI Showcase Section ──────────────────────────────────── */
+function AiShowcaseSection() {
+  return (
+    <section style={{
+      padding: '96px 0',
+      background: 'linear-gradient(180deg, #0d0d0d 0%, #111111 100%)',
+      borderBottom: `1px solid ${GOLD}18`,
+    }}>
+      <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 24px' }}>
+
+        {/* Header */}
+        <FadeSection>
+          <div style={{
+            display: 'inline-block', padding: '5px 16px',
+            border: `1px solid ${GOLD}44`, borderRadius: 100,
+            fontSize: 11, fontWeight: 700, letterSpacing: '0.18em',
+            textTransform: 'uppercase', color: GOLD, marginBottom: 20,
+          }}>AI-Powered</div>
+          <div style={{ marginBottom: 52 }}>
+            <h2 style={{
+              fontFamily: "var(--font-cormorant), serif",
+              fontSize: 'clamp(36px, 5vw, 56px)',
+              fontWeight: 700, lineHeight: 1.05, color: TEXT, marginBottom: 16,
+            }}>6 AI agents included in every plan</h2>
+            <p style={{ fontSize: 18, color: MUTED, lineHeight: 1.65, maxWidth: 620 }}>
+              Your competitors charge{' '}
+              <span style={{ color: '#FF8080', fontWeight: 700 }}>$500+/mo for ONE AI feature.</span>{' '}
+              <span style={{ color: GOLD, fontWeight: 700 }}>AutoRival.ai</span> includes all six.
+            </p>
+          </div>
+        </FadeSection>
+
+        {/* 2×3 grid */}
+        <div
+          className="ai-showcase-grid"
+          style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(460px, 1fr))', gap: 28 }}
+        >
+          {AI_FEATURES.map((feat, i) => (
+            <FadeSection key={feat.key} delay={i * 0.07}>
+              <AiCard feat={feat} />
+            </FadeSection>
+          ))}
+        </div>
+
+        {/* Summary bar */}
+        <FadeSection delay={0.4}>
+          <div style={{
+            marginTop: 52, padding: '20px 28px',
+            background: '#0a0908', border: `1px solid ${GOLD}22`,
+            borderRadius: 12,
+            display: 'flex', alignItems: 'center', gap: 12, flexWrap: 'wrap',
+            justifyContent: 'center',
+          }}>
+            {[
+              { label: 'DriveCentric AI', price: '$500/mo' },
+              { label: 'VinSolutions',    price: '$300/mo' },
+              { label: 'vAuto',           price: '$500/mo' },
+              { label: 'BDC staff',       price: '$3,000–5,000/mo' },
+            ].map((item, i, arr) => (
+              <span key={item.label} style={{ display: 'flex', alignItems: 'center', gap: 6, flexWrap: 'wrap', justifyContent: 'center' }}>
+                <span style={{ fontSize: 13, color: MUTED }}>{item.label}:</span>
+                <span style={{ fontSize: 13, fontWeight: 700, color: '#FF8080' }}>{item.price}</span>
+                {i < arr.length - 1 && <span style={{ color: '#3a3028', marginLeft: 4, marginRight: 4 }}>|</span>}
+              </span>
+            ))}
+            <span style={{ color: '#3a3028', margin: '0 8px' }}>→</span>
+            <span style={{ fontSize: 14, fontWeight: 800, color: GOLD }}>All included with AutoRival.ai</span>
+          </div>
+        </FadeSection>
+      </div>
+    </section>
+  );
+}
+
 /* ═══════════════════════════════════════════════════════════
    Page
 ═══════════════════════════════════════════════════════════ */
@@ -555,13 +1016,11 @@ export default function PrimoFeaturesPage() {
         minHeight: '100vh', display: 'flex', flexDirection: 'column',
         justifyContent: 'center', position: 'relative', overflow: 'hidden', padding: '80px 0',
       }}>
-        {/* grid texture */}
         <div style={{
           position: 'absolute', inset: 0, pointerEvents: 'none',
           backgroundImage: `linear-gradient(${GOLD}09 1px, transparent 1px), linear-gradient(90deg, ${GOLD}09 1px, transparent 1px)`,
           backgroundSize: '64px 64px',
         }} />
-        {/* radial glow */}
         <div style={{
           position: 'absolute', top: '35%', left: '50%',
           transform: 'translate(-50%, -50%)',
@@ -577,7 +1036,7 @@ export default function PrimoFeaturesPage() {
               fontSize: 11, fontWeight: 700, letterSpacing: '0.18em',
               textTransform: 'uppercase', color: GOLD, marginBottom: 36,
             }}>
-              Full-Platform Dealership Software · $249/mo
+              AutoRival.ai — AI-Powered Dealer Platform · from $699/mo
             </div>
           </FadeSection>
 
@@ -596,7 +1055,7 @@ export default function PrimoFeaturesPage() {
 
           <FadeSection delay={0.2}>
             <p style={{ fontSize: 19, color: MUTED, lineHeight: 1.65, maxWidth: 560, marginBottom: 52 }}>
-              AutoRival.ai gives independent car dealers a complete digital platform — custom website, dealer admin panel, CRM, F&I tracking, reputation management, and more — at a price that finally makes sense.
+              AutoRival.ai gives independent car dealers a complete digital platform — custom website, dealer admin panel, CRM, 6 AI agents, and automation — at a price that finally makes sense.
             </p>
           </FadeSection>
 
@@ -629,17 +1088,16 @@ export default function PrimoFeaturesPage() {
             </div>
           </FadeSection>
 
-          {/* stat strip */}
           <FadeSection delay={0.45}>
             <div style={{
               display: 'flex', gap: 48, marginTop: 76, paddingTop: 52,
               borderTop: `1px solid ${GOLD}20`, flexWrap: 'wrap',
             }}>
               {[
-                { val: '$249', label: 'per month, all-in' },
-                { val: '40+', label: 'features included' },
-                { val: '5–7', label: 'days to go live' },
-                { val: '90+', label: 'PageSpeed score' },
+                { val: 'from $699', label: 'per month' },
+                { val: '6',         label: 'AI agents included' },
+                { val: '5–7',       label: 'days to go live' },
+                { val: '90+',       label: 'PageSpeed score' },
               ].map(s => (
                 <div key={s.val}>
                   <div style={{
@@ -658,7 +1116,7 @@ export default function PrimoFeaturesPage() {
       <SectionWrap id="pricing" bg={BG2}>
         <FadeSection>
           <Label>The Real Cost of Doing Nothing</Label>
-          <Heading sub="Most independent dealers spend $1,299–$1,800/month on software that does less — and still need a separate website on top of that.">
+          <Heading sub="Most independent dealers spend $1,499–$2,800/month on software that does less — and still need AI features on top of that.">
             What are you actually paying for?
           </Heading>
         </FadeSection>
@@ -704,7 +1162,7 @@ export default function PrimoFeaturesPage() {
             </div>
           </FadeSection>
 
-          {/* AIandWEBservices */}
+          {/* AutoRival.ai */}
           <FadeSection delay={0.2}>
             <div style={{
               background: '#080f07', border: `1px solid ${GOLD}55`,
@@ -727,12 +1185,12 @@ export default function PrimoFeaturesPage() {
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 {[
                   'Custom dealership website',
-                  'Full dealer admin panel',
-                  'CRM & lead management',
+                  'Full dealer admin panel + CRM',
+                  'Lead management + F&I tracking',
                   'Reputation management',
-                  'F&I tracking & deal builder',
+                  '6 AI agents (chat, scoring, pricing…)',
+                  'SMS + automation workflows',
                   'Service appointment scheduling',
-                  'Market pricing intelligence',
                   'Reservation / deposit system',
                 ].map(item => (
                   <div key={item} style={{
@@ -754,9 +1212,9 @@ export default function PrimoFeaturesPage() {
                     <div style={{
                       fontFamily: "var(--font-cormorant), serif",
                       fontSize: 44, fontWeight: 700, color: GOLD, lineHeight: 1,
-                    }}>$249<span style={{ fontSize: 20, fontWeight: 500 }}>/mo</span></div>
+                    }}>from $699<span style={{ fontSize: 18, fontWeight: 500 }}>/mo</span></div>
                     <div style={{ fontSize: 12, color: '#4ADE80', fontWeight: 700, marginTop: 5 }}>
-                      Save $12,000–$32,000 per year
+                      Save $11,400–$19,200 per year
                     </div>
                   </div>
                 </div>
@@ -766,7 +1224,7 @@ export default function PrimoFeaturesPage() {
         </div>
       </SectionWrap>
 
-      {/* ─── AI FEATURES ─────────────────────────────────── */}
+      {/* ─── AI FEATURES (detailed) ──────────────────────── */}
       <section id="ai-features" style={{
         padding: '96px 0',
         background: 'linear-gradient(180deg, #0a0a0a 0%, #111111 100%)',
@@ -808,6 +1266,12 @@ export default function PrimoFeaturesPage() {
         </div>
       </section>
 
+      {/* ─── COMPETITIVE COMPARISON (Section 1) ──────────── */}
+      <CompetitiveSection />
+
+      {/* ─── AI SHOWCASE (Section 2) ─────────────────────── */}
+      <AiShowcaseSection />
+
       {/* ─── FEATURE GRID ─────────────────────────────────── */}
       <SectionWrap id="features">
         <FadeSection>
@@ -817,7 +1281,6 @@ export default function PrimoFeaturesPage() {
           </Heading>
         </FadeSection>
 
-        {/* Category tabs */}
         <FadeSection delay={0.1}>
           <div style={{
             display: 'flex', gap: 6, flexWrap: 'wrap', marginBottom: 36,
@@ -845,7 +1308,6 @@ export default function PrimoFeaturesPage() {
           </div>
         </FadeSection>
 
-        {/* Feature cards */}
         {FEATURE_GROUPS.filter(g => g.key === activeGroup).map(g => (
           <div key={g.key} style={{
             display: 'grid',
@@ -991,7 +1453,7 @@ export default function PrimoFeaturesPage() {
               Let&rsquo;s build your dealership&rsquo;s digital edge
             </h2>
             <p style={{ fontSize: 17, color: MUTED, lineHeight: 1.65, marginBottom: 52 }}>
-              Talk to David about getting your dealership website and admin panel live in under a week. No long-term contracts. No setup fees. Cancel anytime.
+              Talk to David about getting your dealership website and admin panel live in under a week. No long-term contracts. Cancel anytime.
             </p>
           </FadeSection>
 
@@ -1051,7 +1513,7 @@ export default function PrimoFeaturesPage() {
       {/* ─── FOOTER ───────────────────────────────────────── */}
       <footer style={{ padding: '28px 24px', borderTop: `1px solid ${GOLD}14`, textAlign: 'center' }}>
         <p style={{ fontSize: 13, color: MUTED }}>
-          © 2025 AIandWEBservices &nbsp;·&nbsp;
+          Powered by AIandWEBservices &nbsp;·&nbsp;
           <a href="tel:3155720710" style={{ color: MUTED, textDecoration: 'none' }}>(315) 572-0710</a>
           &nbsp;·&nbsp;
           <a href="mailto:david@aiandwebservices.com" style={{ color: MUTED, textDecoration: 'none' }}>david@aiandwebservices.com</a>
@@ -1059,21 +1521,6 @@ export default function PrimoFeaturesPage() {
       </footer>
 
       {/* ─── FLOATING CTA ─────────────────────────────────── */}
-      {/*
-        To add a "Dealer? See All Features" button on /samples/example005,
-        paste this block at the bottom of that page's JSX (before closing </div>):
-
-        <a href="/samples/primo-features" style={{
-          position: 'fixed', bottom: 32, right: 32, zIndex: 50,
-          display: 'inline-flex', alignItems: 'center', gap: 10,
-          padding: '13px 22px', background: '#D4AF37', color: '#080808',
-          fontWeight: 700, fontSize: 14, borderRadius: 100,
-          textDecoration: 'none', whiteSpace: 'nowrap',
-          boxShadow: '0 8px 32px #D4AF3744',
-        }}>
-          Dealer? See All Features →
-        </a>
-      */}
       <a href="/samples/primo-features"
         style={{
           position: 'fixed', bottom: 32, right: 32, zIndex: 50,
