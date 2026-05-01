@@ -12,7 +12,7 @@ import {
   MoreHorizontal, FileSpreadsheet, ThumbsUp, Languages, Receipt, Layers,
   PlusCircle, MinusCircle, ChevronLeft, Power, CircleDot, Square, CheckSquare,
   Wrench, Activity, Gauge, Timer, Shield, Flag, Reply,
-  TrendingDown, BadgeCheck, Smartphone, Monitor
+  TrendingDown, BadgeCheck, Smartphone, Monitor, Sun, Moon, HelpCircle, Bookmark, Camera
 } from 'lucide-react';
 
 /* ------------------------------------------------------------------ */
@@ -72,7 +72,7 @@ const SEED_INVENTORY = [
     interiorColor: 'Beige', engine: '3.0L Turbo Inline-6', transmission: 'Automatic',
     drivetrain: 'AWD', fuelType: 'Gas', mpgCity: 21, mpgHwy: 26, vin: '5UXCR6C09P9N12345',
     stockNumber: 'P10234', status: 'Featured', daysOnLot: 12, views: 1247,
-    history: { noAccidents: true, oneOwner: true, cleanTitle: true, serviceRecords: true, inspection: true, carfax: true, warranty: true },
+    history: { noAccidents: true, oneOwner: true, cleanTitle: true, serviceRecords: true, inspection: true, carfax: true, warranty: true, noOpenRecalls: true },
     description: 'Luxurious BMW X5 with premium package, panoramic roof, and full service history. A standout xDrive40i in pristine condition.',
     photos: [], dateAdded: isoDaysAgo(12) },
   { id: 'v2', year: 2022, make: 'Mercedes-Benz', model: 'GLE 350', trim: '4MATIC', bodyStyle: 'SUV',
@@ -80,7 +80,7 @@ const SEED_INVENTORY = [
     interiorColor: 'Black', engine: '2.0L Turbo Inline-4', transmission: 'Automatic',
     drivetrain: 'AWD', fuelType: 'Gas', mpgCity: 22, mpgHwy: 28, vin: '4JGFB4KB2NA123456',
     stockNumber: 'P10198', status: 'On Sale', daysOnLot: 38, views: 892,
-    history: { noAccidents: true, oneOwner: false, cleanTitle: true, serviceRecords: true, inspection: true, carfax: true, warranty: false },
+    history: { noAccidents: true, oneOwner: false, cleanTitle: true, serviceRecords: true, inspection: true, carfax: true, warranty: false, noOpenRecalls: true },
     description: 'Recently reduced — Mercedes GLE 350 with MBUX infotainment, heated seats, and a flawless ride.',
     photos: [], dateAdded: isoDaysAgo(38) },
   { id: 'v3', year: 2024, make: 'Audi', model: 'Q5', trim: 'Premium Plus', bodyStyle: 'SUV',
@@ -88,7 +88,7 @@ const SEED_INVENTORY = [
     interiorColor: 'Black', engine: '2.0L TFSI', transmission: 'Automatic',
     drivetrain: 'AWD', fuelType: 'Gas', mpgCity: 23, mpgHwy: 28, vin: 'WA1BNAFY8R2123456',
     stockNumber: 'P10301', status: 'Just Arrived', daysOnLot: 3, views: 412,
-    history: { noAccidents: true, oneOwner: true, cleanTitle: true, serviceRecords: true, inspection: true, carfax: true, warranty: true },
+    history: { noAccidents: true, oneOwner: true, cleanTitle: true, serviceRecords: true, inspection: true, carfax: true, warranty: true, noOpenRecalls: true },
     description: 'Just arrived — Audi Q5 Premium Plus with virtual cockpit, Bang & Olufsen sound, and remaining factory warranty.',
     photos: [], dateAdded: isoDaysAgo(3) },
   { id: 'v4', year: 2021, make: 'Lexus', model: 'RX 350', trim: 'F Sport', bodyStyle: 'SUV',
@@ -96,7 +96,7 @@ const SEED_INVENTORY = [
     interiorColor: 'Red', engine: '3.5L V6', transmission: 'Automatic',
     drivetrain: 'AWD', fuelType: 'Gas', mpgCity: 20, mpgHwy: 27, vin: '2T2BZMCA2MC123456',
     stockNumber: 'P10089', status: 'Available', daysOnLot: 52, views: 587,
-    history: { noAccidents: true, oneOwner: true, cleanTitle: true, serviceRecords: true, inspection: true, carfax: true, warranty: false },
+    history: { noAccidents: true, oneOwner: true, cleanTitle: true, serviceRecords: true, inspection: true, carfax: true, warranty: false, noOpenRecalls: true },
     description: 'Lexus RX 350 F Sport with red interior package, Mark Levinson audio, and meticulous service records.',
     photos: [], dateAdded: isoDaysAgo(52) },
   { id: 'v5', year: 2023, make: 'Tesla', model: 'Model Y', trim: 'Long Range', bodyStyle: 'SUV',
@@ -104,7 +104,7 @@ const SEED_INVENTORY = [
     interiorColor: 'Black', engine: 'Dual Motor Electric', transmission: 'Automatic',
     drivetrain: 'AWD', fuelType: 'Electric', mpgCity: 127, mpgHwy: 117, vin: '7SAYGDEE9PF123456',
     stockNumber: 'P10256', status: 'Featured', daysOnLot: 8, views: 1893,
-    history: { noAccidents: true, oneOwner: true, cleanTitle: true, serviceRecords: true, inspection: true, carfax: true, warranty: true },
+    history: { noAccidents: true, oneOwner: true, cleanTitle: true, serviceRecords: true, inspection: true, carfax: true, warranty: true, noOpenRecalls: true },
     description: 'Tesla Model Y Long Range — Autopilot, premium connectivity, and Supercharger access. Range over 330 miles.',
     photos: [], dateAdded: isoDaysAgo(8) },
   { id: 'v6', year: 2022, make: 'Porsche', model: 'Cayenne', trim: 'Base', bodyStyle: 'SUV',
@@ -112,7 +112,7 @@ const SEED_INVENTORY = [
     interiorColor: 'Black', engine: '3.0L V6 Turbo', transmission: 'Automatic',
     drivetrain: 'AWD', fuelType: 'Gas', mpgCity: 19, mpgHwy: 23, vin: 'WP1AA2AY9NDA12345',
     stockNumber: 'P10167', status: 'Available', daysOnLot: 27, views: 1041,
-    history: { noAccidents: true, oneOwner: false, cleanTitle: true, serviceRecords: true, inspection: true, carfax: true, warranty: false },
+    history: { noAccidents: true, oneOwner: false, cleanTitle: true, serviceRecords: true, inspection: true, carfax: true, warranty: false, noOpenRecalls: true },
     description: 'Porsche Cayenne with sport chrono package, premium plus interior, and sport exhaust. A driver’s SUV.',
     photos: [], dateAdded: isoDaysAgo(27) },
   { id: 'v7', year: 2023, make: 'Land Rover', model: 'Range Rover Sport', trim: 'SE', bodyStyle: 'SUV',
@@ -120,7 +120,7 @@ const SEED_INVENTORY = [
     interiorColor: 'Black', engine: '3.0L Mild-Hybrid Inline-6', transmission: 'Automatic',
     drivetrain: 'AWD', fuelType: 'Hybrid', mpgCity: 21, mpgHwy: 26, vin: 'SAL1V9EU1PA123456',
     stockNumber: 'P10145', status: 'Price Drop', daysOnLot: 45, views: 723,
-    history: { noAccidents: true, oneOwner: true, cleanTitle: true, serviceRecords: true, inspection: true, carfax: true, warranty: true },
+    history: { noAccidents: true, oneOwner: true, cleanTitle: true, serviceRecords: true, inspection: true, carfax: true, warranty: true, noOpenRecalls: true },
     description: 'Range Rover Sport SE with meridian sound, panoramic roof, and adaptive air suspension. Price drop — strong value.',
     photos: [], dateAdded: isoDaysAgo(45) },
   { id: 'v8', year: 2022, make: 'Cadillac', model: 'Escalade', trim: 'Premium Luxury', bodyStyle: 'SUV',
@@ -128,7 +128,7 @@ const SEED_INVENTORY = [
     interiorColor: 'Beige', engine: '6.2L V8', transmission: 'Automatic',
     drivetrain: '4WD', fuelType: 'Gas', mpgCity: 14, mpgHwy: 19, vin: '1GYS4DKL9NR123456',
     stockNumber: 'P10067', status: 'Available', daysOnLot: 63, views: 951,
-    history: { noAccidents: true, oneOwner: false, cleanTitle: true, serviceRecords: true, inspection: true, carfax: false, warranty: false },
+    history: { noAccidents: true, oneOwner: false, cleanTitle: true, serviceRecords: true, inspection: true, carfax: false, warranty: false, noOpenRecalls: true },
     description: 'Three-row Cadillac Escalade Premium Luxury with curved OLED display, AKG audio, and Super Cruise.',
     photos: [], dateAdded: isoDaysAgo(63) }
 ];
@@ -284,13 +284,92 @@ const MARKET_PRICES = {
   v1: 44200, v2: 39100, v3: 43800, v4: 30800, v5: 37200, v6: 51400, v7: 60500, v8: 56300
 };
 
+// CSS variables driving the theme system. Sidebar/topbar stay dark in both modes (handled via Tailwind bg-stone-900 directly).
+const THEMES = {
+  light: {
+    '--bg-app':       '#FAFAF7',
+    '--bg-card':      '#FFFFFF',
+    '--bg-elevated':  '#F5F5F0',
+    '--bg-input':     '#FFFFFF',
+    '--text-primary': '#1C1917',
+    '--text-secondary': '#57534E',
+    '--text-muted':   '#A8A29E',
+    '--border':       '#E7E5E4',
+    '--border-strong':'#D6D3D1',
+    '--table-header': '#F5F5F0',
+    '--table-hover':  '#FAFAF8',
+    '--table-stripe': '#FDFCFB'
+  },
+  dark: {
+    '--bg-app':       '#0F0F0F',
+    '--bg-card':      '#1A1A1A',
+    '--bg-elevated':  '#252525',
+    '--bg-input':     '#1F1F1F',
+    '--text-primary': '#F5F5F0',
+    '--text-secondary': '#A8A29E',
+    '--text-muted':   '#78716C',
+    '--border':       '#2A2A2A',
+    '--border-strong':'#3A3A3A',
+    '--table-header': '#1F1F1F',
+    '--table-hover':  '#1A1A1A',
+    '--table-stripe': '#151515'
+  }
+};
+
+const SEED_ACTIVITY = [
+  { id: 'act1',  type: 'lead-new',    title: 'New lead: Maria Rodriguez',                 sub: 'Get E-Price · 2023 BMW X5',                  when: isoDaysAgo(0.083), refTab: 'leads' },
+  { id: 'act2',  type: 'price-drop',  title: 'Price changed on 2022 Mercedes-Benz GLE',   sub: '$41,500 → $38,750',                          when: isoDaysAgo(0.42),  refTab: 'inventory' },
+  { id: 'act3',  type: 'lead-status', title: 'James Thompson lead marked Contacted',      sub: 'Pre-Approval',                               when: isoDaysAgo(1),     refTab: 'leads' },
+  { id: 'act4',  type: 'reservation', title: 'Reservation created: Ana Gutierrez',        sub: '2022 Porsche 911 · $500 deposit',             when: isoDaysAgo(0.5),   refTab: 'dashboard' },
+  { id: 'act5',  type: 'sold',        title: '2021 Lexus RX 350 marked Sold to Mike Johnson', sub: 'Sale price: $31,500',                    when: isoDaysAgo(2),     refTab: 'sold' },
+  { id: 'act6',  type: 'feature',     title: '2023 BMW X5 marked Featured',               sub: 'Showcased on homepage',                      when: isoDaysAgo(3),     refTab: 'inventory' },
+  { id: 'act7',  type: 'lead-new',    title: 'New lead: Sarah Kim',                       sub: 'Trade-In · 2023 Tesla Model Y',              when: isoDaysAgo(3.5),   refTab: 'leads' },
+  { id: 'act8',  type: 'appointment', title: 'Service appointment confirmed',             sub: 'Mike Johnson · Oil Change · Mon 9 AM',       when: isoDaysAgo(4),     refTab: 'appointments' },
+  { id: 'act9',  type: 'sold',        title: '2022 Cadillac Escalade marked Sold',        sub: 'Buyer: Roberto Diaz · $54,900',              when: isoDaysAgo(7),     refTab: 'sold' },
+  { id: 'act10', type: 'review',      title: 'New 5★ review from Mike J.',                sub: '"Best used car experience in Miami…"',       when: isoDaysAgo(3),     refTab: 'marketing' }
+];
+
 const SEED_REVIEWS = [
   { id: 'rv1', author: 'Mike J.', rating: 5, text: "Best used car experience in Miami. Carlos made everything easy. Love my Camry!", date: isoDaysAgo(3), platform: 'Google', responded: false, response: '' },
   { id: 'rv2', author: 'Lisa P.', rating: 5, text: "No pressure, fair price, and they delivered to my door. Will buy here again.", date: isoDaysAgo(7), platform: 'Google', responded: false, response: '' },
   { id: 'rv3', author: 'David C.', rating: 4, text: "Great selection and pricing. Finance took a bit long but overall happy.", date: isoDaysAgo(14), platform: 'Google', responded: true, response: "Thanks David — appreciate the feedback. We've streamlined our finance team since then. Enjoy the Audi!" }
 ];
 
+const TEAM_MEMBERS = [
+  { name: 'Carlos Rivera',   role: 'Sales' },
+  { name: 'Maria Santos',    role: 'Finance' },
+  { name: 'James Mitchell',  role: 'Sales' },
+  { name: 'Ana Gutierrez',   role: 'Service Advisor' }
+];
+
+const SEED_TASKS = [
+  { id: 'tk1', title: 'Call Maria Rodriguez back',          dueAt: isoAt(0, 14),  assignedTo: 'Carlos Rivera',  relatedTo: 'Maria Rodriguez',  priority: 'High',   status: 'Open',      notes: 'Wants to know about BMW X5 financing options.' },
+  { id: 'tk2', title: 'Follow up after test drive',         dueAt: isoAt(1, 11),  assignedTo: 'James Mitchell', relatedTo: 'Sarah Kim',        priority: 'Medium', status: 'Open',      notes: 'Test drove Tesla Model Y on Saturday. Loved it. Send pricing follow-up.' },
+  { id: 'tk3', title: 'Send Carlos deal paperwork',         dueAt: isoAt(-1, 16), assignedTo: 'Maria Santos',   relatedTo: 'Carlos Mendez',    priority: 'High',   status: 'Open',      notes: 'GLE 350 deal. Buyer signed offer — needs final paperwork emailed.' },
+  { id: 'tk4', title: "Check if Ana's financing approved", dueAt: isoAt(2, 10),  assignedTo: 'Carlos Rivera',  relatedTo: 'Ana Gutierrez',    priority: 'Low',    status: 'Open',      notes: 'Reservation on Porsche 911. Capital One pre-approval pending.' }
+];
+
+const SEED_MESSAGES = {
+  // keyed by lead id; messages have {dir, channel, text, when}
+  l5: [
+    { id: 'm1', dir: 'out', channel: 'sms', text: "Hi Carlos, thanks for your interest in the Mercedes GLE. When works for a test drive?", when: isoDaysAgo(2.1) },
+    { id: 'm2', dir: 'in',  channel: 'sms', text: "How about Saturday morning?",                                                              when: isoDaysAgo(2.0) },
+    { id: 'm3', dir: 'out', channel: 'sms', text: "Perfect, I've got you down for Saturday 10AM. See you then!",                              when: isoDaysAgo(1.95) }
+  ]
+};
+
 const SEED_SETTINGS = {
+  adminTheme: 'light',
+  savedViews: {
+    inventory: [
+      { id: 'sv-i-1', name: 'Aging 60+ days',     filter: { search: '', status: 'all', sort: 'daysOnLot-desc', minDays: 60 } },
+      { id: 'sv-i-2', name: 'Featured vehicles',  filter: { search: '', status: 'Featured', sort: 'recent' } }
+    ],
+    leads: [
+      { id: 'sv-l-1', name: 'New leads today',    filter: { search: '', status: 'New', source: 'all' } },
+      { id: 'sv-l-2', name: 'Trade-ins',          filter: { search: '', status: 'all', source: 'Trade-In' } }
+    ]
+  },
   dealership: {
     name: 'Primo Auto Group', address: '8420 NW 27th Ave', city: 'Miami', state: 'FL', zip: '33147',
     phone: '305-555-0100', email: 'sales@primoautogroup.com', website: 'primoautogroup.com',
@@ -333,6 +412,10 @@ const SEED_SETTINGS = {
 /*  HELPERS                                                            */
 /* ------------------------------------------------------------------ */
 
+// Module-level error handler — PrimoAdmin registers a flash() callback so storage failures surface as red toasts.
+let _storageErrorHandler = null;
+const setStorageErrorHandler = (fn) => { _storageErrorHandler = fn; };
+
 const storage = {
   async get(key, fallback) {
     try {
@@ -346,9 +429,212 @@ const storage = {
     try {
       if (typeof window === 'undefined' || !window.storage) return;
       await window.storage.setItem(key, JSON.stringify(value));
-    } catch {}
+    } catch (err) {
+      if (_storageErrorHandler) _storageErrorHandler(err, key);
+      else if (typeof console !== 'undefined') console.error('storage.set failed', key, err);
+    }
   }
 };
+
+/* ------------------------------------------------------------------ */
+/*  EXTERNAL APIs (NHTSA, FuelEconomy.gov, EspoCRM)                    */
+/* ------------------------------------------------------------------ */
+
+const NHTSA_TTL_MS = 30 * 24 * 3600 * 1000;
+const POPULAR_MAKES = [
+  'Toyota','Honda','Ford','Chevrolet','BMW','Mercedes-Benz','Audi','Lexus','Nissan','Hyundai',
+  'Kia','Jeep','Subaru','Volkswagen','Porsche','Tesla','Ram','GMC','Cadillac','Land Rover'
+];
+
+const ESPO_BASE = 'http://localhost:8081';
+const ESPO_API_KEY = '7190e14d23e6ca8d68a5d2b29c91e55e';
+const ESPO_VEHICLE_ENTITY = 'CVehicle';
+
+async function cachedFetch(cacheKey, fetcher) {
+  const hit = await storage.get(cacheKey, null);
+  if (hit && hit.ts && Date.now() - hit.ts < NHTSA_TTL_MS) return hit.data;
+  const data = await fetcher();
+  await storage.set(cacheKey, { ts: Date.now(), data });
+  return data;
+}
+
+async function fetchWithTimeout(url, options = {}, timeoutMs = 5000) {
+  const ctl = new AbortController();
+  const t = setTimeout(() => ctl.abort(), timeoutMs);
+  try {
+    const res = await fetch(url, { ...options, signal: ctl.signal });
+    if (!res.ok) throw new Error(`HTTP ${res.status}`);
+    return await res.json();
+  } finally {
+    clearTimeout(t);
+  }
+}
+
+const mapBodyClass = (s) => {
+  const x = String(s || '').toLowerCase();
+  if (!x) return null;
+  if (x.includes('sedan')) return 'Sedan';
+  if (x.includes('suv') || x.includes('sport utility') || x.includes('cuv') || x.includes('crossover')) return 'SUV';
+  if (x.includes('pickup') || x.includes('truck')) return 'Truck';
+  if (x.includes('coupe')) return 'Coupe';
+  if (x.includes('convertible') || x.includes('roadster') || x.includes('cabriolet')) return 'Convertible';
+  if (x.includes('hatchback')) return 'Hatchback';
+  if (x.includes('wagon')) return 'Wagon';
+  if (x.includes('van') || x.includes('minivan')) return 'Van';
+  return null;
+};
+const mapTransmission = (s) => {
+  const x = String(s || '').toLowerCase();
+  if (x.includes('cvt') || x.includes('continuously')) return 'CVT';
+  if (x.includes('manual')) return 'Manual';
+  if (x.includes('auto')) return 'Automatic';
+  return null;
+};
+const mapDrivetrain = (s) => {
+  const x = String(s || '').toLowerCase();
+  if (x.includes('4wd') || x.includes('4x4') || x.includes('four-wheel') || x.includes('4-wheel')) return '4WD';
+  if (x.includes('awd') || x.includes('all-wheel') || x.includes('all wheel')) return 'AWD';
+  if (x.includes('rwd') || x.includes('rear-wheel') || x.includes('rear wheel')) return 'RWD';
+  if (x.includes('fwd') || x.includes('front-wheel') || x.includes('front wheel')) return 'FWD';
+  return null;
+};
+const mapFuelType = (s) => {
+  const x = String(s || '').toLowerCase();
+  if (x.includes('plug-in') || x.includes('phev')) return 'PHEV';
+  if (x.includes('hybrid')) return 'Hybrid';
+  if (x.includes('electric') || x.includes('bev')) return 'Electric';
+  if (x.includes('diesel')) return 'Diesel';
+  if (x.includes('gasoline') || x.includes('gas') || x.includes('petrol') || x.includes('flex')) return 'Gas';
+  return null;
+};
+
+async function nhtsaDecodeVin(vin) {
+  const url = `https://vpic.nhtsa.dot.gov/api/vehicles/DecodeVinValues/${encodeURIComponent(vin)}?format=json`;
+  const json = await fetchWithTimeout(url);
+  const r = (json.Results && json.Results[0]) || {};
+  if (!r.Make && !r.ModelYear) return null;
+  const cylPrefix = r.EngineConfiguration ? String(r.EngineConfiguration).match(/^[A-Z]/i) : null;
+  const engineParts = [
+    r.DisplacementL ? `${parseFloat(r.DisplacementL).toFixed(1)}L` : '',
+    mapFuelType(r.FuelTypePrimary) || (r.FuelTypePrimary || ''),
+    r.EngineConfiguration && r.EngineCylinders
+      ? `${cylPrefix ? cylPrefix[0] : ''}${r.EngineCylinders}`
+      : (r.EngineCylinders ? `${r.EngineCylinders}cyl` : '')
+  ].filter(Boolean).join(' ');
+  return {
+    raw: r,
+    fields: {
+      year: r.ModelYear || null,
+      make: r.Make || null,
+      model: r.Model || null,
+      trim: r.Trim || null,
+      bodyStyle: mapBodyClass(r.BodyClass),
+      engine: engineParts || null,
+      transmission: mapTransmission(r.TransmissionStyle),
+      drivetrain: mapDrivetrain(r.DriveType),
+      fuelType: mapFuelType(r.FuelTypePrimary),
+    }
+  };
+}
+
+async function nhtsaGetAllMakes() {
+  return cachedFetch('nhtsa-makes', async () => {
+    const json = await fetchWithTimeout('https://vpic.nhtsa.dot.gov/api/vehicles/GetAllMakes?format=json', {}, 8000);
+    const names = (json.Results || []).map(m => m.Make_Name).filter(Boolean);
+    return Array.from(new Set(names.map(n => n.replace(/\b\w/g, c => c.toUpperCase())))).sort();
+  });
+}
+
+async function nhtsaGetModelsForMake(make) {
+  const key = `nhtsa-models-${String(make).toLowerCase()}`;
+  return cachedFetch(key, async () => {
+    const url = `https://vpic.nhtsa.dot.gov/api/vehicles/GetModelsForMake/${encodeURIComponent(make)}?format=json`;
+    const json = await fetchWithTimeout(url);
+    const names = (json.Results || []).map(m => m.Model_Name).filter(Boolean);
+    return Array.from(new Set(names)).sort();
+  });
+}
+
+async function fuelEconomyLookup(year, make, model) {
+  const opts = await fetchWithTimeout(
+    `https://www.fueleconomy.gov/ws/rest/vehicle/menu/options?year=${encodeURIComponent(year)}&make=${encodeURIComponent(make)}&model=${encodeURIComponent(model)}`,
+    { headers: { Accept: 'application/json' } }
+  );
+  const items = Array.isArray(opts.menuItem) ? opts.menuItem : (opts.menuItem ? [opts.menuItem] : []);
+  if (!items.length) return null;
+  const id = items[0].value;
+  if (!id) return null;
+  const ympg = await fetchWithTimeout(
+    `https://www.fueleconomy.gov/ws/rest/ympg/shared/ympgVehicle/${encodeURIComponent(id)}`,
+    { headers: { Accept: 'application/json' } }
+  );
+  const city = parseFloat(ympg.city);
+  const hwy = parseFloat(ympg.highway);
+  if (!Number.isFinite(city) && !Number.isFinite(hwy)) return null;
+  return {
+    mpgCity: Number.isFinite(city) ? Math.round(city) : 0,
+    mpgHwy: Number.isFinite(hwy) ? Math.round(hwy) : 0
+  };
+}
+
+async function nhtsaRecalls(year, make, model) {
+  const url = `https://api.nhtsa.gov/recalls/recallsByVehicle?make=${encodeURIComponent(make)}&model=${encodeURIComponent(model)}&modelYear=${encodeURIComponent(year)}`;
+  const json = await fetchWithTimeout(url);
+  return (json.results || []).map(r => ({
+    campaign: r.NHTSACampaignNumber || r.CampaignNumber || '—',
+    summary: (r.Summary || r.Component || '').slice(0, 100)
+  }));
+}
+
+async function espoSaveVehicle(formVehicle) {
+  const payload = {
+    name: `${formVehicle.year || ''} ${formVehicle.make || ''} ${formVehicle.model || ''}`.trim(),
+    cYear: Number(formVehicle.year) || null,
+    cMake: formVehicle.make || null,
+    cModel: formVehicle.model || null,
+    cTrim: formVehicle.trim || null,
+    cBodyStyle: formVehicle.bodyStyle || null,
+    cExteriorColor: formVehicle.exteriorColor || null,
+    cInteriorColor: formVehicle.interiorColor || null,
+    cEngine: formVehicle.engine || null,
+    cTransmission: formVehicle.transmission || null,
+    cDrivetrain: formVehicle.drivetrain || null,
+    cFuelType: formVehicle.fuelType || null,
+    cMpgCity: Number(formVehicle.mpgCity) || null,
+    cMpgHwy: Number(formVehicle.mpgHwy) || null,
+    cVin: formVehicle.vin || null,
+    cStockNumber: formVehicle.stockNumber || null,
+    cMileage: Number(formVehicle.mileage) || null,
+    cListPrice: Number(formVehicle.listPrice) || null,
+    cSalePrice: formVehicle.salePrice ? Number(formVehicle.salePrice) : null,
+    cCost: Number(formVehicle.cost) || null,
+    cStatus: formVehicle.status || null,
+    cDescription: formVehicle.description || null,
+    cHasOpenRecalls: !!formVehicle.hasOpenRecalls
+  };
+  const espoId = formVehicle.espoId || null;
+  const url = espoId
+    ? `${ESPO_BASE}/api/v1/${ESPO_VEHICLE_ENTITY}/${encodeURIComponent(espoId)}`
+    : `${ESPO_BASE}/api/v1/${ESPO_VEHICLE_ENTITY}`;
+  const method = espoId ? 'PUT' : 'POST';
+  const ctl = new AbortController();
+  const t = setTimeout(() => ctl.abort(), 5000);
+  try {
+    const res = await fetch(url, {
+      method,
+      headers: { 'Content-Type': 'application/json', 'X-Api-Key': ESPO_API_KEY },
+      body: JSON.stringify(payload),
+      signal: ctl.signal
+    });
+    if (!res.ok) throw new Error(`Espo HTTP ${res.status}`);
+    const data = await res.json().catch(() => ({}));
+    return { ok: true, id: data.id || espoId, raw: data };
+  } catch (err) {
+    return { ok: false, error: err.message || 'Network error' };
+  } finally {
+    clearTimeout(t);
+  }
+}
 
 const fmtMoney = (n, fractionDigits = 0) =>
   n == null || n === '' ? '—'
@@ -460,41 +746,91 @@ const FontStyles = () => (
     .anim-slide { animation: slide-in 240ms cubic-bezier(.2,.8,.2,1) both; }
     @keyframes pulse-dot { 0%, 100% { box-shadow: 0 0 0 0 rgba(195,59,59,0.7) } 50% { box-shadow: 0 0 0 6px rgba(195,59,59,0) } }
     .pulse-dot { animation: pulse-dot 2s infinite; }
+    @keyframes fade-in { from { opacity: 0 } to { opacity: 1 } }
+    .anim-fade { animation: fade-in 120ms ease both; }
+    @keyframes saved-pulse { 0% { background-color: rgba(16, 185, 129, 0); } 30% { background-color: rgba(16, 185, 129, 0.18); } 100% { background-color: rgba(16, 185, 129, 0); } }
+    .saved-pulse { animation: saved-pulse 1.4s ease both; }
+    @media print {
+      .no-print { display: none !important; }
+      body { background: white !important; }
+      main, .print-area { padding: 0 !important; margin: 0 !important; }
+      * { box-shadow: none !important; }
+    }
+    /* Theme-aware table surfaces */
+    table thead { background-color: var(--table-header); }
+    table tbody tr:hover { background-color: var(--table-hover); }
+    .themed-row:hover { background-color: var(--table-hover); }
+    /* Inputs lose stone borders in dark mode */
+    input, select, textarea { color-scheme: light dark; }
   `}</style>
 );
 
 const StatusBadge = ({ status, size = 'sm' }) => {
+  // Each entry: bg, fg, dot, plus optional `icon` (lucide component) for negative states
+  // Goal: every status family gets a distinct hue. Negative states (No-Show, Lost, Cancelled, Expired) carry an icon.
   const map = {
+    // Inventory
     'Available':     { bg: '#E8F2EC', fg: '#256B40', dot: '#2F7A4A' },
-    'Featured':      { bg: GOLD_SOFT, fg: '#7A5A0F', dot: GOLD },
-    'On Sale':       { bg: '#FBE6E6', fg: '#A12B2B', dot: RED_ACCENT },
-    'Just Arrived':  { bg: '#E5EEFB', fg: '#1F4E8C', dot: '#2563A6' },
-    'Price Drop':    { bg: '#FCEBDB', fg: '#9C4F1A', dot: '#C66B2D' },
-    'Pending':       { bg: '#FBF1D6', fg: '#8A6912', dot: '#C8970F' },
-    'Sold':          { bg: '#EDEBE6', fg: '#5C5750', dot: '#8A847A' },
-    'New':           { bg: '#FBE6E6', fg: '#A12B2B', dot: RED_ACCENT },
-    'Contacted':     { bg: '#FBF1D6', fg: '#8A6912', dot: '#C8970F' },
-    'Appointment Set':{bg: '#E5EEFB', fg: '#1F4E8C', dot: '#2563A6' },
-    'Showed':        { bg: '#EFE5F5', fg: '#5E2C82', dot: '#7B3FAA' },
-    'Lost':          { bg: '#EDEBE6', fg: '#5C5750', dot: '#8A847A' },
-    'New Deal':      { bg: '#FBE6E6', fg: '#A12B2B', dot: RED_ACCENT },
-    'Working':       { bg: GOLD_SOFT, fg: '#7A5A0F', dot: GOLD },
-    'Approved':      { bg: '#E8F2EC', fg: '#256B40', dot: '#2F7A4A' },
-    'Delivered':     { bg: '#E8F2EC', fg: '#256B40', dot: '#2F7A4A' },
-    'Confirmed':     { bg: '#E5EEFB', fg: '#1F4E8C', dot: '#2563A6' },
-    'In Progress':   { bg: '#FCEBDB', fg: '#9C4F1A', dot: '#C66B2D' },
-    'Completed':     { bg: '#E8F2EC', fg: '#256B40', dot: '#2F7A4A' },
-    'No-Show':       { bg: '#FBE6E6', fg: '#A12B2B', dot: RED_ACCENT },
-    'Cancelled':     { bg: '#EDEBE6', fg: '#5C5750', dot: '#8A847A' }
+    'Featured':      { bg: GOLD_SOFT, fg: '#7A5A0F', dot: GOLD, icon: Star },
+    'On Sale':       { bg: '#FCE5E5', fg: '#9B1C1C', dot: '#C53030', icon: Tag },
+    'Just Arrived':  { bg: '#E0F2FE', fg: '#0369A1', dot: '#0284C7' },
+    'Price Drop':    { bg: '#FFEDD5', fg: '#9A3412', dot: '#EA580C' },
+    'Pending':       { bg: '#FEF3C7', fg: '#92400E', dot: '#D97706' },
+    'Sold':          { bg: '#E7E5E4', fg: '#57534E', dot: '#A8A29E' },
+    'Reserved':      { bg: 'transparent', fg: '#7A5A0F', dot: GOLD, border: GOLD },
+    // Lead pipeline
+    'New':           { bg: '#FBE6E6', fg: '#A12B2B', dot: RED_ACCENT, pulse: true },
+    'Contacted':     { bg: '#FEF9C3', fg: '#854D0E', dot: '#CA8A04' },
+    'Appointment Set':{bg: '#E0E7FF', fg: '#3730A3', dot: '#4F46E5' },
+    'Showed':        { bg: '#F3E8FF', fg: '#6B21A8', dot: '#9333EA' },
+    'Lost':          { bg: '#E7E5E4', fg: '#78716C', dot: '#A8A29E', icon: X, strike: true },
+    // Deal pipeline
+    'New Deal':      { bg: '#DBEAFE', fg: '#1E40AF', dot: '#2563EB' },
+    'Working':       { bg: '#BFDBFE', fg: '#1D4ED8', dot: '#3B82F6' },
+    'Approved':      { bg: '#D1FAE5', fg: '#065F46', dot: '#059669' },
+    'Delivered':     { bg: '#CCFBF1', fg: '#115E59', dot: '#0D9488' },
+    // Appointments
+    'Confirmed':     { bg: '#E0F2FE', fg: '#0369A1', dot: '#0284C7' },
+    'In Progress':   { bg: '#CFFAFE', fg: '#155E75', dot: '#0891B2' },
+    'Completed':     { bg: '#D1FAE5', fg: '#065F46', dot: '#059669', icon: Check },
+    'No-Show':       { bg: '#FECDD3', fg: '#9F1239', dot: '#BE123C', icon: X },
+    'Cancelled':     { bg: '#E7E5E4', fg: '#78716C', dot: '#A8A29E', icon: X },
+    // Reservations
+    'Expired':       { bg: '#E7E5E4', fg: '#78716C', dot: '#A8A29E', icon: X },
+    'Released':      { bg: '#E7E5E4', fg: '#78716C', dot: '#A8A29E' }
   };
-  const s = map[status] || { bg: '#EDEBE6', fg: '#5C5750', dot: '#8A847A' };
-  const isFeatured = status === 'Featured';
+  const s = map[status] || { bg: '#E7E5E4', fg: '#57534E', dot: '#A8A29E' };
+  const Icon = s.icon;
   return (
-    <span className={`inline-flex items-center gap-1.5 ${size === 'sm' ? 'text-[11px] px-2 py-0.5' : 'text-xs px-2.5 py-1'} rounded-full font-semibold smallcaps`}
-      style={{ backgroundColor: s.bg, color: s.fg }}>
-      {isFeatured ? <Star className="w-3 h-3" fill={s.dot} stroke={s.dot} />
-        : <span className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: s.dot }} />}
+    <span className={`inline-flex items-center gap-1.5 ${size === 'sm' ? 'text-[11px] px-2 py-0.5' : 'text-xs px-2.5 py-1'} rounded-full font-semibold smallcaps ${s.strike ? 'line-through' : ''}`}
+      style={{ backgroundColor: s.bg, color: s.fg, border: s.border ? `1px solid ${s.border}` : undefined }}>
+      {Icon ? <Icon className="w-3 h-3" strokeWidth={2.5} style={{ color: s.dot }} fill={Icon === Star ? s.dot : 'none'} />
+        : <span className={`w-1.5 h-1.5 rounded-full ${s.pulse ? 'pulse-dot' : ''}`} style={{ backgroundColor: s.dot }} />}
       {status}
+    </span>
+  );
+};
+
+// Lead source — colored left border per category, distinct from status badges.
+const LEAD_SOURCE_BORDERS = {
+  'Get E-Price':     '#D4AF37', // gold (money)
+  'Build Your Deal': '#D4AF37',
+  'Pre-Approval':    '#2563EB', // blue (finance)
+  'Inventory Alert': '#2563EB',
+  'Test Drive':      '#10B981', // green (action)
+  'Reserve':         '#10B981',
+  'Chat':            '#9333EA', // purple (comm)
+  'Phone Call':      '#9333EA',
+  'Trade-In':        '#EA580C', // orange (service)
+  'Service':         '#EA580C',
+  'Contact':         '#78716C'  // stone (general)
+};
+const LeadSourceBadge = ({ source }) => {
+  const border = LEAD_SOURCE_BORDERS[source] || '#78716C';
+  return (
+    <span className="inline-block pl-2 pr-2.5 py-0.5 text-[11px] font-medium bg-stone-100 text-stone-700 rounded-r-md"
+      style={{ borderLeft: `3px solid ${border}` }}>
+      {source}
     </span>
   );
 };
@@ -519,33 +855,36 @@ const Toggle = ({ checked, onChange, label, description, disabled }) => (
 const Field = ({ label, hint, required, children, className = '' }) => (
   <div className={`flex flex-col gap-1.5 ${className}`}>
     {label && (
-      <label className="text-[11px] font-semibold smallcaps text-stone-600">
+      <label className="text-[11px] font-semibold smallcaps" style={{ color: 'var(--text-secondary)' }}>
         {label}{required && <span className="text-red-700 ml-0.5">*</span>}
       </label>
     )}
     {children}
-    {hint && <div className="text-[11px] text-stone-500 leading-snug">{hint}</div>}
+    {hint && <div className="text-[11px] leading-snug" style={{ color: 'var(--text-muted)' }}>{hint}</div>}
   </div>
 );
 
-const Input = React.forwardRef(({ className = '', ...props }, ref) => (
+const Input = React.forwardRef(({ className = '', style, ...props }, ref) => (
   <input ref={ref} {...props}
-    className={`w-full px-3 py-2 bg-white border border-stone-300 rounded-md text-sm text-stone-900 placeholder:text-stone-400 ring-gold transition ${className}`} />
+    style={{ backgroundColor: 'var(--bg-input)', borderColor: 'var(--border-strong)', color: 'var(--text-primary)', ...style }}
+    className={`w-full px-3 py-2 border rounded-md text-sm placeholder:text-stone-400 ring-gold transition ${className}`} />
 ));
 
-const Select = ({ children, className = '', ...props }) => (
+const Select = ({ children, className = '', style, ...props }) => (
   <div className="relative">
     <select {...props}
-      className={`w-full pl-3 pr-9 py-2 bg-white border border-stone-300 rounded-md text-sm text-stone-900 appearance-none ring-gold ${className}`}>
+      style={{ backgroundColor: 'var(--bg-input)', borderColor: 'var(--border-strong)', color: 'var(--text-primary)', ...style }}
+      className={`w-full pl-3 pr-9 py-2 border rounded-md text-sm appearance-none ring-gold ${className}`}>
       {children}
     </select>
-    <ChevronDown className="w-4 h-4 absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-400 pointer-events-none" />
+    <ChevronDown className="w-4 h-4 absolute right-2.5 top-1/2 -translate-y-1/2 pointer-events-none" style={{ color: 'var(--text-muted)' }} />
   </div>
 );
 
-const Textarea = ({ className = '', ...props }) => (
+const Textarea = ({ className = '', style, ...props }) => (
   <textarea {...props}
-    className={`w-full px-3 py-2 bg-white border border-stone-300 rounded-md text-sm text-stone-900 placeholder:text-stone-400 ring-gold resize-y ${className}`} />
+    style={{ backgroundColor: 'var(--bg-input)', borderColor: 'var(--border-strong)', color: 'var(--text-primary)', ...style }}
+    className={`w-full px-3 py-2 border rounded-md text-sm placeholder:text-stone-400 ring-gold resize-y ${className}`} />
 );
 
 const Btn = ({ variant = 'default', size = 'md', icon: Icon, children, className = '', ...props }) => {
@@ -591,14 +930,17 @@ const IconBtn = ({ icon: Icon, title, onClick, tone = 'default' }) => {
 };
 
 const Card = ({ children, className = '' }) => (
-  <div className={`bg-white border border-stone-200 rounded-lg ${className}`}>{children}</div>
+  <div className={`rounded-lg ${className}`}
+    style={{ backgroundColor: 'var(--bg-card)', borderWidth: 1, borderStyle: 'solid', borderColor: 'var(--border)', color: 'var(--text-primary)' }}>
+    {children}
+  </div>
 );
 
 const SectionHeader = ({ eyebrow, title, action, className = '' }) => (
   <div className={`flex items-end justify-between mb-4 ${className}`}>
     <div>
-      {eyebrow && <div className="text-[10px] font-semibold smallcaps text-stone-500 mb-1">{eyebrow}</div>}
-      <h2 className="font-display text-2xl font-medium tracking-tight text-stone-900 leading-none">{title}</h2>
+      {eyebrow && <div className="text-[10px] font-semibold smallcaps mb-1" style={{ color: 'var(--text-muted)' }}>{eyebrow}</div>}
+      <h2 className="font-display text-2xl font-medium tracking-tight leading-none" style={{ color: 'var(--text-primary)' }}>{title}</h2>
     </div>
     {action}
   </div>
@@ -635,22 +977,298 @@ const VehiclePhoto = ({ vehicle, size = 'md' }) => {
       style={{ background: bg }}>
       <Car className={`${size === 'lg' ? 'w-10 h-10' : size === 'md' ? 'w-6 h-6' : 'w-4 h-4'}`}
         style={{ color: isLight ? '#6b655b' : 'rgba(255,255,255,0.6)' }} strokeWidth={1.5} />
-      <span className={`absolute right-1 bottom-0.5 font-display font-medium ${size === 'lg' ? 'text-sm' : 'text-[9px]'}`}
+      <span className={`absolute right-1 bottom-0.5 font-display font-medium ${size === 'lg' ? 'text-sm' : 'text-[11px]'}`}
         style={{ color: isLight ? '#6b655b' : 'rgba(255,255,255,0.7)' }}>{initials}</span>
     </div>
   );
 };
 
 const StatCard = ({ label, value, sub, accent, icon: Icon }) => (
-  <div className="bg-white border border-stone-200 rounded-lg p-4 relative">
+  <div className="rounded-lg p-4 relative"
+    style={{ backgroundColor: 'var(--bg-card)', borderWidth: 1, borderStyle: 'solid', borderColor: 'var(--border)' }}>
     <div className="flex items-start justify-between mb-3">
-      <span className="text-[10px] font-semibold smallcaps text-stone-500">{label}</span>
-      {Icon && <Icon className="w-4 h-4" style={{ color: accent || '#a8a39a' }} strokeWidth={1.75} />}
+      <span className="text-[10px] font-semibold smallcaps" style={{ color: 'var(--text-muted)' }}>{label}</span>
+      {Icon && <Icon className="w-4 h-4" style={{ color: accent || 'var(--text-muted)' }} strokeWidth={1.75} />}
     </div>
-    <div className="font-display text-3xl font-medium tracking-tight text-stone-900 tabular leading-none">{value}</div>
-    {sub && <div className="text-[11px] text-stone-500 mt-2">{sub}</div>}
+    <div className="font-display text-2xl font-medium tracking-tight tabular leading-none" style={{ color: 'var(--text-primary)' }}>{value}</div>
+    {sub && <div className="text-[11px] mt-2" style={{ color: 'var(--text-muted)' }}>{sub}</div>}
   </div>
 );
+
+/* Reusable confirmation dialog. Optional `inputs` for capturing data inline (e.g., buyer name on Mark Sold). */
+const ConfirmDialog = ({ isOpen, title, message, confirmLabel = 'Confirm', cancelLabel = 'Cancel', confirmColor = 'red', onConfirm, onCancel, inputs = [] }) => {
+  const [values, setValues] = useState({});
+  useEffect(() => {
+    if (isOpen) {
+      const init = {};
+      inputs.forEach(i => { init[i.name] = i.defaultValue ?? ''; });
+      setValues(init);
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isOpen]);
+  if (!isOpen) return null;
+  const colorMap = {
+    red:  'bg-red-600 hover:bg-red-700 text-white',
+    blue: 'bg-blue-600 hover:bg-blue-700 text-white',
+    gold: 'text-stone-900 hover:brightness-95',
+    dark: 'bg-stone-900 hover:bg-stone-800 text-white'
+  };
+  const goldStyle = confirmColor === 'gold' ? { backgroundColor: GOLD } : undefined;
+  return (
+    <div className="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-4 anim-fade no-print" onClick={onCancel}>
+      <div className="rounded-lg shadow-xl max-w-md w-full max-h-[85vh] overflow-y-auto"
+        style={{ backgroundColor: 'var(--bg-card)', color: 'var(--text-primary)' }}
+        onClick={e => e.stopPropagation()}>
+        <div className="p-5">
+          <h3 className="font-display text-lg font-semibold mb-2" style={{ color: 'var(--text-primary)' }}>{title}</h3>
+          {message && <p className="text-sm mb-4 leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{message}</p>}
+          {inputs.map((i, idx) => (
+            <div key={i.name} className="mb-3">
+              <label className="block text-[11px] font-semibold mb-1 smallcaps" style={{ color: 'var(--text-secondary)' }}>{i.label}</label>
+              <input
+                type={i.type || 'text'}
+                value={values[i.name] ?? ''}
+                onChange={(e) => setValues(v => ({ ...v, [i.name]: e.target.value }))}
+                placeholder={i.placeholder || ''}
+                autoFocus={idx === 0}
+                style={{ backgroundColor: 'var(--bg-input)', borderColor: 'var(--border-strong)', color: 'var(--text-primary)' }}
+                className="w-full px-3 py-2 border rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-stone-400" />
+              {i.hint && <div className="text-[10px] mt-1" style={{ color: 'var(--text-muted)' }}>{i.hint}</div>}
+            </div>
+          ))}
+        </div>
+        <div className="px-5 py-3 flex justify-end gap-2"
+          style={{ backgroundColor: 'var(--bg-elevated)', borderTop: '1px solid var(--border)' }}>
+          <button onClick={onCancel} className="px-4 py-2 text-sm font-semibold rounded-md transition hover:bg-stone-200/40"
+            style={{ color: 'var(--text-secondary)' }}>{cancelLabel}</button>
+          <button onClick={() => onConfirm(values)} style={goldStyle}
+            className={`px-4 py-2 text-sm font-semibold rounded-md transition ${colorMap[confirmColor] || colorMap.red}`}>{confirmLabel}</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* Loading skeleton — gray-shimmer rows */
+const Skeleton = ({ rows = 4, className = '' }) => (
+  <div className={`animate-pulse space-y-3 ${className}`}>
+    {Array.from({ length: rows }).map((_, i) => (
+      <div key={i} className="h-10 bg-stone-200/70 rounded-md" />
+    ))}
+  </div>
+);
+
+/* Paginator — per-page selector + prev/next + count label. Pass pageSize=Infinity for "All". */
+const Paginator = ({ total, page, pageSize, onPage, onPageSize, label = 'item' }) => {
+  const isAll = pageSize === Infinity || pageSize === 'all';
+  const totalPages = isAll ? 1 : Math.max(1, Math.ceil(total / pageSize));
+  const start = isAll ? (total === 0 ? 0 : 1) : (total === 0 ? 0 : Math.min(total, (page - 1) * pageSize + 1));
+  const end = isAll ? total : Math.min(total, page * pageSize);
+  return (
+    <div className="flex items-center justify-between gap-3 py-3 px-4 text-xs flex-wrap"
+      style={{ borderTop: '1px solid var(--border)', color: 'var(--text-muted)' }}>
+      <div className="flex items-center gap-1 tabular">
+        Showing <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>{start}–{end}</span>
+        of <span className="font-semibold" style={{ color: 'var(--text-primary)' }}>{total}</span> {label}{total === 1 ? '' : 's'}
+      </div>
+      <div className="flex items-center gap-3">
+        <label className="flex items-center gap-1.5">
+          Per page:
+          <select value={isAll ? 'all' : pageSize}
+            onChange={(e) => { const v = e.target.value; onPageSize(v === 'all' ? Infinity : Number(v)); onPage(1); }}
+            className="px-1.5 py-1 rounded text-xs"
+            style={{ backgroundColor: 'var(--bg-input)', border: '1px solid var(--border-strong)', color: 'var(--text-primary)' }}>
+            <option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="all">All</option>
+          </select>
+        </label>
+        <div className="flex items-center gap-1">
+          <button onClick={() => onPage(Math.max(1, page - 1))} disabled={page <= 1 || isAll}
+            className="px-2 py-1 rounded hover:bg-stone-100 disabled:opacity-30 transition">Prev</button>
+          <span className="tabular px-2 text-stone-700">{isAll ? 1 : page}/{totalPages}</span>
+          <button onClick={() => onPage(Math.min(totalPages, page + 1))} disabled={page >= totalPages || isAll}
+            className="px-2 py-1 rounded hover:bg-stone-100 disabled:opacity-30 transition">Next</button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+/* Help slide-out — contact info + 5 FAQ accordions */
+const HELP_FAQ = [
+  { q: 'How to add a vehicle', a: 'Click "Add Vehicle" in the sidebar (or the + button). Enter a VIN to auto-decode 9 fields, or fill the form manually. Photos and pricing can be edited any time after.' },
+  { q: 'How to respond to leads', a: 'Open the Leads tab, expand a lead row to see their timeline, then use Quick Actions to call, text, or email. The lead status auto-advances when you change it.' },
+  { q: 'How to run a sale', a: 'Select vehicles in Inventory (table or grid view), click "Sale" in the bulk action bar, and apply a percentage or dollar discount. Apply to one vehicle via the kebab menu (⋯).' },
+  { q: 'How to export to Facebook', a: 'In Inventory, select vehicles and choose "Export FB" from the bulk bar — this generates a Facebook Marketplace catalog CSV that uploads directly to Commerce Manager.' },
+  { q: 'How to request Google reviews', a: 'On the Sold tab, click the gold star icon next to a customer to send a review request. Email or SMS templates are pre-set in Settings → Marketing.' }
+];
+
+const HelpPanel = ({ onClose }) => {
+  const [openIdx, setOpenIdx] = useState(null);
+  return (
+    <>
+      <div className="fixed inset-0 z-40 bg-black/40 anim-fade no-print" onClick={onClose} />
+      <aside className="fixed top-0 right-0 bottom-0 z-50 w-full sm:w-96 shadow-2xl anim-slide overflow-y-auto no-print"
+        style={{ backgroundColor: 'var(--bg-card)', color: 'var(--text-primary)' }}>
+        <div className="px-5 py-4 flex items-center justify-between sticky top-0"
+          style={{ backgroundColor: 'var(--bg-card)', borderBottom: '1px solid var(--border)' }}>
+          <div className="flex items-center gap-2">
+            <HelpCircle className="w-5 h-5 text-stone-600" />
+            <h2 className="font-display text-xl font-semibold">Need Help?</h2>
+          </div>
+          <button onClick={onClose} className="p-1.5 rounded hover:bg-stone-100"><X className="w-4 h-4" /></button>
+        </div>
+        <div className="p-5 space-y-5">
+          <div className="space-y-2 text-sm">
+            <a href="mailto:david@aiandwebservices.com" className="flex items-center gap-2.5 px-3 py-2 rounded-md hover:bg-stone-100 transition" style={{ color: 'var(--text-secondary)' }}>
+              <Mail className="w-4 h-4" /><span>david@aiandwebservices.com</span>
+            </a>
+            <a href="tel:3155720710" className="flex items-center gap-2.5 px-3 py-2 rounded-md hover:bg-stone-100 transition" style={{ color: 'var(--text-secondary)' }}>
+              <Phone className="w-4 h-4" /><span>Call/Text: 315-572-0710</span>
+            </a>
+          </div>
+          <div>
+            <div className="text-[11px] font-semibold smallcaps mb-2" style={{ color: 'var(--text-muted)' }}>Quick Tips</div>
+            <div className="space-y-1.5">
+              {HELP_FAQ.map((item, i) => (
+                <div key={i} className="rounded-md overflow-hidden" style={{ border: '1px solid var(--border)' }}>
+                  <button onClick={() => setOpenIdx(openIdx === i ? null : i)}
+                    className="w-full text-left px-3 py-2.5 flex items-center justify-between hover:bg-stone-50 transition">
+                    <span className="text-sm font-medium">{item.q}</span>
+                    <ChevronDown className={`w-3.5 h-3.5 text-stone-400 transition-transform ${openIdx === i ? 'rotate-180' : ''}`} />
+                  </button>
+                  {openIdx === i && (
+                    <div className="px-3 py-2.5 text-xs leading-relaxed" style={{ color: 'var(--text-secondary)', backgroundColor: 'var(--bg-elevated)', borderTop: '1px solid var(--border)' }}>
+                      {item.a}
+                    </div>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="px-5 py-4 text-center text-[11px] sticky bottom-0"
+          style={{ borderTop: '1px solid var(--border)', backgroundColor: 'var(--bg-elevated)', color: 'var(--text-muted)' }}>
+          Powered by <span className="font-semibold" style={{ color: GOLD }}>AIand</span><span className="font-semibold">WEB</span>services
+        </div>
+      </aside>
+    </>
+  );
+};
+
+/* Global search palette (Cmd+K) — searches vehicles, leads, deals, appointments */
+const SearchPalette = ({ onClose, inventory, leads, deals, appointments, onJump }) => {
+  const [query, setQuery] = useState('');
+  const [recent, setRecent] = useState([]);
+  useEffect(() => {
+    storage.get('primo-recent-searches', []).then(r => setRecent(Array.isArray(r) ? r : []));
+  }, []);
+  useEffect(() => {
+    const onKey = (e) => { if (e.key === 'Escape') onClose(); };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [onClose]);
+
+  const results = useMemo(() => {
+    if (!query.trim()) return null;
+    const q = query.toLowerCase();
+    return {
+      vehicles: inventory.filter(v => [v.year, v.make, v.model, v.trim, v.vin, v.stockNumber].join(' ').toLowerCase().includes(q)).slice(0, 5),
+      leads:    leads.filter(l => [l.name, l.email, l.phone].join(' ').toLowerCase().includes(q)).slice(0, 5),
+      deals:    deals.filter(d => (d.customerName || '').toLowerCase().includes(q)).slice(0, 5),
+      appts:    appointments.filter(a => (a.customerName || '').toLowerCase().includes(q)).slice(0, 5)
+    };
+  }, [query, inventory, leads, deals, appointments]);
+
+  const recordSearch = (q) => {
+    if (!q || !q.trim()) return;
+    const next = [q, ...recent.filter(r => r !== q)].slice(0, 5);
+    setRecent(next);
+    storage.set('primo-recent-searches', next);
+  };
+
+  const Section = ({ icon: Icon, label, items, render }) => items && items.length > 0 ? (
+    <div className="py-1">
+      <div className="px-4 py-1.5 text-[10px] font-semibold smallcaps flex items-center gap-1.5" style={{ color: 'var(--text-muted)' }}>
+        <Icon className="w-3 h-3" /> {label}
+      </div>
+      {items.map(render)}
+    </div>
+  ) : null;
+
+  return (
+    <div className="fixed inset-0 z-50 bg-black/50 flex items-start justify-center pt-24 px-4 anim-fade no-print" onClick={onClose}>
+      <div className="rounded-lg shadow-2xl max-w-xl w-full max-h-[70vh] overflow-hidden flex flex-col"
+        style={{ backgroundColor: 'var(--bg-card)', color: 'var(--text-primary)' }}
+        onClick={e => e.stopPropagation()}>
+        <div className="flex items-center gap-2 px-4 py-3" style={{ borderBottom: '1px solid var(--border)' }}>
+          <Search className="w-4 h-4" style={{ color: 'var(--text-muted)' }} />
+          <input
+            autoFocus
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search vehicles, leads, deals, appointments…"
+            className="flex-1 bg-transparent outline-none text-sm"
+            style={{ color: 'var(--text-primary)' }}
+          />
+          <kbd className="text-[9px] font-mono px-1.5 py-0.5 rounded" style={{ backgroundColor: 'var(--bg-elevated)', color: 'var(--text-muted)' }}>Esc</kbd>
+        </div>
+        <div className="flex-1 overflow-y-auto">
+          {!query.trim() && recent.length > 0 && (
+            <div className="py-2">
+              <div className="px-4 py-1.5 text-[10px] font-semibold smallcaps" style={{ color: 'var(--text-muted)' }}>Recent</div>
+              {recent.map(r => (
+                <button key={r} onClick={() => setQuery(r)}
+                  className="w-full text-left px-4 py-2 text-sm hover:bg-stone-100 transition">{r}</button>
+              ))}
+            </div>
+          )}
+          {!query.trim() && recent.length === 0 && (
+            <div className="px-4 py-10 text-center text-sm" style={{ color: 'var(--text-muted)' }}>
+              Start typing to search across the admin
+            </div>
+          )}
+          {results && (
+            <>
+              <Section icon={Car} label="Vehicles" items={results.vehicles} render={v => (
+                <button key={'v' + v.id} onClick={() => { recordSearch(query); onJump('inventory'); }}
+                  className="w-full text-left px-4 py-2 hover:bg-stone-100 transition flex items-center gap-3">
+                  <div className="text-sm font-medium">{v.year} {v.make} {v.model}</div>
+                  <div className="text-[11px] tabular" style={{ color: 'var(--text-muted)' }}>· {v.stockNumber}</div>
+                </button>
+              )} />
+              <Section icon={Users} label="Leads" items={results.leads} render={l => (
+                <button key={'l' + l.id} onClick={() => { recordSearch(query); onJump('leads'); }}
+                  className="w-full text-left px-4 py-2 hover:bg-stone-100 transition flex items-center gap-3">
+                  <div className="text-sm font-medium">{l.name}</div>
+                  <div className="text-[11px]" style={{ color: 'var(--text-muted)' }}>· {l.email}</div>
+                </button>
+              )} />
+              <Section icon={Calculator} label="Deals" items={results.deals} render={d => (
+                <button key={'d' + d.id} onClick={() => { recordSearch(query); onJump('deals'); }}
+                  className="w-full text-left px-4 py-2 hover:bg-stone-100 transition flex items-center gap-3">
+                  <div className="text-sm font-medium">{d.customerName}</div>
+                  <div className="text-[11px]" style={{ color: 'var(--text-muted)' }}>· {d.status}</div>
+                </button>
+              )} />
+              <Section icon={Calendar} label="Appointments" items={results.appts} render={a => (
+                <button key={'a' + a.id} onClick={() => { recordSearch(query); onJump('appointments'); }}
+                  className="w-full text-left px-4 py-2 hover:bg-stone-100 transition flex items-center gap-3">
+                  <div className="text-sm font-medium">{a.customerName}</div>
+                  <div className="text-[11px]" style={{ color: 'var(--text-muted)' }}>· {a.serviceType}</div>
+                </button>
+              )} />
+              {results.vehicles.length + results.leads.length + results.deals.length + results.appts.length === 0 && (
+                <div className="px-4 py-10 text-center text-sm" style={{ color: 'var(--text-muted)' }}>
+                  No results for "{query}"
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+};
 
 /* ------------------------------------------------------------------ */
 /*  ROOT COMPONENT                                                     */
@@ -661,10 +1279,13 @@ const NAV_ITEMS = [
   { id: 'inventory',    label: 'Inventory',      icon: Car },
   { id: 'addVehicle',   label: 'Add Vehicle',    icon: Plus },
   { id: 'leads',        label: 'Leads',          icon: Users },
+  { id: 'customers',    label: 'Customers',      icon: BadgeCheck },
+  { id: 'tasks',        label: 'Tasks',          icon: CheckSquare },
   { id: 'deals',        label: 'Deal Builder',   icon: Calculator },
   { id: 'appointments', label: 'Service',        icon: Wrench },
   { id: 'sold',         label: 'Sold Vehicles',  icon: Archive },
   { id: 'marketing',    label: 'Marketing',      icon: Megaphone },
+  { id: 'reporting',    label: 'Reporting',      icon: BarChart3 },
   { id: 'performance',  label: 'Performance',    icon: Activity },
   { id: 'settings',     label: 'Settings',       icon: SettingsIcon }
 ];
@@ -673,6 +1294,11 @@ export default function PrimoAdmin() {
   /* ---------- state ---------- */
   const [activeTab, setActiveTab] = useState('dashboard');
   const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+  const [notifOpen, setNotifOpen] = useState(false);
+  const [helpOpen, setHelpOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [adminTheme, setAdminTheme] = useState('light');
   const [loaded, setLoaded] = useState(false);
 
   const [inventory, setInventory] = useState(SEED_INVENTORY);
@@ -683,6 +1309,10 @@ export default function PrimoAdmin() {
   const [appointments, setAppointments] = useState(SEED_APPOINTMENTS);
   const [reservations, setReservations] = useState(SEED_RESERVATIONS);
   const [reviews, setReviews] = useState(SEED_REVIEWS);
+  const [activity, setActivity] = useState(SEED_ACTIVITY);
+  const [tasks, setTasks] = useState(SEED_TASKS);
+  const [messages, setMessages] = useState(SEED_MESSAGES);
+  const [pwaDismissed, setPwaDismissed] = useState(false);
 
   const [editingVehicleId, setEditingVehicleId] = useState(null);
   const [toast, setToast] = useState(null);
@@ -691,7 +1321,7 @@ export default function PrimoAdmin() {
   useEffect(() => {
     let mounted = true;
     (async () => {
-      const [inv, lds, dls, sld, st, apts, rsvs, rvws] = await Promise.all([
+      const [inv, lds, dls, sld, st, apts, rsvs, rvws, act, tks, msgs] = await Promise.all([
         storage.get('primo-inventory', null),
         storage.get('primo-leads', null),
         storage.get('primo-deals', null),
@@ -699,17 +1329,24 @@ export default function PrimoAdmin() {
         storage.get('primo-settings', null),
         storage.get('primo-appointments', null),
         storage.get('primo-reservations', null),
-        storage.get('primo-reviews', null)
+        storage.get('primo-reviews', null),
+        storage.get('primo-activity', null),
+        storage.get('primo-tasks', null),
+        storage.get('primo-messages', null)
       ]);
       if (!mounted) return;
       if (inv) setInventory(inv); else await storage.set('primo-inventory', SEED_INVENTORY);
       if (lds) setLeads(lds); else await storage.set('primo-leads', SEED_LEADS);
       if (dls) setDeals(dls); else await storage.set('primo-deals', SEED_DEALS);
       if (sld) setSold(sld); else await storage.set('primo-sold', SEED_SOLD);
-      if (st) setSettings(st); else await storage.set('primo-settings', SEED_SETTINGS);
+      if (st) { setSettings(st); if (st.adminTheme === 'dark' || st.adminTheme === 'light') setAdminTheme(st.adminTheme); }
+      else await storage.set('primo-settings', SEED_SETTINGS);
       if (apts) setAppointments(apts); else await storage.set('primo-appointments', SEED_APPOINTMENTS);
       if (rsvs) setReservations(rsvs); else await storage.set('primo-reservations', SEED_RESERVATIONS);
       if (rvws) setReviews(rvws); else await storage.set('primo-reviews', SEED_REVIEWS);
+      if (act) setActivity(act); else await storage.set('primo-activity', SEED_ACTIVITY);
+      if (tks) setTasks(tks); else await storage.set('primo-tasks', SEED_TASKS);
+      if (msgs) setMessages(msgs); else await storage.set('primo-messages', SEED_MESSAGES);
       setLoaded(true);
     })();
     return () => { mounted = false; };
@@ -724,6 +1361,18 @@ export default function PrimoAdmin() {
   useEffect(() => { if (loaded) storage.set('primo-appointments', appointments); }, [appointments, loaded]);
   useEffect(() => { if (loaded) storage.set('primo-reservations', reservations); }, [reservations, loaded]);
   useEffect(() => { if (loaded) storage.set('primo-reviews', reviews); }, [reviews, loaded]);
+  useEffect(() => { if (loaded) storage.set('primo-activity', activity); }, [activity, loaded]);
+  useEffect(() => { if (loaded) storage.set('primo-tasks', tasks); }, [tasks, loaded]);
+  useEffect(() => { if (loaded) storage.set('primo-messages', messages); }, [messages, loaded]);
+
+  // Append a single activity entry, capped at 200 most recent
+  const addActivity = useCallback((entry) => {
+    setActivity(arr => [{
+      id: 'act-' + Date.now() + '-' + Math.random().toString(36).slice(2, 6),
+      when: new Date().toISOString(),
+      ...entry
+    }, ...arr].slice(0, 200));
+  }, []);
 
   /* ---------- reservation auto-expire (runs every 30s) ---------- */
   useEffect(() => {
@@ -740,11 +1389,27 @@ export default function PrimoAdmin() {
     return () => clearInterval(id);
   }, [reservations, loaded]);
 
-  /* ---------- toast ---------- */
-  const flash = useCallback((msg, tone = 'default') => {
-    setToast({ msg, tone, id: Date.now() });
-    setTimeout(() => setToast(t => (t?.msg === msg ? null : t)), 2400);
+  /* ---------- toast ----------
+     flash(msg)                       — default 2.4s
+     flash(msg, 'error')              — error tone, 2.4s (back-compat)
+     flash(msg, { tone, duration, undo }) — full control; destructive tone defaults to 5s
+  */
+  const flash = useCallback((msg, opts = {}) => {
+    const cfg = typeof opts === 'string' ? { tone: opts } : opts;
+    const { tone = 'default', duration, undo } = cfg;
+    const ms = duration ?? (tone === 'destructive' ? 5000 : 2400);
+    const id = Date.now() + Math.random();
+    setToast({ msg, tone, undo, id });
+    setTimeout(() => setToast(t => (t?.id === id ? null : t)), ms);
   }, []);
+
+  // Surface storage failures via toast
+  useEffect(() => {
+    setStorageErrorHandler((err, key) => {
+      flash(`Failed to save (${key}) — changes may not persist`, { tone: 'error', duration: 5000 });
+    });
+    return () => setStorageErrorHandler(null);
+  }, [flash]);
 
   /* ---------- mutations ---------- */
   const updateVehicle = (id, patch) => setInventory(arr => arr.map(v => v.id === id ? { ...v, ...patch } : v));
@@ -768,6 +1433,12 @@ export default function PrimoAdmin() {
     };
     setSold(arr => [sale, ...arr]);
     removeVehicle(id);
+    addActivity({
+      type: 'sold',
+      title: `${v.year} ${v.make} ${v.model} marked Sold to ${sale.buyerName}`,
+      sub: `Sale price: $${(sale.salePrice || 0).toLocaleString()}`,
+      refTab: 'sold'
+    });
     flash('Vehicle marked as sold');
   };
 
@@ -782,7 +1453,7 @@ export default function PrimoAdmin() {
       drivetrain: 'AWD', fuelType: 'Gas', mpgCity: 0, mpgHwy: 0, vin: '',
       stockNumber: 'R-' + Math.floor(Math.random()*9999), status: 'Available',
       daysOnLot: 0, views: 0,
-      history: { noAccidents: true, oneOwner: false, cleanTitle: true, serviceRecords: false, inspection: false, carfax: false, warranty: false },
+      history: { noAccidents: true, oneOwner: false, cleanTitle: true, serviceRecords: false, inspection: false, carfax: false, warranty: false, noOpenRecalls: true },
       description: '', photos: [], dateAdded: new Date(TODAY).toISOString()
     };
     setInventory(arr => [v, ...arr]);
@@ -800,11 +1471,24 @@ export default function PrimoAdmin() {
   }, [sold]);
   const pendingAppts = useMemo(() => appointments.filter(a => a.status === 'Pending').length, [appointments]);
   const reservationCount = reservations.length;
+  const taskStats = useMemo(() => {
+    const now = new Date(TODAY);
+    const today0 = new Date(now); today0.setUTCHours(0, 0, 0, 0);
+    const today1 = new Date(today0); today1.setUTCDate(today1.getUTCDate() + 1);
+    const open = tasks.filter(t => t.status !== 'Completed');
+    const overdue = open.filter(t => new Date(t.dueAt) < today0);
+    const dueToday = open.filter(t => { const d = new Date(t.dueAt); return d >= today0 && d < today1; });
+    return { overdue: overdue.length, dueToday: dueToday.length, open: open.length };
+  }, [tasks]);
 
   /* ---------- reservation helpers ---------- */
   const releaseReservation = (id) => {
+    const released = reservations.find(r => r.id === id);
     setReservations(arr => arr.filter(r => r.id !== id));
-    flash('Reservation released');
+    flash('Reservation released', {
+      tone: 'destructive',
+      undo: () => released && setReservations(arr => [released, ...arr])
+    });
   };
   const extendReservation = (id) => {
     setReservations(arr => arr.map(r => r.id === id
@@ -823,18 +1507,61 @@ export default function PrimoAdmin() {
   /* ---------- nav badge map ---------- */
   const navBadges = {
     leads: unreadLeads,
+    tasks: taskStats.overdue,
     appointments: pendingAppts
   };
 
+  // Cmd/Ctrl+K opens the global search palette
+  useEffect(() => {
+    const onKey = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === 'k') {
+        e.preventDefault();
+        setSearchOpen(s => !s);
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, []);
+
+  /* ---------- theme ---------- */
+  const toggleTheme = useCallback(() => {
+    setAdminTheme(t => {
+      const next = t === 'light' ? 'dark' : 'light';
+      setSettings(s => ({ ...s, adminTheme: next }));
+      return next;
+    });
+  }, []);
+
   /* ---------- render ---------- */
   return (
-    <div className="font-ui bg-stone-50 text-stone-900 min-h-screen" style={{ backgroundColor: '#FAFAF7' }}>
+    <div className="font-ui min-h-screen transition-colors duration-200"
+      style={{ ...THEMES[adminTheme], backgroundColor: 'var(--bg-app)', color: 'var(--text-primary)' }}>
       <FontStyles />
 
+      {/* PWA install prompt — mobile only, dismissible */}
+      {!pwaDismissed && (
+        <div className="md:hidden no-print" style={{ background: `linear-gradient(to right, ${GOLD}22, ${GOLD}11)`, borderBottom: `1px solid ${GOLD}55` }}>
+          <div className="px-4 py-2.5 flex items-center gap-3">
+            <Smartphone className="w-5 h-5 shrink-0" style={{ color: '#7A5A0F' }} />
+            <div className="flex-1 min-w-0">
+              <div className="text-[13px] font-semibold leading-tight">Install Primo Dashboard</div>
+              <div className="text-[10px]" style={{ color: 'var(--text-muted)' }}>Add to home screen — works offline, manage your lot from anywhere</div>
+            </div>
+            <button onClick={() => { flash('Add to Home Screen — use your browser menu'); setPwaDismissed(true); }}
+              className="text-[11px] font-bold px-3 py-1.5 rounded shrink-0"
+              style={{ backgroundColor: GOLD, color: '#1A1612' }}>Install</button>
+            <button onClick={() => setPwaDismissed(true)} aria-label="Dismiss"
+              className="p-1 text-stone-500 hover:text-stone-900 shrink-0">
+              <X className="w-4 h-4" />
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Topbar */}
-      <header className="sticky top-0 z-30 bg-white border-b border-stone-200">
+      <header className="sticky top-0 z-30 bg-white border-b border-stone-200 no-print">
         <div className="flex items-center h-14 px-4 lg:px-6 gap-4">
-          <button onClick={() => setSidebarCollapsed(c => !c)}
+          <button onClick={() => setSidebarOpen(true)}
             className="p-1.5 rounded hover:bg-stone-100 lg:hidden">
             <Menu className="w-5 h-5" />
           </button>
@@ -859,14 +1586,123 @@ export default function PrimoAdmin() {
             <span className="font-medium text-stone-900">{settings.dealerName || 'Dealer'}</span>
           </div>
 
-          <button className="relative p-2 rounded hover:bg-stone-100" onClick={() => setActiveTab('leads')}
-            title="Notifications">
-            <Bell className="w-4 h-4 text-stone-700" strokeWidth={2} />
-            {unreadLeads > 0 && (
-              <span className="absolute top-1 right-1 min-w-[16px] h-4 px-1 rounded-full text-[9px] font-bold text-white flex items-center justify-center pulse-dot"
-                style={{ backgroundColor: RED_ACCENT }}>{unreadLeads}</span>
-            )}
+          <button onClick={() => setSearchOpen(true)}
+            title="Search (⌘K)"
+            className="hidden sm:inline-flex items-center gap-2 px-2.5 py-1.5 rounded-md border border-stone-200 hover:bg-stone-100 text-xs text-stone-500 transition">
+            <Search className="w-3.5 h-3.5" />
+            <span className="hidden md:inline">Search</span>
+            <kbd className="hidden md:inline-flex items-center px-1 py-0.5 ml-1 rounded text-[9px] font-mono bg-stone-100 text-stone-500 border border-stone-200">⌘K</kbd>
           </button>
+
+          <button onClick={toggleTheme}
+            title={adminTheme === 'light' ? 'Switch to dark mode' : 'Switch to light mode'}
+            className="p-2 rounded hover:bg-stone-100 transition">
+            {adminTheme === 'light'
+              ? <Moon className="w-4 h-4 text-stone-700" strokeWidth={2} />
+              : <Sun className="w-4 h-4 text-amber-400" strokeWidth={2} />}
+          </button>
+
+          <button onClick={() => setHelpOpen(true)}
+            title="Help"
+            className="p-2 rounded hover:bg-stone-100 transition">
+            <HelpCircle className="w-4 h-4 text-stone-700" strokeWidth={2} />
+          </button>
+
+          <div className="relative">
+            <button className="relative p-2 rounded hover:bg-stone-100" onClick={() => setNotifOpen(o => !o)}
+              title="Notifications">
+              <Bell className="w-4 h-4 text-stone-700" strokeWidth={2} />
+              {(unreadLeads + reservationCount) > 0 && (
+                <span className="absolute top-1 right-1 min-w-[16px] h-4 px-1 rounded-full text-[9px] font-bold text-white flex items-center justify-center pulse-dot"
+                  style={{ backgroundColor: RED_ACCENT }}>{unreadLeads + reservationCount}</span>
+              )}
+            </button>
+            {notifOpen && (
+              <>
+                <div className="fixed inset-0 z-30" onClick={() => setNotifOpen(false)} />
+                <div className="absolute right-0 top-full mt-1 w-80 max-h-80 overflow-y-auto bg-white border border-stone-200 rounded-lg shadow-xl z-40 anim-fade">
+                  <div className="px-4 py-2.5 border-b border-stone-200 flex items-center justify-between">
+                    <span className="text-sm font-semibold text-stone-900">Notifications</span>
+                    {unreadLeads > 0 && (
+                      <button onClick={() => { setLeads(arr => arr.map(l => ({ ...l, read: true }))); flash(`Marked ${unreadLeads} as read`); }}
+                        className="text-[11px] text-blue-600 hover:underline font-semibold">Mark all read</button>
+                    )}
+                  </div>
+                  {(() => {
+                    const items = [
+                      ...leads.filter(l => !l.read).map(l => ({
+                        type: 'lead', id: l.id,
+                        when: l.createdAt,
+                        title: l.name,
+                        sub: l.source + ' · ' + l.vehicleLabel,
+                        icon: Users,
+                        accent: RED_ACCENT,
+                        onClick: () => { setActiveTab('leads'); setNotifOpen(false); }
+                      })),
+                      ...reservations.map(r => ({
+                        type: 'reservation', id: r.id,
+                        when: r.reservedAt,
+                        title: r.customerName,
+                        sub: 'Reserved · expires soon',
+                        icon: Clock,
+                        accent: GOLD,
+                        onClick: () => { setActiveTab('dashboard'); setNotifOpen(false); }
+                      })),
+                      ...appointments.filter(a => a.status === 'Confirmed' || a.status === 'Pending').slice(0, 3).map(a => ({
+                        type: 'appointment', id: a.id,
+                        when: a.when,
+                        title: a.customerName,
+                        sub: a.serviceType + ' · ' + new Date(a.when).toLocaleString(undefined, { weekday: 'short', hour: 'numeric', minute: '2-digit' }),
+                        icon: Calendar,
+                        accent: '#0284C7',
+                        onClick: () => { setActiveTab('appointments'); setNotifOpen(false); }
+                      }))
+                    ].sort((a, b) => new Date(b.when) - new Date(a.when)).slice(0, 5);
+
+                    if (items.length === 0) return (
+                      <div className="px-4 py-10 text-center text-sm text-stone-500">
+                        <Bell className="w-6 h-6 mx-auto mb-2 text-stone-300" />
+                        You're all caught up
+                      </div>
+                    );
+
+                    const fmtAgo = (iso) => {
+                      const ms = Date.now() - new Date(iso).getTime();
+                      if (ms < 0) return new Date(iso).toLocaleString(undefined, { hour: 'numeric', minute: '2-digit' });
+                      const m = Math.floor(ms / 60000);
+                      if (m < 1) return 'just now';
+                      if (m < 60) return m + 'm ago';
+                      const h = Math.floor(m / 60);
+                      if (h < 24) return h + 'h ago';
+                      return Math.floor(h / 24) + 'd ago';
+                    };
+
+                    return (
+                      <div className="divide-y divide-stone-100">
+                        {items.map(it => {
+                          const Icon = it.icon;
+                          return (
+                            <button key={it.type + ':' + it.id} onClick={it.onClick}
+                              className="w-full text-left px-4 py-3 hover:bg-stone-50 transition flex gap-3 items-start">
+                              <div className="w-7 h-7 rounded-full flex items-center justify-center shrink-0"
+                                style={{ backgroundColor: it.accent + '22' }}>
+                                <Icon className="w-3.5 h-3.5" style={{ color: it.accent }} strokeWidth={2} />
+                              </div>
+                              <div className="flex-1 min-w-0">
+                                <div className="text-sm font-semibold text-stone-900 truncate">{it.title}</div>
+                                <div className="text-[11px] text-stone-500 truncate">{it.sub}</div>
+                                <div className="text-[10px] text-stone-400 mt-0.5">{fmtAgo(it.when)}</div>
+                              </div>
+                            </button>
+                          );
+                        })}
+                      </div>
+                    );
+                  })()}
+                </div>
+              </>
+            )}
+          </div>
 
           <div className="w-7 h-7 rounded-full bg-stone-200 flex items-center justify-center text-[11px] font-semibold text-stone-700">
             {(settings.dealerName || 'M E').split(' ').map(p => p[0]).slice(0, 2).join('')}
@@ -875,9 +1711,16 @@ export default function PrimoAdmin() {
       </header>
 
       <div className="flex">
+        {/* Mobile backdrop */}
+        {sidebarOpen && (
+          <div className="fixed inset-0 z-40 bg-black/50 lg:hidden" onClick={() => setSidebarOpen(false)} />
+        )}
         {/* Sidebar */}
-        <aside className={`sticky top-14 self-start h-[calc(100vh-3.5rem)] bg-white border-r border-stone-200 z-20 transition-all duration-200 ${sidebarCollapsed ? 'w-14' : 'w-56'}`}>
-          <nav className="py-3 px-2 flex flex-col gap-0.5">
+        <aside className={`bg-white border-r border-stone-200 transition-all duration-200 no-print
+          fixed inset-y-0 left-0 z-50 h-screen transform ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
+          lg:sticky lg:top-14 lg:self-start lg:h-[calc(100vh-3.5rem)] lg:z-20 lg:translate-x-0
+          ${sidebarCollapsed ? 'w-14' : 'w-48'}`}>
+          <nav className="py-3 px-2 flex flex-col gap-1.5">
             {NAV_ITEMS.map(item => {
               const isActive = activeTab === item.id;
               const Icon = item.icon;
@@ -885,8 +1728,8 @@ export default function PrimoAdmin() {
               const showBadge = badgeCount > 0;
               const badgeColor = item.id === 'appointments' ? '#C8970F' : RED_ACCENT;
               return (
-                <button key={item.id} onClick={() => setActiveTab(item.id)}
-                  className={`group flex items-center gap-3 px-2.5 py-2 rounded-md text-sm transition relative ${isActive ? 'bg-stone-900 text-white' : 'text-stone-700 hover:bg-stone-100'}`}>
+                <button key={item.id} onClick={() => { setActiveTab(item.id); setSidebarOpen(false); }}
+                  className={`group flex items-center gap-3 px-2.5 py-2.5 rounded-md text-sm transition relative ${isActive ? 'bg-stone-900 text-white hover:bg-stone-800' : 'text-stone-700 hover:bg-stone-100'}`}>
                   <Icon className="w-4 h-4 shrink-0" strokeWidth={isActive ? 2.25 : 1.85}
                     style={isActive ? { color: GOLD } : {}} />
                   {!sidebarCollapsed && (
@@ -908,9 +1751,14 @@ export default function PrimoAdmin() {
 
           <div className="absolute bottom-0 left-0 right-0 border-t border-stone-200 p-3">
             <button onClick={() => setSidebarCollapsed(c => !c)}
-              className="w-full flex items-center gap-2 text-xs text-stone-500 hover:text-stone-900 transition">
+              className="w-full hidden lg:flex items-center gap-2 text-xs text-stone-500 hover:text-stone-900 transition">
               <ChevronLeft className={`w-3.5 h-3.5 transition-transform ${sidebarCollapsed ? 'rotate-180' : ''}`} />
               {!sidebarCollapsed && <span>Collapse</span>}
+            </button>
+            <button onClick={() => setSidebarOpen(false)}
+              className="w-full lg:hidden flex items-center gap-2 text-xs text-stone-500 hover:text-stone-900 transition">
+              <ChevronLeft className="w-3.5 h-3.5" />
+              <span>Close</span>
             </button>
           </div>
         </aside>
@@ -918,9 +1766,11 @@ export default function PrimoAdmin() {
         {/* Main */}
         <main className="flex-1 min-w-0">
           {!loaded ? (
-            <div className="p-12 text-center text-stone-500 text-sm">Loading dashboard…</div>
+            <div className="p-6 lg:p-8">
+              <Skeleton rows={6} />
+            </div>
           ) : (
-            <>
+            <div key={activeTab} className="anim-fade">
               {activeTab === 'dashboard' && <DashboardTab
                 inventory={inventory} leads={leads} sold={sold} settings={settings}
                 setSettings={setSettings} updateVehicle={updateVehicle}
@@ -935,6 +1785,9 @@ export default function PrimoAdmin() {
                 reservationCount={reservationCount}
                 flash={flash}
                 onOpenLeads={() => setActiveTab('leads')}
+                activity={activity}
+                onJump={(tab) => setActiveTab(tab)}
+                taskStats={taskStats}
               />}
               {activeTab === 'inventory' && <InventoryTab
                 inventory={inventory} setInventory={setInventory} updateVehicle={updateVehicle}
@@ -943,9 +1796,11 @@ export default function PrimoAdmin() {
                 onEdit={(id) => { setEditingVehicleId(id); setActiveTab('addVehicle'); }}
                 onAdd={() => { setEditingVehicleId(null); setActiveTab('addVehicle'); }}
                 flash={flash}
+                settings={settings} setSettings={setSettings}
               />}
               {activeTab === 'addVehicle' && <VehicleFormTab
                 vehicle={editingVehicleId ? inventory.find(v => v.id === editingVehicleId) : null}
+                flash={flash}
                 onSave={(v, addAnother) => {
                   if (editingVehicleId) {
                     updateVehicle(editingVehicleId, v);
@@ -983,6 +1838,20 @@ export default function PrimoAdmin() {
                   flash('Lead converted to deal');
                 }}
                 flash={flash}
+                messages={messages} setMessages={setMessages}
+                onCreateTask={(lead) => {
+                  const tomorrow = isoAt(1, 10);
+                  setTasks(arr => [{
+                    id: 'tk-' + Date.now(),
+                    title: `Follow up with ${lead.name}`,
+                    dueAt: tomorrow,
+                    assignedTo: TEAM_MEMBERS[0].name,
+                    relatedTo: lead.name,
+                    priority: 'Medium', status: 'Open',
+                    notes: `Lead from ${lead.source} on ${lead.vehicleLabel}`
+                  }, ...arr]);
+                  flash('Follow-up task created for tomorrow');
+                }}
               />}
               {activeTab === 'deals' && <DealsTab
                 deals={deals} setDeals={setDeals} inventory={inventory}
@@ -1009,20 +1878,49 @@ export default function PrimoAdmin() {
                 flash={flash}
               />}
               {activeTab === 'performance' && <PerformanceTab inventory={inventory} />}
+              {activeTab === 'tasks' && <TasksTab
+                tasks={tasks} setTasks={setTasks} leads={leads} sold={sold} flash={flash}
+              />}
+              {activeTab === 'customers' && <CustomersTab
+                leads={leads} sold={sold} appointments={appointments} deals={deals} flash={flash}
+              />}
+              {activeTab === 'reporting' && <ReportingTab
+                inventory={inventory} sold={sold} leads={leads}
+              />}
               {activeTab === 'settings' && <SettingsTab
                 settings={settings} setSettings={setSettings} flash={flash}
               />}
-            </>
+            </div>
           )}
         </main>
       </div>
 
+      {/* Help slide-out panel */}
+      {helpOpen && <HelpPanel onClose={() => setHelpOpen(false)} />}
+
+      {/* Global search palette */}
+      {searchOpen && <SearchPalette
+        onClose={() => setSearchOpen(false)}
+        inventory={inventory} leads={leads} deals={deals} appointments={appointments}
+        onJump={(tab) => { setActiveTab(tab); setSearchOpen(false); }}
+      />}
+
       {/* Toast */}
       {toast && (
-        <div className="fixed bottom-6 right-6 z-50 anim-slide">
-          <div className="bg-stone-900 text-white px-4 py-3 rounded-md shadow-lg flex items-center gap-3 text-sm">
-            <div className="w-1.5 h-1.5 rounded-full" style={{ backgroundColor: GOLD }} />
-            {toast.msg}
+        <div className="fixed bottom-6 right-6 z-50 anim-slide no-print">
+          <div className={`px-4 py-3 rounded-md shadow-lg flex items-center gap-3 text-sm text-white ${
+            toast.tone === 'error' ? 'bg-red-700' : toast.tone === 'destructive' ? 'bg-stone-800' : 'bg-stone-900'
+          }`}>
+            <div className="w-1.5 h-1.5 rounded-full" style={{
+              backgroundColor: toast.tone === 'error' ? '#FBBF24' : toast.tone === 'destructive' ? '#F87171' : GOLD
+            }} />
+            <span>{toast.msg}</span>
+            {toast.undo && (
+              <button onClick={() => { toast.undo(); setToast(null); }}
+                className="ml-2 px-2 py-0.5 rounded bg-white/15 hover:bg-white/25 text-amber-200 font-bold text-xs uppercase tracking-wider transition">
+                Undo
+              </button>
+            )}
           </div>
         </div>
       )}
@@ -1039,7 +1937,9 @@ export default function PrimoAdmin() {
 function DashboardTab({ inventory, leads, sold, settings, setSettings, updateVehicle,
   reservations, onConfirmReservation, onExtendReservation, onReleaseReservation,
   reservationCount,
-  onAdd, onEdit, soldThisMonth, featuredCount, onSaleCount, unreadLeads, flash, onOpenLeads }) {
+  onAdd, onEdit, soldThisMonth, featuredCount, onSaleCount, unreadLeads, flash, onOpenLeads,
+  activity = [], onJump, taskStats = { overdue: 0, dueToday: 0, open: 0 } }) {
+  const [activityExpanded, setActivityExpanded] = useState(false);
 
   const websiteViews = useMemo(() => 14728 + inventory.reduce((s, v) => s + (v.views || 0), 0), [inventory]);
 
@@ -1089,14 +1989,14 @@ function DashboardTab({ inventory, leads, sold, settings, setSettings, updateVeh
   };
 
   return (
-    <div className="p-6 lg:p-8 max-w-[1400px] mx-auto">
+    <div className="p-6 lg:p-8 max-w-[1600px] mx-auto">
       {/* Hero */}
       <div className="flex items-end justify-between mb-8">
         <div>
           <div className="text-[10px] font-semibold smallcaps text-stone-500 mb-1.5">
             {new Date(TODAY).toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' })}
           </div>
-          <h1 className="font-display text-4xl font-medium tracking-tight text-stone-900 leading-[1.05]">
+          <h1 className="font-display text-2xl font-semibold tracking-tight text-stone-900 leading-tight">
             Welcome back, <em className="not-italic" style={{ color: GOLD }}>{(settings.dealerName || 'Dealer').split(' ')[0]}</em>.
           </h1>
           <p className="text-stone-500 mt-2 text-sm">
@@ -1109,7 +2009,7 @@ function DashboardTab({ inventory, leads, sold, settings, setSettings, updateVeh
       </div>
 
       {/* Summary cards */}
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3 mb-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 p-5 mb-6">
         <StatCard label="Total Vehicles" value={inventory.length} icon={Car} />
         <StatCard label="Featured" value={featuredCount} icon={Star} accent={GOLD} />
         <StatCard label="On Sale" value={onSaleCount} icon={Tag} accent={RED_ACCENT} />
@@ -1123,9 +2023,37 @@ function DashboardTab({ inventory, leads, sold, settings, setSettings, updateVeh
           sub={reservationCount ? 'on 48-hr hold' : 'none active'} />
       </div>
 
-      <div className="mb-8 grid lg:grid-cols-4 gap-3">
+      <div className="mb-8 grid sm:grid-cols-2 lg:grid-cols-6 gap-3">
+        <button onClick={() => onJump && onJump('tasks')}
+          className={`text-left rounded-lg p-4 relative transition lg:col-span-2 ${taskStats.overdue > 0 ? 'border-2' : 'border'}`}
+          style={{ backgroundColor: taskStats.overdue > 0 ? '#FEF2F2' : 'var(--bg-card)', borderColor: taskStats.overdue > 0 ? '#DC2626' : 'var(--border)' }}>
+          <div className="flex items-start justify-between mb-2">
+            <span className="text-[10px] font-semibold smallcaps" style={{ color: taskStats.overdue > 0 ? '#991B1B' : 'var(--text-muted)' }}>
+              {taskStats.overdue > 0 ? '⚠ Overdue Tasks' : 'Overdue Tasks'}
+            </span>
+            <AlertCircle className="w-4 h-4" style={{ color: taskStats.overdue > 0 ? '#DC2626' : '#a8a39a' }} strokeWidth={1.75} />
+          </div>
+          <div className="font-display text-3xl font-medium tracking-tight tabular leading-none" style={{ color: taskStats.overdue > 0 ? '#991B1B' : 'var(--text-primary)' }}>
+            {taskStats.overdue}
+          </div>
+          <div className="text-[11px] mt-2" style={{ color: taskStats.overdue > 0 ? '#991B1B' : 'var(--text-muted)' }}>
+            {taskStats.overdue > 0 ? 'Action needed — review now' : 'You\'re all caught up'}
+          </div>
+        </button>
+        <button onClick={() => onJump && onJump('tasks')}
+          className="text-left rounded-lg p-4 relative border transition lg:col-span-2 hover:bg-stone-50"
+          style={{ backgroundColor: 'var(--bg-card)', borderColor: 'var(--border)' }}>
+          <div className="flex items-start justify-between mb-2">
+            <span className="text-[10px] font-semibold smallcaps" style={{ color: 'var(--text-muted)' }}>Tasks Due Today</span>
+            <CheckSquare className="w-4 h-4" style={{ color: taskStats.dueToday > 0 ? GOLD : '#a8a39a' }} strokeWidth={1.75} />
+          </div>
+          <div className="font-display text-3xl font-medium tracking-tight tabular leading-none">{taskStats.dueToday}</div>
+          <div className="text-[11px] mt-2" style={{ color: 'var(--text-muted)' }}>{taskStats.open} open total</div>
+        </button>
         <StatCard label="Website Views" value={websiteViews.toLocaleString()} icon={Eye} sub="last 30 days" />
         <StatCard label="Avg Days to Sell" value="22 days" icon={Clock} sub="industry avg: 38" />
+      </div>
+      <div className="mb-8 grid sm:grid-cols-2 lg:grid-cols-2 gap-3">
         <StatCard label="Lead → Sale Rate" value="14.2%" icon={TrendingUp} accent="#2F7A4A" sub="↑ 2.4% MoM" />
         <StatCard label="Avg Gross Profit" value="$4,475" icon={DollarSign} accent={GOLD} />
       </div>
@@ -1136,7 +2064,7 @@ function DashboardTab({ inventory, leads, sold, settings, setSettings, updateVeh
           style={{ background: 'linear-gradient(to right, rgba(212,175,55,0.06), transparent)' }}>
           <div className="flex items-center gap-2.5">
             <BarChart3 className="w-4 h-4 text-stone-700" />
-            <h3 className="font-display text-lg font-medium tracking-tight">Market Pricing Intelligence</h3>
+            <h3 className="font-display text-lg font-semibold tracking-tight">Market Pricing Intelligence</h3>
             <span className="ml-2 px-2 py-0.5 rounded-full text-[10px] font-bold smallcaps"
               style={{ backgroundColor: GOLD_SOFT, color: '#7A5A0F' }}>Live Data</span>
           </div>
@@ -1166,11 +2094,11 @@ function DashboardTab({ inventory, leads, sold, settings, setSettings, updateVeh
           <table className="w-full text-sm">
             <thead className="bg-stone-50 border-b border-stone-100 text-[10px] smallcaps font-semibold text-stone-500">
               <tr>
-                <th className="px-5 py-2.5 text-left">Vehicle</th>
-                <th className="px-2 py-2.5 text-right">Your Price</th>
-                <th className="px-2 py-2.5 text-right">Market Avg</th>
-                <th className="px-2 py-2.5 text-right">Variance</th>
-                <th className="px-5 py-2.5 text-left">Recommendation</th>
+                <th className="px-5 py-3 text-left">Vehicle</th>
+                <th className="px-3 py-3 text-right">Your Price</th>
+                <th className="px-3 py-3 text-right">Market Avg</th>
+                <th className="px-3 py-3 text-right">Variance</th>
+                <th className="px-5 py-3 text-left">Recommendation</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-stone-100">
@@ -1182,21 +2110,21 @@ function DashboardTab({ inventory, leads, sold, settings, setSettings, updateVeh
                 const above = pct > 0;
                 return (
                   <tr key={v.id} className="hover:bg-stone-50 transition">
-                    <td className="px-5 py-2.5">
+                    <td className="px-5 py-3">
                       <button onClick={() => onEdit(v.id)} className="font-medium text-sm hover:underline text-left">
                         {v.year} {v.make} {v.model}
                       </button>
                     </td>
-                    <td className="px-2 py-2.5 text-right tabular font-semibold">{fmtMoney(yours)}</td>
-                    <td className="px-2 py-2.5 text-right tabular text-stone-500">{fmtMoney(mkt)}</td>
-                    <td className="px-2 py-2.5 text-right">
+                    <td className="px-3 py-3 text-right tabular font-semibold">{fmtMoney(yours)}</td>
+                    <td className="px-3 py-3 text-right tabular text-stone-500">{fmtMoney(mkt)}</td>
+                    <td className="px-3 py-3 text-right">
                       <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold tabular"
                         style={above ? { backgroundColor: '#FBE6E6', color: '#A12B2B' } : { backgroundColor: '#E8F2EC', color: '#256B40' }}>
                         {above ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
                         {Math.abs(pct).toFixed(1)}% {above ? 'above' : 'below'}
                       </span>
                     </td>
-                    <td className="px-5 py-2.5 text-[12px]">
+                    <td className="px-5 py-3 text-[12px]">
                       {above && pct > 3 ? (
                         <span className="text-stone-700">Consider price drop — currently {Math.abs(pct).toFixed(1)}% over market</span>
                       ) : above ? (
@@ -1227,7 +2155,7 @@ function DashboardTab({ inventory, leads, sold, settings, setSettings, updateVeh
             <div className="flex items-center justify-between px-5 py-4 border-b border-stone-200">
               <div className="flex items-center gap-2.5">
                 <AlertTriangle className="w-4 h-4 text-amber-700" />
-                <h3 className="font-display text-lg font-medium tracking-tight">Aging Inventory Alerts</h3>
+                <h3 className="font-display text-lg font-semibold tracking-tight">Aging Inventory Alerts</h3>
                 <span className="text-xs text-stone-500">{aging.length} vehicle{aging.length === 1 ? '' : 's'}</span>
               </div>
               <span className="text-[10px] smallcaps text-stone-400">30+ days on lot</span>
@@ -1281,12 +2209,12 @@ function DashboardTab({ inventory, leads, sold, settings, setSettings, updateVeh
 
           {/* Price Autopilot */}
           <Card className="overflow-hidden">
-            <div className="flex items-center justify-between px-5 py-4 border-b border-stone-200" style={{ background: 'linear-gradient(to right, rgba(212,175,55,0.06), transparent)' }}>
+            <div className="flex items-center justify-between px-5 py-4 border-b border-stone-200">
               <div className="flex items-center gap-2.5">
-                <Zap className="w-4 h-4" style={{ color: GOLD }} fill={GOLD} strokeWidth={2} />
-                <h3 className="font-display text-lg font-medium tracking-tight">Price Autopilot Rules</h3>
+                <Zap className="w-4 h-4 text-stone-600" strokeWidth={2} />
+                <h3 className="font-display text-lg font-semibold tracking-tight">Price Autopilot Rules</h3>
               </div>
-              <span className="text-[10px] smallcaps font-semibold" style={{ color: GOLD }}>AI-POWERED</span>
+              <span className="text-[10px] smallcaps font-semibold text-stone-500">AI-POWERED</span>
             </div>
             <div className="p-5 space-y-4">
               {[
@@ -1317,7 +2245,7 @@ function DashboardTab({ inventory, leads, sold, settings, setSettings, updateVeh
             <div className="px-5 py-4 border-b border-stone-200 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <TrendingUp className="w-4 h-4 text-stone-700" />
-                <h3 className="font-display text-lg font-medium tracking-tight">Most Viewed Vehicles</h3>
+                <h3 className="font-display text-lg font-semibold tracking-tight">Most Viewed Vehicles</h3>
               </div>
               <span className="text-[10px] smallcaps text-stone-400">last 30 days</span>
             </div>
@@ -1352,13 +2280,12 @@ function DashboardTab({ inventory, leads, sold, settings, setSettings, updateVeh
           {/* Active Reservations */}
           {reservations && reservations.length > 0 && (
             <Card className="overflow-hidden">
-              <div className="px-5 py-4 border-b border-stone-200 flex items-center justify-between"
-                style={{ background: `linear-gradient(to right, ${GOLD}15, transparent)` }}>
+              <div className="px-5 py-4 border-b border-stone-200 flex items-center justify-between">
                 <div className="flex items-center gap-2.5">
-                  <Timer className="w-4 h-4" style={{ color: GOLD }} />
-                  <h3 className="font-display text-lg font-medium tracking-tight">Active Reservations</h3>
+                  <Timer className="w-4 h-4 text-stone-600" />
+                  <h3 className="font-display text-lg font-semibold tracking-tight">Active Reservations</h3>
                 </div>
-                <span className="text-[10px] smallcaps font-semibold" style={{ color: GOLD }}>48-HR HOLDS</span>
+                <span className="text-[10px] smallcaps font-semibold text-stone-500">48-HR HOLDS</span>
               </div>
               <div className="divide-y divide-stone-100">
                 {reservations.map(r => {
@@ -1409,7 +2336,7 @@ function DashboardTab({ inventory, leads, sold, settings, setSettings, updateVeh
             <div className="px-5 py-4 border-b border-stone-200 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
                 <Users className="w-4 h-4 text-stone-700" />
-                <h3 className="font-display text-lg font-medium tracking-tight">Recent Leads</h3>
+                <h3 className="font-display text-lg font-semibold tracking-tight">Recent Leads</h3>
               </div>
               <button onClick={onOpenLeads} className="text-[11px] smallcaps font-semibold text-stone-500 hover:text-stone-900">
                 View all <ChevronRight className="w-3 h-3 inline" />
@@ -1424,8 +2351,7 @@ function DashboardTab({ inventory, leads, sold, settings, setSettings, updateVeh
                     <StatusBadge status={l.status} />
                   </div>
                   <div className="flex items-center gap-2 text-[11px] text-stone-500">
-                    <span className="smallcaps font-semibold" style={{ color: GOLD }}>{l.source}</span>
-                    <span>·</span>
+                    <LeadSourceBadge source={l.source} />
                     <span className="truncate">{l.vehicleLabel}</span>
                   </div>
                   <div className="text-[10px] text-stone-400 tabular">{relTime(l.createdAt)}</div>
@@ -1464,13 +2390,76 @@ function DashboardTab({ inventory, leads, sold, settings, setSettings, updateVeh
           </Card>
         </div>
       </div>
+
+      {/* Recent Activity Feed */}
+      <Card className="mt-6 overflow-hidden">
+        <div className="px-5 py-4 flex items-center justify-between" style={{ borderBottom: '1px solid var(--border)' }}>
+          <div className="flex items-center gap-2.5">
+            <Activity className="w-4 h-4 text-stone-600" strokeWidth={2} />
+            <h3 className="font-display text-lg font-semibold tracking-tight">Recent Activity</h3>
+          </div>
+          {activity.length > 8 && (
+            <button onClick={() => setActivityExpanded(e => !e)}
+              className="text-[11px] font-semibold text-blue-600 hover:underline">
+              {activityExpanded ? 'Show less' : `View all (${activity.length})`}
+            </button>
+          )}
+        </div>
+        <div className="divide-y" style={{ borderColor: 'var(--border)' }}>
+          {(activityExpanded ? activity : activity.slice(0, 8)).map(a => {
+            const accent = {
+              'lead-new':     { color: '#BE123C', icon: Users },
+              'lead-status':  { color: '#0369A1', icon: Users },
+              'sold':         { color: '#059669', icon: Award },
+              'price-drop':   { color: '#EA580C', icon: TrendingDown },
+              'reservation':  { color: GOLD,     icon: Clock },
+              'feature':      { color: GOLD,     icon: Star },
+              'appointment':  { color: '#0284C7', icon: Calendar },
+              'review':       { color: '#9333EA', icon: Star },
+              'restore':      { color: '#0891B2', icon: RefreshCw }
+            }[a.type] || { color: '#78716C', icon: Activity };
+            const Icon = accent.icon;
+            const fmtAgo = (iso) => {
+              const ms = Date.now() - new Date(iso).getTime();
+              const m = Math.floor(ms / 60000);
+              if (m < 1) return 'just now';
+              if (m < 60) return m + 'm ago';
+              const h = Math.floor(m / 60);
+              if (h < 24) return h + 'h ago';
+              const d = Math.floor(h / 24);
+              if (d < 7) return d + 'd ago';
+              return new Date(iso).toLocaleDateString();
+            };
+            return (
+              <button key={a.id}
+                onClick={() => a.refTab && onJump && onJump(a.refTab)}
+                className="w-full text-left px-5 py-3 themed-row transition flex gap-3 items-start">
+                <div className="w-7 h-7 rounded-full flex items-center justify-center shrink-0"
+                  style={{ backgroundColor: accent.color + '22' }}>
+                  <Icon className="w-3.5 h-3.5" style={{ color: accent.color }} strokeWidth={2} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>{a.title}</div>
+                  {a.sub && <div className="text-[11px]" style={{ color: 'var(--text-muted)' }}>{a.sub}</div>}
+                </div>
+                <div className="text-[10px] shrink-0 tabular" style={{ color: 'var(--text-muted)' }}>{fmtAgo(a.when)}</div>
+              </button>
+            );
+          })}
+          {activity.length === 0 && (
+            <div className="px-5 py-10 text-center text-sm" style={{ color: 'var(--text-muted)' }}>
+              No activity yet — actions will appear here as they happen.
+            </div>
+          )}
+        </div>
+      </Card>
     </div>
   );
 }
 
 /* ====================== INVENTORY TAB ============================ */
 
-function InventoryTab({ inventory, setInventory, updateVehicle, removeVehicle, markSold, onEdit, onAdd, flash, reservations = [], onReleaseReservation }) {
+function InventoryTab({ inventory, setInventory, updateVehicle, removeVehicle, markSold, onEdit, onAdd, flash, reservations = [], onReleaseReservation, settings, setSettings }) {
   const reservedMap = useMemo(() => {
     const m = new Map();
     reservations.forEach(r => m.set(r.vehicleId, r));
@@ -1489,6 +2478,35 @@ function InventoryTab({ inventory, setInventory, updateVehicle, removeVehicle, m
   const [bulkValue, setBulkValue] = useState('');
   const [bulkBuyer, setBulkBuyer] = useState('');
   const [confirmDelete, setConfirmDelete] = useState(null);
+  const [openKebab, setOpenKebab] = useState(null);  // vehicle id with open kebab
+  const [sellRequest, setSellRequest] = useState(null); // vehicle awaiting Mark Sold confirm
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(25);
+  const [savedOpen, setSavedOpen] = useState(false);
+  const [showSaveView, setShowSaveView] = useState(false);
+  const savedViews = settings?.savedViews?.inventory || [];
+
+  const applyView = (v) => {
+    setSearch(v.filter.search || '');
+    setSortKey(v.filter.sort?.split('-')[0] || 'dateAdded');
+    setSortDir(v.filter.sort?.split('-')[1] || 'desc');
+    setFilterStatus(v.filter.status || 'all');
+    setSavedOpen(false);
+    flash(`Loaded view: ${v.name}`);
+  };
+  const saveCurrentView = (name) => {
+    if (!name || !name.trim()) return;
+    const view = {
+      id: 'sv-i-' + Date.now(),
+      name: name.trim(),
+      filter: { search, status: filterStatus, sort: sortKey + '-' + sortDir }
+    };
+    setSettings(s => ({ ...s, savedViews: { ...(s.savedViews || {}), inventory: [...(s.savedViews?.inventory || []), view] } }));
+    flash(`Saved view: ${view.name}`);
+  };
+  const deleteView = (id) => {
+    setSettings(s => ({ ...s, savedViews: { ...(s.savedViews || {}), inventory: (s.savedViews?.inventory || []).filter(v => v.id !== id) } }));
+  };
 
   const filtered = useMemo(() => {
     let arr = inventory.filter(v => {
@@ -1528,6 +2546,9 @@ function InventoryTab({ inventory, setInventory, updateVehicle, removeVehicle, m
     return arr;
   }, [inventory, search, sortKey, sortDir, filterStatus, filterMake, filterBody, priceRange]);
 
+  const paged = useMemo(() => pageSize === Infinity ? filtered : filtered.slice((page - 1) * pageSize, page * pageSize), [filtered, page, pageSize]);
+  useEffect(() => { setPage(1); }, [search, sortKey, sortDir, filterStatus, filterMake, filterBody, priceRange]);
+
   const allSelected = filtered.length > 0 && filtered.every(v => selected.has(v.id));
   const toggleAll = () => {
     if (allSelected) {
@@ -1565,8 +2586,12 @@ function InventoryTab({ inventory, setInventory, updateVehicle, removeVehicle, m
       setInventory(arr => arr.map(item => ids.includes(item.id) ? { ...item, status: 'Featured' } : item));
       flash(`${ids.length} vehicles featured`);
     } else if (bulkAction === 'delete') {
+      const removed = inventory.filter(item => ids.includes(item.id));
       setInventory(arr => arr.filter(item => !ids.includes(item.id)));
-      flash(`${ids.length} vehicles deleted`);
+      flash(`${ids.length} vehicle${ids.length === 1 ? '' : 's'} deleted`, {
+        tone: 'destructive',
+        undo: () => setInventory(arr => [...removed, ...arr])
+      });
     } else if (bulkAction === 'csv') {
       const headers = ['year','make','model','trim','listPrice','salePrice','mileage','vin','stockNumber','status','daysOnLot'];
       const rows = inventory.filter(v => ids.includes(v.id));
@@ -1594,10 +2619,10 @@ function InventoryTab({ inventory, setInventory, updateVehicle, removeVehicle, m
   };
 
   return (
-    <div className="p-6 lg:p-8 max-w-[1500px] mx-auto">
+    <div className="p-6 lg:p-8 max-w-[1600px] mx-auto">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="font-display text-3xl font-medium tracking-tight text-stone-900">Inventory</h1>
+          <h1 className="font-display text-2xl font-semibold tracking-tight text-stone-900">Inventory</h1>
           <p className="text-sm text-stone-500 mt-1">
             {filtered.length} of {inventory.length} vehicles · {fmtMoney(filtered.reduce((s, v) => s + (v.salePrice || v.listPrice), 0))} total value
           </p>
@@ -1618,13 +2643,45 @@ function InventoryTab({ inventory, setInventory, updateVehicle, removeVehicle, m
       </div>
 
       {/* Filters bar */}
-      <Card className="p-3 mb-4">
-        <div className="flex flex-wrap items-center gap-2">
-          <div className="relative flex-1 min-w-[240px]">
+      <Card className="p-4 mb-4">
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="relative w-full sm:flex-1 sm:min-w-[240px]">
             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" />
             <input value={search} onChange={(e) => setSearch(e.target.value)}
               placeholder="Search make, model, VIN, stock #…"
               className="w-full pl-9 pr-3 py-2 bg-stone-50 border border-stone-200 rounded-md text-sm ring-gold" />
+          </div>
+          <div className="relative">
+            <button onClick={() => setSavedOpen(o => !o)}
+              className="inline-flex items-center gap-1.5 px-2.5 py-2 text-xs font-semibold rounded-md hover:bg-stone-100 transition"
+              style={{ color: 'var(--text-secondary)', border: '1px solid var(--border-strong)' }}>
+              <Bookmark className="w-3.5 h-3.5" /> Views
+              <ChevronDown className="w-3 h-3" />
+            </button>
+            {savedOpen && (
+              <>
+                <div className="fixed inset-0 z-30" onClick={() => setSavedOpen(false)} />
+                <div className="absolute right-0 top-full mt-1 w-56 rounded-md shadow-lg z-40 py-1 anim-fade"
+                  style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border)' }}>
+                  {savedViews.length === 0 ? (
+                    <div className="px-3 py-3 text-xs text-center" style={{ color: 'var(--text-muted)' }}>No saved views yet</div>
+                  ) : savedViews.map(v => (
+                    <div key={v.id} className="flex items-center group">
+                      <button onClick={() => applyView(v)}
+                        className="flex-1 px-3 py-2 text-left text-xs hover:bg-stone-50 truncate">{v.name}</button>
+                      <button onClick={() => deleteView(v.id)} title="Delete view"
+                        className="p-2 opacity-0 group-hover:opacity-100 text-red-500 hover:text-red-700"><X className="w-3 h-3" /></button>
+                    </div>
+                  ))}
+                  <div className="border-t my-1" style={{ borderColor: 'var(--border)' }} />
+                  <button onClick={() => { setSavedOpen(false); setShowSaveView(true); }}
+                    className="w-full px-3 py-2 text-left text-xs font-semibold flex items-center gap-1.5 hover:bg-stone-50"
+                    style={{ color: 'var(--text-primary)' }}>
+                    <Plus className="w-3 h-3" /> Save current view…
+                  </button>
+                </div>
+              </>
+            )}
           </div>
           <Select value={filterStatus} onChange={(e) => setFilterStatus(e.target.value)} className="text-xs w-32">
             <option value="all">All status</option>
@@ -1663,46 +2720,91 @@ function InventoryTab({ inventory, setInventory, updateVehicle, removeVehicle, m
 
       {/* Bulk action bar */}
       {selected.size > 0 && (
-        <div className="mb-4 anim-slide bg-stone-900 text-white rounded-lg p-3 flex items-center gap-3 flex-wrap">
-          <span className="font-semibold text-sm px-2">
-            {selected.size} selected
-          </span>
-          <span className="text-stone-500">·</span>
-          <button onClick={() => setBulkAction('sale')}
-            className="px-3 py-1.5 rounded text-xs font-semibold hover:bg-stone-800 inline-flex items-center gap-1.5"
-            style={{ color: GOLD }}>
-            <Tag className="w-3 h-3" /> Mark On Sale
-          </button>
-          <button onClick={() => { setBulkAction('removeSale'); setTimeout(applyBulk, 0); }}
-            className="px-3 py-1.5 rounded text-xs font-semibold hover:bg-stone-800">
-            Remove Sale
-          </button>
-          <button onClick={() => setBulkAction('sold')}
-            className="px-3 py-1.5 rounded text-xs font-semibold hover:bg-stone-800 inline-flex items-center gap-1.5">
-            <Award className="w-3 h-3" /> Mark as Sold
-          </button>
-          <button onClick={() => { setBulkAction('feature'); setTimeout(applyBulk, 0); }}
-            className="px-3 py-1.5 rounded text-xs font-semibold hover:bg-stone-800 inline-flex items-center gap-1.5">
-            <Star className="w-3 h-3" /> Feature
-          </button>
-          <button onClick={() => { setBulkAction('csv'); setTimeout(applyBulk, 0); }}
-            className="px-3 py-1.5 rounded text-xs font-semibold hover:bg-stone-800 inline-flex items-center gap-1.5">
-            <Download className="w-3 h-3" /> Export CSV
-          </button>
-          <button onClick={() => { setBulkAction('fb'); setTimeout(applyBulk, 0); }}
-            className="px-3 py-1.5 rounded text-xs font-semibold hover:bg-stone-800 inline-flex items-center gap-1.5">
-            <Share2 className="w-3 h-3" /> Export to FB
-          </button>
-          <div className="flex-1" />
-          <button onClick={() => setBulkAction('delete')}
-            className="px-3 py-1.5 rounded text-xs font-semibold hover:bg-red-900/30 text-red-300 inline-flex items-center gap-1.5">
-            <Trash2 className="w-3 h-3" /> Delete
-          </button>
-          <button onClick={() => setSelected(new Set())}
-            className="px-2 py-1.5 rounded text-xs hover:bg-stone-800 text-stone-400">
-            Clear
-          </button>
-        </div>
+        <>
+          {/* Desktop bulk bar */}
+          <div className="mb-4 anim-slide bg-stone-900 text-white rounded-lg p-3 hidden md:flex items-center gap-3 flex-wrap">
+            <span className="font-semibold text-sm px-2">
+              {selected.size} selected
+            </span>
+            <span className="text-stone-500">·</span>
+            <button onClick={() => setBulkAction('sale')}
+              className="px-3 py-1.5 rounded text-xs font-semibold hover:bg-stone-800 inline-flex items-center gap-1.5"
+              style={{ color: GOLD }}>
+              <Tag className="w-3 h-3" /> Mark On Sale
+            </button>
+            <button onClick={() => { setBulkAction('removeSale'); setTimeout(applyBulk, 0); }}
+              className="px-3 py-1.5 rounded text-xs font-semibold hover:bg-stone-800">
+              Remove Sale
+            </button>
+            <button onClick={() => setBulkAction('sold')}
+              className="px-3 py-1.5 rounded text-xs font-semibold hover:bg-stone-800 inline-flex items-center gap-1.5">
+              <Award className="w-3 h-3" /> Mark as Sold
+            </button>
+            <button onClick={() => { setBulkAction('feature'); setTimeout(applyBulk, 0); }}
+              className="px-3 py-1.5 rounded text-xs font-semibold hover:bg-stone-800 inline-flex items-center gap-1.5">
+              <Star className="w-3 h-3" /> Feature
+            </button>
+            <button onClick={() => { setBulkAction('csv'); setTimeout(applyBulk, 0); }}
+              className="px-3 py-1.5 rounded text-xs font-semibold hover:bg-stone-800 inline-flex items-center gap-1.5">
+              <Download className="w-3 h-3" /> Export CSV
+            </button>
+            <button onClick={() => { setBulkAction('fb'); setTimeout(applyBulk, 0); }}
+              className="px-3 py-1.5 rounded text-xs font-semibold hover:bg-stone-800 inline-flex items-center gap-1.5">
+              <Share2 className="w-3 h-3" /> Export to FB
+            </button>
+            <div className="flex-1" />
+            <button onClick={() => setBulkAction('delete')}
+              className="px-3 py-1.5 rounded text-xs font-semibold hover:bg-red-900/30 text-red-300 inline-flex items-center gap-1.5">
+              <Trash2 className="w-3 h-3" /> Delete
+            </button>
+            <button onClick={() => setSelected(new Set())}
+              className="px-2 py-1.5 rounded text-xs hover:bg-stone-800 text-stone-400">
+              Clear
+            </button>
+          </div>
+          {/* Mobile bulk dropdown */}
+          <details className="mb-4 anim-slide bg-stone-900 text-white rounded-lg md:hidden">
+            <summary className="cursor-pointer p-3 flex items-center justify-between text-sm font-semibold list-none">
+              <span>{selected.size} selected · Actions</span>
+              <ChevronDown className="w-4 h-4" />
+            </summary>
+            <div className="px-3 pb-3 flex flex-col gap-1 border-t border-stone-700">
+              <button onClick={() => setBulkAction('sale')}
+                className="px-3 py-2 rounded text-xs font-semibold hover:bg-stone-800 inline-flex items-center gap-1.5 text-left"
+                style={{ color: GOLD }}>
+                <Tag className="w-3 h-3" /> Mark On Sale
+              </button>
+              <button onClick={() => { setBulkAction('removeSale'); setTimeout(applyBulk, 0); }}
+                className="px-3 py-2 rounded text-xs font-semibold hover:bg-stone-800 text-left">
+                Remove Sale
+              </button>
+              <button onClick={() => setBulkAction('sold')}
+                className="px-3 py-2 rounded text-xs font-semibold hover:bg-stone-800 inline-flex items-center gap-1.5 text-left">
+                <Award className="w-3 h-3" /> Mark as Sold
+              </button>
+              <button onClick={() => { setBulkAction('feature'); setTimeout(applyBulk, 0); }}
+                className="px-3 py-2 rounded text-xs font-semibold hover:bg-stone-800 inline-flex items-center gap-1.5 text-left">
+                <Star className="w-3 h-3" /> Feature
+              </button>
+              <button onClick={() => { setBulkAction('csv'); setTimeout(applyBulk, 0); }}
+                className="px-3 py-2 rounded text-xs font-semibold hover:bg-stone-800 inline-flex items-center gap-1.5 text-left">
+                <Download className="w-3 h-3" /> Export CSV
+              </button>
+              <button onClick={() => { setBulkAction('fb'); setTimeout(applyBulk, 0); }}
+                className="px-3 py-2 rounded text-xs font-semibold hover:bg-stone-800 inline-flex items-center gap-1.5 text-left">
+                <Share2 className="w-3 h-3" /> Export to FB
+              </button>
+              <button onClick={() => setBulkAction('delete')}
+                className="px-3 py-2 rounded text-xs font-semibold hover:bg-red-900/30 text-red-300 inline-flex items-center gap-1.5 text-left">
+                <Trash2 className="w-3 h-3" /> Delete
+              </button>
+              <button onClick={() => setSelected(new Set())}
+                className="px-3 py-2 rounded text-xs hover:bg-stone-800 text-stone-400 text-left">
+                Clear Selection
+              </button>
+            </div>
+          </details>
+        </>
       )}
 
       {/* Bulk action prompts */}
@@ -1744,36 +2846,44 @@ function InventoryTab({ inventory, setInventory, updateVehicle, removeVehicle, m
             <table className="w-full text-sm">
               <thead className="bg-stone-50 border-b border-stone-200 text-[10px] smallcaps font-semibold text-stone-500">
                 <tr>
-                  <th className="px-3 py-2.5 w-10">
+                  <th className="px-4 py-3 w-10">
                     <button onClick={toggleAll} className="flex items-center justify-center">
-                      {allSelected ? <CheckSquare className="w-4 h-4" style={{ color: GOLD }} /> : <Square className="w-4 h-4 text-stone-400" />}
+                      {allSelected ? <CheckSquare className="w-4 h-4 text-blue-600" /> : <Square className="w-4 h-4 text-stone-400" />}
                     </button>
                   </th>
-                  <th className="px-2 py-2.5 w-20 text-left">Photo</th>
-                  <th className="px-2 py-2.5 w-14 text-left">Year</th>
-                  <th className="px-2 py-2.5 text-left">Make / Model</th>
-                  <th className="px-2 py-2.5 text-left">Trim</th>
-                  <th className="px-2 py-2.5 text-right">Price</th>
-                  <th className="px-2 py-2.5 text-right">Mileage</th>
-                  <th className="px-2 py-2.5 text-left">Status</th>
-                  <th className="px-2 py-2.5 text-right">Days</th>
-                  <th className="px-2 py-2.5 text-right">Views</th>
-                  <th className="px-3 py-2.5 w-44 text-right">Actions</th>
+                  <th className="px-3 py-3 w-20 text-left">Photo</th>
+                  <th className="px-3 py-3 w-14 text-left">Year</th>
+                  <th className="px-3 py-3 text-left">Make / Model</th>
+                  <th className="px-3 py-3 text-left">Trim</th>
+                  <th className="px-3 py-3 text-right">Price</th>
+                  <th className="px-3 py-3 text-right">Mileage</th>
+                  <th className="px-3 py-3 text-left">Status</th>
+                  <th className="px-3 py-3 text-right">Days</th>
+                  <th className="px-3 py-3 text-right">Views</th>
+                  <th className="px-4 py-3 w-44 text-right">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-stone-100">
                 {filtered.length === 0 ? (
-                  <tr><td colSpan={11} className="text-center text-stone-500 py-12 text-sm">No vehicles match your filters.</td></tr>
-                ) : filtered.map(v => (
+                  <tr><td colSpan={11} className="text-center py-16 px-4">
+                    <Car className="w-10 h-10 mx-auto mb-3 text-stone-300" strokeWidth={1.5} />
+                    <div className="font-display text-lg font-semibold text-stone-900 mb-1">No vehicles match</div>
+                    <div className="text-sm text-stone-500 mb-4 max-w-xs mx-auto">Try adjusting your filters, or add your first vehicle to get started.</div>
+                    <button onClick={onAdd} className="inline-flex items-center gap-2 px-4 py-2 rounded-md text-sm font-semibold text-white"
+                      style={{ backgroundColor: GOLD, color: '#1A1714' }}>
+                      <Plus className="w-3.5 h-3.5" /> Add Vehicle
+                    </button>
+                  </td></tr>
+                ) : paged.map(v => (
                   <tr key={v.id} className={`group hover:bg-stone-50 transition ${selected.has(v.id) ? 'bg-amber-50/50' : ''}`}>
-                    <td className="px-3 py-3">
+                    <td className="px-4 py-3">
                       <button onClick={() => toggleOne(v.id)} className="flex items-center justify-center">
-                        {selected.has(v.id) ? <CheckSquare className="w-4 h-4" style={{ color: GOLD }} /> : <Square className="w-4 h-4 text-stone-400 group-hover:text-stone-600" />}
+                        {selected.has(v.id) ? <CheckSquare className="w-4 h-4 text-blue-600" /> : <Square className="w-4 h-4 text-stone-400 group-hover:text-stone-600" />}
                       </button>
                     </td>
-                    <td className="px-2 py-2"><VehiclePhoto vehicle={v} size="sm" /></td>
-                    <td className="px-2 py-3 font-medium tabular">{v.year}</td>
-                    <td className="px-2 py-3">
+                    <td className="px-3 py-3"><VehiclePhoto vehicle={v} size="sm" /></td>
+                    <td className="px-3 py-3 font-medium tabular">{v.year}</td>
+                    <td className="px-3 py-3">
                       <div className="flex items-center gap-2 flex-wrap">
                         <button onClick={() => onEdit(v.id)} className="font-semibold hover:underline text-left">
                           {v.make} {v.model}
@@ -1797,8 +2907,8 @@ function InventoryTab({ inventory, setInventory, updateVehicle, removeVehicle, m
                         )}
                       </div>
                     </td>
-                    <td className="px-2 py-3 text-stone-600">{v.trim}</td>
-                    <td className="px-2 py-3 text-right tabular">
+                    <td className="px-3 py-3 text-stone-600">{v.trim}</td>
+                    <td className="px-3 py-3 text-right tabular">
                       {v.salePrice ? (
                         <>
                           <div className="font-semibold" style={{ color: RED_ACCENT }}>{fmtMoney(v.salePrice)}</div>
@@ -1808,35 +2918,53 @@ function InventoryTab({ inventory, setInventory, updateVehicle, removeVehicle, m
                         <div className="font-semibold">{fmtMoney(v.listPrice)}</div>
                       )}
                     </td>
-                    <td className="px-2 py-3 text-right tabular text-stone-600">{Number(v.mileage).toLocaleString()}</td>
-                    <td className="px-2 py-3"><StatusBadge status={v.status} /></td>
-                    <td className="px-2 py-3 text-right tabular">
+                    <td className="px-3 py-3 text-right tabular text-stone-600">{Number(v.mileage).toLocaleString()}</td>
+                    <td className="px-3 py-3"><StatusBadge status={v.status} /></td>
+                    <td className="px-3 py-3 text-right tabular">
                       <span className={`font-semibold ${v.daysOnLot >= 60 ? 'text-red-700' : v.daysOnLot >= 45 ? 'text-orange-700' : v.daysOnLot >= 30 ? 'text-amber-700' : 'text-stone-600'}`}>
                         {v.daysOnLot}d
                       </span>
                     </td>
-                    <td className="px-2 py-3 text-right tabular text-stone-500">{(v.views || 0).toLocaleString()}</td>
-                    <td className="px-3 py-2">
-                      <div className="flex items-center justify-end gap-0.5 opacity-60 group-hover:opacity-100 transition">
-                        <IconBtn icon={Edit3} title="Edit" onClick={() => onEdit(v.id)} />
-                        <IconBtn icon={Star} title={v.status === 'Featured' ? 'Unfeature' : 'Feature'}
-                          tone="gold"
-                          onClick={() => updateVehicle(v.id, { status: v.status === 'Featured' ? 'Available' : 'Featured' })} />
-                        <IconBtn icon={Tag} title="Put on Sale"
-                          onClick={() => {
-                            const sale = Math.round(v.listPrice * 0.93 / 5) * 5;
-                            updateVehicle(v.id, { salePrice: sale, status: 'On Sale' });
-                            flash(`${v.year} ${v.make} ${v.model} put on sale`);
-                          }} />
-                        <IconBtn icon={Award} title="Mark Sold" tone="blue"
-                          onClick={() => {
-                            const buyer = window.prompt(`Buyer name for ${v.year} ${v.make} ${v.model}?`, '');
-                            if (buyer !== null) markSold(v.id, buyer || 'Walk-in Buyer');
-                          }} />
-                        <IconBtn icon={Share2} title="Export to Facebook"
-                          onClick={() => flash(`Export queued: ${v.year} ${v.make} ${v.model}`)} />
-                        <IconBtn icon={Trash2} title="Delete" tone="danger"
-                          onClick={() => setConfirmDelete(v.id)} />
+                    <td className="px-3 py-3 text-right tabular text-stone-500">{(v.views || 0).toLocaleString()}</td>
+                    <td className="px-4 py-3 relative">
+                      <div className="flex items-center justify-end gap-1">
+                        <button onClick={(e) => { e.stopPropagation(); onEdit(v.id); }}
+                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold text-stone-700 hover:bg-stone-100 transition">
+                          <Edit3 className="w-3 h-3" /> Edit
+                        </button>
+                        <button onClick={(e) => { e.stopPropagation(); setSellRequest(v); }}
+                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-semibold text-emerald-700 hover:bg-emerald-50 transition">
+                          <Check className="w-3 h-3" /> Sold
+                        </button>
+                        <button onClick={(e) => { e.stopPropagation(); setOpenKebab(o => o === v.id ? null : v.id); }}
+                          title="More actions"
+                          className="inline-flex items-center justify-center w-7 h-7 rounded-md text-stone-500 hover:bg-stone-100 transition">
+                          <MoreHorizontal className="w-4 h-4" />
+                        </button>
+                        {openKebab === v.id && (
+                          <>
+                            <div className="fixed inset-0 z-30" onClick={(e) => { e.stopPropagation(); setOpenKebab(null); }} />
+                            <div className="absolute right-2 top-full mt-1 w-44 bg-white border border-stone-200 rounded-md shadow-lg z-40 py-1 anim-fade">
+                              <button onClick={(e) => { e.stopPropagation(); updateVehicle(v.id, { status: v.status === 'Featured' ? 'Available' : 'Featured' }); flash(v.status === 'Featured' ? 'Unfeatured' : 'Vehicle featured'); setOpenKebab(null); }}
+                                className="w-full px-3 py-1.5 text-left text-xs hover:bg-stone-50 flex items-center gap-2 text-stone-700">
+                                <Star className="w-3 h-3" /> {v.status === 'Featured' ? 'Unfeature' : 'Feature'}
+                              </button>
+                              <button onClick={(e) => { e.stopPropagation(); const sale = Math.round(v.listPrice * 0.93 / 5) * 5; updateVehicle(v.id, { salePrice: sale, status: 'On Sale' }); flash(`${v.year} ${v.make} ${v.model} put on sale`); setOpenKebab(null); }}
+                                className="w-full px-3 py-1.5 text-left text-xs hover:bg-stone-50 flex items-center gap-2 text-stone-700">
+                                <Tag className="w-3 h-3" /> Put on Sale
+                              </button>
+                              <button onClick={(e) => { e.stopPropagation(); flash(`Export queued: ${v.year} ${v.make} ${v.model}`); setOpenKebab(null); }}
+                                className="w-full px-3 py-1.5 text-left text-xs hover:bg-stone-50 flex items-center gap-2 text-stone-700">
+                                <Share2 className="w-3 h-3" /> Export to Facebook
+                              </button>
+                              <div className="border-t border-stone-100 my-1" />
+                              <button onClick={(e) => { e.stopPropagation(); setConfirmDelete(v.id); setOpenKebab(null); }}
+                                className="w-full px-3 py-1.5 text-left text-xs hover:bg-red-50 text-red-700 flex items-center gap-2 font-semibold">
+                                <Trash2 className="w-3 h-3" /> Delete
+                              </button>
+                            </div>
+                          </>
+                        )}
                       </div>
                     </td>
                   </tr>
@@ -1844,10 +2972,12 @@ function InventoryTab({ inventory, setInventory, updateVehicle, removeVehicle, m
               </tbody>
             </table>
           </div>
+          <Paginator total={filtered.length} page={page} pageSize={pageSize} onPage={setPage} onPageSize={setPageSize} label="vehicle" />
         </Card>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-          {filtered.map(v => (
+        <div>
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5 gap-4">
+          {paged.map(v => (
             <Card key={v.id} className="overflow-hidden group hover:shadow-md transition cursor-pointer"
               onClick={() => onEdit(v.id)}>
               <div className="relative">
@@ -1863,7 +2993,7 @@ function InventoryTab({ inventory, setInventory, updateVehicle, removeVehicle, m
                 </div>
                 <button onClick={(e) => { e.stopPropagation(); toggleOne(v.id); }}
                   className="absolute top-2 right-2 w-7 h-7 bg-white/90 rounded-md flex items-center justify-center hover:bg-white">
-                  {selected.has(v.id) ? <CheckSquare className="w-4 h-4" style={{ color: GOLD }} /> : <Square className="w-4 h-4 text-stone-500" />}
+                  {selected.has(v.id) ? <CheckSquare className="w-4 h-4 text-blue-600" /> : <Square className="w-4 h-4 text-stone-500" />}
                 </button>
               </div>
               <div className="p-3.5">
@@ -1895,36 +3025,133 @@ function InventoryTab({ inventory, setInventory, updateVehicle, removeVehicle, m
             </Card>
           ))}
         </div>
+        <Card className="mt-4">
+          <Paginator total={filtered.length} page={page} pageSize={pageSize} onPage={setPage} onPageSize={setPageSize} label="vehicle" />
+        </Card>
+        </div>
       )}
 
-      {/* Delete confirm */}
-      {confirmDelete && (
-        <div className="fixed inset-0 z-40 bg-stone-900/40 flex items-center justify-center p-4">
-          <div className="bg-white rounded-lg max-w-sm w-full p-5 anim-slide">
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 rounded-full bg-red-50 flex items-center justify-center">
-                <Trash2 className="w-4 h-4 text-red-700" />
-              </div>
-              <div>
-                <h3 className="font-display text-lg font-semibold leading-none">Delete vehicle?</h3>
-                <p className="text-xs text-stone-500 mt-1">This cannot be undone.</p>
-              </div>
+      <ConfirmDialog
+        isOpen={!!confirmDelete}
+        title="Delete vehicle?"
+        message="This permanently removes the vehicle from inventory. This action cannot be undone."
+        confirmLabel="Delete"
+        confirmColor="red"
+        onConfirm={() => {
+          const id = confirmDelete;
+          const v = inventory.find(x => x.id === id);
+          removeVehicle(id);
+          setConfirmDelete(null);
+          flash(`${v ? `${v.year} ${v.make} ${v.model}` : 'Vehicle'} deleted`,
+            { tone: 'destructive', undo: () => v && setInventory(arr => [v, ...arr]) });
+        }}
+        onCancel={() => setConfirmDelete(null)} />
+
+      <ConfirmDialog
+        isOpen={showSaveView}
+        title="Save current view"
+        message="Give this filter combination a name to load it later."
+        confirmLabel="Save view"
+        confirmColor="dark"
+        inputs={[{ name: 'name', label: 'View name', placeholder: 'e.g., New listings under $30k' }]}
+        onConfirm={(vals) => { saveCurrentView(vals.name); setShowSaveView(false); }}
+        onCancel={() => setShowSaveView(false)} />
+
+      <ConfirmDialog
+        isOpen={!!sellRequest}
+        title={sellRequest ? `Mark ${sellRequest.year} ${sellRequest.make} ${sellRequest.model} as sold?` : ''}
+        message={sellRequest ? `Stock #${sellRequest.stockNumber || sellRequest.id}. This moves the vehicle from inventory to Sold.` : ''}
+        confirmLabel="Mark Sold"
+        confirmColor="dark"
+        inputs={sellRequest ? [
+          { name: 'buyer', label: 'Buyer Name', placeholder: 'e.g., Walk-in Buyer' },
+          { name: 'finalPrice', label: 'Final Sale Price ($)', type: 'number',
+            defaultValue: String(sellRequest.salePrice ?? sellRequest.listPrice),
+            hint: `List: $${(sellRequest.listPrice||0).toLocaleString()}${sellRequest.salePrice ? ` · Sale: $${sellRequest.salePrice.toLocaleString()}` : ''}` }
+        ] : []}
+        onConfirm={(vals) => {
+          const buyer = (vals.buyer || '').trim() || 'Walk-in Buyer';
+          const final = parseFloat(vals.finalPrice) || (sellRequest.salePrice ?? sellRequest.listPrice);
+          markSold(sellRequest.id, buyer, final);
+          setSellRequest(null);
+        }}
+        onCancel={() => setSellRequest(null)} />
+    </div>
+  );
+}
+
+/* ====================== VEHICLE FORM TAB ========================= */
+
+function SearchableSelect({ value, onChange, items, popular = [], loading, placeholder, error, disabled, allLabel = 'All' }) {
+  const [open, setOpen] = useState(false);
+  const [query, setQuery] = useState('');
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const onDoc = (e) => { if (ref.current && !ref.current.contains(e.target)) setOpen(false); };
+    document.addEventListener('mousedown', onDoc);
+    return () => document.removeEventListener('mousedown', onDoc);
+  }, []);
+
+  const q = query.trim().toLowerCase();
+  const filteredAll = q ? items.filter(i => i.toLowerCase().includes(q)) : items;
+  const popularFiltered = q ? popular.filter(i => i.toLowerCase().includes(q)) : popular;
+  const showPopular = !q && popular.length > 0;
+
+  return (
+    <div ref={ref} className="relative">
+      <button type="button" disabled={disabled} onClick={() => setOpen(o => !o)}
+        className={`w-full pl-3 pr-9 py-2 bg-white border rounded-md text-sm text-left ring-gold transition ${error ? 'border-red-400' : 'border-stone-300'} ${disabled ? 'opacity-50 cursor-not-allowed' : ''}`}>
+        <span className={value ? 'text-stone-900' : 'text-stone-400'}>{value || placeholder || 'Select…'}</span>
+        <ChevronDown className="w-4 h-4 absolute right-2.5 top-1/2 -translate-y-1/2 text-stone-400 pointer-events-none" />
+      </button>
+      {open && (
+        <div className="absolute z-30 mt-1 w-full bg-white border border-stone-200 rounded-md shadow-lg max-h-72 overflow-hidden flex flex-col">
+          <div className="p-2 border-b border-stone-100 sticky top-0 bg-white">
+            <div className="relative">
+              <Search className="w-3.5 h-3.5 absolute left-2.5 top-1/2 -translate-y-1/2 text-stone-400" />
+              <input autoFocus value={query} onChange={(e) => setQuery(e.target.value)} placeholder="Search…"
+                className="w-full pl-8 pr-2 py-1.5 text-xs bg-stone-50 border border-stone-200 rounded focus:outline-none" />
             </div>
-            <div className="flex justify-end gap-2 mt-5">
-              <Btn variant="ghost" onClick={() => setConfirmDelete(null)}>Cancel</Btn>
-              <Btn variant="dark" className="bg-red-700 border-red-700 hover:bg-red-800"
-                onClick={() => { removeVehicle(confirmDelete); setConfirmDelete(null); flash('Vehicle deleted'); }}>
-                Delete
-              </Btn>
-            </div>
+          </div>
+          <div className="overflow-y-auto flex-1">
+            {loading ? (
+              <div className="p-4 text-center text-xs text-stone-500 flex items-center justify-center gap-2">
+                <RefreshCw className="w-3 h-3 animate-spin" /> Loading…
+              </div>
+            ) : (
+              <>
+                {showPopular && popularFiltered.length > 0 && (
+                  <>
+                    <div className="px-3 py-1 text-[10px] smallcaps font-semibold text-stone-500 bg-stone-50">Popular</div>
+                    {popularFiltered.map(item => (
+                      <button key={`p-${item}`} type="button"
+                        onClick={() => { onChange(item); setOpen(false); setQuery(''); }}
+                        className={`w-full text-left px-3 py-1.5 text-sm hover:bg-amber-50 ${value === item ? 'font-semibold' : ''}`}>
+                        {item}
+                      </button>
+                    ))}
+                    <div className="border-t border-stone-200 my-1" />
+                    <div className="px-3 py-1 text-[10px] smallcaps font-semibold text-stone-500 bg-stone-50">{allLabel}</div>
+                  </>
+                )}
+                {filteredAll.length === 0 ? (
+                  <div className="p-4 text-center text-xs text-stone-400">No matches</div>
+                ) : filteredAll.map(item => (
+                  <button key={item} type="button"
+                    onClick={() => { onChange(item); setOpen(false); setQuery(''); }}
+                    className={`w-full text-left px-3 py-1.5 text-sm hover:bg-amber-50 ${value === item ? 'font-semibold' : ''}`}>
+                    {item}
+                  </button>
+                ))}
+              </>
+            )}
           </div>
         </div>
       )}
     </div>
   );
 }
-
-/* ====================== VEHICLE FORM TAB ========================= */
 
 const BLANK_VEHICLE = {
   year: new Date(TODAY).getFullYear(), make: 'Toyota', model: '', trim: '', bodyStyle: 'Sedan',
@@ -1933,29 +3160,189 @@ const BLANK_VEHICLE = {
   engine: '', transmission: 'Automatic', drivetrain: 'FWD', fuelType: 'Gas',
   mpgCity: '', mpgHwy: '', vin: '', stockNumber: '',
   status: 'Available',
-  history: { noAccidents: false, oneOwner: false, cleanTitle: true, serviceRecords: false, inspection: false, carfax: false, warranty: false },
+  history: { noAccidents: false, oneOwner: false, cleanTitle: true, serviceRecords: false, inspection: false, carfax: false, warranty: false, noOpenRecalls: true },
   description: '', photos: [],
-  daysOnLot: 0, views: 0, dateAdded: new Date(TODAY).toISOString()
+  daysOnLot: 0, views: 0, dateAdded: new Date(TODAY).toISOString(),
+  hasOpenRecalls: false, espoId: null
 };
 
-function VehicleFormTab({ vehicle, onSave, onCancel }) {
+function VehicleFormTab({ vehicle, onSave, onCancel, flash }) {
   const isEdit = !!vehicle;
-  const [form, setForm] = useState(() => vehicle ? { ...vehicle } : { ...BLANK_VEHICLE });
+  const [form, setForm] = useState(() => vehicle ? { ...BLANK_VEHICLE, ...vehicle } : { ...BLANK_VEHICLE });
   const [photoInput, setPhotoInput] = useState((vehicle?.photos || []).join(', '));
   const [errors, setErrors] = useState({});
+  const [autoFilled, setAutoFilled] = useState(new Set());
+  const [vinInput, setVinInput] = useState(vehicle?.vin || '');
+  const [vinDecoding, setVinDecoding] = useState(false);
+  const [vinSummary, setVinSummary] = useState(null);
+  const [allMakes, setAllMakes] = useState([]);
+  const [makesLoading, setMakesLoading] = useState(false);
+  const [makesError, setMakesError] = useState(false);
+  const [modelsForMake, setModelsForMake] = useState([]);
+  const [modelsLoading, setModelsLoading] = useState(false);
+  const [modelsError, setModelsError] = useState(false);
+  const [mpgLoading, setMpgLoading] = useState(false);
+  const [mpgUnavailable, setMpgUnavailable] = useState(false);
+  const [recalls, setRecalls] = useState([]);
+  const [recallsLoading, setRecallsLoading] = useState(false);
+  const [recallsChecked, setRecallsChecked] = useState(false);
+  const [savingEspo, setSavingEspo] = useState(false);
 
   useEffect(() => {
     if (vehicle) {
-      setForm({ ...vehicle });
+      setForm({ ...BLANK_VEHICLE, ...vehicle });
       setPhotoInput((vehicle.photos || []).join(', '));
+      setVinInput(vehicle.vin || '');
     } else {
       setForm({ ...BLANK_VEHICLE });
       setPhotoInput('');
+      setVinInput('');
     }
+    setAutoFilled(new Set());
+    setVinSummary(null);
+    setRecalls([]);
+    setRecallsChecked(false);
+    setMpgUnavailable(false);
   }, [vehicle?.id]);
 
-  const set = (k, v) => setForm(f => ({ ...f, [k]: v }));
+  // Load all makes once on mount
+  useEffect(() => {
+    let cancel = false;
+    (async () => {
+      setMakesLoading(true);
+      try {
+        const list = await nhtsaGetAllMakes();
+        if (!cancel) { setAllMakes(list); setMakesError(false); }
+      } catch {
+        if (!cancel) setMakesError(true);
+      } finally {
+        if (!cancel) setMakesLoading(false);
+      }
+    })();
+    return () => { cancel = true; };
+  }, []);
+
+  // Load models when make changes
+  useEffect(() => {
+    if (!form.make) { setModelsForMake([]); return; }
+    let cancel = false;
+    (async () => {
+      setModelsLoading(true);
+      try {
+        const list = await nhtsaGetModelsForMake(form.make);
+        if (!cancel) { setModelsForMake(list); setModelsError(false); }
+      } catch {
+        if (!cancel) { setModelsForMake([]); setModelsError(true); }
+      } finally {
+        if (!cancel) setModelsLoading(false);
+      }
+    })();
+    return () => { cancel = true; };
+  }, [form.make]);
+
+  // Auto-fetch MPG + recalls when Year + Make + Model are all set
+  useEffect(() => {
+    if (!form.year || !form.make || !form.model) return;
+    let cancel = false;
+    (async () => {
+      setMpgLoading(true);
+      setMpgUnavailable(false);
+      try {
+        const data = await fuelEconomyLookup(form.year, form.make, form.model);
+        if (cancel) return;
+        if (data) {
+          setForm(f => ({ ...f, mpgCity: data.mpgCity, mpgHwy: data.mpgHwy }));
+          setAutoFilled(s => new Set([...s, 'mpgCity', 'mpgHwy']));
+        } else {
+          setMpgUnavailable(true);
+        }
+      } catch {
+        if (!cancel) setMpgUnavailable(true);
+      } finally {
+        if (!cancel) setMpgLoading(false);
+      }
+      setRecallsLoading(true);
+      try {
+        const list = await nhtsaRecalls(form.year, form.make, form.model);
+        if (cancel) return;
+        setRecalls(list);
+        setRecallsChecked(true);
+        setForm(f => ({
+          ...f,
+          hasOpenRecalls: list.length > 0,
+          history: { ...(f.history || {}), noOpenRecalls: list.length === 0 }
+        }));
+      } catch {
+        if (!cancel) { setRecalls([]); setRecallsChecked(true); }
+      } finally {
+        if (!cancel) setRecallsLoading(false);
+      }
+    })();
+    return () => { cancel = true; };
+  }, [form.year, form.make, form.model]);
+
+  const set = (k, v) => {
+    setForm(f => ({ ...f, [k]: v }));
+    if (autoFilled.has(k)) setAutoFilled(s => { const n = new Set(s); n.delete(k); return n; });
+  };
   const setHist = (k, v) => setForm(f => ({ ...f, history: { ...f.history, [k]: v } }));
+
+  const filledClass = (k) => autoFilled.has(k) ? 'border-blue-400 bg-blue-50/40' : '';
+
+  const decodeVin = async () => {
+    const v = String(vinInput || '').trim().toUpperCase();
+    if (!validVin(v)) {
+      setErrors(e => ({ ...e, vin: 'VIN must be 17 alphanumeric chars (no I, O, Q)' }));
+      flash && flash('VIN must be 17 chars (no I, O, Q)', 'error');
+      return;
+    }
+    setErrors(e => { const { vin: _, ...rest } = e; return rest; });
+    setVinDecoding(true);
+    setVinSummary(null);
+    try {
+      const result = await nhtsaDecodeVin(v);
+      if (!result || !result.fields.make) {
+        flash && flash('VIN not found — enter details manually', 'error');
+        setVinDecoding(false);
+        return;
+      }
+      const f = result.fields;
+      const filled = [];
+      const next = { ...form, vin: v };
+      const apply = (key, val, label) => {
+        if (val !== null && val !== undefined && val !== '') { next[key] = val; filled.push(label); }
+      };
+      apply('year', f.year ? Number(f.year) : null, 'Year');
+      apply('make', f.make, 'Make');
+      apply('model', f.model, 'Model');
+      apply('trim', f.trim, 'Trim');
+      if (f.bodyStyle && BODY_STYLES.includes(f.bodyStyle)) { next.bodyStyle = f.bodyStyle; filled.push('Body Style'); }
+      apply('engine', f.engine, 'Engine');
+      if (f.transmission && TRANSMISSIONS.includes(f.transmission)) { next.transmission = f.transmission; filled.push('Transmission'); }
+      if (f.drivetrain && DRIVETRAINS.includes(f.drivetrain)) { next.drivetrain = f.drivetrain; filled.push('Drivetrain'); }
+      if (f.fuelType && FUEL_TYPES.includes(f.fuelType)) { next.fuelType = f.fuelType; filled.push('Fuel Type'); }
+      filled.push('VIN');
+      setForm(next);
+      const filledKeys = new Set();
+      if (next.year !== form.year) filledKeys.add('year');
+      if (next.make !== form.make) filledKeys.add('make');
+      if (next.model !== form.model) filledKeys.add('model');
+      if (next.trim !== form.trim) filledKeys.add('trim');
+      if (next.bodyStyle !== form.bodyStyle) filledKeys.add('bodyStyle');
+      if (next.engine !== form.engine) filledKeys.add('engine');
+      if (next.transmission !== form.transmission) filledKeys.add('transmission');
+      if (next.drivetrain !== form.drivetrain) filledKeys.add('drivetrain');
+      if (next.fuelType !== form.fuelType) filledKeys.add('fuelType');
+      filledKeys.add('vin');
+      setAutoFilled(filledKeys);
+      setVinSummary({ count: filled.length, fields: filled });
+      flash && flash(`VIN decoded — ${filled.length} fields auto-filled`, 'success');
+    } catch (err) {
+      flash && flash('VIN decoder unavailable — enter details manually', 'error');
+    } finally {
+      setVinDecoding(false);
+    }
+  };
 
   const margin = useMemo(() => {
     const sale = parseFloat(form.salePrice) || parseFloat(form.listPrice) || 0;
@@ -1976,7 +3363,7 @@ function VehicleFormTab({ vehicle, onSave, onCancel }) {
     return Object.keys(e).length === 0;
   };
 
-  const handleSave = (addAnother = false) => {
+  const handleSave = async (addAnother = false) => {
     if (!validate()) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
       return;
@@ -1989,10 +3376,24 @@ function VehicleFormTab({ vehicle, onSave, onCancel }) {
       mileage: Number(form.mileage), mpgCity: Number(form.mpgCity) || 0, mpgHwy: Number(form.mpgHwy) || 0,
       photos
     };
+    setSavingEspo(true);
+    const espo = await espoSaveVehicle(cleaned);
+    setSavingEspo(false);
+    if (espo.ok) {
+      cleaned.espoId = espo.id || cleaned.espoId || null;
+      flash && flash(`Saved to EspoCRM (${ESPO_VEHICLE_ENTITY})`, 'success');
+    } else {
+      flash && flash(`EspoCRM save failed: ${espo.error}. Saved locally only.`, 'error');
+    }
     onSave(cleaned, addAnother);
     if (addAnother) {
       setForm({ ...BLANK_VEHICLE });
       setPhotoInput('');
+      setVinInput('');
+      setAutoFilled(new Set());
+      setVinSummary(null);
+      setRecalls([]);
+      setRecallsChecked(false);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
@@ -2001,12 +3402,16 @@ function VehicleFormTab({ vehicle, onSave, onCancel }) {
 
   return (
     <div className="p-6 lg:p-8 max-w-5xl mx-auto">
+      <nav className="flex items-center gap-1.5 text-xs mb-2 flex-wrap" style={{ color: 'var(--text-muted)' }}>
+        <button onClick={onCancel} className="hover:underline" style={{ color: 'var(--text-secondary)' }}>Inventory</button>
+        <ChevronRight className="w-3 h-3" />
+        <span className="font-medium" style={{ color: 'var(--text-primary)' }}>
+          {isEdit ? `Edit: ${form.year} ${form.make} ${form.model}` : 'Add New Vehicle'}
+        </span>
+      </nav>
       <div className="flex items-end justify-between mb-6">
         <div>
-          <button onClick={onCancel} className="text-[11px] smallcaps text-stone-500 hover:text-stone-900 mb-1 inline-flex items-center gap-1">
-            <ChevronLeft className="w-3 h-3" /> Back to inventory
-          </button>
-          <h1 className="font-display text-3xl font-medium tracking-tight">
+          <h1 className="font-display text-2xl font-semibold tracking-tight">
             {isEdit ? `Edit ${form.year} ${form.make} ${form.model}` : 'Add New Vehicle'}
           </h1>
         </div>
@@ -2020,30 +3425,125 @@ function VehicleFormTab({ vehicle, onSave, onCancel }) {
       )}
 
       <div className="space-y-6">
+        {/* VIN DECODER (HERO) */}
+        <Card className="p-5 border-2" style={{ borderColor: `${GOLD}80`, background: `linear-gradient(135deg, ${GOLD}10 0%, transparent 60%)` }}>
+          <div className="flex items-center gap-2 mb-1">
+            <Sparkles className="w-4 h-4" style={{ color: '#7A5A0F' }} />
+            <h3 className="font-display text-lg font-semibold">VIN Decoder</h3>
+            <span className="text-[10px] smallcaps font-semibold ml-auto px-2 py-0.5 rounded-full"
+              style={{ backgroundColor: '#E8F2EC', color: '#256B40' }}>Free · NHTSA</span>
+          </div>
+          <p className="text-sm text-stone-600 mb-4">Enter a VIN to auto-fill 9 vehicle details in one click.</p>
+          <div className="flex flex-col sm:flex-row gap-2">
+            <div className="flex-1 relative">
+              <Input value={vinInput} maxLength={17}
+                onChange={(e) => setVinInput(e.target.value.toUpperCase())}
+                onBlur={() => {
+                  const v = vinInput.trim();
+                  if (v && !validVin(v)) setErrors(e => ({ ...e, vin: 'VIN must be 17 alphanumeric chars (no I, O, Q)' }));
+                  else setErrors(e => { const { vin: _, ...rest } = e; return rest; });
+                }}
+                placeholder="Enter 17-character VIN to auto-fill vehicle details"
+                className={`font-mono text-sm tracking-wider ${errors.vin ? 'border-red-400' : ''}`} />
+            </div>
+            <Btn variant="gold" icon={vinDecoding ? RefreshCw : Sparkles} disabled={vinDecoding || !vinInput}
+              onClick={decodeVin} className={vinDecoding ? '[&>svg]:animate-spin' : ''}>
+              {vinDecoding ? 'Decoding…' : 'Decode VIN'}
+            </Btn>
+          </div>
+          {errors.vin && <div className="text-[11px] text-red-600 mt-1.5">{errors.vin}</div>}
+          {vinSummary && (
+            <div className="mt-3 p-3 rounded-md bg-white border border-stone-200 text-[12px] text-stone-700">
+              <div className="flex items-center gap-1.5 mb-1 font-semibold" style={{ color: '#256B40' }}>
+                <Check className="w-3.5 h-3.5" />
+                {vinSummary.count} fields auto-filled
+              </div>
+              <div className="text-stone-500">{vinSummary.fields.join(' · ')}</div>
+            </div>
+          )}
+          <div className="mt-3 text-[10px] smallcaps text-stone-400">Powered by NHTSA Open Data</div>
+        </Card>
+
+        {/* RECALLS BANNER */}
+        {recallsLoading && (
+          <div className="p-3 rounded-md border border-stone-200 bg-white text-sm text-stone-600 flex items-center gap-2">
+            <RefreshCw className="w-3.5 h-3.5 animate-spin" /> Checking NHTSA recalls…
+          </div>
+        )}
+        {!recallsLoading && recallsChecked && recalls.length > 0 && (
+          <div className="p-4 rounded-md border-l-4 bg-amber-50 border border-amber-200" style={{ borderLeftColor: '#D97706' }}>
+            <div className="flex items-start gap-2">
+              <AlertTriangle className="w-4 h-4 mt-0.5 text-amber-700 shrink-0" />
+              <div className="flex-1">
+                <div className="font-semibold text-sm text-amber-900">⚠️ {recalls.length} open recall{recalls.length === 1 ? '' : 's'} found for this vehicle</div>
+                <ul className="mt-2 space-y-1.5 text-[12px] text-amber-900/90">
+                  {recalls.slice(0, 5).map((r, i) => (
+                    <li key={i}><span className="font-mono font-semibold">{r.campaign}</span>{r.summary ? <> — {r.summary}</> : null}</li>
+                  ))}
+                  {recalls.length > 5 && <li className="italic text-amber-700">+{recalls.length - 5} more…</li>}
+                </ul>
+              </div>
+            </div>
+          </div>
+        )}
+        {!recallsLoading && recallsChecked && recalls.length === 0 && (
+          <div className="p-3 rounded-md border border-emerald-200 bg-emerald-50 text-sm flex items-center gap-2 text-emerald-800">
+            <ShieldCheck className="w-4 h-4" /> ✓ No open recalls found
+          </div>
+        )}
+
         {/* VEHICLE INFO */}
         <Card className="p-5">
           <div className="flex items-center gap-2 mb-4">
             <Car className="w-4 h-4 text-stone-500" />
-            <h3 className="font-display text-lg font-medium">Vehicle Info</h3>
+            <h3 className="font-display text-lg font-semibold">Vehicle Info</h3>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
             <Field label="Year" required>
-              <Input type="number" value={form.year} onChange={(e) => set('year', e.target.value)}
-                className={errors.year ? 'border-red-400' : ''} />
-            </Field>
-            <Field label="Make" required>
-              <Select value={form.make} onChange={(e) => set('make', e.target.value)} className={errors.make ? 'border-red-400' : ''}>
-                {MAKES.map(m => <option key={m} value={m}>{m}</option>)}
+              <Select value={form.year} onChange={(e) => set('year', Number(e.target.value))}
+                className={`${errors.year ? 'border-red-400' : ''} ${filledClass('year')}`}>
+                {(() => {
+                  const cy = new Date().getFullYear();
+                  const years = [];
+                  for (let y = cy + 1; y >= 1950; y--) years.push(y);
+                  return years.map(y => <option key={y} value={y}>{y}</option>);
+                })()}
               </Select>
             </Field>
-            <Field label="Model" required>
-              <Input value={form.model} onChange={(e) => set('model', e.target.value)} className={errors.model ? 'border-red-400' : ''} placeholder="e.g. X5" />
+            <Field label="Make" required hint={makesError ? 'NHTSA list unavailable — using free text' : undefined}>
+              {makesError ? (
+                <Input value={form.make} onChange={(e) => set('make', e.target.value)}
+                  className={`${errors.make ? 'border-red-400' : ''} ${filledClass('make')}`} />
+              ) : (
+                <div className={filledClass('make') ? 'rounded-md ring-1 ring-blue-300' : ''}>
+                  <SearchableSelect value={form.make}
+                    onChange={(v) => { set('make', v); set('model', ''); }}
+                    items={allMakes} popular={POPULAR_MAKES}
+                    loading={makesLoading} error={!!errors.make}
+                    placeholder="Select make" allLabel="All Makes" />
+                </div>
+              )}
+            </Field>
+            <Field label="Model" required hint={modelsError ? 'NHTSA models unavailable — using free text' : (modelsLoading ? 'Loading models…' : undefined)}>
+              {modelsError || modelsForMake.length === 0 ? (
+                <Input value={form.model} onChange={(e) => set('model', e.target.value)}
+                  className={`${errors.model ? 'border-red-400' : ''} ${filledClass('model')}`}
+                  placeholder="e.g. X5" />
+              ) : (
+                <div className={filledClass('model') ? 'rounded-md ring-1 ring-blue-300' : ''}>
+                  <SearchableSelect value={form.model} onChange={(v) => set('model', v)}
+                    items={modelsForMake} loading={modelsLoading}
+                    error={!!errors.model} placeholder="Select model" allLabel="Models" />
+                </div>
+              )}
             </Field>
             <Field label="Trim">
-              <Input value={form.trim} onChange={(e) => set('trim', e.target.value)} placeholder="e.g. xDrive40i" />
+              <Input value={form.trim} onChange={(e) => set('trim', e.target.value)}
+                className={filledClass('trim')} placeholder="e.g. xDrive40i" />
             </Field>
             <Field label="Body Style">
-              <Select value={form.bodyStyle} onChange={(e) => set('bodyStyle', e.target.value)}>
+              <Select value={form.bodyStyle} onChange={(e) => set('bodyStyle', e.target.value)}
+                className={filledClass('bodyStyle')}>
                 {BODY_STYLES.map(b => <option key={b} value={b}>{b}</option>)}
               </Select>
             </Field>
@@ -2060,7 +3560,7 @@ function VehicleFormTab({ vehicle, onSave, onCancel }) {
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <DollarSign className="w-4 h-4 text-stone-500" />
-              <h3 className="font-display text-lg font-medium">Pricing</h3>
+              <h3 className="font-display text-lg font-semibold">Pricing</h3>
             </div>
             {margin && (
               <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-stone-50 border border-stone-200">
@@ -2098,9 +3598,9 @@ function VehicleFormTab({ vehicle, onSave, onCancel }) {
         <Card className="p-5">
           <div className="flex items-center gap-2 mb-4">
             <FileText className="w-4 h-4 text-stone-500" />
-            <h3 className="font-display text-lg font-medium">Specifications</h3>
+            <h3 className="font-display text-lg font-semibold">Specifications</h3>
           </div>
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             <Field label="Mileage" required>
               <Input type="number" value={form.mileage} onChange={(e) => set('mileage', e.target.value)} className={errors.mileage ? 'border-red-400' : ''} />
             </Field>
@@ -2115,30 +3615,47 @@ function VehicleFormTab({ vehicle, onSave, onCancel }) {
               </Select>
             </Field>
             <Field label="Engine">
-              <Input value={form.engine} onChange={(e) => set('engine', e.target.value)} placeholder="3.0L Turbo Inline-6" />
+              <Input value={form.engine} onChange={(e) => set('engine', e.target.value)}
+                className={filledClass('engine')} placeholder="3.0L Turbo Inline-6" />
             </Field>
             <Field label="Transmission">
-              <Select value={form.transmission} onChange={(e) => set('transmission', e.target.value)}>
+              <Select value={form.transmission} onChange={(e) => set('transmission', e.target.value)}
+                className={filledClass('transmission')}>
                 {TRANSMISSIONS.map(t => <option key={t} value={t}>{t}</option>)}
               </Select>
             </Field>
             <Field label="Drivetrain">
-              <Select value={form.drivetrain} onChange={(e) => set('drivetrain', e.target.value)}>
+              <Select value={form.drivetrain} onChange={(e) => set('drivetrain', e.target.value)}
+                className={filledClass('drivetrain')}>
                 {DRIVETRAINS.map(d => <option key={d} value={d}>{d}</option>)}
               </Select>
             </Field>
             <Field label="Fuel Type">
-              <Select value={form.fuelType} onChange={(e) => set('fuelType', e.target.value)}>
+              <Select value={form.fuelType} onChange={(e) => set('fuelType', e.target.value)}
+                className={filledClass('fuelType')}>
                 {FUEL_TYPES.map(f => <option key={f} value={f}>{f}</option>)}
               </Select>
             </Field>
             <div className="grid grid-cols-2 gap-2">
-              <Field label="MPG City"><Input type="number" value={form.mpgCity} onChange={(e) => set('mpgCity', e.target.value)} /></Field>
-              <Field label="MPG Hwy"><Input type="number" value={form.mpgHwy} onChange={(e) => set('mpgHwy', e.target.value)} /></Field>
+              <Field label="MPG City" hint={mpgLoading ? 'Fetching…' : (mpgUnavailable ? 'MPG data not available for this vehicle' : undefined)}>
+                <Input type="number" value={form.mpgCity} onChange={(e) => set('mpgCity', e.target.value)}
+                  className={filledClass('mpgCity')} />
+              </Field>
+              <Field label="MPG Hwy" hint={mpgLoading ? 'Fetching…' : undefined}>
+                <Input type="number" value={form.mpgHwy} onChange={(e) => set('mpgHwy', e.target.value)}
+                  className={filledClass('mpgHwy')} />
+              </Field>
             </div>
-            <Field label="VIN" hint={errors.vin || '17 characters'}>
-              <Input value={form.vin} onChange={(e) => set('vin', e.target.value.toUpperCase())} maxLength={17}
-                className={`font-mono text-xs ${errors.vin ? 'border-red-400' : ''}`} />
+            <Field label="VIN" hint={errors.vin || '17 characters · no I, O, Q'}>
+              <Input value={form.vin}
+                onChange={(e) => { const v = e.target.value.toUpperCase(); set('vin', v); setVinInput(v); }}
+                onBlur={() => {
+                  const v = String(form.vin || '').trim();
+                  if (v && !validVin(v)) setErrors(e => ({ ...e, vin: 'VIN must be 17 alphanumeric chars (no I, O, Q)' }));
+                  else setErrors(e => { const { vin: _, ...rest } = e; return rest; });
+                }}
+                maxLength={17}
+                className={`font-mono text-xs ${errors.vin ? 'border-red-400' : ''} ${filledClass('vin')}`} />
             </Field>
             <Field label="Stock Number">
               <Input value={form.stockNumber} onChange={(e) => set('stockNumber', e.target.value)} className="font-mono text-xs" />
@@ -2150,15 +3667,16 @@ function VehicleFormTab({ vehicle, onSave, onCancel }) {
         <Card className="p-5">
           <div className="flex items-center gap-2 mb-4">
             <ShieldCheck className="w-4 h-4 text-stone-500" />
-            <h3 className="font-display text-lg font-medium">Vehicle History</h3>
+            <h3 className="font-display text-lg font-semibold">Vehicle History</h3>
           </div>
           <div className="grid grid-cols-2 lg:grid-cols-3 gap-3">
             {[
               ['noAccidents','No Accidents'], ['oneOwner','1 Owner'], ['cleanTitle','Clean Title'],
               ['serviceRecords','Service Records Available'], ['inspection','150-Point Inspection Passed'],
-              ['carfax','CARFAX Available'], ['warranty','Manufacturer Warranty Remaining']
+              ['carfax','CARFAX Available'], ['warranty','Manufacturer Warranty Remaining'],
+              ['noOpenRecalls','No Open Recalls']
             ].map(([k, label]) => (
-              <label key={k} className="flex items-center gap-2.5 px-3 py-2 rounded-md border border-stone-200 hover:border-stone-300 cursor-pointer">
+              <label key={k} className="flex items-center gap-3 px-4 py-2.5 rounded-md border border-stone-200 hover:border-stone-300 cursor-pointer">
                 <input type="checkbox" checked={!!form.history?.[k]} onChange={(e) => setHist(k, e.target.checked)}
                   className="w-4 h-4 rounded accent-amber-600" />
                 <span className="text-sm">{label}</span>
@@ -2172,7 +3690,7 @@ function VehicleFormTab({ vehicle, onSave, onCancel }) {
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <Edit3 className="w-4 h-4 text-stone-500" />
-              <h3 className="font-display text-lg font-medium">Description</h3>
+              <h3 className="font-display text-lg font-semibold">Description</h3>
             </div>
             <span className={`text-[11px] tabular ${(form.description?.length || 0) > 500 ? 'text-red-600' : 'text-stone-500'}`}>
               {form.description?.length || 0} / 500
@@ -2187,39 +3705,92 @@ function VehicleFormTab({ vehicle, onSave, onCancel }) {
           <div className="flex items-center justify-between mb-4">
             <div className="flex items-center gap-2">
               <ImageIcon className="w-4 h-4 text-stone-500" />
-              <h3 className="font-display text-lg font-medium">Photos</h3>
+              <h3 className="font-display text-lg font-semibold">Photos</h3>
             </div>
-            <span className="text-[10px] smallcaps text-stone-500">First photo = hero image</span>
+            <span className="text-[10px] smallcaps text-stone-500">{photoUrls.length} of 20 photos · First = hero</span>
           </div>
-          <Field label="Photo URLs (comma-separated)" hint="In production: drag-and-drop upload to cloud storage">
-            <Textarea value={photoInput} onChange={(e) => setPhotoInput(e.target.value)} rows={2}
-              placeholder="https://example.com/photo1.jpg, https://example.com/photo2.jpg" />
-          </Field>
+
+          {/* Drag-drop zone */}
+          <button type="button"
+            onClick={() => {
+              const url = window.prompt('Paste image URL (in production: drag photos to upload to Cloudflare R2)');
+              if (url && url.trim()) {
+                setPhotoInput(prev => prev ? prev + ', ' + url.trim() : url.trim());
+              }
+            }}
+            className="w-full rounded-lg p-8 text-center transition hover:bg-stone-50/60"
+            style={{ border: '2px dashed var(--border-strong)', backgroundColor: 'var(--bg-elevated)' }}>
+            <Upload className="w-8 h-8 mx-auto mb-2" style={{ color: 'var(--text-muted)' }} strokeWidth={1.5} />
+            <div className="text-sm font-semibold mb-1">Drag photos here or click to browse</div>
+            <div className="text-[11px]" style={{ color: 'var(--text-muted)' }}>Supports JPG, PNG, HEIC — up to 20 photos per vehicle</div>
+            <div className="text-[10px] smallcaps font-semibold mt-3 inline-flex items-center gap-1" style={{ color: GOLD }}>
+              <Sparkles className="w-3 h-3" /> Cloud photo storage included — unlimited photos
+            </div>
+          </button>
+
+          {/* Thumbnail grid */}
           {photoUrls.length > 0 && (
-            <div className="mt-4 flex gap-2 overflow-x-auto scrollbar-thin pb-2">
+            <div className="mt-4 grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-6 gap-3">
               {photoUrls.map((url, i) => (
-                <div key={i} className="relative shrink-0 w-32">
+                <div key={i} className="relative group">
                   <div className="w-full aspect-[4/3] rounded-md overflow-hidden bg-stone-100 border border-stone-200">
                     <img src={url} alt="" className="w-full h-full object-cover"
                       onError={(e) => { e.currentTarget.parentElement.innerHTML = '<div class="w-full h-full flex items-center justify-center text-xs text-stone-400">Invalid URL</div>'; }} />
                   </div>
-                  {i === 0 && (
-                    <span className="absolute top-1 left-1 text-[9px] font-bold smallcaps px-1.5 py-0.5 rounded text-white"
-                      style={{ backgroundColor: GOLD }}>Hero</span>
+                  {i === 0 ? (
+                    <span className="absolute top-1 left-1 text-[9px] font-bold smallcaps px-1.5 py-0.5 rounded inline-flex items-center gap-0.5"
+                      style={{ backgroundColor: GOLD, color: '#1A1612' }}><Star className="w-2.5 h-2.5" fill="currentColor" /> HERO</span>
+                  ) : (
+                    <button type="button" title="Set as hero" onClick={() => {
+                      const arr = [...photoUrls]; const [moved] = arr.splice(i, 1); arr.unshift(moved);
+                      setPhotoInput(arr.join(', '));
+                    }} className="absolute top-1 left-1 w-6 h-6 bg-white/85 rounded text-stone-600 hover:text-amber-600 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+                      <Star className="w-3 h-3" />
+                    </button>
                   )}
-                  <span className="absolute top-1 right-1 w-5 h-5 bg-white/90 rounded text-[10px] font-bold flex items-center justify-center">{i + 1}</span>
+                  <button type="button" title="Remove" onClick={() => {
+                    const arr = photoUrls.filter((_, j) => j !== i);
+                    setPhotoInput(arr.join(', '));
+                  }} className="absolute top-1 right-1 w-6 h-6 bg-white/85 rounded text-stone-600 hover:text-red-600 opacity-0 group-hover:opacity-100 flex items-center justify-center transition">
+                    <X className="w-3 h-3" />
+                  </button>
+                  <span className="absolute bottom-1 right-1 w-5 h-5 bg-white/90 rounded text-[10px] font-bold flex items-center justify-center text-stone-700">{i + 1}</span>
+                  {i > 0 && (
+                    <button type="button" title="Move left" onClick={() => {
+                      const arr = [...photoUrls]; [arr[i - 1], arr[i]] = [arr[i], arr[i - 1]];
+                      setPhotoInput(arr.join(', '));
+                    }} className="absolute bottom-1 left-1 w-5 h-5 bg-white/90 rounded text-[10px] font-bold flex items-center justify-center text-stone-600 opacity-0 group-hover:opacity-100 transition">
+                      ◀
+                    </button>
+                  )}
                 </div>
               ))}
             </div>
           )}
+
+          {/* URL fallback toggle */}
+          <details className="mt-4">
+            <summary className="text-[11px] smallcaps font-semibold cursor-pointer hover:text-stone-900" style={{ color: 'var(--text-muted)' }}>
+              Or paste image URLs manually
+            </summary>
+            <Textarea value={photoInput} onChange={(e) => setPhotoInput(e.target.value)} rows={2} className="mt-2 text-xs"
+              placeholder="https://example.com/photo1.jpg, https://example.com/photo2.jpg" />
+          </details>
         </Card>
 
         {/* ACTIONS */}
-        <div className="flex items-center justify-end gap-3 sticky bottom-0 bg-stone-50/95 backdrop-blur py-4 -mx-6 px-6 border-t border-stone-200">
-          <Btn variant="ghost" onClick={onCancel}>Cancel</Btn>
-          {!isEdit && <Btn variant="default" icon={Plus} onClick={() => handleSave(true)}>Save & Add Another</Btn>}
-          <Btn variant="gold" icon={Save} onClick={() => handleSave(false)}>
-            {isEdit ? 'Save Changes' : 'Save Vehicle'}
+        <div className="flex items-center justify-end gap-3 sticky bottom-0 bg-stone-50/95 backdrop-blur py-4 -mx-6 px-6 lg:-mx-8 lg:px-8 border-t border-stone-200">
+          {savingEspo && (
+            <span className="text-[11px] text-stone-500 flex items-center gap-1.5 mr-2">
+              <RefreshCw className="w-3 h-3 animate-spin" /> Syncing to EspoCRM…
+            </span>
+          )}
+          <Btn variant="ghost" onClick={onCancel} disabled={savingEspo}>Cancel</Btn>
+          {!isEdit && <Btn variant="default" icon={Plus} disabled={savingEspo} onClick={() => handleSave(true)}>Save & Add Another</Btn>}
+          <Btn variant="gold" icon={savingEspo ? RefreshCw : Save} disabled={savingEspo}
+            onClick={() => handleSave(false)}
+            className={savingEspo ? '[&>svg]:animate-spin' : ''}>
+            {savingEspo ? 'Saving…' : (isEdit ? 'Save Changes' : 'Save Vehicle')}
           </Btn>
         </div>
       </div>
@@ -2259,13 +3830,45 @@ function deriveFollowupLog(lead) {
   return events;
 }
 
-function LeadsTab({ leads, setLeads, inventory, settings, setSettings, onConvertToDeal, flash }) {
+function LeadsTab({ leads, setLeads, inventory, settings, setSettings, onConvertToDeal, flash, messages, setMessages, onCreateTask }) {
+  const [showLicense, setShowLicense] = useState(false);
+  const [activeDetailTab, setActiveDetailTab] = useState('info'); // 'info' | 'messages'
+  const [msgChannel, setMsgChannel] = useState('sms');
+  const [msgDraft, setMsgDraft] = useState('');
   const [search, setSearch] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [filterSource, setFilterSource] = useState('all');
   const [filterDate, setFilterDate] = useState('all');
   const [expanded, setExpanded] = useState(null);
   const [showNotifs, setShowNotifs] = useState(false);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(25);
+  const [bulkAction, setBulkAction] = useState(null);
+  const [selectedLeads, setSelectedLeads] = useState(new Set());
+  const [savedOpen, setSavedOpen] = useState(false);
+  const [showSaveView, setShowSaveView] = useState(false);
+  const savedViews = settings?.savedViews?.leads || [];
+
+  const applyView = (v) => {
+    setSearch(v.filter.search || '');
+    setFilterStatus(v.filter.status || 'all');
+    setFilterSource(v.filter.source || 'all');
+    setSavedOpen(false);
+    flash(`Loaded view: ${v.name}`);
+  };
+  const saveCurrentView = (name) => {
+    if (!name || !name.trim()) return;
+    const view = {
+      id: 'sv-l-' + Date.now(),
+      name: name.trim(),
+      filter: { search, status: filterStatus, source: filterSource }
+    };
+    setSettings(s => ({ ...s, savedViews: { ...(s.savedViews || {}), leads: [...(s.savedViews?.leads || []), view] } }));
+    flash(`Saved view: ${view.name}`);
+  };
+  const deleteView = (id) => {
+    setSettings(s => ({ ...s, savedViews: { ...(s.savedViews || {}), leads: (s.savedViews?.leads || []).filter(v => v.id !== id) } }));
+  };
 
   const filtered = useMemo(() => {
     return leads.filter(l => {
@@ -2286,6 +3889,35 @@ function LeadsTab({ leads, setLeads, inventory, settings, setSettings, onConvert
     }).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
   }, [leads, search, filterStatus, filterSource, filterDate]);
 
+  const paged = useMemo(() => pageSize === Infinity ? filtered : filtered.slice((page - 1) * pageSize, page * pageSize), [filtered, page, pageSize]);
+  useEffect(() => { setPage(1); }, [search, filterStatus, filterSource, filterDate]);
+
+  const allSelected = filtered.length > 0 && filtered.every(l => selectedLeads.has(l.id));
+  const toggleAll = () => {
+    if (allSelected) { const n = new Set(selectedLeads); filtered.forEach(l => n.delete(l.id)); setSelectedLeads(n); }
+    else { const n = new Set(selectedLeads); filtered.forEach(l => n.add(l.id)); setSelectedLeads(n); }
+  };
+  const toggleOne = (id) => { const n = new Set(selectedLeads); n.has(id) ? n.delete(id) : n.add(id); setSelectedLeads(n); };
+  const bulkApply = (action) => {
+    const ids = Array.from(selectedLeads);
+    if (ids.length === 0) return;
+    if (action === 'contacted')   { setLeads(arr => arr.map(l => ids.includes(l.id) ? { ...l, status: 'Contacted' } : l)); flash(`${ids.length} marked Contacted`); }
+    else if (action === 'lost')   { setLeads(arr => arr.map(l => ids.includes(l.id) ? { ...l, status: 'Lost' } : l)); flash(`${ids.length} marked Lost`); }
+    else if (action === 'delete') {
+      const removed = leads.filter(l => ids.includes(l.id));
+      setLeads(arr => arr.filter(l => !ids.includes(l.id)));
+      flash(`${ids.length} lead${ids.length === 1 ? '' : 's'} deleted`, { tone: 'destructive', undo: () => setLeads(arr => [...removed, ...arr]) });
+    }
+    else if (action === 'csv') {
+      const headers = ['name','email','phone','source','vehicleLabel','status','createdAt'];
+      const rows = leads.filter(l => ids.includes(l.id));
+      downloadFile('primo-leads.csv', buildCSV(headers, rows));
+      flash(`Exported ${ids.length} leads to CSV`);
+    }
+    setSelectedLeads(new Set());
+    setBulkAction(null);
+  };
+
   const updateLead = (id, patch) => setLeads(arr => arr.map(l => l.id === id ? { ...l, ...patch } : l));
 
   const expandLead = (id) => {
@@ -2296,10 +3928,10 @@ function LeadsTab({ leads, setLeads, inventory, settings, setSettings, onConvert
   const unread = leads.filter(l => !l.read).length;
 
   return (
-    <div className="p-6 lg:p-8 max-w-[1400px] mx-auto">
+    <div className="p-6 lg:p-8 max-w-[1600px] mx-auto">
       <div className="flex items-end justify-between mb-6">
         <div>
-          <h1 className="font-display text-3xl font-medium tracking-tight">Leads</h1>
+          <h1 className="font-display text-2xl font-semibold tracking-tight">Leads</h1>
           <p className="text-sm text-stone-500 mt-1">
             {filtered.length} of {leads.length} · {unread > 0 && <span className="font-semibold" style={{ color: RED_ACCENT }}>{unread} unread</span>}
             {unread > 0 && <span> · </span>}
@@ -2319,7 +3951,7 @@ function LeadsTab({ leads, setLeads, inventory, settings, setSettings, onConvert
               <Sparkles className="w-4 h-4" style={{ color: '#7A5A0F' }} />
             </div>
             <div className="flex-1">
-              <h3 className="font-display text-lg font-medium">Lead Automation</h3>
+              <h3 className="font-display text-lg font-semibold">Lead Automation</h3>
               <p className="text-xs text-stone-500 mt-1">
                 Powered by AI automation — <span className="font-semibold" style={{ color: GOLD }}>included at no extra cost</span>
               </p>
@@ -2398,9 +4030,9 @@ function LeadsTab({ leads, setLeads, inventory, settings, setSettings, onConvert
       )}
 
       {/* Filters */}
-      <Card className="p-3 mb-4">
-        <div className="flex flex-wrap items-center gap-2">
-          <div className="relative flex-1 min-w-[240px]">
+      <Card className="p-4 mb-4">
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="relative w-full sm:flex-1 sm:min-w-[240px]">
             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" />
             <input value={search} onChange={(e) => setSearch(e.target.value)}
               placeholder="Search name, email, phone, vehicle…"
@@ -2420,8 +4052,50 @@ function LeadsTab({ leads, setLeads, inventory, settings, setSettings, onConvert
             <option value="week">This week</option>
             <option value="month">This month</option>
           </Select>
+          <div className="relative">
+            <button onClick={() => setSavedOpen(o => !o)}
+              className="inline-flex items-center gap-1.5 px-2.5 py-2 text-xs font-semibold rounded-md hover:bg-stone-100 transition"
+              style={{ color: 'var(--text-secondary)', border: '1px solid var(--border-strong)' }}>
+              <Bookmark className="w-3.5 h-3.5" /> Views <ChevronDown className="w-3 h-3" />
+            </button>
+            {savedOpen && (
+              <>
+                <div className="fixed inset-0 z-30" onClick={() => setSavedOpen(false)} />
+                <div className="absolute right-0 top-full mt-1 w-56 rounded-md shadow-lg z-40 py-1 anim-fade"
+                  style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border)' }}>
+                  {savedViews.length === 0 ? (
+                    <div className="px-3 py-3 text-xs text-center" style={{ color: 'var(--text-muted)' }}>No saved views yet</div>
+                  ) : savedViews.map(v => (
+                    <div key={v.id} className="flex items-center group">
+                      <button onClick={() => applyView(v)}
+                        className="flex-1 px-3 py-2 text-left text-xs hover:bg-stone-50 truncate">{v.name}</button>
+                      <button onClick={() => deleteView(v.id)} title="Delete view"
+                        className="p-2 opacity-0 group-hover:opacity-100 text-red-500 hover:text-red-700"><X className="w-3 h-3" /></button>
+                    </div>
+                  ))}
+                  <div className="border-t my-1" style={{ borderColor: 'var(--border)' }} />
+                  <button onClick={() => { setSavedOpen(false); setShowSaveView(true); }}
+                    className="w-full px-3 py-2 text-left text-xs font-semibold flex items-center gap-1.5 hover:bg-stone-50"
+                    style={{ color: 'var(--text-primary)' }}>
+                    <Plus className="w-3 h-3" /> Save current view…
+                  </button>
+                </div>
+              </>
+            )}
+          </div>
         </div>
       </Card>
+
+      {selectedLeads.size > 0 && (
+        <div className="mb-3 p-3 rounded-lg flex items-center gap-2 flex-wrap" style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border)' }}>
+          <span className="text-sm font-semibold mr-2" style={{ color: 'var(--text-primary)' }}>{selectedLeads.size} selected</span>
+          <Btn size="sm" variant="default" onClick={() => bulkApply('contacted')}>Mark Contacted</Btn>
+          <Btn size="sm" variant="default" onClick={() => bulkApply('lost')}>Mark Lost</Btn>
+          <Btn size="sm" variant="default" icon={Download} onClick={() => bulkApply('csv')}>Export CSV</Btn>
+          <Btn size="sm" variant="default" className="bg-red-50 border-red-200 text-red-700 hover:bg-red-100" onClick={() => bulkApply('delete')}>Delete</Btn>
+          <Btn size="sm" variant="ghost" onClick={() => setSelectedLeads(new Set())}>Clear</Btn>
+        </div>
+      )}
 
       {/* Leads table */}
       <Card className="overflow-hidden">
@@ -2429,6 +4103,11 @@ function LeadsTab({ leads, setLeads, inventory, settings, setSettings, onConvert
           <table className="w-full text-sm">
             <thead className="bg-stone-50 border-b border-stone-200 text-[10px] smallcaps font-semibold text-stone-500">
               <tr>
+                <th className="px-4 py-2.5 w-8">
+                  <button onClick={toggleAll} className="flex items-center justify-center">
+                    {allSelected ? <CheckSquare className="w-4 h-4 text-blue-600" /> : <Square className="w-4 h-4 text-stone-400" />}
+                  </button>
+                </th>
                 <th className="px-4 py-2.5 w-6"></th>
                 <th className="px-2 py-2.5 text-left">Name</th>
                 <th className="px-2 py-2.5 text-left">Contact</th>
@@ -2440,11 +4119,20 @@ function LeadsTab({ leads, setLeads, inventory, settings, setSettings, onConvert
             </thead>
             <tbody className="divide-y divide-stone-100">
               {filtered.length === 0 ? (
-                <tr><td colSpan={7} className="text-center text-stone-500 py-12 text-sm">No leads match your filters.</td></tr>
-              ) : filtered.map(l => (
+                <tr><td colSpan={8} className="text-center py-16 px-4">
+                  <Users className="w-10 h-10 mx-auto mb-3 text-stone-300" strokeWidth={1.5} />
+                  <div className="font-display text-lg font-semibold text-stone-900 mb-1">No leads yet</div>
+                  <div className="text-sm text-stone-500 max-w-xs mx-auto">Leads appear here when customers submit forms on your website. Try clearing your filters above.</div>
+                </td></tr>
+              ) : paged.map(l => (
                 <React.Fragment key={l.id}>
                   <tr onClick={() => expandLead(l.id)}
-                    className={`cursor-pointer hover:bg-stone-50 transition ${!l.read ? 'bg-amber-50/30' : ''} ${expanded === l.id ? 'bg-stone-50' : ''}`}>
+                    className={`cursor-pointer hover:bg-stone-50 transition ${!l.read ? 'bg-amber-50/30' : ''} ${expanded === l.id ? 'bg-stone-50' : ''} ${selectedLeads.has(l.id) ? 'bg-amber-50/50' : ''}`}>
+                    <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
+                      <button onClick={() => toggleOne(l.id)} className="flex items-center justify-center">
+                        {selectedLeads.has(l.id) ? <CheckSquare className="w-4 h-4 text-blue-600" /> : <Square className="w-4 h-4 text-stone-400" />}
+                      </button>
+                    </td>
                     <td className="px-4 py-3">
                       {!l.read && <div className="w-2 h-2 rounded-full pulse-dot" style={{ backgroundColor: RED_ACCENT }} />}
                     </td>
@@ -2456,10 +4144,7 @@ function LeadsTab({ leads, setLeads, inventory, settings, setSettings, onConvert
                       <div className="text-[11px] text-stone-500 tabular">{l.phone}</div>
                     </td>
                     <td className="px-2 py-3">
-                      <span className="inline-block px-2 py-0.5 text-[11px] rounded-full font-medium"
-                        style={{ backgroundColor: GOLD_SOFT, color: '#7A5A0F' }}>
-                        {l.source}
-                      </span>
+                      <LeadSourceBadge source={l.source} />
                     </td>
                     <td className="px-2 py-3 text-stone-700">{l.vehicleLabel}</td>
                     <td className="px-2 py-3"><StatusBadge status={l.status} /></td>
@@ -2467,8 +4152,14 @@ function LeadsTab({ leads, setLeads, inventory, settings, setSettings, onConvert
                   </tr>
                   {expanded === l.id && (
                     <tr>
-                      <td colSpan={7} className="bg-stone-50 px-6 py-5 anim-slide">
-                        <div className="grid lg:grid-cols-3 gap-6">
+                      <td colSpan={8} className="bg-stone-50 px-6 py-5 anim-slide">
+                        <div className="md:hidden flex justify-end mb-3">
+                          <button onClick={() => setExpanded(null)}
+                            className="px-3 py-1.5 rounded text-xs font-semibold bg-white border border-stone-300 hover:bg-stone-100">
+                            Close
+                          </button>
+                        </div>
+                        <div className="grid lg:grid-cols-3 gap-6 max-h-[60vh] md:max-h-none overflow-y-auto md:overflow-visible">
                           {/* Detail */}
                           <div className="lg:col-span-2 space-y-5">
                             <div>
@@ -2581,21 +4272,80 @@ function LeadsTab({ leads, setLeads, inventory, settings, setSettings, onConvert
                           <div className="space-y-4">
                             <div>
                               <div className="text-[10px] smallcaps font-semibold text-stone-500 mb-2">Quick Actions</div>
-                              <div className="grid grid-cols-3 gap-2">
-                                <a href={`tel:${l.phone}`} className="flex flex-col items-center gap-1 py-3 px-2 bg-white border border-stone-200 rounded-md hover:border-stone-400 transition">
+                              <div className="flex space-x-2 mb-2">
+                                <a href={`tel:${l.phone}`} className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-2 bg-white border border-stone-200 rounded-md hover:border-stone-400 transition text-xs font-medium">
                                   <Phone className="w-4 h-4 text-stone-700" />
-                                  <span className="text-[11px] font-medium">Call</span>
+                                  <span>Call</span>
                                 </a>
-                                <a href={`sms:${l.phone}`} className="flex flex-col items-center gap-1 py-3 px-2 bg-white border border-stone-200 rounded-md hover:border-stone-400 transition">
+                                <a href={`sms:${l.phone}`} className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-2 bg-white border border-stone-200 rounded-md hover:border-stone-400 transition text-xs font-medium">
                                   <MessageSquare className="w-4 h-4 text-stone-700" />
-                                  <span className="text-[11px] font-medium">Text</span>
+                                  <span>Text</span>
                                 </a>
-                                <a href={`mailto:${l.email}`} className="flex flex-col items-center gap-1 py-3 px-2 bg-white border border-stone-200 rounded-md hover:border-stone-400 transition">
+                                <a href={`mailto:${l.email}`} className="flex-1 inline-flex items-center justify-center gap-1.5 py-2.5 px-2 bg-white border border-stone-200 rounded-md hover:border-stone-400 transition text-xs font-medium">
                                   <Mail className="w-4 h-4 text-stone-700" />
-                                  <span className="text-[11px] font-medium">Email</span>
+                                  <span>Email</span>
                                 </a>
                               </div>
+                              <div className="flex gap-2">
+                                <button onClick={() => setShowLicense(true)}
+                                  className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 px-2 bg-white border border-stone-200 rounded-md hover:border-stone-400 transition text-xs font-medium">
+                                  <Camera className="w-3.5 h-3.5" /> Scan License
+                                </button>
+                                <button onClick={() => onCreateTask && onCreateTask(l)}
+                                  className="flex-1 inline-flex items-center justify-center gap-1.5 py-2 px-2 bg-white border border-stone-200 rounded-md hover:border-stone-400 transition text-xs font-medium">
+                                  <CheckSquare className="w-3.5 h-3.5" /> Follow-Up
+                                </button>
+                              </div>
+                              <button onClick={() => setActiveDetailTab(activeDetailTab === 'messages' ? 'info' : 'messages')}
+                                className={`w-full mt-2 inline-flex items-center justify-center gap-1.5 py-2 px-2 rounded-md transition text-xs font-medium ${activeDetailTab === 'messages' ? 'border-2 border-amber-500 bg-amber-50 text-amber-900' : 'bg-white border border-stone-200 hover:border-stone-400'}`}>
+                                <MessageSquare className="w-3.5 h-3.5" />
+                                {activeDetailTab === 'messages' ? 'Hide Messages' : `Messages (${(messages?.[l.id] || []).length})`}
+                              </button>
                             </div>
+
+                            {expanded === l.id && activeDetailTab === 'messages' && (
+                              <div className="rounded-md p-3 bg-white border-2 border-amber-200">
+                                <div className="text-[10px] smallcaps font-semibold text-stone-500 mb-2">Conversation Thread</div>
+                                <div className="space-y-2 max-h-60 overflow-y-auto mb-3">
+                                  {(messages?.[l.id] || []).length === 0 ? (
+                                    <div className="text-xs text-center text-stone-400 py-4">No messages yet — send the first one below.</div>
+                                  ) : (messages[l.id] || []).map(m => {
+                                    const isOut = m.dir === 'out';
+                                    return (
+                                      <div key={m.id} className={`flex ${isOut ? 'justify-end' : 'justify-start'}`}>
+                                        <div className={`max-w-[80%] rounded-lg px-3 py-2 text-xs`}
+                                          style={{ backgroundColor: isOut ? GOLD_SOFT : '#F5F5F0', color: isOut ? '#1A1612' : '#1C1917' }}>
+                                          <div>{m.text}</div>
+                                          <div className="text-[9px] mt-0.5 opacity-60 flex items-center gap-1.5">
+                                            {m.channel === 'sms' ? <MessageSquare className="w-2.5 h-2.5" /> : <Mail className="w-2.5 h-2.5" />}
+                                            {new Date(m.when).toLocaleString(undefined, { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}
+                                          </div>
+                                        </div>
+                                      </div>
+                                    );
+                                  })}
+                                </div>
+                                <div className="flex gap-1 mb-2">
+                                  <button onClick={() => setMsgChannel('sms')}
+                                    className={`flex-1 px-2 py-1 text-[10px] font-bold rounded ${msgChannel === 'sms' ? 'bg-stone-900 text-white' : 'bg-stone-100 text-stone-600'}`}>SMS</button>
+                                  <button onClick={() => setMsgChannel('email')}
+                                    className={`flex-1 px-2 py-1 text-[10px] font-bold rounded ${msgChannel === 'email' ? 'bg-stone-900 text-white' : 'bg-stone-100 text-stone-600'}`}>EMAIL</button>
+                                </div>
+                                <Textarea rows={2} value={msgDraft} onChange={(e) => setMsgDraft(e.target.value)}
+                                  placeholder={msgChannel === 'sms' ? 'Type SMS…' : 'Type email…'} className="text-xs" />
+                                <Btn variant="gold" size="sm" className="w-full mt-2" icon={Send}
+                                  disabled={!msgDraft.trim()}
+                                  onClick={() => {
+                                    const m = { id: 'm-' + Date.now(), dir: 'out', channel: msgChannel, text: msgDraft.trim(), when: new Date().toISOString() };
+                                    setMessages(prev => ({ ...prev, [l.id]: [...(prev[l.id] || []), m] }));
+                                    setMsgDraft('');
+                                    flash(`${msgChannel === 'sms' ? 'Text' : 'Email'} sent (demo)`);
+                                  }}>
+                                  Send {msgChannel === 'sms' ? 'Text' : 'Email'}
+                                </Btn>
+                                <div className="text-[9px] text-stone-400 mt-1.5 text-center">In production: wired to Twilio (SMS) and Resend (email)</div>
+                              </div>
+                            )}
 
                             <Field label="Update Status">
                               <Select value={l.status} onChange={(e) => updateLead(l.id, { status: e.target.value })}>
@@ -2621,7 +4371,73 @@ function LeadsTab({ leads, setLeads, inventory, settings, setSettings, onConvert
             </tbody>
           </table>
         </div>
+        <Paginator total={filtered.length} page={page} pageSize={pageSize} onPage={setPage} onPageSize={setPageSize} label="lead" />
       </Card>
+
+      <ConfirmDialog
+        isOpen={showSaveView}
+        title="Save current view"
+        message="Give this filter combination a name to load it later."
+        confirmLabel="Save view"
+        confirmColor="dark"
+        inputs={[{ name: 'name', label: 'View name', placeholder: 'e.g., Hot leads this week' }]}
+        onConfirm={(vals) => { saveCurrentView(vals.name); setShowSaveView(false); }}
+        onCancel={() => setShowSaveView(false)} />
+
+      {/* Driver's License Scanner placeholder */}
+      {showLicense && (
+        <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4 anim-fade no-print" onClick={() => setShowLicense(false)}>
+          <div className="rounded-lg shadow-xl max-w-md w-full max-h-[85vh] overflow-y-auto"
+            style={{ backgroundColor: 'var(--bg-card)' }} onClick={e => e.stopPropagation()}>
+            <div className="p-5">
+              <div className="flex items-center gap-2 mb-3">
+                <Camera className="w-5 h-5 text-stone-700" />
+                <h3 className="font-display text-lg font-semibold">Scan Driver's License</h3>
+              </div>
+              {/* Viewfinder placeholder */}
+              <div className="relative aspect-[1.6/1] rounded-md overflow-hidden mb-4"
+                style={{ backgroundColor: '#0F0F0F' }}>
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <Camera className="w-14 h-14 text-stone-600" strokeWidth={1.25} />
+                </div>
+                {/* corner crosshairs */}
+                {[
+                  { top: 12, left: 12, br: ['t','l'] },
+                  { top: 12, right: 12, br: ['t','r'] },
+                  { bottom: 12, left: 12, br: ['b','l'] },
+                  { bottom: 12, right: 12, br: ['b','r'] }
+                ].map((p, i) => (
+                  <div key={i} style={{
+                    position: 'absolute', width: 26, height: 26,
+                    borderTop:    p.br.includes('t') ? `2px solid ${GOLD}` : 'none',
+                    borderBottom: p.br.includes('b') ? `2px solid ${GOLD}` : 'none',
+                    borderLeft:   p.br.includes('l') ? `2px solid ${GOLD}` : 'none',
+                    borderRight:  p.br.includes('r') ? `2px solid ${GOLD}` : 'none',
+                    ...p
+                  }} />
+                ))}
+                <div className="absolute inset-0 flex items-end justify-center pb-3">
+                  <span className="text-[11px] font-semibold smallcaps tracking-wider" style={{ color: GOLD }}>
+                    Position license in frame
+                  </span>
+                </div>
+              </div>
+              <div className="text-sm space-y-1.5 mb-3" style={{ color: 'var(--text-secondary)' }}>
+                <div className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-600" /> Auto-fills name + address</div>
+                <div className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-600" /> Date of birth, license number</div>
+                <div className="flex items-center gap-2"><Check className="w-3.5 h-3.5 text-emerald-600" /> State + expiration</div>
+              </div>
+              <div className="rounded-md p-3 text-[12px]" style={{ backgroundColor: 'var(--bg-elevated)', color: 'var(--text-muted)' }}>
+                <Smartphone className="w-3.5 h-3.5 inline mr-1" />
+                Available on mobile devices — uses your phone's camera. In production: powered by Microblink BlinkID OCR.
+              </div>
+            </div>
+            <div className="px-5 py-3 flex justify-end" style={{ backgroundColor: 'var(--bg-elevated)', borderTop: '1px solid var(--border)' }}>
+              <Btn variant="ghost" onClick={() => setShowLicense(false)}>Close</Btn>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -2631,6 +4447,41 @@ function LeadsTab({ leads, setLeads, inventory, settings, setSettings, onConvert
 function DealsTab({ deals, setDeals, inventory, onMarkSold, flash }) {
   const [expanded, setExpanded] = useState(deals[0]?.id || null);
   const [filter, setFilter] = useState('active');
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(25);
+  const [creditDeal, setCreditDeal] = useState(null);   // deal awaiting credit pre-qual
+  const [creditForm, setCreditForm] = useState({ ssn: '', dob: '', address: '', income: '' });
+  const [creditState, setCreditState] = useState('idle'); // idle | loading | result
+  const [creditResult, setCreditResult] = useState(null);
+
+  const runSoftPull = () => {
+    setCreditState('loading');
+    setTimeout(() => {
+      const result = {
+        approved: true,
+        tier: 'Tier 1 — Excellent',
+        apr: 4.9,
+        maxAmount: 45000,
+        lender: 'Capital One Auto Finance'
+      };
+      setCreditResult(result);
+      setCreditState('result');
+    }, 2000);
+  };
+  const applyCreditResult = () => {
+    if (creditResult && creditDeal) {
+      setDeals(arr => arr.map(d => d.id === creditDeal.id ? { ...d, apr: creditResult.apr, lender: creditResult.lender, preApproved: true } : d));
+      flash(`Pre-approved at ${creditResult.apr}% — APR auto-filled`);
+    }
+    closeCredit();
+  };
+  const openCredit = (deal) => {
+    setCreditDeal(deal);
+    setCreditForm({ ssn: '', dob: '', address: '', income: '' });
+    setCreditState('idle');
+    setCreditResult(null);
+  };
+  const closeCredit = () => { setCreditDeal(null); setCreditState('idle'); setCreditResult(null); };
 
   const fniStats = useMemo(() => {
     const all = SEED_FNI_HISTORY.concat(deals.filter(d => d.fniProducts).map(d => ({
@@ -2656,13 +4507,16 @@ function DealsTab({ deals, setDeals, inventory, onMarkSold, flash }) {
     return deals;
   }, [deals, filter]);
 
+  const paged = useMemo(() => pageSize === Infinity ? filtered : filtered.slice((page - 1) * pageSize, page * pageSize), [filtered, page, pageSize]);
+  useEffect(() => { setPage(1); }, [filter]);
+
   const updateDeal = (id, patch) => setDeals(arr => arr.map(d => d.id === id ? { ...d, ...patch } : d));
 
   return (
-    <div className="p-6 lg:p-8 max-w-[1400px] mx-auto">
+    <div className="p-6 lg:p-8 max-w-[1600px] mx-auto">
       <div className="flex items-end justify-between mb-6">
         <div>
-          <h1 className="font-display text-3xl font-medium tracking-tight">Deal Builder</h1>
+          <h1 className="font-display text-2xl font-semibold tracking-tight">Deal Builder</h1>
           <p className="text-sm text-stone-500 mt-1">
             Full desking tool — built into your dealership platform.
           </p>
@@ -2723,7 +4577,7 @@ function DealsTab({ deals, setDeals, inventory, onMarkSold, flash }) {
       {filtered.length === 0 ? (
         <Card className="p-12 text-center">
           <Calculator className="w-10 h-10 mx-auto text-stone-300 mb-3" strokeWidth={1.25} />
-          <h3 className="font-display text-lg font-medium mb-1">No deals here yet</h3>
+          <h3 className="font-display text-lg font-semibold mb-1">No deals here yet</h3>
           <p className="text-sm text-stone-500 max-w-sm mx-auto">
             Customers who use "Build Your Deal" on your website appear here.
             You can also convert any lead into a deal from the Leads tab.
@@ -2731,7 +4585,7 @@ function DealsTab({ deals, setDeals, inventory, onMarkSold, flash }) {
         </Card>
       ) : (
         <div className="space-y-4">
-          {filtered.map(deal => {
+          {paged.map(deal => {
             const fees = (deal.fees?.docFee || 0) + (deal.fees?.tagTitle || 0) + (deal.fees?.dealerPrep || 0);
             const fniRev = FNI_PRODUCT_CATALOG.reduce((s, p) => s + (deal.fniProducts?.[p.key] ? p.price : 0), 0);
             const financed = Math.max(0, dealFinanced(deal) + fniRev);
@@ -2775,7 +4629,7 @@ function DealsTab({ deals, setDeals, inventory, onMarkSold, flash }) {
                       {/* Worksheet */}
                       <div className="lg:col-span-2 p-6 space-y-5">
                         <div className="flex items-center justify-between">
-                          <h3 className="font-display text-lg font-medium">Deal Worksheet</h3>
+                          <h3 className="font-display text-lg font-semibold">Deal Worksheet</h3>
                           <Btn size="sm" variant="default" icon={Printer}
                             onClick={() => { window.print(); flash('Print dialog opened'); }}>
                             Print Sheet
@@ -2885,6 +4739,16 @@ function DealsTab({ deals, setDeals, inventory, onMarkSold, flash }) {
                               </div>
                             </Field>
                           </div>
+                          <div className="mt-3 flex items-center justify-between gap-2 flex-wrap">
+                            <div className="text-[11px]" style={{ color: 'var(--text-muted)' }}>
+                              {deal.preApproved
+                                ? <span className="text-emerald-700 font-semibold">✓ Pre-approved · {deal.lender}</span>
+                                : 'Run a soft credit inquiry — no impact to score'}
+                            </div>
+                            <Btn size="sm" variant="outlineGold" icon={ShieldCheck} onClick={() => openCredit(deal)}>
+                              Run Soft Pull
+                            </Btn>
+                          </div>
                         </div>
 
                         {/* F&I Products */}
@@ -2939,7 +4803,7 @@ function DealsTab({ deals, setDeals, inventory, onMarkSold, flash }) {
                       </div>
 
                       {/* Right rail: summary + actions */}
-                      <div className="bg-stone-900 text-white p-6 lg:rounded-bl-lg">
+                      <div className="bg-stone-900 text-white p-6 lg:rounded-bl-lg lg:sticky lg:top-16 lg:self-start">
                         <div className="text-[10px] smallcaps font-semibold mb-4" style={{ color: GOLD }}>Deal Summary</div>
 
                         <div className="space-y-3 mb-5 text-sm">
@@ -2996,6 +4860,90 @@ function DealsTab({ deals, setDeals, inventory, onMarkSold, flash }) {
               </Card>
             );
           })}
+          <Card><Paginator total={filtered.length} page={page} pageSize={pageSize} onPage={setPage} onPageSize={setPageSize} label="deal" /></Card>
+        </div>
+      )}
+
+      {/* Credit Pre-Qualification modal */}
+      {creditDeal && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-start justify-center p-4 pt-16 anim-fade no-print" onClick={closeCredit}>
+          <div className="rounded-lg shadow-xl max-w-md w-full max-h-[85vh] overflow-y-auto"
+            style={{ backgroundColor: 'var(--bg-card)' }} onClick={e => e.stopPropagation()}>
+            <div className="p-5">
+              <div className="flex items-center gap-2 mb-1">
+                <ShieldCheck className="w-5 h-5" style={{ color: GOLD }} />
+                <h3 className="font-display text-lg font-semibold">Credit Pre-Qualification</h3>
+              </div>
+              <p className="text-xs mb-4" style={{ color: 'var(--text-muted)' }}>
+                Soft inquiry — <strong>no impact to credit score</strong>.
+              </p>
+              {creditState === 'idle' && (
+                <>
+                  <Field label="Customer">
+                    <Input value={creditDeal.customerName || 'Customer'} readOnly className="bg-stone-50" />
+                  </Field>
+                  <Field label="SSN" className="mt-3">
+                    <Input value={creditForm.ssn} maxLength={11}
+                      onChange={(e) => {
+                        let v = e.target.value.replace(/\D/g, '').slice(0, 9);
+                        if (v.length > 5) v = v.slice(0, 3) + '-' + v.slice(3, 5) + '-' + v.slice(5);
+                        else if (v.length > 3) v = v.slice(0, 3) + '-' + v.slice(3);
+                        setCreditForm(f => ({ ...f, ssn: v }));
+                      }}
+                      placeholder="●●●-●●-●●●●" className="font-mono" />
+                  </Field>
+                  <Field label="Date of Birth" className="mt-3">
+                    <Input type="date" value={creditForm.dob} onChange={(e) => setCreditForm(f => ({ ...f, dob: e.target.value }))} />
+                  </Field>
+                  <Field label="Address" className="mt-3">
+                    <Input value={creditForm.address} onChange={(e) => setCreditForm(f => ({ ...f, address: e.target.value }))}
+                      placeholder="123 Main St, Miami, FL 33101" />
+                  </Field>
+                  <Field label="Monthly Income ($)" className="mt-3">
+                    <Input type="number" value={creditForm.income} onChange={(e) => setCreditForm(f => ({ ...f, income: e.target.value }))} placeholder="6500" />
+                  </Field>
+                </>
+              )}
+              {creditState === 'loading' && (
+                <div className="py-12 text-center">
+                  <RefreshCw className="w-10 h-10 mx-auto animate-spin" style={{ color: GOLD }} />
+                  <div className="text-sm mt-3" style={{ color: 'var(--text-muted)' }}>Pulling credit profile…</div>
+                </div>
+              )}
+              {creditState === 'result' && creditResult && (
+                <div className="space-y-3">
+                  <div className="rounded-md p-4" style={{ backgroundColor: '#D1FAE5', border: '1px solid #10B981' }}>
+                    <div className="text-2xl font-display font-bold text-emerald-800 mb-1">✓ PRE-APPROVED</div>
+                    <div className="text-xs text-emerald-700">{creditResult.lender}</div>
+                  </div>
+                  <div className="grid grid-cols-3 gap-3 text-sm">
+                    <div><div className="text-[10px] smallcaps font-semibold" style={{ color: 'var(--text-muted)' }}>Tier</div><div className="font-semibold">{creditResult.tier.split(' — ')[0]}</div></div>
+                    <div><div className="text-[10px] smallcaps font-semibold" style={{ color: 'var(--text-muted)' }}>APR</div><div className="font-semibold tabular" style={{ color: GOLD }}>{creditResult.apr}%</div></div>
+                    <div><div className="text-[10px] smallcaps font-semibold" style={{ color: 'var(--text-muted)' }}>Max Approved</div><div className="font-semibold tabular">${creditResult.maxAmount.toLocaleString()}</div></div>
+                  </div>
+                  <p className="text-[10px] mt-3" style={{ color: 'var(--text-muted)' }}>
+                    In production, connected to <strong>700Credit / RouteOne</strong> for real-time lender decisions.
+                  </p>
+                </div>
+              )}
+            </div>
+            <div className="px-5 py-3 flex justify-end gap-2"
+              style={{ backgroundColor: 'var(--bg-elevated)', borderTop: '1px solid var(--border)' }}>
+              {creditState === 'idle' && (
+                <>
+                  <Btn variant="ghost" onClick={closeCredit}>Cancel</Btn>
+                  <Btn variant="gold" icon={ShieldCheck} onClick={runSoftPull}>Check Rate</Btn>
+                </>
+              )}
+              {creditState === 'loading' && <Btn variant="ghost" disabled>Working…</Btn>}
+              {creditState === 'result' && (
+                <>
+                  <Btn variant="ghost" onClick={closeCredit}>Close</Btn>
+                  <Btn variant="gold" icon={Check} onClick={applyCreditResult}>Apply to Deal</Btn>
+                </>
+              )}
+            </div>
+          </div>
         </div>
       )}
     </div>
@@ -3007,6 +4955,10 @@ function DealsTab({ deals, setDeals, inventory, onMarkSold, flash }) {
 function SoldTab({ sold, setSold, onRestore, flash }) {
   const [reviewModal, setReviewModal] = useState(null);
   const [reviewMethod, setReviewMethod] = useState('email');
+  const [confirmRestore, setConfirmRestore] = useState(null);
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(25);
+  const [selectedSold, setSelectedSold] = useState(new Set());
 
   const stats = useMemo(() => {
     const m = TODAY.getMonth(), y = TODAY.getFullYear();
@@ -3032,9 +4984,9 @@ function SoldTab({ sold, setSold, onRestore, flash }) {
   };
 
   return (
-    <div className="p-6 lg:p-8 max-w-[1400px] mx-auto">
+    <div className="p-6 lg:p-8 max-w-[1600px] mx-auto">
       <div className="mb-6">
-        <h1 className="font-display text-3xl font-medium tracking-tight">Sold Vehicles</h1>
+        <h1 className="font-display text-2xl font-semibold tracking-tight">Sold Vehicles</h1>
         <p className="text-sm text-stone-500 mt-1">Archive of delivered units with profit reporting and review tracking.</p>
       </div>
 
@@ -3074,10 +5026,38 @@ function SoldTab({ sold, setSold, onRestore, flash }) {
 
       {/* Sold table */}
       <Card className="overflow-hidden">
+        {selectedSold.size > 0 && (
+          <div className="px-4 py-3 flex items-center gap-2 flex-wrap border-b" style={{ borderColor: 'var(--border)', backgroundColor: 'var(--bg-elevated)' }}>
+            <span className="text-sm font-semibold mr-2">{selectedSold.size} selected</span>
+            <Btn size="sm" variant="outlineGold" icon={Star}
+              onClick={() => { selectedSold.forEach(id => { const s = sold.find(x => x.id === id); if (s) setReviewModal(s); }); flash(`Review requests sent to ${selectedSold.size}`); setSelectedSold(new Set()); }}>
+              Request Reviews
+            </Btn>
+            <Btn size="sm" variant="default" icon={Download}
+              onClick={() => {
+                const headers = ['year','make','model','trim','saleDate','salePrice','cost','buyerName'];
+                const rows = sold.filter(s => selectedSold.has(s.id));
+                downloadFile('primo-sold.csv', buildCSV(headers, rows));
+                flash(`Exported ${selectedSold.size} sold vehicles`);
+                setSelectedSold(new Set());
+              }}>Export CSV</Btn>
+            <Btn size="sm" variant="ghost" onClick={() => setSelectedSold(new Set())}>Clear</Btn>
+          </div>
+        )}
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-stone-50 border-b border-stone-200 text-[10px] smallcaps font-semibold text-stone-500">
               <tr>
+                <th className="px-4 py-2.5 w-8">
+                  <button onClick={() => {
+                    if (sold.every(s => selectedSold.has(s.id))) setSelectedSold(new Set());
+                    else setSelectedSold(new Set(sold.map(s => s.id)));
+                  }} className="flex items-center justify-center">
+                    {sold.length > 0 && sold.every(s => selectedSold.has(s.id))
+                      ? <CheckSquare className="w-4 h-4 text-blue-600" />
+                      : <Square className="w-4 h-4 text-stone-400" />}
+                  </button>
+                </th>
                 <th className="px-4 py-2.5 text-left">Vehicle</th>
                 <th className="px-3 py-2.5 text-left">Sale Date</th>
                 <th className="px-3 py-2.5 text-right">Listed</th>
@@ -3092,13 +5072,23 @@ function SoldTab({ sold, setSold, onRestore, flash }) {
             </thead>
             <tbody className="divide-y divide-stone-100">
               {sold.length === 0 ? (
-                <tr><td colSpan={10} className="text-center py-12 text-stone-500 text-sm">No sold vehicles yet.</td></tr>
-              ) : sold.map(s => {
+                <tr><td colSpan={11} className="text-center py-16 px-4">
+                  <Archive className="w-10 h-10 mx-auto mb-3 text-stone-300" strokeWidth={1.5} />
+                  <div className="font-display text-lg font-semibold text-stone-900 mb-1">No sold vehicles</div>
+                  <div className="text-sm text-stone-500 max-w-xs mx-auto">Vehicles you mark as sold from inventory will appear here with full sale history.</div>
+                </td></tr>
+              ) : (pageSize === Infinity ? sold : sold.slice((page - 1) * pageSize, page * pageSize)).map(s => {
                 const gross = s.salePrice - s.cost;
                 const grossPct = (gross / s.salePrice) * 100;
                 const r = s.review || { status: 'not-sent' };
                 return (
-                  <tr key={s.id} className="hover:bg-stone-50">
+                  <tr key={s.id} className={`hover:bg-stone-50 ${selectedSold.has(s.id) ? 'bg-amber-50/50' : ''}`}>
+                    <td className="px-4 py-3">
+                      <button onClick={() => { const n = new Set(selectedSold); n.has(s.id) ? n.delete(s.id) : n.add(s.id); setSelectedSold(n); }}
+                        className="flex items-center justify-center">
+                        {selectedSold.has(s.id) ? <CheckSquare className="w-4 h-4 text-blue-600" /> : <Square className="w-4 h-4 text-stone-400" />}
+                      </button>
+                    </td>
                     <td className="px-4 py-3">
                       <div className="font-medium">{s.year} {s.make} {s.model}</div>
                       <div className="text-[11px] text-stone-500">{s.trim}</div>
@@ -3138,7 +5128,7 @@ function SoldTab({ sold, setSold, onRestore, flash }) {
                             Request Review
                           </Btn>
                         )}
-                        <Btn size="sm" variant="ghost" icon={RefreshCw} onClick={() => onRestore(s.id)}>
+                        <Btn size="sm" variant="ghost" icon={RefreshCw} onClick={() => setConfirmRestore(s)}>
                           Restore
                         </Btn>
                       </div>
@@ -3149,12 +5139,13 @@ function SoldTab({ sold, setSold, onRestore, flash }) {
             </tbody>
           </table>
         </div>
+        <Paginator total={sold.length} page={page} pageSize={pageSize} onPage={setPage} onPageSize={setPageSize} label="sold vehicle" />
       </Card>
 
       {/* Review request modal */}
       {reviewModal && (
         <div className="fixed inset-0 z-40 bg-stone-900/40 flex items-center justify-center p-4 anim-slide">
-          <div className="bg-white rounded-lg max-w-md w-full p-6">
+          <div className="bg-white rounded-lg max-w-md w-full p-6 max-h-[85vh] overflow-y-auto">
             <div className="flex items-start gap-3 mb-4">
               <div className="w-10 h-10 rounded-md flex items-center justify-center" style={{ backgroundColor: GOLD_SOFT }}>
                 <Star className="w-4 h-4" style={{ color: '#7A5A0F' }} fill={GOLD} />
@@ -3191,6 +5182,15 @@ function SoldTab({ sold, setSold, onRestore, flash }) {
           </div>
         </div>
       )}
+
+      <ConfirmDialog
+        isOpen={!!confirmRestore}
+        title={confirmRestore ? `Restore ${confirmRestore.year} ${confirmRestore.make} ${confirmRestore.model}?` : ''}
+        message="This moves the vehicle back to active inventory. The original sale record will be removed."
+        confirmLabel="Restore"
+        confirmColor="dark"
+        onConfirm={() => { onRestore(confirmRestore.id); setConfirmRestore(null); }}
+        onCancel={() => setConfirmRestore(null)} />
     </div>
   );
 }
@@ -3285,9 +5285,9 @@ function MarketingTab({ inventory, setInventory, settings, setSettings, sold, re
   const pendingReviews = sold.filter(s => s.review?.status === 'sent').length;
 
   return (
-    <div className="p-6 lg:p-8 max-w-[1400px] mx-auto space-y-6">
+    <div className="p-6 lg:p-8 max-w-[1600px] mx-auto space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-medium tracking-tight">Marketing</h1>
+        <h1 className="font-display text-2xl font-semibold tracking-tight">Marketing</h1>
         <p className="text-sm text-stone-500 mt-1">Distribute your inventory everywhere — and reel customers back.</p>
       </div>
 
@@ -3379,6 +5379,51 @@ function MarketingTab({ inventory, setInventory, settings, setSettings, sold, re
         </div>
         <p className="text-sm text-stone-500 mb-5">Reviews drive 89% of luxury car shoppers. Automate the ask, then respond fast.</p>
 
+        {/* Google Reviews Connection */}
+        <div className="mb-6 p-4 rounded-md border border-stone-200 bg-stone-50">
+          <div className="flex items-start justify-between gap-2 mb-3">
+            <div>
+              <div className="text-[11px] smallcaps font-semibold text-stone-600 mb-0.5">Google Reviews Connection</div>
+              <div className="text-[12px] text-stone-500">Pull live reviews from your Google Business Profile.</div>
+            </div>
+            {settings.marketing?.googlePlaceId && settings.marketing?.googleApiKey ? (
+              <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold"
+                style={{ backgroundColor: '#E8F2EC', color: '#256B40' }}>
+                <Check className="w-3 h-3" /> Connected
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-stone-200 text-stone-600">
+                Not Connected
+              </span>
+            )}
+          </div>
+          <div className="grid sm:grid-cols-2 gap-3">
+            <Field label="Google Place ID"
+              hint={<>Find at <a className="underline hover:text-stone-900" target="_blank" rel="noopener noreferrer"
+                href="https://developers.google.com/maps/documentation/places/web-service/place-id">developers.google.com/maps/documentation/places/web-service/place-id</a></>}>
+              <Input value={settings.marketing?.googlePlaceId || ''}
+                onChange={(e) => setSettings(s => ({ ...s, marketing: { ...s.marketing, googlePlaceId: e.target.value } }))}
+                placeholder="ChIJ…" className="font-mono text-xs" />
+            </Field>
+            <Field label="Google Places API Key" hint="Stored locally — used server-side in production">
+              <Input type="password" value={settings.marketing?.googleApiKey || ''}
+                onChange={(e) => setSettings(s => ({ ...s, marketing: { ...s.marketing, googleApiKey: e.target.value } }))}
+                placeholder="AIza…" className="font-mono text-xs" />
+            </Field>
+          </div>
+          <div className="flex items-center justify-between gap-2 mt-3">
+            <div className="text-[11px] text-stone-500">
+              <AlertCircle className="w-3 h-3 inline -mt-0.5 mr-1" />
+              Google Places blocks browser CORS — in production, reviews are fetched server-side via API route.
+            </div>
+            <Btn size="sm" variant="outlineGold"
+              disabled={!settings.marketing?.googlePlaceId || !settings.marketing?.googleApiKey}
+              onClick={() => flash('Google Reviews configured — server-side integration included in setup', 'success')}>
+              Connect Google Reviews
+            </Btn>
+          </div>
+        </div>
+
         {/* Hero rating */}
         <div className="grid md:grid-cols-2 gap-4 mb-6">
           <div className="p-5 rounded-lg relative overflow-hidden"
@@ -3465,7 +5510,7 @@ function MarketingTab({ inventory, setInventory, settings, setSettings, sold, re
                 <p className="text-[13px] text-stone-700 leading-relaxed mb-2">{r.text}</p>
 
                 {r.response && respondingTo !== r.id && (
-                  <div className="mt-3 pl-4 border-l-2 rounded-l-sm bg-stone-50 p-3 text-[12px] text-stone-700"
+                  <div className="mt-3 border-t border-stone-100 pt-3 pl-4 border-l-2 rounded-l-sm bg-stone-50 p-3 text-[12px] text-stone-700"
                     style={{ borderColor: GOLD }}>
                     <div className="text-[10px] smallcaps font-semibold mb-1" style={{ color: '#7A5A0F' }}>Owner response</div>
                     {r.response}
@@ -3473,7 +5518,7 @@ function MarketingTab({ inventory, setInventory, settings, setSettings, sold, re
                 )}
 
                 {respondingTo === r.id && (
-                  <div className="mt-3 anim-slide">
+                  <div className="mt-3 border-t border-stone-100 pt-3 anim-slide">
                     <Textarea rows={3} value={responseText}
                       onChange={(e) => setResponseText(e.target.value)}
                       placeholder="Thanks for the kind words…" />
@@ -3545,6 +5590,14 @@ function MarketingTab({ inventory, setInventory, settings, setSettings, sold, re
 /* ====================== SETTINGS TAB ============================= */
 
 function SettingsTab({ settings, setSettings, flash }) {
+  const [savedPulse, setSavedPulse] = useState(false);
+  const isInitialRef = useRef(true);
+  useEffect(() => {
+    if (isInitialRef.current) { isInitialRef.current = false; return; }
+    setSavedPulse(true);
+    const t = setTimeout(() => setSavedPulse(false), 1400);
+    return () => clearTimeout(t);
+  }, [settings]);
   const set = (path, value) => {
     setSettings(s => {
       const next = JSON.parse(JSON.stringify(s));
@@ -3559,9 +5612,9 @@ function SettingsTab({ settings, setSettings, flash }) {
   const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 
   return (
-    <div className="p-6 lg:p-8 max-w-5xl mx-auto space-y-6">
+    <div className="p-6 lg:p-8 max-w-6xl mx-auto space-y-6">
       <div>
-        <h1 className="font-display text-3xl font-medium tracking-tight">Settings</h1>
+        <h1 className="font-display text-2xl font-semibold tracking-tight">Settings</h1>
         <p className="text-sm text-stone-500 mt-1">Configure your dealership profile, notifications, and integrations.</p>
       </div>
 
@@ -3571,7 +5624,7 @@ function SettingsTab({ settings, setSettings, flash }) {
           <MapPin className="w-4 h-4 text-stone-500" />
           <h2 className="font-display text-xl font-medium">Dealership Info</h2>
         </div>
-        <div className="grid md:grid-cols-2 gap-4">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
           <Field label="Dealership Name"><Input value={settings.dealership.name} onChange={(e) => set('dealership.name', e.target.value)} /></Field>
           <Field label="Logo URL"><Input value={settings.dealership.logoUrl || ''} onChange={(e) => set('dealership.logoUrl', e.target.value)} placeholder="https://..." /></Field>
           <Field label="Street Address" className="md:col-span-2"><Input value={settings.dealership.address} onChange={(e) => set('dealership.address', e.target.value)} /></Field>
@@ -3587,16 +5640,16 @@ function SettingsTab({ settings, setSettings, flash }) {
 
         <div className="mt-5">
           <div className="text-[10px] smallcaps font-semibold text-stone-500 mb-3">Hours of Operation</div>
-          <div className="space-y-1.5">
+          <div className="space-y-2.5 divide-y divide-stone-100">
             {days.map(d => (
-              <div key={d} className="flex items-center gap-3">
+              <div key={d} className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-3 flex-wrap pt-2.5">
                 <div className="w-12 text-sm font-semibold smallcaps text-stone-600">{d}</div>
                 <Toggle checked={!settings.dealership.hours[d].closed}
                   onChange={(v) => set(`dealership.hours.${d}.closed`, !v)} />
                 {settings.dealership.hours[d].closed ? (
                   <span className="text-xs text-stone-400 italic">Closed</span>
                 ) : (
-                  <>
+                  <div className="flex items-center gap-2 flex-wrap">
                     <input type="time" value={settings.dealership.hours[d].open}
                       onChange={(e) => set(`dealership.hours.${d}.open`, e.target.value)}
                       className="px-2 py-1 border border-stone-200 rounded text-sm tabular ring-gold" />
@@ -3604,7 +5657,7 @@ function SettingsTab({ settings, setSettings, flash }) {
                     <input type="time" value={settings.dealership.hours[d].close}
                       onChange={(e) => set(`dealership.hours.${d}.close`, e.target.value)}
                       className="px-2 py-1 border border-stone-200 rounded text-sm tabular ring-gold" />
-                  </>
+                  </div>
                 )}
               </div>
             ))}
@@ -3808,8 +5861,44 @@ function SettingsTab({ settings, setSettings, flash }) {
         </div>
       </Card>
 
-      <div className="flex justify-end gap-2 pt-2">
-        <Btn variant="gold" icon={Save} onClick={() => flash('All settings saved')}>Save Settings</Btn>
+      {/* Locations */}
+      <Card className="p-5">
+        <div className="flex items-center gap-2 mb-4">
+          <MapPin className="w-4 h-4 text-stone-500" />
+          <h3 className="font-display text-lg font-semibold">Locations</h3>
+        </div>
+        <div className="rounded-md p-4 mb-3" style={{ border: '1px solid var(--border)', backgroundColor: 'var(--bg-elevated)' }}>
+          <div className="flex items-start justify-between gap-3 flex-wrap">
+            <div>
+              <div className="font-semibold">Primo Auto Group — Main Lot</div>
+              <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>123 Biscayne Blvd, Miami, FL 33132</div>
+              <div className="text-sm tabular" style={{ color: 'var(--text-secondary)' }}>(305) 555-0199</div>
+            </div>
+            <span className="inline-block px-2 py-0.5 text-[10px] font-semibold rounded-full smallcaps"
+              style={{ backgroundColor: '#D1FAE5', color: '#065F46' }}>Active</span>
+          </div>
+        </div>
+        <button disabled
+          className="w-full p-4 rounded-md flex items-center gap-3 cursor-not-allowed opacity-70"
+          style={{ border: '2px dashed var(--border-strong)', backgroundColor: 'var(--bg-card)' }}>
+          <Shield className="w-4 h-4 text-stone-400" />
+          <div className="flex-1 text-left">
+            <div className="text-sm font-semibold flex items-center gap-2">
+              <Plus className="w-3 h-3" /> Add Location
+              <span className="text-[10px] uppercase font-bold tracking-wider px-2 py-0.5 rounded" style={{ backgroundColor: GOLD_SOFT, color: '#7A5A0F' }}>Growth</span>
+            </div>
+            <div className="text-[11px] mt-0.5" style={{ color: 'var(--text-muted)' }}>
+              Multi-location management available on Growth plan ($349/mo)
+            </div>
+          </div>
+        </button>
+      </Card>
+
+      <div className={`flex justify-end items-center gap-2 pt-2 px-3 py-2 rounded-md transition ${savedPulse ? 'saved-pulse' : ''}`}>
+        <Check className={`w-4 h-4 ${savedPulse ? 'text-emerald-600' : 'text-stone-400'}`} strokeWidth={2.5} />
+        <span className={`text-sm font-medium ${savedPulse ? 'text-emerald-700' : 'text-stone-500'}`}>
+          {savedPulse ? 'Saved' : 'All changes saved automatically'}
+        </span>
       </div>
     </div>
   );
@@ -3824,6 +5913,10 @@ function AppointmentsTab({ appointments, setAppointments, flash }) {
   const [reschedFor, setReschedFor] = useState(null);
   const [reschedDate, setReschedDate] = useState('');
   const [reschedTime, setReschedTime] = useState('');
+  const [confirmTransition, setConfirmTransition] = useState(null); // { id, target, label }
+  const [page, setPage] = useState(1);
+  const [pageSize, setPageSize] = useState(25);
+  const [selectedAppts, setSelectedAppts] = useState(new Set());
 
   const filtered = useMemo(() => {
     return appointments.filter(a => {
@@ -3836,6 +5929,27 @@ function AppointmentsTab({ appointments, setAppointments, flash }) {
       return true;
     }).sort((a, b) => new Date(a.when) - new Date(b.when));
   }, [appointments, filter, search]);
+
+  const paged = useMemo(() => pageSize === Infinity ? filtered : filtered.slice((page - 1) * pageSize, page * pageSize), [filtered, page, pageSize]);
+  useEffect(() => { setPage(1); }, [filter, search]);
+  const allApptsSelected = filtered.length > 0 && filtered.every(a => selectedAppts.has(a.id));
+  const toggleAllAppts = () => {
+    if (allApptsSelected) { const n = new Set(selectedAppts); filtered.forEach(a => n.delete(a.id)); setSelectedAppts(n); }
+    else { const n = new Set(selectedAppts); filtered.forEach(a => n.add(a.id)); setSelectedAppts(n); }
+  };
+  const toggleOneAppt = (id) => { const n = new Set(selectedAppts); n.has(id) ? n.delete(id) : n.add(id); setSelectedAppts(n); };
+  const bulkApplyAppts = (action) => {
+    const ids = Array.from(selectedAppts);
+    if (ids.length === 0) return;
+    if (action === 'confirm')      { setAppointments(arr => arr.map(a => ids.includes(a.id) ? { ...a, status: 'Confirmed' } : a)); flash(`${ids.length} confirmed`); }
+    else if (action === 'cancel')  { setAppointments(arr => arr.map(a => ids.includes(a.id) ? { ...a, status: 'Cancelled' } : a)); flash(`${ids.length} cancelled`); }
+    else if (action === 'csv') {
+      const headers = ['customerName','phone','email','vehicleYear','vehicleMake','vehicleModel','serviceType','when','status','estimate','advisor'];
+      downloadFile('primo-appointments.csv', buildCSV(headers, appointments.filter(a => ids.includes(a.id))));
+      flash(`Exported ${ids.length} appointments`);
+    }
+    setSelectedAppts(new Set());
+  };
 
   const stats = useMemo(() => {
     const today = new Date(TODAY);
@@ -3898,10 +6012,10 @@ function AppointmentsTab({ appointments, setAppointments, flash }) {
   };
 
   return (
-    <div className="p-6 lg:p-8 max-w-[1400px] mx-auto">
+    <div className="p-6 lg:p-8 max-w-[1600px] mx-auto">
       <div className="flex items-end justify-between mb-6">
         <div>
-          <h1 className="font-display text-3xl font-medium tracking-tight">Service Appointments</h1>
+          <h1 className="font-display text-2xl font-semibold tracking-tight">Service Appointments</h1>
           <p className="text-sm text-stone-500 mt-1">Manage your service bay schedule and customer service history.</p>
         </div>
       </div>
@@ -3917,9 +6031,9 @@ function AppointmentsTab({ appointments, setAppointments, flash }) {
           icon={DollarSign} accent={GOLD} sub={`${new Date(TODAY).toLocaleDateString('en-US', { month: 'long' })} estimated`} />
       </div>
 
-      <Card className="p-3 mb-4">
-        <div className="flex flex-wrap gap-2 items-center">
-          <div className="relative flex-1 min-w-[240px]">
+      <Card className="p-4 mb-4">
+        <div className="flex flex-wrap gap-3 items-center">
+          <div className="relative w-full sm:flex-1 sm:min-w-[240px]">
             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" />
             <input value={search} onChange={(e) => setSearch(e.target.value)}
               placeholder="Search customer, vehicle, service…"
@@ -3936,11 +6050,26 @@ function AppointmentsTab({ appointments, setAppointments, flash }) {
         </div>
       </Card>
 
+      {selectedAppts.size > 0 && (
+        <div className="mb-3 p-3 rounded-lg flex items-center gap-2 flex-wrap" style={{ backgroundColor: 'var(--bg-elevated)', border: '1px solid var(--border)' }}>
+          <span className="text-sm font-semibold mr-2">{selectedAppts.size} selected</span>
+          <Btn size="sm" variant="default" onClick={() => bulkApplyAppts('confirm')}>Confirm</Btn>
+          <Btn size="sm" variant="default" onClick={() => bulkApplyAppts('cancel')}>Cancel</Btn>
+          <Btn size="sm" variant="default" icon={Download} onClick={() => bulkApplyAppts('csv')}>Export CSV</Btn>
+          <Btn size="sm" variant="ghost" onClick={() => setSelectedAppts(new Set())}>Clear</Btn>
+        </div>
+      )}
+
       <Card className="overflow-hidden">
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
             <thead className="bg-stone-50 border-b border-stone-200 text-[10px] smallcaps font-semibold text-stone-500">
               <tr>
+                <th className="px-4 py-2.5 w-8">
+                  <button onClick={toggleAllAppts} className="flex items-center justify-center">
+                    {allApptsSelected ? <CheckSquare className="w-4 h-4 text-blue-600" /> : <Square className="w-4 h-4 text-stone-400" />}
+                  </button>
+                </th>
                 <th className="px-4 py-2.5 text-left">Customer</th>
                 <th className="px-2 py-2.5 text-left">Vehicle</th>
                 <th className="px-2 py-2.5 text-left">Service</th>
@@ -3952,11 +6081,20 @@ function AppointmentsTab({ appointments, setAppointments, flash }) {
             </thead>
             <tbody className="divide-y divide-stone-100">
               {filtered.length === 0 ? (
-                <tr><td colSpan={7} className="text-center py-12 text-stone-500 text-sm">No appointments match your filter.</td></tr>
-              ) : filtered.map(a => (
+                <tr><td colSpan={8} className="text-center py-16 px-4">
+                  <Calendar className="w-10 h-10 mx-auto mb-3 text-stone-300" strokeWidth={1.5} />
+                  <div className="font-display text-lg font-semibold text-stone-900 mb-1">No appointments</div>
+                  <div className="text-sm text-stone-500 max-w-xs mx-auto">Service appointments will appear here once scheduled.</div>
+                </td></tr>
+              ) : paged.map(a => (
                 <React.Fragment key={a.id}>
                   <tr onClick={() => setExpanded(expanded === a.id ? null : a.id)}
-                    className={`cursor-pointer hover:bg-stone-50 transition ${expanded === a.id ? 'bg-stone-50' : ''}`}>
+                    className={`cursor-pointer hover:bg-stone-50 transition ${expanded === a.id ? 'bg-stone-50' : ''} ${selectedAppts.has(a.id) ? 'bg-amber-50/40' : ''}`}>
+                    <td className="px-4 py-3" onClick={(e) => e.stopPropagation()}>
+                      <button onClick={() => toggleOneAppt(a.id)} className="flex items-center justify-center">
+                        {selectedAppts.has(a.id) ? <CheckSquare className="w-4 h-4 text-blue-600" /> : <Square className="w-4 h-4 text-stone-400" />}
+                      </button>
+                    </td>
                     <td className="px-4 py-3">
                       <div className="font-medium">{a.customerName}</div>
                       <div className="text-[11px] text-stone-500 tabular">{a.phone}</div>
@@ -3975,7 +6113,7 @@ function AppointmentsTab({ appointments, setAppointments, flash }) {
                     <td className="px-2 py-3 text-right tabular font-medium">{fmtMoney(a.estimate)}</td>
                     <td className="px-2 py-3"><StatusBadge status={a.status} /></td>
                     <td className="px-3 py-2 text-right">
-                      <div className="flex items-center justify-end gap-1" onClick={(e) => e.stopPropagation()}>
+                      <div className="flex items-center justify-end gap-1 flex-nowrap whitespace-nowrap" onClick={(e) => e.stopPropagation()}>
                         {a.status === 'Pending' && (
                           <Btn size="sm" variant="default" onClick={() => transition(a.id, 'Confirmed')}>Confirm</Btn>
                         )}
@@ -3986,18 +6124,24 @@ function AppointmentsTab({ appointments, setAppointments, flash }) {
                           <Btn size="sm" variant="dark" onClick={() => transition(a.id, 'Completed')}>Complete</Btn>
                         )}
                         {(a.status === 'Pending' || a.status === 'Confirmed') && (
-                          <IconBtn icon={X} title="Cancel" tone="danger" onClick={() => transition(a.id, 'Cancelled')} />
+                          <IconBtn icon={X} title="Cancel" tone="danger" onClick={() => setConfirmTransition({ appt: a, target: 'Cancelled', label: 'Cancel appointment' })} />
                         )}
                         {a.status === 'Confirmed' && (
-                          <IconBtn icon={AlertCircle} title="No-Show" tone="danger" onClick={() => transition(a.id, 'No-Show')} />
+                          <IconBtn icon={AlertCircle} title="No-Show" tone="danger" onClick={() => setConfirmTransition({ appt: a, target: 'No-Show', label: 'Mark as no-show' })} />
                         )}
                       </div>
                     </td>
                   </tr>
                   {expanded === a.id && (
                     <tr>
-                      <td colSpan={7} className="bg-stone-50 px-6 py-5 anim-slide">
-                        <div className="grid lg:grid-cols-3 gap-5">
+                      <td colSpan={8} className="bg-stone-50 px-6 py-5 anim-slide">
+                        <div className="md:hidden flex justify-end mb-3">
+                          <button onClick={() => setExpanded(null)}
+                            className="px-3 py-1.5 rounded text-xs font-semibold bg-white border border-stone-300 hover:bg-stone-100">
+                            Close
+                          </button>
+                        </div>
+                        <div className="grid lg:grid-cols-3 gap-5 max-h-[60vh] md:max-h-none overflow-y-auto md:overflow-visible">
                           <div className="lg:col-span-2 space-y-4">
                             <div>
                               <div className="text-[10px] smallcaps font-semibold text-stone-500 mb-2">Customer Details</div>
@@ -4099,7 +6243,18 @@ function AppointmentsTab({ appointments, setAppointments, flash }) {
             </tbody>
           </table>
         </div>
+        <Paginator total={filtered.length} page={page} pageSize={pageSize} onPage={setPage} onPageSize={setPageSize} label="appointment" />
       </Card>
+
+      <ConfirmDialog
+        isOpen={!!confirmTransition}
+        title={confirmTransition ? `${confirmTransition.label}?` : ''}
+        message={confirmTransition ? `${confirmTransition.appt.customerName} · ${confirmTransition.appt.serviceType} · ${new Date(confirmTransition.appt.when).toLocaleString(undefined, { weekday: 'short', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}` : ''}
+        confirmLabel={confirmTransition?.target === 'No-Show' ? 'Mark No-Show' : 'Cancel Appointment'}
+        cancelLabel="Keep"
+        confirmColor="red"
+        onConfirm={() => { transition(confirmTransition.appt.id, confirmTransition.target); setConfirmTransition(null); }}
+        onCancel={() => setConfirmTransition(null)} />
     </div>
   );
 }
@@ -4135,10 +6290,10 @@ function PerformanceTab() {
   ];
 
   return (
-    <div className="p-6 lg:p-8 max-w-[1400px] mx-auto">
+    <div className="p-6 lg:p-8 max-w-[1600px] mx-auto">
       <div className="flex items-end justify-between mb-6">
         <div>
-          <h1 className="font-display text-3xl font-medium tracking-tight">Website Performance</h1>
+          <h1 className="font-display text-2xl font-semibold tracking-tight">Website Performance</h1>
           <p className="text-sm text-stone-500 mt-1">
             How your customer-facing site is performing — speed, traffic, and engagement.
           </p>
@@ -4246,14 +6401,14 @@ function PerformanceTab() {
               {traffic.reduce((a,b) => a+b, 0).toLocaleString()} <span className="text-xs text-stone-400 font-normal">visitors</span>
             </span>
           </div>
-          <div className="flex items-end gap-3 h-48 mt-6">
+          <div className="flex items-end gap-3 h-64 mt-6">
             {traffic.map((v, i) => {
               const h = (v / maxTraffic) * 100;
               const isToday = i === traffic.length - 1;
               return (
                 <div key={i} className="flex-1 flex flex-col items-center gap-2 group">
                   <div className="font-display tabular text-[11px] font-semibold opacity-0 group-hover:opacity-100 transition">{v}</div>
-                  <div className="w-full bg-stone-100 rounded-t-md relative overflow-hidden" style={{ height: '160px' }}>
+                  <div className="w-full bg-stone-100 rounded-t-md relative overflow-hidden" style={{ height: '224px' }}>
                     <div className="absolute bottom-0 left-0 right-0 rounded-t-md transition-all"
                       style={{ height: h + '%', background: isToday ? `linear-gradient(to top, ${GOLD}, #E8C97A)` : 'linear-gradient(to top, #6b655b, #a8a39a)' }} />
                   </div>
@@ -4318,6 +6473,550 @@ function PerformanceTab() {
           </div>
         </div>
       </Card>
+    </div>
+  );
+}
+
+/* ====================== TASKS TAB ================================ */
+
+function TasksTab({ tasks, setTasks, leads, sold, flash }) {
+  const [search, setSearch] = useState('');
+  const [filter, setFilter] = useState('all');
+  const [showAdd, setShowAdd] = useState(false);
+  const [draft, setDraft] = useState(null);
+
+  const filtered = useMemo(() => {
+    const now = new Date(TODAY);
+    const today0 = new Date(now); today0.setUTCHours(0, 0, 0, 0);
+    return tasks
+      .map(t => {
+        const due = new Date(t.dueAt);
+        const overdue = t.status !== 'Completed' && due < today0;
+        return { ...t, _overdue: overdue };
+      })
+      .filter(t => {
+        if (search) {
+          const q = search.toLowerCase();
+          const hay = [t.title, t.assignedTo, t.relatedTo, t.notes].join(' ').toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        if (filter === 'open') return t.status === 'Open';
+        if (filter === 'overdue') return t._overdue;
+        if (filter === 'today') {
+          const today1 = new Date(today0); today1.setUTCDate(today1.getUTCDate() + 1);
+          const due = new Date(t.dueAt);
+          return t.status !== 'Completed' && due >= today0 && due < today1;
+        }
+        if (filter === 'completed') return t.status === 'Completed';
+        return true;
+      })
+      .sort((a, b) => new Date(a.dueAt) - new Date(b.dueAt));
+  }, [tasks, search, filter]);
+
+  const startAdd = () => {
+    setDraft({
+      title: '', dueAt: isoAt(1, 10), assignedTo: TEAM_MEMBERS[0].name,
+      relatedTo: '', priority: 'Medium', status: 'Open', notes: ''
+    });
+    setShowAdd(true);
+  };
+  const saveDraft = () => {
+    if (!draft.title.trim()) return;
+    setTasks(arr => [{ ...draft, id: 'tk-' + Date.now() }, ...arr]);
+    setShowAdd(false);
+    setDraft(null);
+    flash('Task created');
+  };
+  const completeTask = (id) => {
+    setTasks(arr => arr.map(t => t.id === id ? { ...t, status: 'Completed', completedAt: new Date().toISOString() } : t));
+  };
+  const reopenTask = (id) => {
+    setTasks(arr => arr.map(t => t.id === id ? { ...t, status: 'Open', completedAt: null } : t));
+  };
+  const deleteTask = (id) => {
+    const removed = tasks.find(t => t.id === id);
+    setTasks(arr => arr.filter(t => t.id !== id));
+    flash('Task deleted', { tone: 'destructive', undo: () => removed && setTasks(arr => [removed, ...arr]) });
+  };
+
+  const fmtDue = (iso) => {
+    const d = new Date(iso);
+    const today = new Date(TODAY); today.setUTCHours(0, 0, 0, 0);
+    const dd = new Date(d); dd.setUTCHours(0, 0, 0, 0);
+    const diff = Math.round((dd - today) / 86400000);
+    const time = d.toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+    if (diff === 0) return `Today ${time}`;
+    if (diff === 1) return `Tomorrow ${time}`;
+    if (diff === -1) return `Yesterday ${time}`;
+    if (diff > 0 && diff < 7) return `${d.toLocaleDateString(undefined, { weekday: 'short' })} ${time}`;
+    return `${d.toLocaleDateString(undefined, { month: 'short', day: 'numeric' })} ${time}`;
+  };
+
+  return (
+    <div className="p-6 lg:p-8 max-w-[1600px] mx-auto">
+      <div className="flex items-end justify-between mb-6 gap-4 flex-wrap">
+        <div>
+          <h1 className="font-display text-2xl font-semibold tracking-tight">Tasks &amp; Follow-Ups</h1>
+          <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>Stay on top of leads, deal paperwork, and customer follow-ups.</p>
+        </div>
+        <Btn variant="gold" icon={Plus} onClick={startAdd}>Add Task</Btn>
+      </div>
+
+      <Card className="p-4 mb-4">
+        <div className="flex flex-wrap items-center gap-3">
+          <div className="relative w-full sm:flex-1 sm:min-w-[240px]">
+            <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" />
+            <input value={search} onChange={(e) => setSearch(e.target.value)}
+              placeholder="Search tasks…"
+              className="w-full pl-9 pr-3 py-2 bg-stone-50 border border-stone-200 rounded-md text-sm ring-gold" />
+          </div>
+          <div className="flex bg-stone-100 rounded-md p-0.5 flex-wrap">
+            {[['all','All'],['today','Today'],['overdue','Overdue'],['open','Open'],['completed','Done']].map(([k, l]) => (
+              <button key={k} onClick={() => setFilter(k)}
+                className={`px-2.5 py-1.5 text-[11px] font-semibold rounded smallcaps ${filter === k ? 'bg-white shadow-sm text-stone-900' : 'text-stone-500'}`}>
+                {l}
+              </button>
+            ))}
+          </div>
+        </div>
+      </Card>
+
+      <Card className="overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="border-b text-[10px] smallcaps font-semibold" style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}>
+              <tr>
+                <th className="px-4 py-2.5 w-10"></th>
+                <th className="px-3 py-2.5 text-left">Task</th>
+                <th className="px-3 py-2.5 text-left">Due</th>
+                <th className="px-3 py-2.5 text-left">Assigned</th>
+                <th className="px-3 py-2.5 text-left">Related</th>
+                <th className="px-3 py-2.5 text-left">Priority</th>
+                <th className="px-3 py-2.5 text-right">Actions</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y" style={{ borderColor: 'var(--border)' }}>
+              {filtered.length === 0 ? (
+                <tr><td colSpan={7} className="text-center py-16 px-4">
+                  <CheckSquare className="w-10 h-10 mx-auto mb-3 text-stone-300" strokeWidth={1.5} />
+                  <div className="font-display text-lg font-semibold mb-1">No tasks</div>
+                  <div className="text-sm" style={{ color: 'var(--text-muted)' }}>Create a task to track follow-ups, paperwork, and to-dos.</div>
+                </td></tr>
+              ) : filtered.map(t => {
+                const isDone = t.status === 'Completed';
+                const priColors = { High: '#DC2626', Medium: '#D97706', Low: '#65A30D' };
+                return (
+                  <tr key={t.id} className={`themed-row transition ${isDone ? 'opacity-60' : ''}`}>
+                    <td className="px-4 py-3">
+                      <button onClick={() => isDone ? reopenTask(t.id) : completeTask(t.id)}
+                        title={isDone ? 'Reopen' : 'Mark complete'}
+                        className="flex items-center justify-center">
+                        {isDone ? <CheckSquare className="w-5 h-5 text-emerald-600" /> : <Square className="w-5 h-5 text-stone-400 hover:text-emerald-600 transition" />}
+                      </button>
+                    </td>
+                    <td className="px-3 py-3">
+                      <div className={`font-medium ${isDone ? 'line-through' : ''}`}>{t.title}</div>
+                      {t.notes && <div className="text-[11px] mt-0.5 truncate max-w-md" style={{ color: 'var(--text-muted)' }}>{t.notes}</div>}
+                    </td>
+                    <td className="px-3 py-3">
+                      <span className={`text-[12px] tabular ${t._overdue ? 'font-bold' : ''}`}
+                        style={{ color: t._overdue ? '#DC2626' : 'var(--text-secondary)' }}>
+                        {t._overdue && '⚠ '}
+                        {fmtDue(t.dueAt)}
+                      </span>
+                    </td>
+                    <td className="px-3 py-3 text-[12px]">{t.assignedTo}</td>
+                    <td className="px-3 py-3 text-[12px]">{t.relatedTo || <span className="text-stone-400">—</span>}</td>
+                    <td className="px-3 py-3">
+                      <span className="inline-block px-2 py-0.5 text-[10px] font-semibold rounded smallcaps"
+                        style={{ backgroundColor: priColors[t.priority] + '22', color: priColors[t.priority] }}>
+                        {t.priority}
+                      </span>
+                    </td>
+                    <td className="px-3 py-3 text-right">
+                      <button onClick={() => deleteTask(t.id)} title="Delete"
+                        className="p-1.5 text-stone-400 hover:text-red-600 transition">
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </Card>
+
+      {showAdd && draft && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-start justify-center p-4 pt-20 anim-fade no-print" onClick={() => setShowAdd(false)}>
+          <div className="rounded-lg shadow-xl max-w-md w-full max-h-[85vh] overflow-y-auto"
+            style={{ backgroundColor: 'var(--bg-card)' }}
+            onClick={e => e.stopPropagation()}>
+            <div className="p-5">
+              <h3 className="font-display text-lg font-semibold mb-4">Create Task</h3>
+              <Field label="Title" required>
+                <Input value={draft.title} onChange={(e) => setDraft({ ...draft, title: e.target.value })}
+                  placeholder="e.g., Call buyer about financing" autoFocus />
+              </Field>
+              <div className="grid grid-cols-2 gap-3 mt-3">
+                <Field label="Due Date">
+                  <Input type="date" value={draft.dueAt.slice(0, 10)}
+                    onChange={(e) => {
+                      const t = draft.dueAt.slice(11, 19);
+                      setDraft({ ...draft, dueAt: e.target.value + 'T' + t + '.000Z' });
+                    }} />
+                </Field>
+                <Field label="Due Time">
+                  <Input type="time" value={draft.dueAt.slice(11, 16)}
+                    onChange={(e) => {
+                      const d = draft.dueAt.slice(0, 10);
+                      setDraft({ ...draft, dueAt: d + 'T' + e.target.value + ':00.000Z' });
+                    }} />
+                </Field>
+              </div>
+              <Field label="Assigned To" className="mt-3">
+                <Select value={draft.assignedTo} onChange={(e) => setDraft({ ...draft, assignedTo: e.target.value })}>
+                  {TEAM_MEMBERS.map(m => <option key={m.name} value={m.name}>{m.name} — {m.role}</option>)}
+                </Select>
+              </Field>
+              <Field label="Related to (optional)" className="mt-3" hint="Lead or customer name">
+                <Input value={draft.relatedTo} onChange={(e) => setDraft({ ...draft, relatedTo: e.target.value })}
+                  placeholder="e.g., Maria Rodriguez" />
+              </Field>
+              <Field label="Priority" className="mt-3">
+                <Select value={draft.priority} onChange={(e) => setDraft({ ...draft, priority: e.target.value })}>
+                  <option>High</option><option>Medium</option><option>Low</option>
+                </Select>
+              </Field>
+              <Field label="Notes" className="mt-3">
+                <Textarea rows={3} value={draft.notes} onChange={(e) => setDraft({ ...draft, notes: e.target.value })} />
+              </Field>
+            </div>
+            <div className="px-5 py-3 flex justify-end gap-2"
+              style={{ backgroundColor: 'var(--bg-elevated)', borderTop: '1px solid var(--border)' }}>
+              <Btn variant="ghost" onClick={() => setShowAdd(false)}>Cancel</Btn>
+              <Btn variant="gold" onClick={saveDraft} disabled={!draft.title.trim()}>Create Task</Btn>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+/* ====================== CUSTOMERS TAB ============================ */
+
+function CustomersTab({ leads, sold, appointments, deals, flash }) {
+  const [search, setSearch] = useState('');
+  const [expanded, setExpanded] = useState(null);
+
+  const customers = useMemo(() => {
+    const map = new Map();
+    const keyFor = (rec) => (rec.email || '').toLowerCase().trim() || (rec.phone || '').replace(/\D/g, '') || (rec.name || rec.customerName || '').toLowerCase().trim();
+    const upsert = (key, data) => {
+      const cur = map.get(key) || {
+        id: 'cu-' + key.slice(0, 12),
+        name: data.name || data.customerName || data.buyerName || 'Unknown',
+        email: data.email || data.buyerEmail || '',
+        phone: data.phone || data.buyerPhone || '',
+        leads: [], sold: [], service: [], deals: [],
+        firstSeen: data.when || data.createdAt || data.saleDate || new Date().toISOString(),
+        lastSeen:  data.when || data.createdAt || data.saleDate || new Date().toISOString(),
+        notes: ''
+      };
+      if (!cur.email && (data.email || data.buyerEmail)) cur.email = data.email || data.buyerEmail;
+      if (!cur.phone && (data.phone || data.buyerPhone)) cur.phone = data.phone || data.buyerPhone;
+      const stamp = data.when || data.createdAt || data.saleDate;
+      if (stamp) {
+        if (new Date(stamp) < new Date(cur.firstSeen)) cur.firstSeen = stamp;
+        if (new Date(stamp) > new Date(cur.lastSeen))  cur.lastSeen = stamp;
+      }
+      map.set(key, cur);
+      return cur;
+    };
+    leads.forEach(l => { const k = keyFor(l); if (!k) return; const c = upsert(k, { name: l.name, email: l.email, phone: l.phone, createdAt: l.createdAt }); c.leads.push(l); });
+    sold.forEach(s => { const k = keyFor({ name: s.buyerName, email: s.buyerEmail, phone: s.buyerPhone }); if (!k) return; const c = upsert(k, { name: s.buyerName, email: s.buyerEmail, phone: s.buyerPhone, saleDate: s.saleDate }); c.sold.push(s); });
+    appointments.forEach(a => { const k = keyFor(a); if (!k) return; const c = upsert(k, { name: a.customerName, email: a.email, phone: a.phone, when: a.when }); c.service.push(a); });
+    deals.forEach(d => { const k = keyFor({ name: d.customerName, email: d.customerEmail, phone: d.customerPhone }); if (!k) return; const c = upsert(k, { name: d.customerName, email: d.customerEmail, phone: d.customerPhone }); c.deals.push(d); });
+    return Array.from(map.values()).map(c => ({
+      ...c,
+      ltv: c.sold.reduce((s, x) => s + (x.salePrice || 0), 0),
+      status: c.sold.length > 0 ? 'Active' : (c.leads.length > 0 ? 'Prospect' : (c.service.length > 0 ? 'Service Customer' : 'Other'))
+    }));
+  }, [leads, sold, appointments, deals]);
+
+  const filtered = useMemo(() => {
+    if (!search) return customers;
+    const q = search.toLowerCase();
+    return customers.filter(c => [c.name, c.email, c.phone].join(' ').toLowerCase().includes(q));
+  }, [customers, search]);
+
+  const fmt$ = (n) => '$' + Math.round(n).toLocaleString();
+  const fmtDate = (iso) => iso ? new Date(iso).toLocaleDateString(undefined, { month: 'short', day: 'numeric', year: 'numeric' }) : '—';
+
+  const statusColors = {
+    'Active':           { bg: '#D1FAE5', fg: '#065F46' },
+    'Prospect':         { bg: '#FEF3C7', fg: '#92400E' },
+    'Service Customer': { bg: '#E0E7FF', fg: '#3730A3' },
+    'Other':            { bg: '#E7E5E4', fg: '#57534E' }
+  };
+
+  return (
+    <div className="p-6 lg:p-8 max-w-[1600px] mx-auto">
+      <div className="flex items-end justify-between mb-6 gap-4 flex-wrap">
+        <div>
+          <h1 className="font-display text-2xl font-semibold tracking-tight">Customers</h1>
+          <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>
+            Unified profiles across leads, deals, sales, and service. {customers.length} total.
+          </p>
+        </div>
+      </div>
+
+      <Card className="p-4 mb-4">
+        <div className="relative w-full sm:max-w-md">
+          <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-stone-400" />
+          <input value={search} onChange={(e) => setSearch(e.target.value)}
+            placeholder="Search by name, email, or phone…"
+            className="w-full pl-9 pr-3 py-2 bg-stone-50 border border-stone-200 rounded-md text-sm ring-gold" />
+        </div>
+      </Card>
+
+      <Card className="overflow-hidden">
+        <div className="overflow-x-auto">
+          <table className="w-full text-sm">
+            <thead className="border-b text-[10px] smallcaps font-semibold" style={{ borderColor: 'var(--border)', color: 'var(--text-muted)' }}>
+              <tr>
+                <th className="px-4 py-2.5 text-left">Name</th>
+                <th className="px-3 py-2.5 text-left">Contact</th>
+                <th className="px-3 py-2.5 text-right">Vehicles</th>
+                <th className="px-3 py-2.5 text-right">Service</th>
+                <th className="px-3 py-2.5 text-right">Lifetime $</th>
+                <th className="px-3 py-2.5 text-left">First Contact</th>
+                <th className="px-3 py-2.5 text-left">Last Activity</th>
+                <th className="px-3 py-2.5 text-left">Status</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y" style={{ borderColor: 'var(--border)' }}>
+              {filtered.length === 0 ? (
+                <tr><td colSpan={8} className="text-center py-16 px-4">
+                  <BadgeCheck className="w-10 h-10 mx-auto mb-3 text-stone-300" strokeWidth={1.5} />
+                  <div className="font-display text-lg font-semibold mb-1">No customers found</div>
+                  <div className="text-sm" style={{ color: 'var(--text-muted)' }}>Customers are auto-built from leads, deals, sales, and service appointments.</div>
+                </td></tr>
+              ) : filtered.map(c => {
+                const sc = statusColors[c.status];
+                return (
+                  <React.Fragment key={c.id}>
+                    <tr onClick={() => setExpanded(expanded === c.id ? null : c.id)}
+                      className={`cursor-pointer transition themed-row ${expanded === c.id ? 'bg-stone-50' : ''}`}>
+                      <td className="px-4 py-3 font-medium">{c.name}</td>
+                      <td className="px-3 py-3">
+                        <div className="text-[12px]">{c.email || <span className="text-stone-400">no email</span>}</div>
+                        <div className="text-[11px] tabular" style={{ color: 'var(--text-muted)' }}>{c.phone}</div>
+                      </td>
+                      <td className="px-3 py-3 text-right tabular">{c.sold.length}</td>
+                      <td className="px-3 py-3 text-right tabular">{c.service.length}</td>
+                      <td className="px-3 py-3 text-right tabular font-semibold" style={{ color: c.ltv > 0 ? GOLD : 'var(--text-muted)' }}>
+                        {c.ltv > 0 ? fmt$(c.ltv) : '—'}
+                      </td>
+                      <td className="px-3 py-3 text-[11px] tabular" style={{ color: 'var(--text-muted)' }}>{fmtDate(c.firstSeen)}</td>
+                      <td className="px-3 py-3 text-[11px] tabular" style={{ color: 'var(--text-muted)' }}>{fmtDate(c.lastSeen)}</td>
+                      <td className="px-3 py-3">
+                        <span className="inline-block px-2 py-0.5 text-[10px] font-semibold rounded-full smallcaps"
+                          style={{ backgroundColor: sc.bg, color: sc.fg }}>{c.status}</span>
+                      </td>
+                    </tr>
+                    {expanded === c.id && (
+                      <tr>
+                        <td colSpan={8} className="px-6 py-5" style={{ backgroundColor: 'var(--bg-elevated)' }}>
+                          <div className="grid lg:grid-cols-3 gap-4">
+                            <Card className="p-4">
+                              <div className="text-[10px] smallcaps font-semibold mb-2" style={{ color: 'var(--text-muted)' }}>Vehicles purchased</div>
+                              {c.sold.length === 0 ? <div className="text-sm" style={{ color: 'var(--text-muted)' }}>No purchases yet.</div> : c.sold.map(s => (
+                                <div key={s.id} className="text-sm py-1 border-t first:border-t-0" style={{ borderColor: 'var(--border)' }}>
+                                  <div className="font-medium">{s.year} {s.make} {s.model}</div>
+                                  <div className="text-[11px]" style={{ color: 'var(--text-muted)' }}>{fmtDate(s.saleDate)} · {fmt$(s.salePrice)}</div>
+                                </div>
+                              ))}
+                            </Card>
+                            <Card className="p-4">
+                              <div className="text-[10px] smallcaps font-semibold mb-2" style={{ color: 'var(--text-muted)' }}>Lead history</div>
+                              {c.leads.length === 0 ? <div className="text-sm" style={{ color: 'var(--text-muted)' }}>No leads.</div> : c.leads.map(l => (
+                                <div key={l.id} className="text-sm py-1 border-t first:border-t-0" style={{ borderColor: 'var(--border)' }}>
+                                  <div className="font-medium">{l.source}</div>
+                                  <div className="text-[11px]" style={{ color: 'var(--text-muted)' }}>{fmtDate(l.createdAt)} · {l.vehicleLabel}</div>
+                                </div>
+                              ))}
+                            </Card>
+                            <Card className="p-4">
+                              <div className="text-[10px] smallcaps font-semibold mb-2" style={{ color: 'var(--text-muted)' }}>Service history</div>
+                              {c.service.length === 0 ? <div className="text-sm" style={{ color: 'var(--text-muted)' }}>No appointments.</div> : c.service.map(s => (
+                                <div key={s.id} className="text-sm py-1 border-t first:border-t-0" style={{ borderColor: 'var(--border)' }}>
+                                  <div className="font-medium">{s.serviceType}</div>
+                                  <div className="text-[11px]" style={{ color: 'var(--text-muted)' }}>{fmtDate(s.when)} · ${s.estimate}</div>
+                                </div>
+                              ))}
+                            </Card>
+                            <Card className="p-4 lg:col-span-3">
+                              <div className="grid sm:grid-cols-3 gap-4">
+                                <div>
+                                  <div className="text-[10px] smallcaps font-semibold mb-1" style={{ color: 'var(--text-muted)' }}>Lifetime Value</div>
+                                  <div className="font-display text-2xl tabular font-semibold" style={{ color: GOLD }}>{fmt$(c.ltv)}</div>
+                                </div>
+                                <div>
+                                  <div className="text-[10px] smallcaps font-semibold mb-1" style={{ color: 'var(--text-muted)' }}>Touchpoints</div>
+                                  <div className="font-display text-2xl tabular font-semibold">{c.leads.length + c.sold.length + c.service.length + c.deals.length}</div>
+                                </div>
+                                <div>
+                                  <div className="text-[10px] smallcaps font-semibold mb-1" style={{ color: 'var(--text-muted)' }}>Customer Since</div>
+                                  <div className="font-display text-2xl tabular font-semibold">{fmtDate(c.firstSeen)}</div>
+                                </div>
+                              </div>
+                            </Card>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </React.Fragment>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+/* ====================== REPORTING TAB ============================ */
+
+function ReportingTab({ inventory, sold, leads }) {
+  const months = ['Nov','Dec','Jan','Feb','Mar','Apr'];
+  const monthlyUnits = [8, 6, 9, 7, 11, 10];
+  const monthlyGross = [38400, 28200, 41700, 32500, 52400, 47200];
+  const maxUnits = Math.max(...monthlyUnits);
+  const maxGross = Math.max(...monthlyGross);
+
+  const ageBuckets = useMemo(() => {
+    const a = { fresh: 0, mid: 0, old: 0 };
+    inventory.forEach(v => {
+      if (v.daysOnLot < 31) a.fresh++;
+      else if (v.daysOnLot < 61) a.mid++;
+      else a.old++;
+    });
+    return a;
+  }, [inventory]);
+  const totalAge = ageBuckets.fresh + ageBuckets.mid + ageBuckets.old || 1;
+
+  const salespeople = [
+    { name: 'Carlos Rivera',  sold: 5, gross: 24500, close: 0.22 },
+    { name: 'James Mitchell', sold: 3, gross: 14100, close: 0.15 },
+    { name: 'Maria Santos',   sold: 2, gross: 13800, close: 0.10, note: '(F&I)' }
+  ];
+
+  const fmt$ = (n) => '$' + Math.round(n).toLocaleString();
+
+  return (
+    <div className="p-6 lg:p-8 max-w-[1600px] mx-auto">
+      <div className="flex items-end justify-between mb-6 gap-4 flex-wrap">
+        <div>
+          <h1 className="font-display text-2xl font-semibold tracking-tight">Reporting</h1>
+          <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>Sales performance, gross profit, inventory aging, and team metrics.</p>
+        </div>
+        <Btn variant="default" icon={Download} onClick={() => alert('PDF export — wired in production via @react-pdf/renderer.')}>Export PDF</Btn>
+      </div>
+
+      <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+        <StatCard label="Avg Days to Sell" value="28d" icon={Clock} sub="industry avg: 38" />
+        <StatCard label="Avg Gross / Unit" value={fmt$(4850)} icon={DollarSign} accent={GOLD} />
+        <StatCard label="Lead → Sale Rate" value="18%" icon={TrendingUp} accent="#2F7A4A" sub="↑ 2.4% MoM" />
+        <StatCard label="Avg Response Time" value="12 min" icon={Zap} sub="industry avg: 47 min" />
+      </div>
+
+      <Card className="mb-6 overflow-hidden">
+        <div className="px-5 py-4 flex items-center justify-between" style={{ borderBottom: '1px solid var(--border)' }}>
+          <h3 className="font-display text-lg font-semibold">Sales Performance — Last 6 Months</h3>
+          <div className="text-[11px]" style={{ color: 'var(--text-muted)' }}>
+            <span className="inline-block w-3 h-3 rounded-sm align-middle mr-1" style={{ backgroundColor: GOLD }} /> Units
+            <span className="inline-block w-3 h-3 rounded-sm align-middle ml-3 mr-1" style={{ backgroundColor: '#2F7A4A' }} /> Gross profit
+          </div>
+        </div>
+        <div className="p-5">
+          <div className="flex items-end gap-3 h-56" style={{ borderBottom: '1px solid var(--border)' }}>
+            {months.map((m, i) => {
+              const u = monthlyUnits[i];
+              const g = monthlyGross[i];
+              const uH = Math.round((u / maxUnits) * 200);
+              const gY = 200 - Math.round((g / maxGross) * 200);
+              return (
+                <div key={m} className="flex-1 flex flex-col items-center justify-end relative">
+                  <div className="absolute text-[10px] font-bold tabular -translate-y-5"
+                    style={{ bottom: uH + 'px', color: GOLD }}>{u}</div>
+                  <div className="w-full rounded-t" style={{ height: uH + 'px', backgroundColor: GOLD }} />
+                  <div className="absolute w-2 h-2 rounded-full"
+                    style={{ bottom: (200 - gY) + 'px', left: '50%', transform: 'translateX(-50%)', backgroundColor: '#2F7A4A' }} />
+                </div>
+              );
+            })}
+          </div>
+          <div className="flex gap-3 mt-2 text-[11px] tabular" style={{ color: 'var(--text-muted)' }}>
+            {months.map(m => <div key={m} className="flex-1 text-center">{m}</div>)}
+          </div>
+          <div className="mt-4 p-3 rounded-md text-sm" style={{ backgroundColor: '#FEF3C7', color: '#92400E' }}>
+            <strong>Best month: March</strong> — 11 units, $52,400 gross
+          </div>
+        </div>
+      </Card>
+
+      <div className="grid lg:grid-cols-2 gap-6 mb-6">
+        <Card className="overflow-hidden">
+          <div className="px-5 py-4" style={{ borderBottom: '1px solid var(--border)' }}>
+            <h3 className="font-display text-lg font-semibold">By Salesperson — This Month</h3>
+          </div>
+          <table className="w-full text-sm">
+            <thead className="text-[10px] smallcaps font-semibold" style={{ color: 'var(--text-muted)' }}>
+              <tr>
+                <th className="px-4 py-2 text-left">Name</th>
+                <th className="px-3 py-2 text-right">Sold</th>
+                <th className="px-3 py-2 text-right">Gross</th>
+                <th className="px-3 py-2 text-right">Close Rate</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y" style={{ borderColor: 'var(--border)' }}>
+              {salespeople.map(p => (
+                <tr key={p.name}>
+                  <td className="px-4 py-3 font-medium">{p.name} {p.note && <span className="text-[10px] text-stone-400">{p.note}</span>}</td>
+                  <td className="px-3 py-3 text-right tabular">{p.sold}</td>
+                  <td className="px-3 py-3 text-right tabular font-semibold">{fmt$(p.gross)}</td>
+                  <td className="px-3 py-3 text-right tabular">{(p.close * 100).toFixed(0)}%</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </Card>
+
+        <Card className="p-5">
+          <h3 className="font-display text-lg font-semibold mb-4">Inventory Age Distribution</h3>
+          <div className="flex items-center gap-6 flex-wrap">
+            <svg viewBox="0 0 36 36" className="w-32 h-32 -rotate-90">
+              <circle cx="18" cy="18" r="15.915" fill="transparent" stroke="#E7E5E4" strokeWidth="4" />
+              <circle cx="18" cy="18" r="15.915" fill="transparent" stroke="#10B981" strokeWidth="4"
+                strokeDasharray={`${(ageBuckets.fresh / totalAge) * 100} 100`} strokeDashoffset="0" />
+              <circle cx="18" cy="18" r="15.915" fill="transparent" stroke="#D97706" strokeWidth="4"
+                strokeDasharray={`${(ageBuckets.mid / totalAge) * 100} 100`}
+                strokeDashoffset={`${-((ageBuckets.fresh / totalAge) * 100)}`} />
+              <circle cx="18" cy="18" r="15.915" fill="transparent" stroke="#DC2626" strokeWidth="4"
+                strokeDasharray={`${(ageBuckets.old / totalAge) * 100} 100`}
+                strokeDashoffset={`${-(((ageBuckets.fresh + ageBuckets.mid) / totalAge) * 100)}`} />
+            </svg>
+            <div className="space-y-2 text-sm">
+              <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-sm" style={{ backgroundColor: '#10B981' }} /> 0–30 days: <strong>{ageBuckets.fresh}</strong></div>
+              <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-sm" style={{ backgroundColor: '#D97706' }} /> 31–60 days: <strong>{ageBuckets.mid}</strong></div>
+              <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-sm" style={{ backgroundColor: '#DC2626' }} /> 60+ days: <strong>{ageBuckets.old}</strong></div>
+            </div>
+          </div>
+        </Card>
+      </div>
     </div>
   );
 }
