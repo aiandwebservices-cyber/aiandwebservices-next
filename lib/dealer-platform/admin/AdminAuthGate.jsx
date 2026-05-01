@@ -1,5 +1,5 @@
 'use client';
-import { ClerkProvider, useUser, SignIn } from '@clerk/nextjs';
+import { useUser, SignIn } from '@clerk/nextjs';
 import { useSearchParams, usePathname } from 'next/navigation';
 import { Suspense } from 'react';
 
@@ -136,10 +136,8 @@ function GateInner({ dealerId, children }) {
 
 export default function AdminAuthGate({ dealerId, children }) {
   return (
-    <ClerkProvider>
-      <Suspense>
-        <GateInner dealerId={dealerId}>{children}</GateInner>
-      </Suspense>
-    </ClerkProvider>
+    <Suspense>
+      <GateInner dealerId={dealerId}>{children}</GateInner>
+    </Suspense>
   );
 }
