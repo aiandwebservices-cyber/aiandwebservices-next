@@ -32,6 +32,7 @@ import { SEED_FNI_HISTORY } from '@/lib/dealer-platform/data/seed-deals';
 import { SEED_APPT_HISTORY } from '@/lib/dealer-platform/data/seed-appointments';
 import { ActivityLog } from './ActivityLog';
 import { BreadcrumbBar } from './BreadcrumbBar';
+import { useVehicleHistory } from '@/lib/dealer-platform/hooks/useVehicleHistory';
 
 function SearchableSelect({ value, onChange, items, popular = [], loading, placeholder, error, disabled, allLabel = 'All' }) {
   const [open, setOpen] = useState(false);
@@ -170,6 +171,11 @@ export function VehicleFormTab({ vehicle, onSave, onCancel, flash }) {
   const [recalls, setRecalls] = useState([]);
   const [recallsLoading, setRecallsLoading] = useState(false);
   const [recallsChecked, setRecallsChecked] = useState(false);
+  const [historyExpanded, setHistoryExpanded] = useState(false);
+  const vehicleHistory = useVehicleHistory(
+    config.dealerSlug || 'primo',
+    form.make, form.model, form.year
+  );
   const [savingEspo, setSavingEspo] = useState(false);
   const [aiGenerating, setAiGenerating] = useState(false);
   const [aiGenerated, setAiGenerated] = useState(false);
@@ -595,6 +601,66 @@ export function VehicleFormTab({ vehicle, onSave, onCancel, flash }) {
             <ShieldCheck className="w-4 h-4" /> ✓ No open recalls found
           </div>
         )}
+
+        {/* NHTSA HISTORY (complaint trends + risk score) */}
+        {vehicleHistory.loading && (
+          <div className="p-3 rounded-md border border-stone-200 bg-white text-sm text-stone-600 flex items-center gap-2">
+            <RefreshCw className="w-3.5 h-3.5 animate-spin" /> Checking NHTSA complaint history…
+          </div>
+        )}
+        {!vehicleHistory.loading && vehicleHistory.complaints && (() => {
+          const total = vehicleHistory.complaints.total;
+          const cats = vehicleHistory.complaints.categories || {};
+          const topCats = Object.entries(cats).sort((a, b) => b[1] - a[1]).slice(0, 4);
+          const risk = vehicleHistory.riskLevel || 'low';
+          const riskStyle = {
+            low:    { bg: '#ECFDF5', border: '#A7F3D0', fg: '#065F46', label: 'Low Risk',    Icon: ShieldCheck },
+            medium: { bg: '#FFFBEB', border: '#FCD34D', fg: '#92400E', label: 'Medium Risk', Icon: AlertTriangle },
+            high:   { bg: '#FEF2F2', border: '#FCA5A5', fg: '#991B1B', label: 'High Risk',   Icon: AlertCircle },
+          }[risk];
+          const RiskIcon = riskStyle.Icon;
+          const summary = topCats.length
+            ? topCats.map(([k, n]) => `${n} ${k}`).join(', ')
+            : 'no category breakdown';
+          return (
+            <div className="p-4 rounded-md border" style={{ background: riskStyle.bg, borderColor: riskStyle.border }}>
+              <div className="flex items-start gap-2">
+                <RiskIcon className="w-4 h-4 mt-0.5 shrink-0" style={{ color: riskStyle.fg }} />
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="font-semibold text-sm" style={{ color: riskStyle.fg }}>
+                      📋 NHTSA History: {total} complaint{total === 1 ? '' : 's'} on file
+                    </span>
+                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full uppercase tracking-wide"
+                      style={{ background: riskStyle.fg, color: '#FFFFFF' }}>{riskStyle.label}</span>
+                  </div>
+                  {total > 0 && (
+                    <div className="text-xs mt-1" style={{ color: riskStyle.fg }}>{summary}</div>
+                  )}
+                  {total > 0 && (
+                    <button type="button"
+                      onClick={() => setHistoryExpanded(s => !s)}
+                      className="mt-2 text-[11px] font-semibold inline-flex items-center gap-1 hover:underline"
+                      style={{ color: riskStyle.fg }}>
+                      {historyExpanded ? 'Hide details' : 'Show details'}
+                      <ChevronDown className={`w-3 h-3 transition-transform ${historyExpanded ? 'rotate-180' : ''}`} />
+                    </button>
+                  )}
+                  {historyExpanded && total > 0 && (
+                    <ul className="mt-2 space-y-1 text-[11px]" style={{ color: riskStyle.fg }}>
+                      {Object.entries(cats).sort((a, b) => b[1] - a[1]).map(([k, n]) => (
+                        <li key={k}>
+                          <span className="inline-block w-24 capitalize">{k}</span>
+                          <span className="font-mono font-semibold">{n}</span>
+                        </li>
+                      ))}
+                    </ul>
+                  )}
+                </div>
+              </div>
+            </div>
+          );
+        })()}
 
         {/* VEHICLE INFO */}
         <Card className="p-5">

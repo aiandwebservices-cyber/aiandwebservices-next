@@ -83,31 +83,34 @@ export function Contact() {
         }} className="contact-split">
           {/* left: location & map */}
           <div style={{ borderRight: `1px solid ${C.rule}` }}>
-            {/* fake map */}
-            <div style={{
-              aspectRatio: '16/10', position: 'relative',
-              background: `radial-gradient(ellipse at 60% 50%, #1a2030 0%, ${C.bg2} 80%)`,
-              backgroundImage: `linear-gradient(${C.rule} 1px, transparent 1px), linear-gradient(90deg, ${C.rule} 1px, transparent 1px)`,
-              backgroundSize: '24px 24px',
-            }}>
-              <svg width="100%" height="100%" style={{ position: 'absolute', inset: 0 }}>
-                <line x1="0" y1="40%" x2="100%" y2="55%" stroke={`${C.gold}44`} strokeWidth="2" />
-                <line x1="30%" y1="0" x2="40%" y2="100%" stroke={`${C.gold}44`} strokeWidth="2" />
-                <line x1="0" y1="80%" x2="100%" y2="70%" stroke={`${C.gold}22`} strokeWidth="1" />
-              </svg>
-              {/* pin */}
-              <div style={{
-                position: 'absolute', top: '46%', left: '54%',
-                transform: 'translate(-50%, -100%)',
-              }}>
-                <div style={{
-                  width: 16, height: 16, background: C.red, borderRadius: '50%',
-                  border: `3px solid ${C.gold}`,
-                  boxShadow: `0 0 0 8px ${C.red}33`,
-                  animation: 'pinPulse 2s ease-in-out infinite',
-                }} />
-              </div>
-            </div>
+            {(() => {
+              const fullAddr = [config.address?.street, config.address?.city, config.address?.state, config.address?.zip]
+                .filter(Boolean).join(', ');
+              const addrEnc = encodeURIComponent(fullAddr || `${config.dealerName || 'Dealer'} ${config.address?.city || ''}`);
+              const gKey = config.integrations?.googleMapsKey;
+              const lat = config.address?.lat ?? 25.7617;
+              const lng = config.address?.lng ?? -80.1918;
+              if (gKey && fullAddr) {
+                return (
+                  <iframe
+                    title={`Map to ${config.dealerName}`}
+                    src={`https://www.google.com/maps/embed/v1/place?key=${encodeURIComponent(gKey)}&q=${addrEnc}`}
+                    width="100%" height="300" style={{ border: 0, display: 'block', background: C.bg2 }}
+                    loading="lazy" allowFullScreen
+                    referrerPolicy="no-referrer-when-downgrade" />
+                );
+              }
+              // OpenStreetMap fallback — keyless. ~0.025° bbox = ~2.7km radius.
+              const d = 0.025;
+              const bbox = `${lng - d},${lat - d},${lng + d},${lat + d}`;
+              return (
+                <iframe
+                  title={`Map to ${config.dealerName}`}
+                  src={`https://www.openstreetmap.org/export/embed.html?bbox=${encodeURIComponent(bbox)}&layer=mapnik&marker=${lat},${lng}`}
+                  width="100%" height="300" style={{ border: 0, display: 'block', background: C.bg2 }}
+                  loading="lazy" />
+              );
+            })()}
 
             <div style={{ padding: 32 }}>
               <div style={{
@@ -166,9 +169,10 @@ export function Contact() {
               </div>
 
               <a
-                href={driveZipValid
-                  ? `https://maps.google.com/?saddr=${driveZip}&daddr=${encodeURIComponent(addrStreet + ' ' + addrCityState)}`
-                  : `https://maps.google.com/?daddr=${encodeURIComponent(addrStreet + ' ' + addrCityState)}`}
+                href={`https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(
+                  [config.address?.street, config.address?.city, config.address?.state, config.address?.zip]
+                    .filter(Boolean).join(', ') || `${config.dealerName || ''} ${config.address?.city || ''}`
+                )}${driveZipValid ? `&origin=${driveZip}` : ''}`}
                 target="_blank" rel="noreferrer"
                 style={{
                 marginTop: 16, display: 'inline-block',
