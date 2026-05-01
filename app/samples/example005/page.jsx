@@ -5069,7 +5069,7 @@ export default function PrimoAutoGroup() {
       <MobileCallButton />
 
       <a href="/samples/primo-features" className="dealer-btn">
-        🔑 Dealer? See All Features →
+        🔑 Car Dealer? See All Features →
       </a>
 
       <style>{`
@@ -5218,24 +5218,25 @@ export default function PrimoAutoGroup() {
         }
         .dealer-btn {
           position: fixed;
-          top: 80px;
-          right: 20px;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
           z-index: 90;
           background: #D4AF37;
           color: #0a0a0a;
           font-family: 'Inter', sans-serif;
-          font-size: 13px;
+          font-size: 16px;
           font-weight: 800;
           letter-spacing: 0.3px;
-          padding: 11px 20px;
+          padding: 13px 24px;
           border-radius: 50px;
           text-decoration: none;
           white-space: nowrap;
           box-shadow: 0 4px 20px rgba(212,175,55,0.35);
           animation: dealerPulse 2.5s ease-in-out infinite;
-          transition: transform 0.15s, filter 0.15s;
+          transition: filter 0.15s;
         }
-        .dealer-btn:hover { transform: scale(1.04); filter: brightness(1.08); }
+        .dealer-btn:hover { transform: translate(-50%, -50%) scale(1.04); filter: brightness(1.08); }
         @media (max-width: 760px) {
           .dealer-btn {
             top: 14px;
