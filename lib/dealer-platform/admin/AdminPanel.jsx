@@ -393,6 +393,7 @@ function AdminPanelBody({ config, slug }) {
         unreadLeads={unreadLeads} reservationCount={reservationCount}
         leads={leads} setLeads={setLeads}
         reservations={reservations} appointments={appointments}
+        inventory={inventory}
         setActiveTab={setActiveTab} flash={flash}
         espoAvailable={espo.espoAvailable}
       />

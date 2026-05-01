@@ -1,8 +1,10 @@
 'use client';
-import { Menu, Search, Moon, Sun, HelpCircle, Bell } from 'lucide-react';
+import { useState } from 'react';
+import { Menu, Search, Moon, Sun, HelpCircle, Bell, LayoutGrid } from 'lucide-react';
 import { GOLD, RED_ACCENT } from './_internals';
 import { NotificationDropdown } from './NotificationDropdown';
 import { NAV_ITEMS } from './Sidebar';
+import MobileDashboard from './MobileDashboard';
 
 const PAGE_TITLES = {
   dashboard:    'Dashboard',
@@ -31,14 +33,17 @@ export function TopBar({
   notifOpen, setNotifOpen,
   unreadLeads, reservationCount,
   leads, setLeads, reservations, appointments,
+  inventory,
   setActiveTab, flash,
   espoAvailable,
 }) {
+  const [mobileDashOpen, setMobileDashOpen] = useState(false);
   const pageTitle = PAGE_TITLES[activeTab] || 'Dashboard';
   const userName = settings?.dealerName || config?.dealerName || 'Dealer';
   const initials = userName.split(' ').map(p => p[0]).slice(0, 2).join('').toUpperCase();
 
   return (
+    <>
     <header className="sticky top-0 z-30 no-print"
       style={{ background: '#FFFFFF', borderBottom: '1px solid #E5E7EB' }}>
       <div className="flex items-center px-4 lg:px-6 gap-3" style={{ height: 56 }}>
@@ -50,6 +55,15 @@ export function TopBar({
         <h1 className="text-base font-semibold tracking-tight truncate" style={{ color: '#1A1A1A' }}>
           {pageTitle}
         </h1>
+
+        {/* Quick View — mobile only */}
+        <button
+          onClick={() => setMobileDashOpen(true)}
+          title="Quick View"
+          className="md:hidden p-1.5 rounded-md transition hover:bg-[#F9FAFB]"
+          style={{ color: '#6B7280' }}>
+          <LayoutGrid className="w-4 h-4" />
+        </button>
 
         <div className="flex-1" />
 
@@ -127,6 +141,17 @@ export function TopBar({
         </div>
       </div>
     </header>
+
+    {mobileDashOpen && (
+      <MobileDashboard
+        leads={leads}
+        appointments={appointments}
+        inventory={inventory ?? []}
+        onNavigate={setActiveTab}
+        onClose={() => setMobileDashOpen(false)}
+      />
+    )}
+  </>
   );
 }
 

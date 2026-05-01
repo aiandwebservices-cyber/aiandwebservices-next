@@ -37,7 +37,8 @@
     "resend": "^6.12.2",
     "square": "^44.0.1",
     "stripe": "^22.1.0",
-    "svix": "^1.92.2"
+    "svix": "^1.92.2",
+    "web-push": "^3.6.7"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^16.2.4",

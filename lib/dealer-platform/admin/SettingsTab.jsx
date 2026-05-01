@@ -32,6 +32,7 @@ import { SEED_FNI_HISTORY } from '@/lib/dealer-platform/data/seed-deals';
 import { SEED_APPT_HISTORY } from '@/lib/dealer-platform/data/seed-appointments';
 import { ActivityLog } from './ActivityLog';
 import { BreadcrumbBar } from './BreadcrumbBar';
+import PushNotificationSetup from './PushNotificationSetup';
 
 export function SettingsTab({ settings, setSettings, flash }) {
   const cfg = useAdminConfig();
@@ -225,6 +226,15 @@ export function SettingsTab({ settings, setSettings, flash }) {
             </Select>
           </Field>
         </div>
+      </Card>
+
+      {/* Push Notifications */}
+      <Card className="p-6">
+        <div className="flex items-center gap-2 mb-5">
+          <Bell className="w-4 h-4 text-stone-500" />
+          <h2 className="font-display text-xl font-medium">Push Notifications</h2>
+        </div>
+        <PushNotificationSetup flash={flash} />
       </Card>
 
       {/* AI Agent Configuration */}

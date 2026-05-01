@@ -121,3 +121,28 @@ async function navigationHandler(request) {
     return new Response('Offline', { status: 503 });
   }
 }
+
+// --- Push notifications ---
+self.addEventListener('push', (event) => {
+  const data = event.data ? event.data.json() : {};
+  const options = {
+    body: data.body || 'New notification from LotPilot',
+    icon: data.icon || '/icons/lotpilot-192.svg',
+    badge: '/icons/lotpilot-192.svg',
+    tag: data.tag || 'lotpilot-notification',
+    data: { url: data.url || '/' },
+    vibrate: [200, 100, 200],
+    actions: [
+      { action: 'open', title: 'View' },
+      { action: 'dismiss', title: 'Dismiss' },
+    ],
+  };
+  event.waitUntil(self.registration.showNotification(data.title || 'LotPilot', options));
+});
+
+self.addEventListener('notificationclick', (event) => {
+  event.notification.close();
+  if (event.action === 'dismiss') return;
+  const url = event.notification.data?.url || '/';
+  event.waitUntil(clients.openWindow(url));
+});
