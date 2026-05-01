@@ -8,6 +8,8 @@ import { useCustomerConfig } from './CustomerConfigContext';
 import { QRBlock } from './QRCode';
 import { useDealerInventory } from './InventoryGrid';
 import { findSimilarVehicles } from '@/lib/dealer-platform/ai/similar-vehicles';
+import { VehicleSchema } from './VehicleSchema';
+import { generateVehicleSlug } from './utils';
 
 export function DetailDrawer({ v, onClose, onBuildDeal, onReserve, isReserved }) {
   const [tab, setTab]   = useState('specs');
@@ -125,7 +127,13 @@ export function DetailDrawer({ v, onClose, onBuildDeal, onReserve, isReserved })
   useEffect(() => { requestAnimationFrame(() => setOpen(true)); }, []);
   const close = () => { setOpen(false); setTimeout(onClose, 280); };
 
+  const vehiclePageUrl = cfg?.dealerSlug
+    ? `https://lotpilot.ai/dealers/${cfg.dealerSlug}/inventory/${generateVehicleSlug(v)}`
+    : undefined;
+
   return (
+    <>
+      <VehicleSchema vehicle={v} dealerConfig={cfg} vehicleUrl={vehiclePageUrl} />
     <div
       onClick={close}
       style={{
@@ -895,6 +903,7 @@ export function DetailDrawer({ v, onClose, onBuildDeal, onReserve, isReserved })
         </div>
       </div>
     </div>
+    </>
   );
 }
 

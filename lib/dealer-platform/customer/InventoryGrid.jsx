@@ -6,6 +6,8 @@ import {
 } from './_internals';
 import { useCustomerConfig } from './CustomerConfigContext';
 import { FleetCard } from './VehicleCard';
+import { VehicleSchema } from './VehicleSchema';
+import { generateVehicleSlug } from './utils';
 import { SEED_VEHICLES } from '@/lib/dealer-platform/data/seed-vehicles';
 
 /* ─── Live-inventory plumbing ───────────────────────────────────────────
@@ -90,14 +92,8 @@ export function mapEspoVehicle(e) {
   };
 }
 
-function vehicleUrlSlug(v, dealerSlug) {
-  const slugify = (s) => String(s || '')
-    .toLowerCase().trim()
-    .replace(/[^a-z0-9]+/g, '-')
-    .replace(/^-+|-+$/g, '');
-  const parts = [v.y, v.mk, v.md].map(slugify).filter(Boolean).join('-');
-  const tail = v.stockNumber || v.id || '';
-  return `/dealers/${dealerSlug}/inventory/${parts}${tail ? '-' + slugify(tail) : ''}`;
+function vehicleUrl(v, dealerSlug) {
+  return `/dealers/${dealerSlug}/inventory/${generateVehicleSlug(v)}`;
 }
 
 async function fetchInventory(dealerId) {
@@ -363,26 +359,27 @@ export function Fleet({ priceMode, setPriceMode, onView, onBuildDeal, saved, onT
               <div style={{ fontFamily: FONT_MONO, fontSize: 12, letterSpacing: 2, marginBottom: 10, color: C.gold }}>NO MATCHES</div>
               <div style={{ fontFamily: FONT_BODY, fontSize: 14 }}>No vehicles in this category right now. Try another body type.</div>
             </div>
-          ) : filtered.map((v, i) => (
-            <div
-              key={v.id}
-              data-vehicle-url={vehicleUrlSlug(v, dealerSlug)}
-              style={{ display: 'contents' }}
-            >
-              <FleetCard
-                v={v}
-                priceMode={priceMode}
-                onView={onView}
-                onBuildDeal={onBuildDeal}
-                isSaved={saved.has(v.id)}
-                onToggleSave={() => onToggleSave(v.id)}
-                isAlerted={priceAlerts.has(v.id)}
-                onTogglePriceAlert={() => onTogglePriceAlert(v.id)}
-                isReserved={reserved.has(v.id)}
-                idx={i}
-              />
-            </div>
-          ))}
+          ) : filtered.map((v, i) => {
+            const url = vehicleUrl(v, dealerSlug);
+            return (
+              <div key={v.id} style={{ display: 'contents' }}>
+                <VehicleSchema vehicle={v} dealerConfig={config} vehicleUrl={`https://lotpilot.ai${url}`} />
+                <FleetCard
+                  v={v}
+                  url={url}
+                  priceMode={priceMode}
+                  onView={onView}
+                  onBuildDeal={onBuildDeal}
+                  isSaved={saved.has(v.id)}
+                  onToggleSave={() => onToggleSave(v.id)}
+                  isAlerted={priceAlerts.has(v.id)}
+                  onTogglePriceAlert={() => onTogglePriceAlert(v.id)}
+                  isReserved={reserved.has(v.id)}
+                  idx={i}
+                />
+              </div>
+            );
+          })}
         </div>
       </div>
 
