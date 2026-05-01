@@ -4,6 +4,7 @@ import { Cormorant_Garamond, DM_Sans } from 'next/font/google';
 import {
   Check, Star, Phone, Mail, ArrowRight, ChevronDown,
   Car, Users, Shield, Cpu, LayoutDashboard, Globe,
+  MessageSquare, FileText, Target, TrendingUp,
 } from 'lucide-react';
 
 const cormorant = Cormorant_Garamond({
@@ -126,7 +127,7 @@ const FEATURE_GROUPS = [
 
 const TESTIMONIALS = [
   {
-    quote: "We cut our software spend by $14,000 last year switching to AIandWEBservices. The admin panel alone is worth it — I manage everything from my phone.",
+    quote: "We cut our software spend by $14,000 last year switching to AutoRival.ai. The admin panel alone is worth it — I manage everything from my phone.",
     name: 'Marcus Reid',
     title: 'Owner',
     dealership: 'Reid Family Auto Sales',
@@ -252,6 +253,293 @@ function Stars() {
   );
 }
 
+/* ── AI feature data ──────────────────────────────────────── */
+const AI_FEATURES = [
+  {
+    key: 'agent',
+    IconComp: MessageSquare,
+    color: '#4A9EFF',
+    title: '24/7 AI Sales Agent',
+    subtitle: 'Never miss a lead again — even at 2am',
+    desc: 'When a customer asks "Do you have any SUVs under $40K?" at 11pm, your AI agent responds in seconds with real vehicles from your inventory, accurate monthly payments, and books a test drive — all while your team sleeps. Handles chat on your website AND incoming text messages.',
+    stats: ['Responds in <5 seconds', 'Knows your entire inventory', 'Captures leads automatically'],
+    demo: '/samples/example005',
+    competitor: 'DriveCentric charges $500+/mo for their auto-responder. Ours is included.',
+  },
+  {
+    key: 'descriptions',
+    IconComp: FileText,
+    color: '#A78BFA',
+    title: 'AI Vehicle Descriptions',
+    subtitle: 'Professional listing copy in 2 seconds',
+    desc: 'Stop writing "well-maintained, runs great" on every listing. Enter a VIN and the AI writes a compelling, unique description that makes buyers want to schedule a test drive. Bulk-generate descriptions for your entire lot in minutes.',
+    stats: ['Unique copy per vehicle', '~$0.001 per description', 'Bulk generate for entire lot'],
+    beforeAfter: true,
+  },
+  {
+    key: 'scoring',
+    IconComp: Target,
+    color: '#4ADE80',
+    title: 'AI Lead Scoring',
+    subtitle: 'Know who to call first — every time',
+    desc: 'Not every lead is equal. The AI analyzes what each customer did on your site — which vehicles they viewed, whether they used the payment calculator, if they started Build Your Deal — and scores them 0–100. Your hottest leads surface to the top automatically.',
+    scoreboard: true,
+    competitor: 'VinSolutions charges $300+/mo for lead scoring. Ours is built in.',
+  },
+  {
+    key: 'pricing',
+    IconComp: TrendingUp,
+    color: '#FB923C',
+    title: 'AI Pricing Intelligence',
+    subtitle: 'Stop guessing — know when to drop the price',
+    desc: "The AI monitors every vehicle's days on lot, margin, and market position. When your 2021 Lexus RX hits 52 days, you get a specific recommendation: \"Drop to $29,995 — estimated to sell within 2 weeks at $4,195 gross.\" Set auto-pricing rules and let the AI manage aging inventory for you.",
+    stats: ['Daily lot health score', 'Auto-price rules', 'Margin-aware recommendations'],
+    competitor: 'vAuto charges $500+/mo for pricing intelligence. Ours is included.',
+  },
+  {
+    key: 'followup',
+    IconComp: Mail,
+    color: '#F472B6',
+    title: 'AI Follow-Up Sequences',
+    subtitle: 'Personalized messages — not templates',
+    desc: 'When Maria inquires about the BMW X5, the AI writes a personalized 4-step follow-up sequence — not a generic template. Hour 4: warm confirmation. Hour 24: the vehicle is still available. Day 3: here are 2 similar options. Day 7: graceful close. Each message references her specific vehicle and sounds like your salesperson wrote it.',
+    followupStages: true,
+  },
+  {
+    key: 'reviews',
+    IconComp: Star,
+    color: '#D4AF37',
+    title: 'AI Review Response',
+    subtitle: 'Respond to every Google review in your voice',
+    desc: 'Customer leaves a 5-star review? AI drafts a warm, personalized response in seconds. 3-star review? AI acknowledges the concern and offers to make it right. You approve with one tap. Dealers who respond to every review convert 88% more leads — now you can do it without spending 30 minutes a day.',
+    stats: ['Auto-drafts responses', 'Matches your voice', 'One-tap approve'],
+  },
+];
+
+function AiCard({ feat }) {
+  const { IconComp, color, title, subtitle, desc, stats, competitor, demo, beforeAfter, scoreboard, followupStages } = feat;
+  return (
+    <div
+      style={{
+        background: 'rgba(255,255,255,0.025)', border: `1px solid ${color}28`,
+        borderRadius: 16, padding: 36, display: 'flex', flexDirection: 'column',
+        transition: 'border-color 0.2s, background 0.2s', height: '100%',
+      }}
+      onMouseEnter={e => { e.currentTarget.style.borderColor = `${color}55`; e.currentTarget.style.background = `${color}08`; }}
+      onMouseLeave={e => { e.currentTarget.style.borderColor = `${color}28`; e.currentTarget.style.background = 'rgba(255,255,255,0.025)'; }}
+    >
+      {/* header */}
+      <div style={{ display: 'flex', alignItems: 'flex-start', gap: 16, marginBottom: 20 }}>
+        <div style={{
+          width: 48, height: 48, borderRadius: 12, flexShrink: 0,
+          background: `${color}18`, border: `1px solid ${color}33`,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          <IconComp size={22} color={color} />
+        </div>
+        <div>
+          <h3 style={{
+            fontFamily: "var(--font-cormorant), serif",
+            fontSize: 26, fontWeight: 700, color: TEXT, lineHeight: 1.1, marginBottom: 5,
+          }}>{title}</h3>
+          <p style={{ fontSize: 13, color, fontWeight: 600, letterSpacing: '0.02em' }}>{subtitle}</p>
+        </div>
+      </div>
+
+      {/* description */}
+      <p style={{ fontSize: 14.5, color: '#b0a890', lineHeight: 1.72, marginBottom: 20 }}>{desc}</p>
+
+      {/* stats row */}
+      {stats && (
+        <div style={{
+          display: 'flex', marginBottom: 20,
+          background: 'rgba(255,255,255,0.03)', border: '1px solid rgba(255,255,255,0.06)',
+          borderRadius: 10, overflow: 'hidden',
+        }}>
+          {stats.map((s, i) => (
+            <div key={s} style={{
+              flex: 1, padding: '12px 10px', textAlign: 'center',
+              borderRight: i < stats.length - 1 ? '1px solid rgba(255,255,255,0.06)' : 'none',
+            }}>
+              <span style={{ fontSize: 12, color: GOLD, fontWeight: 700, display: 'block', lineHeight: 1.45 }}>{s}</span>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* demo link */}
+      {demo && (
+        <div style={{ marginBottom: 16 }}>
+          <a href={demo} style={{
+            fontSize: 13, color, fontWeight: 700, textDecoration: 'none',
+            display: 'inline-flex', alignItems: 'center', gap: 6,
+            transition: 'opacity 0.2s',
+          }}
+            onMouseEnter={e => e.currentTarget.style.opacity = '0.75'}
+            onMouseLeave={e => e.currentTarget.style.opacity = '1'}
+          >
+            Try it on the demo site <ArrowRight size={13} />
+          </a>
+        </div>
+      )}
+
+      {/* before / after */}
+      {beforeAfter && (
+        <div style={{ marginBottom: 16, display: 'flex', flexDirection: 'column', gap: 8 }}>
+          <div style={{ background: '#160808', border: '1px solid #FF444420', borderRadius: 8, padding: '14px 16px' }}>
+            <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#FF7070', marginBottom: 6 }}>Before</div>
+            <p style={{ fontSize: 13, color: '#7a6860', lineHeight: 1.55 }}>2023 BMW X5. Well maintained. Low miles. Must see.</p>
+          </div>
+          <div style={{ background: '#071310', border: '1px solid #4ADE8020', borderRadius: 8, padding: '14px 16px' }}>
+            <div style={{ fontSize: 10, fontWeight: 700, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#4ADE80', marginBottom: 6 }}>After (AI Generated)</div>
+            <p style={{ fontSize: 13, color: '#90b07a', lineHeight: 1.55 }}>One-owner 2023 BMW X5 with the M Sport package, panoramic roof, and just 28K highway miles. Finished in Alpine White over Black leather. Passed our 150-point inspection — this spec doesn&rsquo;t come up often.</p>
+          </div>
+        </div>
+      )}
+
+      {/* lead scoreboard */}
+      {scoreboard && (
+        <div style={{
+          marginBottom: 16, background: 'rgba(255,255,255,0.02)',
+          border: '1px solid rgba(255,255,255,0.06)', borderRadius: 10, overflow: 'hidden',
+        }}>
+          {[
+            { emoji: '🔥', name: 'Maria R.', score: 92, detail: 'Completed Build Your Deal, pre-approved', scoreColor: '#FF5B5B' },
+            { emoji: '🟡', name: 'James T.', score: 65, detail: 'Viewed 3 SUVs, used calculator', scoreColor: '#FBBF24' },
+            { emoji: '⚪', name: 'Sarah K.', score: 35, detail: 'Browsed inventory, bounced quickly', scoreColor: '#6b7280' },
+          ].map((l, i) => (
+            <div key={l.name} style={{
+              display: 'flex', alignItems: 'center', gap: 12, padding: '13px 16px',
+              borderBottom: i < 2 ? '1px solid rgba(255,255,255,0.04)' : 'none',
+            }}>
+              <span style={{ fontSize: 16 }}>{l.emoji}</span>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: 13.5, fontWeight: 700, color: TEXT }}>{l.name}</div>
+                <div style={{ fontSize: 11.5, color: MUTED, marginTop: 2 }}>{l.detail}</div>
+              </div>
+              <div style={{
+                fontFamily: "var(--font-cormorant), serif",
+                fontSize: 22, fontWeight: 700, color: l.scoreColor, flexShrink: 0,
+              }}>{l.score}<span style={{ fontSize: 12, color: MUTED }}>/100</span></div>
+            </div>
+          ))}
+        </div>
+      )}
+
+      {/* follow-up stage previews */}
+      {followupStages && (
+        <div style={{ marginBottom: 16, display: 'flex', flexDirection: 'column', gap: 7 }}>
+          {[
+            ['4h',    "Hi Maria, it's Carlos from Primo. Got your inquiry on the X5 — it's a great pick..."],
+            ['24h',   'Quick update — the BMW X5 is still available. Happy to hold it with a deposit...'],
+            ['Day 3', "Hey Maria, we just got a 2024 Audi Q5 that's similar to the X5 you liked..."],
+            ['Day 7', "Maria, just wanted to follow up one last time. If timing isn't right, no worries..."],
+          ].map(([stage, text]) => (
+            <div key={stage} style={{
+              background: 'rgba(255,255,255,0.025)', border: '1px solid rgba(255,255,255,0.06)',
+              borderRadius: 8, padding: '10px 14px', display: 'flex', gap: 12, alignItems: 'flex-start',
+            }}>
+              <span style={{
+                fontSize: 10, fontWeight: 700, letterSpacing: '0.1em',
+                textTransform: 'uppercase', color: '#F472B6',
+                background: '#F472B614', border: '1px solid #F472B630',
+                borderRadius: 4, padding: '3px 8px', flexShrink: 0, marginTop: 1,
+              }}>{stage}</span>
+              <span style={{ fontSize: 12.5, color: '#9a8878', lineHeight: 1.5 }}>{text}</span>
+            </div>
+          ))}
+          <div style={{ fontSize: 12, color: GOLD, fontWeight: 700, marginTop: 4 }}>
+            ~$0.004 per full sequence — pennies, not dollars
+          </div>
+        </div>
+      )}
+
+      {/* competitor note */}
+      {competitor && (
+        <div style={{
+          marginTop: 'auto', paddingTop: 16,
+          borderTop: '1px solid rgba(255,255,255,0.06)',
+          fontSize: 12.5, color: '#7a7060', fontStyle: 'italic', lineHeight: 1.55,
+        }}>
+          <span style={{ color: GOLD, fontWeight: 700, fontStyle: 'normal' }}>💰 </span>
+          {competitor}
+        </div>
+      )}
+    </div>
+  );
+}
+
+function AiSavingsTable() {
+  const rows = [
+    ['DriveCentric AI Responder',         '$500/mo'],
+    ['VinSolutions Lead Scoring',          '$300/mo'],
+    ['vAuto Price Intelligence',           '$500/mo'],
+    ['BDC Staff (replaced by AI Agent)',   '$3,000–5,000/mo'],
+  ];
+  return (
+    <div style={{
+      marginTop: 64, padding: '48px 40px',
+      background: `${GOLD}06`, border: `1px solid ${GOLD}28`,
+      borderRadius: 16, textAlign: 'center',
+    }}>
+      <h3 style={{
+        fontFamily: "var(--font-cormorant), serif",
+        fontSize: 'clamp(28px, 4vw, 42px)', fontWeight: 700,
+        color: TEXT, marginBottom: 12,
+      }}>6 AI Agents. Zero Extra Cost.</h3>
+      <p style={{
+        fontSize: 16, color: MUTED, lineHeight: 1.65,
+        marginBottom: 40, maxWidth: 580, marginLeft: 'auto', marginRight: 'auto',
+      }}>
+        DriveCentric, VinSolutions, and vAuto charge $500–1,500/mo <em>each</em> for individual AI features.
+        AutoRival.ai includes all 6 in every plan.
+      </p>
+
+      <div style={{ maxWidth: 660, margin: '0 auto' }}>
+        <div style={{
+          display: 'grid', gridTemplateColumns: '1fr auto auto',
+          gap: 16, padding: '8px 20px', marginBottom: 6,
+          fontSize: 10, fontWeight: 700, letterSpacing: '0.18em',
+          textTransform: 'uppercase', color: MUTED,
+        }}>
+          <span style={{ textAlign: 'left' }}>Competitor Feature</span>
+          <span style={{ textAlign: 'right' }}>Their Price</span>
+          <span style={{ textAlign: 'right' }}>AutoRival.ai</span>
+        </div>
+
+        {rows.map(([label, price], i) => (
+          <div key={label} style={{
+            display: 'grid', gridTemplateColumns: '1fr auto auto',
+            gap: 16, padding: '13px 20px', alignItems: 'center',
+            background: i % 2 === 0 ? 'rgba(255,255,255,0.025)' : 'transparent',
+            borderRadius: 8,
+          }}>
+            <span style={{ fontSize: 14, color: '#c0b8a0', textAlign: 'left' }}>{label}</span>
+            <span style={{ fontSize: 14, fontWeight: 700, color: '#FF8080', textAlign: 'right', whiteSpace: 'nowrap' }}>{price}</span>
+            <span style={{ fontSize: 14, fontWeight: 700, color: '#4ADE80', textAlign: 'right', whiteSpace: 'nowrap' }}>✅ Included</span>
+          </div>
+        ))}
+
+        <div style={{
+          display: 'grid', gridTemplateColumns: '1fr auto auto',
+          gap: 16, padding: '16px 20px', marginTop: 10,
+          borderTop: `2px solid ${GOLD}30`, alignItems: 'center',
+        }}>
+          <span style={{ fontSize: 15, fontWeight: 700, color: TEXT, textAlign: 'left' }}>Total savings</span>
+          <span style={{
+            fontFamily: "var(--font-cormorant), serif",
+            fontSize: 22, fontWeight: 700, color: '#FF8080', textAlign: 'right', whiteSpace: 'nowrap',
+          }}>$4,300–6,300/mo</span>
+          <span style={{
+            fontFamily: "var(--font-cormorant), serif",
+            fontSize: 22, fontWeight: 700, color: GOLD, textAlign: 'right', whiteSpace: 'nowrap',
+          }}>$0/mo</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 /* ═══════════════════════════════════════════════════════════
    Page
 ═══════════════════════════════════════════════════════════ */
@@ -308,7 +596,7 @@ export default function PrimoFeaturesPage() {
 
           <FadeSection delay={0.2}>
             <p style={{ fontSize: 19, color: MUTED, lineHeight: 1.65, maxWidth: 560, marginBottom: 52 }}>
-              AIandWEBservices gives independent car dealers a complete digital platform — custom website, dealer admin panel, CRM, F&I tracking, reputation management, and more — at a price that finally makes sense.
+              AutoRival.ai gives independent car dealers a complete digital platform — custom website, dealer admin panel, CRM, F&I tracking, reputation management, and more — at a price that finally makes sense.
             </p>
           </FadeSection>
 
@@ -434,7 +722,7 @@ export default function PrimoFeaturesPage() {
               <p style={{
                 fontSize: 11, fontWeight: 700, letterSpacing: '0.2em',
                 textTransform: 'uppercase', color: GOLD, marginBottom: 24,
-              }}>AIandWEBservices — Everything Included</p>
+              }}>AutoRival.ai — Everything Included</p>
 
               <div style={{ display: 'flex', flexDirection: 'column' }}>
                 {[
@@ -477,6 +765,48 @@ export default function PrimoFeaturesPage() {
           </FadeSection>
         </div>
       </SectionWrap>
+
+      {/* ─── AI FEATURES ─────────────────────────────────── */}
+      <section id="ai-features" style={{
+        padding: '96px 0',
+        background: 'linear-gradient(180deg, #0a0a0a 0%, #111111 100%)',
+        borderTop: `1px solid ${GOLD}18`,
+        borderBottom: `1px solid ${GOLD}18`,
+      }}>
+        <div style={{ maxWidth: 1100, margin: '0 auto', padding: '0 24px' }}>
+          <FadeSection>
+            <Label>6 AI Agents Included</Label>
+            <div style={{ marginBottom: 52 }}>
+              <h2 style={{
+                fontFamily: "var(--font-cormorant), serif",
+                fontSize: 'clamp(36px, 5vw, 58px)',
+                fontWeight: 700, lineHeight: 1.05, color: TEXT, marginBottom: 18,
+              }}>🤖 AI Built Into Every Feature</h2>
+              <p style={{ fontSize: 18, color: MUTED, lineHeight: 1.65, maxWidth: 640 }}>
+                Your competitors are paying $500+/mo for basic automation.{' '}
+                <span style={{ color: GOLD, fontWeight: 700 }}>AutoRival.ai</span> includes{' '}
+                <span style={{ color: GOLD, fontWeight: 700 }}>6 AI agents</span> at no extra cost.
+              </p>
+            </div>
+          </FadeSection>
+
+          <div style={{
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fit, minmax(460px, 1fr))',
+            gap: 28,
+          }}>
+            {AI_FEATURES.map((feat, i) => (
+              <FadeSection key={feat.key} delay={i * 0.07}>
+                <AiCard feat={feat} />
+              </FadeSection>
+            ))}
+          </div>
+
+          <FadeSection delay={0.35}>
+            <AiSavingsTable />
+          </FadeSection>
+        </div>
+      </section>
 
       {/* ─── FEATURE GRID ─────────────────────────────────── */}
       <SectionWrap id="features">
