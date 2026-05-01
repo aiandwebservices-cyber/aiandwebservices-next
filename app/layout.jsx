@@ -33,7 +33,7 @@ export const viewport = {
 export const metadata = {
   title: 'AI Automation for Small Business | AIandWEBservices',
   description: 'AI chatbots, automation, websites, and SEO for small business — built personally by David Pulis. No agency markup. Free audit in 30 minutes.',
-  keywords: 'AI agents, AI chatbot, AI automation, chatbot development, web design, SEO, small business, David Pulis, AIandWEBservices',
+  keywords: 'ai chatbot for small business, ai chatbot for website, custom ai chatbot, ai assistant for business, business ai assistant, lead capture chatbot, ai answering service, done for you chatbot, chatbot service, chatbot agency, ai automation for small business, ai automation services, ai workflow automation, business automation services, custom ai solutions, custom ai agent, ai for service businesses, small business website design, lead generation website, conversion focused web design, local seo for small business, google business profile optimization, ai seo services, voice ai for business, ai voice agent, voice ai answering service, david pulis, david pulis miami, AIandWEBservices',
   authors: [{ name: 'David Pulis — AIandWEBservices' }],
   robots: 'index, follow, max-snippet:-1, max-image-preview:large, max-video-preview:-1',
   alternates: { canonical: 'https://www.aiandwebservices.com' },

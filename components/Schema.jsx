@@ -26,6 +26,21 @@ const ORG = {
     height: 52,
   },
   founder: { '@type': 'Person', name: 'David Pulis', jobTitle: 'Founder & AI Systems Specialist' },
+  description:
+    'AIandWEBservices designs custom AI chatbots, AI automation, websites, and SEO for small business — built personally by David Pulis.',
+  keywords: [
+    'ai chatbot for small business',
+    'custom ai chatbot',
+    'ai automation for small business',
+    'ai automation services',
+    'business automation services',
+    'custom ai agent',
+    'voice ai for business',
+    'small business website design',
+    'lead generation website',
+    'local seo for small business',
+    'google business profile optimization',
+  ],
   contactPoint: {
     '@type': 'ContactPoint',
     email: 'david@aiandwebservices.com',
@@ -90,6 +105,30 @@ export function LocalBusinessSchema() {
         areaServed: { '@type': 'Country', name: 'United States' },
         priceRange: '$$',
         slogan: 'Intelligent solutions. Personal service.',
+        keywords: [
+          'ai chatbot for small business',
+          'custom ai chatbot',
+          'ai chatbot for website',
+          'ai assistant for business',
+          'lead capture chatbot',
+          'ai answering service',
+          'done for you chatbot',
+          'chatbot service',
+          'chatbot agency',
+          'ai automation for small business',
+          'ai automation services',
+          'ai workflow automation',
+          'business automation services',
+          'custom ai solutions',
+          'custom ai agent',
+          'small business website design',
+          'lead generation website',
+          'local seo for small business',
+          'google business profile optimization',
+          'ai seo services',
+          'voice ai for business',
+          'voice ai answering service',
+        ],
         paymentAccepted: ['Credit Card', 'Bank Transfer', 'Cryptocurrency'],
         logo: 'https://www.aiandwebservices.com/logo-final/logoFINAL-aiandweb-transparent-blacktext.svg',
         image: 'https://www.aiandwebservices.com/og-image.jpg',
@@ -108,6 +147,15 @@ const SERVICES = [
       'A custom AI automation and smart assistant system trained on your business. Handles enquiries, qualifies leads, books calls, and answers FAQs — 24/7, without you.',
     url: 'https://www.aiandwebservices.com/services/compare',
     offers: { price: '99', priceCurrency: 'USD', priceSpecification: '$99 one-time setup, then $99/month' },
+    keywords: [
+      'ai chatbot for small business',
+      'custom ai chatbot',
+      'lead capture chatbot',
+      'ai answering service',
+      'ai assistant for business',
+      'chatbot setup service',
+      '24/7 chatbot',
+    ],
   },
   {
     name: 'Presence Package',
@@ -115,6 +163,13 @@ const SERVICES = [
       'Professional website, local SEO, Google Business Profile optimisation, and a basic AI inquiry assistant. The foundation every small business needs to get found online.',
     url: 'https://www.aiandwebservices.com/#pricing',
     offers: { price: '99', priceCurrency: 'USD', priceSpecification: '$99/month + $49 one-time setup' },
+    keywords: [
+      'small business website design',
+      'lead generation website',
+      'local seo for small business',
+      'google business profile optimization',
+      'small business presence package',
+    ],
   },
   {
     name: 'Growth Package',
@@ -122,6 +177,13 @@ const SERVICES = [
       'AI automation, email marketing, SEO content, and a conversion-optimised landing page. For established businesses ready to generate consistent leads.',
     url: 'https://www.aiandwebservices.com/#pricing',
     offers: { price: '179', priceCurrency: 'USD', priceSpecification: '$179/month + $79 one-time setup' },
+    keywords: [
+      'ai automation for small business',
+      'email marketing automation',
+      'seo content service',
+      'landing page conversion optimization',
+      'lead generation small business',
+    ],
   },
   {
     name: 'Revenue Engine Package',
@@ -129,6 +191,14 @@ const SERVICES = [
       'Full sales funnel, workflow automation, paid ads setup, and AI-powered CRM integration. For businesses serious about scaling revenue without scaling headcount.',
     url: 'https://www.aiandwebservices.com/#pricing',
     offers: { price: '249', priceCurrency: 'USD', priceSpecification: '$249/month + $149 one-time setup' },
+    keywords: [
+      'sales funnel design',
+      'ai workflow automation',
+      'paid ads setup',
+      'ai crm integration',
+      'business automation services',
+      'revenue automation',
+    ],
   },
   {
     name: 'AI-First Package',
@@ -136,6 +206,14 @@ const SERVICES = [
       'Advanced AI automation pipelines, voice AI, knowledge-base-trained AI assistant, and social media AI scheduling. Replace manual work with AI at scale.',
     url: 'https://www.aiandwebservices.com/#pricing',
     offers: { price: '499', priceCurrency: 'USD', priceSpecification: '$499/month + $299 one-time setup' },
+    keywords: [
+      'voice ai for business',
+      'voice ai answering service',
+      'custom ai agent',
+      'knowledge base ai assistant',
+      'social media ai automation',
+      'enterprise ai automation',
+    ],
   },
   {
     name: 'A La Carte Services',
@@ -143,6 +221,13 @@ const SERVICES = [
       'Pick exactly what you need — AI chatbot build, landing page, CRM setup, sales funnel, Voice AI, or advisory calls. Custom quote, no lock-in, no subscription required.',
     url: 'https://www.aiandwebservices.com/services/consulting',
     offers: { price: '0', priceCurrency: 'USD', priceSpecification: 'Custom quote — project-based pricing' },
+    keywords: [
+      'ai consulting',
+      'ai strategy consultant',
+      'custom chatbot build',
+      'crm setup service',
+      'project based ai work',
+    ],
   },
 ];
 
@@ -163,6 +248,7 @@ export function HomepageServiceSchema() {
             description: svc.description,
             url: svc.url,
             provider: { '@id': 'https://www.aiandwebservices.com/#organization' },
+            ...(svc.keywords && svc.keywords.length > 0 ? { keywords: svc.keywords } : {}),
             offers: {
               '@type': 'Offer',
               price: svc.offers.price,
@@ -290,9 +376,54 @@ export function WebSiteSchema() {
 // ─── 7. Service schema — individual service pages ──────────────────────────────
 // Accepts the Tier shape from lib/pricing.ts: { slug, name, tagline, monthlyFee, setupFee }
 
+const TIER_KEYWORDS = {
+  'ai-automation-starter': [
+    'ai chatbot for small business',
+    'custom ai chatbot',
+    'lead capture chatbot',
+    'ai answering service',
+    'ai assistant for business',
+  ],
+  presence: [
+    'small business website design',
+    'lead generation website',
+    'local seo for small business',
+    'google business profile optimization',
+  ],
+  growth: [
+    'ai automation for small business',
+    'email marketing automation',
+    'seo content service',
+    'landing page conversion optimization',
+  ],
+  'revenue-engine': [
+    'sales funnel design',
+    'ai workflow automation',
+    'paid ads setup',
+    'ai crm integration',
+  ],
+  'ai-first': [
+    'voice ai for business',
+    'voice ai answering service',
+    'custom ai agent',
+    'knowledge base ai assistant',
+  ],
+  consulting: [
+    'ai consulting',
+    'ai strategy consultant',
+    'custom chatbot build',
+  ],
+  'add-ons': [
+    'custom chatbot build',
+    'landing page service',
+    'crm setup service',
+  ],
+};
+
 export function ServicePageSchema({ tier }) {
   const monthly = Number(tier.monthlyFee) || 0;
   const setup = Number(tier.setupFee) || 0;
+  const keywords = TIER_KEYWORDS[tier.slug];
   return (
     <SchemaScript
       data={{
@@ -310,6 +441,7 @@ export function ServicePageSchema({ tier }) {
           name: 'United States',
         },
         serviceType: 'AI Automation & Digital Services',
+        ...(keywords && keywords.length > 0 ? { keywords } : {}),
         offers: {
           '@type': 'Offer',
           price: monthly.toString(),
@@ -393,13 +525,19 @@ export function PersonSchema() {
         telephone: '+1-315-572-0710',
         knowsAbout: [
           'AI Automation',
-          'Chatbots',
+          'AI Chatbots',
+          'Custom AI Agents',
+          'Voice AI',
           'Machine Learning',
           'Web Design',
-          'SEO',
+          'Lead Generation Websites',
+          'Local SEO',
+          'Google Business Profile Optimization',
           'Digital Marketing',
           'Business Automation',
-          'Voice AI',
+          'Workflow Automation',
+          'Sales Funnel Design',
+          'Email Marketing Automation',
         ],
         worksFor: {
           '@id': 'https://www.aiandwebservices.com/#organization',
