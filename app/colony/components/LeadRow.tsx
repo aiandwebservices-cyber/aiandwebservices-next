@@ -1,12 +1,36 @@
 'use client'
 
+import { useEffect, useState } from 'react'
 import { ExternalLink, ChevronRight } from 'lucide-react'
 import type { Lead } from '../lib/types'
 import { TemperatureBadge } from './TemperatureBadge'
 import { LeadDetailPanel } from './LeadDetailPanel'
+import type { DraftData } from './LeadDetailPanel'
 import { useSidePanel } from './SidePanel'
 import { formatAge, isAging } from '../lib/lead-helpers'
 import { capture } from '../lib/posthog'
+
+function LeadDetailPanelWithDraft({ lead }: { lead: Lead }) {
+  const [draft, setDraft] = useState<DraftData | null | undefined>(undefined)
+
+  useEffect(() => {
+    const ctrl = new AbortController()
+    fetch(`/api/colony/leads/${encodeURIComponent(lead.id)}/draft`, {
+      signal: ctrl.signal,
+      credentials: 'include',
+      cache: 'no-store',
+    })
+      .then(async r => {
+        if (!r.ok) { setDraft(null); return }
+        const json = await r.json() as { status?: string; data?: DraftData }
+        setDraft(json.status === 'ok' && json.data ? json.data : null)
+      })
+      .catch(err => { if ((err as Error).name !== 'AbortError') setDraft(null) })
+    return () => ctrl.abort()
+  }, [lead.id])
+
+  return <LeadDetailPanel lead={lead} draft={draft} />
+}
 
 interface LeadRowProps {
   lead: Lead
@@ -21,7 +45,7 @@ export function LeadRow({ lead }: LeadRowProps) {
     open({
       title: lead.business_name,
       subtitle: `${lead.niche.replace(/-/g, ' ')} · ${lead.city}, ${lead.state}`,
-      children: <LeadDetailPanel lead={lead} />,
+      children: <LeadDetailPanelWithDraft lead={lead} />,
       width: 'medium',
     })
   }

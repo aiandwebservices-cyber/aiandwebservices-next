@@ -78,34 +78,11 @@ function getSignals(niche: string): string[] {
   ]
 }
 
-// ─── Email draft generation ───────────────────────────────────────────────────
-
-function generateDraft(lead: Lead): { subject: string; body: string } {
-  const name = lead.first_name ?? 'there'
-  const isMedical = ['dental', 'orthodontics', 'pediatric-dental'].includes(lead.niche)
-  const bizType = isMedical ? 'practice' : 'business'
-  const outcome = isMedical ? 'booked appointments' : 'qualified leads'
-
-  return {
-    subject: `Quick question about ${lead.business_name}'s online leads`,
-    body: `Hi ${name},
-
-I noticed ${lead.business_name} is running ads on Google but your Facebook and Instagram presence is pretty thin. You're leaving leads on the table.
-
-I've been working with a handful of ${lead.niche.replace(/-/g, ' ')} ${bizType}s in ${lead.city} — we're closing the gap between their ad spend and actual ${outcome} using AI-powered lead qualification.
-
-Got 15 minutes next week? I can show you exactly what I mean for your ${bizType} — no pitch, just a look at what your competitors aren't doing.
-
-— David
-AIandWEBservices`,
-  }
-}
-
 // ─── Component ────────────────────────────────────────────────────────────────
 
 interface LeadDetailPanelProps {
   lead: Lead
-  // undefined = fetch in-flight, null = no draft in Qdrant, DraftData = real Bob email
+  // undefined = fetch in-flight, null = no draft in Qdrant, DraftData = real draft from write_email
   draft?: DraftData | null
 }
 
@@ -115,8 +92,7 @@ export function LeadDetailPanel({ lead, draft: propDraft }: LeadDetailPanelProps
   const [sendModalOpen, setSendModalOpen] = useState(false)
 
   const draftLoading = propDraft === undefined
-  // When loading: show placeholder. When null: fall back to template. When DraftData: use real email.
-  const displayDraft = draftLoading ? null : (propDraft ?? generateDraft(lead))
+  const displayDraft = draftLoading ? null : propDraft
 
   let outreachLabel: React.ReactNode
   if (draftLoading) {
@@ -126,7 +102,7 @@ export function LeadDetailPanel({ lead, draft: propDraft }: LeadDetailPanelProps
   } else if (propDraft) {
     outreachLabel = <>Outreach Email — drafted by <span style={{ color: 'var(--colony-text-primary)' }}>Bob</span></>
   } else {
-    outreachLabel = <>Outreach Email — <span style={{ color: 'var(--colony-text-primary)' }}>preview</span></>
+    outreachLabel = <>Outreach Email — <span style={{ color: 'var(--colony-text-secondary)' }}>no draft</span></>
   }
 
   const signals = getSignals(lead.niche)
@@ -269,7 +245,7 @@ export function LeadDetailPanel({ lead, draft: propDraft }: LeadDetailPanelProps
             >
               Loading draft…
             </div>
-          ) : displayDraft && (
+          ) : displayDraft ? (
             <div
               className="rounded-lg p-4 space-y-2 text-sm"
               style={{
@@ -289,11 +265,24 @@ export function LeadDetailPanel({ lead, draft: propDraft }: LeadDetailPanelProps
                 ))}
               </div>
             </div>
+          ) : (
+            <div
+              className="rounded-lg p-4 text-sm"
+              style={{
+                background: 'rgba(163,163,163,0.06)',
+                border: '1px solid var(--colony-border)',
+                color: 'var(--colony-text-secondary)',
+              }}
+            >
+              No outreach drafted yet for this lead.
+            </div>
           )}
 
-          <p className="text-xs mt-2" style={{ color: 'var(--colony-text-secondary)' }}>
-            Draft generated from Bob using signals below.
-          </p>
+          {displayDraft && (
+            <p className="text-xs mt-2" style={{ color: 'var(--colony-text-secondary)' }}>
+              Drafted by master_pipeline write_email · {new Date(displayDraft.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
+            </p>
+          )}
           <EmailSendStatus leadId={lead.id} />
         </div>
 
