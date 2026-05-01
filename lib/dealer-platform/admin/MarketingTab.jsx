@@ -12,7 +12,7 @@ import {
   MoreHorizontal, FileSpreadsheet, ThumbsUp, Languages, Receipt, Layers,
   PlusCircle, MinusCircle, ChevronLeft, Power, CircleDot, Square, CheckSquare,
   Wrench, Activity, Gauge, Timer, Shield, Flag, Reply,
-  TrendingDown, BadgeCheck, Smartphone, Monitor, Sun, Moon, HelpCircle, Bookmark, Camera,
+  TrendingDown, BadgeCheck, Smartphone, Monitor, Sun, Moon, HelpCircle, Bookmark, Camera, Copy,
 } from 'lucide-react';
 import {
   GOLD, GOLD_SOFT, RED_ACCENT,
@@ -45,6 +45,11 @@ export function MarketingTab({ inventory, setInventory, settings, setSettings, s
   const [reviewRequest, setReviewRequest] = useState({
     name: '', phone: '', email: '', vehicle: '', channel: 'sms',
   });
+  const [feedDownloadLoading, setFeedDownloadLoading] = useState({});
+  const [reviewSending, setReviewSending] = useState(false);
+  const [reviewStats, setReviewStats] = useState(null);
+  const [reviewStatsLoading, setReviewStatsLoading] = useState(true);
+  const [draftLoading, setDraftLoading] = useState(null);
 
   // ---- AI review-response drafting (client-side templates for now) ----
   const dealerDisplayName = settings.dealership?.name || cfg.dealerName || 'our team';
@@ -94,31 +99,73 @@ export function MarketingTab({ inventory, setInventory, settings, setSettings, s
   };
 
   const startAiDraft = (review) => {
-    const seed = draftRegen[review.id] || 0;
-    setRespondingTo(review.id);
-    setResponseText(review.response || draftReviewResponse(review, seed));
+    setDraftLoading(review.id);
+    setTimeout(() => {
+      const seed = draftRegen[review.id] || 0;
+      setRespondingTo(review.id);
+      setResponseText(review.response || draftReviewResponse(review, seed));
+      setDraftLoading(null);
+    }, 350);
   };
   const regenerateAiDraft = (review) => {
     const next = (draftRegen[review.id] || 0) + 1;
     setDraftRegen((d) => ({ ...d, [review.id]: next }));
     setResponseText(draftReviewResponse(review, next));
   };
+  const copyResponse = () => {
+    navigator.clipboard?.writeText(responseText).then(
+      () => flash('Response copied to clipboard'),
+      () => flash('Copy failed — select text manually', 'error'),
+    );
+  };
+
   const approveAiDraft = (review) => {
+    navigator.clipboard?.writeText(responseText).catch(() => {});
     setReviews((arr) =>
       arr.map((x) => (x.id === review.id ? { ...x, response: responseText, responded: true } : x)),
     );
     setRespondingTo(null);
     setResponseText('');
-    flash('Response saved — post on Google via your Business Profile', 'success');
+    flash('Response copied — paste it in Google Business');
+    fetch(`/api/dealer/${slug}/reviews/respond`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ reviewId: review.id, response: responseText }),
+    }).catch((e) => console.warn('[reviews/respond]', e.message));
   };
 
-  const sendReviewRequest = () => {
-    if (!reviewRequest.name.trim()) {
-      flash('Customer name required', 'error');
-      return;
+  const sendReviewRequest = async () => {
+    if (!reviewRequest.name.trim()) { flash('Customer name required', 'error'); return; }
+    if (!reviewRequest.vehicle.trim()) { flash('Vehicle purchased is required', 'error'); return; }
+    const method = reviewRequest.channel;
+    if ((method === 'sms' || method === 'both') && !reviewRequest.phone.trim()) {
+      flash('Phone number required for SMS', 'error'); return;
     }
-    flash(`Review request sent to ${reviewRequest.name}`, 'success');
-    setReviewRequest({ name: '', phone: '', email: '', vehicle: '', channel: 'sms' });
+    if ((method === 'email' || method === 'both') && !reviewRequest.email.trim()) {
+      flash('Email required for email send', 'error'); return;
+    }
+    setReviewSending(true);
+    try {
+      const res = await fetch(`/api/dealer/${slug}/reviews/request`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          customerName: reviewRequest.name,
+          vehiclePurchased: reviewRequest.vehicle,
+          customerPhone: reviewRequest.phone || undefined,
+          customerEmail: reviewRequest.email || undefined,
+          method,
+        }),
+      });
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) throw new Error(data.error || `HTTP ${res.status}`);
+      flash(`Review request sent to ${reviewRequest.name}`);
+      setReviewRequest({ name: '', phone: '', email: '', vehicle: '', channel: 'sms' });
+    } catch (e) {
+      flash(`Review request failed: ${e.message}`, 'error');
+    } finally {
+      setReviewSending(false);
+    }
   };
 
   const testFeed = async (platform, feedPath) => {
@@ -188,6 +235,61 @@ export function MarketingTab({ inventory, setInventory, settings, setSettings, s
     flash('Craigslist listings generated');
   };
 
+  const downloadFeed = async (platform, feedPath, filename) => {
+    setFeedDownloadLoading((r) => ({ ...r, [platform]: true }));
+    try {
+      const res = await fetch(feedPath);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const blob = await res.blob();
+      const cd = res.headers.get('Content-Disposition') || '';
+      const match = cd.match(/filename="?([^";\n]+)"?/);
+      const name = match?.[1] || filename;
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = name; a.click();
+      URL.revokeObjectURL(url);
+      flash(`${platform} feed downloaded`);
+    } catch (e) {
+      flash(`${platform} export failed: ${e.message}`, 'error');
+    } finally {
+      setFeedDownloadLoading((r) => ({ ...r, [platform]: false }));
+    }
+  };
+
+  const downloadCraigslistFeed = async () => {
+    setFeedDownloadLoading((r) => ({ ...r, craigslist: true }));
+    try {
+      const res = await fetch(`/api/dealer/${slug}/admin/export`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ format: 'craigslist' }),
+      });
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const blob = await res.blob();
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = `${slug}-craigslist.txt`; a.click();
+      URL.revokeObjectURL(url);
+      flash('Craigslist listings downloaded');
+    } catch (e) {
+      flash(`Craigslist export failed: ${e.message}`, 'error');
+    } finally {
+      setFeedDownloadLoading((r) => ({ ...r, craigslist: false }));
+    }
+  };
+
+  useEffect(() => {
+    let cancelled = false;
+    setReviewStatsLoading(true);
+    fetch(`/api/dealer/${slug}/reviews`)
+      .then((r) => r.json())
+      .then((data) => { if (!cancelled && data.ok) setReviewStats(data); })
+      .catch(() => {})
+      .finally(() => { if (!cancelled) setReviewStatsLoading(false); });
+    return () => { cancelled = true; };
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [slug]);
+
   const previewImport = () => {
     if (!importText.trim()) return;
     const { headers, rows } = parseCSV(importText);
@@ -239,30 +341,62 @@ export function MarketingTab({ inventory, setInventory, settings, setSettings, s
           <h2 className="font-display text-xl font-medium">Inventory Export</h2>
         </div>
         <p className="text-sm text-stone-500 mb-5">Push your lot to every channel customers shop on.</p>
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-3">
+        <div className="grid md:grid-cols-3 gap-3">
           <button onClick={exportAllCSV}
             className="text-left p-4 border border-stone-200 rounded-md hover:border-stone-400 hover:bg-stone-50 transition group">
             <FileSpreadsheet className="w-5 h-5 mb-2 text-stone-700" />
             <div className="font-semibold text-sm">Export All to CSV</div>
-            <div className="text-[11px] text-stone-500 mt-1">Standard CSV with all vehicle fields</div>
+            <div className="text-[11px] text-stone-500 mt-1">Standard CSV — all vehicle fields</div>
           </button>
-          <button onClick={exportFB}
-            className="text-left p-4 border-2 rounded-md hover:bg-amber-50 transition group" style={{ borderColor: GOLD }}>
+          <button
+            onClick={() => downloadFeed('carscom', `/api/dealer/${slug}/feeds/carscom`, `${slug}-carscom.xml`)}
+            disabled={feedDownloadLoading.carscom}
+            className="text-left p-4 border border-stone-200 rounded-md hover:border-stone-400 hover:bg-stone-50 transition group disabled:opacity-60 disabled:cursor-wait">
+            <Globe className="w-5 h-5 mb-2" style={{ color: '#0066A1' }} />
+            <div className="font-semibold text-sm">
+              {feedDownloadLoading.carscom ? 'Downloading…' : 'Cars.com XML Feed'}
+            </div>
+            <div className="text-[11px] text-stone-500 mt-1">Standard XML inventory feed</div>
+          </button>
+          <button
+            onClick={() => downloadFeed('autotrader', `/api/dealer/${slug}/feeds/autotrader`, `${slug}-autotrader.xml`)}
+            disabled={feedDownloadLoading.autotrader}
+            className="text-left p-4 border border-stone-200 rounded-md hover:border-stone-400 hover:bg-stone-50 transition group disabled:opacity-60 disabled:cursor-wait">
+            <ExternalLink className="w-5 h-5 mb-2" style={{ color: '#E25319' }} />
+            <div className="font-semibold text-sm">
+              {feedDownloadLoading.autotrader ? 'Downloading…' : 'AutoTrader XML Feed'}
+            </div>
+            <div className="text-[11px] text-stone-500 mt-1">AutoTrader-formatted XML</div>
+          </button>
+          <button
+            onClick={() => downloadFeed('cargurus', `/api/dealer/${slug}/feeds/cargurus`, `${slug}-cargurus.csv`)}
+            disabled={feedDownloadLoading.cargurus}
+            className="text-left p-4 border border-stone-200 rounded-md hover:border-stone-400 hover:bg-stone-50 transition group disabled:opacity-60 disabled:cursor-wait">
+            <FileSpreadsheet className="w-5 h-5 mb-2" style={{ color: '#0E8A5F' }} />
+            <div className="font-semibold text-sm">
+              {feedDownloadLoading.cargurus ? 'Downloading…' : 'CarGurus CSV Feed'}
+            </div>
+            <div className="text-[11px] text-stone-500 mt-1">CarGurus inventory CSV</div>
+          </button>
+          <button
+            onClick={() => downloadFeed('facebook', `/api/dealer/${slug}/feeds/facebook`, `${slug}-facebook.csv`)}
+            disabled={feedDownloadLoading.facebook}
+            className="text-left p-4 border-2 rounded-md hover:bg-amber-50 transition group disabled:opacity-60 disabled:cursor-wait" style={{ borderColor: GOLD }}>
             <Facebook className="w-5 h-5 mb-2" style={{ color: '#1877F2' }} />
-            <div className="font-semibold text-sm">Facebook Marketplace</div>
-            <div className="text-[11px] text-stone-500 mt-1">FB-formatted CSV ready to upload</div>
+            <div className="font-semibold text-sm">
+              {feedDownloadLoading.facebook ? 'Downloading…' : 'Facebook Marketplace'}
+            </div>
+            <div className="text-[11px] text-stone-500 mt-1">FB-formatted catalog CSV</div>
           </button>
-          <button onClick={exportCraigslist}
-            className="text-left p-4 border border-stone-200 rounded-md hover:border-stone-400 hover:bg-stone-50 transition group">
+          <button
+            onClick={downloadCraigslistFeed}
+            disabled={feedDownloadLoading.craigslist}
+            className="text-left p-4 border border-stone-200 rounded-md hover:border-stone-400 hover:bg-stone-50 transition group disabled:opacity-60 disabled:cursor-wait">
             <FileText className="w-5 h-5 mb-2 text-stone-700" />
-            <div className="font-semibold text-sm">Craigslist Listings</div>
+            <div className="font-semibold text-sm">
+              {feedDownloadLoading.craigslist ? 'Downloading…' : 'Craigslist Listings'}
+            </div>
             <div className="text-[11px] text-stone-500 mt-1">Pre-formatted text per vehicle</div>
-          </button>
-          <button disabled
-            className="text-left p-4 border border-stone-200 rounded-md bg-stone-50/50 opacity-60 cursor-not-allowed">
-            <ExternalLink className="w-5 h-5 mb-2 text-stone-400" />
-            <div className="font-semibold text-sm text-stone-500">AutoTrader Sync</div>
-            <div className="text-[11px] text-stone-400 mt-1">Coming soon — Q3 2026</div>
           </button>
         </div>
       </Card>
@@ -370,12 +504,21 @@ export function MarketingTab({ inventory, setInventory, settings, setSettings, s
           <div className="p-5 rounded-lg relative overflow-hidden"
             style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.12) 0%, transparent 100%)', border: `1px solid ${GOLD}40` }}>
             <div className="flex items-baseline gap-3">
-              <div className="font-display tabular text-5xl font-medium" style={{ color: '#7A5A0F' }}>4.9</div>
+              <div className="font-display tabular text-5xl font-medium" style={{ color: '#7A5A0F' }}>
+                {reviewStats ? Number(reviewStats.rating).toFixed(1) : (reviewStatsLoading ? '…' : '—')}
+              </div>
               <div className="flex-1">
                 <div className="flex items-center gap-0.5 mb-1">
                   {[1,2,3,4,5].map(n => <Star key={n} className="w-4 h-4" fill={GOLD} stroke={GOLD} />)}
                 </div>
-                <div className="text-[11px] smallcaps text-stone-600">847 total reviews</div>
+                <div className="text-[11px] smallcaps text-stone-600">
+                  {reviewStats ? reviewStats.totalReviews.toLocaleString() : '…'} total reviews
+                  {reviewStats?.source === 'seed' && (
+                    <span className="ml-2 normal-case font-normal text-[9px] text-stone-400">
+                      demo data — connect Google Places in Settings to see real reviews
+                    </span>
+                  )}
+                </div>
               </div>
             </div>
             <div className="mt-3 flex items-center flex-wrap gap-2">
@@ -478,8 +621,11 @@ export function MarketingTab({ inventory, setInventory, settings, setSettings, s
 
                 {respondingTo !== r.id && (
                   <div className="mt-3 flex items-center gap-2">
-                    <Btn size="sm" variant="outlineGold" icon={Sparkles} onClick={() => startAiDraft(r)}>
-                      {r.response ? 'Edit AI Draft' : '✨ Draft AI Response'}
+                    <Btn size="sm" variant="outlineGold"
+                      icon={draftLoading === r.id ? RefreshCw : Sparkles}
+                      disabled={draftLoading === r.id}
+                      onClick={() => startAiDraft(r)}>
+                      {draftLoading === r.id ? 'Drafting…' : (r.response ? 'Edit AI Draft' : '✨ Draft AI Response')}
                     </Btn>
                   </div>
                 )}
@@ -503,8 +649,9 @@ export function MarketingTab({ inventory, setInventory, settings, setSettings, s
                       <div className="flex gap-2">
                         <Btn size="sm" variant="ghost"
                           onClick={() => { setRespondingTo(null); setResponseText(''); }}>Cancel</Btn>
+                        <Btn size="sm" variant="default" icon={Copy} onClick={copyResponse}>Copy</Btn>
                         <Btn size="sm" variant="gold" icon={Check} onClick={() => approveAiDraft(r)}>
-                          Approve & Save
+                          Approve
                         </Btn>
                       </div>
                     </div>
@@ -570,7 +717,10 @@ export function MarketingTab({ inventory, setInventory, settings, setSettings, s
                 <span className="text-amber-700">Configure Google Place ID in Settings → Integrations to generate the review link.</span>
               )}
             </div>
-            <Btn variant="gold" icon={Send} onClick={sendReviewRequest}>Send Review Request</Btn>
+            <Btn variant="gold" icon={reviewSending ? RefreshCw : Send}
+              disabled={reviewSending} onClick={sendReviewRequest}>
+              {reviewSending ? 'Sending…' : 'Send Review Request'}
+            </Btn>
           </div>
         </div>
 
@@ -671,24 +821,33 @@ export function MarketingTab({ inventory, setInventory, settings, setSettings, s
                       {def.feedPath && (
                         <div className="mt-1 pt-3 border-t border-stone-100 flex flex-col gap-2">
                           <div className="text-[10px] text-stone-500 font-medium">
-                            Feed URL — give this to your {def.label} rep:
+                            Feed URL — paste into your {def.label} account settings for auto-sync:
                           </div>
                           <div className="flex items-center gap-1">
                             <code className="flex-1 text-[10px] font-mono truncate bg-stone-50 border border-stone-200 rounded px-2 py-1">
-                              {def.feedPath}
+                              {typeof window !== 'undefined' ? `${window.location.origin}${def.feedPath}` : def.feedPath}
                             </code>
                             <button
                               onClick={() => copyFeedUrl(typeof window !== 'undefined' ? `${window.location.origin}${def.feedPath}` : def.feedPath)}
-                              title="Copy full URL"
+                              title="Copy feed URL"
                               className="p-1.5 rounded hover:bg-stone-100 transition shrink-0">
-                              <Download className="w-3.5 h-3.5 text-stone-500" />
+                              <Copy className="w-3.5 h-3.5 text-stone-500" />
                             </button>
                           </div>
-                          <div className="flex items-center gap-1.5">
+                          <div className="flex items-center gap-1.5 flex-wrap">
                             <Btn size="sm" variant="ghost" icon={tr?.loading ? RefreshCw : Check}
                               onClick={() => testFeed(key, def.feedPath)}
                               disabled={tr?.loading}>
                               {tr?.loading ? 'Testing…' : 'Test Feed'}
+                            </Btn>
+                            <Btn size="sm" variant="default"
+                              icon={feedDownloadLoading[key] ? RefreshCw : Download}
+                              disabled={feedDownloadLoading[key]}
+                              onClick={() => {
+                                const ext = (def.feedPath.includes('carscom') || def.feedPath.includes('autotrader')) ? 'xml' : 'csv';
+                                downloadFeed(key, def.feedPath, `${slug}-${key}.${ext}`);
+                              }}>
+                              {feedDownloadLoading[key] ? 'Downloading…' : 'Download'}
                             </Btn>
                             <a href={def.feedPath} target="_blank" rel="noopener noreferrer"
                               className="inline-flex items-center gap-1 text-xs font-medium text-stone-600 hover:text-stone-900 px-2 py-1 rounded hover:bg-stone-100 transition">
@@ -702,6 +861,16 @@ export function MarketingTab({ inventory, setInventory, settings, setSettings, s
                                 : `✓ Feed working — ${tr.count} vehicle${tr.count === 1 ? '' : 's'} in feed`}
                             </div>
                           )}
+                        </div>
+                      )}
+                      {key === 'craigslist' && (
+                        <div className="mt-1 pt-3 border-t border-stone-100">
+                          <Btn size="sm" variant="default"
+                            icon={feedDownloadLoading.craigslist ? RefreshCw : Download}
+                            disabled={feedDownloadLoading.craigslist}
+                            onClick={downloadCraigslistFeed}>
+                            {feedDownloadLoading.craigslist ? 'Downloading…' : 'Download Listings'}
+                          </Btn>
                         </div>
                       )}
                     </div>
