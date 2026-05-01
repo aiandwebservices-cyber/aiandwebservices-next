@@ -201,10 +201,6 @@ function CustomerSiteBody({ config }) {
       {features.accessibility !== false && <AccessibilityWidget a11y={a11y} setA11y={setA11y} />}
       <MobileCallButton />
 
-      <a href="/samples/primo-features" className="dealer-btn">
-        🔑 Car Dealer? See All Features →
-      </a>
-
       <CustomerSiteStyles />
     </div>
   );

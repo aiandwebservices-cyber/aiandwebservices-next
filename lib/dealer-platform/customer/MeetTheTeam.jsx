@@ -12,7 +12,7 @@ export function MeetTheTeam() {
   const teamEmail = cfg.email || 'team@example.com';
   const [ref, seen] = useInView();
   const team = [
-    { name: 'Carlos Rivera',  role: 'SALES MANAGER',         bio: '15 years helping Miami drivers find the perfect car.', initials: 'CR', tone: C.gold },
+    { name: 'Carlos Rivera',  role: 'SALES MANAGER',         bio: '15 years helping local drivers find the perfect car.', initials: 'CR', tone: C.gold },
     { name: 'Maria Santos',   role: 'FINANCE DIRECTOR',      bio: 'Making car ownership affordable for every budget.',    initials: 'MS', tone: C.cyan },
     { name: 'James Mitchell', role: 'SALES CONSULTANT',      bio: 'Your car, your terms. No pressure, ever.',             initials: 'JM', tone: C.red  },
     { name: 'Ana Gutierrez',  role: 'SERVICIO EN ESPAÑOL',   bio: 'Aquí para ayudarte en cada paso.',                     initials: 'AG', tone: C.gold },

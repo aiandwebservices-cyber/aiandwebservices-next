@@ -67,7 +67,7 @@ export const I18N = {
     eyebrow: 'PREMIUM',
     title1:  'Concesionario',
     title2:  'premium',
-    body:    'El concesionario premium de autos usados en Miami.',
+    body:    'Tu concesionario premium de autos usados de confianza.',
     body2:   'Lujo por menos. Sin juegos. Sin costos ocultos. Inventario seleccionado a mano, certificación mecánica completa, financiamiento para cualquier crédito.',
     cta1:    'Ver Inventario',
     cta2:    'Pre-Aprobación →',
