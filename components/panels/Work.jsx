@@ -5,6 +5,13 @@ import { ExternalLink } from 'lucide-react';
 
 const samples = [
   {
+    href:     '/samples/example005',
+    domain:   'primoautogroup.aiandwebservices.com',
+    label:    'Car Dealership',
+    emoji:    '🚗',
+    accent:   '#D4AF37',
+  },
+  {
     href:     '/samples/example001',
     domain:   'finedining.aiandwebservices.com',
     label:    'Fine Dining',
