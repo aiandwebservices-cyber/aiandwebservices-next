@@ -40,6 +40,18 @@ const SAMPLES = [
     href: '/samples/example003',
     centerHero: true,
   },
+  {
+    id: 'example005',
+    name: 'Primo Auto Group',
+    label: '05',
+    industry: 'Used Car Dealership',
+    tagline: "Luxury for less. No games. No hidden fees.",
+    accent: '#D4AF37',
+    bg: '#0a0a0a',
+    desc: 'Flashy dealership site with payment toggle, vehicle modal w/ live calculator, trade-in tool, and finance pre-approval.',
+    tags: ['Dealership', 'Finance', 'Inventory'],
+    href: '/samples/example005',
+  },
 ];
 
 export default function SamplesPage() {

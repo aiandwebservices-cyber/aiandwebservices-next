@@ -5,8 +5,8 @@
 | Variable | Value |
 |---|---|
 | `HUBSPOT_TOKEN` | HubSpot private app token (existing — already in Vercel) |
-| `N8N_LEAD_STARTED_WEBHOOK` | `https://probable-sadden-speech.ngrok-free.dev/webhook/checklist-lead-started` |
-| `N8N_CHECKLIST_WEBHOOK` | `https://probable-sadden-speech.ngrok-free.dev/webhook/checklist-submit` |
+| `N8N_LEAD_STARTED_WEBHOOK` | `https://backfire-graffiti-expire.ngrok-free.dev/webhook/checklist-lead-started` |
+| `N8N_CHECKLIST_WEBHOOK` | `https://backfire-graffiti-expire.ngrok-free.dev/webhook/checklist-submit` |
 
 Add via Vercel dashboard → Project Settings → Environment Variables. Set for Production + Preview + Development.
 
