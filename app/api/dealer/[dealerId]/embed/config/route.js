@@ -8,7 +8,7 @@ import { getDealerConfig } from '../../../_lib/espocrm.js';
 // to confirm the dealer exists; the response below is hand-shaped.
 
 const DEALER_PUBLIC = {
-  primo: {
+  lotcrm: {
     dealerName: 'Primo Auto Group',
     phone:      '(305) 555-0199',
     email:      'sales@primoautogroup.com',

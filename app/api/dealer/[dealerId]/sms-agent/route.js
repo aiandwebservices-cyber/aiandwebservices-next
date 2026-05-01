@@ -16,7 +16,7 @@ const MAX_TOKENS = 500;
 const HISTORY_LIMIT = 10;
 
 const DEALER_CONFIGS = {
-  primo: {
+  lotcrm: {
     ...PRIMO_DEALER_CONFIG,
     twilioNumberEnv: 'PRIMO_TWILIO_NUMBER',
   },

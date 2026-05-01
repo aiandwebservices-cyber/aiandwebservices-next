@@ -7,7 +7,7 @@ import {
 } from '../../../_lib/espocrm.js';
 
 const DEALER_REVIEW_CONFIG = {
-  primo: {
+  lotcrm: {
     dealerName: 'Primo Auto Group',
     twilioNumberEnv: 'PRIMO_TWILIO_NUMBER',
     placeIdEnv: 'GOOGLE_PLACE_ID_PRIMO',

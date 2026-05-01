@@ -1,7 +1,5 @@
-'use client';
-import { config } from './config';
-import { CustomerSite } from '@/lib/dealer-platform/customer/CustomerSite';
+import { redirect } from 'next/navigation';
 
-export default function PrimoCustomerPage() {
-  return <CustomerSite config={config} />;
+export default function PrimoRedirect() {
+  redirect('/dealers/lotcrm');
 }

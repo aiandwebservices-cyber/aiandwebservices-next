@@ -7,7 +7,7 @@ import { PRIMO_DEALER_CONFIG } from '../../../../../../lib/dealer-platform/ai/sy
 import { findSimilarVehicles } from '../../../../../../lib/dealer-platform/ai/similar-vehicles.js';
 
 const DEALER_CONFIGS = {
-  primo: PRIMO_DEALER_CONFIG,
+  lotcrm: PRIMO_DEALER_CONFIG,
 };
 
 const VALID_STAGES = new Set(['4h', '24h', 'day3', 'day7', 'all']);

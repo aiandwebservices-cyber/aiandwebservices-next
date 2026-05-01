@@ -8,7 +8,7 @@ import {
 import { PRIMO_DEALER_CONFIG } from '../../../../../../../lib/dealer-platform/ai/system-prompt.js';
 
 const DEALER_CONFIGS = {
-  primo: {
+  lotcrm: {
     ...PRIMO_DEALER_CONFIG,
     twilioNumberEnv: 'PRIMO_TWILIO_NUMBER',
     fromEmail: 'sales@primoautogroup.com',

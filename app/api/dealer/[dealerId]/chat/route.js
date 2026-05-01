@@ -16,7 +16,7 @@ const MAX_TOKENS = 500;
 const HISTORY_LIMIT = 10;
 
 const DEALER_CONFIGS = {
-  primo: PRIMO_DEALER_CONFIG,
+  lotcrm: PRIMO_DEALER_CONFIG,
 };
 
 function fallbackReply(phone) {

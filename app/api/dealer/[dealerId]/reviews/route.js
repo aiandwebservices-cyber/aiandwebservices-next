@@ -6,11 +6,11 @@ const PRIMO_GOOGLE = {
 };
 
 const DEALER_GOOGLE = {
-  primo: PRIMO_GOOGLE,
+  lotcrm: PRIMO_GOOGLE,
 };
 
 const SEED_REVIEWS = {
-  primo: {
+  lotcrm: {
     rating: 4.9,
     totalReviews: 847,
     reviews: [

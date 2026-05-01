@@ -8,7 +8,7 @@ import {
 import { notifyDealer, nowDealerTimestamp } from '../../_lib/notify.js';
 
 const DEALER_NOTIFY = {
-  primo: {
+  lotcrm: {
     dealerName: 'Primo Auto Group',
     dealerPhone: '(305) 555-0199',
     dealerEmail: 'sales@primoautogroup.com',

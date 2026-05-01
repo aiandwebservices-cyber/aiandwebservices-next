@@ -3,7 +3,7 @@ import { generateVehicleDescription } from '../../../../../../../lib/dealer-plat
 import { PRIMO_DEALER_CONFIG } from '../../../../../../../lib/dealer-platform/ai/system-prompt.js';
 
 const DEALER_CONFIGS = {
-  primo: PRIMO_DEALER_CONFIG,
+  lotcrm: PRIMO_DEALER_CONFIG,
 };
 
 const REQUEST_DELAY_MS = 1000;

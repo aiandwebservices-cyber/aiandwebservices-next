@@ -1,14 +1,10 @@
-// Reusable EspoCRM client for dealer API routes.
-// After Prompt 6 refactor, getDealerConfig will read from the dealer's
-// config.js. For now, only Primo is wired up here.
-
-const PRIMO_CONFIG = {
-  url: 'http://localhost:8081',
+const LOTCRM_CONFIG = {
+  url: 'https://lotcrm.lotpilot.ai',
   apiKey: '7190e14d23e6ca8d68a5d2b29c91e55e',
 };
 
 export function getDealerConfig(dealerId) {
-  if (dealerId === 'primo') return PRIMO_CONFIG;
+  if (dealerId === 'lotcrm') return LOTCRM_CONFIG;
   return null;
 }
 
