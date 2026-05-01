@@ -35,6 +35,7 @@ import { BreadcrumbBar } from './BreadcrumbBar';
 
 export function SettingsTab({ settings, setSettings, flash }) {
   const cfg = useAdminConfig();
+  const dealerSlug = cfg.dealerSlug || 'lotcrm';
   const locName = cfg.dealerName ? `${cfg.dealerName} — Main Lot` : 'Main Lot';
   const locAddr = cfg.address ? `${cfg.address.street || ''}, ${cfg.address.city || ''}, ${cfg.address.state || ''} ${cfg.address.zip || ''}`.replace(/^,\s*|\s*,\s*$/g, '').trim() : '';
   const locPhone = cfg.phone || '';
@@ -61,31 +62,72 @@ export function SettingsTab({ settings, setSettings, flash }) {
   const ai = settings.ai || {};
   const aiVal = (key, fallback = true) => (ai[key] === undefined ? fallback : !!ai[key]);
 
-  // ---- Integration connect modal ----
+  // ---- Integration connect modal + validation ----
   const [connectModal, setConnectModal] = useState(null);
   const [qbOAuthModal, setQbOAuthModal] = useState(false);
+  const [modalValues, setModalValues] = useState({});
+  const [modalTesting, setModalTesting] = useState(false);
+  const [modalResult, setModalResult] = useState(null);
+  const [confirmDisconnect, setConfirmDisconnect] = useState(null);
+  const [validationState, setValidationState] = useState({});
   // shape: { key, name, fields: [{ name, label, type?, placeholder?, hint? }] }
   const integrations = settings.integrations || {};
   const integrationConnected = (key) => !!integrations[key]?.connected;
-  const openConnect = (key, name, fields) =>
-    setConnectModal({
-      key, name, fields,
-      defaults: fields.reduce(
-        (acc, f) => ({ ...acc, [f.name]: integrations[key]?.[f.name] ?? '' }),
-        {},
-      ),
-    });
-  const saveConnection = (values) => {
+  const openConnect = (key, name, fields) => {
+    setConnectModal({ key, name, fields });
+    setModalValues(fields.reduce((acc, f) => ({ ...acc, [f.name]: integrations[key]?.[f.name] ?? '' }), {}));
+    setModalResult(null);
+    setModalTesting(false);
+  };
+  const handleValidateAndConnect = async () => {
     if (!connectModal) return;
-    setSettings((s) => ({
-      ...s,
-      integrations: {
-        ...(s.integrations || {}),
-        [connectModal.key]: { ...values, connected: true },
-      },
-    }));
-    flash(`${connectModal.name} connected`, 'success');
-    setConnectModal(null);
+    setModalTesting(true);
+    setModalResult(null);
+    try {
+      const res = await fetch(`/api/dealer/${dealerSlug}/admin/validate-integration`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ integration: connectModal.key, credentials: modalValues }),
+      });
+      const result = await res.json();
+      setModalResult(result);
+      if (result.valid) {
+        setSettings((s) => {
+          const next = {
+            ...s,
+            integrations: {
+              ...(s.integrations || {}),
+              [connectModal.key]: { ...modalValues, connected: true, connectedAt: new Date().toISOString() },
+            },
+          };
+          if (connectModal.key === 'googleplaces') next.googlePlaceId = modalValues.placeId;
+          return next;
+        });
+        flash(`${connectModal.name} connected`, 'success');
+        setTimeout(() => setConnectModal(null), 1400);
+      }
+    } catch {
+      setModalResult({ valid: false, error: 'Network error — could not reach validation endpoint' });
+    } finally {
+      setModalTesting(false);
+    }
+  };
+  const handleTestConnection = async (key, name) => {
+    setValidationState((s) => ({ ...s, [key]: { status: 'testing' } }));
+    try {
+      const res = await fetch(`/api/dealer/${dealerSlug}/admin/validate-integration`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ integration: key, credentials: integrations[key] || {} }),
+      });
+      const result = await res.json();
+      setValidationState((s) => ({
+        ...s,
+        [key]: { status: result.valid ? 'success' : 'error', message: result.details || result.error },
+      }));
+    } catch {
+      setValidationState((s) => ({ ...s, [key]: { status: 'error', message: 'Network error' } }));
+    }
   };
   const disconnect = (key, name) => {
     setSettings((s) => ({
@@ -93,6 +135,12 @@ export function SettingsTab({ settings, setSettings, flash }) {
       integrations: { ...(s.integrations || {}), [key]: { connected: false } },
     }));
     flash(`${name} disconnected`);
+  };
+  const handleDisconnect = (key, name) => setConfirmDisconnect({ key, name });
+  const confirmDisconnectAction = () => {
+    if (!confirmDisconnect) return;
+    disconnect(confirmDisconnect.key, confirmDisconnect.name);
+    setConfirmDisconnect(null);
   };
 
   const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
@@ -497,20 +545,61 @@ export function SettingsTab({ settings, setSettings, flash }) {
         </p>
 
         <div className="grid md:grid-cols-2 gap-3">
-          {/* EspoCRM — always connected */}
-          <div className="p-4 border-2 rounded-md flex items-start gap-3"
-            style={{ borderColor: '#256B4033', backgroundColor: '#E8F2EC55' }}>
-            <div className="w-9 h-9 rounded-md flex items-center justify-center text-white font-display font-bold text-sm shrink-0"
-              style={{ backgroundColor: '#3B5998' }}>E</div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center justify-between gap-2 mb-0.5">
-                <div className="text-sm font-semibold">EspoCRM</div>
-                <span className="text-[10px] font-semibold inline-flex items-center gap-1 px-2 py-0.5 rounded-full"
-                  style={{ backgroundColor: '#E8F2EC', color: '#256B40' }}>🟢 Connected</span>
+          {/* EspoCRM */}
+          {(() => {
+            const connected = integrationConnected('espocrm');
+            const vs = validationState.espocrm;
+            return (
+              <div className="p-4 border-2 rounded-md flex items-start gap-3"
+                style={connected
+                  ? { borderColor: '#256B4033', backgroundColor: '#E8F2EC55' }
+                  : { borderColor: '#E5E7EB' }}>
+                <div className="w-9 h-9 rounded-md flex items-center justify-center text-white font-display font-bold text-sm shrink-0"
+                  style={{ backgroundColor: '#3B5998' }}>E</div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-2 mb-0.5">
+                    <div className="text-sm font-semibold">EspoCRM</div>
+                    <span className={`text-[10px] font-semibold inline-flex items-center gap-1 px-2 py-0.5 rounded-full ${
+                      connected ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'
+                    }`}>
+                      {connected ? '🟢 Connected' : '🔴 Not configured'}
+                    </span>
+                  </div>
+                  <div className="text-[11px] text-stone-500 mb-2">CRM backbone for leads, vehicles, and service.</div>
+                  {connected ? (
+                    <>
+                      {integrations.espocrm?.connectedAt && (
+                        <div className="text-[10px] text-stone-400 mb-1.5">Connected {relTime(integrations.espocrm.connectedAt)}</div>
+                      )}
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <Btn size="sm" variant="ghost" disabled={vs?.status === 'testing'}
+                          onClick={() => handleTestConnection('espocrm', 'EspoCRM')}>
+                          {vs?.status === 'testing' ? 'Testing…' : 'Test Connection'}
+                        </Btn>
+                        <Btn size="sm" variant="ghost" className="text-red-600 hover:text-red-700"
+                          onClick={() => handleDisconnect('espocrm', 'EspoCRM')}>Disconnect</Btn>
+                      </div>
+                      {vs?.status === 'success' && (
+                        <div className="flex items-center gap-1.5 mt-1.5 text-[11px] text-emerald-700">
+                          <Check className="w-3 h-3" strokeWidth={2.5} /> {vs.message}
+                        </div>
+                      )}
+                      {vs?.status === 'error' && (
+                        <div className="flex items-center gap-1.5 mt-1.5 text-[11px] text-red-600">
+                          <X className="w-3 h-3" strokeWidth={2.5} /> {vs.message}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <Btn size="sm" variant="outlineGold" onClick={() => openConnect('espocrm', 'EspoCRM', [
+                      { name: 'url',    label: 'EspoCRM URL', placeholder: 'https://crm.example.com' },
+                      { name: 'apiKey', label: 'API Key', type: 'password' },
+                    ])}>Connect</Btn>
+                  )}
+                </div>
               </div>
-              <div className="text-[11px] text-stone-500">CRM backbone for leads, vehicles, and service.</div>
-            </div>
-          </div>
+            );
+          })()}
 
           {/* Twilio */}
           <div className="p-4 border border-stone-200 rounded-md flex items-start gap-3">
@@ -529,7 +618,29 @@ export function SettingsTab({ settings, setSettings, flash }) {
               </div>
               <div className="text-[11px] text-stone-500 mb-2">SMS for leads, appointments, and AI agent.</div>
               {integrationConnected('twilio') ? (
-                <Btn size="sm" variant="ghost" onClick={() => disconnect('twilio', 'Twilio')}>Disconnect</Btn>
+                <>
+                  {integrations.twilio?.connectedAt && (
+                    <div className="text-[10px] text-stone-400 mb-1.5">Connected {relTime(integrations.twilio.connectedAt)}</div>
+                  )}
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <Btn size="sm" variant="ghost" disabled={validationState.twilio?.status === 'testing'}
+                      onClick={() => handleTestConnection('twilio', 'Twilio')}>
+                      {validationState.twilio?.status === 'testing' ? 'Testing…' : 'Test Connection'}
+                    </Btn>
+                    <Btn size="sm" variant="ghost" className="text-red-600 hover:text-red-700"
+                      onClick={() => handleDisconnect('twilio', 'Twilio')}>Disconnect</Btn>
+                  </div>
+                  {validationState.twilio?.status === 'success' && (
+                    <div className="flex items-center gap-1.5 mt-1.5 text-[11px] text-emerald-700">
+                      <Check className="w-3 h-3" strokeWidth={2.5} /> {validationState.twilio.message}
+                    </div>
+                  )}
+                  {validationState.twilio?.status === 'error' && (
+                    <div className="flex items-center gap-1.5 mt-1.5 text-[11px] text-red-600">
+                      <X className="w-3 h-3" strokeWidth={2.5} /> {validationState.twilio.message}
+                    </div>
+                  )}
+                </>
               ) : (
                 <Btn size="sm" variant="outlineGold" onClick={() => openConnect('twilio', 'Twilio', [
                   { name: 'accountSid', label: 'Account SID', placeholder: 'AC…' },
@@ -557,7 +668,29 @@ export function SettingsTab({ settings, setSettings, flash }) {
               </div>
               <div className="text-[11px] text-stone-500 mb-2">Transactional email — alerts, review requests, follow-ups.</div>
               {integrationConnected('resend') ? (
-                <Btn size="sm" variant="ghost" onClick={() => disconnect('resend', 'Resend')}>Disconnect</Btn>
+                <>
+                  {integrations.resend?.connectedAt && (
+                    <div className="text-[10px] text-stone-400 mb-1.5">Connected {relTime(integrations.resend.connectedAt)}</div>
+                  )}
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <Btn size="sm" variant="ghost" disabled={validationState.resend?.status === 'testing'}
+                      onClick={() => handleTestConnection('resend', 'Resend')}>
+                      {validationState.resend?.status === 'testing' ? 'Testing…' : 'Test Connection'}
+                    </Btn>
+                    <Btn size="sm" variant="ghost" className="text-red-600 hover:text-red-700"
+                      onClick={() => handleDisconnect('resend', 'Resend')}>Disconnect</Btn>
+                  </div>
+                  {validationState.resend?.status === 'success' && (
+                    <div className="flex items-center gap-1.5 mt-1.5 text-[11px] text-emerald-700">
+                      <Check className="w-3 h-3" strokeWidth={2.5} /> {validationState.resend.message}
+                    </div>
+                  )}
+                  {validationState.resend?.status === 'error' && (
+                    <div className="flex items-center gap-1.5 mt-1.5 text-[11px] text-red-600">
+                      <X className="w-3 h-3" strokeWidth={2.5} /> {validationState.resend.message}
+                    </div>
+                  )}
+                </>
               ) : (
                 <Btn size="sm" variant="outlineGold" onClick={() => openConnect('resend', 'Resend', [
                   { name: 'apiKey', label: 'API Key', type: 'password', placeholder: 're_…' },
@@ -566,29 +699,58 @@ export function SettingsTab({ settings, setSettings, flash }) {
             </div>
           </div>
 
-          {/* Google Places — has inline Place ID input */}
-          <div className="p-4 border border-stone-200 rounded-md flex items-start gap-3">
-            <div className="w-9 h-9 rounded-md flex items-center justify-center text-white font-display font-bold text-sm shrink-0"
-              style={{ backgroundColor: '#4285F4' }}>G</div>
-            <div className="flex-1 min-w-0">
-              <div className="flex items-center justify-between gap-2 mb-0.5">
-                <div className="text-sm font-semibold">Google Places</div>
-                <span className={`text-[10px] font-semibold inline-flex items-center gap-1 px-2 py-0.5 rounded-full ${
-                  settings.googlePlaceId
-                    ? 'bg-emerald-50 text-emerald-700'
-                    : 'bg-red-50 text-red-700'
-                }`}>
-                  {settings.googlePlaceId ? '🟢 Connected' : '🔴 Not configured'}
-                </span>
+          {/* Google Places */}
+          {(() => {
+            const connected = integrationConnected('googleplaces');
+            const vs = validationState.googleplaces;
+            return (
+              <div className="p-4 border border-stone-200 rounded-md flex items-start gap-3">
+                <div className="w-9 h-9 rounded-md flex items-center justify-center text-white font-display font-bold text-sm shrink-0"
+                  style={{ backgroundColor: '#4285F4' }}>G</div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-2 mb-0.5">
+                    <div className="text-sm font-semibold">Google Places</div>
+                    <span className={`text-[10px] font-semibold inline-flex items-center gap-1 px-2 py-0.5 rounded-full ${
+                      connected ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'
+                    }`}>
+                      {connected ? '🟢 Connected' : '🔴 Not configured'}
+                    </span>
+                  </div>
+                  <div className="text-[11px] text-stone-500 mb-2">Used for review requests and the Reputation tab.</div>
+                  {connected ? (
+                    <>
+                      {integrations.googleplaces?.connectedAt && (
+                        <div className="text-[10px] text-stone-400 mb-1.5">Connected {relTime(integrations.googleplaces.connectedAt)}</div>
+                      )}
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <Btn size="sm" variant="ghost" disabled={vs?.status === 'testing'}
+                          onClick={() => handleTestConnection('googleplaces', 'Google Places')}>
+                          {vs?.status === 'testing' ? 'Testing…' : 'Test Connection'}
+                        </Btn>
+                        <Btn size="sm" variant="ghost" className="text-red-600 hover:text-red-700"
+                          onClick={() => handleDisconnect('googleplaces', 'Google Places')}>Disconnect</Btn>
+                      </div>
+                      {vs?.status === 'success' && (
+                        <div className="flex items-center gap-1.5 mt-1.5 text-[11px] text-emerald-700">
+                          <Check className="w-3 h-3" strokeWidth={2.5} /> {vs.message}
+                        </div>
+                      )}
+                      {vs?.status === 'error' && (
+                        <div className="flex items-center gap-1.5 mt-1.5 text-[11px] text-red-600">
+                          <X className="w-3 h-3" strokeWidth={2.5} /> {vs.message}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <Btn size="sm" variant="outlineGold" onClick={() => openConnect('googleplaces', 'Google Places', [
+                      { name: 'placeId', label: 'Google Place ID', placeholder: 'ChIJ…' },
+                      { name: 'apiKey',  label: 'Places API Key', type: 'password', placeholder: 'AIza…' },
+                    ])}>Connect</Btn>
+                  )}
+                </div>
               </div>
-              <div className="text-[11px] text-stone-500 mb-2">Used for review requests and the Reputation tab.</div>
-              <Field label="Google Place ID">
-                <Input value={settings.googlePlaceId || ''}
-                  onChange={(e) => set('googlePlaceId', e.target.value)}
-                  placeholder="ChIJ…" className="font-mono text-xs" />
-              </Field>
-            </div>
-          </div>
+            );
+          })()}
 
           {/* Stripe */}
           <div className="p-4 border border-stone-200 rounded-md flex items-start gap-3">
@@ -607,7 +769,29 @@ export function SettingsTab({ settings, setSettings, flash }) {
               </div>
               <div className="text-[11px] text-stone-500 mb-2">Hold deposits, service payments, and reservations.</div>
               {integrationConnected('stripe') ? (
-                <Btn size="sm" variant="ghost" onClick={() => disconnect('stripe', 'Stripe')}>Disconnect</Btn>
+                <>
+                  {integrations.stripe?.connectedAt && (
+                    <div className="text-[10px] text-stone-400 mb-1.5">Connected {relTime(integrations.stripe.connectedAt)}</div>
+                  )}
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <Btn size="sm" variant="ghost" disabled={validationState.stripe?.status === 'testing'}
+                      onClick={() => handleTestConnection('stripe', 'Stripe')}>
+                      {validationState.stripe?.status === 'testing' ? 'Testing…' : 'Test Connection'}
+                    </Btn>
+                    <Btn size="sm" variant="ghost" className="text-red-600 hover:text-red-700"
+                      onClick={() => handleDisconnect('stripe', 'Stripe')}>Disconnect</Btn>
+                  </div>
+                  {validationState.stripe?.status === 'success' && (
+                    <div className="flex items-center gap-1.5 mt-1.5 text-[11px] text-emerald-700">
+                      <Check className="w-3 h-3" strokeWidth={2.5} /> {validationState.stripe.message}
+                    </div>
+                  )}
+                  {validationState.stripe?.status === 'error' && (
+                    <div className="flex items-center gap-1.5 mt-1.5 text-[11px] text-red-600">
+                      <X className="w-3 h-3" strokeWidth={2.5} /> {validationState.stripe.message}
+                    </div>
+                  )}
+                </>
               ) : (
                 <Btn size="sm" variant="outlineGold" onClick={() => openConnect('stripe', 'Stripe', [
                   { name: 'publishableKey', label: 'Publishable Key', placeholder: 'pk_live_…' },
@@ -634,7 +818,29 @@ export function SettingsTab({ settings, setSettings, flash }) {
               </div>
               <div className="text-[11px] text-stone-500 mb-2">VIN history reports for inventory listings.</div>
               {integrationConnected('carfax') ? (
-                <Btn size="sm" variant="ghost" onClick={() => disconnect('carfax', 'CARFAX')}>Disconnect</Btn>
+                <>
+                  {integrations.carfax?.connectedAt && (
+                    <div className="text-[10px] text-stone-400 mb-1.5">Connected {relTime(integrations.carfax.connectedAt)}</div>
+                  )}
+                  <div className="flex items-center gap-2 flex-wrap">
+                    <Btn size="sm" variant="ghost" disabled={validationState.carfax?.status === 'testing'}
+                      onClick={() => handleTestConnection('carfax', 'CARFAX')}>
+                      {validationState.carfax?.status === 'testing' ? 'Testing…' : 'Test Connection'}
+                    </Btn>
+                    <Btn size="sm" variant="ghost" className="text-red-600 hover:text-red-700"
+                      onClick={() => handleDisconnect('carfax', 'CARFAX')}>Disconnect</Btn>
+                  </div>
+                  {validationState.carfax?.status === 'success' && (
+                    <div className="flex items-center gap-1.5 mt-1.5 text-[11px] text-emerald-700">
+                      <Check className="w-3 h-3" strokeWidth={2.5} /> {validationState.carfax.message}
+                    </div>
+                  )}
+                  {validationState.carfax?.status === 'error' && (
+                    <div className="flex items-center gap-1.5 mt-1.5 text-[11px] text-red-600">
+                      <X className="w-3 h-3" strokeWidth={2.5} /> {validationState.carfax.message}
+                    </div>
+                  )}
+                </>
               ) : (
                 <Btn size="sm" variant="outlineGold" onClick={() => openConnect('carfax', 'CARFAX', [
                   { name: 'partnerId', label: 'Partner ID' },
@@ -643,6 +849,61 @@ export function SettingsTab({ settings, setSettings, flash }) {
               )}
             </div>
           </div>
+
+          {/* Cloudflare R2 */}
+          {(() => {
+            const connected = integrationConnected('r2');
+            const vs = validationState.r2;
+            return (
+              <div className="p-4 border border-stone-200 rounded-md flex items-start gap-3">
+                <div className="w-9 h-9 rounded-md flex items-center justify-center text-white font-display font-bold text-xs shrink-0"
+                  style={{ backgroundColor: '#F6821F' }}>R2</div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-2 mb-0.5">
+                    <div className="text-sm font-semibold">Cloudflare R2</div>
+                    <span className={`text-[10px] font-semibold inline-flex items-center gap-1 px-2 py-0.5 rounded-full ${
+                      connected ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'
+                    }`}>
+                      {connected ? '🟢 Connected' : '🔴 Not configured'}
+                    </span>
+                  </div>
+                  <div className="text-[11px] text-stone-500 mb-2">Vehicle photo storage — S3-compatible object storage.</div>
+                  {connected ? (
+                    <>
+                      {integrations.r2?.connectedAt && (
+                        <div className="text-[10px] text-stone-400 mb-1.5">Connected {relTime(integrations.r2.connectedAt)}</div>
+                      )}
+                      <div className="flex items-center gap-2 flex-wrap">
+                        <Btn size="sm" variant="ghost" disabled={vs?.status === 'testing'}
+                          onClick={() => handleTestConnection('r2', 'Cloudflare R2')}>
+                          {vs?.status === 'testing' ? 'Testing…' : 'Test Connection'}
+                        </Btn>
+                        <Btn size="sm" variant="ghost" className="text-red-600 hover:text-red-700"
+                          onClick={() => handleDisconnect('r2', 'Cloudflare R2')}>Disconnect</Btn>
+                      </div>
+                      {vs?.status === 'success' && (
+                        <div className="flex items-center gap-1.5 mt-1.5 text-[11px] text-emerald-700">
+                          <Check className="w-3 h-3" strokeWidth={2.5} /> {vs.message}
+                        </div>
+                      )}
+                      {vs?.status === 'error' && (
+                        <div className="flex items-center gap-1.5 mt-1.5 text-[11px] text-red-600">
+                          <X className="w-3 h-3" strokeWidth={2.5} /> {vs.message}
+                        </div>
+                      )}
+                    </>
+                  ) : (
+                    <Btn size="sm" variant="outlineGold" onClick={() => openConnect('r2', 'Cloudflare R2', [
+                      { name: 'endpoint',   label: 'R2 Endpoint',        placeholder: 'https://<account>.r2.cloudflarestorage.com' },
+                      { name: 'accessKey',  label: 'Access Key ID',      placeholder: '' },
+                      { name: 'secretKey',  label: 'Secret Access Key',  type: 'password' },
+                      { name: 'bucketName', label: 'Bucket Name',        placeholder: 'lotpilot-photos' },
+                    ])}>Connect</Btn>
+                  )}
+                </div>
+              </div>
+            );
+          })()}
 
           {/* QuickBooks Online */}
           {(() => {
@@ -924,7 +1185,7 @@ export function SettingsTab({ settings, setSettings, flash }) {
                     {p.fields.map((f) => f.label).join(' · ')}
                   </div>
                   {connected ? (
-                    <Btn size="sm" variant="ghost" onClick={() => disconnect(p.key, p.label)}>Disconnect</Btn>
+                    <Btn size="sm" variant="ghost" onClick={() => handleDisconnect(p.key, p.label)}>Disconnect</Btn>
                   ) : (
                     <Btn size="sm" variant="outlineGold" onClick={() => openConnect(p.key, p.label, p.fields)}>Connect</Btn>
                   )}
@@ -982,26 +1243,63 @@ export function SettingsTab({ settings, setSettings, flash }) {
         </div>
       )}
 
-      {/* Connect modal — generic single/multi-input dialog */}
+      {/* Integration connect modal — validates credentials before saving */}
+      {connectModal && (
+        <div className="fixed inset-0 z-50 bg-black/50 flex items-start justify-center p-4 pt-24 anim-fade"
+          onClick={() => { if (!modalTesting) setConnectModal(null); }}>
+          <div className="rounded-lg shadow-xl max-w-md w-full"
+            style={{ backgroundColor: 'var(--bg-card)' }}
+            onClick={(e) => e.stopPropagation()}>
+            <div className="p-6" style={{ borderBottom: '1px solid var(--border)' }}>
+              <div className="font-display text-lg font-semibold">Connect {connectModal.name}</div>
+              <div className="text-sm text-stone-500 mt-0.5">Credentials are verified before saving.</div>
+            </div>
+            <div className="p-6 space-y-4">
+              {connectModal.fields.map((f) => (
+                <Field key={f.name} label={f.label} hint={f.hint}>
+                  <Input
+                    type={f.type || 'text'}
+                    value={modalValues[f.name] || ''}
+                    onChange={(e) => setModalValues((v) => ({ ...v, [f.name]: e.target.value }))}
+                    placeholder={f.placeholder || ''}
+                    disabled={modalTesting}
+                  />
+                </Field>
+              ))}
+              {modalResult && (
+                <div className={`flex items-start gap-2 p-3 rounded-md text-sm font-medium border ${
+                  modalResult.valid
+                    ? 'bg-emerald-50 text-emerald-700 border-emerald-200'
+                    : 'bg-red-50 text-red-700 border-red-200'
+                }`}>
+                  {modalResult.valid
+                    ? <Check className="w-4 h-4 shrink-0 mt-0.5" strokeWidth={2.5} />
+                    : <X className="w-4 h-4 shrink-0 mt-0.5" strokeWidth={2.5} />}
+                  <span>{modalResult.valid ? (modalResult.details || 'Connected') : (modalResult.error || 'Validation failed')}</span>
+                </div>
+              )}
+            </div>
+            <div className="px-6 py-4 flex justify-end gap-2"
+              style={{ backgroundColor: 'var(--bg-elevated)', borderTop: '1px solid var(--border)' }}>
+              <Btn variant="ghost" onClick={() => setConnectModal(null)} disabled={modalTesting}>Cancel</Btn>
+              <Btn variant="gold" icon={modalTesting ? RefreshCw : Check} onClick={handleValidateAndConnect} disabled={modalTesting}>
+                {modalTesting ? 'Verifying…' : 'Verify & Connect'}
+              </Btn>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Disconnect confirm dialog */}
       <ConfirmDialog
-        isOpen={!!connectModal}
-        title={connectModal ? `Connect ${connectModal.name}` : ''}
-        message={connectModal ? `Enter your ${connectModal.name} credentials. Stored locally — keys are not validated yet.` : ''}
-        confirmLabel="Save & Connect"
-        confirmColor="gold"
+        isOpen={!!confirmDisconnect}
+        title={confirmDisconnect ? `Disconnect ${confirmDisconnect.name}` : ''}
+        message={confirmDisconnect ? `Remove saved ${confirmDisconnect.name} credentials? You'll need to reconnect to use this integration.` : ''}
+        confirmLabel="Disconnect"
+        confirmColor="red"
         cancelLabel="Cancel"
-        inputs={connectModal
-          ? connectModal.fields.map((f) => ({
-              name: f.name,
-              label: f.label,
-              type: f.type || 'text',
-              placeholder: f.placeholder || '',
-              hint: f.hint,
-              defaultValue: connectModal.defaults?.[f.name] || '',
-            }))
-          : []}
-        onConfirm={saveConnection}
-        onCancel={() => setConnectModal(null)}
+        onConfirm={confirmDisconnectAction}
+        onCancel={() => setConfirmDisconnect(null)}
       />
 
       {/* Branding footer */}
