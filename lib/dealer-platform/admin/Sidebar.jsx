@@ -2,7 +2,7 @@
 import {
   LayoutDashboard, Car, Plus, Users, BadgeCheck, CheckSquare, Calculator,
   Wrench, Archive, Megaphone, BarChart3, Activity, Settings as SettingsIcon,
-  FileText, ChevronLeft,
+  FileText, ChevronLeft, TrendingUp,
 } from 'lucide-react';
 import { useContext } from 'react';
 import { GOLD, RED_ACCENT } from './_internals';
@@ -23,6 +23,7 @@ export const NAV_ITEMS = [
   // tools
   { id: 'marketing',    label: 'Marketing',      icon: Megaphone,       group: 'tools' },
   { id: 'reporting',    label: 'Reporting',      icon: BarChart3,       group: 'tools' },
+  { id: 'roi',          label: 'ROI Dashboard',  icon: TrendingUp,      group: 'tools' },
   { id: 'performance',  label: 'Performance',    icon: Activity,        group: 'tools' },
   // settings
   { id: 'settings',     label: 'Settings',       icon: SettingsIcon,    group: 'settings' },

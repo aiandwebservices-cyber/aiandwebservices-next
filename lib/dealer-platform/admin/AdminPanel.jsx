@@ -49,6 +49,9 @@ import { ReportingTab } from './ReportingTab';
 import PWAInstallBanner from './PWAInstallBanner';
 import OfflineIndicator from './OfflineIndicator';
 import { useServiceWorker } from '@/lib/dealer-platform/hooks/useServiceWorker';
+import OnboardingWizard from './OnboardingWizard';
+import DemoMode from './DemoMode';
+import ROIDashboard from './ROIDashboard';
 
 import { SEED_VEHICLES as SEED_INVENTORY } from '@/lib/dealer-platform/data/seed-vehicles';
 import { SEED_LEADS } from '@/lib/dealer-platform/data/seed-leads';
@@ -88,6 +91,8 @@ function AdminPanelBody({ config, slug }) {
   const [loaded, setLoaded] = useState(false);
   const [toast, setToast] = useState(null);
   const [editingVehicleId, setEditingVehicleId] = useState(null);
+  const [showOnboarding, setShowOnboarding] = useState(false);
+  const [showDemoMode, setShowDemoMode] = useState(false);
 
   /* ---------- domain state (hydrated from storage on mount) ---------- */
   const [inventory, setInventory]       = useState(SEED_INVENTORY);
@@ -175,6 +180,20 @@ function AdminPanelBody({ config, slug }) {
     })();
     return () => { mounted = false; };
   // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  /* ---------- onboarding gate ---------- */
+  useEffect(() => {
+    if (loaded && settings && !settings.onboardingComplete) {
+      setShowOnboarding(true);
+    }
+  }, [loaded, settings]);
+
+  /* ---------- demo mode trigger via ?demo=true ---------- */
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const params = new URLSearchParams(window.location.search);
+    if (params.get('demo') === 'true') setShowDemoMode(true);
   }, []);
 
   /* ---------- save effects ---------- */
@@ -427,6 +446,7 @@ function AdminPanelBody({ config, slug }) {
                 onOpenLeads={() => setActiveTab('leads')}
                 activity={activity}
                 onJump={(tab) => setActiveTab(tab)}
+                onShowDemo={() => setShowDemoMode(true)}
                 taskStats={taskStats}
               />}
               {activeTab === 'inventory' && <InventoryTab
@@ -533,6 +553,10 @@ function AdminPanelBody({ config, slug }) {
               {activeTab === 'reporting' && <ReportingTab
                 inventory={inventory} sold={sold} leads={leads}
               />}
+              {activeTab === 'roi' && <ROIDashboard
+                leads={leads} deals={deals} sold={sold} inventory={inventory}
+                flash={flash}
+              />}
               {activeTab === 'settings' && <SettingsTab
                 settings={settings} setSettings={setSettings} flash={flash}
               />}
@@ -571,6 +595,23 @@ function AdminPanelBody({ config, slug }) {
       )}
 
       <PWAInstallBanner flash={flash} />
+
+      {showOnboarding && (
+        <OnboardingWizard
+          dealerId={slug}
+          settings={settings}
+          setSettings={setSettings}
+          onComplete={() => {
+            setSettings(prev => ({ ...prev, onboardingComplete: true }));
+            setShowOnboarding(false);
+            flash('Welcome to LotPilot! Setup complete.');
+          }}
+        />
+      )}
+
+      {showDemoMode && (
+        <DemoMode onExit={() => setShowDemoMode(false)} />
+      )}
     </div>
   );
 }

@@ -59,7 +59,7 @@ export function DashboardTab({ inventory, leads, sold, settings, setSettings, up
   reservations, onConfirmReservation, onExtendReservation, onReleaseReservation,
   reservationCount,
   onAdd, onEdit, soldThisMonth, featuredCount, onSaleCount, unreadLeads, flash, onOpenLeads,
-  activity = [], onJump, taskStats = { overdue: 0, dueToday: 0, open: 0 } }) {
+  activity = [], onJump, onShowDemo, taskStats = { overdue: 0, dueToday: 0, open: 0 } }) {
   const config = useAdminConfig();
   const [activityExpanded, setActivityExpanded] = useState(false);
   const [demoBannerDismissed, setDemoBannerDismissed] = useState(false);
@@ -235,7 +235,12 @@ export function DashboardTab({ inventory, leads, sold, settings, setSettings, up
               : 'Your lot is in good shape today.'}
           </p>
         </div>
-        <Btn variant="gold" size="lg" icon={Plus} onClick={onAdd}>Add New Vehicle</Btn>
+        <div className="flex items-center gap-2">
+          {onShowDemo && (
+            <Btn variant="ghost" size="lg" icon={Sparkles} onClick={onShowDemo}>Try Demo Mode</Btn>
+          )}
+          <Btn variant="gold" size="lg" icon={Plus} onClick={onAdd}>Add New Vehicle</Btn>
+        </div>
       </div>
 
       {/* AI INSIGHTS BANNER */}
