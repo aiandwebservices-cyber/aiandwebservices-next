@@ -162,6 +162,20 @@ function mapEspoDeal(r: Record<string, any>, cohortId: string): DealPayload | nu
 }
 
 export async function espoFetchDeals(cohortId: string, query: DealsQuery = {}): Promise<DealPayload[]> {
+  // Pipeline kanban data comes from TWO EspoCRM entities:
+  //   - Opportunity (post-close: paying customers, MRR/LTV, subscription)
+  //   - Lead       (pre-close: outreach pipeline; master_pipeline writes
+  //                  salesStage to Lead.salesStage after Instantly send)
+  // We union both. Lead-sourced deals get their id prefixed `lead:` so
+  // espoUpdateDealStage can route the PATCH to the correct entity.
+  const [opportunityDeals, leadDeals] = await Promise.all([
+    espoFetchOpportunityDeals(cohortId, query),
+    espoFetchLeadsAsDeals(cohortId, query),
+  ])
+  return [...opportunityDeals, ...leadDeals]
+}
+
+async function espoFetchOpportunityDeals(cohortId: string, query: DealsQuery = {}): Promise<DealPayload[]> {
   const where = buildWhere([{ type: 'equals', attribute: 'cCohortId', value: cohortId }])
   const params: Record<string, string> = {
     where,
@@ -187,6 +201,72 @@ export async function espoFetchDeals(cohortId: string, query: DealsQuery = {}): 
     .filter((d): d is DealPayload => d !== null)
 }
 
+// Surface Lead records that have a salesStage set as Deal-shaped cards in the
+// kanban. master_pipeline writes Lead.salesStage after a successful Instantly send,
+// so this is what makes "Audit Scheduled" leads appear in the kanban without
+// requiring a corresponding Opportunity record.
+async function espoFetchLeadsAsDeals(cohortId: string, query: DealsQuery = {}): Promise<DealPayload[]> {
+  const where = buildWhere([
+    { type: 'equals', attribute: 'cCohortId', value: cohortId },
+    { type: 'isNotNull', attribute: 'salesStage', value: null },
+  ])
+  const params: Record<string, string> = {
+    where,
+    maxSize: String(query.limit ?? 50),
+    offset: '0',
+  }
+
+  let result: EspoListResponse<Record<string, unknown>>
+  try {
+    result = await espoGet<EspoListResponse<Record<string, unknown>>>('Lead', params)
+  } catch (err) {
+    if (err instanceof ColonyFetchError && err.statusCode === 400) {
+      if (process.env.NODE_ENV === 'development') {
+        console.warn('[Colony] EspoCRM: cCohortId or salesStage missing on Lead entity — returning empty array for lead-as-deal')
+      }
+      return []
+    }
+    throw err
+  }
+
+  return result.list
+    .map(r => mapLeadAsDeal(r as Record<string, unknown>, cohortId))
+    .filter((d): d is DealPayload => d !== null)
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function mapLeadAsDeal(r: Record<string, any>, cohortId: string): DealPayload | null {
+  const id = r.id as string | undefined
+  if (!id) return null
+  const stage = (r.salesStage ?? r.cStage) as DealStage | undefined
+  if (!stage) return null  // safety: where-clause filtered, but double-check
+  const lastActivityAt = (r.modifiedAt ?? r.createdAt ?? new Date().toISOString()) as string
+  const createdAt = (r.createdAt ?? new Date().toISOString()) as string
+  const daysInStage = Math.floor(
+    (Date.now() - new Date(lastActivityAt).getTime()) / 86_400_000
+  )
+  return {
+    id: `lead:${id}`,  // prefix routes the stage-update PATCH to the Lead entity
+    cohort_id: cohortId as DealPayload['cohort_id'],
+    lead_id: id,
+    business_name: (r.accountName ?? r.name ?? '') as string,
+    amount: Number(r.cDealTier ?? 149),
+    stage,
+    probability: Number(r.probability ?? 20),
+    days_in_stage: daysInStage,
+    created_at: createdAt,
+    last_activity_at: lastActivityAt,
+    // Lead entity has none of the Opportunity-specific commerce fields below.
+    // Leaving them undefined; UI components already guard with `?? undefined`.
+    square_customer_id: undefined,
+    payment_status: undefined,
+    last_payment_date: undefined,
+    subscription_plan: undefined,
+    mrr: undefined,
+    ltv: undefined,
+  }
+}
+
 // ─── Stage write-back ─────────────────────────────────────────────────────────
 
 export async function espoUpdateDealStage(
@@ -195,7 +275,12 @@ export async function espoUpdateDealStage(
   newStage: string
 ): Promise<boolean> {
   void cohortId  // cohortId not needed for the PATCH — deal ID is globally unique in EspoCRM
-  const res = await fetch(`${baseUrl()}/api/v1/Opportunity/${dealId}`, {
+  // Route by prefix: `lead:UUID` deals PATCH the Lead entity; bare UUIDs PATCH Opportunity.
+  const isLead = dealId.startsWith('lead:')
+  const realId = isLead ? dealId.slice('lead:'.length) : dealId
+  const entity = isLead ? 'Lead' : 'Opportunity'
+
+  const res = await fetch(`${baseUrl()}/api/v1/${entity}/${realId}`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',

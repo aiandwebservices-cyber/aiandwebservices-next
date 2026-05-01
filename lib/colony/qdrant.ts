@@ -109,7 +109,17 @@ export async function qdrantFetchReports(
 export async function qdrantFetchDraftForLead(
   cohortId: string,
   leadId: string
-): Promise<{ subject: string; body: string; generated_by: string; generated_at: string; delivered: boolean; draft_only: boolean } | null> {
+): Promise<{
+  subject: string
+  body: string
+  generated_by: string
+  generated_at: string
+  delivered: boolean
+  draft_only: boolean
+  delivery_method: string | null
+  instantly_send_id: string | null
+  instantly_campaign_id: string | null
+} | null> {
   type RawDraft = {
     subject?: string
     body?: string
@@ -120,6 +130,9 @@ export async function qdrantFetchDraftForLead(
     draft_only?: boolean
     lead_id?: string
     cohort_id?: string
+    delivery_method?: string
+    instantly_send_id?: string
+    instantly_campaign_id?: string
   }
 
   const filter = {
@@ -140,7 +153,62 @@ export async function qdrantFetchDraftForLead(
     generated_at: r.generated_at ?? r.sent_at ?? new Date().toISOString(),
     delivered: r.delivery_status === 'delivered',
     draft_only: r.draft_only ?? false,
+    delivery_method: r.delivery_method ?? null,
+    instantly_send_id: r.instantly_send_id ?? null,
+    instantly_campaign_id: r.instantly_campaign_id ?? null,
   }
+}
+
+// Recent Instantly outbound sends for the cohort, used by the activity feed.
+// Reads emails_sent (Instantly pipeline collection) — distinct from email_sends
+// (Colony's Resend pipeline collection). Filters on delivered=true so the feed
+// only shows confirmed sends, not drafts.
+export interface InstantlySendFeedRow {
+  lead_id: string
+  recipient_email: string
+  subject: string
+  sent_at: string
+  instantly_send_id: string | null
+  instantly_campaign_id: string | null
+}
+
+export async function qdrantFetchRecentInstantlySends(
+  cohortId: string,
+  sinceIso: string,
+  limit = 50
+): Promise<InstantlySendFeedRow[]> {
+  type RawSend = {
+    lead_id?: string
+    recipient_email?: string
+    subject?: string
+    sent_at?: string
+    delivered?: boolean
+    delivery_method?: string
+    instantly_send_id?: string
+    instantly_campaign_id?: string
+  }
+  const filter = {
+    must: [
+      { key: 'cohort_id', match: { value: cohortId } },
+      { key: 'delivered', match: { value: true } },
+      { key: 'delivery_method', match: { value: 'instantly' } },
+      { key: 'sent_at', range: { gt: sinceIso } },
+    ],
+  }
+  const raw = await qdrantScroll<RawSend>(COLLECTIONS.emails, filter, limit)
+  return raw
+    .filter((r): r is RawSend & { lead_id: string; recipient_email: string; sent_at: string } =>
+      typeof r.lead_id === 'string' && typeof r.recipient_email === 'string' && typeof r.sent_at === 'string'
+    )
+    .map(r => ({
+      lead_id: r.lead_id,
+      recipient_email: r.recipient_email,
+      subject: r.subject ?? '(no subject)',
+      sent_at: r.sent_at,
+      instantly_send_id: r.instantly_send_id ?? null,
+      instantly_campaign_id: r.instantly_campaign_id ?? null,
+    }))
+    .sort((a, b) => new Date(b.sent_at).getTime() - new Date(a.sent_at).getTime())
 }
 
 // ─── Research signals ─────────────────────────────────────────────────────────

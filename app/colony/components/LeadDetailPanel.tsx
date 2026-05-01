@@ -19,7 +19,12 @@ export interface DraftData {
   draft_only: boolean
   delivered: boolean
   created_at: string
+  delivery_method?: string | null
+  instantly_send_id?: string | null
+  instantly_campaign_id?: string | null
 }
+
+const BODY_PREVIEW_MAX = 600  // truncate previews to keep panel scrollable
 
 // ─── Research signals by niche ────────────────────────────────────────────────
 
@@ -98,11 +103,11 @@ export function LeadDetailPanel({ lead, draft: propDraft }: LeadDetailPanelProps
   if (draftLoading) {
     outreachLabel = 'Outreach Email — loading…'
   } else if (propDraft?.delivered) {
-    outreachLabel = <>Outreach Email — sent by <span style={{ color: 'var(--colony-text-primary)' }}>Bob</span></>
+    outreachLabel = <>Outreach Email — <span style={{ color: 'var(--colony-text-primary)' }}>Sent via Instantly</span></>
   } else if (propDraft) {
-    outreachLabel = <>Outreach Email — drafted by <span style={{ color: 'var(--colony-text-primary)' }}>Bob</span></>
+    outreachLabel = <>Outreach Email — <span style={{ color: 'var(--colony-text-primary)' }}>Draft (not sent)</span></>
   } else {
-    outreachLabel = <>Outreach Email — <span style={{ color: 'var(--colony-text-secondary)' }}>no draft</span></>
+    outreachLabel = <>Outreach Email — <span style={{ color: 'var(--colony-text-secondary)' }}>No outreach email yet</span></>
   }
 
   const signals = getSignals(lead.niche)
@@ -257,12 +262,25 @@ export function LeadDetailPanel({ lead, draft: propDraft }: LeadDetailPanelProps
                 Subject: {displayDraft.subject}
               </p>
               <div style={{ color: 'var(--colony-text-primary)', lineHeight: 1.7 }}>
-                {displayDraft.body.split('\n').map((line, i) => (
-                  <span key={i}>
-                    {line || <br />}
-                    {i < displayDraft.body.split('\n').length - 1 && <br />}
-                  </span>
-                ))}
+                {(() => {
+                  const truncated = displayDraft.body.length > BODY_PREVIEW_MAX
+                  const text = truncated ? `${displayDraft.body.slice(0, BODY_PREVIEW_MAX)}…` : displayDraft.body
+                  return (
+                    <>
+                      {text.split('\n').map((line, i) => (
+                        <span key={i}>
+                          {line || <br />}
+                          {i < text.split('\n').length - 1 && <br />}
+                        </span>
+                      ))}
+                      {truncated && (
+                        <p className="text-xs mt-2" style={{ color: 'var(--colony-text-secondary)', fontStyle: 'italic' }}>
+                          (Body truncated · full content stored in Qdrant emails_sent)
+                        </p>
+                      )}
+                    </>
+                  )
+                })()}
               </div>
             </div>
           ) : (
@@ -274,14 +292,33 @@ export function LeadDetailPanel({ lead, draft: propDraft }: LeadDetailPanelProps
                 color: 'var(--colony-text-secondary)',
               }}
             >
-              No outreach drafted yet for this lead.
+              No outreach email yet.
             </div>
           )}
 
           {displayDraft && (
-            <p className="text-xs mt-2" style={{ color: 'var(--colony-text-secondary)' }}>
-              Drafted by master_pipeline write_email · {new Date(displayDraft.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-            </p>
+            <div className="text-xs mt-2 space-y-1" style={{ color: 'var(--colony-text-secondary)' }}>
+              <p>
+                {displayDraft.delivered ? 'Sent via Instantly' : 'Draft (not sent)'} ·{' '}
+                {new Date(displayDraft.created_at).toLocaleString('en-US', {
+                  month: 'short', day: 'numeric', year: 'numeric',
+                  hour: 'numeric', minute: '2-digit',
+                })}
+              </p>
+              {displayDraft.delivered && displayDraft.instantly_send_id && (
+                <p style={{ fontFamily: "'JetBrains Mono', ui-monospace, monospace", fontSize: '0.7rem' }}>
+                  send_id:{' '}
+                  <span style={{ color: 'var(--colony-text-primary)' }}>
+                    {displayDraft.instantly_send_id}
+                  </span>
+                  {displayDraft.delivery_method && displayDraft.delivery_method !== 'instantly' && (
+                    <span style={{ marginLeft: 8, opacity: 0.7 }}>
+                      via {displayDraft.delivery_method}
+                    </span>
+                  )}
+                </p>
+              )}
+            </div>
           )}
           <EmailSendStatus leadId={lead.id} />
         </div>

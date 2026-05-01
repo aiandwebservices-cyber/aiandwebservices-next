@@ -1,7 +1,7 @@
 import type { FeedEventPayload, FeedQuery } from './contracts'
 import type { FeedEventType } from '@/app/colony/lib/types'
 import { espoFetchLeads, espoFetchActivities } from './espocrm'
-import { qdrantFetchReports, qdrantFetchBotRuns } from './qdrant'
+import { qdrantFetchReports, qdrantFetchBotRuns, qdrantFetchRecentInstantlySends } from './qdrant'
 import { qdrantFetchReplyFeedEvents } from './email/inbound/feed-emitter'
 
 const BOT_ICONS: Record<string, string> = {
@@ -22,13 +22,23 @@ export async function buildFeed(cohortId: string, query: FeedQuery = {}): Promis
 
   const events: FeedEventPayload[] = []
 
-  const [leads, activities, reports, botRuns, replies] = await Promise.allSettled([
+  const [leads, activities, reports, botRuns, replies, instantlySends] = await Promise.allSettled([
     espoFetchLeads(cohortId, { limit: 50 }),
     espoFetchActivities(cohortId, { since, limit: 100 }),
     qdrantFetchReports(cohortId, { limit: 10 }),
     qdrantFetchBotRuns(cohortId, { since, limit: 20 }),
     qdrantFetchReplyFeedEvents(cohortId, since, 50),
+    qdrantFetchRecentInstantlySends(cohortId, since, 50),
   ])
+
+  // Build a quick lead_id → business_name map so the email_sent events can
+  // show the business name instead of just an opaque lead UUID.
+  const leadNameById = new Map<string, string>()
+  if (leads.status === 'fulfilled') {
+    for (const lead of leads.value) {
+      leadNameById.set(lead.id, lead.business_name)
+    }
+  }
 
   // 1. New leads from last 48h
   if (leads.status === 'fulfilled') {
@@ -123,6 +133,26 @@ export async function buildFeed(cohortId: string, query: FeedQuery = {}): Promis
         subtitle: reply.subtitle,
         icon: reply.icon,
         drill_target: { type: 'lead', id: reply.drill_target_id },
+      })
+    }
+  }
+
+  // 6. Outbound Instantly sends — qdrant emails_sent, delivered=true,
+  //    delivery_method=instantly. Surfaces every email the master_pipeline
+  //    actually queued and confirmed. Uses business name from the lead lookup
+  //    when available, else falls back to the recipient email.
+  if (instantlySends.status === 'fulfilled') {
+    for (const s of instantlySends.value) {
+      const businessName = leadNameById.get(s.lead_id) ?? s.recipient_email
+      events.push({
+        id: `email-sent-${s.lead_id}-${s.sent_at}`,
+        cohort_id: cohortId as FeedEventPayload['cohort_id'],
+        timestamp: s.sent_at,
+        type: 'email_sent',
+        title: `Sent via Instantly: ${businessName}`,
+        subtitle: s.subject,
+        icon: '📤',
+        drill_target: { type: 'lead', id: s.lead_id },
       })
     }
   }
