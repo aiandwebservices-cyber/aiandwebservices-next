@@ -20,6 +20,10 @@ export const config = {
     accent:  '#FF1F2D',  // racing red
     bgDark:  '#08080A',
   },
+  hero: {
+    title1: 'Powered by',
+    title2: 'LotCRM',
+  },
   espocrm: {
     ...defaultConfig.espocrm,
     url:    'https://lotcrm.lotpilot.ai',

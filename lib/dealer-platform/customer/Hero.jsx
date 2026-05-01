@@ -9,7 +9,7 @@ import { useCustomerConfig } from './CustomerConfigContext';
 export function Hero({ onCTA, lang = 'en' }) {
   const cfg = useCustomerConfig();
   const heroDealerName = (cfg.dealerName || 'Dealer').split(' ')[0].toUpperCase();
-  const t = I18N[lang];
+  const t = { ...I18N[lang], ...(cfg.hero?.[lang] ?? cfg.hero ?? {}) };
   return (
     <section id="top" style={{
       position: 'relative', overflow: 'hidden',
