@@ -33,6 +33,8 @@ import { SEED_APPT_HISTORY } from '@/lib/dealer-platform/data/seed-appointments'
 import { ActivityLog } from './ActivityLog';
 import { BreadcrumbBar } from './BreadcrumbBar';
 import PushNotificationSetup from './PushNotificationSetup';
+import DataExport from './DataExport';
+import { PLANS } from '@/lib/dealer-platform/config/pricing.js';
 
 export function SettingsTab({ settings, setSettings, flash }) {
   const cfg = useAdminConfig();
@@ -1312,6 +1314,41 @@ export function SettingsTab({ settings, setSettings, flash }) {
         onCancel={() => setConfirmDisconnect(null)}
       />
 
+      {/* ── Billing & Subscription ─────────────────────────────────────── */}
+      <Card className="p-5">
+        <SectionHeader title="Billing & Subscription" />
+        <BillingSection settings={settings} dealerSlug={dealerSlug} flash={flash} />
+      </Card>
+
+      {/* ── Data & Privacy ─────────────────────────────────────────────── */}
+      <Card className="p-5">
+        <SectionHeader title="Data & Privacy" />
+        <DataExport />
+        <div className="mt-4 pt-4" style={{ borderTop: '1px solid var(--border)' }}>
+          <a
+            href="/lotpilot/privacy"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-sm"
+            style={{ color: 'var(--text-secondary)' }}
+          >
+            <ExternalLink className="w-3.5 h-3.5" />
+            Privacy Policy
+          </a>
+          <span className="mx-2" style={{ color: 'var(--border)' }}>·</span>
+          <a
+            href="/lotpilot/terms"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center gap-1.5 text-sm"
+            style={{ color: 'var(--text-secondary)' }}
+          >
+            <ExternalLink className="w-3.5 h-3.5" />
+            Terms of Service
+          </a>
+        </div>
+      </Card>
+
       {/* Branding footer */}
       <Card className="p-5 bg-stone-900 text-white border-stone-900 relative overflow-hidden">
         <div className="absolute -bottom-12 -right-12 w-40 h-40 rounded-full opacity-15"
@@ -1373,6 +1410,76 @@ export function SettingsTab({ settings, setSettings, flash }) {
           {savedPulse ? 'Saved' : 'All changes saved automatically'}
         </span>
       </div>
+    </div>
+  );
+}
+
+/* ====================== BILLING SECTION ========================== */
+
+function BillingSection({ settings, dealerSlug, flash }) {
+  const [loading, setLoading] = useState(false);
+
+  const planId = settings.planId || 'professional';
+  const plan = PLANS[planId];
+  const stripeCustomerId =
+    settings.integrations?.stripe?.customerId ||
+    settings.stripeCustomerId ||
+    null;
+
+  async function handleManageBilling() {
+    setLoading(true);
+    try {
+      const res = await fetch(`/api/dealer/${dealerSlug}/admin/billing-portal`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({}),
+      });
+      const data = await res.json();
+      if (data.url) {
+        window.location.href = data.url;
+      } else {
+        flash(data.error || 'Could not open billing portal', 'error');
+      }
+    } catch {
+      flash('Network error — could not reach billing portal', 'error');
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  if (!stripeCustomerId) {
+    return (
+      <div className="rounded-md p-4" style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border)' }}>
+        <p className="text-sm" style={{ color: 'var(--text-secondary)' }}>
+          Billing will be available once your subscription is set up.{' '}
+          <a href="mailto:david@aiandwebservices.com" style={{ color: GOLD }}>Contact us</a> to get started.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-4">
+      <div className="rounded-md p-4 flex items-center justify-between gap-4 flex-wrap"
+        style={{ background: 'var(--bg-elevated)', border: '1px solid var(--border)' }}>
+        <div>
+          <div className="text-sm font-semibold">{plan?.name ?? planId} Plan</div>
+          <div className="text-sm mt-0.5" style={{ color: 'var(--text-secondary)' }}>
+            ${plan?.monthlyPrice?.toLocaleString() ?? '—'}/mo · billed monthly via Stripe
+          </div>
+        </div>
+        <Btn
+          variant="outline"
+          icon={loading ? RefreshCw : ExternalLink}
+          onClick={handleManageBilling}
+          disabled={loading}
+        >
+          {loading ? 'Opening…' : 'Manage Billing'}
+        </Btn>
+      </div>
+      <p className="text-xs" style={{ color: 'var(--text-muted)' }}>
+        Update payment method, view invoices, or cancel your subscription through the Stripe portal.
+      </p>
     </div>
   );
 }
