@@ -4,7 +4,7 @@ import sitemap from '@/app/sitemap';
 const KEY = 'ad9e3c4520a64be7a94147515aedfe32';
 const HOST = 'www.aiandwebservices.com';
 
-export async function GET() {
+async function ping() {
   const entries = sitemap();
   const urlList = entries.map((e) => String(e.url));
 
@@ -24,4 +24,12 @@ export async function GET() {
     indexnowStatus: res.status,
     indexnowStatusText: res.statusText,
   });
+}
+
+export async function GET() {
+  return ping();
+}
+
+export async function POST() {
+  return ping();
 }
