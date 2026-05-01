@@ -118,6 +118,7 @@ const BLANK_VEHICLE = {
 };
 
 export function VehicleFormTab({ vehicle, onSave, onCancel, flash }) {
+  const config = useAdminConfig();
   const isEdit = !!vehicle;
   const [form, setForm] = useState(() => vehicle ? { ...BLANK_VEHICLE, ...vehicle } : { ...BLANK_VEHICLE });
   const [photoInput, setPhotoInput] = useState((vehicle?.photos || []).join(', '));
@@ -138,6 +139,8 @@ export function VehicleFormTab({ vehicle, onSave, onCancel, flash }) {
   const [recallsLoading, setRecallsLoading] = useState(false);
   const [recallsChecked, setRecallsChecked] = useState(false);
   const [savingEspo, setSavingEspo] = useState(false);
+  const [aiGenerating, setAiGenerating] = useState(false);
+  const [aiGenerated, setAiGenerated] = useState(false);
 
   useEffect(() => {
     if (vehicle) {
@@ -154,6 +157,7 @@ export function VehicleFormTab({ vehicle, onSave, onCancel, flash }) {
     setRecalls([]);
     setRecallsChecked(false);
     setMpgUnavailable(false);
+    setAiGenerated(false);
   }, [vehicle?.id]);
 
   // Load all makes once on mount
@@ -292,6 +296,44 @@ export function VehicleFormTab({ vehicle, onSave, onCancel, flash }) {
       flash && flash('VIN decoder unavailable — enter details manually', 'error');
     } finally {
       setVinDecoding(false);
+    }
+  };
+
+  const generateAiDescription = async (regenerate = false) => {
+    setAiGenerating(true);
+    setAiGenerated(false);
+    try {
+      const dealerSlug = config.dealerSlug || 'primo';
+      const res = await fetch(`/api/dealer/${dealerSlug}/ai/describe`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          vehicle: {
+            year: form.year, make: form.make, model: form.model, trim: form.trim,
+            mileage: form.mileage, exteriorColor: form.exteriorColor,
+            interiorColor: form.interiorColor, engine: form.engine,
+            transmission: form.transmission, drivetrain: form.drivetrain,
+            fuelType: form.fuelType, bodyStyle: form.bodyStyle,
+            listPrice: form.listPrice,
+            noAccidents: form.history?.noAccidents, oneOwner: form.history?.oneOwner,
+            cleanTitle: form.history?.cleanTitle, serviceRecords: form.history?.serviceRecords,
+            inspectionPassed: form.history?.inspection,
+          },
+          regenerate,
+        }),
+      });
+      const data = await res.json();
+      if (data.ok && data.description) {
+        set('description', data.description);
+        setAiGenerated(true);
+        flash && flash('AI description generated', 'success');
+      } else {
+        flash && flash('AI unavailable — write manually', 'error');
+      }
+    } catch {
+      flash && flash('AI unavailable — write manually', 'error');
+    } finally {
+      setAiGenerating(false);
     }
   };
 
@@ -637,18 +679,40 @@ export function VehicleFormTab({ vehicle, onSave, onCancel, flash }) {
         </Card>
 
         {/* DESCRIPTION */}
-        <Card className="p-5">
-          <div className="flex items-center justify-between mb-4">
+        <Card className="p-5" id="description-section">
+          <div className="flex items-center justify-between mb-3">
             <div className="flex items-center gap-2">
               <Edit3 className="w-4 h-4 text-stone-500" />
               <h3 className="font-display text-lg font-semibold">Description</h3>
             </div>
-            <span className={`text-[11px] tabular ${(form.description?.length || 0) > 500 ? 'text-red-600' : 'text-stone-500'}`}>
-              {form.description?.length || 0} / 500
-            </span>
+            <div className="flex items-center gap-3">
+              <span className={`text-[11px] tabular ${(form.description?.length || 0) > 500 ? 'text-red-600' : 'text-stone-500'}`}>
+                {form.description?.length || 0} / 500
+              </span>
+              <Btn variant="gold" size="sm" icon={aiGenerating ? RefreshCw : Sparkles}
+                disabled={aiGenerating} onClick={() => generateAiDescription(false)}
+                className={aiGenerating ? '[&>svg]:animate-spin' : ''}>
+                {aiGenerating ? 'AI is writing…' : '✨ Generate'}
+              </Btn>
+            </div>
           </div>
-          <Textarea value={form.description} onChange={(e) => set('description', e.target.value)} rows={4}
-            placeholder="Highlight key features, condition, and what makes this vehicle a great buy…" maxLength={500} />
+          <Textarea value={form.description}
+            onChange={(e) => { set('description', e.target.value); setAiGenerated(false); }}
+            rows={4} placeholder="Highlight key features, condition, and what makes this vehicle a great buy…" maxLength={500} />
+          <div className="mt-2 flex items-center gap-3 min-h-[20px]">
+            {aiGenerated && (
+              <span className="inline-flex items-center gap-1 text-[11px] px-2 py-0.5 rounded-full font-semibold"
+                style={{ backgroundColor: '#E8F2EC', color: '#256B40' }}>
+                <Sparkles className="w-3 h-3" /> AI-generated
+              </span>
+            )}
+            {form.description?.trim() && (
+              <button type="button" onClick={() => generateAiDescription(true)}
+                className="text-[11px] text-stone-500 hover:text-stone-900 underline">
+                ✨ Regenerate with AI
+              </button>
+            )}
+          </div>
         </Card>
 
         {/* PHOTOS */}

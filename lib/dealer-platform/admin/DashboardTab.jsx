@@ -38,6 +38,7 @@ export function DashboardTab({ inventory, leads, sold, settings, setSettings, up
   reservationCount,
   onAdd, onEdit, soldThisMonth, featuredCount, onSaleCount, unreadLeads, flash, onOpenLeads,
   activity = [], onJump, taskStats = { overdue: 0, dueToday: 0, open: 0 } }) {
+  const config = useAdminConfig();
   const [activityExpanded, setActivityExpanded] = useState(false);
 
   const websiteViews = useMemo(() => 14728 + inventory.reduce((s, v) => s + (v.views || 0), 0), [inventory]);
@@ -55,6 +56,20 @@ export function DashboardTab({ inventory, leads, sold, settings, setSettings, up
   const recentLeads = useMemo(() =>
     [...leads].sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)).slice(0, 5),
     [leads]);
+
+  const hotLeads = useMemo(() => {
+    const HOT = new Set(['BuildYourDeal', 'Build Your Deal', 'Pre-Approval', 'PreApproval', 'Reserve']);
+    return leads.filter(l => HOT.has(l.source) && l.status !== 'Sold' && l.status !== 'Lost');
+  }, [leads]);
+
+  const agingForAction = useMemo(() =>
+    inventory.filter(v => v.status !== 'Sold' && (v.daysOnLot || 0) > 45)
+      .sort((a, b) => (b.daysOnLot || 0) - (a.daysOnLot || 0)),
+    [inventory]);
+
+  const noDescVehicles = useMemo(() =>
+    inventory.filter(v => v.status !== 'Sold' && (!v.description || !v.description.trim())),
+    [inventory]);
 
   const tier = (days) => {
     if (days >= 60) return { color: '#A12B2B', bg: '#FBE6E6', label: 'ACTION NEEDED' };
@@ -105,6 +120,60 @@ export function DashboardTab({ inventory, leads, sold, settings, setSettings, up
           </p>
         </div>
         <Btn variant="gold" size="lg" icon={Plus} onClick={onAdd}>Add New Vehicle</Btn>
+      </div>
+
+      {/* AI INSIGHTS BANNER */}
+      <div className="mb-6 rounded-xl overflow-hidden"
+        style={{ background: 'linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 100%)', borderLeft: `4px solid ${GOLD}` }}>
+        <div className="px-5 py-3 border-b border-white/10 flex items-center gap-2">
+          <Sparkles className="w-4 h-4" style={{ color: GOLD }} />
+          <span className="text-[11px] font-bold smallcaps" style={{ color: GOLD }}>AI Insights</span>
+          <span className="text-[10px] text-stone-500 ml-1">— morning priorities</span>
+        </div>
+        <div className="grid sm:grid-cols-3 divide-y sm:divide-y-0 sm:divide-x divide-white/10">
+          <div onClick={onOpenLeads} className="p-5 hover:bg-white/5 transition cursor-pointer">
+            <div className="text-white font-semibold text-sm mb-1">
+              {hotLeads.length > 0
+                ? `🔥 ${hotLeads.length} hot lead${hotLeads.length !== 1 ? 's' : ''} — call within 5 minutes`
+                : '✅ No hot leads right now'}
+            </div>
+            {hotLeads.length > 0
+              ? hotLeads.slice(0, 2).map(l => (
+                  <div key={l.id} className="text-[11px] text-stone-400 truncate">
+                    {l.name}{l.vehicleLabel ? ` → ${l.vehicleLabel}` : ''}
+                  </div>
+                ))
+              : <div className="text-[11px] text-stone-500">All leads in good standing</div>}
+          </div>
+          <div onClick={() => onJump && onJump('inventory')} className="p-5 hover:bg-white/5 transition cursor-pointer">
+            <div className="text-white font-semibold text-sm mb-1">
+              {agingForAction.length > 0
+                ? `⚠️ ${agingForAction.length} vehicle${agingForAction.length !== 1 ? 's' : ''} aging — price action recommended`
+                : '✅ No vehicles need price action'}
+            </div>
+            {agingForAction.length > 0
+              ? agingForAction.slice(0, 2).map(v => (
+                  <div key={v.id} className="text-[11px] text-stone-400 truncate">
+                    {v.year} {v.make} {v.model} — {v.daysOnLot}d on lot
+                  </div>
+                ))
+              : <div className="text-[11px] text-stone-500">Inventory moving well</div>}
+          </div>
+          <div onClick={() => onJump && onJump('inventory')} className="p-5 hover:bg-white/5 transition cursor-pointer">
+            <div className="text-white font-semibold text-sm mb-1">
+              {noDescVehicles.length > 0
+                ? `✨ ${noDescVehicles.length} vehicle${noDescVehicles.length !== 1 ? 's' : ''} need AI descriptions`
+                : '✅ All vehicles have descriptions'}
+            </div>
+            {noDescVehicles.length > 0 ? (
+              <button onClick={(e) => { e.stopPropagation(); flash('AI descriptions generating…'); }}
+                className="mt-1 text-[11px] font-bold px-2.5 py-1 rounded-md hover:opacity-90 transition inline-flex items-center gap-1"
+                style={{ backgroundColor: GOLD, color: '#1A1612' }}>
+                <Sparkles className="w-3 h-3" /> Generate All
+              </button>
+            ) : <div className="text-[11px] text-stone-500">Descriptions up to date</div>}
+          </div>
+        </div>
       </div>
 
       {/* Summary cards */}
@@ -169,21 +238,28 @@ export function DashboardTab({ inventory, leads, sold, settings, setSettings, up
           </div>
           <div className="flex items-center gap-3">
             {(() => {
-              const above = inventory.filter(v => MARKET_PRICES[v.id] && (v.salePrice || v.listPrice) > MARKET_PRICES[v.id]).length;
-              const score = Math.max(0, Math.min(100, 100 - above * 4));
+              const active = inventory.filter(v => v.status !== 'Sold' && v.listPrice > 0);
+              const avgDays = active.length > 0
+                ? active.reduce((s, v) => s + (v.daysOnLot || 0), 0) / active.length
+                : 0;
+              const over60 = active.filter(v => (v.daysOnLot || 0) >= 60).length;
+              const score = Math.max(0, Math.min(100, Math.round(100 - avgDays * 1.2 - over60 * 10)));
               return (
                 <>
                   <div className="text-right">
-                    <div className="text-[9px] smallcaps text-stone-500">Competitiveness</div>
+                    <div className="text-[9px] smallcaps text-stone-500">Lot Health</div>
                     <div className="font-display tabular text-lg font-semibold" style={{ color: score >= 80 ? '#2F7A4A' : score >= 60 ? GOLD : RED_ACCENT }}>
                       {score}<span className="text-xs text-stone-400">/100</span>
                     </div>
                   </div>
-                  {above > 0 && (
-                    <span className="text-[10px] font-semibold smallcaps px-2 py-1 rounded-full" style={{ backgroundColor: '#FBE6E6', color: '#A12B2B' }}>
-                      {above} above market
-                    </span>
-                  )}
+                  <span className="text-[10px] font-semibold smallcaps px-2 py-1 rounded-full"
+                    style={score >= 80
+                      ? { backgroundColor: '#E8F2EC', color: '#256B40' }
+                      : score >= 60
+                      ? { backgroundColor: GOLD_SOFT, color: '#7A5A0F' }
+                      : { backgroundColor: '#FBE6E6', color: '#A12B2B' }}>
+                    {score >= 80 ? 'Healthy' : score >= 60 ? 'Watch' : 'Action needed'}
+                  </span>
                 </>
               );
             })()}
@@ -194,46 +270,57 @@ export function DashboardTab({ inventory, leads, sold, settings, setSettings, up
             <thead className="bg-stone-50 border-b border-stone-100 text-[10px] smallcaps font-semibold text-stone-500">
               <tr>
                 <th className="px-5 py-3 text-left">Vehicle</th>
-                <th className="px-3 py-3 text-right">Your Price</th>
-                <th className="px-3 py-3 text-right">Market Avg</th>
-                <th className="px-3 py-3 text-right">Variance</th>
+                <th className="px-3 py-3 text-right">Price</th>
+                <th className="px-3 py-3 text-right">Days on Lot</th>
+                <th className="px-3 py-3 text-right">Margin</th>
                 <th className="px-5 py-3 text-left">Recommendation</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-stone-100">
-              {inventory.filter(v => MARKET_PRICES[v.id]).map(v => {
-                const yours = v.salePrice || v.listPrice;
-                const mkt = MARKET_PRICES[v.id];
-                const diff = yours - mkt;
-                const pct = (diff / mkt) * 100;
-                const above = pct > 0;
+              {inventory.filter(v => v.status !== 'Sold' && v.listPrice > 0).slice(0, 12).map(v => {
+                const days = v.daysOnLot || Math.floor((Date.now() - new Date(v.dateAdded).getTime()) / 86400000);
+                const price = v.salePrice || v.listPrice;
+                const cost = v.cost || 0;
+                const hasMargin = cost > 0;
+                const marginPct = hasMargin ? (price - cost) / cost * 100 : null;
+                const gross = hasMargin ? price - cost : null;
+                const urgencyColor = days >= 60 ? '#A12B2B' : days >= 31 ? '#9C4F1A' : '#2F7A4A';
+                const rec = days >= 60 ? 'Price action needed' :
+                            days >= 45 ? 'Recommend 3–5% price drop' :
+                            days >= 30 ? 'Consider featuring' :
+                            days >= 15 ? 'On pace' :
+                            'New arrival — monitor';
                 return (
                   <tr key={v.id} className="hover:bg-stone-50 transition">
                     <td className="px-5 py-3">
                       <button onClick={() => onEdit(v.id)} className="font-medium text-sm hover:underline text-left">
                         {v.year} {v.make} {v.model}
                       </button>
+                      {v.trim && <div className="text-[11px] text-stone-400">{v.trim}</div>}
                     </td>
-                    <td className="px-3 py-3 text-right tabular font-semibold">{fmtMoney(yours)}</td>
-                    <td className="px-3 py-3 text-right tabular text-stone-500">{fmtMoney(mkt)}</td>
+                    <td className="px-3 py-3 text-right tabular font-semibold">{fmtMoney(price)}</td>
                     <td className="px-3 py-3 text-right">
-                      <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-semibold tabular"
-                        style={above ? { backgroundColor: '#FBE6E6', color: '#A12B2B' } : { backgroundColor: '#E8F2EC', color: '#256B40' }}>
-                        {above ? <ArrowUpRight className="w-3 h-3" /> : <ArrowDownRight className="w-3 h-3" />}
-                        {Math.abs(pct).toFixed(1)}% {above ? 'above' : 'below'}
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold tabular ${
+                        days >= 60 ? 'bg-red-100 text-red-700' :
+                        days >= 31 ? 'bg-amber-100 text-amber-700' :
+                        'bg-emerald-100 text-emerald-700'
+                      }`}>
+                        {days}d
                       </span>
                     </td>
-                    <td className="px-5 py-3 text-[12px]">
-                      {above && pct > 3 ? (
-                        <span className="text-stone-700">Consider price drop — currently {Math.abs(pct).toFixed(1)}% over market</span>
-                      ) : above ? (
-                        <span className="text-stone-500">Slightly above — monitor</span>
-                      ) : pct < -3 ? (
-                        <span className="text-stone-700" style={{ color: '#256B40' }}>Strong value — consider featuring</span>
+                    <td className="px-3 py-3 text-right tabular">
+                      {hasMargin ? (
+                        <div>
+                          <div className="font-semibold" style={{ color: marginPct > 0 ? '#2F7A4A' : RED_ACCENT }}>
+                            {marginPct > 0 ? '+' : ''}{marginPct.toFixed(1)}%
+                          </div>
+                          <div className="text-[11px] text-stone-400">{fmtMoney(gross)}</div>
+                        </div>
                       ) : (
-                        <span className="text-stone-500">Competitively priced</span>
+                        <span className="text-stone-400 text-[11px]">No cost</span>
                       )}
                     </td>
+                    <td className="px-5 py-3 text-[12px]" style={{ color: urgencyColor }}>{rec}</td>
                   </tr>
                 );
               })}
@@ -242,7 +329,7 @@ export function DashboardTab({ inventory, leads, sold, settings, setSettings, up
         </div>
         <div className="px-5 py-3 bg-stone-50 border-t border-stone-100 text-[11px] text-stone-500 flex items-center gap-2">
           <RefreshCw className="w-3 h-3" />
-          Market data updates daily from Cars.com, AutoTrader & CarGurus aggregates. Powered by <strong className="text-stone-700">AIandWEBservices</strong>.
+          Pricing analysis computed from live inventory — enter cost basis per vehicle for margin tracking. Powered by <strong className="text-stone-700">AIandWEBservices</strong>.
         </div>
       </Card>
 

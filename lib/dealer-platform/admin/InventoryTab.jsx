@@ -468,6 +468,13 @@ export function InventoryTab({ inventory, setInventory, updateVehicle, removeVeh
                             <Timer className="w-2.5 h-2.5" /> RESERVED
                           </span>
                         )}
+                        {(!v.description || !v.description.trim()) && (
+                          <button onClick={(e) => { e.stopPropagation(); onEdit(v.id); }}
+                            className="inline-flex items-center gap-1 px-1.5 py-0.5 text-[9px] font-bold rounded smallcaps"
+                            style={{ backgroundColor: '#EFF6FF', color: '#1D4ED8' }}>
+                            <Sparkles className="w-2.5 h-2.5" /> No desc — Generate
+                          </button>
+                        )}
                       </div>
                       <div className="text-[11px] text-stone-400 tabular">
                         VIN ··{v.vin.slice(-6)} · Stock {v.stockNumber}
@@ -491,11 +498,34 @@ export function InventoryTab({ inventory, setInventory, updateVehicle, removeVeh
                       ) : (
                         <div className="font-semibold">{fmtMoney(v.listPrice)}</div>
                       )}
+                      {v.daysOnLot > 45 && (() => {
+                        const price = v.salePrice || v.listPrice;
+                        const cost = v.cost || 0;
+                        if (cost > 0) {
+                          const margin = (price - cost) / cost * 100;
+                          if (margin > 10) {
+                            const r5 = Math.round(price * 0.95 / 5) * 5;
+                            const suggested = r5 % 10 === 0 ? r5 - 1 : r5;
+                            return (
+                              <div className="mt-1 inline-flex items-center px-1.5 py-0.5 rounded text-[9px] font-bold"
+                                style={{ backgroundColor: '#FEF3C7', color: '#92400E' }}>
+                                AI: drop to {fmtMoney(suggested)}
+                              </div>
+                            );
+                          }
+                          return <div className="text-[9px] text-stone-400 mt-1">At margin floor</div>;
+                        }
+                        return null;
+                      })()}
                     </td>
                     <td className="px-3 py-3 text-right tabular text-stone-600">{Number(v.mileage).toLocaleString()}</td>
                     <td className="px-3 py-3"><StatusBadge status={v.status} /></td>
-                    <td className="px-3 py-3 text-right tabular">
-                      <span className={`font-semibold ${v.daysOnLot >= 60 ? 'text-red-700' : v.daysOnLot >= 45 ? 'text-orange-700' : v.daysOnLot >= 30 ? 'text-amber-700' : 'text-stone-600'}`}>
+                    <td className="px-3 py-3 text-right">
+                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold tabular ${
+                        v.daysOnLot >= 60 ? 'bg-red-100 text-red-700' :
+                        v.daysOnLot >= 31 ? 'bg-amber-100 text-amber-700' :
+                        'bg-emerald-100 text-emerald-700'
+                      }`}>
                         {v.daysOnLot}d
                       </span>
                     </td>

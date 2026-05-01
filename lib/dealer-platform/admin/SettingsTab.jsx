@@ -57,6 +57,43 @@ export function SettingsTab({ settings, setSettings, flash }) {
     });
   };
 
+  // ---- AI agent toggles default to enabled where the integration is local ----
+  const ai = settings.ai || {};
+  const aiVal = (key, fallback = true) => (ai[key] === undefined ? fallback : !!ai[key]);
+
+  // ---- Integration connect modal ----
+  const [connectModal, setConnectModal] = useState(null);
+  // shape: { key, name, fields: [{ name, label, type?, placeholder?, hint? }] }
+  const integrations = settings.integrations || {};
+  const integrationConnected = (key) => !!integrations[key]?.connected;
+  const openConnect = (key, name, fields) =>
+    setConnectModal({
+      key, name, fields,
+      defaults: fields.reduce(
+        (acc, f) => ({ ...acc, [f.name]: integrations[key]?.[f.name] ?? '' }),
+        {},
+      ),
+    });
+  const saveConnection = (values) => {
+    if (!connectModal) return;
+    setSettings((s) => ({
+      ...s,
+      integrations: {
+        ...(s.integrations || {}),
+        [connectModal.key]: { ...values, connected: true },
+      },
+    }));
+    flash(`${connectModal.name} connected`, 'success');
+    setConnectModal(null);
+  };
+  const disconnect = (key, name) => {
+    setSettings((s) => ({
+      ...s,
+      integrations: { ...(s.integrations || {}), [key]: { connected: false } },
+    }));
+    flash(`${name} disconnected`);
+  };
+
   const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
 
   return (
@@ -138,6 +175,141 @@ export function SettingsTab({ settings, setSettings, flash }) {
               {['5 min','15 min','30 min','1 hour'].map(t => <option key={t}>{t}</option>)}
             </Select>
           </Field>
+        </div>
+      </Card>
+
+      {/* AI Agent Configuration */}
+      <Card className="p-6 relative overflow-hidden"
+        style={{ borderColor: `${GOLD}55`, boxShadow: `0 0 0 1px ${GOLD}22` }}>
+        <div className="absolute -top-12 -right-12 w-40 h-40 rounded-full opacity-15"
+          style={{ background: `radial-gradient(circle, ${GOLD} 0%, transparent 70%)` }} />
+        <div className="relative">
+          <div className="flex items-center gap-2 mb-1">
+            <Sparkles className="w-4 h-4" style={{ color: GOLD }} />
+            <h2 className="font-display text-xl font-medium">🤖 AI Agent Configuration</h2>
+            <span className="text-[10px] smallcaps font-semibold ml-1 px-2 py-0.5 rounded-full"
+              style={{ backgroundColor: GOLD_SOFT, color: '#7A5A0F' }}>Active</span>
+          </div>
+          <p className="text-sm text-stone-500 mb-5">
+            Six AI features keep your lot moving — toggle any of them on or off.
+          </p>
+
+          {/* Toggle row helper renders inline (kept simple, no extra component) */}
+          <div className="space-y-4 divide-y divide-stone-100">
+            {/* a. Chat */}
+            <div className="pt-1 first:pt-0 flex items-start justify-between gap-4">
+              <Toggle checked={aiVal('chatAgent', true)} onChange={(v) => set('ai.chatAgent', v)}
+                label="AI Sales Agent (Chat)"
+                description="Responds to customer questions on your website 24/7 using your real inventory data" />
+              <span className="text-[11px] whitespace-nowrap inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full font-semibold"
+                style={{ backgroundColor: '#E8F2EC', color: '#256B40' }}>
+                🟢 Active — 142 conversations this month
+              </span>
+            </div>
+
+            {/* b. SMS */}
+            <div className="pt-4 flex items-start justify-between gap-4">
+              <Toggle checked={aiVal('smsAgent', false)} onChange={(v) => set('ai.smsAgent', v)}
+                label="AI Sales Agent (SMS)"
+                description="Responds to incoming text messages with inventory-aware answers" />
+              {aiVal('smsAgent', false) ? (
+                <span className="text-[11px] whitespace-nowrap inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full font-semibold"
+                  style={{ backgroundColor: '#E8F2EC', color: '#256B40' }}>
+                  🟢 Active
+                </span>
+              ) : (
+                <span className="text-[11px] whitespace-nowrap text-amber-700">
+                  Configure Twilio in Integrations to enable
+                </span>
+              )}
+            </div>
+
+            {/* c. Auto-Descriptions */}
+            <div className="pt-4 flex items-start justify-between gap-4">
+              <Toggle checked={aiVal('autoDescriptions', true)} onChange={(v) => set('ai.autoDescriptions', v)}
+                label="AI Auto-Descriptions"
+                description="Automatically generate listing descriptions when new vehicles are added" />
+              <span className="text-[11px] whitespace-nowrap text-stone-500">
+                45 descriptions generated this month — $0.04 total
+              </span>
+            </div>
+
+            {/* d. Lead Scoring */}
+            <div className="pt-4 flex items-start justify-between gap-4">
+              <Toggle checked={aiVal('leadScoring', true)} onChange={(v) => set('ai.leadScoring', v)}
+                label="AI Lead Scoring"
+                description="Automatically score and prioritize new leads based on behavior and intent signals" />
+              <span className="text-[11px] whitespace-nowrap text-stone-500">
+                89 leads scored this month
+              </span>
+            </div>
+
+            {/* e. Follow-Up Sequences */}
+            <div className="pt-4 flex items-start justify-between gap-4">
+              <Toggle checked={aiVal('followUpSequences', true)} onChange={(v) => set('ai.followUpSequences', v)}
+                label="AI Follow-Up Sequences"
+                description="Generate personalized follow-up messages for each lead based on their specific vehicle interest" />
+              <span className="text-[11px] whitespace-nowrap text-stone-500">
+                34 sequences generated — $0.14 total
+              </span>
+            </div>
+
+            {/* f. Review Responses */}
+            <div className="pt-4 flex items-start justify-between gap-4">
+              <Toggle checked={aiVal('reviewResponses', true)} onChange={(v) => set('ai.reviewResponses', v)}
+                label="AI Review Responses"
+                description="Auto-draft responses to Google reviews in your voice for one-tap approval" />
+              <span className="text-[11px] whitespace-nowrap text-stone-500">
+                12 responses drafted this month — $0.01 total
+              </span>
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      {/* AI Usage This Month */}
+      <Card className="p-6">
+        <div className="flex items-center gap-2 mb-1">
+          <BarChart3 className="w-4 h-4 text-stone-500" />
+          <h2 className="font-display text-xl font-medium">AI Usage This Month</h2>
+        </div>
+        <p className="text-sm text-stone-500 mb-5">
+          Detailed breakdown of every AI call across your platform.
+        </p>
+        <div className="overflow-x-auto rounded-md border border-stone-200">
+          <table className="text-sm w-full">
+            <thead className="bg-stone-50">
+              <tr className="text-[10px] smallcaps font-semibold text-stone-500">
+                <th className="px-4 py-2 text-left">Feature</th>
+                <th className="px-4 py-2 text-right">Calls</th>
+                <th className="px-4 py-2 text-right">Cost</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-stone-100 tabular">
+              {[
+                ['Chat conversations', 142, 2.84],
+                ['Descriptions', 45, 0.04],
+                ['Lead scoring', 89, 0.00],
+                ['Follow-up sequences', 34, 0.14],
+                ['Review responses', 12, 0.01],
+                ['Price analysis', 8, 0.00],
+              ].map(([feat, calls, cost]) => (
+                <tr key={feat}>
+                  <td className="px-4 py-2 text-stone-700">{feat}</td>
+                  <td className="px-4 py-2 text-right text-stone-700">{calls}</td>
+                  <td className="px-4 py-2 text-right text-stone-700">${cost.toFixed(2)}</td>
+                </tr>
+              ))}
+              <tr className="bg-stone-50 font-semibold">
+                <td className="px-4 py-2">TOTAL</td>
+                <td className="px-4 py-2 text-right">330</td>
+                <td className="px-4 py-2 text-right">$3.03</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div className="mt-3 text-[11px] text-stone-500 italic">
+          AI costs are included in your plan — no extra charges.
         </div>
       </Card>
 
@@ -233,59 +405,201 @@ export function SettingsTab({ settings, setSettings, flash }) {
           <h2 className="font-display text-xl font-medium">Integrations</h2>
         </div>
         <p className="text-sm text-stone-500 mb-5">
-          Available on the <span className="font-semibold" style={{ color: GOLD }}>Revenue Engine plan</span> ($249/mo).
+          Connect external services to unlock SMS, email, payments, vehicle history, and more.
         </p>
 
-        <div className="space-y-5">
-          <div>
-            <div className="text-[10px] smallcaps font-semibold text-stone-500 mb-2">Connect CRM</div>
-            <div className="grid md:grid-cols-3 gap-2">
-              {[['Salesforce','#00A1E0'],['HubSpot','#FF7A59'],['EspoCRM','#3B5998']].map(([name, color]) => (
-                <button key={name}
-                  className="p-3 border border-stone-200 rounded-md hover:border-stone-400 transition flex items-center gap-3 text-left">
-                  <div className="w-8 h-8 rounded-md flex items-center justify-center text-white font-display font-bold text-sm" style={{ backgroundColor: color }}>
-                    {name[0]}
-                  </div>
-                  <div className="flex-1">
-                    <div className="text-sm font-semibold">{name}</div>
-                    <div className="text-[10px] smallcaps text-stone-500">Connect</div>
-                  </div>
-                </button>
-              ))}
+        <div className="grid md:grid-cols-2 gap-3">
+          {/* EspoCRM — always connected */}
+          <div className="p-4 border-2 rounded-md flex items-start gap-3"
+            style={{ borderColor: '#256B4033', backgroundColor: '#E8F2EC55' }}>
+            <div className="w-9 h-9 rounded-md flex items-center justify-center text-white font-display font-bold text-sm shrink-0"
+              style={{ backgroundColor: '#3B5998' }}>E</div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between gap-2 mb-0.5">
+                <div className="text-sm font-semibold">EspoCRM</div>
+                <span className="text-[10px] font-semibold inline-flex items-center gap-1 px-2 py-0.5 rounded-full"
+                  style={{ backgroundColor: '#E8F2EC', color: '#256B40' }}>🟢 Connected</span>
+              </div>
+              <div className="text-[11px] text-stone-500">CRM backbone for leads, vehicles, and service.</div>
             </div>
           </div>
 
-          <div>
-            <div className="text-[10px] smallcaps font-semibold text-stone-500 mb-2">Connect DMS</div>
-            <div className="grid md:grid-cols-2 gap-2">
-              {['DealerSocket','CDK Global'].map(name => (
-                <div key={name} className="p-3 border border-stone-200 rounded-md flex items-center gap-3 opacity-50">
-                  <div className="w-8 h-8 rounded-md bg-stone-200 flex items-center justify-center font-bold text-stone-500 text-sm">{name[0]}</div>
-                  <div className="flex-1">
-                    <div className="text-sm font-semibold">{name}</div>
-                    <div className="text-[10px] smallcaps text-stone-400">Enterprise plan</div>
-                  </div>
-                </div>
-              ))}
+          {/* Twilio */}
+          <div className="p-4 border border-stone-200 rounded-md flex items-start gap-3">
+            <div className="w-9 h-9 rounded-md flex items-center justify-center text-white font-display font-bold text-sm shrink-0"
+              style={{ backgroundColor: '#F22F46' }}>T</div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between gap-2 mb-0.5">
+                <div className="text-sm font-semibold">Twilio</div>
+                <span className={`text-[10px] font-semibold inline-flex items-center gap-1 px-2 py-0.5 rounded-full ${
+                  integrationConnected('twilio')
+                    ? 'bg-emerald-50 text-emerald-700'
+                    : 'bg-red-50 text-red-700'
+                }`}>
+                  {integrationConnected('twilio') ? '🟢 Connected' : '🔴 Not configured'}
+                </span>
+              </div>
+              <div className="text-[11px] text-stone-500 mb-2">SMS for leads, appointments, and AI agent.</div>
+              {integrationConnected('twilio') ? (
+                <Btn size="sm" variant="ghost" onClick={() => disconnect('twilio', 'Twilio')}>Disconnect</Btn>
+              ) : (
+                <Btn size="sm" variant="outlineGold" onClick={() => openConnect('twilio', 'Twilio', [
+                  { name: 'accountSid', label: 'Account SID', placeholder: 'AC…' },
+                  { name: 'authToken',  label: 'Auth Token',  type: 'password' },
+                  { name: 'phoneNumber',label: 'Twilio Phone Number', placeholder: '+1305…' },
+                ])}>Connect</Btn>
+              )}
             </div>
           </div>
 
-          <div>
-            <div className="text-[10px] smallcaps font-semibold text-stone-500 mb-2">Connect Lending</div>
-            <div className="grid md:grid-cols-3 gap-2">
-              {['Capital One','Ally Financial','Chase Auto'].map(name => (
-                <div key={name} className="p-3 border border-stone-200 rounded-md flex items-center gap-3 opacity-50">
-                  <div className="w-8 h-8 rounded-md bg-stone-200 flex items-center justify-center font-bold text-stone-500 text-sm">{name[0]}</div>
-                  <div className="flex-1">
-                    <div className="text-sm font-semibold">{name}</div>
-                    <div className="text-[10px] smallcaps text-stone-400">Coming soon</div>
-                  </div>
-                </div>
-              ))}
+          {/* Resend */}
+          <div className="p-4 border border-stone-200 rounded-md flex items-start gap-3">
+            <div className="w-9 h-9 rounded-md flex items-center justify-center text-white font-display font-bold text-sm shrink-0"
+              style={{ backgroundColor: '#000' }}>R</div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between gap-2 mb-0.5">
+                <div className="text-sm font-semibold">Resend</div>
+                <span className={`text-[10px] font-semibold inline-flex items-center gap-1 px-2 py-0.5 rounded-full ${
+                  integrationConnected('resend')
+                    ? 'bg-emerald-50 text-emerald-700'
+                    : 'bg-red-50 text-red-700'
+                }`}>
+                  {integrationConnected('resend') ? '🟢 Connected' : '🔴 Not configured'}
+                </span>
+              </div>
+              <div className="text-[11px] text-stone-500 mb-2">Transactional email — alerts, review requests, follow-ups.</div>
+              {integrationConnected('resend') ? (
+                <Btn size="sm" variant="ghost" onClick={() => disconnect('resend', 'Resend')}>Disconnect</Btn>
+              ) : (
+                <Btn size="sm" variant="outlineGold" onClick={() => openConnect('resend', 'Resend', [
+                  { name: 'apiKey', label: 'API Key', type: 'password', placeholder: 're_…' },
+                ])}>Connect</Btn>
+              )}
             </div>
           </div>
+
+          {/* Google Places — has inline Place ID input */}
+          <div className="p-4 border border-stone-200 rounded-md flex items-start gap-3">
+            <div className="w-9 h-9 rounded-md flex items-center justify-center text-white font-display font-bold text-sm shrink-0"
+              style={{ backgroundColor: '#4285F4' }}>G</div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between gap-2 mb-0.5">
+                <div className="text-sm font-semibold">Google Places</div>
+                <span className={`text-[10px] font-semibold inline-flex items-center gap-1 px-2 py-0.5 rounded-full ${
+                  settings.googlePlaceId
+                    ? 'bg-emerald-50 text-emerald-700'
+                    : 'bg-red-50 text-red-700'
+                }`}>
+                  {settings.googlePlaceId ? '🟢 Connected' : '🔴 Not configured'}
+                </span>
+              </div>
+              <div className="text-[11px] text-stone-500 mb-2">Used for review requests and the Reputation tab.</div>
+              <Field label="Google Place ID">
+                <Input value={settings.googlePlaceId || ''}
+                  onChange={(e) => set('googlePlaceId', e.target.value)}
+                  placeholder="ChIJ…" className="font-mono text-xs" />
+              </Field>
+            </div>
+          </div>
+
+          {/* Stripe */}
+          <div className="p-4 border border-stone-200 rounded-md flex items-start gap-3">
+            <div className="w-9 h-9 rounded-md flex items-center justify-center text-white font-display font-bold text-sm shrink-0"
+              style={{ backgroundColor: '#635BFF' }}>S</div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between gap-2 mb-0.5">
+                <div className="text-sm font-semibold">Stripe</div>
+                <span className={`text-[10px] font-semibold inline-flex items-center gap-1 px-2 py-0.5 rounded-full ${
+                  integrationConnected('stripe')
+                    ? 'bg-emerald-50 text-emerald-700'
+                    : 'bg-red-50 text-red-700'
+                }`}>
+                  {integrationConnected('stripe') ? '🟢 Connected' : '🔴 Not configured'}
+                </span>
+              </div>
+              <div className="text-[11px] text-stone-500 mb-2">Hold deposits, service payments, and reservations.</div>
+              {integrationConnected('stripe') ? (
+                <Btn size="sm" variant="ghost" onClick={() => disconnect('stripe', 'Stripe')}>Disconnect</Btn>
+              ) : (
+                <Btn size="sm" variant="outlineGold" onClick={() => openConnect('stripe', 'Stripe', [
+                  { name: 'publishableKey', label: 'Publishable Key', placeholder: 'pk_live_…' },
+                  { name: 'secretKey',      label: 'Secret Key',      type: 'password', placeholder: 'sk_live_…' },
+                ])}>Connect</Btn>
+              )}
+            </div>
+          </div>
+
+          {/* CARFAX */}
+          <div className="p-4 border border-stone-200 rounded-md flex items-start gap-3">
+            <div className="w-9 h-9 rounded-md flex items-center justify-center text-white font-display font-bold text-sm shrink-0"
+              style={{ backgroundColor: '#D7282F' }}>C</div>
+            <div className="flex-1 min-w-0">
+              <div className="flex items-center justify-between gap-2 mb-0.5">
+                <div className="text-sm font-semibold">CARFAX</div>
+                <span className={`text-[10px] font-semibold inline-flex items-center gap-1 px-2 py-0.5 rounded-full ${
+                  integrationConnected('carfax')
+                    ? 'bg-emerald-50 text-emerald-700'
+                    : 'bg-red-50 text-red-700'
+                }`}>
+                  {integrationConnected('carfax') ? '🟢 Connected' : '🔴 Not configured'}
+                </span>
+              </div>
+              <div className="text-[11px] text-stone-500 mb-2">VIN history reports for inventory listings.</div>
+              {integrationConnected('carfax') ? (
+                <Btn size="sm" variant="ghost" onClick={() => disconnect('carfax', 'CARFAX')}>Disconnect</Btn>
+              ) : (
+                <Btn size="sm" variant="outlineGold" onClick={() => openConnect('carfax', 'CARFAX', [
+                  { name: 'partnerId', label: 'Partner ID' },
+                  { name: 'apiKey',    label: 'API Key', type: 'password' },
+                ])}>Connect</Btn>
+              )}
+            </div>
+          </div>
+
+          {/* Coming soon — locked tiles */}
+          {[
+            ['QuickBooks', '#2CA01C', 'Sync invoices and accounting from your DMS.'],
+            ['RouteOne',   '#003D6B', 'Lender pre-approvals and decisioning.'],
+            ['DealerTrack','#D6492C', 'F&I document submission and contracts.'],
+          ].map(([name, color, desc]) => (
+            <div key={name} className="p-4 border border-stone-200 rounded-md flex items-start gap-3 opacity-60">
+              <div className="w-9 h-9 rounded-md flex items-center justify-center font-display font-bold text-sm shrink-0 text-white"
+                style={{ backgroundColor: color }}>{name[0]}</div>
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center justify-between gap-2 mb-0.5">
+                  <div className="text-sm font-semibold text-stone-600">{name}</div>
+                  <span className="text-[10px] font-semibold inline-flex items-center gap-1 px-2 py-0.5 rounded-full bg-stone-100 text-stone-500">
+                    🔴 Coming soon
+                  </span>
+                </div>
+                <div className="text-[11px] text-stone-400">{desc}</div>
+              </div>
+            </div>
+          ))}
         </div>
       </Card>
+
+      {/* Connect modal — generic single/multi-input dialog */}
+      <ConfirmDialog
+        isOpen={!!connectModal}
+        title={connectModal ? `Connect ${connectModal.name}` : ''}
+        message={connectModal ? `Enter your ${connectModal.name} credentials. Stored locally — keys are not validated yet.` : ''}
+        confirmLabel="Save & Connect"
+        confirmColor="gold"
+        cancelLabel="Cancel"
+        inputs={connectModal
+          ? connectModal.fields.map((f) => ({
+              name: f.name,
+              label: f.label,
+              type: f.type || 'text',
+              placeholder: f.placeholder || '',
+              hint: f.hint,
+              defaultValue: connectModal.defaults?.[f.name] || '',
+            }))
+          : []}
+        onConfirm={saveConnection}
+        onCancel={() => setConnectModal(null)}
+      />
 
       {/* Branding footer */}
       <Card className="p-5 bg-stone-900 text-white border-stone-900 relative overflow-hidden">

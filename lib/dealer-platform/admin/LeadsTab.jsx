@@ -32,6 +32,100 @@ import { SEED_FNI_HISTORY } from '@/lib/dealer-platform/data/seed-deals';
 import { SEED_APPT_HISTORY } from '@/lib/dealer-platform/data/seed-appointments';
 import { ActivityLog } from './ActivityLog';
 import { BreadcrumbBar } from './BreadcrumbBar';
+import { scoreLeadSync } from '@/lib/dealer-platform/ai/lead-scorer';
+
+const LEAD_SOURCE_TO_ESPO = {
+  'Get E-Price': 'GetEPrice',
+  'Pre-Approval': 'PreApproval',
+  'Trade-In': 'TradeIn',
+  'Test Drive': 'TestDrive',
+  'Contact': 'Contact',
+  'Build Your Deal': 'BuildYourDeal',
+  'Chat': 'Chat',
+  'Phone Call': 'Contact',
+  'Inventory Alert': 'Contact',
+  'Reserve': 'Reserve',
+};
+
+function creditRangeToTier(range) {
+  if (!range) return null;
+  const m = String(range).match(/(\d{3})/);
+  const n = m ? Number(m[0]) : null;
+  if (n == null) return null;
+  if (n >= 750) return 'Excellent';
+  if (n >= 700) return 'Good';
+  if (n >= 600) return 'Fair';
+  return 'Rebuilding';
+}
+
+function adaptLeadForScoring(lead) {
+  return {
+    cLeadSource: LEAD_SOURCE_TO_ESPO[lead.source] || null,
+    emailAddress: lead.email,
+    phoneNumber: lead.phone,
+    cTradeInYear: lead.tradeInfo?.year,
+    cTradeInMake: lead.tradeInfo?.make,
+    cTradeInModel: lead.tradeInfo?.model,
+    cFinanceApproved: !!lead.preApproval,
+    cCreditTier: creditRangeToTier(lead.preApproval?.creditScore),
+    createdAt: lead.createdAt,
+  };
+}
+
+function scoreLeadDemo(lead) {
+  return scoreLeadSync(adaptLeadForScoring(lead));
+}
+
+function ScoreBadge({ result, size = 'sm' }) {
+  if (!result) return null;
+  const palette = {
+    HOT:  { bg: '#B91C1C', fg: '#FFFFFF', pulse: true },
+    WARM: { bg: '#FCD34D', fg: '#7A5A0F' },
+    COOL: { bg: '#D1FAE5', fg: '#065F46' },
+    COLD: { bg: '#E7E5E4', fg: '#78716C' },
+  }[result.tier] || { bg: '#E7E5E4', fg: '#78716C' };
+  const sizing = size === 'lg'
+    ? 'text-sm px-3 py-1 gap-1.5 font-bold'
+    : 'text-[11px] px-2 py-0.5 gap-1 font-bold';
+  return (
+    <span className={`inline-flex items-center rounded-full tabular ${sizing} ${palette.pulse ? 'animate-pulse' : ''}`}
+      style={{ backgroundColor: palette.bg, color: palette.fg }}
+      title={`${result.tier} — ${result.recommendation}`}>
+      <span>{result.emoji}</span>
+      <span>{result.score}</span>
+    </span>
+  );
+}
+
+function buildFollowupPreviews(lead, repName) {
+  const firstName = String(lead.name || '').split(/\s+/)[0] || 'there';
+  const vehicle = lead.vehicleLabel && lead.vehicleLabel !== 'No specific vehicle'
+    ? lead.vehicleLabel
+    : 'vehicle you asked about';
+  const rep = repName || 'Marco';
+  return [
+    {
+      label: '4 hours',
+      channels: ['email', 'sms'],
+      text: `Hi ${firstName}, it's ${rep} from Primo Auto Group. Got your inquiry on the ${vehicle}. Want to set up a quick test drive this week? — ${rep}`,
+    },
+    {
+      label: '24 hours',
+      channels: ['email', 'sms'],
+      text: `Quick update — the ${vehicle} is still available, but I've had two other customers ask about it today. Want me to hold it for you?`,
+    },
+    {
+      label: 'Day 3',
+      channels: ['email'],
+      text: `Hey ${firstName}, we just got a similar vehicle that might interest you — same trim, lower miles, just hit the lot. Pulling photos now if you'd like to see.`,
+    },
+    {
+      label: 'Day 7',
+      channels: ['email'],
+      text: `Just wanted to follow up one last time about the ${vehicle}. If timing isn't right, no worries — happy to keep an eye out for the right one when you're ready.`,
+    },
+  ];
+}
 
 function deriveFollowupLog(lead) {
   const events = [];
@@ -80,7 +174,17 @@ export function LeadsTab({ leads, setLeads, inventory, settings, setSettings, on
   const [selectedLeads, setSelectedLeads] = useState(new Set());
   const [savedOpen, setSavedOpen] = useState(false);
   const [showSaveView, setShowSaveView] = useState(false);
+  const [sortKey, setSortKey] = useState('score');
+  const [followupEdits, setFollowupEdits] = useState({});
+  const [editingStage, setEditingStage] = useState(null);
+  const followupRef = useRef(null);
   const savedViews = settings?.savedViews?.leads || [];
+
+  const scoresById = useMemo(() => {
+    const m = new Map();
+    leads.forEach((l) => { m.set(l.id, scoreLeadDemo(l)); });
+    return m;
+  }, [leads]);
 
   const applyView = (v) => {
     setSearch(v.filter.search || '');
@@ -119,8 +223,18 @@ export function LeadsTab({ leads, setLeads, inventory, settings, setSettings, on
         if (filterDate === 'month' && days > 30) return false;
       }
       return true;
-    }).sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
-  }, [leads, search, filterStatus, filterSource, filterDate]);
+    }).sort((a, b) => {
+      if (sortKey === 'score') {
+        const sa = scoresById.get(a.id)?.score ?? 0;
+        const sb = scoresById.get(b.id)?.score ?? 0;
+        if (sb !== sa) return sb - sa;
+        return new Date(b.createdAt) - new Date(a.createdAt);
+      }
+      if (sortKey === 'oldest') return new Date(a.createdAt) - new Date(b.createdAt);
+      if (sortKey === 'name') return String(a.name).localeCompare(String(b.name));
+      return new Date(b.createdAt) - new Date(a.createdAt);
+    });
+  }, [leads, search, filterStatus, filterSource, filterDate, sortKey, scoresById]);
 
   const paged = useMemo(() => pageSize === Infinity ? filtered : filtered.slice((page - 1) * pageSize, page * pageSize), [filtered, page, pageSize]);
   useEffect(() => { setPage(1); }, [search, filterStatus, filterSource, filterDate]);
@@ -285,6 +399,12 @@ export function LeadsTab({ leads, setLeads, inventory, settings, setSettings, on
             <option value="week">This week</option>
             <option value="month">This month</option>
           </Select>
+          <Select value={sortKey} onChange={(e) => setSortKey(e.target.value)} className="text-xs w-40" title="Sort">
+            <option value="score">🔥 AI Score (hottest first)</option>
+            <option value="newest">Newest first</option>
+            <option value="oldest">Oldest first</option>
+            <option value="name">Name (A-Z)</option>
+          </Select>
           <div className="relative">
             <button onClick={() => setSavedOpen(o => !o)}
               className="inline-flex items-center gap-1.5 px-2.5 py-2 text-xs font-semibold rounded-md hover:bg-stone-100 transition"
@@ -343,6 +463,7 @@ export function LeadsTab({ leads, setLeads, inventory, settings, setSettings, on
                 </th>
                 <th className="px-4 py-2.5 w-6"></th>
                 <th className="px-2 py-2.5 text-left">Name</th>
+                <th className="px-2 py-2.5 text-left w-20">AI Score</th>
                 <th className="px-2 py-2.5 text-left">Contact</th>
                 <th className="px-2 py-2.5 text-left">Source</th>
                 <th className="px-2 py-2.5 text-left">Vehicle of Interest</th>
@@ -352,7 +473,7 @@ export function LeadsTab({ leads, setLeads, inventory, settings, setSettings, on
             </thead>
             <tbody className="divide-y divide-stone-100">
               {filtered.length === 0 ? (
-                <tr><td colSpan={8} className="text-center py-16 px-4">
+                <tr><td colSpan={9} className="text-center py-16 px-4">
                   <Users className="w-10 h-10 mx-auto mb-3 text-stone-300" strokeWidth={1.5} />
                   <div className="font-display text-lg font-semibold text-stone-900 mb-1">No leads yet</div>
                   <div className="text-sm text-stone-500 max-w-xs mx-auto">Leads appear here when customers submit forms on your website. Try clearing your filters above.</div>
@@ -370,7 +491,15 @@ export function LeadsTab({ leads, setLeads, inventory, settings, setSettings, on
                       {!l.read && <div className="w-2 h-2 rounded-full pulse-dot" style={{ backgroundColor: RED_ACCENT }} />}
                     </td>
                     <td className="px-2 py-3">
-                      <div className={`${l.read ? 'font-medium' : 'font-bold'} text-stone-900`}>{l.name}</div>
+                      <div className="flex items-center gap-2">
+                        <span className={`${l.read ? 'font-medium' : 'font-bold'} text-stone-900`}>{l.name}</span>
+                        {l.status !== 'New' && (
+                          <Mail className="w-3 h-3 text-amber-700" aria-label="Follow-up sequence active" title="Follow-up sequence active" />
+                        )}
+                      </div>
+                    </td>
+                    <td className="px-2 py-3">
+                      <ScoreBadge result={scoresById.get(l.id)} />
                     </td>
                     <td className="px-2 py-3">
                       <div className="text-[12px] text-stone-700">{l.email}</div>
@@ -385,7 +514,7 @@ export function LeadsTab({ leads, setLeads, inventory, settings, setSettings, on
                   </tr>
                   {expanded === l.id && (
                     <tr>
-                      <td colSpan={8} className="bg-stone-50 px-6 py-5 anim-slide">
+                      <td colSpan={9} className="bg-stone-50 px-6 py-5 anim-slide">
                         <div className="md:hidden flex justify-end mb-3">
                           <button onClick={() => setExpanded(null)}
                             className="px-3 py-1.5 rounded text-xs font-semibold bg-white border border-stone-300 hover:bg-stone-100">
@@ -499,6 +628,120 @@ export function LeadsTab({ leads, setLeads, inventory, settings, setSettings, on
                                 AI-powered follow-up included free — competitors charge $500+/mo for this.
                               </div>
                             </div>
+
+                            {/* AI Analysis */}
+                            {(() => {
+                              const result = scoresById.get(l.id);
+                              if (!result) return null;
+                              const signals = result.topSignals && result.topSignals.length > 0
+                                ? result.topSignals
+                                : ['Limited engagement so far'];
+                              return (
+                                <div>
+                                  <div className="flex items-center justify-between mb-2">
+                                    <div className="text-[10px] smallcaps font-semibold text-stone-500 flex items-center gap-1.5">
+                                      <Sparkles className="w-3 h-3" style={{ color: GOLD }} /> AI Analysis
+                                    </div>
+                                  </div>
+                                  <div className="rounded-md p-4 text-white" style={{ backgroundColor: '#1C1917' }}>
+                                    <div className="flex items-center justify-between gap-3 mb-3">
+                                      <div className="flex items-baseline gap-2">
+                                        <span className="font-display text-3xl font-semibold tabular">{result.score}</span>
+                                        <span className="text-stone-400 text-sm">/100</span>
+                                      </div>
+                                      <ScoreBadge result={result} size="lg" />
+                                    </div>
+                                    <div className="text-[10px] smallcaps font-semibold text-stone-400 mb-1.5">Top Signals</div>
+                                    <ul className="space-y-1 mb-3">
+                                      {signals.slice(0, 3).map((s, i) => (
+                                        <li key={i} className="flex items-start gap-2 text-[12px] text-stone-100">
+                                          <Check className="w-3.5 h-3.5 mt-0.5 shrink-0 text-emerald-400" strokeWidth={2.5} />
+                                          <span>{s}</span>
+                                        </li>
+                                      ))}
+                                    </ul>
+                                    <div className="text-[10px] smallcaps font-semibold text-stone-400 mb-1">Recommendation</div>
+                                    <div className="text-[12px] leading-snug" style={{ color: GOLD }}>
+                                      {result.recommendation}
+                                    </div>
+                                  </div>
+                                </div>
+                              );
+                            })()}
+
+                            {/* AI Follow-Up Sequence */}
+                            <div ref={followupRef}>
+                              <div className="flex items-center justify-between mb-2">
+                                <div className="text-[10px] smallcaps font-semibold text-stone-500 flex items-center gap-1.5">
+                                  <Sparkles className="w-3 h-3" style={{ color: GOLD }} /> AI Follow-Up Sequence
+                                </div>
+                                <span className="text-[9px] smallcaps font-bold px-1.5 py-0.5 rounded"
+                                  style={{ backgroundColor: GOLD_SOFT, color: '#7A5A0F' }}>PREVIEW</span>
+                              </div>
+                              <div className="bg-white border border-stone-200 rounded-md p-4">
+                                {(() => {
+                                  const previews = buildFollowupPreviews(l, settings?.dealerName);
+                                  const ageHours = (TODAY.getTime() - new Date(l.createdAt).getTime()) / 3600000;
+                                  const stageHourThreshold = [4, 24, 72, 168];
+                                  return (
+                                    <div className="space-y-3">
+                                      {previews.map((p, i) => {
+                                        const wouldHaveSent = ageHours >= stageHourThreshold[i];
+                                        const editKey = `${l.id}-${i}`;
+                                        const editedText = followupEdits[editKey];
+                                        const text = editedText != null ? editedText : p.text;
+                                        const isEditing = editingStage === editKey;
+                                        return (
+                                          <div key={i} className="flex gap-3">
+                                            <div className="flex flex-col items-center pt-1">
+                                              <div className="w-2.5 h-2.5 rounded-full" style={{ backgroundColor: wouldHaveSent ? GOLD : '#d6d2c8' }} />
+                                              {i < previews.length - 1 && <div className="w-px flex-1 bg-stone-200 mt-1" />}
+                                            </div>
+                                            <div className="flex-1 pb-1 min-w-0">
+                                              <div className="flex items-center justify-between gap-2 mb-1.5 flex-wrap">
+                                                <div className="flex items-center gap-1.5 flex-wrap">
+                                                  <span className="text-[10px] smallcaps font-bold tabular text-stone-700">{p.label}</span>
+                                                  <span className="flex items-center gap-1">
+                                                    {p.channels.includes('email') && <Mail className="w-3 h-3 text-stone-500" />}
+                                                    {p.channels.includes('sms') && <MessageSquare className="w-3 h-3 text-stone-500" />}
+                                                  </span>
+                                                  <span className={`text-[9px] smallcaps font-bold px-1.5 py-0.5 rounded`}
+                                                    style={{ backgroundColor: wouldHaveSent ? '#E8F2EC' : GOLD_SOFT, color: wouldHaveSent ? '#256B40' : '#7A5A0F' }}>
+                                                    {wouldHaveSent ? '✅ Would have sent' : '⏳ Scheduled'}
+                                                  </span>
+                                                </div>
+                                                <div className="flex items-center gap-1">
+                                                  <button onClick={() => setEditingStage(isEditing ? null : editKey)}
+                                                    className="text-[10px] smallcaps font-semibold text-stone-600 hover:text-stone-900 px-2 py-1 rounded hover:bg-stone-100">
+                                                    {isEditing ? 'Done' : 'Edit'}
+                                                  </button>
+                                                  <Btn size="sm" variant="gold" icon={Send}
+                                                    onClick={() => flash('Message sent (demo)')}>Send Now</Btn>
+                                                </div>
+                                              </div>
+                                              {isEditing ? (
+                                                <Textarea rows={3} value={text} className="text-[12px]"
+                                                  onChange={(e) => setFollowupEdits((m) => ({ ...m, [editKey]: e.target.value }))} />
+                                              ) : (
+                                                <div className="text-[12px] text-stone-700 italic leading-snug bg-stone-50 rounded px-2 py-1.5 border border-stone-100">
+                                                  &ldquo;{text}&rdquo;
+                                                </div>
+                                              )}
+                                            </div>
+                                          </div>
+                                        );
+                                      })}
+                                    </div>
+                                  );
+                                })()}
+                                <div className="mt-4 pt-3 border-t border-stone-100 flex justify-end">
+                                  <Btn variant="gold" icon={Sparkles}
+                                    onClick={() => flash('AI follow-up sequence generated')}>
+                                    Generate AI Sequence
+                                  </Btn>
+                                </div>
+                              </div>
+                            </div>
                           </div>
 
                           {/* Actions sidebar */}
@@ -534,6 +777,25 @@ export function LeadsTab({ leads, setLeads, inventory, settings, setSettings, on
                                 <MessageSquare className="w-3.5 h-3.5" />
                                 {activeDetailTab === 'messages' ? 'Hide Messages' : `Messages (${(messages?.[l.id] || []).length})`}
                               </button>
+                              <div className="grid grid-cols-2 gap-2 mt-2">
+                                <button
+                                  onClick={() => {
+                                    const r = scoreLeadDemo(l);
+                                    flash(`Lead scored: ${r.score}/100 (${r.tier}) — ${r.recommendation}`);
+                                  }}
+                                  className="inline-flex items-center justify-center gap-1.5 py-2 px-2 rounded-md transition text-xs font-medium bg-white border border-stone-200 hover:border-stone-400">
+                                  🔥 Score Lead
+                                </button>
+                                <button
+                                  onClick={() => {
+                                    requestAnimationFrame(() => {
+                                      followupRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                                    });
+                                  }}
+                                  className="inline-flex items-center justify-center gap-1.5 py-2 px-2 rounded-md transition text-xs font-medium bg-white border border-stone-200 hover:border-stone-400">
+                                  <Sparkles className="w-3.5 h-3.5" /> AI Follow-Up
+                                </button>
+                              </div>
                             </div>
 
                             {expanded === l.id && activeDetailTab === 'messages' && (

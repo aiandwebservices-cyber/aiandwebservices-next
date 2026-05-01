@@ -34,10 +34,90 @@ import { ActivityLog } from './ActivityLog';
 import { BreadcrumbBar } from './BreadcrumbBar';
 
 export function MarketingTab({ inventory, setInventory, settings, setSettings, sold, reviews = [], setReviews = () => {}, flash }) {
+  const cfg = useAdminConfig();
   const [respondingTo, setRespondingTo] = useState(null);
   const [responseText, setResponseText] = useState('');
+  const [draftRegen, setDraftRegen] = useState({});
   const [importText, setImportText] = useState('');
   const [importPreview, setImportPreview] = useState(null);
+  const [reviewRequest, setReviewRequest] = useState({
+    name: '', phone: '', email: '', vehicle: '', channel: 'sms',
+  });
+
+  // ---- AI review-response drafting (client-side templates for now) ----
+  const dealerDisplayName = settings.dealership?.name || cfg.dealerName || 'our team';
+  const dealerResponsePhone = settings.dealership?.phone || cfg.phone || '';
+  const placeId = settings.googlePlaceId || settings.marketing?.googlePlaceId || '';
+  const googleReviewLink = placeId
+    ? `https://search.google.com/local/writereview?placeid=${placeId}`
+    : '';
+
+  const detectVehicleMention = (text) => {
+    if (!text) return '';
+    const t = String(text).toLowerCase();
+    for (const m of MAKES) if (t.includes(m.toLowerCase())) return m;
+    return '';
+  };
+
+  const draftReviewResponse = (review, regen = 0) => {
+    const reviewer = (review.author || 'there').split(' ')[0];
+    const vehicle = detectVehicleMention(review.text);
+    const phone = dealerResponsePhone || '(305) 555-0100';
+    const teamMember = TEAM_MEMBERS[0]?.name || 'our manager';
+    const dn = dealerDisplayName;
+    let variants;
+    if (review.rating >= 5) {
+      variants = [
+        `Thanks ${reviewer}! We're thrilled you had a great experience with ${dn}. ${vehicle ? `Enjoy the ${vehicle}` : 'Enjoy the new ride'} and we're here for anything you need!`,
+        `${reviewer}, this made our day — thank you! Your support means the world to the ${dn} team. ${vehicle ? `Drive the ${vehicle} in confidence` : 'Drive in confidence'} and reach out any time.`,
+        `Thank you, ${reviewer}! We work hard to make every visit count and your kind words confirm we're on track. Welcome to the ${dn} family.`,
+      ];
+    } else if (review.rating === 4) {
+      variants = [
+        `Thanks ${reviewer}! We appreciate the feedback. If there's anything we can do to earn that fifth star next time, give us a call at ${phone}.`,
+        `Glad you had a good visit, ${reviewer}. We're always looking to improve — feel free to reach us at ${phone} with any thoughts on what would have made it perfect.`,
+      ];
+    } else if (review.rating === 3) {
+      variants = [
+        `Thank you for the feedback, ${reviewer}. We're sorry the experience wasn't perfect. We'd love to make it right — please reach out to us at ${phone} and ask for ${teamMember}.`,
+        `${reviewer}, we appreciate the honest feedback. We want the chance to do better — give us a call at ${phone} and ${teamMember} will personally take care of you.`,
+      ];
+    } else {
+      variants = [
+        `We sincerely apologize, ${reviewer}. This isn't the standard we hold ourselves to. Please call us at ${phone} so we can address this personally.`,
+        `${reviewer}, this falls well short of what ${dn} stands for. Please reach out at ${phone} — we want the opportunity to make this right.`,
+      ];
+    }
+    return variants[regen % variants.length];
+  };
+
+  const startAiDraft = (review) => {
+    const seed = draftRegen[review.id] || 0;
+    setRespondingTo(review.id);
+    setResponseText(review.response || draftReviewResponse(review, seed));
+  };
+  const regenerateAiDraft = (review) => {
+    const next = (draftRegen[review.id] || 0) + 1;
+    setDraftRegen((d) => ({ ...d, [review.id]: next }));
+    setResponseText(draftReviewResponse(review, next));
+  };
+  const approveAiDraft = (review) => {
+    setReviews((arr) =>
+      arr.map((x) => (x.id === review.id ? { ...x, response: responseText, responded: true } : x)),
+    );
+    setRespondingTo(null);
+    setResponseText('');
+    flash('Response saved — post on Google via your Business Profile', 'success');
+  };
+
+  const sendReviewRequest = () => {
+    if (!reviewRequest.name.trim()) {
+      flash('Customer name required', 'error');
+      return;
+    }
+    flash(`Review request sent to ${reviewRequest.name}`, 'success');
+    setReviewRequest({ name: '', phone: '', email: '', vehicle: '', channel: 'sms' });
+  };
 
   const exportAllCSV = () => {
     const headers = ['year','make','model','trim','listPrice','salePrice','mileage','exteriorColor','interiorColor','transmission','drivetrain','vin','stockNumber','status'];
@@ -270,13 +350,25 @@ export function MarketingTab({ inventory, setInventory, settings, setSettings, s
                 <div className="flex items-center gap-0.5 mb-1">
                   {[1,2,3,4,5].map(n => <Star key={n} className="w-4 h-4" fill={GOLD} stroke={GOLD} />)}
                 </div>
-                <div className="text-[11px] smallcaps text-stone-600">847 Google reviews</div>
+                <div className="text-[11px] smallcaps text-stone-600">847 total reviews</div>
               </div>
             </div>
-            <div className="mt-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold"
-              style={{ backgroundColor: '#E8F2EC', color: '#256B40' }}>
-              <TrendingUp className="w-3 h-3" />
-              Above market average (4.2)
+            <div className="mt-3 flex items-center flex-wrap gap-2">
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold"
+                style={{ backgroundColor: '#E8F2EC', color: '#256B40' }}>
+                <TrendingUp className="w-3 h-3" />
+                Above market average (4.2)
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold"
+                style={{ backgroundColor: '#E8F2EC', color: '#256B40' }}>
+                <Reply className="w-3 h-3" />
+                Response rate: 92%
+              </span>
+              <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold"
+                style={{ backgroundColor: '#E8F2EC', color: '#256B40' }}>
+                <Clock className="w-3 h-3" />
+                Avg response: 2 hours
+              </span>
             </div>
           </div>
 
@@ -335,8 +427,6 @@ export function MarketingTab({ inventory, setInventory, settings, setSettings, s
                     </div>
                   </div>
                   <div className="flex items-center gap-1">
-                    <IconBtn icon={Reply} title="Respond" tone="gold"
-                      onClick={() => { setRespondingTo(r.id); setResponseText(r.response || ''); }} />
                     <IconBtn icon={Flag} title="Flag inappropriate" tone="danger"
                       onClick={() => flash('Review flagged for moderation')} />
                     <IconBtn icon={Share2} title="Share"
@@ -348,30 +438,114 @@ export function MarketingTab({ inventory, setInventory, settings, setSettings, s
                 {r.response && respondingTo !== r.id && (
                   <div className="mt-3 border-t border-stone-100 pt-3 pl-4 border-l-2 rounded-l-sm bg-stone-50 p-3 text-[12px] text-stone-700"
                     style={{ borderColor: GOLD }}>
-                    <div className="text-[10px] smallcaps font-semibold mb-1" style={{ color: '#7A5A0F' }}>Owner response</div>
+                    <div className="text-[10px] smallcaps font-semibold mb-1 flex items-center gap-1.5" style={{ color: '#7A5A0F' }}>
+                      Owner response
+                      {r.responded && (
+                        <span className="inline-flex items-center gap-1 px-1.5 py-0.5 rounded-full text-[9px]"
+                          style={{ backgroundColor: '#E8F2EC', color: '#256B40' }}>
+                          <Check className="w-2.5 h-2.5" /> Saved
+                        </span>
+                      )}
+                    </div>
                     {r.response}
+                  </div>
+                )}
+
+                {respondingTo !== r.id && (
+                  <div className="mt-3 flex items-center gap-2">
+                    <Btn size="sm" variant="outlineGold" icon={Sparkles} onClick={() => startAiDraft(r)}>
+                      {r.response ? 'Edit AI Draft' : '✨ Draft AI Response'}
+                    </Btn>
                   </div>
                 )}
 
                 {respondingTo === r.id && (
                   <div className="mt-3 border-t border-stone-100 pt-3 anim-slide">
-                    <Textarea rows={3} value={responseText}
+                    <div className="text-[10px] smallcaps font-semibold mb-2 flex items-center gap-1.5" style={{ color: '#7A5A0F' }}>
+                      <Sparkles className="w-3 h-3" /> AI-drafted response
+                      <span className="text-stone-400 normal-case font-normal" style={{ letterSpacing: 0 }}>
+                        (templated locally — review before saving)
+                      </span>
+                    </div>
+                    <Textarea rows={4} value={responseText}
                       onChange={(e) => setResponseText(e.target.value)}
-                      placeholder="Thanks for the kind words…" />
-                    <div className="flex justify-end gap-2 mt-2">
-                      <Btn size="sm" variant="ghost" onClick={() => { setRespondingTo(null); setResponseText(''); }}>Cancel</Btn>
-                      <Btn size="sm" variant="gold" icon={Send}
-                        onClick={() => {
-                          setReviews(arr => arr.map(x => x.id === r.id ? { ...x, response: responseText, responded: true } : x));
-                          setRespondingTo(null);
-                          setResponseText('');
-                          flash('Response posted to Google');
-                        }}>Post Response</Btn>
+                      placeholder="Drafting…" />
+                    <div className="flex justify-between items-center mt-2 gap-2 flex-wrap">
+                      <button type="button" onClick={() => regenerateAiDraft(r)}
+                        className="inline-flex items-center gap-1 text-xs font-semibold text-stone-600 hover:text-stone-900">
+                        <RefreshCw className="w-3 h-3" /> Regenerate
+                      </button>
+                      <div className="flex gap-2">
+                        <Btn size="sm" variant="ghost"
+                          onClick={() => { setRespondingTo(null); setResponseText(''); }}>Cancel</Btn>
+                        <Btn size="sm" variant="gold" icon={Check} onClick={() => approveAiDraft(r)}>
+                          Approve & Save
+                        </Btn>
+                      </div>
                     </div>
                   </div>
                 )}
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* Request Review form */}
+        <div className="mb-6 p-4 rounded-md border-2 bg-amber-50/40" style={{ borderColor: `${GOLD}66` }}>
+          <div className="flex items-center gap-2 mb-1">
+            <Send className="w-4 h-4" style={{ color: '#7A5A0F' }} />
+            <div className="font-display text-base font-semibold" style={{ color: '#7A5A0F' }}>Request a Review</div>
+          </div>
+          <p className="text-[12px] text-stone-600 mb-3">
+            Send a customer a one-tap link to leave you a Google review.
+          </p>
+          <div className="grid sm:grid-cols-2 gap-3">
+            <Field label="Customer name">
+              <Input value={reviewRequest.name}
+                onChange={(e) => setReviewRequest((r) => ({ ...r, name: e.target.value }))}
+                placeholder="Jane Doe" />
+            </Field>
+            <Field label="Vehicle purchased">
+              <Input value={reviewRequest.vehicle}
+                onChange={(e) => setReviewRequest((r) => ({ ...r, vehicle: e.target.value }))}
+                placeholder="2023 Lexus RX 350" />
+            </Field>
+            <Field label="Phone">
+              <Input value={reviewRequest.phone}
+                onChange={(e) => setReviewRequest((r) => ({ ...r, phone: e.target.value }))}
+                placeholder="(305) 555-0123" />
+            </Field>
+            <Field label="Email">
+              <Input type="email" value={reviewRequest.email}
+                onChange={(e) => setReviewRequest((r) => ({ ...r, email: e.target.value }))}
+                placeholder="customer@example.com" />
+            </Field>
+            <Field label="Channel" className="sm:col-span-2">
+              <div className="flex bg-white rounded-md p-0.5 border border-stone-200 max-w-xs">
+                {[
+                  ['sms', 'SMS', Smartphone],
+                  ['email', 'Email', Mail],
+                  ['both', 'Both', Send],
+                ].map(([key, label, Ico]) => (
+                  <button key={key} type="button" onClick={() => setReviewRequest((r) => ({ ...r, channel: key }))}
+                    className={`flex-1 px-3 py-1.5 text-xs font-medium rounded inline-flex items-center justify-center gap-1.5 ${
+                      reviewRequest.channel === key ? 'bg-stone-900 text-white' : 'text-stone-600 hover:bg-stone-50'
+                    }`}>
+                    <Ico className="w-3 h-3" /> {label}
+                  </button>
+                ))}
+              </div>
+            </Field>
+          </div>
+          <div className="mt-3 flex items-center justify-between gap-3 flex-wrap">
+            <div className="text-[11px] text-stone-500 break-all">
+              {googleReviewLink ? (
+                <>Review link: <span className="font-mono">{googleReviewLink}</span></>
+              ) : (
+                <span className="text-amber-700">Configure Google Place ID in Settings → Integrations to generate the review link.</span>
+              )}
+            </div>
+            <Btn variant="gold" icon={Send} onClick={sendReviewRequest}>Send Review Request</Btn>
           </div>
         </div>
 
@@ -386,6 +560,10 @@ export function MarketingTab({ inventory, setInventory, settings, setSettings, s
             onChange={(v) => setSettings(s => ({ ...s, marketing: { ...s.marketing, reviewReminderText: v } }))}
             label="Send reminder text 5 days after sale if no review"
             description="Soft nudge — proven to lift response rate by 38%" />
+          <Toggle checked={settings.marketing?.autoDraftResponses ?? true}
+            onChange={(v) => setSettings(s => ({ ...s, marketing: { ...s.marketing, autoDraftResponses: v } }))}
+            label={<span className="flex items-center gap-1.5"><Sparkles className="w-3.5 h-3.5" style={{ color: GOLD }} /> Automatically draft AI responses for new reviews</span>}
+            description="Every new review gets an auto-drafted response in pending state for one-tap approval" />
         </div>
       </Card>
 
