@@ -78,12 +78,12 @@ const FONT_MONO    = 'var(--font-mono), "JetBrains Mono", "IBM Plex Mono", monos
 const FLEET = [
   { id:'P5012', y:2023, mk:'BMW',           md:'X5',                 trim:'xDrive40i',          price:42995, mi:18420, body:'SUV',   ext:'Alpine White',     int:'Black Vernasca',  eng:'3.0L Turbo I6',   tx:'8-spd Auto',     dr:'AWD',  hp:335, sec:'5.3', mpg:23, vin:'WBA••••••3K9L21', img:'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=1400&q=85&auto=format,compress',  flags:['ONE-OWNER','NO ACCIDENTS'] },
   { id:'P5023', y:2022, mk:'Mercedes-Benz', md:'GLE',                trim:'350 4MATIC',         price:38750, mi:24310, body:'SUV',   ext:'Obsidian Black',   int:'Macchiato Beige', eng:'2.0L Turbo I4',   tx:'9-spd Auto',     dr:'AWD',  hp:255, sec:'6.7', mpg:25, vin:'4JG•••••••N4H88', img:'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=1400&q=85&auto=format,compress', flags:['ONE-OWNER','NO ACCIDENTS'] },
-  { id:'P5031', y:2024, mk:'Audi',          md:'Q5',                 trim:'Premium Plus',       price:44900, mi:9870,  body:'SUV',   ext:'Glacier White',    int:'Black Leather',   eng:'2.0L TFSI',       tx:'7-spd S tronic', dr:'AWD',  hp:261, sec:'5.7', mpg:25, vin:'WA1•••••••P201',  img:'https://images.unsplash.com/photo-1606664922998-f180146da80a?w=1400&q=85&auto=format,compress', flags:['ONE-OWNER','LOW MILEAGE'] },
+  { id:'P5031', y:2024, mk:'Audi',          md:'A6',                 trim:'Premium Plus 45 TFSI', price:44900, mi:9870,  body:'Sedan', ext:'Glacier White',    int:'Black Leather',   eng:'2.0L TFSI',       tx:'7-spd S tronic', dr:'AWD',  hp:261, sec:'5.7', mpg:30, vin:'WAU•••••••P201',  img:'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=1400&q=85&auto=format,compress', flags:['ONE-OWNER','LOW MILEAGE'] },
   { id:'P5044', y:2021, mk:'Lexus',         md:'RX',                 trim:'350 F Sport',        price:31995, mi:38600, body:'SUV',   ext:'Nori Green Pearl', int:'Circuit Red',     eng:'3.5L V6',         tx:'8-spd Auto',     dr:'AWD',  hp:295, sec:'7.2', mpg:22, vin:'2T2•••••••MC42',  img:'https://images.unsplash.com/photo-1568844293986-8d0400bd4745?w=1400&q=85&auto=format,compress', flags:['NO ACCIDENTS'] },
   { id:'P5052', y:2023, mk:'Tesla',         md:'Model Y',            trim:'Long Range',         price:36500, mi:14200, body:'SUV',   ext:'Pearl White',      int:'All Black',       eng:'Dual Motor EV',   tx:'1-spd Direct',   dr:'AWD',  hp:384, sec:'4.8', mpg:122,vin:'7SA•••••••P772',  img:'https://images.unsplash.com/photo-1617704548623-340376564e68?w=1400&q=85&auto=format,compress', flags:['ONE-OWNER','EV'] },
-  { id:'P5066', y:2022, mk:'Porsche',       md:'Cayenne',            trim:'Base AWD',           price:52800, mi:21400, body:'SUV',   ext:'Carrara White',    int:'Black/Bordeaux',  eng:'3.0L Turbo V6',   tx:'8-spd Tiptronic', dr:'AWD', hp:335, sec:'5.9', mpg:21, vin:'WP1•••••••N005',  img:'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=1400&q=85&auto=format,compress', flags:['ONE-OWNER','LUXURY'] },
+  { id:'P5066', y:2022, mk:'Porsche',       md:'911',                trim:'Carrera S',          price:52800, mi:21400, body:'Coupe', ext:'Carrara White',    int:'Black/Bordeaux',  eng:'3.0L Twin-Turbo Flat-6', tx:'8-spd PDK', dr:'RWD', hp:443, sec:'3.5', mpg:20, vin:'WP0•••••••N005',  img:'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=1400&q=85&auto=format,compress', flags:['ONE-OWNER','LUXURY'] },
   { id:'P5077', y:2023, mk:'Range Rover',   md:'Sport',              trim:'P400 SE',            price:61995, mi:12890, body:'SUV',   ext:'Santorini Black',  int:'Ebony Windsor',   eng:'3.0L Mild-Hybrid I6', tx:'8-spd Auto', dr:'AWD',  hp:395, sec:'5.7', mpg:21, vin:'SAL•••••••P210',  img:'https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=1400&q=85&auto=format,compress', flags:['ONE-OWNER','LOW MILEAGE'] },
-  { id:'P5081', y:2022, mk:'Cadillac',      md:'Escalade',           trim:'Premium Luxury',     price:54900, mi:28900, body:'SUV',   ext:'Black Raven',      int:'Whisper Beige',   eng:'6.2L V8',         tx:'10-spd Auto',    dr:'AWD',  hp:420, sec:'6.0', mpg:16, vin:'1GY•••••••N113',  img:'https://images.unsplash.com/photo-1631295868223-63265b40d9e4?w=1400&q=85&auto=format,compress', flags:['NO ACCIDENTS','LUXURY'] },
+  { id:'P5081', y:2022, mk:'Ford',          md:'F-150',              trim:'King Ranch SuperCrew', price:54900, mi:28900, body:'Truck', ext:'Star White',       int:'Java Leather',    eng:'3.5L EcoBoost V6',tx:'10-spd Auto',    dr:'4WD',  hp:400, sec:'6.5', mpg:18, vin:'1FT•••••••N113',  img:'https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=1400&q=85&auto=format,compress', flags:['NO ACCIDENTS','LUXURY'] },
 ];
 
 /* monthly payment math: P = r·PV / (1 − (1+r)^−n)  */
@@ -302,65 +302,50 @@ function Hero({ onCTA, lang = 'en' }) {
   const t = I18N[lang];
   return (
     <section id="top" style={{
-      position: 'relative', minHeight: 'calc(100vh - 28px)',
-      paddingTop: 28, overflow: 'hidden',
-      background: C.bg,
+      position: 'relative', overflow: 'hidden',
+      background: C.bg, borderBottom: `1px solid ${C.rule}`,
     }}>
       <VTag num={0} label="INDEX" color={C.cyan} />
 
-      {/* GIANT background type */}
+      {/* faint background type */}
       <div aria-hidden style={{
-        position: 'absolute', bottom: -40, left: 80, right: 0, zIndex: 0,
+        position: 'absolute', bottom: -24, right: 24, zIndex: 0,
         fontFamily: FONT_DISPLAY, fontWeight: 700, lineHeight: 0.78,
-        fontSize: 'clamp(8rem, 22vw, 22rem)',
+        fontSize: 'clamp(5rem, 14vw, 14rem)',
         color: 'transparent',
-        WebkitTextStroke: `1px ${C.rule2}`,
-        letterSpacing: '-8px', textTransform: 'uppercase',
-        userSelect: 'none', whiteSpace: 'nowrap',
+        WebkitTextStroke: `1px ${C.rule}`,
+        letterSpacing: '-6px', textTransform: 'uppercase',
+        userSelect: 'none', whiteSpace: 'nowrap', opacity: 0.5,
       }}>PRIMO</div>
 
-      {/* content grid */}
       <div style={{
         position: 'relative', zIndex: 2,
-        display: 'grid', gridTemplateColumns: '1.05fr 1fr',
-        height: 'calc(100vh - 28px)', minHeight: 720,
+        display: 'grid', gridTemplateColumns: '1.3fr 1fr', gap: 32, alignItems: 'center',
+        padding: '36px 48px 32px 96px',
+        minHeight: '40vh',
       }} className="hero-grid">
-        {/* LEFT — dossier */}
-        <div style={{
-          padding: '80px 48px 48px 96px',
-          display: 'flex', flexDirection: 'column', justifyContent: 'center',
-          borderRight: `1px solid ${C.rule}`,
-        }}>
-          {/* dossier header */}
+        {/* LEFT — title + CTAs */}
+        <div>
           <div style={{
-            display: 'flex', alignItems: 'center', gap: 14, marginBottom: 36,
-            opacity: 0, animation: 'fadeIn 600ms 100ms forwards',
+            display: 'flex', alignItems: 'center', gap: 10, marginBottom: 14,
+            opacity: 0, animation: 'fadeIn 500ms 80ms forwards',
           }}>
-            <span style={{
-              width: 8, height: 8, background: C.red,
-              clipPath: 'polygon(50% 0, 100% 100%, 0 100%)',
-            }} />
+            <span style={{ width: 6, height: 6, background: C.red, clipPath: 'polygon(50% 0, 100% 100%, 0 100%)' }} />
             <span style={{
               fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 3,
               color: C.gold, fontWeight: 600,
-            }}>FILE NO. 2026-MIA-0501</span>
-            <span style={{ flex: 1, height: 1, background: C.rule }} />
-            <span style={{
-              fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 2,
-              color: C.cyan,
-            }}>STATUS · OPEN</span>
+            }}>FILE NO. 2026-MIA-0501 · MIAMI, FL · 128 UNITS</span>
           </div>
 
-          {/* monster title */}
           <h1 key={lang} style={{
             fontFamily: FONT_DISPLAY, fontWeight: 700,
-            fontSize: 'clamp(3.5rem, 9vw, 8rem)',
-            lineHeight: 0.86, letterSpacing: '-3px',
+            fontSize: 'clamp(2.4rem, 5.5vw, 4.6rem)',
+            lineHeight: 0.94, letterSpacing: '-2px',
             color: C.ink, textTransform: 'uppercase',
-            margin: 0, marginBottom: 24,
-            opacity: 0, animation: 'slideRise 800ms 220ms forwards',
+            margin: 0, marginBottom: 14,
+            opacity: 0, animation: 'slideRise 700ms 160ms forwards',
           }}>
-            {t.title1}<br />
+            {t.title1}{' '}
             <span style={{
               color: 'transparent',
               WebkitTextStroke: `1px ${C.gold}`,
@@ -368,61 +353,34 @@ function Hero({ onCTA, lang = 'en' }) {
             <span style={{ color: C.red }}>.</span>
           </h1>
 
-          {/* dossier-style metadata strip */}
-          <div style={{
-            display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0,
-            marginBottom: 36, borderTop: `1px solid ${C.rule}`,
-            opacity: 0, animation: 'fadeIn 700ms 480ms forwards',
-          }}>
-            {[
-              ['LOCATION',  'MIAMI, FL'],
-              ['INVENTORY', '128 UNITS'],
-              ['EST.',      '2018'],
-            ].map(([k, v], i) => (
-              <div key={k} style={{
-                padding: '14px 16px',
-                borderRight: i < 2 ? `1px solid ${C.rule}` : 'none',
-                borderBottom: `1px solid ${C.rule}`,
-              }}>
-                <div style={{ fontFamily: FONT_MONO, fontSize: 9, letterSpacing: 2, color: C.inkLow, marginBottom: 4 }}>{k}</div>
-                <div style={{ fontFamily: FONT_DISPLAY, fontSize: 16, fontWeight: 600, color: C.ink, letterSpacing: 0.5 }}>{v}</div>
-              </div>
-            ))}
-          </div>
-
-          {/* tagline */}
           <p key={`b-${lang}`} style={{
             fontFamily: FONT_BODY, color: C.inkDim,
-            fontSize: 'clamp(0.95rem, 1.3vw, 1.15rem)', lineHeight: 1.55,
-            maxWidth: 460, margin: 0, marginBottom: 38,
-            opacity: 0, animation: 'fadeIn 700ms 620ms forwards',
-          }}>
-            {t.body}<br />
-            {t.body2}
-          </p>
+            fontSize: 'clamp(0.95rem, 1.15vw, 1.05rem)', lineHeight: 1.55,
+            maxWidth: 520, margin: 0, marginBottom: 22,
+            opacity: 0, animation: 'fadeIn 600ms 320ms forwards',
+          }}>{t.body}</p>
 
-          {/* CTAs */}
           <div style={{
             display: 'flex', gap: 0,
-            opacity: 0, animation: 'fadeIn 700ms 780ms forwards',
+            opacity: 0, animation: 'fadeIn 600ms 460ms forwards',
           }}>
             <a href="#fleet" onClick={(e)=>{e.preventDefault();onCTA('fleet');}} style={{
-              padding: '18px 28px', background: C.red, color: C.ink,
-              fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 14,
+              padding: '14px 24px', background: C.red, color: C.ink,
+              fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 13,
               letterSpacing: 2, textTransform: 'uppercase', textDecoration: 'none',
-              clipPath: 'polygon(0 0, 100% 0, calc(100% - 14px) 100%, 0 100%)',
-              paddingRight: 42,
-              transition: 'background 180ms, color 180ms',
+              clipPath: 'polygon(0 0, 100% 0, calc(100% - 12px) 100%, 0 100%)',
+              paddingRight: 36,
+              transition: 'background 180ms',
             }}
             onMouseEnter={e => e.currentTarget.style.background = C.gold}
             onMouseLeave={e => e.currentTarget.style.background = C.red}
             >{t.cta1}</a>
             <a href="#finance" onClick={(e)=>{e.preventDefault();onCTA('finance');}} style={{
-              padding: '18px 28px 18px 14px', background: 'transparent',
+              padding: '14px 22px 14px 12px', background: 'transparent',
               color: C.ink, border: `1px solid ${C.rule2}`, borderLeft: 'none',
-              fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 14,
+              fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 13,
               letterSpacing: 2, textTransform: 'uppercase', textDecoration: 'none',
-              marginLeft: -10,
+              marginLeft: -8,
               transition: 'border-color 180ms, color 180ms',
             }}
             onMouseEnter={e => { e.currentTarget.style.borderColor = C.gold; e.currentTarget.style.color = C.gold; }}
@@ -431,143 +389,192 @@ function Hero({ onCTA, lang = 'en' }) {
           </div>
         </div>
 
-        {/* RIGHT — image with corner registration marks + spec readout */}
+        {/* RIGHT — compact featured image */}
         <div style={{
-          position: 'relative', overflow: 'hidden',
-          background: C.bg2,
-        }}>
-          {/* image */}
+          position: 'relative', alignSelf: 'stretch', minHeight: 220,
+          opacity: 0, animation: 'fadeIn 800ms 380ms forwards',
+        }} className="hero-img">
           <div style={{
-            position: 'absolute', inset: 24,
-            background: `url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1800&q=90&auto=format,compress') center/cover no-repeat`,
-            opacity: 0, animation: 'fadeIn 1200ms 400ms forwards',
+            position: 'absolute', inset: 0,
+            background: `url('https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1400&q=85&auto=format,compress') center/cover no-repeat`,
+            border: `1px solid ${C.rule2}`,
           }} />
-          {/* dim overlay */}
           <div style={{
-            position: 'absolute', inset: 24,
-            background: `linear-gradient(180deg, transparent 40%, rgba(8,8,10,0.85) 100%)`,
+            position: 'absolute', inset: 0,
+            background: `linear-gradient(180deg, transparent 40%, rgba(8,8,10,0.55) 100%)`,
           }} />
-          {/* registration corners */}
-          {[
-            { top: 24, left: 24, br: 'left bottom' },
-            { top: 24, right: 24, br: 'right bottom' },
-            { bottom: 24, left: 24, br: 'left top' },
-            { bottom: 24, right: 24, br: 'right top' },
-          ].map((p, i) => (
-            <div key={i} style={{
-              position: 'absolute',
-              width: 30, height: 30,
-              borderTop: i < 2 ? `2px solid ${C.gold}` : 'none',
-              borderBottom: i >= 2 ? `2px solid ${C.gold}` : 'none',
-              borderLeft: (i === 0 || i === 2) ? `2px solid ${C.gold}` : 'none',
-              borderRight: (i === 1 || i === 3) ? `2px solid ${C.gold}` : 'none',
-              ...p,
-            }} />
-          ))}
-          {/* spec readout */}
           <div style={{
-            position: 'absolute', bottom: 56, left: 56, right: 56,
-            color: C.ink, fontFamily: FONT_MONO,
-            opacity: 0, animation: 'fadeIn 800ms 900ms forwards',
-          }}>
-            <div style={{ fontSize: 9, letterSpacing: 3, color: C.gold, marginBottom: 8 }}>
-              FEATURED · STOCK P5066
-            </div>
-            <div style={{
-              fontFamily: FONT_DISPLAY, fontSize: 28, fontWeight: 700,
-              letterSpacing: -0.5, color: C.ink, marginBottom: 12,
-            }}>2022 PORSCHE CAYENNE</div>
-            <div style={{
-              display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12,
-              fontSize: 11, letterSpacing: 1,
-            }}>
-              {[
-                ['PWR',  '335 hp'],
-                ['0-60', '5.9 s'],
-                ['MI',   '21,400'],
-                ['$',    '52,800'],
-              ].map(([k, v]) => (
-                <div key={k}>
-                  <div style={{ color: C.inkLow, fontSize: 9, marginBottom: 3 }}>{k}</div>
-                  <div style={{ color: C.cyan, fontWeight: 700, fontSize: 14 }}>{v}</div>
-                </div>
-              ))}
-            </div>
-          </div>
+            position: 'absolute', top: 12, left: 12,
+            fontFamily: FONT_MONO, fontSize: 9, letterSpacing: 2.5,
+            color: C.gold, fontWeight: 700,
+            background: 'rgba(8,8,10,0.78)', padding: '4px 10px',
+            border: `1px solid ${C.gold}`,
+          }}>FEATURED · 8 NEW THIS WEEK</div>
         </div>
       </div>
     </section>
   );
 }
 
+/* ─── Body Type Picker ───────────────────────────────── */
+const BODY_TYPES = [
+  { key: 'all',      icon: '🔥', label: 'All' },
+  { key: 'sedan',    icon: '🚗', label: 'Sedan' },
+  { key: 'suv',      icon: '🚙', label: 'SUV' },
+  { key: 'truck',    icon: '🛻', label: 'Truck' },
+  { key: 'coupe',    icon: '🏎️', label: 'Coupe' },
+  { key: 'van',      icon: '🚐', label: 'Van' },
+  { key: 'electric', icon: '⚡', label: 'Electric' },
+];
+
+function BodyTypePicker({ value, onChange }) {
+  return (
+    <section style={{
+      background: C.bg2,
+      borderTop: `1px solid ${C.rule}`,
+      borderBottom: `1px solid ${C.rule}`,
+      padding: '20px 48px 20px 96px',
+    }} className="bodytype-section">
+      <div style={{
+        display: 'flex', gap: 10, alignItems: 'stretch',
+        overflowX: 'auto', paddingBottom: 4,
+        scrollbarWidth: 'thin',
+      }} className="bodytype-row">
+        {BODY_TYPES.map(t => {
+          const on = value === t.key;
+          return (
+            <button key={t.key} onClick={() => onChange(t.key)} style={{
+              flex: '0 0 auto', minWidth: 96,
+              display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6,
+              padding: '12px 16px',
+              background: on ? C.gold : C.panel,
+              color: on ? '#08080A' : C.ink,
+              border: `1px solid ${on ? C.gold : C.rule}`,
+              cursor: 'pointer', transition: 'background 180ms, border-color 180ms, color 180ms',
+              fontFamily: FONT_DISPLAY, fontWeight: 600, fontSize: 12,
+              letterSpacing: 1.5, textTransform: 'uppercase',
+              whiteSpace: 'nowrap',
+            }}
+            onMouseEnter={e => { if (!on) e.currentTarget.style.borderColor = C.gold; }}
+            onMouseLeave={e => { if (!on) e.currentTarget.style.borderColor = C.rule; }}
+            >
+              <span style={{ fontSize: 22, lineHeight: 1 }}>{t.icon}</span>
+              <span>{t.label}</span>
+            </button>
+          );
+        })}
+      </div>
+    </section>
+  );
+}
+
 /* ─── 01 · FLEET ─────────────────────────────────────── */
-function Fleet({ priceMode, setPriceMode, onView, onBuildDeal, saved, onToggleSave, priceAlerts, onTogglePriceAlert, onCompare, reserved }) {
+function Fleet({ priceMode, setPriceMode, onView, onBuildDeal, saved, onToggleSave, priceAlerts, onTogglePriceAlert, onCompare, reserved, bodyType, sortBy, setSortBy }) {
+  const [filtersOpen, setFiltersOpen] = useState(false);
+
+  const filtered = useMemo(() => {
+    let list = FLEET;
+    if (bodyType === 'electric') {
+      list = list.filter(v => v.flags.includes('EV') || /electric|ev|dual motor/i.test(v.eng));
+    } else if (bodyType !== 'all') {
+      const map = { sedan: 'sedan', suv: 'suv', truck: 'truck', coupe: 'coupe', van: 'van' };
+      const target = map[bodyType];
+      list = list.filter(v => (v.body || '').toLowerCase() === target);
+    }
+    const sorted = [...list];
+    if (sortBy === 'price-asc')  sorted.sort((a,b) => a.price - b.price);
+    if (sortBy === 'price-desc') sorted.sort((a,b) => b.price - a.price);
+    if (sortBy === 'mi-asc')     sorted.sort((a,b) => a.mi - b.mi);
+    if (sortBy === 'year-desc')  sorted.sort((a,b) => b.y - a.y);
+    return sorted;
+  }, [bodyType, sortBy]);
+
   return (
     <section id="fleet" style={{
-      position: 'relative', padding: '80px 0 100px 0',
-      background: C.bg, borderTop: `1px solid ${C.rule}`,
+      position: 'relative', padding: '40px 0 72px 0',
+      background: C.bg,
     }}>
-      <VTag num={1} label="FLEET MANIFEST" color={C.gold} />
+      <VTag num={1} label="FLEET" color={C.gold} />
 
-      <div style={{ paddingLeft: 96, paddingRight: 48 }}>
-        {/* section head */}
+      <div style={{ paddingLeft: 96, paddingRight: 48 }} className="fleet-pad">
+        {/* compact section head */}
         <header style={{
-          display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between',
-          marginBottom: 44, gap: 24, flexWrap: 'wrap',
+          display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+          marginBottom: 18, gap: 16, flexWrap: 'wrap',
         }}>
           <div>
             <div style={{
               fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 3, color: C.cyan,
-              marginBottom: 12,
+              marginBottom: 6,
             }}>01 / FLEET MANIFEST</div>
             <h2 style={{
               fontFamily: FONT_DISPLAY, fontWeight: 700,
-              fontSize: 'clamp(2.5rem, 5vw, 4.5rem)', lineHeight: 0.92,
-              letterSpacing: '-2px', color: C.ink, margin: 0,
+              fontSize: 'clamp(1.8rem, 3.4vw, 2.6rem)', lineHeight: 1,
+              letterSpacing: '-1px', color: C.ink, margin: 0,
               textTransform: 'uppercase',
-            }}>Find your perfect <span style={{ color: C.red }}>ride.</span></h2>
+            }}>The fleet</h2>
           </div>
 
-          <div style={{ display: 'flex', gap: 12, alignItems: 'center', flexWrap: 'wrap' }}>
-            {/* COMPARE button */}
+          <div style={{ display: 'flex', gap: 10, alignItems: 'center', flexWrap: 'wrap' }} className="fleet-controls">
+            <span style={{
+              fontFamily: FONT_MONO, fontSize: 11, color: C.inkDim, letterSpacing: 1,
+            }}>
+              <strong style={{ color: C.gold, fontSize: 14, fontFamily: FONT_DISPLAY, marginRight: 4 }}>{filtered.length}</strong>
+              {filtered.length === 1 ? 'vehicle' : 'vehicles'} found
+            </span>
+
+            <select value={sortBy} onChange={e => setSortBy(e.target.value)} style={{
+              background: C.panel, border: `1px solid ${C.rule2}`,
+              color: C.ink, fontFamily: FONT_MONO, fontSize: 11, fontWeight: 600,
+              padding: '8px 12px', cursor: 'pointer', letterSpacing: 1,
+              appearance: 'none',
+            }}>
+              <option value="recent">Sort: Recently Added</option>
+              <option value="price-asc">Price: Low to High</option>
+              <option value="price-desc">Price: High to Low</option>
+              <option value="mi-asc">Mileage: Low to High</option>
+              <option value="year-desc">Year: Newest First</option>
+            </select>
+
             <button onClick={onCompare} style={{
-              padding: '10px 18px', background: 'transparent',
+              padding: '8px 14px', background: 'transparent',
               color: C.cyan, border: `1px solid ${C.cyan}55`, cursor: 'pointer',
               fontFamily: FONT_MONO, fontSize: 11, letterSpacing: 1.5, fontWeight: 700,
               transition: 'all 180ms',
             }}
-            onMouseEnter={e => { e.currentTarget.style.background = `${C.cyan}15`; e.currentTarget.style.borderColor = C.cyan; }}
-            onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = `${C.cyan}55`; }}
+            onMouseEnter={e => { e.currentTarget.style.borderColor = C.cyan; }}
+            onMouseLeave={e => { e.currentTarget.style.borderColor = `${C.cyan}55`; }}
             >⇄ COMPARE</button>
 
-            {/* price ↔ payment toggle */}
-            <div style={{
-              display: 'inline-flex', border: `1px solid ${C.rule2}`,
-            }}>
-              {[
-                ['price',   'STICKER'],
-                ['payment', 'PAYMENT'],
-              ].map(([k, l]) => (
+            <div style={{ display: 'inline-flex', border: `1px solid ${C.rule2}` }}>
+              {[['price','STICKER'],['payment','PAYMENT']].map(([k, l]) => (
                 <button key={k} onClick={() => setPriceMode(k)} style={{
-                  padding: '10px 18px',
+                  padding: '8px 14px',
                   background: priceMode === k ? C.gold : 'transparent',
                   color: priceMode === k ? C.bg : C.inkDim,
                   border: 'none', cursor: 'pointer',
-                  fontFamily: FONT_MONO, fontSize: 11, letterSpacing: 1.5, fontWeight: 700,
+                  fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 1.5, fontWeight: 700,
                 }}>{l}</button>
               ))}
             </div>
+
+            <button onClick={() => setFiltersOpen(o => !o)} className="mobile-filter-btn" style={{
+              padding: '8px 14px', background: filtersOpen ? C.gold : C.panel,
+              color: filtersOpen ? C.bg : C.ink, border: `1px solid ${filtersOpen ? C.gold : C.rule2}`,
+              cursor: 'pointer',
+              fontFamily: FONT_MONO, fontSize: 11, letterSpacing: 1.5, fontWeight: 700,
+            }}>⚙ FILTERS</button>
           </div>
         </header>
 
-        {/* search row — built like an instrument cluster */}
+        {/* compact search row */}
         <div style={{
           background: C.panel, border: `1px solid ${C.rule}`,
-          padding: 0, marginBottom: 36,
+          padding: 0, marginBottom: 24,
           display: 'grid', gridTemplateColumns: 'repeat(7, 1fr) auto',
-        }} className="search-row">
+        }} className={`search-row ${filtersOpen ? 'open' : ''}`}>
           {[
-            { lab: 'MAKE',    opts: ['ANY', 'BMW', 'MERCEDES', 'AUDI', 'LEXUS', 'TESLA', 'PORSCHE'] },
+            { lab: 'MAKE',    opts: ['ANY', 'BMW', 'MERCEDES', 'AUDI', 'LEXUS', 'TESLA', 'PORSCHE', 'FORD', 'RANGE ROVER'] },
             { lab: 'MODEL',   opts: ['ANY MODEL'] },
             { lab: 'YEAR',    opts: ['ANY', '2024', '2023', '2022', '2021'] },
             { lab: priceMode === 'payment' ? 'MO. RANGE' : 'PRICE',
@@ -575,83 +582,55 @@ function Fleet({ priceMode, setPriceMode, onView, onBuildDeal, saved, onToggleSa
                 ? ['ANY', '<$400', '$400-600', '$600-800', '>$800']
                 : ['ANY', '<$20K', '$20-40K', '$40-60K', '>$60K'] },
             { lab: 'MILES',   opts: ['ANY', '<15K', '15-30K', '30-50K', '50K+'] },
-            { lab: 'BODY',    opts: ['ANY', 'SUV', 'SEDAN', 'TRUCK', 'COUPE'] },
+            { lab: 'BODY',    opts: ['ANY', 'SUV', 'SEDAN', 'TRUCK', 'COUPE', 'VAN'] },
             { lab: 'COLOR',   opts: ['ANY', 'WHITE', 'BLACK', 'GREY', 'RED'] },
           ].map((d, i) => (
             <div key={d.lab} style={{
-              padding: 16, borderRight: `1px solid ${C.rule}`,
+              padding: 12, borderRight: `1px solid ${C.rule}`,
             }}>
-              <div style={{ fontFamily: FONT_MONO, fontSize: 8, letterSpacing: 2, color: C.inkLow, marginBottom: 6 }}>{d.lab}</div>
+              <div style={{ fontFamily: FONT_MONO, fontSize: 8, letterSpacing: 2, color: C.inkLow, marginBottom: 4 }}>{d.lab}</div>
               <select style={{
                 width: '100%', appearance: 'none',
                 background: 'transparent', border: 'none',
-                color: C.ink, fontSize: 13, fontFamily: FONT_DISPLAY, fontWeight: 600,
+                color: C.ink, fontSize: 12, fontFamily: FONT_DISPLAY, fontWeight: 600,
                 cursor: 'pointer', letterSpacing: 0.5, padding: 0,
               }}>{d.opts.map(o => <option key={o} style={{ background: C.bg }}>{o}</option>)}</select>
             </div>
           ))}
           <button style={{
             background: C.red, color: C.ink, border: 'none',
-            padding: '0 32px', cursor: 'pointer',
-            fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 13,
+            padding: '0 28px', cursor: 'pointer',
+            fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 12,
             letterSpacing: 2, textTransform: 'uppercase',
           }}>RUN ⟶</button>
         </div>
 
-        {/* quick filter pills */}
-        <div style={{ display: 'flex', gap: 8, marginBottom: 44, flexWrap: 'wrap' }}>
-          {['UNDER $20K', 'SUVs', 'LUXURY', 'LOW MILEAGE', 'TRUCKS', 'EV ONLY'].map(p => (
-            <button key={p} style={{
-              background: 'transparent', border: `1px solid ${C.rule2}`,
-              color: C.inkDim, fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 1.5,
-              padding: '8px 14px', cursor: 'pointer', fontWeight: 600,
-              transition: 'all 180ms',
-            }}
-            onMouseEnter={e => { e.currentTarget.style.color = C.gold; e.currentTarget.style.borderColor = C.gold; }}
-            onMouseLeave={e => { e.currentTarget.style.color = C.inkDim; e.currentTarget.style.borderColor = C.rule2; }}
-            >+ {p}</button>
-          ))}
-        </div>
-
-        {/* fleet grid — asymmetric: 2/3/3 across */}
+        {/* fleet grid — clean 4-column */}
         <div style={{
-          display: 'grid', gridTemplateColumns: 'repeat(12, 1fr)', gap: 18,
+          display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 20,
         }} className="fleet-grid">
-          {FLEET.map((v, i) => {
-            // 1st row: big-small (8/4); rest: 4/4/4
-            const span = i === 0 ? 8 : i === 1 ? 4 : 4;
-            return (
-              <FleetCard
-                key={v.id}
-                v={v}
-                feature={i === 0}
-                span={span}
-                priceMode={priceMode}
-                onView={onView}
-                onBuildDeal={onBuildDeal}
-                isSaved={saved.has(v.id)}
-                onToggleSave={() => onToggleSave(v.id)}
-                isAlerted={priceAlerts.has(v.id)}
-                onTogglePriceAlert={() => onTogglePriceAlert(v.id)}
-                isReserved={reserved.has(v.id)}
-                idx={i}
-              />
-            );
-          })}
-        </div>
-
-        {/* view all */}
-        <div style={{ textAlign: 'center', marginTop: 56 }}>
-          <a href="#fleet" style={{
-            display: 'inline-block', padding: '14px 36px',
-            border: `1px solid ${C.gold}`, color: C.gold,
-            fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 14,
-            letterSpacing: 2, textTransform: 'uppercase', textDecoration: 'none',
-            transition: 'all 180ms',
-          }}
-          onMouseEnter={e => { e.currentTarget.style.background = C.gold; e.currentTarget.style.color = C.bg; }}
-          onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.color = C.gold; }}
-          >View All 128 Units →</a>
+          {filtered.length === 0 ? (
+            <div style={{
+              gridColumn: '1 / -1', padding: '60px 24px', textAlign: 'center',
+              color: C.inkDim, border: `1px dashed ${C.rule2}`, background: C.panel,
+            }}>
+              <div style={{ fontFamily: FONT_MONO, fontSize: 12, letterSpacing: 2, marginBottom: 10, color: C.gold }}>NO MATCHES</div>
+              <div style={{ fontFamily: FONT_BODY, fontSize: 14 }}>No vehicles in this category right now. Try another body type.</div>
+            </div>
+          ) : filtered.map((v, i) => (
+            <FleetCard
+              key={v.id} v={v}
+              priceMode={priceMode}
+              onView={onView}
+              onBuildDeal={onBuildDeal}
+              isSaved={saved.has(v.id)}
+              onToggleSave={() => onToggleSave(v.id)}
+              isAlerted={priceAlerts.has(v.id)}
+              onTogglePriceAlert={() => onTogglePriceAlert(v.id)}
+              isReserved={reserved.has(v.id)}
+              idx={i}
+            />
+          ))}
         </div>
       </div>
     </section>
@@ -659,14 +638,10 @@ function Fleet({ priceMode, setPriceMode, onView, onBuildDeal, saved, onToggleSa
 }
 
 /* ─── Fleet Card (spec sheet style) ────────────────── */
-function FleetCard({ v, feature, span, priceMode, onView, onBuildDeal, isSaved, onToggleSave, isAlerted, onTogglePriceAlert, isReserved, idx }) {
+function FleetCard({ v, priceMode, onView, onBuildDeal, isSaved, onToggleSave, isAlerted, onTogglePriceAlert, isReserved, idx }) {
   const [ref, seen] = useInView();
   const [hover, setHover] = useState(false);
-  const [alertOpen, setAlertOpen] = useState(false);
-  const [alertEmail, setAlertEmail] = useState('');
-  const [alertSent, setAlertSent] = useState(false);
   const monthly = monthlyPayment(v.price);
-
   const stop = (e) => { e.stopPropagation(); };
 
   return (
@@ -676,22 +651,21 @@ function FleetCard({ v, feature, span, priceMode, onView, onBuildDeal, isSaved, 
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
-        gridColumn: `span ${span}`,
         position: 'relative', cursor: 'pointer',
-        background: C.panel, border: `1px solid ${hover ? C.gold : C.rule}`,
-        opacity: seen ? 1 : 0, transform: seen ? 'translateY(0)' : 'translateY(40px)',
-        transition: `opacity 700ms ${idx * 60}ms, transform 700ms ${idx * 60}ms, border-color 200ms`,
-        display: 'grid',
-        gridTemplateColumns: feature ? '1.4fr 1fr' : '1fr',
-        minHeight: feature ? 380 : 'auto',
+        background: C.panel, border: `1px solid ${C.rule}`,
+        opacity: seen ? 1 : 0,
+        transform: seen ? `translateY(${hover ? -2 : 0}px)` : 'translateY(20px)',
+        transition: `opacity 500ms ${idx * 40}ms, transform 200ms ease, box-shadow 200ms ease, border-color 200ms`,
+        boxShadow: hover ? '0 6px 18px rgba(0,0,0,0.22)' : 'none',
+        display: 'flex', flexDirection: 'column',
       }}
       className="fleet-card"
     >
       {/* image */}
       <div style={{
         position: 'relative', overflow: 'hidden',
-        aspectRatio: feature ? 'auto' : '16/10',
-        background: `url('${v.img}') center/cover no-repeat`,
+        aspectRatio: '16/10',
+        background: `url('${v.img}') center/cover no-repeat ${C.bg2}`,
       }}>
         {/* RESERVED overlay */}
         {isReserved && (
@@ -699,7 +673,6 @@ function FleetCard({ v, feature, span, priceMode, onView, onBuildDeal, isSaved, 
             <div style={{
               position: 'absolute', inset: 0, zIndex: 5,
               background: 'rgba(8,8,10,0.55)',
-              backdropFilter: 'grayscale(0.4)',
               pointerEvents: 'none',
             }} />
             <div style={{
@@ -707,204 +680,100 @@ function FleetCard({ v, feature, span, priceMode, onView, onBuildDeal, isSaved, 
               transform: 'translate(-50%, -50%) rotate(-12deg)',
               zIndex: 6, pointerEvents: 'none',
               background: C.gold, color: '#08080A',
-              padding: '8px 22px',
-              fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 22, letterSpacing: 4,
+              padding: '6px 18px',
+              fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 18, letterSpacing: 3,
               border: `2px solid #08080A`,
-              boxShadow: `0 4px 16px rgba(0,0,0,0.6)`,
             }}>RESERVED</div>
           </>
         )}
+
         {/* corner stock # */}
         <div style={{
           position: 'absolute', top: 0, left: 0,
           background: C.gold, color: C.bg,
-          fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 1.5, fontWeight: 700,
-          padding: '4px 10px',
-          clipPath: 'polygon(0 0, 100% 0, calc(100% - 8px) 100%, 0 100%)',
-          paddingRight: 18,
+          fontFamily: FONT_MONO, fontSize: 9, letterSpacing: 1.5, fontWeight: 700,
+          padding: '3px 9px',
+          clipPath: 'polygon(0 0, 100% 0, calc(100% - 6px) 100%, 0 100%)',
+          paddingRight: 14,
         }}>STOCK · {v.id}</div>
 
-        {/* flags */}
-        <div style={{
-          position: 'absolute', top: 14, right: 56,
-          display: 'flex', flexDirection: 'column', gap: 4,
-        }}>
-          {v.flags.map(f => (
-            <span key={f} style={{
-              background: 'rgba(8,8,10,0.85)',
-              color: '#5BE3FF', fontFamily: FONT_MONO, fontSize: 9, letterSpacing: 1.5,
-              padding: '3px 8px', border: `1px solid #5BE3FF55`,
-              fontWeight: 600,
-            }}>{f}</span>
-          ))}
-        </div>
+        {/* HEART (save) — top right */}
+        <button onClick={(e) => { stop(e); onToggleSave(); }}
+          title={isSaved ? 'Unsave' : 'Save'}
+          style={{
+            position: 'absolute', top: 10, right: 10, zIndex: 4,
+            width: 30, height: 30,
+            background: isSaved ? C.gold : 'rgba(8,8,10,0.72)',
+            border: `1px solid ${isSaved ? C.gold : C.rule2}`,
+            color: isSaved ? '#08080A' : C.ink,
+            cursor: 'pointer', fontSize: 13,
+            display: 'grid', placeItems: 'center',
+            transition: 'background 180ms, color 180ms',
+          }}>{isSaved ? '♥' : '♡'}</button>
 
-        {/* HEART (save) + BELL (alert) — top right */}
-        <div style={{
-          position: 'absolute', top: 14, right: 14,
-          display: 'flex', flexDirection: 'column', gap: 6,
-          zIndex: 4,
-        }} onClick={stop}>
-          <button onClick={(e) => { stop(e); onToggleSave(); }}
-            title={isSaved ? 'Unsave' : 'Save'}
-            style={{
-              width: 32, height: 32,
-              background: isSaved ? C.gold : 'rgba(8,8,10,0.78)',
-              border: `1px solid ${isSaved ? C.gold : C.rule2}`,
-              color: isSaved ? '#08080A' : C.ink,
-              cursor: 'pointer', fontSize: 14,
-              display: 'grid', placeItems: 'center',
-              transition: 'all 180ms',
-            }}>{isSaved ? '♥' : '♡'}</button>
-
-          <button onClick={(e) => { stop(e); setAlertOpen(o => !o); }}
-            title={isAlerted ? 'Alert active' : 'Notify on price drop'}
-            style={{
-              width: 32, height: 32,
-              background: isAlerted ? `${C.cyan}30` : 'rgba(8,8,10,0.78)',
-              border: `1px solid ${isAlerted ? C.cyan : C.rule2}`,
-              color: isAlerted ? C.cyan : C.ink,
-              cursor: 'pointer', fontSize: 13,
-              display: 'grid', placeItems: 'center',
-              transition: 'all 180ms',
-            }}>{isAlerted ? '🔔' : '🔕'}</button>
-        </div>
-
-        {/* alert popover */}
-        {alertOpen && (
-          <div onClick={stop} style={{
-            position: 'absolute', top: 56, right: 14, zIndex: 6,
-            width: 240, background: '#08080A', border: `1px solid ${C.gold}`,
-            padding: 14, boxShadow: '0 8px 30px rgba(0,0,0,0.6)',
-          }}>
-            <div style={{ fontFamily: FONT_MONO, fontSize: 9, letterSpacing: 2, color: C.gold, marginBottom: 8 }}>
-              PRICE-DROP ALERT
-            </div>
-            {alertSent ? (
-              <div style={{
-                fontFamily: FONT_MONO, fontSize: 11, color: C.cyan, lineHeight: 1.5,
-              }}>✓ Alert armed.<br />We'll text you the second this drops.</div>
-            ) : (
-              <>
-                <input
-                  type="email" placeholder="you@email.com"
-                  value={alertEmail}
-                  onChange={e => setAlertEmail(e.target.value)}
-                  onClick={stop}
-                  style={{
-                    width: '100%', background: 'transparent', border: 'none',
-                    borderBottom: `1px solid ${C.rule2}`,
-                    color: C.ink, fontFamily: FONT_MONO, fontSize: 12,
-                    padding: '6px 0', marginBottom: 10,
-                  }}
-                />
-                <button onClick={() => { onTogglePriceAlert(); setAlertSent(true); setTimeout(() => { setAlertOpen(false); setAlertSent(false); setAlertEmail(''); }, 1800); }} style={{
-                  width: '100%', padding: '8px', background: C.gold, color: '#08080A',
-                  border: 'none', cursor: 'pointer',
-                  fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 1.5, fontWeight: 700,
-                }}>▸ ARM ALERT</button>
-              </>
-            )}
-          </div>
-        )}
-
-        {/* hover scrim with view */}
+        {/* hover scrim with single View Details button */}
         <div style={{
           position: 'absolute', inset: 0,
-          background: 'linear-gradient(0deg, rgba(8,8,10,0.92), rgba(8,8,10,0))',
+          background: 'linear-gradient(0deg, rgba(8,8,10,0.82), rgba(8,8,10,0) 55%)',
           opacity: hover ? 1 : 0, transition: 'opacity 200ms',
-          display: 'flex', alignItems: 'flex-end', padding: 16,
+          display: 'flex', alignItems: 'flex-end', justifyContent: 'center', padding: 14,
+          pointerEvents: 'none',
         }}>
           <span style={{
-            fontFamily: FONT_MONO, fontSize: 11, letterSpacing: 2,
-            color: C.gold, fontWeight: 700,
-          }}>OPEN DOSSIER →</span>
+            fontFamily: FONT_DISPLAY, fontSize: 11, letterSpacing: 2, fontWeight: 700,
+            color: '#08080A', textTransform: 'uppercase',
+            background: C.gold, padding: '8px 16px',
+          }}>View Details →</span>
         </div>
       </div>
 
       {/* spec sheet */}
       <div style={{
-        padding: feature ? 28 : 18,
-        display: 'flex', flexDirection: 'column', gap: 12,
-        background: C.panel,
+        padding: 16,
+        display: 'flex', flexDirection: 'column', gap: 6,
+        flex: 1,
       }}>
         <div>
           <div style={{
             fontFamily: FONT_MONO, fontSize: 9, letterSpacing: 2,
-            color: C.inkLow, marginBottom: 4,
+            color: C.inkLow, marginBottom: 3,
           }}>{v.y} · {v.body.toUpperCase()} · {fmtMi(v.mi)} mi</div>
           <div style={{
             fontFamily: FONT_DISPLAY, fontWeight: 700,
-            fontSize: feature ? 28 : 18, letterSpacing: -0.5,
-            color: C.ink, lineHeight: 1.05, textTransform: 'uppercase',
+            fontSize: 17, letterSpacing: -0.3,
+            color: C.ink, lineHeight: 1.1, textTransform: 'uppercase',
           }}>{v.mk} {v.md}</div>
-          {feature && (
-            <div style={{
-              fontFamily: FONT_BODY, fontSize: 12, color: C.inkDim, marginTop: 4,
-            }}>{v.trim}</div>
-          )}
+          <div style={{
+            fontFamily: FONT_BODY, fontSize: 11.5, color: C.inkDim, marginTop: 3, lineHeight: 1.35,
+          }}>{v.eng} · {v.tx}</div>
         </div>
 
-        {/* tech bar — only on feature card */}
-        {feature && (
-          <div style={{
-            display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0,
-            border: `1px solid ${C.rule}`, marginTop: 4,
-          }}>
-            {[
-              ['HP',     v.hp.toString()],
-              ['0-60',   `${v.sec}s`],
-              ['MPG',    v.mpg.toString()],
-            ].map(([k, val], i) => (
-              <div key={k} style={{
-                padding: '10px 12px',
-                borderRight: i < 2 ? `1px solid ${C.rule}` : 'none',
-              }}>
-                <div style={{ fontFamily: FONT_MONO, fontSize: 8, letterSpacing: 1.5, color: C.inkLow }}>{k}</div>
-                <div style={{ fontFamily: FONT_DISPLAY, fontSize: 16, fontWeight: 600, color: C.cyan }}>{val}</div>
-              </div>
-            ))}
-          </div>
-        )}
-
-        {/* price/payment */}
+        {/* price + payment - always shown */}
         <div style={{
-          marginTop: 'auto',
-          display: 'flex', justifyContent: 'space-between', alignItems: 'flex-end',
-          paddingTop: 10, borderTop: `1px dashed ${C.rule2}`,
+          marginTop: 'auto', paddingTop: 10,
+          borderTop: `1px solid ${C.rule}`,
         }}>
           {priceMode === 'payment' ? (
-            <div>
-              <div style={{ fontFamily: FONT_MONO, fontSize: 8, letterSpacing: 2, color: C.inkLow }}>EST. MO.</div>
-              <div style={{ fontFamily: FONT_DISPLAY, fontSize: feature ? 32 : 22, fontWeight: 700, color: C.gold, lineHeight: 1 }}>
-                {fmt(monthly)}<span style={{ fontSize: 12, color: C.inkLow, marginLeft: 2 }}>/mo</span>
+            <>
+              <div style={{
+                fontFamily: FONT_DISPLAY, fontSize: 22, fontWeight: 700,
+                color: C.gold, lineHeight: 1, marginBottom: 4,
+              }}>{fmt(monthly)}<span style={{ fontSize: 12, color: C.inkLow, marginLeft: 2 }}>/mo</span></div>
+              <div style={{ fontFamily: FONT_BODY, fontSize: 12, color: C.inkDim }}>
+                {fmt(v.price)} sticker · 60mo @ 6.9%
               </div>
-              <div style={{ fontFamily: FONT_MONO, fontSize: 9, color: C.inkLow, marginTop: 2 }}>{fmt(v.price)} · 60mo · 6.9%</div>
-            </div>
+            </>
           ) : (
-            <div>
-              <div style={{ fontFamily: FONT_MONO, fontSize: 8, letterSpacing: 2, color: C.inkLow }}>STICKER</div>
-              <div style={{ fontFamily: FONT_DISPLAY, fontSize: feature ? 32 : 22, fontWeight: 700, color: C.gold, lineHeight: 1 }}>
-                {fmt(v.price)}
+            <>
+              <div style={{
+                fontFamily: FONT_DISPLAY, fontSize: 24, fontWeight: 700,
+                color: C.gold, lineHeight: 1, marginBottom: 4,
+              }}>{fmt(v.price)}</div>
+              <div style={{ fontFamily: FONT_BODY, fontSize: 12, color: C.inkDim }}>
+                Est. {fmt(monthly)}/mo
               </div>
-              <div style={{ fontFamily: FONT_MONO, fontSize: 9, color: C.inkLow, marginTop: 2 }}>~{fmt(monthly)}/mo est.</div>
-            </div>
+            </>
           )}
-          <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }} onClick={stop}>
-            <button onClick={(e) => { stop(e); onBuildDeal(v); }} style={{
-              background: C.gold, color: '#08080A',
-              fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 11,
-              letterSpacing: 1.5, textTransform: 'uppercase',
-              padding: '8px 12px', border: 'none', cursor: 'pointer',
-              whiteSpace: 'nowrap',
-            }}>★ BUILD DEAL</button>
-            <button onClick={(e) => { stop(e); onView(v); }} style={{
-              background: C.red, color: '#FFFFFF',
-              fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 11,
-              letterSpacing: 1.5, textTransform: 'uppercase',
-              padding: '8px 12px', border: 'none', cursor: 'pointer',
-            }}>OPEN ▸</button>
-          </div>
         </div>
       </div>
     </div>
@@ -2762,6 +2631,27 @@ function TextUsButton() {
       onMouseEnter={e => { e.currentTarget.style.background = '#F4D77E'; e.currentTarget.style.transform = 'translateY(-50%) translateX(2px)'; }}
       onMouseLeave={e => { e.currentTarget.style.background = C.gold; e.currentTarget.style.transform = 'translateY(-50%)'; }}
     >📱 Text Us</a>
+  );
+}
+
+/* ─── Mobile Sticky Call Button ───────────────────── */
+function MobileCallButton() {
+  return (
+    <a
+      href="tel:3055550199"
+      className="mobile-call-btn"
+      style={{
+        display: 'none', /* shown on mobile via media query */
+        position: 'fixed', left: 0, right: 0, bottom: 0, zIndex: 78,
+        padding: '14px 18px',
+        background: C.red, color: '#FFFFFF',
+        textDecoration: 'none', textAlign: 'center',
+        fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 14,
+        letterSpacing: 2, textTransform: 'uppercase',
+        borderTop: `2px solid ${C.gold}`,
+        boxShadow: '0 -4px 16px rgba(0,0,0,0.4)',
+      }}
+    >📞 Call (305) 555-0199</a>
   );
 }
 
@@ -5030,6 +4920,9 @@ export default function PrimoAutoGroup() {
   const [reserveVehicle, setReserveVehicle] = useState(null);
   const [reserved, setReserved] = useState(() => new Set());
   const [a11y, setA11y] = useState({ largeFont: false, highContrast: false, noMotion: false });
+  // Round 4 state — body type filter + sort
+  const [bodyType, setBodyType] = useState('all');
+  const [sortBy, setSortBy] = useState('recent');
 
   const toggleSaved = (id) => {
     setSaved(prev => {
@@ -5100,6 +4993,7 @@ export default function PrimoAutoGroup() {
 
       <main style={{ marginLeft: 96, paddingTop: 28 }} className="page-main">
         <Hero onCTA={jump} lang={lang} />
+        <BodyTypePicker value={bodyType} onChange={setBodyType} />
         <Fleet
           priceMode={priceMode} setPriceMode={setPriceMode}
           onView={handleView}
@@ -5108,13 +5002,15 @@ export default function PrimoAutoGroup() {
           priceAlerts={priceAlerts} onTogglePriceAlert={togglePriceAlert}
           onCompare={() => setShowCompare(true)}
           reserved={reserved}
+          bodyType={bodyType}
+          sortBy={sortBy} setSortBy={setSortBy}
         />
-        <TradeIn />
-        <ServiceSchedule />
         <WhyPreOwned />
         <Finance />
-        <Charter />
+        <TradeIn />
+        <ServiceSchedule />
         <Warranty />
+        <Charter />
         <CountersBlock />
         <Process />
         <Voices />
@@ -5169,11 +5065,16 @@ export default function PrimoAutoGroup() {
       <BeatPriceBadge onClick={() => setShowBeatPrice(true)} />
       <AIChatWidget open={showChat} onToggle={() => setShowChat(s => !s)} />
       <AccessibilityWidget a11y={a11y} setA11y={setA11y} />
+      <MobileCallButton />
+
+      <a href="/samples/primo-features" className="dealer-btn">
+        🔑 Dealer? See All Features →
+      </a>
 
       <style>{`
         * { box-sizing: border-box; }
-        html { scroll-behavior: smooth; background: ${C.bg}; }
-        body { margin: 0; background: ${C.bg}; color: ${C.ink}; }
+        html { scroll-behavior: smooth; background: ${C.bg}; -webkit-font-smoothing: antialiased; }
+        body { margin: 0; background: ${C.bg}; color: ${C.ink}; font-size: 15px; line-height: 1.55; }
 
         @keyframes marquee {
           from { transform: translateX(0); }
@@ -5244,14 +5145,19 @@ export default function PrimoAutoGroup() {
           color: ${C.ink};
         }
 
+        /* Body type picker / mobile call button — base hidden state */
+        .mobile-filter-btn { display: none; }
+        .mobile-call-btn  { display: none; }
+
         @media (max-width: 1080px) {
-          .hero-grid { grid-template-columns: 1fr !important; height: auto !important; min-height: 100vh !important; }
-          .hero-grid > div:first-child { padding: 80px 32px 40px 96px !important; }
-          .hero-grid > div:last-child { aspect-ratio: 4/3; }
-          .search-row { grid-template-columns: repeat(4, 1fr) auto !important; }
-          .search-row > div:nth-child(n+5):not(:last-child) { grid-column: span 2; border-top: 1px solid ${C.rule}; }
-          .fleet-grid > div { grid-column: span 12 !important; }
-          .fleet-card { grid-template-columns: 1fr !important; }
+          .hero-grid { grid-template-columns: 1fr !important; min-height: auto !important; padding: 28px 32px 28px 96px !important; gap: 20px !important; }
+          .hero-img { min-height: 200px !important; }
+          .bodytype-section { padding: 16px 24px 16px 96px !important; }
+          .search-row { display: none !important; }
+          .search-row.open { display: grid !important; grid-template-columns: repeat(2, 1fr) auto !important; }
+          .search-row.open > div { border-bottom: 1px solid ${C.rule}; }
+          .mobile-filter-btn { display: inline-block !important; }
+          .fleet-grid { grid-template-columns: repeat(2, 1fr) !important; gap: 16px !important; }
           .trade-grid, .finance-split, .alerts-grid, .contact-split, .voices-grid { grid-template-columns: 1fr !important; }
           .finance-split > div:first-child, .contact-split > div:first-child { border-right: none !important; border-bottom: 1px solid ${C.rule} !important; }
           .voices-grid > article { border-right: none !important; border-bottom: 1px solid ${C.rule} !important; }
@@ -5278,19 +5184,24 @@ export default function PrimoAutoGroup() {
         @media (max-width: 760px) {
           .side-rail { width: 64px !important; }
           .marquee-bar { left: 64px !important; }
-          .page-main { margin-left: 64px !important; }
+          .page-main { margin-left: 64px !important; padding-bottom: 64px !important; }
           .textus-btn { left: 64px !important; padding: 10px 8px !important; font-size: 11px !important; }
-          .beat-badge { bottom: 110px !important; max-width: 180px !important; padding: 10px 12px !important; }
+          .beat-badge { bottom: 170px !important; max-width: 180px !important; padding: 10px 12px !important; }
           .beat-badge > div:last-child { font-size: 12px !important; }
-          .chat-bubble { right: 16px !important; bottom: 16px !important; width: 52px !important; height: 52px !important; }
-          .chat-panel { right: 12px !important; bottom: 80px !important; width: calc(100vw - 24px) !important; }
-          .a11y-btn { left: 80px !important; bottom: 16px !important; width: 42px !important; height: 42px !important; }
-          .a11y-panel { left: 80px !important; bottom: 70px !important; width: calc(100vw - 96px) !important; max-width: 280px; }
+          .chat-bubble { right: 16px !important; bottom: 76px !important; width: 52px !important; height: 52px !important; }
+          .chat-panel { right: 12px !important; bottom: 140px !important; width: calc(100vw - 24px) !important; }
+          .a11y-btn { left: 80px !important; bottom: 76px !important; width: 42px !important; height: 42px !important; }
+          .a11y-panel { left: 80px !important; bottom: 130px !important; width: calc(100vw - 96px) !important; max-width: 280px; }
+          .mobile-call-btn { display: block !important; }
+          .fleet-grid { grid-template-columns: 1fr !important; gap: 14px !important; }
+          .fleet-pad { padding-left: 64px !important; padding-right: 16px !important; }
+          .bodytype-section { padding: 14px 16px 14px 64px !important; }
+          .fleet-controls { gap: 8px !important; }
           .team-grid { grid-template-columns: 1fr !important; }
           .team-grid > div { border-right: none !important; border-bottom: 1px solid ${C.rule} !important; }
           .team-grid > div:last-child { border-bottom: none !important; }
           .srv-row3 { grid-template-columns: 1fr !important; }
-          .hero-grid > div:first-child { padding: 80px 24px 40px 60px !important; }
+          .hero-grid { padding: 24px 16px 24px 64px !important; }
           .charter-row { grid-template-columns: 60px 1fr !important; gap: 16px !important; }
           .charter-row > div:nth-child(3), .charter-row > div:nth-child(4) {
             grid-column: 1 / -1; padding-left: 76px;
@@ -5298,6 +5209,41 @@ export default function PrimoAutoGroup() {
           .process-grid { grid-template-columns: 1fr !important; }
           .footer-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
           .voices-grid { grid-template-columns: 1fr !important; }
+        }
+
+        @keyframes dealerPulse {
+          0%, 100% { box-shadow: 0 4px 20px rgba(212,175,55,0.35); }
+          50%      { box-shadow: 0 4px 36px rgba(212,175,55,0.72); }
+        }
+        .dealer-btn {
+          position: fixed;
+          top: 80px;
+          right: 20px;
+          z-index: 90;
+          background: #D4AF37;
+          color: #0a0a0a;
+          font-family: 'Inter', sans-serif;
+          font-size: 13px;
+          font-weight: 800;
+          letter-spacing: 0.3px;
+          padding: 11px 20px;
+          border-radius: 50px;
+          text-decoration: none;
+          white-space: nowrap;
+          box-shadow: 0 4px 20px rgba(212,175,55,0.35);
+          animation: dealerPulse 2.5s ease-in-out infinite;
+          transition: transform 0.15s, filter 0.15s;
+        }
+        .dealer-btn:hover { transform: scale(1.04); filter: brightness(1.08); }
+        @media (max-width: 760px) {
+          .dealer-btn {
+            top: 14px;
+            right: 14px;
+            font-size: 11px;
+            padding: 8px 12px;
+            animation: none;
+            box-shadow: 0 2px 10px rgba(212,175,55,0.25);
+          }
         }
       `}</style>
     </div>
