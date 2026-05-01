@@ -19,6 +19,7 @@ export const C = {
   redDeep:  '#B6121C',
   gold:     '#E2B23C',
   cyan:     'var(--c-cyan)',
+  teal:     '#2AA5A0',
   ink:      'var(--c-ink)',
   inkDim:   'var(--c-inkDim)',
   inkLow:   'var(--c-inkLow)',
@@ -26,28 +27,28 @@ export const C = {
 
 export const THEMES = {
   dark: {
-    '--c-bg':      '#08080A',
-    '--c-bg2':     '#0E0E12',
-    '--c-panel':   '#13131A',
-    '--c-rule':    '#1F1F2A',
-    '--c-rule2':   '#2A2A38',
-    '--c-ink':     '#F2F2EC',
-    '--c-inkDim':  'rgba(242,242,236,0.55)',
-    '--c-inkLow':  'rgba(242,242,236,0.32)',
-    '--c-cyan':    '#5BE3FF',
-    '--c-shadow':  '0 0 0 transparent',
-    '--c-glass':   'rgba(8,8,10,0.78)',
+    '--c-bg':      '#09090B',
+    '--c-bg2':     '#18181B',
+    '--c-panel':   '#1C1C1F',
+    '--c-rule':    '#27272A',
+    '--c-rule2':   '#3F3F46',
+    '--c-ink':     '#F4F4F5',
+    '--c-inkDim':  'rgba(244,244,245,0.55)',
+    '--c-inkLow':  'rgba(244,244,245,0.32)',
+    '--c-cyan':    '#2AA5A0',
+    '--c-shadow':  '0 0 0 1px rgba(255,255,255,0.06)',
+    '--c-glass':   'rgba(9,9,11,0.80)',
   },
   light: {
     '--c-bg':      '#FFFFFF',
-    '--c-bg2':     '#F5F5F5',
-    '--c-panel':   '#FAFAFA',
-    '--c-rule':    '#E5E5E5',
-    '--c-rule2':   '#D0D0D0',
-    '--c-ink':     '#1A1A1A',
-    '--c-inkDim':  'rgba(26,26,26,0.65)',
-    '--c-inkLow':  'rgba(26,26,26,0.40)',
-    '--c-cyan':    '#0077A5',
+    '--c-bg2':     '#FAFAFA',
+    '--c-panel':   '#F4F4F5',
+    '--c-rule':    '#E4E4E7',
+    '--c-rule2':   '#D4D4D8',
+    '--c-ink':     '#18181B',
+    '--c-inkDim':  'rgba(24,24,27,0.65)',
+    '--c-inkLow':  'rgba(24,24,27,0.40)',
+    '--c-cyan':    '#2AA5A0',
     '--c-shadow':  '0 1px 3px rgba(0,0,0,0.08), 0 6px 16px rgba(0,0,0,0.06)',
     '--c-glass':   'rgba(255,255,255,0.85)',
   },
@@ -74,8 +75,8 @@ export const I18N = {
   },
 };
 
-export const FONT_DISPLAY = 'var(--font-oswald), "Oswald", "Bebas Neue", Impact, sans-serif';
-export const FONT_BODY    = 'var(--font-inter), -apple-system, sans-serif';
+export const FONT_DISPLAY = '"Plus Jakarta Sans", var(--font-oswald), "Oswald", "Bebas Neue", Impact, sans-serif';
+export const FONT_BODY    = '"Plus Jakarta Sans", var(--font-inter), -apple-system, sans-serif';
 export const FONT_MONO    = 'var(--font-mono), "JetBrains Mono", "IBM Plex Mono", monospace';
 
 /* ─── Demo FLEET inventory ─────────────────────────────────── */

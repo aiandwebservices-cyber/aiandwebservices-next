@@ -2,6 +2,7 @@
 // Only authenticated dealer admins should access these routes
 
 import { espoFetch, getDealerConfig } from '../../../_lib/espocrm.js';
+import { withErrorHandling } from '../../../../../../lib/dealer-platform/utils/error-handler.js';
 
 const CURRENCY_FIELDS = ['listPrice', 'salePrice', 'costBasis', 'finalSalePrice'];
 
@@ -23,7 +24,7 @@ function applyCurrency(payload) {
   return payload;
 }
 
-export async function GET(_req, { params }) {
+export const GET = withErrorHandling(async (_req, { params }) => {
   const { dealerId } = await params;
   const dealerConfig = getDealerConfig(dealerId);
   if (!dealerConfig) return bad(`Unknown dealer: ${dealerId}`, 404);
@@ -39,9 +40,9 @@ export async function GET(_req, { params }) {
   }
   const list = Array.isArray(result.data?.list) ? result.data.list : [];
   return Response.json({ ok: true, vehicles: list, total: result.data?.total ?? list.length });
-}
+});
 
-export async function POST(req, { params }) {
+export const POST = withErrorHandling(async (req, { params }) => {
   const { dealerId } = await params;
   const dealerConfig = getDealerConfig(dealerId);
   if (!dealerConfig) return bad(`Unknown dealer: ${dealerId}`, 404);
@@ -67,4 +68,4 @@ export async function POST(req, { params }) {
     vehicleId: result.data?.id,
     vehicle: result.data,
   });
-}
+});

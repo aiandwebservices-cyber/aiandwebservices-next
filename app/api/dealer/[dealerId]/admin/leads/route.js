@@ -2,12 +2,13 @@
 // Only authenticated dealer admins should access these routes
 
 import { espoFetch, getDealerConfig } from '../../../_lib/espocrm.js';
+import { withErrorHandling } from '../../../../../../lib/dealer-platform/utils/error-handler.js';
 
 function bad(error, status = 400) {
   return Response.json({ ok: false, error }, { status });
 }
 
-export async function GET(_req, { params }) {
+export const GET = withErrorHandling(async (_req, { params }) => {
   const { dealerId } = await params;
   const dealerConfig = getDealerConfig(dealerId);
   if (!dealerConfig) return bad(`Unknown dealer: ${dealerId}`, 404);
@@ -23,9 +24,9 @@ export async function GET(_req, { params }) {
   }
   const list = Array.isArray(result.data?.list) ? result.data.list : [];
   return Response.json({ ok: true, leads: list, total: result.data?.total ?? list.length });
-}
+});
 
-export async function PUT(req, { params }) {
+export const PUT = withErrorHandling(async (req, { params }) => {
   const { dealerId } = await params;
   const dealerConfig = getDealerConfig(dealerId);
   if (!dealerConfig) return bad(`Unknown dealer: ${dealerId}`, 404);

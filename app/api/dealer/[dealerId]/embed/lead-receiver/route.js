@@ -6,6 +6,7 @@ import {
   phoneNumberData,
 } from '../../../_lib/espocrm.js';
 import { notifyDealer } from '../../../_lib/notify.js';
+import { sanitizeInput } from '../../../../../../lib/dealer-platform/middleware/sanitize.js';
 
 // Accept-anything lead webhook for dealers' existing contact forms.
 // The dealer drops their <form action="…/embed/lead-receiver"> onto a third-
@@ -13,18 +14,36 @@ import { notifyDealer } from '../../../_lib/notify.js';
 // application/x-www-form-urlencoded, normalize the input, and create a Lead
 // in EspoCRM.
 
-const CORS = {
-  'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Methods': 'POST, OPTIONS',
-  'Access-Control-Allow-Headers': 'Content-Type',
-};
-
-function bad(error, status = 400) {
-  return Response.json({ ok: false, error }, { status, headers: CORS });
+function buildCors(dealerConfig, requestOrigin) {
+  const allowed = dealerConfig?.embedAllowedOrigins ?? ['*'];
+  const allowAll = allowed.includes('*');
+  const origin = allowAll
+    ? '*'
+    : (allowed.includes(requestOrigin) ? requestOrigin : null);
+  return { allowed, allowAll, origin };
 }
 
-export async function OPTIONS() {
-  return new Response(null, { status: 204, headers: CORS });
+function corsHeaders(origin) {
+  return {
+    'Access-Control-Allow-Origin': origin || '*',
+    'Access-Control-Allow-Methods': 'POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type',
+  };
+}
+
+function bad(error, status = 400, cors = {}) {
+  return Response.json({ ok: false, error }, { status, headers: cors });
+}
+
+export async function OPTIONS(req, { params }) {
+  const { dealerId } = await params;
+  const dealerConfig = getDealerConfig(dealerId);
+  const origin = req.headers.get('origin') || '';
+  const { allowAll, origin: allowed } = buildCors(dealerConfig, origin);
+  if (!allowAll && !allowed) {
+    return new Response(null, { status: 204 });
+  }
+  return new Response(null, { status: 204, headers: corsHeaders(allowed || '*') });
 }
 
 // Pull a value from the body using a list of possible keys (case-insensitive).
@@ -83,8 +102,16 @@ export async function POST(req, { params }) {
   const dealerConfig = getDealerConfig(dealerId);
   if (!dealerConfig) return bad(`Unknown dealer: ${dealerId}`, 404);
 
-  const body = await readBody(req);
-  if (!body || typeof body !== 'object') return bad('Could not parse request body');
+  const requestOrigin = req.headers.get('origin') || '';
+  const { allowAll, origin: corsOrigin } = buildCors(dealerConfig, requestOrigin);
+  if (!allowAll && !corsOrigin) {
+    return Response.json({ ok: false, error: 'Origin not allowed' }, { status: 403 });
+  }
+  const CORS = corsHeaders(corsOrigin || '*');
+
+  const rawBody = await readBody(req);
+  if (!rawBody || typeof rawBody !== 'object') return bad('Could not parse request body', 400, CORS);
+  const body = sanitizeInput(rawBody);
 
   // Honeypot: if a hidden field commonly used by spam bots is filled, drop silently.
   if (pick(body, 'website', '_gotcha', 'honeypot')) {
@@ -105,10 +132,10 @@ export async function POST(req, { params }) {
   const vehicleOfInterest = pick(body, 'vehicle', 'vehicleOfInterest', 'vehicle_of_interest', 'interest', 'stockNumber');
   const sourceHint = pick(body, 'source', 'leadSource', 'origin') || 'website_form';
 
-  if (!firstName) return bad('Name is required');
-  if (!email && !phoneRaw) return bad('Email or phone is required');
-  if (email && !isValidEmail(email)) return bad('Email is not valid');
-  if (phoneRaw && !normalizePhone(phoneRaw)) return bad('Phone must contain at least 10 digits');
+  if (!firstName) return bad('Name is required', 400, CORS);
+  if (!email && !phoneRaw) return bad('Email or phone is required', 400, CORS);
+  if (email && !isValidEmail(email)) return bad('Email is not valid', 400, CORS);
+  if (phoneRaw && !normalizePhone(phoneRaw)) return bad('Phone must contain at least 10 digits', 400, CORS);
 
   // Build EspoCRM Lead payload.
   const payload = {

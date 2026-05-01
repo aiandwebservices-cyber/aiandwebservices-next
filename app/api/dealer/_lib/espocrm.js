@@ -1,6 +1,7 @@
 const LOTCRM_CONFIG = {
   url: 'https://lotcrm.lotpilot.ai',
   apiKey: '7190e14d23e6ca8d68a5d2b29c91e55e',
+  embedAllowedOrigins: ['*'],
 };
 
 export function getDealerConfig(dealerId) {

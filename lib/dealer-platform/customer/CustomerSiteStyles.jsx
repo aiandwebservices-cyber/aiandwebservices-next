@@ -15,9 +15,13 @@ import { C } from './_internals';
 export function CustomerSiteStyles() {
   return (
     <style>{`
+      @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
       * { box-sizing: border-box; }
       html { scroll-behavior: smooth; background: ${C.bg}; -webkit-font-smoothing: antialiased; }
-      body { margin: 0; background: ${C.bg}; color: ${C.ink}; font-size: 15px; line-height: 1.55; }
+      body { margin: 0; background: ${C.bg}; color: ${C.ink}; font-size: 15px; line-height: 1.55; font-family: "Plus Jakarta Sans", -apple-system, sans-serif; }
+
+      h1, h2 { font-weight: 800 !important; }
 
       @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-33.333%); } }
       @keyframes fadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
@@ -26,6 +30,8 @@ export function CustomerSiteStyles() {
       @keyframes chatPulse { 0% { opacity: 0.9; transform: scale(1); } 100% { opacity: 0; transform: scale(1.8); } }
       @keyframes chatSlide { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
       @keyframes pulseGlow { 0%, 100% { box-shadow: 0 0 30px ${C.gold}30; } 50% { box-shadow: 0 0 60px ${C.gold}60; } }
+      @keyframes scrollBounce { 0%, 100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+      @keyframes heroBounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(8px); } }
 
       [data-fontscale="lg"] { zoom: 1.2; -moz-transform: scale(1.2); -moz-transform-origin: 0 0; }
       [data-hc="true"] {
@@ -50,8 +56,20 @@ export function CustomerSiteStyles() {
         color: ${C.inkLow}; letter-spacing: 1.5px; font-size: 13px !important; text-transform: uppercase;
       }
       input:focus, select:focus, textarea:focus {
-        outline: none; border-bottom-color: ${C.gold} !important; color: ${C.ink};
+        outline: 2px solid #2AA5A0 !important; outline-offset: 2px;
+        border-bottom-color: #2AA5A0 !important; color: ${C.ink};
       }
+      input[style]:focus, textarea[style]:focus {
+        outline: none !important; border-bottom-color: #2AA5A0 !important;
+      }
+
+      .fleet-card { border-radius: 12px !important; overflow: hidden !important; transition: transform 200ms ease-out, box-shadow 200ms ease-out !important; }
+      .fleet-card:hover { transform: translateY(-4px) !important; box-shadow: 0 12px 32px rgba(0,0,0,0.28), 0 0 0 1px rgba(42,165,160,0.15) !important; }
+
+      a, button { transition: all 200ms ease-out; }
+
+      .hero-search-input:focus { outline: none !important; border-color: #2AA5A0 !important; }
+      .scroll-down-indicator { animation: heroBounce 1.8s ease-in-out infinite; }
 
       .mobile-filter-btn { display: none; }
       .mobile-call-btn  { display: none; }
