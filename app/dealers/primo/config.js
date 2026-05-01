@@ -2,10 +2,10 @@ import { defaultConfig } from '@/lib/dealer-platform/config/default-config';
 
 export const config = {
   ...defaultConfig,
-  dealerName: 'LotCRM',
+  dealerName: 'LotPilot.ai',
   dealerSlug: 'primo',
   tagline:    'The CRM Built for Car Dealers',
-  subtitle:   'Close More Deals. Follow Up Faster. Powered by LotPilot.',
+  subtitle:   'Close More Deals. Follow Up Faster. Powered by LotPilot.ai.',
   phone:      '(305) 555-0199',
   email:      'demo@lotpilot.ai',
   address:    { street: '8420 NW 27th Ave', city: 'Miami', state: 'FL', zip: '33147' },
