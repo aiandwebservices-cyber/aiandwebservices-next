@@ -91,6 +91,7 @@ function AdminPanelBody({ config, slug }) {
   const [loaded, setLoaded] = useState(false);
   const [toast, setToast] = useState(null);
   const [editingVehicleId, setEditingVehicleId] = useState(null);
+  const localDoneKey = `lotpilot-onboarding-done-${slug}`;
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [showDemoMode, setShowDemoMode] = useState(false);
 
@@ -184,10 +185,14 @@ function AdminPanelBody({ config, slug }) {
 
   /* ---------- onboarding gate ---------- */
   useEffect(() => {
-    if (loaded && settings && !settings.onboardingComplete) {
-      setShowOnboarding(true);
-    }
-  }, [loaded, settings]);
+    // Belt-and-suspenders: localStorage flag set on wizard completion prevents re-trigger
+    // even during the brief window before settings hydrates from storage.
+    if (typeof localStorage !== 'undefined' && localStorage.getItem(localDoneKey) === 'true') return;
+    if (!loaded) return;
+    const settingsReady = settings !== null && settings !== undefined && typeof settings === 'object';
+    const needsOnboarding = settingsReady && settings.onboardingComplete !== true;
+    if (needsOnboarding) setShowOnboarding(true);
+  }, [loaded, settings, localDoneKey]);
 
   /* ---------- demo mode trigger via ?demo=true ---------- */
   useEffect(() => {

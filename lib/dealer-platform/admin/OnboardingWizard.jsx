@@ -22,6 +22,17 @@ const AI_AGENTS = [
 ];
 
 export function OnboardingWizard({ dealerId, settings, setSettings, onComplete }) {
+  const localDoneKey = `lotpilot-onboarding-done-${dealerId}`;
+
+  // If the localStorage flag is already set (e.g., a parallel session completed it),
+  // close immediately rather than showing the wizard again.
+  useEffect(() => {
+    if (typeof localStorage !== 'undefined' && localStorage.getItem(localDoneKey) === 'true') {
+      onComplete?.();
+    }
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   const [step, setStep] = useState(() => Math.min(TOTAL_STEPS, Math.max(1, settings?.onboardingStep || 1)));
   const [direction, setDirection] = useState('forward');
 
@@ -216,6 +227,10 @@ export function OnboardingWizard({ dealerId, settings, setSettings, onComplete }
   // step 6 → finish
   const finish = () => {
     setSettings(s => ({ ...s, onboardingComplete: true, onboardingFinishedAt: new Date().toISOString() }));
+    // Belt-and-suspenders: localStorage flag prevents re-trigger before storage hydrates
+    if (typeof localStorage !== 'undefined') {
+      localStorage.setItem(localDoneKey, 'true');
+    }
     onComplete?.();
   };
 
