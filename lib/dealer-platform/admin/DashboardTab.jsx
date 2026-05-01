@@ -62,6 +62,8 @@ export function DashboardTab({ inventory, leads, sold, settings, setSettings, up
   activity = [], onJump, taskStats = { overdue: 0, dueToday: 0, open: 0 } }) {
   const config = useAdminConfig();
   const [activityExpanded, setActivityExpanded] = useState(false);
+  const [demoBannerDismissed, setDemoBannerDismissed] = useState(false);
+  const isSeedData = inventory.some((v) => v.id === 'v1');
 
   // Market pricing batch state
   const [marketData, setMarketData]     = useState({});
@@ -200,6 +202,24 @@ export function DashboardTab({ inventory, leads, sold, settings, setSettings, up
 
   return (
     <div className="p-6 lg:p-8 max-w-[1600px] mx-auto">
+      {/* Demo data banner */}
+      {isSeedData && !demoBannerDismissed && (
+        <div className="flex items-center justify-between gap-3 mb-6 px-4 py-3 rounded-md text-sm"
+          style={{ backgroundColor: '#EFF6FF', border: '1px solid #BFDBFE', color: '#1E40AF' }}>
+          <div className="flex items-center gap-2">
+            <BarChart3 className="w-4 h-4 shrink-0" />
+            <span>
+              <strong>Viewing demo data</strong> — 15 vehicles, 15 leads, and 6 recent sales.
+              Connect your inventory in <button className="underline font-semibold" onClick={() => onJump?.('settings')}>Settings</button> to see real data.
+            </span>
+          </div>
+          <button onClick={() => setDemoBannerDismissed(true)}
+            className="shrink-0 p-1 rounded hover:bg-blue-100 transition">
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      )}
+
       {/* Hero */}
       <div className="flex items-end justify-between mb-8">
         <div>
