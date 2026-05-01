@@ -6,6 +6,7 @@ import {
   Car, Users, Shield, Cpu, LayoutDashboard, Globe,
   MessageSquare, FileText, Target, TrendingUp,
 } from 'lucide-react';
+import { getPlan } from '@/lib/dealer-platform/config/pricing';
 
 const cormorant = Cormorant_Garamond({
   subsets: ['latin'],
@@ -184,14 +185,14 @@ const COMP_ROWS = [
 const SAVINGS_BARS = [
   { label: 'DealerOn + vAuto + VinSolutions', price: 2799, pct: 100, color: '#FF5555' },
   { label: 'Dealer.com + DealerAI',           price: 2150, pct: 77,  color: '#FF7777' },
-  { label: 'LotPilot.ai Professional',        price: 1199, pct: 43,  color: GOLD },
+  { label: `LotPilot.ai ${getPlan('professional').name}`, price: getPlan('professional').monthlyPrice, pct: 43, color: GOLD },
 ];
 
 const PRICING_TIERS = [
   {
-    name: 'Growth',
-    price: 699,
-    setup: 499,
+    name: getPlan('growth').name,
+    price: getPlan('growth').monthlyPrice,
+    setup: getPlan('growth').setupFee,
     featured: false,
     features: [
       { label: 'Custom dealership website',       locked: false },
@@ -207,9 +208,9 @@ const PRICING_TIERS = [
     ],
   },
   {
-    name: 'Professional',
-    price: 1199,
-    setup: 999,
+    name: getPlan('professional').name,
+    price: getPlan('professional').monthlyPrice,
+    setup: getPlan('professional').setupFee,
     featured: true,
     badge: 'Most Popular',
     features: [
@@ -226,9 +227,9 @@ const PRICING_TIERS = [
     ],
   },
   {
-    name: 'Enterprise',
-    price: 1799,
-    setup: 1999,
+    name: getPlan('enterprise').name,
+    price: getPlan('enterprise').monthlyPrice,
+    setup: getPlan('enterprise').setupFee,
     featured: false,
     features: [
       { label: 'Everything in Professional',       locked: false },
@@ -441,7 +442,7 @@ function CompetitiveSection() {
                     { label: '$1,499/mo', gold: false },
                     { label: '$1,650/mo', gold: false },
                     { label: '$500/mo',   gold: false },
-                    { label: 'from $699/mo', gold: true },
+                    { label: `from $${getPlan('growth').monthlyPrice}/mo`, gold: true },
                   ].map(({ label, gold }) => (
                     <td key={label} style={{
                       ...colStyle(gold), padding: '16px 10px',
@@ -964,9 +965,9 @@ function AiSavingsTable() {
 const PLAN_TIERS = [
   {
     key: 'growth',
-    name: 'Growth',
-    price: 699,
-    setup: 499,
+    name: getPlan('growth').name,
+    price: getPlan('growth').monthlyPrice,
+    setup: getPlan('growth').setupFee,
     target: '5–30 vehicles, 1 location, getting started',
     featured: false,
     intro: null,
@@ -1000,9 +1001,9 @@ const PLAN_TIERS = [
   },
   {
     key: 'professional',
-    name: 'Professional',
-    price: 1199,
-    setup: 999,
+    name: getPlan('professional').name,
+    price: getPlan('professional').monthlyPrice,
+    setup: getPlan('professional').setupFee,
     target: '20–100 vehicles, full AI power, serious growth',
     featured: true,
     badge: 'Most dealers pick this',
@@ -1033,9 +1034,9 @@ const PLAN_TIERS = [
   },
   {
     key: 'enterprise',
-    name: 'Enterprise',
-    price: 1799,
-    setup: 1999,
+    name: getPlan('enterprise').name,
+    price: getPlan('enterprise').monthlyPrice,
+    setup: getPlan('enterprise').setupFee,
     target: 'Multi-location, custom work, white glove',
     featured: false,
     intro: 'Everything in Professional plus:',
@@ -1342,9 +1343,9 @@ function ChooseYourPlanSection() {
                     borderBottom: '2px solid #ffffff0a',
                     letterSpacing: '0.04em',
                   }}>Feature</th>
-                  <th style={tierColStyle(false)}>Growth<br /><span style={{ fontSize: 10, color: MUTED, fontWeight: 600 }}>$699/mo</span></th>
-                  <th style={tierColStyle(true)}>Professional<br /><span style={{ fontSize: 10, color: GOLD, fontWeight: 600 }}>$1,199/mo · most popular</span></th>
-                  <th style={tierColStyle(false)}>Enterprise<br /><span style={{ fontSize: 10, color: MUTED, fontWeight: 600 }}>$1,799/mo</span></th>
+                  <th style={tierColStyle(false)}>{getPlan('growth').name}<br /><span style={{ fontSize: 10, color: MUTED, fontWeight: 600 }}>${getPlan('growth').monthlyPrice}/mo</span></th>
+                  <th style={tierColStyle(true)}>{getPlan('professional').name}<br /><span style={{ fontSize: 10, color: GOLD, fontWeight: 600 }}>${getPlan('professional').monthlyPrice}/mo · most popular</span></th>
+                  <th style={tierColStyle(false)}>{getPlan('enterprise').name}<br /><span style={{ fontSize: 10, color: MUTED, fontWeight: 600 }}>${getPlan('enterprise').monthlyPrice}/mo</span></th>
                 </tr>
               </thead>
               <tbody>
@@ -1552,7 +1553,7 @@ export default function PrimoFeaturesPage() {
               fontSize: 11, fontWeight: 700, letterSpacing: '0.18em',
               textTransform: 'uppercase', color: GOLD, marginBottom: 36,
             }}>
-              LotPilot.ai — AI-Powered Dealer Platform · from $699/mo
+              LotPilot.ai — AI-Powered Dealer Platform · from ${getPlan('growth').monthlyPrice}/mo
             </div>
           </FadeSection>
 
@@ -1610,7 +1611,7 @@ export default function PrimoFeaturesPage() {
               borderTop: `1px solid ${GOLD}20`, flexWrap: 'wrap',
             }}>
               {[
-                { val: 'from $699', label: 'per month' },
+                { val: `from $${getPlan('growth').monthlyPrice}`, label: 'per month' },
                 { val: '6',         label: 'AI agents included' },
                 { val: '5–7',       label: 'days to go live' },
                 { val: '90+',       label: 'PageSpeed score' },
@@ -1728,7 +1729,7 @@ export default function PrimoFeaturesPage() {
                     <div style={{
                       fontFamily: "var(--font-cormorant), serif",
                       fontSize: 44, fontWeight: 700, color: GOLD, lineHeight: 1,
-                    }}>from $699<span style={{ fontSize: 18, fontWeight: 500 }}>/mo</span></div>
+                    }}>from ${getPlan('growth').monthlyPrice}<span style={{ fontSize: 18, fontWeight: 500 }}>/mo</span></div>
                     <div style={{ fontSize: 12, color: '#4ADE80', fontWeight: 700, marginTop: 5 }}>
                       Save $11,400–$19,200 per year
                     </div>
