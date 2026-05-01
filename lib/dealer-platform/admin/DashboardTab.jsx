@@ -63,6 +63,47 @@ export function DashboardTab({ inventory, leads, sold, settings, setSettings, up
   const config = useAdminConfig();
   const [activityExpanded, setActivityExpanded] = useState(false);
 
+  // Market pricing batch state
+  const [marketData, setMarketData]     = useState({});
+  const [marketLoading, setMarketLoading] = useState(false);
+  const [marketSource, setMarketSource] = useState(null);
+  const [marketFetchedAt, setMarketFetchedAt] = useState(null);
+
+  const fetchMarketPricing = useCallback(async () => {
+    const slug = config?.dealerSlug;
+    if (!slug) return;
+    const active = inventory.filter(v => v.status !== 'Sold' && v.listPrice > 0).slice(0, 12);
+    if (!active.length) return;
+    setMarketLoading(true);
+    try {
+      const res = await fetch(`/api/dealer/${slug}/market-pricing/batch`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          vehicles: active.map(v => ({
+            id: v.id, vin: v.vin || '', year: v.year, make: v.make, model: v.model,
+            mileage: v.mileage || 0, listPrice: v.listPrice,
+            oneOwner:   v.history?.oneOwner   ?? false,
+            cleanTitle: v.history?.cleanTitle ?? false,
+            noAccidents: v.history?.noAccidents ?? false,
+            zip: config?.address?.zip || '',
+          })),
+        }),
+      });
+      const data = await res.json();
+      if (data.ok && Array.isArray(data.results)) {
+        const map = {};
+        for (const r of data.results) map[r.vehicleId] = r.pricing;
+        setMarketData(map);
+        setMarketSource(data.results[0]?.pricing?.source ?? null);
+        setMarketFetchedAt(new Date());
+      }
+    } catch { /* silent in demo mode */ }
+    finally { setMarketLoading(false); }
+  }, [inventory, config?.dealerSlug]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => { fetchMarketPricing(); }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
   const websiteViews = useMemo(() => 14728 + inventory.reduce((s, v) => s + (v.views || 0), 0), [inventory]);
 
   const aging = useMemo(() => {
@@ -357,33 +398,32 @@ export function DashboardTab({ inventory, leads, sold, settings, setSettings, up
             <BarChart3 className="w-4 h-4 text-stone-700" />
             <h3 className="font-display text-lg font-semibold tracking-tight">Market Pricing Intelligence</h3>
             <span className="ml-2 px-2 py-0.5 rounded-full text-[10px] font-bold smallcaps"
-              style={{ backgroundColor: GOLD_SOFT, color: '#7A5A0F' }}>Live Data</span>
+              style={{ backgroundColor: GOLD_SOFT, color: '#7A5A0F' }}>
+              {marketSource === 'marketcheck' ? 'Marketcheck' : 'AI Estimated'}
+            </span>
           </div>
           <div className="flex items-center gap-3">
+            <button onClick={fetchMarketPricing} disabled={marketLoading}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-md text-xs font-medium border border-stone-200 hover:bg-stone-50 transition disabled:opacity-50"
+              title="Refresh market pricing data">
+              <RefreshCw className={`w-3 h-3 ${marketLoading ? 'animate-spin' : ''}`} />
+              {marketLoading ? 'Fetching…' : 'Refresh Pricing'}
+            </button>
             {(() => {
               const active = inventory.filter(v => v.status !== 'Sold' && v.listPrice > 0);
               const avgDays = active.length > 0
-                ? active.reduce((s, v) => s + (v.daysOnLot || 0), 0) / active.length
-                : 0;
+                ? active.reduce((s, v) => s + (v.daysOnLot || 0), 0) / active.length : 0;
               const over60 = active.filter(v => (v.daysOnLot || 0) >= 60).length;
               const score = Math.max(0, Math.min(100, Math.round(100 - avgDays * 1.2 - over60 * 10)));
               return (
-                <>
-                  <div className="text-right">
-                    <div className="text-[9px] smallcaps text-stone-500">Lot Health</div>
-                    <div className="font-display tabular text-lg font-semibold" style={{ color: score >= 80 ? '#2F7A4A' : score >= 60 ? GOLD : RED_ACCENT }}>
-                      {score}<span className="text-xs text-stone-400">/100</span>
-                    </div>
-                  </div>
-                  <span className="text-[10px] font-semibold smallcaps px-2 py-1 rounded-full"
-                    style={score >= 80
-                      ? { backgroundColor: '#E8F2EC', color: '#256B40' }
-                      : score >= 60
-                      ? { backgroundColor: GOLD_SOFT, color: '#7A5A0F' }
-                      : { backgroundColor: '#FBE6E6', color: '#A12B2B' }}>
-                    {score >= 80 ? 'Healthy' : score >= 60 ? 'Watch' : 'Action needed'}
-                  </span>
-                </>
+                <span className="text-[10px] font-semibold smallcaps px-2 py-1 rounded-full"
+                  style={score >= 80
+                    ? { backgroundColor: '#E8F2EC', color: '#256B40' }
+                    : score >= 60
+                    ? { backgroundColor: GOLD_SOFT, color: '#7A5A0F' }
+                    : { backgroundColor: '#FBE6E6', color: '#A12B2B' }}>
+                  Lot health {score}/100
+                </span>
               );
             })()}
           </div>
@@ -393,26 +433,37 @@ export function DashboardTab({ inventory, leads, sold, settings, setSettings, up
             <thead className="bg-stone-50 border-b border-stone-100 text-[10px] smallcaps font-semibold text-stone-500">
               <tr>
                 <th className="px-5 py-3 text-left">Vehicle</th>
-                <th className="px-3 py-3 text-right">Price</th>
-                <th className="px-3 py-3 text-right">Days on Lot</th>
-                <th className="px-3 py-3 text-right">Margin</th>
+                <th className="px-3 py-3 text-right">Your Price</th>
+                <th className="px-3 py-3 text-right">Market Avg</th>
+                <th className="px-3 py-3 text-right">Position</th>
                 <th className="px-5 py-3 text-left">Recommendation</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-stone-100">
               {inventory.filter(v => v.status !== 'Sold' && v.listPrice > 0).slice(0, 12).map(v => {
-                const days = v.daysOnLot || Math.floor((Date.now() - new Date(v.dateAdded).getTime()) / 86400000);
                 const price = v.salePrice || v.listPrice;
-                const cost = v.cost || 0;
-                const hasMargin = cost > 0;
-                const marginPct = hasMargin ? (price - cost) / cost * 100 : null;
-                const gross = hasMargin ? price - cost : null;
-                const urgencyColor = days >= 60 ? '#A12B2B' : days >= 31 ? '#9C4F1A' : '#2F7A4A';
-                const rec = days >= 60 ? 'Price action needed' :
-                            days >= 45 ? 'Recommend 3–5% price drop' :
-                            days >= 30 ? 'Consider featuring' :
-                            days >= 15 ? 'On pace' :
-                            'New arrival — monitor';
+                const mp = marketData[v.id];
+                const days = v.daysOnLot || Math.floor((Date.now() - new Date(v.dateAdded).getTime()) / 86400000);
+
+                let positionBadge = null;
+                let rec = 'New arrival — monitor';
+                if (mp) {
+                  const diff = mp.marketAvg > 0 ? (price - mp.marketAvg) / mp.marketAvg : 0;
+                  const pct = Math.abs(diff * 100).toFixed(1);
+                  if (mp.pricePosition === 'above_market') {
+                    positionBadge = <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-red-50 text-red-700">{pct}% above</span>;
+                    rec = diff > 0.08 ? 'Price action needed' : diff > 0.04 ? 'Consider price drop' : 'Monitor';
+                  } else if (mp.pricePosition === 'below_market') {
+                    positionBadge = <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700">{pct}% below</span>;
+                    rec = 'Well priced — could raise';
+                  } else {
+                    positionBadge = <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-bold bg-stone-100 text-stone-600">At market</span>;
+                    rec = days >= 45 ? 'Aging — consider featuring' : 'On pace';
+                  }
+                } else {
+                  rec = days >= 60 ? 'Price action needed' : days >= 45 ? 'Recommend 3–5% drop' : days >= 30 ? 'Consider featuring' : days >= 15 ? 'On pace' : 'New arrival — monitor';
+                }
+
                 return (
                   <tr key={v.id} className="hover:bg-stone-50 transition">
                     <td className="px-5 py-3">
@@ -422,37 +473,32 @@ export function DashboardTab({ inventory, leads, sold, settings, setSettings, up
                       {v.trim && <div className="text-[11px] text-stone-400">{v.trim}</div>}
                     </td>
                     <td className="px-3 py-3 text-right tabular font-semibold">{fmtMoney(price)}</td>
-                    <td className="px-3 py-3 text-right">
-                      <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold tabular ${
-                        days >= 60 ? 'bg-red-100 text-red-700' :
-                        days >= 31 ? 'bg-amber-100 text-amber-700' :
-                        'bg-emerald-100 text-emerald-700'
-                      }`}>
-                        {days}d
-                      </span>
-                    </td>
                     <td className="px-3 py-3 text-right tabular">
-                      {hasMargin ? (
-                        <div>
-                          <div className="font-semibold" style={{ color: marginPct > 0 ? '#2F7A4A' : RED_ACCENT }}>
-                            {marginPct > 0 ? '+' : ''}{marginPct.toFixed(1)}%
-                          </div>
-                          <div className="text-[11px] text-stone-400">{fmtMoney(gross)}</div>
-                        </div>
-                      ) : (
-                        <span className="text-stone-400 text-[11px]">No cost</span>
-                      )}
+                      {mp
+                        ? <span className="font-medium">{fmtMoney(mp.marketAvg)}</span>
+                        : <span className="text-stone-300 text-xs">{marketLoading ? '…' : '—'}</span>}
                     </td>
-                    <td className="px-5 py-3 text-[12px]" style={{ color: urgencyColor }}>{rec}</td>
+                    <td className="px-3 py-3 text-right">
+                      {positionBadge ?? <span className="text-stone-300 text-xs">{marketLoading ? '…' : '—'}</span>}
+                    </td>
+                    <td className="px-5 py-3 text-[12px]"
+                      style={{ color: rec.includes('needed') ? '#A12B2B' : rec.includes('drop') || rec.includes('action') ? '#9C4F1A' : '#2F7A4A' }}>
+                      {rec}
+                    </td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
         </div>
-        <div className="px-5 py-3 bg-stone-50 border-t border-stone-100 text-[11px] text-stone-500 flex items-center gap-2">
-          <RefreshCw className="w-3 h-3" />
-          Pricing analysis computed from live inventory — enter cost basis per vehicle for margin tracking. Powered by <strong className="text-stone-700">AIandWEBservices</strong>.
+        <div className="px-5 py-3 bg-stone-50 border-t border-stone-100 text-[11px] text-stone-500 flex items-center justify-between gap-2">
+          <span className="flex items-center gap-1.5">
+            <BarChart3 className="w-3 h-3" />
+            {marketSource === 'marketcheck'
+              ? `📊 Marketcheck data${marketFetchedAt ? ` · updated ${Math.round((Date.now() - marketFetchedAt.getTime()) / 60000)}m ago` : ''}`
+              : '📊 Estimated pricing · upgrade to Marketcheck for live comp data'}
+          </span>
+          <span>Powered by <strong className="text-stone-700">AIandWEBservices</strong></span>
         </div>
       </Card>
 

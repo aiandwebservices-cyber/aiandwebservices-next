@@ -35,7 +35,9 @@ import { BreadcrumbBar } from './BreadcrumbBar';
 
 export function MarketingTab({ inventory, setInventory, settings, setSettings, sold, reviews = [], setReviews = () => {}, flash }) {
   const cfg = useAdminConfig();
+  const slug = cfg?.dealerSlug || 'demo';
   const [respondingTo, setRespondingTo] = useState(null);
+  const [feedTestResults, setFeedTestResults] = useState({}); // platform -> { loading, count, error }
   const [responseText, setResponseText] = useState('');
   const [draftRegen, setDraftRegen] = useState({});
   const [importText, setImportText] = useState('');
@@ -117,6 +119,29 @@ export function MarketingTab({ inventory, setInventory, settings, setSettings, s
     }
     flash(`Review request sent to ${reviewRequest.name}`, 'success');
     setReviewRequest({ name: '', phone: '', email: '', vehicle: '', channel: 'sms' });
+  };
+
+  const testFeed = async (platform, feedPath) => {
+    setFeedTestResults(r => ({ ...r, [platform]: { loading: true, count: null, error: null } }));
+    try {
+      const res = await fetch(feedPath);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const text = await res.text();
+      const count = res.headers.get('X-Vehicle-Count')
+        ?? (platform === 'cargurus' || platform === 'facebook'
+          ? Math.max(0, text.split('\n').filter(Boolean).length - 1)
+          : (text.match(/<vehicle>|<listing>/g) || []).length);
+      setFeedTestResults(r => ({ ...r, [platform]: { loading: false, count: Number(count), error: null } }));
+    } catch (e) {
+      setFeedTestResults(r => ({ ...r, [platform]: { loading: false, count: null, error: e.message } }));
+    }
+  };
+
+  const copyFeedUrl = (url) => {
+    navigator.clipboard?.writeText(url).then(
+      () => flash('Feed URL copied to clipboard'),
+      () => flash('Copy failed — select URL manually', 'error'),
+    );
   };
 
   const exportAllCSV = () => {
@@ -571,10 +596,10 @@ export function MarketingTab({ inventory, setInventory, settings, setSettings, s
       {(() => {
         const synd = settings.syndication || {};
         const platformDefaults = {
-          carscom:     { listings: 45, lastSynced: '2 hours ago', cost: '$299/mo', label: 'Cars.com',     color: '#0066A1' },
-          autotrader:  { listings: 45, lastSynced: '4 hours ago', cost: '$249/mo', label: 'AutoTrader',   color: '#E25319' },
-          cargurus:    { listings: 45, lastSynced: '1 hour ago',  cost: '$199/mo', label: 'CarGurus',     color: '#0E8A5F', extra: 'CarGurus IMV: Great Deal on 5 vehicles' },
-          facebook:    { listings: 40, lastSynced: '6 hours ago', cost: 'Free',    label: 'Facebook Marketplace', color: '#1877F2', extra: 'Export format: ready' },
+          carscom:     { listings: 45, lastSynced: '2 hours ago', cost: '$299/mo', label: 'Cars.com',     color: '#0066A1', feedPath: `/api/dealer/${slug}/feeds/carscom` },
+          autotrader:  { listings: 45, lastSynced: '4 hours ago', cost: '$249/mo', label: 'AutoTrader',   color: '#E25319', feedPath: `/api/dealer/${slug}/feeds/autotrader` },
+          cargurus:    { listings: 45, lastSynced: '1 hour ago',  cost: '$199/mo', label: 'CarGurus',     color: '#0E8A5F', extra: 'CarGurus IMV: Great Deal on 5 vehicles', feedPath: `/api/dealer/${slug}/feeds/cargurus` },
+          facebook:    { listings: 40, lastSynced: '6 hours ago', cost: 'Free',    label: 'Facebook Marketplace', color: '#1877F2', extra: 'Export format: ready', feedPath: `/api/dealer/${slug}/feeds/facebook` },
           craigslist:  { listings: 20, lastSynced: 'Manual',      cost: 'Free',    label: 'Craigslist',   color: '#5C2D91', extra: 'Manual post — formatted listing copied to clipboard' },
         };
         const setSynd = (key, patch) =>
@@ -611,6 +636,7 @@ export function MarketingTab({ inventory, setInventory, settings, setSettings, s
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3 mb-5">
                 {Object.entries(platformDefaults).map(([key, def]) => {
                   const connected = platformConnected(key);
+                  const tr = feedTestResults[key];
                   return (
                     <div key={key} className="p-4 border border-stone-200 rounded-md flex flex-col gap-2">
                       <div className="flex items-center justify-between gap-2">
@@ -641,6 +667,43 @@ export function MarketingTab({ inventory, setInventory, settings, setSettings, s
                           Sync Now
                         </Btn>
                       </div>
+
+                      {def.feedPath && (
+                        <div className="mt-1 pt-3 border-t border-stone-100 flex flex-col gap-2">
+                          <div className="text-[10px] text-stone-500 font-medium">
+                            Feed URL — give this to your {def.label} rep:
+                          </div>
+                          <div className="flex items-center gap-1">
+                            <code className="flex-1 text-[10px] font-mono truncate bg-stone-50 border border-stone-200 rounded px-2 py-1">
+                              {def.feedPath}
+                            </code>
+                            <button
+                              onClick={() => copyFeedUrl(typeof window !== 'undefined' ? `${window.location.origin}${def.feedPath}` : def.feedPath)}
+                              title="Copy full URL"
+                              className="p-1.5 rounded hover:bg-stone-100 transition shrink-0">
+                              <Download className="w-3.5 h-3.5 text-stone-500" />
+                            </button>
+                          </div>
+                          <div className="flex items-center gap-1.5">
+                            <Btn size="sm" variant="ghost" icon={tr?.loading ? RefreshCw : Check}
+                              onClick={() => testFeed(key, def.feedPath)}
+                              disabled={tr?.loading}>
+                              {tr?.loading ? 'Testing…' : 'Test Feed'}
+                            </Btn>
+                            <a href={def.feedPath} target="_blank" rel="noopener noreferrer"
+                              className="inline-flex items-center gap-1 text-xs font-medium text-stone-600 hover:text-stone-900 px-2 py-1 rounded hover:bg-stone-100 transition">
+                              <ExternalLink className="w-3 h-3" /> Preview
+                            </a>
+                          </div>
+                          {tr && !tr.loading && (
+                            <div className={`text-[11px] font-medium ${tr.error ? 'text-red-600' : 'text-emerald-700'}`}>
+                              {tr.error
+                                ? `✗ Feed error — ${tr.error}`
+                                : `✓ Feed working — ${tr.count} vehicle${tr.count === 1 ? '' : 's'} in feed`}
+                            </div>
+                          )}
+                        </div>
+                      )}
                     </div>
                   );
                 })}
