@@ -6,9 +6,9 @@ export const growthContent = {
 
   hero: {
     eyebrow: 'Growth',
-    headline: 'Turn Visitors Into Leads —',
-    headlineAccent: 'Automatically',
-    subheadline: 'AI automation, email marketing, SEO content, and conversion-optimised pages — working together to fill your pipeline while you run your business.',
+    headline: 'AI Automation for Small Business —',
+    headlineAccent: 'Turn Visitors Into Leads',
+    subheadline: 'AI automation, email marketing, SEO content, and a lead generation funnel — working together to fill your small business pipeline while you run the work.',
     scrollCta: 'See pricing',
   },
 

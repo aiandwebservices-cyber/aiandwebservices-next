@@ -154,7 +154,7 @@ export default function Hero() {
           </h1>
 
           <p className="h-sub">
-            AI automation, a converting website, and SEO that ranks. One person. One price.
+            AI chatbots and AI automation for small business — plus a converting website and SEO that ranks. One person. One price.
           </p>
 
           <div className="h-ctas">

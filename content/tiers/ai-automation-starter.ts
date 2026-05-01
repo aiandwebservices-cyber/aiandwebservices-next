@@ -19,10 +19,10 @@ export const starterContent = {
 
   hero: {
     eyebrow: 'AI Automation Starter',
-    headline: 'Your First AI System —',
+    headline: 'AI Chatbot for Small Business —',
     headlineAccent: 'Handle Inquiries 24/7',
     subheadline:
-      'A custom AI automation system, trained on your business, handles inquiries, qualifies leads, and books calls while you sleep.',
+      'A custom AI chatbot for small business owners — trained on your business, handles inquiries, qualifies leads, and books calls while you sleep. Done-for-you in 7–14 days.',
     scrollCta: 'See pricing',
   },
 

@@ -220,7 +220,7 @@ export default function ChecklistForm({ hideHero = false, defaultSource = 'site'
                 Free Resource · 5 minutes
               </div>
               <h1 style={{ fontSize: 'clamp(28px, 5vw, 46px)', fontWeight: 800, marginBottom: '8px', lineHeight: 1.15, letterSpacing: '-1px' }}>
-                AI Readiness Assessment
+                Free AI Readiness Assessment &amp; Checklist
               </h1>
               <p style={{ fontSize: '14px', color: 'rgba(255,255,255,0.78)', lineHeight: 1.6, marginBottom: '10px' }}>
                 20 questions across 5 categories. Get a personalised score and see exactly where AI automation would have the biggest impact on your business.

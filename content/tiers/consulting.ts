@@ -6,9 +6,9 @@ export const consultingContent = {
 
   hero: {
     eyebrow: 'À La Carte Services',
-    headline: 'Pick What',
-    headlineAccent: 'You Need.',
-    subheadline: 'Not every business needs a full monthly plan. À la carte lets you start with one capability — a website, an AI assistant, local SEO — and add more when you\'re ready. No subscription. No lock-in.',
+    headline: 'AI Consultant for Small Business —',
+    headlineAccent: 'Pick What You Need',
+    subheadline: 'Not every small business needs a full monthly plan. Work with an AI consultant à la carte — start with one capability (a website, an AI chatbot, local SEO, voice AI) and add more when you\'re ready. No subscription. No lock-in.',
     scrollCta: 'See what\'s available',
   },
 

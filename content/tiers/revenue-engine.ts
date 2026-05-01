@@ -6,9 +6,9 @@ export const revenueEngineContent = {
 
   hero: {
     eyebrow: 'Revenue Engine',
-    headline: 'Automate Your Entire —',
-    headlineAccent: 'Sales System',
-    subheadline: 'A full sales funnel, workflow automation, paid ads, and CRM integration — your entire revenue process running on autopilot.',
+    headline: 'Sales Funnel Design + CRM Setup —',
+    headlineAccent: 'For Small Business',
+    subheadline: 'Sales funnel design, CRM setup for small business, workflow automation, and paid ads — your entire revenue process running on autopilot.',
     scrollCta: 'See pricing',
   },
 

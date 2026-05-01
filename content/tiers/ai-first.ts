@@ -6,9 +6,9 @@ export const aiFirstContent = {
 
   hero: {
     eyebrow: 'AI-First',
-    headline: 'Replace Manual Work —',
-    headlineAccent: 'With AI at Scale',
-    subheadline: 'Voice AI handles your calls. Advanced AI handles your knowledge base. Social AI handles your content. You run a bigger operation with the same team.',
+    headline: 'Voice AI for Business —',
+    headlineAccent: 'Replace Manual Work With AI',
+    subheadline: 'Voice AI for business handles your calls like an AI phone receptionist. Advanced AI handles your knowledge base. Social AI handles your content. Run a bigger small business with the same team.',
     scrollCta: 'See pricing',
   },
 

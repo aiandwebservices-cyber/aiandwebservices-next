@@ -2,16 +2,16 @@ import { BreadcrumbSchema, ServicePageSchema } from '@/components/Schema';
 import { getTier } from '@/lib/pricing';
 
 export const metadata = {
-  title: 'Growth Plan | AIandWEBservices',
+  title: 'AI Automation for Small Business — Growth Plan | AIandWEBservices',
   description: 'Everything in Starter plus SEO, content, and lead generation automation — built to grow your revenue month over month.',
   alternates: { canonical: 'https://www.aiandwebservices.com/services/growth' },
   openGraph: {
-    title: 'Growth Plan | AIandWEBservices',
+    title: 'AI Automation for Small Business — Growth Plan | AIandWEBservices',
     description: 'Everything in Starter plus SEO, content, and lead generation automation — built to grow your revenue month over month.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Growth Plan | AIandWEBservices',
+    title: 'AI Automation for Small Business — Growth Plan | AIandWEBservices',
     description: 'Everything in Starter plus SEO, content, and lead generation automation — built to grow your revenue month over month.',
   },
 };

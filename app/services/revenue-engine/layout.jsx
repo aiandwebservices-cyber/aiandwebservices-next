@@ -2,16 +2,16 @@ import { BreadcrumbSchema, ServicePageSchema } from '@/components/Schema';
 import { getTier } from '@/lib/pricing';
 
 export const metadata = {
-  title: 'Revenue Engine Plan | AIandWEBservices',
+  title: 'Sales Funnel Design + CRM Setup for Small Business — Revenue Engine | AIandWEBservices',
   description: 'Full-stack revenue system: AI chatbot, email automation, SEO, and paid ads — managed monthly. Maximum ROI.',
   alternates: { canonical: 'https://www.aiandwebservices.com/services/revenue-engine' },
   openGraph: {
-    title: 'Revenue Engine Plan | AIandWEBservices',
+    title: 'Sales Funnel Design + CRM Setup for Small Business — Revenue Engine | AIandWEBservices',
     description: 'Full-stack revenue system: AI chatbot, email automation, SEO, and paid ads — managed monthly. Maximum ROI.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Revenue Engine Plan | AIandWEBservices',
+    title: 'Sales Funnel Design + CRM Setup for Small Business — Revenue Engine | AIandWEBservices',
     description: 'Full-stack revenue system: AI chatbot, email automation, SEO, and paid ads — managed monthly. Maximum ROI.',
   },
 };

@@ -6,9 +6,9 @@ export const presenceContent = {
 
   hero: {
     eyebrow: 'Presence',
-    headline: 'Get Found Online —',
+    headline: 'Small Business Website Design —',
     headlineAccent: 'The Foundation You Need',
-    subheadline: 'A professional website, optimised for local search, with a basic AI assistant that captures leads while you focus on the work.',
+    subheadline: 'Affordable small business website design + local SEO + Google Business Profile optimization, with a basic AI assistant that captures leads after hours. Built personally.',
     scrollCta: 'See pricing',
   },
 

@@ -1,16 +1,16 @@
 import { BreadcrumbSchema } from '@/components/Schema';
 
 export const metadata = {
-  title: 'A La Carte Services — Build Your Own Package | AIandWEBservices',
+  title: 'AI Consultant for Small Business — A La Carte Services | AIandWEBservices',
   description: 'Pick exactly what you need — website, AI chatbot, sales funnel, ads, voice AI, SEO, or automation. Custom quote, no lock-in, no subscription required.',
   alternates: { canonical: 'https://www.aiandwebservices.com/services/consulting' },
   openGraph: {
-    title: 'A La Carte Services — Build Your Own Package | AIandWEBservices',
+    title: 'AI Consultant for Small Business — A La Carte Services | AIandWEBservices',
     description: 'Pick exactly what you need — website, AI chatbot, sales funnel, ads, voice AI, SEO, or automation. Custom quote, no lock-in, no subscription required.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'A La Carte Services — Build Your Own Package | AIandWEBservices',
+    title: 'AI Consultant for Small Business — A La Carte Services | AIandWEBservices',
     description: 'Pick exactly what you need — website, AI chatbot, sales funnel, ads, voice AI, SEO, or automation. Custom quote, no lock-in, no subscription required.',
   },
 };

@@ -2,16 +2,16 @@ import { BreadcrumbSchema, ServicePageSchema } from '@/components/Schema';
 import { getTier } from '@/lib/pricing';
 
 export const metadata = {
-  title: 'Presence Plan | AIandWEBservices',
+  title: 'Small Business Website Design + Local SEO — Presence Plan | AIandWEBservices',
   description: 'Professional website, local SEO, and Google Business setup — built personally in 5 days. Your foundation for growth.',
   alternates: { canonical: 'https://www.aiandwebservices.com/services/presence' },
   openGraph: {
-    title: 'Presence Plan | AIandWEBservices',
+    title: 'Small Business Website Design + Local SEO — Presence Plan | AIandWEBservices',
     description: 'Professional website, local SEO, and Google Business setup — built personally in 5 days. Your foundation for growth.',
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Presence Plan | AIandWEBservices',
+    title: 'Small Business Website Design + Local SEO — Presence Plan | AIandWEBservices',
     description: 'Professional website, local SEO, and Google Business setup — built personally in 5 days. Your foundation for growth.',
   },
 };
