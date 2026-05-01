@@ -1,4 +1,6 @@
 import { espoFetch, getDealerConfig } from '../../_lib/espocrm.js';
+import { withErrorHandling } from '../../../../../lib/dealer-platform/utils/error-handler.js';
+import { rateLimit } from '../../../../../lib/dealer-platform/middleware/rate-limit.js';
 
 const VALID_STATUSES = new Set([
   'Available',
@@ -12,7 +14,9 @@ function bad(error, status = 400) {
   return Response.json({ ok: false, error }, { status });
 }
 
-export async function GET(req, { params }) {
+export const GET = withErrorHandling(async (req, { params }) => {
+  const limited = rateLimit(req, { limit: 60, window: 60 });
+  if (limited) return limited;
   const { dealerId } = await params;
   const dealerConfig = getDealerConfig(dealerId);
   if (!dealerConfig) return bad(`Unknown dealer: ${dealerId}`, 404);
@@ -47,4 +51,4 @@ export async function GET(req, { params }) {
 
   const list = Array.isArray(result.data?.list) ? result.data.list : [];
   return Response.json({ ok: true, vehicles: list });
-}
+});

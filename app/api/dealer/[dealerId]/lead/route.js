@@ -6,14 +6,17 @@ import {
   phoneNumberData,
 } from '../../_lib/espocrm.js';
 import { notifyDealer, nowDealerTimestamp } from '../../_lib/notify.js';
+import { sanitizeInput } from '../../../../../lib/dealer-platform/middleware/sanitize.js';
+import { withErrorHandling } from '../../../../../lib/dealer-platform/utils/error-handler.js';
+import { rateLimit } from '../../../../../lib/dealer-platform/middleware/rate-limit.js';
 
 const DEALER_NOTIFY = {
   lotcrm: {
-    dealerName: 'Primo Auto Group',
+    dealerName: 'LotCRM',
     dealerPhone: '(305) 555-0199',
-    dealerEmail: 'sales@primoautogroup.com',
+    dealerEmail: 'demo@lotpilot.ai',
     notifyPhone: '+13055550199',
-    notifyEmail: 'sales@primoautogroup.com',
+    notifyEmail: 'demo@lotpilot.ai',
   },
 };
 
@@ -36,14 +39,16 @@ function bad(error, status = 400) {
   return Response.json({ ok: false, error }, { status });
 }
 
-export async function POST(req, { params }) {
+export const POST = withErrorHandling(async (req, { params }) => {
+  const limited = rateLimit(req, { limit: 30, window: 60 });
+  if (limited) return limited;
   const { dealerId } = await params;
   const dealerConfig = getDealerConfig(dealerId);
   if (!dealerConfig) return bad(`Unknown dealer: ${dealerId}`, 404);
 
   let body;
   try {
-    body = await req.json();
+    body = sanitizeInput(await req.json());
   } catch {
     return bad('Invalid JSON body');
   }
@@ -150,4 +155,4 @@ export async function POST(req, { params }) {
   }
 
   return Response.json({ ok: true, leadId });
-}
+});

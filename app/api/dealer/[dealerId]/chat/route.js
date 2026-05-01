@@ -1,5 +1,8 @@
 import Anthropic from '@anthropic-ai/sdk';
 import { getDealerConfig } from '../../_lib/espocrm.js';
+import { sanitizeInput } from '../../../../../lib/dealer-platform/middleware/sanitize.js';
+import { withErrorHandling } from '../../../../../lib/dealer-platform/utils/error-handler.js';
+import { rateLimit } from '../../../../../lib/dealer-platform/middleware/rate-limit.js';
 import { getCachedInventory } from '../../../../../lib/dealer-platform/ai/inventory-cache.js';
 import { formatInventoryForAI } from '../../../../../lib/dealer-platform/ai/inventory-formatter.js';
 import { buildSalesAgentPrompt, PRIMO_DEALER_CONFIG } from '../../../../../lib/dealer-platform/ai/system-prompt.js';
@@ -28,7 +31,9 @@ function genericInventoryDownReply(name) {
   return `${greet}thanks for reaching out! Our team will get back to you shortly.`;
 }
 
-export async function POST(req, { params }) {
+export const POST = withErrorHandling(async (req, { params }) => {
+  const limited = rateLimit(req, { limit: 60, window: 60 });
+  if (limited) return limited;
   const { dealerId } = await params;
   const dealerConfig = DEALER_CONFIGS[dealerId];
   if (!dealerConfig) {
@@ -40,7 +45,7 @@ export async function POST(req, { params }) {
 
   let body;
   try {
-    body = await req.json();
+    body = sanitizeInput(await req.json());
   } catch {
     return Response.json({ ok: false, error: 'Invalid JSON body' }, { status: 400 });
   }
@@ -145,4 +150,4 @@ export async function POST(req, { params }) {
   }
 
   return Response.json({ ok: true, reply, leadCaptured });
-}
+});

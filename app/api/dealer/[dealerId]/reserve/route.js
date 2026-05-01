@@ -5,19 +5,23 @@ import {
   normalizePhone,
   nowEspoDateTime,
 } from '../../_lib/espocrm.js';
+import { sanitizeInput } from '../../../../../lib/dealer-platform/middleware/sanitize.js';
+import { rateLimit } from '../../../../../lib/dealer-platform/middleware/rate-limit.js';
 
 function bad(error, status = 400) {
   return Response.json({ ok: false, error }, { status });
 }
 
 export async function POST(req, { params }) {
+  const limited = rateLimit(req, { limit: 30, window: 60 });
+  if (limited) return limited;
   const { dealerId } = await params;
   const dealerConfig = getDealerConfig(dealerId);
   if (!dealerConfig) return bad(`Unknown dealer: ${dealerId}`, 404);
 
   let body;
   try {
-    body = await req.json();
+    body = sanitizeInput(await req.json());
   } catch {
     return bad('Invalid JSON body');
   }
