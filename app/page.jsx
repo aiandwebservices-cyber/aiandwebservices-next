@@ -1,2 +1,53 @@
-import { redirect } from 'next/navigation';
-export default function Home() { redirect('/features'); }
+'use client';
+import { Suspense } from 'react';
+import dynamic from 'next/dynamic';
+import Nav from '@/components/Nav';
+import Footer from '@/components/Footer';
+import { LocalBusinessSchema, HomepageFAQSchema, HomepageServiceSchema } from '@/components/Schema';
+import Hero from '@/components/panels/Hero';
+import HowItWorks from '@/components/panels/HowItWorks';
+import Comparison from '@/components/panels/Comparison';
+import Services from '@/components/panels/Services';
+import About from '@/components/panels/About';
+import Work from '@/components/panels/Work';
+import FAQ from '@/components/panels/FAQ';
+import Contact from '@/components/panels/Contact';
+import ChecklistForm from '@/components/ChecklistForm';
+import CookieBanner from '@/components/CookieBanner';
+import ScrollInit from '@/components/ScrollInit';
+import PanelsMode from '@/components/PanelsMode';
+
+const Modals = dynamic(() => import('@/components/Modals'), { ssr: false });
+
+export default function Home() {
+  return (
+    <>
+      <LocalBusinessSchema />
+      <HomepageFAQSchema />
+      <HomepageServiceSchema />
+      <a href="#main-content" className="skip-nav">Skip to main content</a>
+      <Nav />
+      <main id="main-content">
+        <div id="track">
+          <Hero />
+          <HowItWorks />
+          <Comparison />
+          <Work />
+          <Services />
+          <About />
+          <FAQ />
+          <section className="panel" id="checklist-teaser" aria-label="AI Readiness Assessment">
+            <Suspense fallback={null}><ChecklistForm redirectOnStart="/questionnaire" /></Suspense>
+          </section>
+          <Contact />
+        </div>
+      </main>
+      <Footer />
+      <div id="progress-bar"></div>
+      <Modals />
+      <CookieBanner />
+      <ScrollInit />
+      <PanelsMode />
+    </>
+  );
+}
