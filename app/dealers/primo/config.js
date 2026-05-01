@@ -2,12 +2,12 @@ import { defaultConfig } from '@/lib/dealer-platform/config/default-config';
 
 export const config = {
   ...defaultConfig,
-  dealerName: 'Primo Auto Group',
+  dealerName: 'LotCRM',
   dealerSlug: 'primo',
-  tagline:    "Miami's Premier Pre-Owned Dealership",
-  subtitle:   'Luxury for Less. No Games. No Hidden Fees.',
+  tagline:    'The CRM Built for Car Dealers',
+  subtitle:   'Close More Deals. Follow Up Faster. Powered by LotPilot.',
   phone:      '(305) 555-0199',
-  email:      'sales@primoautogroup.com',
+  email:      'demo@lotpilot.ai',
   address:    { street: '8420 NW 27th Ave', city: 'Miami', state: 'FL', zip: '33147' },
   hours: {
     monFri: '9:00 AM - 8:00 PM',
@@ -22,7 +22,7 @@ export const config = {
   },
   espocrm: {
     ...defaultConfig.espocrm,
-    url:    'http://localhost:8081',
+    url:    'https://lotcrm.lotpilot.ai',
     apiKey: '7190e14d23e6ca8d68a5d2b29c91e55e',
   },
   features: {

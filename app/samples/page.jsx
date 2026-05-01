@@ -6,13 +6,13 @@ const SAMPLES = [
   {
     id: 'example005',
     label: '05',
-    name: 'Primo Auto Group',
-    industry: 'Used Car Dealership',
-    tagline: 'Luxury for less. No games. No hidden fees.',
+    name: 'LotCRM',
+    industry: 'Dealer CRM Platform',
+    tagline: 'The CRM built for car dealers.',
     accent: '#D4AF37',
     bg: '#0a0a0a',
-    desc: 'Flashy dealership site with payment toggle, vehicle modal w/ live calculator, trade-in tool, and finance pre-approval.',
-    tags: ['Dealership', 'Finance', 'Inventory'],
+    desc: 'Full dealer CRM demo with inventory management, lead tracking, AI follow-up, and finance tools — powered by LotPilot.',
+    tags: ['CRM', 'Dealership', 'LotPilot'],
     href: '/samples/example005',
   },
   {
