@@ -567,6 +567,169 @@ export function MarketingTab({ inventory, setInventory, settings, setSettings, s
         </div>
       </Card>
 
+      {/* Listing Syndication */}
+      {(() => {
+        const synd = settings.syndication || {};
+        const platformDefaults = {
+          carscom:     { listings: 45, lastSynced: '2 hours ago', cost: '$299/mo', label: 'Cars.com',     color: '#0066A1' },
+          autotrader:  { listings: 45, lastSynced: '4 hours ago', cost: '$249/mo', label: 'AutoTrader',   color: '#E25319' },
+          cargurus:    { listings: 45, lastSynced: '1 hour ago',  cost: '$199/mo', label: 'CarGurus',     color: '#0E8A5F', extra: 'CarGurus IMV: Great Deal on 5 vehicles' },
+          facebook:    { listings: 40, lastSynced: '6 hours ago', cost: 'Free',    label: 'Facebook Marketplace', color: '#1877F2', extra: 'Export format: ready' },
+          craigslist:  { listings: 20, lastSynced: 'Manual',      cost: 'Free',    label: 'Craigslist',   color: '#5C2D91', extra: 'Manual post — formatted listing copied to clipboard' },
+        };
+        const setSynd = (key, patch) =>
+          setSettings((s) => ({
+            ...s,
+            syndication: { ...(s.syndication || {}), [key]: { ...(s.syndication?.[key] || {}), ...patch } },
+          }));
+        const setSyndRoot = (patch) =>
+          setSettings((s) => ({ ...s, syndication: { ...(s.syndication || {}), ...patch } }));
+        const platformOn = (key) => synd[key]?.autoSync === true;
+        const platformConnected = (key) => !!settings.integrations?.[key]?.connected || platformOn(key);
+
+        const stats = [
+          ['Cars.com',   45, 12400, 23, '$299/mo'],
+          ['AutoTrader', 45,  8900, 18, '$249/mo'],
+          ['CarGurus',   45, 15200, 31, '$199/mo'],
+          ['Facebook',   40,  4300,  8, 'Free'],
+          ['Craigslist', 20,  1800,  4, 'Free'],
+        ];
+        const totalViews = stats.reduce((a, r) => a + r[2], 0);
+        const totalLeads = stats.reduce((a, r) => a + r[3], 0);
+
+        return (
+          <>
+            <Card className="p-6">
+              <div className="flex items-center gap-2 mb-1">
+                <Globe className="w-4 h-4 text-stone-500" />
+                <h2 className="font-display text-xl font-medium">Listing Syndication</h2>
+              </div>
+              <p className="text-sm text-stone-500 mb-5">
+                Automatically publish your inventory to third-party marketplaces.
+              </p>
+
+              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-3 mb-5">
+                {Object.entries(platformDefaults).map(([key, def]) => {
+                  const connected = platformConnected(key);
+                  return (
+                    <div key={key} className="p-4 border border-stone-200 rounded-md flex flex-col gap-2">
+                      <div className="flex items-center justify-between gap-2">
+                        <div className="font-display font-semibold text-sm" style={{ color: def.color }}>
+                          {def.label}
+                        </div>
+                        <span className={`text-[10px] font-semibold inline-flex items-center gap-1 px-2 py-0.5 rounded-full ${
+                          connected ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'
+                        }`}>
+                          {connected ? `🟢 Active — ${def.listings} listings synced` : '🔴 Not connected — configure in Settings'}
+                        </span>
+                      </div>
+                      <Toggle
+                        checked={platformOn(key)}
+                        onChange={(v) => setSynd(key, { autoSync: v })}
+                        label="Auto-sync inventory"
+                      />
+                      {def.extra && (
+                        <div className="text-[11px] text-stone-500 italic">{def.extra}</div>
+                      )}
+                      <div className="flex items-center justify-between gap-2 mt-1">
+                        <div className="text-[10px] text-stone-400">Last synced: {def.lastSynced}</div>
+                        <Btn size="sm" variant="ghost" icon={RefreshCw}
+                          onClick={() => {
+                            setSynd(key, { lastSyncedAt: new Date(TODAY).toISOString() });
+                            flash(`Sync triggered: ${def.label}`);
+                          }}>
+                          Sync Now
+                        </Btn>
+                      </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              <div className="pt-4 border-t border-stone-100 grid sm:grid-cols-2 gap-4">
+                <Field label="Sync Schedule">
+                  <Select value={synd.schedule || 'daily-3am'}
+                    onChange={(e) => setSyndRoot({ schedule: e.target.value })}>
+                    <option value="hourly">Hourly</option>
+                    <option value="daily-3am">Daily at 3:00 AM</option>
+                    <option value="daily-6am">Daily at 6:00 AM</option>
+                    <option value="twice-daily">Twice daily (3 AM / 3 PM)</option>
+                    <option value="manual">Manual only</option>
+                  </Select>
+                </Field>
+                <Field label="Exclude vehicles under N days old"
+                  hint="Lets brand-new arrivals get website-only attention before going public.">
+                  <Input type="number" min={0} value={synd.minDaysOnLot ?? 0}
+                    onChange={(e) => setSyndRoot({ minDaysOnLot: Number(e.target.value) || 0 })} />
+                </Field>
+                <Toggle
+                  checked={synd.includePricing ?? true}
+                  onChange={(v) => setSyndRoot({ includePricing: v })}
+                  label="Include pricing"
+                  description="If off, listings show 'Call for price' on third-party sites." />
+                <Toggle
+                  checked={synd.includePhotos ?? true}
+                  onChange={(v) => setSyndRoot({ includePhotos: v })}
+                  label="Include photos"
+                  description="Most marketplaces require photos to rank well." />
+              </div>
+            </Card>
+
+            <Card className="p-6">
+              <div className="flex items-center gap-2 mb-1">
+                <BarChart3 className="w-4 h-4 text-stone-500" />
+                <h2 className="font-display text-xl font-medium">This Month&apos;s Reach</h2>
+              </div>
+              <p className="text-sm text-stone-500 mb-5">
+                Performance across every channel where your inventory appears.
+              </p>
+              <div className="overflow-x-auto rounded-md border border-stone-200">
+                <table className="text-sm w-full">
+                  <thead className="bg-stone-50">
+                    <tr className="text-[10px] smallcaps font-semibold text-stone-500">
+                      <th className="px-4 py-2 text-left">Platform</th>
+                      <th className="px-4 py-2 text-right">Listings</th>
+                      <th className="px-4 py-2 text-right">Views</th>
+                      <th className="px-4 py-2 text-right">Leads</th>
+                      <th className="px-4 py-2 text-right">Cost</th>
+                    </tr>
+                  </thead>
+                  <tbody className="divide-y divide-stone-100 tabular">
+                    {stats.map(([name, listings, views, leads, cost]) => (
+                      <tr key={name}>
+                        <td className="px-4 py-2 text-stone-700">{name}</td>
+                        <td className="px-4 py-2 text-right">{listings}</td>
+                        <td className="px-4 py-2 text-right">{views.toLocaleString()}</td>
+                        <td className="px-4 py-2 text-right">{leads}</td>
+                        <td className="px-4 py-2 text-right">{cost}</td>
+                      </tr>
+                    ))}
+                    <tr className="bg-stone-50 font-semibold">
+                      <td className="px-4 py-2">TOTAL</td>
+                      <td className="px-4 py-2 text-right">—</td>
+                      <td className="px-4 py-2 text-right">{totalViews.toLocaleString()}</td>
+                      <td className="px-4 py-2 text-right">{totalLeads}</td>
+                      <td className="px-4 py-2 text-right">$747/mo</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div className="mt-3 p-3 rounded-md flex items-center justify-between gap-3"
+                style={{ backgroundColor: '#FFFCF2', border: `1px solid ${GOLD}33` }}>
+                <div className="text-sm">
+                  <span className="font-semibold" style={{ color: '#7A5A0F' }}>Your website (AutoRival):</span>
+                  <span className="ml-2 tabular">6,200 views, 12 leads — Free</span>
+                </div>
+                <span className="text-[11px] smallcaps font-semibold" style={{ color: GOLD }}>Owned channel</span>
+              </div>
+              <div className="mt-2 text-[11px] text-stone-500 italic">
+                AutoRival.ai manages your listings across all platforms from one dashboard.
+              </div>
+            </Card>
+          </>
+        );
+      })()}
+
       {/* Social Media */}
       <Card className="p-6">
         <div className="flex items-center gap-2 mb-1">

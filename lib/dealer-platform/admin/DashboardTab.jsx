@@ -33,6 +33,28 @@ import { SEED_APPT_HISTORY } from '@/lib/dealer-platform/data/seed-appointments'
 import { ActivityLog } from './ActivityLog';
 import { BreadcrumbBar } from './BreadcrumbBar';
 
+const RECON_STAGES = [
+  { key: 'acquired',    label: 'Acquired',    accent: '#9CA3AF' },
+  { key: 'in_recon',    label: 'In Recon',    accent: '#D97706' },
+  { key: 'photo_ready', label: 'Photo Ready', accent: '#3B82F6' },
+  { key: 'lot_ready',   label: 'Lot Ready',   accent: '#10B981' },
+  { key: 'listed',      label: 'Listed',      accent: GOLD },
+];
+
+function inferReconStage(v) {
+  if (v.reconStage && RECON_STAGES.some((s) => s.key === v.reconStage)) return v.reconStage;
+  if (v.status === 'Pending') return 'acquired';
+  return 'listed';
+}
+
+function isThisMonth(iso) {
+  if (!iso) return false;
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return false;
+  const n = new Date();
+  return d.getUTCFullYear() === n.getUTCFullYear() && d.getUTCMonth() === n.getUTCMonth();
+}
+
 export function DashboardTab({ inventory, leads, sold, settings, setSettings, updateVehicle,
   reservations, onConfirmReservation, onExtendReservation, onReleaseReservation,
   reservationCount,
@@ -101,6 +123,39 @@ export function DashboardTab({ inventory, leads, sold, settings, setSettings, up
     rule45: inventory.filter(v => v.daysOnLot >= 45 && v.daysOnLot < 60).length,
     rule60: inventory.filter(v => v.daysOnLot >= 60).length
   };
+
+  // Reconditioning pipeline metrics
+  const reconPipeline = useMemo(() => {
+    const counts = Object.fromEntries(RECON_STAGES.map((s) => [s.key, 0]));
+    inventory.forEach((v) => {
+      const stage = inferReconStage(v);
+      if (counts[stage] != null) counts[stage] += 1;
+    });
+    const completed = inventory.filter((v) => v.reconStartDate && v.reconCompletedDate);
+    const avgDays = completed.length > 0
+      ? completed.reduce((s, v) => {
+          const d = (new Date(v.reconCompletedDate).getTime() - new Date(v.reconStartDate).getTime()) / 86400000;
+          return s + (Number.isFinite(d) && d >= 0 ? d : 0);
+        }, 0) / completed.length
+      : 0;
+    const monthSpend = inventory
+      .filter((v) => isThisMonth(v.reconCompletedDate || v.reconStartDate))
+      .reduce((s, v) => s + (Number(v.reconCost) || 0), 0);
+    return { counts, avgDays, monthSpend };
+  }, [inventory]);
+
+  // Acquisition mix (this month)
+  const acquisitionMix = useMemo(() => {
+    const map = new Map();
+    inventory.forEach((v) => {
+      if (!v.acquisitionSource) return;
+      if (!isThisMonth(v.acquisitionDate || v.dateAdded)) return;
+      map.set(v.acquisitionSource, (map.get(v.acquisitionSource) || 0) + 1);
+    });
+    const entries = Array.from(map.entries()).sort((a, b) => b[1] - a[1]);
+    const total = entries.reduce((s, [, n]) => s + n, 0);
+    return { entries, total };
+  }, [inventory]);
 
   return (
     <div className="p-6 lg:p-8 max-w-[1600px] mx-auto">
@@ -174,7 +229,75 @@ export function DashboardTab({ inventory, leads, sold, settings, setSettings, up
             ) : <div className="text-[11px] text-stone-500">Descriptions up to date</div>}
           </div>
         </div>
+        {/* Acquisition Mix — this month */}
+        <div className="px-5 py-3 border-t border-white/10 flex items-center gap-3 flex-wrap">
+          <span className="text-[10px] smallcaps font-bold" style={{ color: GOLD }}>Acquisition Mix · this month</span>
+          {acquisitionMix.total === 0 ? (
+            <span className="text-[11px] text-stone-500">No acquisition data this month</span>
+          ) : (
+            <>
+              <div className="flex items-center gap-3 flex-1 flex-wrap">
+                {acquisitionMix.entries.map(([source, count], i) => {
+                  const palette = ['#F59E0B', '#3B82F6', '#10B981', '#A855F7', '#F43F5E', '#0EA5E9'];
+                  const color = palette[i % palette.length];
+                  return (
+                    <div key={source} className="flex items-center gap-1.5">
+                      <span className="w-2 h-2 rounded-full" style={{ backgroundColor: color }} />
+                      <span className="text-[11px] text-stone-200 tabular">{count} from {source}</span>
+                    </div>
+                  );
+                })}
+              </div>
+              <div className="flex items-center h-2 rounded-full overflow-hidden bg-white/10" style={{ width: 160 }}>
+                {acquisitionMix.entries.map(([source, count], i) => {
+                  const palette = ['#F59E0B', '#3B82F6', '#10B981', '#A855F7', '#F43F5E', '#0EA5E9'];
+                  const pct = (count / acquisitionMix.total) * 100;
+                  return <div key={source} style={{ width: `${pct}%`, backgroundColor: palette[i % palette.length] }} />;
+                })}
+              </div>
+            </>
+          )}
+        </div>
       </div>
+
+      {/* RECONDITIONING PIPELINE SUMMARY */}
+      <Card className="p-5 mb-6 cursor-pointer hover:bg-stone-50/50 transition"
+        onClick={() => onJump && onJump('inventory')}>
+        <div className="flex items-center justify-between mb-3 flex-wrap gap-2">
+          <div className="flex items-center gap-2">
+            <Wrench className="w-4 h-4 text-stone-500" />
+            <h3 className="font-display text-lg font-semibold tracking-tight">Reconditioning Pipeline</h3>
+            <span className="text-[10px] smallcaps text-stone-500">Click to open Pipeline view</span>
+          </div>
+          <div className="flex items-center gap-4 text-[12px]">
+            <div className="text-stone-500">
+              Avg recon time: <span className="font-bold text-stone-900 tabular">
+                {reconPipeline.avgDays > 0 ? `${reconPipeline.avgDays.toFixed(1)} days` : '—'}
+              </span>
+            </div>
+            <div className="text-stone-500">
+              This month spend: <span className="font-bold text-stone-900 tabular">{fmtMoney(reconPipeline.monthSpend)}</span>
+            </div>
+          </div>
+        </div>
+        <div className="flex items-stretch gap-2 overflow-x-auto">
+          {RECON_STAGES.map((stage, i) => {
+            const count = reconPipeline.counts[stage.key] || 0;
+            return (
+              <React.Fragment key={stage.key}>
+                <div className="flex-1 min-w-[120px] rounded-md border border-stone-200 px-3 py-2.5 flex flex-col items-start"
+                  style={{ borderTop: `3px solid ${stage.accent}` }}>
+                  <span className="text-[10px] smallcaps font-bold text-stone-600">{stage.label}</span>
+                  <span className="font-display text-2xl font-semibold tabular leading-none mt-1">{count}</span>
+                </div>
+                {i < RECON_STAGES.length - 1 && (
+                  <div className="flex items-center text-stone-300" aria-hidden>→</div>
+                )}
+              </React.Fragment>
+            );
+          })}
+        </div>
+      </Card>
 
       {/* Summary cards */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4 p-5 mb-6">

@@ -104,6 +104,31 @@ function SearchableSelect({ value, onChange, items, popular = [], loading, place
   );
 }
 
+const RECON_STAGES = [
+  { key: 'acquired',    label: 'Acquired' },
+  { key: 'in_recon',    label: 'In Recon' },
+  { key: 'photo_ready', label: 'Photo Ready' },
+  { key: 'lot_ready',   label: 'Lot Ready' },
+  { key: 'listed',      label: 'Listed' },
+];
+
+const ACQUISITION_SOURCES = ['Auction', 'Trade-In', 'Private Purchase', 'Consignment', 'Dealer Transfer', 'Repo'];
+
+const COMMON_AUCTIONS = ['Manheim', 'ADESA', 'Copart', 'IAA', 'OVE', 'SmartAuction', 'ACV Auctions'];
+
+const INSPECTION_ITEMS = [
+  { key: 'engine',       label: 'Engine' },
+  { key: 'transmission', label: 'Transmission' },
+  { key: 'brakes',       label: 'Brakes' },
+  { key: 'tires',        label: 'Tires' },
+  { key: 'ac',           label: 'A/C & Heat' },
+  { key: 'electrical',   label: 'Electrical' },
+  { key: 'body',         label: 'Body' },
+  { key: 'interior',     label: 'Interior' },
+  { key: 'frame',        label: 'Frame' },
+  { key: 'roadTest',     label: 'Road Test' },
+];
+
 const BLANK_VEHICLE = {
   year: new Date(TODAY).getFullYear(), make: 'Toyota', model: '', trim: '', bodyStyle: 'Sedan',
   cost: '', listPrice: '', salePrice: '', mileage: '',
@@ -114,7 +139,14 @@ const BLANK_VEHICLE = {
   history: { noAccidents: false, oneOwner: false, cleanTitle: true, serviceRecords: false, inspection: false, carfax: false, warranty: false, noOpenRecalls: true },
   description: '', photos: [],
   daysOnLot: 0, views: 0, dateAdded: new Date(TODAY).toISOString(),
-  hasOpenRecalls: false, espoId: null
+  hasOpenRecalls: false, espoId: null,
+  // Acquisition
+  acquisitionSource: '', auctionName: '', acquisitionDate: '', acquiredFrom: '',
+  // Reconditioning
+  reconStage: 'listed', reconStartDate: '', reconCompletedDate: '',
+  reconCost: 0, reconItems: [], reconNotes: '',
+  // Inspection
+  inspection: null, inspectionDate: '', inspectionPassed: false,
 };
 
 export function VehicleFormTab({ vehicle, onSave, onCancel, flash }) {
@@ -241,6 +273,85 @@ export function VehicleFormTab({ vehicle, onSave, onCancel, flash }) {
     if (autoFilled.has(k)) setAutoFilled(s => { const n = new Set(s); n.delete(k); return n; });
   };
   const setHist = (k, v) => setForm(f => ({ ...f, history: { ...f.history, [k]: v } }));
+
+  // Auto-set recon dates when stage advances
+  const setReconStage = (stageKey) => {
+    setForm((f) => {
+      const next = { ...f, reconStage: stageKey };
+      if (stageKey === 'in_recon' && !f.reconStartDate) next.reconStartDate = new Date().toISOString().slice(0, 10);
+      if (stageKey === 'photo_ready' && !f.reconCompletedDate) next.reconCompletedDate = new Date().toISOString().slice(0, 10);
+      return next;
+    });
+  };
+
+  // Recon line items
+  const reconTotal = useMemo(() => {
+    const items = Array.isArray(form.reconItems) ? form.reconItems : [];
+    const sum = items.reduce((s, it) => s + (parseFloat(it.amount) || 0), 0);
+    return sum;
+  }, [form.reconItems]);
+
+  useEffect(() => {
+    setForm((f) => f.reconCost === reconTotal ? f : { ...f, reconCost: reconTotal });
+  }, [reconTotal]);
+
+  const addReconItem = (preset) => {
+    setForm((f) => ({
+      ...f,
+      reconItems: [...(f.reconItems || []), preset || { description: '', amount: '' }],
+    }));
+  };
+  const updateReconItem = (idx, patch) => {
+    setForm((f) => {
+      const items = [...(f.reconItems || [])];
+      items[idx] = { ...items[idx], ...patch };
+      return { ...f, reconItems: items };
+    });
+  };
+  const removeReconItem = (idx) => {
+    setForm((f) => ({ ...f, reconItems: (f.reconItems || []).filter((_, i) => i !== idx) }));
+  };
+
+  // Inspection
+  const inspectionResult = form.inspection || {};
+  const inspectionStats = useMemo(() => {
+    let passed = 0, failed = 0, untouched = 0;
+    INSPECTION_ITEMS.forEach((it) => {
+      const v = inspectionResult[it.key];
+      if (v === 'pass') passed += 1;
+      else if (v === 'fail') failed += 1;
+      else untouched += 1;
+    });
+    return { passed, failed, untouched, total: INSPECTION_ITEMS.length };
+  }, [form.inspection]); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const setInspectionItem = (key, value) => {
+    setForm((f) => {
+      const next = { ...(f.inspection || {}), [key]: value };
+      const allTouched = INSPECTION_ITEMS.every((it) => next[it.key]);
+      const allPass = allTouched && INSPECTION_ITEMS.every((it) => next[it.key] === 'pass');
+      return {
+        ...f,
+        inspection: next,
+        inspectionPassed: allPass,
+        inspectionDate: f.inspectionDate || new Date().toISOString().slice(0, 10),
+        history: { ...(f.history || {}), inspection: allPass },
+      };
+    });
+  };
+
+  const runFullInspection = () => {
+    const next = {};
+    INSPECTION_ITEMS.forEach((it) => { next[it.key] = 'pass'; });
+    setForm((f) => ({
+      ...f,
+      inspection: next,
+      inspectionPassed: true,
+      inspectionDate: new Date().toISOString().slice(0, 10),
+      history: { ...(f.history || {}), inspection: true },
+    }));
+    flash && flash('Full inspection marked as passed', 'success');
+  };
 
   const filledClass = (k) => autoFilled.has(k) ? 'border-blue-400 bg-blue-50/40' : '';
 
@@ -585,6 +696,187 @@ export function VehicleFormTab({ vehicle, onSave, onCancel, flash }) {
               </div>
             </Field>
           </div>
+        </Card>
+
+        {/* ACQUISITION */}
+        <Card className="p-5">
+          <div className="flex items-center gap-2 mb-4">
+            <Tag className="w-4 h-4 text-stone-500" />
+            <h3 className="font-display text-lg font-semibold">Acquisition Details</h3>
+            <span className="text-[10px] smallcaps text-stone-500 ml-1">— track where your best inventory comes from</span>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <Field label="Acquisition Source">
+              <Select value={form.acquisitionSource || ''} onChange={(e) => set('acquisitionSource', e.target.value)}>
+                <option value="">— Select —</option>
+                {ACQUISITION_SOURCES.map((s) => <option key={s} value={s}>{s}</option>)}
+              </Select>
+            </Field>
+            {form.acquisitionSource === 'Auction' && (
+              <Field label="Auction Name" hint="e.g., Manheim, ADESA, Copart">
+                <Input list="auction-names" value={form.auctionName || ''}
+                  onChange={(e) => set('auctionName', e.target.value)} placeholder="Manheim" />
+                <datalist id="auction-names">
+                  {COMMON_AUCTIONS.map((a) => <option key={a} value={a} />)}
+                </datalist>
+              </Field>
+            )}
+            <Field label="Acquisition Date">
+              <Input type="date" value={form.acquisitionDate || ''} onChange={(e) => set('acquisitionDate', e.target.value)} />
+            </Field>
+            <Field label="Acquisition Cost" hint="Maps to cost basis above">
+              <div className="relative">
+                <span className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 text-sm">$</span>
+                <Input type="number" value={form.cost} onChange={(e) => set('cost', e.target.value)} className="pl-7" />
+              </div>
+            </Field>
+            <Field label="Acquired From" hint="Seller / consignor name">
+              <Input value={form.acquiredFrom || ''} onChange={(e) => set('acquiredFrom', e.target.value)}
+                placeholder="e.g., John's Auto, Trade-in #4521" />
+            </Field>
+          </div>
+        </Card>
+
+        {/* RECONDITIONING */}
+        <Card className="p-5">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <Wrench className="w-4 h-4 text-stone-500" />
+              <h3 className="font-display text-lg font-semibold">Reconditioning</h3>
+            </div>
+            {(() => {
+              const sale = parseFloat(form.salePrice) || parseFloat(form.listPrice) || 0;
+              const cost = parseFloat(form.cost) || 0;
+              const recon = parseFloat(form.reconCost) || 0;
+              if (!sale || !cost) return null;
+              const trueGross = sale - cost - recon;
+              return (
+                <div className="flex items-center gap-2 px-3 py-1.5 rounded-md bg-stone-50 border border-stone-200">
+                  <span className="text-[10px] smallcaps text-stone-500">True Gross</span>
+                  <span className="font-display tabular text-sm font-semibold" style={{ color: trueGross > 0 ? '#2F7A4A' : '#A12B2B' }}>
+                    {fmtMoney(trueGross)}
+                  </span>
+                  <span className="text-xs text-stone-500 tabular">(after {fmtMoney(recon)} recon)</span>
+                </div>
+              );
+            })()}
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-4">
+            <Field label="Recon Stage">
+              <Select value={form.reconStage || 'listed'} onChange={(e) => setReconStage(e.target.value)}>
+                {RECON_STAGES.map((s) => <option key={s.key} value={s.key}>{s.label}</option>)}
+              </Select>
+            </Field>
+            <Field label="Recon Start Date" hint="Auto-set when stage → In Recon">
+              <Input type="date" value={form.reconStartDate ? String(form.reconStartDate).slice(0, 10) : ''}
+                onChange={(e) => set('reconStartDate', e.target.value)} />
+            </Field>
+            <Field label="Recon Completed Date" hint="Auto-set when stage → Photo Ready">
+              <Input type="date" value={form.reconCompletedDate ? String(form.reconCompletedDate).slice(0, 10) : ''}
+                onChange={(e) => set('reconCompletedDate', e.target.value)} />
+            </Field>
+          </div>
+
+          <div className="rounded-md border border-stone-200 overflow-hidden mb-4">
+            <div className="px-4 py-2.5 bg-stone-50 border-b border-stone-200 flex items-center justify-between">
+              <span className="text-[10px] smallcaps font-bold text-stone-700">Recon Cost — Line Items</span>
+              <span className="text-[11px] tabular text-stone-600">
+                Total: <span className="font-bold text-stone-900">{fmtMoney(reconTotal)}</span>
+              </span>
+            </div>
+            <div className="divide-y divide-stone-100">
+              {(form.reconItems || []).length === 0 ? (
+                <div className="px-4 py-3 text-[12px] text-stone-400 italic">No line items yet — add details below or use a preset.</div>
+              ) : (form.reconItems || []).map((item, idx) => (
+                <div key={idx} className="flex items-center gap-2 px-3 py-2">
+                  <Input value={item.description || ''} placeholder="Description (e.g., Detail & Clean)"
+                    onChange={(e) => updateReconItem(idx, { description: e.target.value })}
+                    className="flex-1 text-xs" />
+                  <div className="relative w-32">
+                    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 text-xs">$</span>
+                    <Input type="number" value={item.amount} placeholder="0"
+                      onChange={(e) => updateReconItem(idx, { amount: e.target.value })}
+                      className="pl-6 text-xs tabular" />
+                  </div>
+                  <button type="button" onClick={() => removeReconItem(idx)}
+                    className="p-1.5 rounded text-stone-400 hover:text-red-700 hover:bg-red-50" title="Remove">
+                    <X className="w-3.5 h-3.5" />
+                  </button>
+                </div>
+              ))}
+            </div>
+            <div className="px-3 py-2 bg-stone-50/50 border-t border-stone-100 flex items-center gap-2 flex-wrap">
+              <Btn size="sm" variant="default" icon={Plus} onClick={() => addReconItem()}>Add Recon Item</Btn>
+              <span className="text-[10px] smallcaps text-stone-500">Presets:</span>
+              {[
+                { description: 'Detail & Clean', amount: 350 },
+                { description: 'Oil Change', amount: 89 },
+                { description: 'New Tires (4)', amount: 480 },
+                { description: 'Touch Up Paint', amount: 150 },
+              ].map((p) => (
+                <button key={p.description} type="button" onClick={() => addReconItem(p)}
+                  className="text-[10px] px-2 py-1 rounded border border-stone-200 hover:bg-amber-50 hover:border-amber-300">
+                  + {p.description} ({fmtMoney(p.amount)})
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <Field label="Recon Notes">
+            <Textarea rows={2} value={form.reconNotes || ''} onChange={(e) => set('reconNotes', e.target.value)}
+              placeholder="e.g., Replaced timing belt, refinished wheels, swapped headlight bulb" />
+          </Field>
+        </Card>
+
+        {/* INSPECTION */}
+        <Card className="p-5">
+          <div className="flex items-center justify-between mb-4">
+            <div className="flex items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-stone-500" />
+              <h3 className="font-display text-lg font-semibold">Inspection</h3>
+              <span className="text-[10px] smallcaps text-stone-500 ml-1">— 10 key items</span>
+            </div>
+            <div className="flex items-center gap-2">
+              {form.inspectionDate && (
+                <span className="text-[11px] text-stone-500">
+                  {form.inspectionPassed ? '✅' : '⚠️'} {inspectionStats.passed}/{inspectionStats.total} passed — inspected {fmtDate(form.inspectionDate)}
+                </span>
+              )}
+              {!form.inspectionDate && (
+                <span className="text-[11px] text-stone-500 italic">No inspection on file</span>
+              )}
+              <Btn size="sm" variant="outlineGold" icon={ShieldCheck} onClick={runFullInspection}>
+                Run 150-Point Inspection
+              </Btn>
+            </div>
+          </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2">
+            {INSPECTION_ITEMS.map((item) => {
+              const v = inspectionResult[item.key];
+              return (
+                <div key={item.key} className="flex items-center justify-between gap-2 px-3 py-2 rounded-md border border-stone-200">
+                  <span className="text-sm">{item.label}</span>
+                  <div className="flex items-center gap-1">
+                    <button type="button" onClick={() => setInspectionItem(item.key, 'pass')}
+                      className={`px-2 py-1 rounded text-[10px] smallcaps font-bold ${v === 'pass' ? 'bg-emerald-600 text-white' : 'bg-stone-100 text-stone-500 hover:bg-emerald-50 hover:text-emerald-700'}`}>
+                      Pass
+                    </button>
+                    <button type="button" onClick={() => setInspectionItem(item.key, 'fail')}
+                      className={`px-2 py-1 rounded text-[10px] smallcaps font-bold ${v === 'fail' ? 'bg-red-600 text-white' : 'bg-stone-100 text-stone-500 hover:bg-red-50 hover:text-red-700'}`}>
+                      Fail
+                    </button>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          {inspectionStats.passed + inspectionStats.failed > 0 && (
+            <div className="mt-3 flex items-center gap-2 text-[11px] text-stone-500">
+              <Check className="w-3.5 h-3.5 text-emerald-600" /> {inspectionStats.passed} passed
+              <X className="w-3.5 h-3.5 text-red-600 ml-2" /> {inspectionStats.failed} failed
+              {inspectionStats.untouched > 0 && <span className="text-stone-400 ml-2">· {inspectionStats.untouched} untouched</span>}
+            </div>
+          )}
         </Card>
 
         {/* SPECS */}

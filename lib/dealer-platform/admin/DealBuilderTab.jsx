@@ -33,6 +33,506 @@ import { SEED_APPT_HISTORY } from '@/lib/dealer-platform/data/seed-appointments'
 import { ActivityLog } from './ActivityLog';
 import { BreadcrumbBar } from './BreadcrumbBar';
 
+/* ─── Advanced Desking constants ─────────────────────────────────── */
+const PACK = 500;
+const FNI_DEALER_COST_RATIO = 0.38;
+
+const LENDERS = [
+  { name: 'Capital One',    color: '#003087', result: { approved: true,  tier: 'Tier 1', apr: 4.9, max: 45000 } },
+  { name: 'Ally Financial', color: '#8B1A1A', result: { approved: true,  tier: 'Tier 2', apr: 6.9, max: 38000 } },
+  { name: 'Chase Auto',     color: '#117ACA', result: { approved: false } },
+  { name: 'Wells Fargo',    color: '#D71E28', result: { approved: true,  tier: 'Tier 2', apr: 5.9, max: 42000 } },
+  { name: 'Local CU',       color: '#2D6A4F', result: { approved: true,  tier: 'Tier 1', apr: 4.5, max: 50000 } },
+];
+
+const SCENARIO_COLORS = ['#10B981', '#C8970F', '#3B82F6'];
+
+function initScenarios(deal) {
+  const listPrice  = deal.listPrice  || 0;
+  const tradeValue = deal.trade?.value || 0;
+  const tradeACV   = Math.round(tradeValue * 0.91);
+  const apr        = deal.apr || 6.9;
+  return [
+    { label: 'Conservative', salePrice: listPrice,                     tradeAllowance: Math.round(tradeValue * 0.94), tradeACV, apr,                        term: 60 },
+    { label: 'Competitive',  salePrice: Math.round(listPrice * 0.964), tradeAllowance: tradeValue,                   tradeACV, apr,                        term: 72 },
+    { label: 'Aggressive',   salePrice: Math.round(listPrice * 0.929), tradeAllowance: Math.round(tradeValue * 1.06),tradeACV, apr: Math.max(1, apr - 1),  term: 72 },
+  ];
+}
+
+function computeScenario(s, deal) {
+  const fees    = (deal.fees?.docFee || 0) + (deal.fees?.tagTitle || 0) + (deal.fees?.dealerPrep || 0);
+  const fniRev  = FNI_PRODUCT_CATALOG.reduce((sum, p) => sum + (deal.fniProducts?.[p.key] ? p.price : 0), 0);
+  const down    = deal.downPayment || 0;
+  const vCost   = deal.cost || 0;
+  const amountFinanced = Math.max(0, s.salePrice + fees + fniRev - down - s.tradeAllowance);
+  const monthly        = calcPayment(amountFinanced, s.apr, s.term);
+  const frontGross     = s.salePrice - vCost;
+  const backGross      = fniRev;
+  const totalGross     = frontGross + backGross;
+  const tradeOver      = Math.max(0, s.tradeAllowance - s.tradeACV);
+  const netProfit      = totalGross - PACK - tradeOver;
+  const commission     = Math.max(0, netProfit * 0.25);
+  return { ...s, fees, fniRev, down, amountFinanced, monthly, frontGross, backGross, totalGross, tradeOver, netProfit, commission };
+}
+
+/* ─── DealCard — manages its own scenario / lender state ─────────── */
+function DealCard({ deal, updateDeal, onMarkSold, openCredit, isOpen, onToggle, flash }) {
+  const [scenarios, setScenarios] = useState(() => initScenarios(deal));
+  const [targetGross, setTargetGross]       = useState('');
+  const [lenderApprovals, setLenderApprovals] = useState(null);
+  const [lenderLoading, setLenderLoading]   = useState(false);
+
+  const computed = scenarios.map(s => computeScenario(s, deal));
+  const maxGrossIdx    = computed.reduce((b, c, i) => c.totalGross > computed[b].totalGross ? i : b, 0);
+  const minPaymentIdx  = computed.reduce((b, c, i) => c.monthly   < computed[b].monthly   ? i : b, 0);
+  const winnerIdx      = computed.reduce((b, c, i) => c.netProfit > computed[b].netProfit ? i : b, 0);
+
+  const fees    = (deal.fees?.docFee || 0) + (deal.fees?.tagTitle || 0) + (deal.fees?.dealerPrep || 0);
+  const fniRev  = FNI_PRODUCT_CATALOG.reduce((s, p) => s + (deal.fniProducts?.[p.key] ? p.price : 0), 0);
+  const financed = Math.max(0, dealFinanced(deal) + fniRev);
+  const monthly  = calcPayment(financed, deal.apr, deal.termMonths);
+  const totalCost = (deal.salePrice || 0) + fees + fniRev;
+
+  // Name Your Gross — reverse-calc against Competitive (B) scenario
+  const tgNum = parseFloat(targetGross) || 0;
+  let ngSalePrice = null, ngMonthly = null;
+  if (tgNum > 0) {
+    const sc = computed[1];
+    ngSalePrice = Math.round(tgNum + (deal.cost || 0) - sc.fniRev + PACK + sc.tradeOver);
+    const ngFinanced = Math.max(0, ngSalePrice + sc.fees + sc.fniRev - sc.down - sc.tradeAllowance);
+    ngMonthly = calcPayment(ngFinanced, sc.apr, sc.term);
+  }
+
+  const runLenderSubmission = () => {
+    setLenderLoading(true);
+    setTimeout(() => { setLenderApprovals(LENDERS); setLenderLoading(false); }, 1800);
+  };
+
+  const updateScenario = (i, field, value) =>
+    setScenarios(prev => prev.map((s, idx) => idx === i ? { ...s, [field]: Number(value) } : s));
+
+  return (
+    <Card className="overflow-hidden">
+      {/* ── Card header row ── */}
+      <button onClick={onToggle}
+        className="w-full p-5 flex items-center gap-4 hover:bg-stone-50 transition text-left">
+        <div className="w-10 h-10 rounded-md flex items-center justify-center" style={{ backgroundColor: GOLD_SOFT }}>
+          <Calculator className="w-4 h-4" style={{ color: '#7A5A0F' }} />
+        </div>
+        <div className="flex-1 min-w-0 grid grid-cols-1 md:grid-cols-4 gap-4 items-center">
+          <div>
+            <div className="font-display font-medium text-base leading-tight">{deal.customerName}</div>
+            <div className="text-[11px] text-stone-500 tabular mt-0.5">{deal.phone}</div>
+          </div>
+          <div>
+            <div className="text-[10px] smallcaps text-stone-400">Vehicle</div>
+            <div className="text-sm font-medium truncate">{deal.vehicleLabel}</div>
+          </div>
+          <div>
+            <div className="text-[10px] smallcaps text-stone-400">Monthly Payment</div>
+            <div className="font-display tabular text-lg font-semibold" style={{ color: GOLD }}>
+              {fmtMoney(monthly, 0)}<span className="text-xs text-stone-400 font-normal">/mo</span>
+            </div>
+          </div>
+          <div className="flex items-center justify-end gap-3">
+            <StatusBadge status={deal.status} />
+            <ChevronDown className={`w-4 h-4 text-stone-400 transition ${isOpen ? 'rotate-180' : ''}`} />
+          </div>
+        </div>
+      </button>
+
+      {isOpen && (
+        <div className="border-t border-stone-200 bg-stone-50 anim-slide">
+
+          {/* ── PROFIT MATRIX ─────────────────────────────── */}
+          <div className="p-6 border-b border-stone-200 bg-white">
+            <div className="flex flex-wrap items-start justify-between gap-4 mb-4">
+              <div>
+                <div className="text-[10px] smallcaps font-semibold text-stone-400 mb-0.5">Advanced Desking</div>
+                <h3 className="font-display text-lg font-semibold">Profit Matrix — 3 Scenarios</h3>
+              </div>
+              {/* Name Your Gross inline */}
+              <div className="flex flex-wrap items-center gap-2 bg-stone-50 border border-stone-200 rounded-md px-3 py-2">
+                <DollarSign className="w-4 h-4 text-stone-400 shrink-0" />
+                <span className="text-[10px] smallcaps text-stone-500 whitespace-nowrap">Target Gross</span>
+                <input type="number" placeholder="4000" value={targetGross}
+                  onChange={e => setTargetGross(e.target.value)}
+                  className="w-24 text-right tabular px-2 py-1 border border-stone-200 rounded text-sm ring-gold" />
+                {ngSalePrice !== null && (
+                  <div className="text-[11px] font-medium whitespace-nowrap" style={{ color: GOLD }}>
+                    → sell at {fmtMoney(ngSalePrice)} · {fmtMoney(ngMonthly, 0)}/mo
+                  </div>
+                )}
+              </div>
+            </div>
+
+            <div className="grid grid-cols-3 gap-3">
+              {computed.map((s, i) => {
+                const isHighGross   = i === maxGrossIdx;
+                const isLowPayment  = i === minPaymentIdx;
+                const isWinner      = i === winnerIdx;
+                const col = SCENARIO_COLORS[i];
+                return (
+                  <div key={s.label} className="border rounded-md overflow-hidden text-sm"
+                    style={{ borderColor: isWinner ? col : '#e7e5e4', borderWidth: isWinner ? 2 : 1 }}>
+                    {/* header */}
+                    <div className="px-3 py-2 flex items-center justify-between gap-1 flex-wrap"
+                      style={{ backgroundColor: col + '18', borderBottom: `2px solid ${col}` }}>
+                      <span className="font-display font-semibold text-sm">{s.label}</span>
+                      <div className="flex gap-1 flex-wrap">
+                        {isHighGross  && <span className="text-[8px] font-bold px-1.5 py-0.5 rounded-full text-white bg-emerald-500">HIGH GROSS</span>}
+                        {isLowPayment && <span className="text-[8px] font-bold px-1.5 py-0.5 rounded-full text-white bg-blue-500">LOW PMT</span>}
+                        {isWinner     && <span className="text-[8px] font-bold px-1.5 py-0.5 rounded-full text-white" style={{ backgroundColor: col }}>★ WINNER</span>}
+                      </div>
+                    </div>
+                    {/* editable inputs */}
+                    <div className="p-3 space-y-2">
+                      {[
+                        ['Sale Price',    'salePrice',      s.salePrice],
+                        ['Trade Allow.',  'tradeAllowance', s.tradeAllowance],
+                        ['Trade ACV',     'tradeACV',       s.tradeACV],
+                        ['APR %',         'apr',            s.apr],
+                        ['Term (mo)',     'term',           s.term],
+                      ].map(([label, field, val]) => (
+                        <div key={field} className="flex items-center justify-between gap-1">
+                          <span className="text-[10px] text-stone-500 shrink-0">{label}</span>
+                          <input type="number" value={val}
+                            onChange={e => updateScenario(i, field, e.target.value)}
+                            className="w-24 text-right tabular text-xs px-1.5 py-0.5 border border-stone-200 rounded ring-gold" />
+                        </div>
+                      ))}
+                    </div>
+                    {/* computed financed + payment */}
+                    <div className="bg-stone-50 border-t border-stone-100 p-3 space-y-1">
+                      {[['Down Pmt', fmtMoney(s.down)], ['Amt Financed', fmtMoney(s.amountFinanced)]].map(([l, v]) => (
+                        <div key={l} className="flex justify-between text-[10px] text-stone-500">
+                          <span>{l}</span><span className="tabular">{v}</span>
+                        </div>
+                      ))}
+                      <div className="flex justify-between text-sm font-bold" style={{ color: col }}>
+                        <span>Monthly</span><span className="tabular">{fmtMoney(s.monthly, 0)}/mo</span>
+                      </div>
+                    </div>
+                    {/* gross breakdown */}
+                    <div className="border-t border-stone-100 p-3 space-y-1">
+                      {[
+                        ['Front Gross',       s.frontGross,    false],
+                        ['Back Gross (F&I)',  s.backGross,     false],
+                        ['Total Gross',       s.totalGross,    true],
+                        ['Pack',              -PACK,           false],
+                        ['Trade Over-Allow.', -s.tradeOver,    false],
+                        ['Net Profit',        s.netProfit,     true],
+                        ['Commission (25%)',  s.commission,    false],
+                      ].map(([label, val, bold]) => (
+                        <div key={label}
+                          className={`flex justify-between ${bold ? 'font-bold text-[11px]' : 'text-[10px] text-stone-500'}`}
+                          style={bold ? { color: val > 0 ? col : '#EF4444' } : {}}>
+                          <span>{label}</span>
+                          <span className="tabular">{val < 0 ? '(' : ''}{fmtMoney(Math.abs(val))}{val < 0 ? ')' : ''}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* ── Deal worksheet + right rail ── */}
+          <div className="grid lg:grid-cols-3 gap-0">
+            <div className="lg:col-span-2 p-6 space-y-5">
+              <div className="flex items-center justify-between">
+                <h3 className="font-display text-lg font-semibold">Deal Worksheet</h3>
+                <Btn size="sm" variant="default" icon={Printer}
+                  onClick={() => { window.print(); flash('Print dialog opened'); }}>
+                  Print Deal Sheet
+                </Btn>
+              </div>
+
+              {/* Vehicle pricing */}
+              <div className="bg-white border border-stone-200 rounded-md p-4">
+                <div className="text-[10px] smallcaps font-semibold text-stone-500 mb-3">Vehicle Pricing</div>
+                <div className="space-y-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-sm text-stone-600">List Price</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-stone-400 text-sm">$</span>
+                      <input type="number" value={deal.listPrice}
+                        onChange={(e) => updateDeal(deal.id, { listPrice: Number(e.target.value) })}
+                        className="w-28 text-right tabular px-2 py-1 border border-stone-200 rounded text-sm ring-gold" />
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between" style={{ color: GOLD }}>
+                    <span className="text-sm font-semibold">Negotiated Sale Price</span>
+                    <div className="flex items-center gap-2">
+                      <span className="text-sm">$</span>
+                      <input type="number" value={deal.salePrice}
+                        onChange={(e) => updateDeal(deal.id, { salePrice: Number(e.target.value) })}
+                        className="w-28 text-right tabular px-2 py-1 border-2 rounded text-sm font-semibold ring-gold"
+                        style={{ borderColor: GOLD }} />
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Trade */}
+              <div className="bg-white border border-stone-200 rounded-md p-4">
+                <div className="text-[10px] smallcaps font-semibold text-stone-500 mb-3">Trade-In</div>
+                {deal.trade?.make ? (
+                  <>
+                    <div className="text-sm font-medium mb-3">
+                      {deal.trade.year} {deal.trade.make} {deal.trade.model}
+                      <span className="text-stone-400 text-xs ml-2 tabular">{Number(deal.trade.mileage || 0).toLocaleString()} mi</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-stone-600">Trade Allowance</span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-stone-400 text-sm">$</span>
+                        <input type="number" value={deal.trade.value || 0}
+                          onChange={(e) => updateDeal(deal.id, { trade: { ...deal.trade, value: Number(e.target.value) } })}
+                          className="w-28 text-right tabular px-2 py-1 border border-stone-200 rounded text-sm ring-gold" />
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  <div className="text-sm text-stone-400 italic">No trade-in on this deal</div>
+                )}
+              </div>
+
+              {/* Dealer fees */}
+              <div className="bg-white border border-stone-200 rounded-md p-4">
+                <div className="text-[10px] smallcaps font-semibold text-stone-500 mb-3">Dealer Fees</div>
+                <div className="space-y-2.5">
+                  {[['docFee','Documentation Fee'],['tagTitle','Tag, Title & Registration'],['dealerPrep','Dealer Prep']].map(([k, label]) => (
+                    <div key={k} className="flex items-center justify-between">
+                      <span className="text-sm text-stone-600">{label}</span>
+                      <div className="flex items-center gap-2">
+                        <span className="text-stone-400 text-sm">$</span>
+                        <input type="number" value={deal.fees?.[k] || 0}
+                          onChange={(e) => updateDeal(deal.id, { fees: { ...deal.fees, [k]: Number(e.target.value) } })}
+                          className="w-28 text-right tabular px-2 py-1 border border-stone-200 rounded text-sm ring-gold" />
+                      </div>
+                    </div>
+                  ))}
+                  <div className="flex items-center justify-between pt-2 border-t border-stone-100">
+                    <span className="text-xs smallcaps text-stone-500">Total Fees</span>
+                    <span className="text-sm font-semibold tabular">{fmtMoney(fees)}</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Financing */}
+              <div className="bg-white border border-stone-200 rounded-md p-4">
+                <div className="text-[10px] smallcaps font-semibold text-stone-500 mb-3">Financing Terms</div>
+                <div className="grid grid-cols-3 gap-3">
+                  <Field label="Down Payment">
+                    <div className="relative">
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-stone-400 text-sm">$</span>
+                      <Input type="number" value={deal.downPayment}
+                        onChange={(e) => updateDeal(deal.id, { downPayment: Number(e.target.value) })} className="pl-7" />
+                    </div>
+                  </Field>
+                  <Field label="Term">
+                    <Select value={deal.termMonths}
+                      onChange={(e) => updateDeal(deal.id, { termMonths: Number(e.target.value) })}>
+                      {[36, 48, 60, 72, 84].map(t => <option key={t} value={t}>{t} months</option>)}
+                    </Select>
+                  </Field>
+                  <Field label="APR">
+                    <div className="relative">
+                      <Input type="number" step="0.1" value={deal.apr}
+                        onChange={(e) => updateDeal(deal.id, { apr: Number(e.target.value) })} className="pr-7" />
+                      <span className="absolute right-3 top-1/2 -translate-y-1/2 text-stone-400 text-sm">%</span>
+                    </div>
+                  </Field>
+                </div>
+                <div className="mt-3 flex items-center justify-between gap-2 flex-wrap">
+                  <div className="text-[11px]" style={{ color: 'var(--text-muted)' }}>
+                    {deal.preApproved
+                      ? <span className="text-emerald-700 font-semibold">✓ Pre-approved · {deal.lender}</span>
+                      : 'Run a soft credit inquiry — no impact to score'}
+                  </div>
+                  <Btn size="sm" variant="outlineGold" icon={ShieldCheck} onClick={() => openCredit(deal)}>Run Soft Pull</Btn>
+                </div>
+              </div>
+
+              {/* F&I Products — improved with margin info */}
+              <div className="bg-white border border-stone-200 rounded-md p-4">
+                <div className="flex items-center justify-between mb-1">
+                  <div className="text-[10px] smallcaps font-semibold text-stone-500 flex items-center gap-1.5">
+                    <Shield className="w-3 h-3" /> F&I Products
+                  </div>
+                  <span className="font-display tabular text-sm font-semibold" style={{ color: GOLD }}>
+                    F&I Gross: {fmtMoney(fniRev)} from {FNI_PRODUCT_CATALOG.filter(p => deal.fniProducts?.[p.key]).length} products
+                  </span>
+                </div>
+                <div className="text-[10px] text-stone-400 mb-3">
+                  Industry avg: 62% of customers buy at least one F&I product
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                  {FNI_PRODUCT_CATALOG.map(p => {
+                    const selected    = !!(deal.fniProducts?.[p.key]);
+                    const dealerCost  = Math.round(p.price * FNI_DEALER_COST_RATIO);
+                    const margin      = p.price - dealerCost;
+                    return (
+                      <button key={p.key} type="button"
+                        onClick={() => updateDeal(deal.id, { fniProducts: { ...(deal.fniProducts || {}), [p.key]: !selected } })}
+                        className={`flex items-center gap-2.5 px-3 py-2 rounded-md border text-left transition ${selected ? 'border-2' : 'border-stone-200 hover:border-stone-300'}`}
+                        style={selected ? { borderColor: GOLD, backgroundColor: '#FFFCF2' } : {}}>
+                        <div className="w-4 h-4 rounded flex items-center justify-center shrink-0"
+                          style={selected ? { backgroundColor: GOLD } : { border: '1.5px solid #d6d2c8' }}>
+                          {selected && <Check className="w-3 h-3 text-white" strokeWidth={3} />}
+                        </div>
+                        <div className="flex-1 min-w-0">
+                          <div className="text-[12px] font-medium">{p.label}</div>
+                          <div className="text-[9px] text-stone-400 tabular">
+                            Cost {fmtMoney(dealerCost)} · Margin {fmtMoney(margin)}
+                          </div>
+                        </div>
+                        <span className="text-[12px] font-semibold tabular"
+                          style={selected ? { color: '#7A5A0F' } : { color: '#a8a29e' }}>
+                          {fmtMoney(p.price)}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+
+              {/* Deal Notes */}
+              <Field label="Deal Notes">
+                <Textarea value={deal.notes || ''} rows={2}
+                  onChange={(e) => updateDeal(deal.id, { notes: e.target.value })}
+                  placeholder="Approval tier, customer requests, contingencies..." />
+              </Field>
+
+              {/* ── LENDER SUBMISSION ── */}
+              <div className="bg-white border border-stone-200 rounded-md p-4">
+                <div className="text-[10px] smallcaps font-semibold text-stone-500 mb-3 flex items-center gap-1.5">
+                  <Send className="w-3 h-3" /> Lender Submission
+                </div>
+                <div className="flex gap-4 mb-4 flex-wrap">
+                  {LENDERS.map(l => (
+                    <div key={l.name} className="flex flex-col items-center gap-1">
+                      <div className="w-11 h-11 rounded-full flex items-center justify-center text-white font-bold text-[9px] text-center leading-tight"
+                        style={{ backgroundColor: l.color }}>
+                        {l.name.split(' ').map(w => w[0]).join('')}
+                      </div>
+                      <div className="text-[9px] text-stone-500 text-center w-12 leading-tight">{l.name}</div>
+                      {lenderApprovals && (
+                        <div className={`text-[8px] font-bold ${l.result.approved ? 'text-emerald-600' : 'text-red-500'}`}>
+                          {l.result.approved ? '✓ APPRVD' : '✗ DECL'}
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                {lenderApprovals && (
+                  <div className="space-y-1.5 mb-3">
+                    {LENDERS.filter(l => l.result.approved).map(l => (
+                      <div key={l.name} className="flex items-center gap-2 text-[11px] p-2 rounded bg-emerald-50 border border-emerald-200">
+                        <span className="text-emerald-600 font-bold">✅</span>
+                        <span className="font-semibold text-stone-700">{l.name}:</span>
+                        <span className="text-stone-600">Approved — {l.result.tier}, {l.result.apr}% APR, up to {fmtMoney(l.result.max)}</span>
+                      </div>
+                    ))}
+                    {LENDERS.filter(l => !l.result.approved).map(l => (
+                      <div key={l.name} className="flex items-center gap-2 text-[11px] p-2 rounded bg-red-50 border border-red-200">
+                        <span>❌</span>
+                        <span className="font-semibold text-stone-700">{l.name}:</span>
+                        <span className="text-stone-400">Declined</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+                <div className="grid grid-cols-2 gap-2">
+                  <Btn size="sm" variant="outlineGold" icon={Send}
+                    onClick={runLenderSubmission}
+                    className={lenderLoading ? 'opacity-60 cursor-not-allowed' : ''}>
+                    {lenderLoading ? 'Submitting…' : lenderApprovals ? 'Resubmit (Demo)' : 'Submit to Lenders (Demo)'}
+                  </Btn>
+                  <div className="space-y-1">
+                    <div className="text-[10px] px-2 py-1.5 border border-stone-100 rounded text-stone-300 cursor-not-allowed">
+                      🔗 RouteOne — Connect in Settings
+                    </div>
+                    <div className="text-[10px] px-2 py-1.5 border border-stone-100 rounded text-stone-300 cursor-not-allowed">
+                      🔗 DealerTrack — Connect in Settings
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* ── Right rail: summary + actions ── */}
+            <div className="bg-stone-900 text-white p-6 lg:rounded-bl-lg lg:sticky lg:top-16 lg:self-start">
+              <div className="text-[10px] smallcaps font-semibold mb-4" style={{ color: GOLD }}>Deal Summary</div>
+
+              <div className="space-y-3 mb-5 text-sm">
+                <div className="flex justify-between"><span className="text-stone-400">Sale Price</span><span className="tabular">{fmtMoney(deal.salePrice)}</span></div>
+                <div className="flex justify-between"><span className="text-stone-400">+ Fees</span><span className="tabular">{fmtMoney(fees)}</span></div>
+                {fniRev > 0 && (
+                  <div className="flex justify-between">
+                    <span style={{ color: GOLD }}>+ F&I Products</span>
+                    <span className="tabular" style={{ color: GOLD }}>{fmtMoney(fniRev)}</span>
+                  </div>
+                )}
+                <div className="flex justify-between border-t border-stone-700 pt-3">
+                  <span className="font-medium">Total Cost</span>
+                  <span className="font-semibold tabular">{fmtMoney(totalCost)}</span>
+                </div>
+                <div className="flex justify-between"><span className="text-stone-400">− Trade Allowance</span><span className="tabular">{fmtMoney(deal.trade?.value || 0)}</span></div>
+                <div className="flex justify-between"><span className="text-stone-400">− Down Payment</span><span className="tabular">{fmtMoney(deal.downPayment)}</span></div>
+                <div className="flex justify-between border-t border-stone-700 pt-3">
+                  <span className="font-semibold">Amount Financed</span>
+                  <span className="font-display text-base font-semibold tabular" style={{ color: GOLD }}>{fmtMoney(financed)}</span>
+                </div>
+              </div>
+
+              <div className="bg-white/5 border border-white/10 rounded-md p-4 mb-5">
+                <div className="text-[10px] smallcaps text-stone-400 mb-1">Customer Pays</div>
+                <div className="font-display tabular text-4xl font-medium" style={{ color: GOLD }}>
+                  {fmtMoney(monthly, 0)}
+                </div>
+                <div className="text-[11px] text-stone-400 mt-1 tabular">
+                  for {deal.termMonths} months @ {deal.apr}% APR
+                </div>
+                <div className="text-[10px] text-stone-500 mt-2 pt-2 border-t border-white/10 tabular">
+                  Total of payments: {fmtMoney(monthly * deal.termMonths)}
+                </div>
+              </div>
+
+              <Field label="Status" className="mb-3">
+                <select value={deal.status}
+                  onChange={(e) => updateDeal(deal.id, { status: e.target.value })}
+                  className="w-full px-3 py-2 bg-stone-800 border border-stone-700 text-white rounded-md text-sm">
+                  {DEAL_STATUSES.map(s => <option key={s}>{s}</option>)}
+                </select>
+              </Field>
+
+              <div className="space-y-2">
+                <Btn variant="gold" className="w-full" icon={Send}
+                  onClick={() => flash('Deal sheet sent to ' + deal.email)}>
+                  Send to Customer
+                </Btn>
+                <Btn variant="default" className="w-full bg-stone-800 border-stone-700 text-white hover:bg-stone-700" icon={Award}
+                  onClick={() => onMarkSold(deal)}>
+                  Mark Delivered
+                </Btn>
+              </div>
+
+              <div className="mt-5 pt-4 border-t border-stone-700 text-[10px] smallcaps text-stone-500">
+                Deal #{deal.id.slice(-6).toUpperCase()} · Created {fmtDate(deal.createdAt)}
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+    </Card>
+  );
+}
+
+/* ─────────────────────────────────────────────────────────────────── */
+
 export function DealsTab({ deals, setDeals, inventory, onMarkSold, flash }) {
   const [expanded, setExpanded] = useState(deals[0]?.id || null);
   const [filter, setFilter] = useState('active');

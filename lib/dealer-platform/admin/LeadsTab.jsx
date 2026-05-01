@@ -76,6 +76,52 @@ function scoreLeadDemo(lead) {
   return scoreLeadSync(adaptLeadForScoring(lead));
 }
 
+/* ─── Salesperson assignment helpers (Phase 3C) ─────────────────── */
+const SALESPEOPLE = ['Carlos Rivera', 'Maria Santos', 'James Mitchell', 'Ana Gutierrez'];
+const SALESPERSON_COLOR = {
+  'Carlos Rivera':  '#3B82F6',
+  'Maria Santos':   '#10B981',
+  'James Mitchell': '#F59E0B',
+  'Ana Gutierrez':  '#8B5CF6',
+};
+
+function SalespersonAvatar({ name, size = 'sm' }) {
+  if (!name) return null;
+  const initial = String(name).trim().charAt(0).toUpperCase() || '?';
+  const color = SALESPERSON_COLOR[name] || '#78716C';
+  const px = size === 'lg' ? 28 : 20;
+  return (
+    <span
+      className="inline-flex items-center justify-center rounded-full font-semibold text-white shrink-0"
+      style={{ background: color, width: px, height: px, fontSize: size === 'lg' ? 12 : 10 }}
+      title={name}>
+      {initial}
+    </span>
+  );
+}
+
+function leadResponseMinutes(lead) {
+  if (!lead?.createdAt || !Array.isArray(lead.timeline)) return null;
+  const created = new Date(lead.createdAt).getTime();
+  if (!Number.isFinite(created)) return null;
+  const firstTouch = lead.timeline.find((t) => {
+    const evt = String(t?.event || '').toLowerCase();
+    return /contact|call|sms|email|reply|response/.test(evt);
+  });
+  if (!firstTouch?.t) return null;
+  const touched = new Date(firstTouch.t).getTime();
+  if (!Number.isFinite(touched) || touched < created) return null;
+  return Math.max(0, Math.round((touched - created) / 60000));
+}
+
+function fmtResponseTime(mins) {
+  if (mins == null) return '—';
+  if (mins < 60) return `${mins} min`;
+  const h = Math.floor(mins / 60);
+  const m = mins % 60;
+  return m === 0 ? `${h} hr` : `${h} hr ${m} min`;
+}
+
 function ScoreBadge({ result, size = 'sm' }) {
   if (!result) return null;
   const palette = {
@@ -166,6 +212,8 @@ export function LeadsTab({ leads, setLeads, inventory, settings, setSettings, on
   const [filterStatus, setFilterStatus] = useState('all');
   const [filterSource, setFilterSource] = useState('all');
   const [filterDate, setFilterDate] = useState('all');
+  const [filterSalesperson, setFilterSalesperson] = useState('all'); // 'all' | name | 'unassigned'
+  const [assignOpenFor, setAssignOpenFor] = useState(null);          // lead.id of open menu
   const [expanded, setExpanded] = useState(null);
   const [showNotifs, setShowNotifs] = useState(false);
   const [page, setPage] = useState(1);
@@ -185,6 +233,62 @@ export function LeadsTab({ leads, setLeads, inventory, settings, setSettings, on
     leads.forEach((l) => { m.set(l.id, scoreLeadDemo(l)); });
     return m;
   }, [leads]);
+
+  /* ─── Salesperson assignment + round-robin ──────────────────── */
+  const assignmentSettings = settings?.assignment || {};
+  const autoAssignOn = assignmentSettings.autoAssign !== false; // default true
+
+  const assignLead = useCallback((leadId, name) => {
+    setLeads((arr) => arr.map((l) => l.id === leadId ? { ...l, assignedTo: name } : l));
+    if (name) flash(`Lead assigned to ${name}`);
+  }, [setLeads, flash]);
+
+  const counts = useMemo(() => {
+    const c = { all: leads.length, unassigned: 0 };
+    SALESPEOPLE.forEach((n) => { c[n] = 0; });
+    leads.forEach((l) => {
+      if (l.assignedTo && c[l.assignedTo] != null) c[l.assignedTo]++;
+      else c.unassigned++;
+    });
+    return c;
+  }, [leads]);
+
+  // Round-robin auto-assign whenever a brand-new (unassigned) lead appears.
+  const prevLeadIdsRef = useRef(null);
+  useEffect(() => {
+    const ids = new Set(leads.map((l) => l.id));
+    if (prevLeadIdsRef.current === null) {
+      prevLeadIdsRef.current = ids;
+      return;
+    }
+    if (!autoAssignOn) {
+      prevLeadIdsRef.current = ids;
+      return;
+    }
+    const newOnes = leads.filter(
+      (l) => !prevLeadIdsRef.current.has(l.id) && !l.assignedTo,
+    );
+    if (newOnes.length === 0) {
+      prevLeadIdsRef.current = ids;
+      return;
+    }
+    let idx = Number(assignmentSettings.lastAssignedIndex);
+    if (!Number.isFinite(idx)) idx = -1;
+    const assignments = new Map();
+    for (const lead of newOnes) {
+      idx = (idx + 1) % SALESPEOPLE.length;
+      assignments.set(lead.id, SALESPEOPLE[idx]);
+    }
+    setLeads((arr) =>
+      arr.map((l) => (assignments.has(l.id) ? { ...l, assignedTo: assignments.get(l.id) } : l)),
+    );
+    setSettings((s) => ({
+      ...s,
+      assignment: { ...(s?.assignment || {}), lastAssignedIndex: idx },
+    }));
+    prevLeadIdsRef.current = ids;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [leads, autoAssignOn]);
 
   const applyView = (v) => {
     setSearch(v.filter.search || '');
@@ -216,6 +320,13 @@ export function LeadsTab({ leads, setLeads, inventory, settings, setSettings, on
       }
       if (filterStatus !== 'all' && l.status !== filterStatus) return false;
       if (filterSource !== 'all' && l.source !== filterSource) return false;
+      if (filterSalesperson !== 'all') {
+        if (filterSalesperson === 'unassigned') {
+          if (l.assignedTo) return false;
+        } else if (l.assignedTo !== filterSalesperson) {
+          return false;
+        }
+      }
       if (filterDate !== 'all') {
         const days = (TODAY.getTime() - new Date(l.createdAt).getTime()) / 86400000;
         if (filterDate === 'today' && days > 1) return false;
@@ -234,10 +345,10 @@ export function LeadsTab({ leads, setLeads, inventory, settings, setSettings, on
       if (sortKey === 'name') return String(a.name).localeCompare(String(b.name));
       return new Date(b.createdAt) - new Date(a.createdAt);
     });
-  }, [leads, search, filterStatus, filterSource, filterDate, sortKey, scoresById]);
+  }, [leads, search, filterStatus, filterSource, filterSalesperson, filterDate, sortKey, scoresById]);
 
   const paged = useMemo(() => pageSize === Infinity ? filtered : filtered.slice((page - 1) * pageSize, page * pageSize), [filtered, page, pageSize]);
-  useEffect(() => { setPage(1); }, [search, filterStatus, filterSource, filterDate]);
+  useEffect(() => { setPage(1); }, [search, filterStatus, filterSource, filterSalesperson, filterDate]);
 
   const allSelected = filtered.length > 0 && filtered.every(l => selectedLeads.has(l.id));
   const toggleAll = () => {
@@ -399,6 +510,24 @@ export function LeadsTab({ leads, setLeads, inventory, settings, setSettings, on
             <option value="week">This week</option>
             <option value="month">This month</option>
           </Select>
+          <Select value={filterSalesperson} onChange={(e) => setFilterSalesperson(e.target.value)} className="text-xs w-44" title="Filter by salesperson">
+            <option value="all">All salespeople ({counts.all})</option>
+            {SALESPEOPLE.map((n) => {
+              const first = n.split(' ')[0];
+              return <option key={n} value={n}>{first} ({counts[n] || 0})</option>;
+            })}
+            <option value="unassigned">Unassigned ({counts.unassigned})</option>
+          </Select>
+          <label className="inline-flex items-center gap-2 text-xs text-stone-700"
+            title="Round-robin assign new leads to Carlos → Maria → James → Ana">
+            <Toggle
+              checked={autoAssignOn}
+              onChange={(v) =>
+                setSettings((s) => ({ ...s, assignment: { ...(s?.assignment || {}), autoAssign: v } }))
+              }
+              label={<span className="text-xs">Auto-assign: <strong>{autoAssignOn ? 'On' : 'Off'}</strong></span>}
+            />
+          </label>
           <Select value={sortKey} onChange={(e) => setSortKey(e.target.value)} className="text-xs w-40" title="Sort">
             <option value="score">🔥 AI Score (hottest first)</option>
             <option value="newest">Newest first</option>
@@ -464,6 +593,7 @@ export function LeadsTab({ leads, setLeads, inventory, settings, setSettings, on
                 <th className="px-4 py-2.5 w-6"></th>
                 <th className="px-2 py-2.5 text-left">Name</th>
                 <th className="px-2 py-2.5 text-left w-20">AI Score</th>
+                <th className="px-2 py-2.5 text-left w-44">Assigned To</th>
                 <th className="px-2 py-2.5 text-left">Contact</th>
                 <th className="px-2 py-2.5 text-left">Source</th>
                 <th className="px-2 py-2.5 text-left">Vehicle of Interest</th>
@@ -473,7 +603,7 @@ export function LeadsTab({ leads, setLeads, inventory, settings, setSettings, on
             </thead>
             <tbody className="divide-y divide-stone-100">
               {filtered.length === 0 ? (
-                <tr><td colSpan={9} className="text-center py-16 px-4">
+                <tr><td colSpan={10} className="text-center py-16 px-4">
                   <Users className="w-10 h-10 mx-auto mb-3 text-stone-300" strokeWidth={1.5} />
                   <div className="font-display text-lg font-semibold text-stone-900 mb-1">No leads yet</div>
                   <div className="text-sm text-stone-500 max-w-xs mx-auto">Leads appear here when customers submit forms on your website. Try clearing your filters above.</div>
@@ -501,6 +631,50 @@ export function LeadsTab({ leads, setLeads, inventory, settings, setSettings, on
                     <td className="px-2 py-3">
                       <ScoreBadge result={scoresById.get(l.id)} />
                     </td>
+                    <td className="px-2 py-3 relative" onClick={(e) => e.stopPropagation()}>
+                      <button
+                        type="button"
+                        onClick={() => setAssignOpenFor(assignOpenFor === l.id ? null : l.id)}
+                        className="inline-flex items-center gap-2 px-2 py-1 rounded-md hover:bg-stone-100 transition group"
+                        title={l.assignedTo ? `Assigned to ${l.assignedTo}` : 'Click to assign'}>
+                        {l.assignedTo ? (
+                          <>
+                            <SalespersonAvatar name={l.assignedTo} />
+                            <span className="text-[12px] text-stone-700">{l.assignedTo.split(' ')[0]}</span>
+                          </>
+                        ) : (
+                          <span className="text-[12px] text-stone-400 italic">Unassigned</span>
+                        )}
+                        <ChevronDown className="w-3 h-3 text-stone-400 group-hover:text-stone-600" />
+                      </button>
+                      {assignOpenFor === l.id && (
+                        <>
+                          <div className="fixed inset-0 z-30" onClick={() => setAssignOpenFor(null)} />
+                          <div className="absolute left-0 top-full mt-1 w-52 rounded-md shadow-lg z-40 py-1 anim-fade"
+                            style={{ backgroundColor: 'var(--bg-card)', border: '1px solid var(--border)' }}>
+                            {SALESPEOPLE.map((name) => (
+                              <button key={name}
+                                onClick={() => { assignLead(l.id, name); setAssignOpenFor(null); }}
+                                className="w-full px-3 py-2 text-left text-xs hover:bg-stone-50 flex items-center gap-2">
+                                <SalespersonAvatar name={name} />
+                                <span>{name}</span>
+                                {l.assignedTo === name && <Check className="w-3 h-3 ml-auto text-emerald-600" strokeWidth={2.5} />}
+                              </button>
+                            ))}
+                            {l.assignedTo && (
+                              <>
+                                <div className="border-t my-1" style={{ borderColor: 'var(--border)' }} />
+                                <button
+                                  onClick={() => { assignLead(l.id, null); setAssignOpenFor(null); flash('Lead unassigned'); }}
+                                  className="w-full px-3 py-2 text-left text-xs hover:bg-stone-50 text-stone-500 italic">
+                                  Unassign
+                                </button>
+                              </>
+                            )}
+                          </div>
+                        </>
+                      )}
+                    </td>
                     <td className="px-2 py-3">
                       <div className="text-[12px] text-stone-700">{l.email}</div>
                       <div className="text-[11px] text-stone-500 tabular">{l.phone}</div>
@@ -514,7 +688,7 @@ export function LeadsTab({ leads, setLeads, inventory, settings, setSettings, on
                   </tr>
                   {expanded === l.id && (
                     <tr>
-                      <td colSpan={9} className="bg-stone-50 px-6 py-5 anim-slide">
+                      <td colSpan={10} className="bg-stone-50 px-6 py-5 anim-slide">
                         <div className="md:hidden flex justify-end mb-3">
                           <button onClick={() => setExpanded(null)}
                             className="px-3 py-1.5 rounded text-xs font-semibold bg-white border border-stone-300 hover:bg-stone-100">
@@ -668,6 +842,39 @@ export function LeadsTab({ leads, setLeads, inventory, settings, setSettings, on
                                 </div>
                               );
                             })()}
+
+                            {/* Salesperson Performance */}
+                            <div>
+                              <div className="text-[10px] smallcaps font-semibold text-stone-500 mb-2 flex items-center gap-1.5">
+                                <Users className="w-3 h-3" /> Salesperson Performance
+                              </div>
+                              <div className="bg-white border border-stone-200 rounded-md p-4 space-y-2 text-sm">
+                                <div className="flex items-center justify-between">
+                                  <span className="text-stone-500">Assigned to</span>
+                                  {l.assignedTo ? (
+                                    <span className="inline-flex items-center gap-2 font-medium">
+                                      <SalespersonAvatar name={l.assignedTo} />
+                                      {l.assignedTo}
+                                    </span>
+                                  ) : (
+                                    <span className="italic text-stone-400">Unassigned</span>
+                                  )}
+                                </div>
+                                <div className="flex items-center justify-between">
+                                  <span className="text-stone-500">Response time</span>
+                                  <span className="tabular">
+                                    {(() => {
+                                      const m = leadResponseMinutes(l);
+                                      return m == null ? 'No response yet' : fmtResponseTime(m);
+                                    })()}
+                                  </span>
+                                </div>
+                                <div className="flex items-center justify-between">
+                                  <span className="text-stone-500">Close rate (last 90d)</span>
+                                  <span className="tabular font-medium">22%</span>
+                                </div>
+                              </div>
+                            </div>
 
                             {/* AI Follow-Up Sequence */}
                             <div ref={followupRef}>

@@ -33,6 +33,29 @@ import { SEED_APPT_HISTORY } from '@/lib/dealer-platform/data/seed-appointments'
 import { ActivityLog } from './ActivityLog';
 import { BreadcrumbBar } from './BreadcrumbBar';
 
+const RECON_STAGES = [
+  { key: 'acquired',    label: 'Acquired',    color: '#374151', bg: '#F3F4F6', accent: '#9CA3AF' },
+  { key: 'in_recon',    label: 'In Recon',    color: '#92400E', bg: '#FEF3C7', accent: '#D97706' },
+  { key: 'photo_ready', label: 'Photo Ready', color: '#1D4ED8', bg: '#DBEAFE', accent: '#3B82F6' },
+  { key: 'lot_ready',   label: 'Lot Ready',   color: '#065F46', bg: '#D1FAE5', accent: '#10B981' },
+  { key: 'listed',      label: 'Listed',      color: '#7A5A0F', bg: GOLD_SOFT, accent: GOLD },
+];
+
+const ACQUISITION_SOURCES = ['Auction', 'Trade-In', 'Private Purchase', 'Consignment', 'Dealer Transfer', 'Repo'];
+
+function inferReconStage(v) {
+  if (v.reconStage && RECON_STAGES.some((s) => s.key === v.reconStage)) return v.reconStage;
+  if (v.status === 'Pending') return 'acquired';
+  return 'listed';
+}
+
+function daysSince(iso) {
+  if (!iso) return null;
+  const t = new Date(iso).getTime();
+  if (Number.isNaN(t)) return null;
+  return Math.max(0, Math.floor((Date.now() - t) / 86400000));
+}
+
 export function InventoryTab({ inventory, setInventory, updateVehicle, removeVehicle, markSold, onEdit, onAdd, flash, reservations = [], onReleaseReservation, settings, setSettings }) {
   const reservedMap = useMemo(() => {
     const m = new Map();
@@ -46,6 +69,7 @@ export function InventoryTab({ inventory, setInventory, updateVehicle, removeVeh
   const [filterStatus, setFilterStatus] = useState('all');
   const [filterMake, setFilterMake] = useState('all');
   const [filterBody, setFilterBody] = useState('all');
+  const [filterAcquisition, setFilterAcquisition] = useState('all');
   const [priceRange, setPriceRange] = useState('all');
   const [selected, setSelected] = useState(new Set());
   const [bulkAction, setBulkAction] = useState(null);
@@ -92,6 +116,7 @@ export function InventoryTab({ inventory, setInventory, updateVehicle, removeVeh
       if (filterStatus !== 'all' && v.status !== filterStatus) return false;
       if (filterMake !== 'all' && v.make !== filterMake) return false;
       if (filterBody !== 'all' && v.bodyStyle !== filterBody) return false;
+      if (filterAcquisition !== 'all' && (v.acquisitionSource || '') !== filterAcquisition) return false;
       const price = v.salePrice || v.listPrice;
       if (priceRange === '<25k' && price >= 25000) return false;
       if (priceRange === '25-40k' && (price < 25000 || price >= 40000)) return false;
@@ -118,10 +143,31 @@ export function InventoryTab({ inventory, setInventory, updateVehicle, removeVeh
       return (ka - kb) * dir;
     });
     return arr;
-  }, [inventory, search, sortKey, sortDir, filterStatus, filterMake, filterBody, priceRange]);
+  }, [inventory, search, sortKey, sortDir, filterStatus, filterMake, filterBody, filterAcquisition, priceRange]);
 
   const paged = useMemo(() => pageSize === Infinity ? filtered : filtered.slice((page - 1) * pageSize, page * pageSize), [filtered, page, pageSize]);
-  useEffect(() => { setPage(1); }, [search, sortKey, sortDir, filterStatus, filterMake, filterBody, priceRange]);
+  useEffect(() => { setPage(1); }, [search, sortKey, sortDir, filterStatus, filterMake, filterBody, filterAcquisition, priceRange]);
+
+  const pipelineColumns = useMemo(() => {
+    const groups = Object.fromEntries(RECON_STAGES.map((s) => [s.key, []]));
+    filtered.forEach((v) => {
+      const stage = inferReconStage(v);
+      if (groups[stage]) groups[stage].push(v);
+    });
+    return groups;
+  }, [filtered]);
+
+  const advanceStage = (vehicle, direction = 1) => {
+    const cur = inferReconStage(vehicle);
+    const idx = RECON_STAGES.findIndex((s) => s.key === cur);
+    const next = RECON_STAGES[Math.max(0, Math.min(RECON_STAGES.length - 1, idx + direction))];
+    if (!next || next.key === cur) return;
+    const patch = { reconStage: next.key };
+    if (next.key === 'in_recon' && !vehicle.reconStartDate) patch.reconStartDate = new Date().toISOString();
+    if (next.key === 'photo_ready' && !vehicle.reconCompletedDate) patch.reconCompletedDate = new Date().toISOString();
+    updateVehicle(vehicle.id, patch);
+    flash(`${vehicle.year} ${vehicle.make} ${vehicle.model} → ${next.label}`);
+  };
 
   const allSelected = filtered.length > 0 && filtered.every(v => selected.has(v.id));
   const toggleAll = () => {
@@ -205,11 +251,15 @@ export function InventoryTab({ inventory, setInventory, updateVehicle, removeVeh
           <div className="flex bg-stone-100 rounded-md p-0.5">
             <button onClick={() => setView('list')}
               className={`px-3 py-1.5 text-xs font-semibold rounded ${view === 'list' ? 'bg-white shadow-sm text-stone-900' : 'text-stone-500'}`}>
-              List
+              Table
             </button>
             <button onClick={() => setView('grid')}
               className={`px-3 py-1.5 text-xs font-semibold rounded ${view === 'grid' ? 'bg-white shadow-sm text-stone-900' : 'text-stone-500'}`}>
               Grid
+            </button>
+            <button onClick={() => setView('pipeline')}
+              className={`px-3 py-1.5 text-xs font-semibold rounded ${view === 'pipeline' ? 'bg-white shadow-sm text-stone-900' : 'text-stone-500'}`}>
+              Pipeline
             </button>
           </div>
           <Btn variant="gold" icon={Plus} onClick={onAdd}>Add Vehicle</Btn>
@@ -268,6 +318,10 @@ export function InventoryTab({ inventory, setInventory, updateVehicle, removeVeh
           <Select value={filterBody} onChange={(e) => setFilterBody(e.target.value)} className="text-xs w-32">
             <option value="all">All body styles</option>
             {BODY_STYLES.map(b => <option key={b} value={b}>{b}</option>)}
+          </Select>
+          <Select value={filterAcquisition} onChange={(e) => setFilterAcquisition(e.target.value)} className="text-xs w-36" title="Acquisition source">
+            <option value="all">All acquisitions</option>
+            {ACQUISITION_SOURCES.map(s => <option key={s} value={s}>{s}</option>)}
           </Select>
           <Select value={priceRange} onChange={(e) => setPriceRange(e.target.value)} className="text-xs w-32">
             <option value="all">Any price</option>
@@ -413,8 +467,75 @@ export function InventoryTab({ inventory, setInventory, updateVehicle, removeVeh
         </div>
       )}
 
-      {/* Inventory table or grid */}
-      {view === 'list' ? (
+      {/* Inventory table, grid, or pipeline */}
+      {view === 'pipeline' ? (
+        <div className="overflow-x-auto pb-3 -mx-2 px-2">
+          <div className="flex gap-3" style={{ minWidth: 'max-content' }}>
+            {RECON_STAGES.map((stage) => {
+              const items = pipelineColumns[stage.key] || [];
+              return (
+                <div key={stage.key} className="rounded-lg flex flex-col" style={{ width: 280, flexShrink: 0, backgroundColor: '#FAFAF9', border: '1px solid #E7E5E4' }}>
+                  <div className="px-3 py-2.5 rounded-t-lg flex items-center justify-between" style={{ backgroundColor: stage.bg, borderBottom: `2px solid ${stage.accent}` }}>
+                    <div className="flex items-center gap-2">
+                      <span className="w-2 h-2 rounded-full" style={{ backgroundColor: stage.accent }} />
+                      <span className="text-[11px] smallcaps font-bold" style={{ color: stage.color }}>
+                        {stage.label}
+                      </span>
+                    </div>
+                    <span className="text-[11px] font-bold tabular px-1.5 py-0.5 rounded-full bg-white/70" style={{ color: stage.color }}>
+                      {items.length}
+                    </span>
+                  </div>
+                  <div className="p-2 flex flex-col gap-2 max-h-[60vh] overflow-y-auto">
+                    {items.length === 0 ? (
+                      <div className="text-[11px] text-stone-400 italic text-center py-6">No vehicles in this stage</div>
+                    ) : items.map((v) => {
+                      const dStage = daysSince(v.reconStartDate || v.dateAdded);
+                      const stageIdx = RECON_STAGES.findIndex((s) => s.key === stage.key);
+                      const canPrev = stageIdx > 0;
+                      const canNext = stageIdx < RECON_STAGES.length - 1;
+                      return (
+                        <div key={v.id} className="rounded-md bg-white border border-stone-200 p-2.5 hover:border-stone-300 transition group">
+                          <button onClick={() => onEdit(v.id)} className="block text-left w-full">
+                            <div className="font-medium text-[13px] leading-tight truncate">{v.year} {v.make} {v.model}</div>
+                            {v.trim && <div className="text-[11px] text-stone-500 truncate">{v.trim}</div>}
+                          </button>
+                          <div className="mt-2 grid grid-cols-2 gap-1 text-[10px] tabular text-stone-600">
+                            <div>{dStage != null ? `${dStage}d in stage` : '—'}</div>
+                            <div className="text-right">Stock {v.stockNumber || '—'}</div>
+                            {v.cost ? <div>Cost: {fmtMoney(v.cost)}</div> : <div>Cost: —</div>}
+                            {v.reconCost ? <div className="text-right">Recon: {fmtMoney(v.reconCost)}</div> : <div className="text-right text-stone-400">Recon: —</div>}
+                          </div>
+                          {v.acquisitionSource && (
+                            <div className="mt-1.5 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-sm text-[9px] font-bold smallcaps" style={{ backgroundColor: '#F3F4F6', color: '#4B5563' }}>
+                              {v.acquisitionSource}{v.acquisitionSource === 'Auction' && v.auctionName ? ` · ${v.auctionName}` : ''}
+                            </div>
+                          )}
+                          <div className="mt-2 pt-2 border-t border-stone-100 flex items-center justify-between gap-2">
+                            <button
+                              type="button" disabled={!canPrev}
+                              onClick={() => advanceStage(v, -1)}
+                              className={`text-[10px] smallcaps font-semibold ${canPrev ? 'text-stone-500 hover:text-stone-900' : 'text-stone-300 cursor-not-allowed'}`}>
+                              ← Previous
+                            </button>
+                            <button
+                              type="button" disabled={!canNext}
+                              onClick={() => advanceStage(v, 1)}
+                              className={`text-[10px] smallcaps font-bold px-2 py-1 rounded ${canNext ? 'hover:opacity-90' : 'cursor-not-allowed opacity-50'}`}
+                              style={{ backgroundColor: canNext ? stage.accent : '#E5E7EB', color: canNext ? '#FFFFFF' : '#9CA3AF' }}>
+                              Next Stage →
+                            </button>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      ) : view === 'list' ? (
         <Card className="overflow-hidden">
           <div className="overflow-x-auto scrollbar-thin">
             <table className="w-full text-sm">
@@ -476,8 +597,13 @@ export function InventoryTab({ inventory, setInventory, updateVehicle, removeVeh
                           </button>
                         )}
                       </div>
-                      <div className="text-[11px] text-stone-400 tabular">
-                        VIN ··{v.vin.slice(-6)} · Stock {v.stockNumber}
+                      <div className="text-[11px] text-stone-400 tabular flex items-center gap-1.5 flex-wrap">
+                        <span>VIN ··{v.vin.slice(-6)} · Stock {v.stockNumber}</span>
+                        {v.acquisitionSource && (
+                          <span className="inline-flex items-center px-1.5 py-0.5 rounded-sm text-[9px] font-bold smallcaps not-tabular" style={{ backgroundColor: '#F3F4F6', color: '#4B5563' }}>
+                            {v.acquisitionSource}{v.acquisitionSource === 'Auction' && v.auctionName ? ` · ${v.auctionName}` : ''}
+                          </span>
+                        )}
                         {reservedMap.has(v.id) && (
                           <>
                             <span> · </span>
@@ -625,6 +751,11 @@ export function InventoryTab({ inventory, setInventory, updateVehicle, removeVeh
                   </span>
                   <span className="flex items-center gap-1"><Eye className="w-3 h-3" />{(v.views || 0).toLocaleString()}</span>
                 </div>
+                {v.acquisitionSource && (
+                  <div className="mt-1.5 inline-flex items-center gap-1 px-1.5 py-0.5 rounded-sm text-[9px] font-bold smallcaps" style={{ backgroundColor: '#F3F4F6', color: '#4B5563' }}>
+                    {v.acquisitionSource}{v.acquisitionSource === 'Auction' && v.auctionName ? ` · ${v.auctionName}` : ''}
+                  </div>
+                )}
               </div>
             </Card>
           ))}

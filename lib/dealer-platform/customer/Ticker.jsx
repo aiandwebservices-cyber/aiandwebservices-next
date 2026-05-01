@@ -20,7 +20,7 @@ export function Ticker() {
   const line = items.join('   ◆   ');
   return (
     <div style={{
-      position: 'fixed', top: 0, left: 96, right: 0,
+      position: 'fixed', top: 'var(--banner-h, 0px)', left: 96, right: 0,
       height: 28, background: C.red, color: C.ink,
       borderBottom: `1px solid ${C.redDeep}`,
       overflow: 'hidden', zIndex: 35,

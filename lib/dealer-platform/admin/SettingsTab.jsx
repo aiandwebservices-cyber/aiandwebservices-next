@@ -313,6 +313,93 @@ export function SettingsTab({ settings, setSettings, flash }) {
         </div>
       </Card>
 
+      {/* Commission Rules */}
+      <Card className="p-6">
+        <div className="flex items-center gap-2 mb-1">
+          <DollarSign className="w-4 h-4 text-stone-500" />
+          <h2 className="font-display text-xl font-medium">Commission Structure</h2>
+        </div>
+        <p className="text-sm text-stone-500 mb-5">
+          Drives the per-deal commission shown on the Sold tab.
+        </p>
+
+        {(() => {
+          const c = settings.commission || {};
+          const type = c.type || 'percentage';
+          return (
+            <div className="space-y-5">
+              <Field label="Commission type" className="max-w-sm">
+                <Select value={type} onChange={(e) => set('commission.type', e.target.value)}>
+                  <option value="percentage">Percentage of front gross</option>
+                  <option value="flat">Flat per unit</option>
+                  <option value="tiered">Tiered (graduated)</option>
+                </Select>
+              </Field>
+
+              {type === 'percentage' && (
+                <div className="grid sm:grid-cols-3 gap-4 max-w-2xl">
+                  <Field label="Rate (% of front gross)">
+                    <Input type="number" min={0} max={100} value={c.rate ?? 25}
+                      onChange={(e) => set('commission.rate', Number(e.target.value) || 0)} />
+                  </Field>
+                  <Field label="Minimum per unit ($)">
+                    <Input type="number" min={0} value={c.minimum ?? 200}
+                      onChange={(e) => set('commission.minimum', Number(e.target.value) || 0)} />
+                  </Field>
+                  <Field label="Maximum per unit ($)">
+                    <Input type="number" min={0} value={c.maximum ?? 2000}
+                      onChange={(e) => set('commission.maximum', Number(e.target.value) || 0)} />
+                  </Field>
+                </div>
+              )}
+
+              {type === 'flat' && (
+                <div className="grid sm:grid-cols-2 gap-4 max-w-md">
+                  <Field label="Flat amount per unit ($)">
+                    <Input type="number" min={0} value={c.flatAmount ?? 500}
+                      onChange={(e) => set('commission.flatAmount', Number(e.target.value) || 0)} />
+                  </Field>
+                </div>
+              )}
+
+              {type === 'tiered' && (
+                <div className="space-y-3 max-w-lg">
+                  <div className="grid grid-cols-[1fr_auto] gap-3 items-end">
+                    <div className="text-xs text-stone-600">$0–$2,000 front gross</div>
+                    <Field label="Flat ($)">
+                      <Input type="number" min={0} value={c.tier1Flat ?? 200}
+                        onChange={(e) => set('commission.tier1Flat', Number(e.target.value) || 0)} />
+                    </Field>
+                  </div>
+                  <div className="grid grid-cols-[1fr_auto] gap-3 items-end">
+                    <div className="text-xs text-stone-600">$2,001–$4,000</div>
+                    <Field label="Rate (%)">
+                      <Input type="number" min={0} max={100} value={c.tier2Pct ?? 20}
+                        onChange={(e) => set('commission.tier2Pct', Number(e.target.value) || 0)} />
+                    </Field>
+                  </div>
+                  <div className="grid grid-cols-[1fr_auto] gap-3 items-end">
+                    <div className="text-xs text-stone-600">$4,001+</div>
+                    <Field label="Rate (%)">
+                      <Input type="number" min={0} max={100} value={c.tier3Pct ?? 25}
+                        onChange={(e) => set('commission.tier3Pct', Number(e.target.value) || 0)} />
+                    </Field>
+                  </div>
+                </div>
+              )}
+
+              <div className="pt-4 border-t border-stone-100 grid sm:grid-cols-2 gap-4 max-w-lg">
+                <Field label="Pack amount ($)"
+                  hint="Standard dealer overhead deducted before front-gross calc.">
+                  <Input type="number" min={0} value={c.pack ?? 500}
+                    onChange={(e) => set('commission.pack', Number(e.target.value) || 0)} />
+                </Field>
+              </div>
+            </div>
+          );
+        })()}
+      </Card>
+
       {/* Website Customization */}
       <Card className="p-6">
         <div className="flex items-center gap-2 mb-1">
@@ -576,6 +663,51 @@ export function SettingsTab({ settings, setSettings, flash }) {
               </div>
             </div>
           ))}
+        </div>
+      </Card>
+
+      {/* Listing Syndication — marketplace credentials */}
+      <Card className="p-6">
+        <div className="flex items-center gap-2 mb-1">
+          <Globe className="w-4 h-4 text-stone-500" />
+          <h2 className="font-display text-xl font-medium">Listing Syndication</h2>
+        </div>
+        <p className="text-sm text-stone-500 mb-5">
+          Connect each marketplace once — listings sync automatically per the schedule in Marketing.
+        </p>
+        <div className="grid md:grid-cols-2 gap-3">
+          {[
+            { key: 'carscom',    label: 'Cars.com',    color: '#0066A1', fields: [{ name: 'apiKey',  label: 'Cars.com API Key', type: 'password', placeholder: 'cars_…' }] },
+            { key: 'autotrader', label: 'AutoTrader',  color: '#E25319', fields: [{ name: 'dealerId', label: 'AutoTrader Dealer ID', placeholder: 'AT-…' }] },
+            { key: 'cargurus',   label: 'CarGurus',    color: '#0E8A5F', fields: [{ name: 'dealerId', label: 'CarGurus Dealer ID',   placeholder: 'CG-…' }] },
+            { key: 'facebook',   label: 'Facebook Marketplace', color: '#1877F2', fields: [{ name: 'pageId', label: 'Facebook Page ID', placeholder: '1234567890' }] },
+          ].map((p) => {
+            const connected = integrationConnected(p.key);
+            return (
+              <div key={p.key} className="p-4 border border-stone-200 rounded-md flex items-start gap-3">
+                <div className="w-9 h-9 rounded-md flex items-center justify-center text-white font-display font-bold text-sm shrink-0"
+                  style={{ backgroundColor: p.color }}>{p.label[0]}</div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-2 mb-0.5">
+                    <div className="text-sm font-semibold">{p.label}</div>
+                    <span className={`text-[10px] font-semibold inline-flex items-center gap-1 px-2 py-0.5 rounded-full ${
+                      connected ? 'bg-emerald-50 text-emerald-700' : 'bg-red-50 text-red-700'
+                    }`}>
+                      {connected ? '🟢 Connected' : '🔴 Not configured'}
+                    </span>
+                  </div>
+                  <div className="text-[11px] text-stone-500 mb-2">
+                    {p.fields.map((f) => f.label).join(' · ')}
+                  </div>
+                  {connected ? (
+                    <Btn size="sm" variant="ghost" onClick={() => disconnect(p.key, p.label)}>Disconnect</Btn>
+                  ) : (
+                    <Btn size="sm" variant="outlineGold" onClick={() => openConnect(p.key, p.label, p.fields)}>Connect</Btn>
+                  )}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </Card>
 

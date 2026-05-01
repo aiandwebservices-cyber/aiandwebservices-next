@@ -26,7 +26,7 @@ export function SideRail({ active, onJump, theme, onThemeToggle, lang, onLangTog
   ];
   return (
     <aside className="side-rail" style={{
-      position: 'fixed', top: 0, bottom: 0, left: 0, width: 96,
+      position: 'fixed', top: 'var(--banner-h, 0px)', bottom: 0, left: 0, width: 96,
       background: C.bg, borderRight: `1px solid ${C.rule}`,
       zIndex: 40,
       display: 'flex', flexDirection: 'column',

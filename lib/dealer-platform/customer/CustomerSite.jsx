@@ -20,6 +20,7 @@ import { defaultConfig } from '@/lib/dealer-platform/config/default-config';
 import { CustomerConfigContext } from './CustomerConfigContext';
 import { C, THEMES, FONT_BODY } from './_internals';
 import { CustomerSiteStyles } from './CustomerSiteStyles';
+import { DealerBanner }       from './DealerBanner';
 
 import { SideRail }            from './NavBar';
 import { Ticker }              from './Ticker';
@@ -123,6 +124,7 @@ function CustomerSiteBody({ config }) {
         fontFamily: FONT_BODY,
         transition: 'background-color 300ms ease, color 300ms ease',
       }}>
+      <DealerBanner />
       <SideRail
         active={section} onJump={jump}
         theme={theme} onThemeToggle={() => features.darkMode !== false && setTheme((t) => (t === 'dark' ? 'light' : 'dark'))}
