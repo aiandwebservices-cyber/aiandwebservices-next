@@ -37,6 +37,7 @@ import { InventoryTab } from './InventoryTab';
 import { VehicleFormTab } from './VehicleForm';
 import { LeadsTab } from './LeadsTab';
 import { DealsTab } from './DealBuilderTab';
+import { DocumentsTab } from './DocumentsTab';
 import { SoldTab } from './SoldTab';
 import { MarketingTab } from './MarketingTab';
 import { SettingsTab } from './SettingsTab';
@@ -444,12 +445,17 @@ function AdminPanelBody({ config, slug }) {
                 }}
                 flash={flash}
               />}
+              {activeTab === 'documents' && <DocumentsTab
+                inventory={inventory}
+                flash={flash}
+              />}
               {activeTab === 'appointments' && <AppointmentsTab
                 appointments={appointments} setAppointments={setAppointments}
                 flash={flash}
               />}
               {activeTab === 'sold' && <SoldTab
                 sold={sold} setSold={setSold}
+                settings={settings} setSettings={setSettings}
                 onRestore={restoreSold}
                 flash={flash}
               />}

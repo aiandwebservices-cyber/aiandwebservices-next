@@ -29,7 +29,7 @@ export function DealerBanner() {
   return (
     <>
       <div className="dealer-banner" style={{
-        position: 'fixed', top: 0, left: 0, right: 0,
+        position: 'fixed', top: 0, left: 96, right: 0,
         zIndex: 100, height: 44, background: '#D4AF37', color: '#0a0a0a',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
         gap: 14, padding: '0 44px 0 16px',
@@ -60,6 +60,7 @@ export function DealerBanner() {
       <style>{`
         @media (max-width: 760px) {
           .dealer-banner {
+            left: 64px !important;
             height: auto !important; min-height: 64px;
             padding: 8px 36px !important; flex-wrap: wrap; gap: 4px !important;
           }

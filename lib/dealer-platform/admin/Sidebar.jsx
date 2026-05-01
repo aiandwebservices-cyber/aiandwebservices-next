@@ -2,7 +2,7 @@
 import {
   LayoutDashboard, Car, Plus, Users, BadgeCheck, CheckSquare, Calculator,
   Wrench, Archive, Megaphone, BarChart3, Activity, Settings as SettingsIcon,
-  ChevronLeft,
+  FileText, ChevronLeft,
 } from 'lucide-react';
 import { GOLD, RED_ACCENT } from './_internals';
 
@@ -14,6 +14,7 @@ export const NAV_ITEMS = [
   { id: 'customers',    label: 'Customers',      icon: BadgeCheck },
   { id: 'tasks',        label: 'Tasks',          icon: CheckSquare },
   { id: 'deals',        label: 'Deal Builder',   icon: Calculator },
+  { id: 'documents',    label: 'Documents',      icon: FileText },
   { id: 'appointments', label: 'Service',        icon: Wrench },
   { id: 'sold',         label: 'Sold Vehicles',  icon: Archive },
   { id: 'marketing',    label: 'Marketing',      icon: Megaphone },
