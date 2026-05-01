@@ -11,8 +11,8 @@ import {
   Sparkles, ArrowUpRight, ArrowDownRight, RefreshCw, Share2, Menu,
   MoreHorizontal, FileSpreadsheet, ThumbsUp, Languages, Receipt, Layers,
   PlusCircle, MinusCircle, ChevronLeft, Power, CircleDot, Square, CheckSquare,
-  Wrench, Activity, Gauge, Timer, MessageCircle, Shield, Flag, Reply,
-  TrendingDown, BadgeCheck, Smartphone, Monitor, ChartLine, MoveRight
+  Wrench, Activity, Gauge, Timer, Shield, Flag, Reply,
+  TrendingDown, BadgeCheck, Smartphone, Monitor
 } from 'lucide-react';
 
 /* ------------------------------------------------------------------ */
@@ -2361,6 +2361,39 @@ function LeadsTab({ leads, setLeads, inventory, settings, setSettings, onConvert
               </Field>
             </div>
           </div>
+
+          {/* Follow-up sequence preview */}
+          <div className="mt-6 pt-5 border-t border-stone-200">
+            <div className="flex items-center justify-between mb-3">
+              <div className="text-[10px] smallcaps font-semibold text-stone-500 flex items-center gap-1.5">
+                <Sparkles className="w-3 h-3" style={{ color: GOLD }} /> Follow-Up Sequence Preview
+              </div>
+              <Toggle checked={settings.notifications.autoFollowupEmail || settings.notifications.autoFollowupSms}
+                onChange={() => {}} disabled />
+            </div>
+            <div className="space-y-1.5">
+              {[
+                { time: 'Hour 4', kind: 'Email', text: 'Thanks for your interest in [vehicle]', icon: Mail },
+                { time: 'Hour 24', kind: 'Text', text: "Still interested in the [vehicle]? It's still available.", icon: MessageSquare },
+                { time: 'Day 3', kind: 'Email', text: '[Vehicle] update + 2 similar vehicles to consider', icon: Mail },
+                { time: 'Day 7', kind: 'Email', text: 'Final follow-up — last chance before we feature it', icon: Mail }
+              ].map((s, i) => {
+                const Icon = s.icon;
+                return (
+                  <div key={i} className="flex items-center gap-3 px-3 py-2 bg-stone-50 rounded-md border border-stone-100">
+                    <span className="text-[10px] smallcaps font-bold tabular text-stone-500 w-14">{s.time}</span>
+                    <Icon className="w-3.5 h-3.5 text-stone-500" />
+                    <span className="text-[10px] smallcaps font-semibold w-10" style={{ color: '#7A5A0F' }}>{s.kind}</span>
+                    <span className="text-[12px] text-stone-700 flex-1 italic">"{s.text}"</span>
+                  </div>
+                );
+              })}
+            </div>
+            <div className="mt-3 text-[11px] text-stone-500 leading-relaxed">
+              <strong className="text-stone-700">AI-powered follow-up</strong> — included free.
+              <span style={{ color: GOLD }}> Competitors charge $500+/mo for this.</span>
+            </div>
+          </div>
         </Card>
       )}
 
@@ -2599,6 +2632,23 @@ function DealsTab({ deals, setDeals, inventory, onMarkSold, flash }) {
   const [expanded, setExpanded] = useState(deals[0]?.id || null);
   const [filter, setFilter] = useState('active');
 
+  const fniStats = useMemo(() => {
+    const all = SEED_FNI_HISTORY.concat(deals.filter(d => d.fniProducts).map(d => ({
+      ...d.fniProducts, dealId: d.id
+    })));
+    const totals = FNI_PRODUCT_CATALOG.reduce((acc, p) => {
+      acc[p.key] = all.filter(d => d[p.key]).length;
+      return acc;
+    }, {});
+    const dealsCount = all.length || 1;
+    const monthRevenue = FNI_PRODUCT_CATALOG.reduce((sum, p) => sum + (totals[p.key] || 0) * p.price, 0);
+    const avgPerDeal = monthRevenue / dealsCount;
+    const penetration = FNI_PRODUCT_CATALOG.map(p => ({
+      ...p, count: totals[p.key], rate: (totals[p.key] / dealsCount * 100)
+    }));
+    return { monthRevenue, avgPerDeal, penetration, dealsCount };
+  }, [deals]);
+
   const filtered = useMemo(() => {
     if (filter === 'active') return deals.filter(d => !['Delivered','Lost'].includes(d.status));
     if (filter === 'won') return deals.filter(d => d.status === 'Delivered');
@@ -2627,6 +2677,49 @@ function DealsTab({ deals, setDeals, inventory, onMarkSold, flash }) {
         </div>
       </div>
 
+      {/* F&I Revenue Summary */}
+      <Card className="overflow-hidden mb-6">
+        <div className="grid md:grid-cols-3 gap-0 divide-x divide-stone-200">
+          <div className="p-5">
+            <div className="flex items-center gap-2 mb-1">
+              <Shield className="w-3.5 h-3.5 text-stone-500" />
+              <div className="text-[10px] smallcaps font-semibold text-stone-500">F&I Revenue This Month</div>
+            </div>
+            <div className="font-display tabular text-3xl font-medium" style={{ color: GOLD }}>
+              {fmtMoney(fniStats.monthRevenue)}
+            </div>
+            <div className="text-[11px] text-stone-500 mt-1.5">
+              from {fniStats.dealsCount} deal{fniStats.dealsCount === 1 ? '' : 's'}
+            </div>
+          </div>
+          <div className="p-5">
+            <div className="flex items-center gap-2 mb-1">
+              <Receipt className="w-3.5 h-3.5 text-stone-500" />
+              <div className="text-[10px] smallcaps font-semibold text-stone-500">Avg F&I Per Deal</div>
+            </div>
+            <div className="font-display tabular text-3xl font-medium">{fmtMoney(fniStats.avgPerDeal)}</div>
+            <div className="text-[11px] text-stone-500 mt-1.5">industry avg: $1,452</div>
+          </div>
+          <div className="p-5">
+            <div className="flex items-center gap-2 mb-2">
+              <BarChart3 className="w-3.5 h-3.5 text-stone-500" />
+              <div className="text-[10px] smallcaps font-semibold text-stone-500">Product Penetration</div>
+            </div>
+            <div className="space-y-1">
+              {fniStats.penetration.slice(0, 3).map(p => (
+                <div key={p.key} className="flex items-center gap-2">
+                  <span className="text-[11px] text-stone-600 flex-1 truncate">{p.label}</span>
+                  <div className="w-12 h-1 bg-stone-100 rounded-full overflow-hidden">
+                    <div className="h-full" style={{ width: p.rate + '%', backgroundColor: GOLD }} />
+                  </div>
+                  <span className="text-[10px] tabular text-stone-500 w-9 text-right">{p.rate.toFixed(0)}%</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </Card>
+
       {filtered.length === 0 ? (
         <Card className="p-12 text-center">
           <Calculator className="w-10 h-10 mx-auto text-stone-300 mb-3" strokeWidth={1.25} />
@@ -2640,9 +2733,10 @@ function DealsTab({ deals, setDeals, inventory, onMarkSold, flash }) {
         <div className="space-y-4">
           {filtered.map(deal => {
             const fees = (deal.fees?.docFee || 0) + (deal.fees?.tagTitle || 0) + (deal.fees?.dealerPrep || 0);
-            const financed = dealFinanced(deal);
+            const fniRev = FNI_PRODUCT_CATALOG.reduce((s, p) => s + (deal.fniProducts?.[p.key] ? p.price : 0), 0);
+            const financed = Math.max(0, dealFinanced(deal) + fniRev);
             const monthly = calcPayment(financed, deal.apr, deal.termMonths);
-            const totalCost = (deal.salePrice || 0) + fees;
+            const totalCost = (deal.salePrice || 0) + fees + fniRev;
             const isOpen = expanded === deal.id;
             return (
               <Card key={deal.id} className="overflow-hidden">
@@ -2793,6 +2887,49 @@ function DealsTab({ deals, setDeals, inventory, onMarkSold, flash }) {
                           </div>
                         </div>
 
+                        {/* F&I Products */}
+                        <div className="bg-white border border-stone-200 rounded-md p-4">
+                          <div className="flex items-center justify-between mb-3">
+                            <div className="text-[10px] smallcaps font-semibold text-stone-500 flex items-center gap-1.5">
+                              <Shield className="w-3 h-3" /> F&I Products Selected
+                            </div>
+                            {(() => {
+                              const fniRevenue = FNI_PRODUCT_CATALOG.reduce((s, p) =>
+                                s + (deal.fniProducts?.[p.key] ? p.price : 0), 0);
+                              return (
+                                <span className="font-display tabular text-sm font-semibold" style={{ color: GOLD }}>
+                                  +{fmtMoney(fniRevenue)}
+                                </span>
+                              );
+                            })()}
+                          </div>
+                          <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                            {FNI_PRODUCT_CATALOG.map(p => {
+                              const selected = !!(deal.fniProducts?.[p.key]);
+                              return (
+                                <button key={p.key} type="button"
+                                  onClick={() => updateDeal(deal.id, {
+                                    fniProducts: { ...(deal.fniProducts || {}), [p.key]: !selected }
+                                  })}
+                                  className={`flex items-center gap-2.5 px-3 py-2 rounded-md border text-left transition ${selected ? 'border-2' : 'border-stone-200 hover:border-stone-300'}`}
+                                  style={selected ? { borderColor: GOLD, backgroundColor: '#FFFCF2' } : {}}>
+                                  <div className={`w-4 h-4 rounded flex items-center justify-center shrink-0`}
+                                    style={selected ? { backgroundColor: GOLD } : { border: '1.5px solid #d6d2c8' }}>
+                                    {selected && <Check className="w-3 h-3 text-white" strokeWidth={3} />}
+                                  </div>
+                                  <div className="flex-1 min-w-0">
+                                    <div className="text-[12px] font-medium">{p.label}</div>
+                                  </div>
+                                  <span className={`text-[12px] font-semibold tabular ${selected ? '' : 'text-stone-400'}`}
+                                    style={selected ? { color: '#7A5A0F' } : {}}>
+                                    {fmtMoney(p.price)}
+                                  </span>
+                                </button>
+                              );
+                            })}
+                          </div>
+                        </div>
+
                         {/* Notes */}
                         <Field label="Deal Notes">
                           <Textarea value={deal.notes || ''} rows={2}
@@ -2808,6 +2945,9 @@ function DealsTab({ deals, setDeals, inventory, onMarkSold, flash }) {
                         <div className="space-y-3 mb-5 text-sm">
                           <div className="flex justify-between"><span className="text-stone-400">Sale Price</span><span className="tabular">{fmtMoney(deal.salePrice)}</span></div>
                           <div className="flex justify-between"><span className="text-stone-400">+ Fees</span><span className="tabular">{fmtMoney(fees)}</span></div>
+                          {fniRev > 0 && (
+                            <div className="flex justify-between"><span style={{ color: GOLD }}>+ F&I Products</span><span className="tabular" style={{ color: GOLD }}>{fmtMoney(fniRev)}</span></div>
+                          )}
                           <div className="flex justify-between border-t border-stone-700 pt-3"><span className="font-medium">Total Cost</span><span className="font-semibold tabular">{fmtMoney(totalCost)}</span></div>
                           <div className="flex justify-between"><span className="text-stone-400">− Trade Allowance</span><span className="tabular">{fmtMoney(deal.trade?.value || 0)}</span></div>
                           <div className="flex justify-between"><span className="text-stone-400">− Down Payment</span><span className="tabular">{fmtMoney(deal.downPayment)}</span></div>
@@ -3057,7 +3197,9 @@ function SoldTab({ sold, setSold, onRestore, flash }) {
 
 /* ====================== MARKETING TAB ============================ */
 
-function MarketingTab({ inventory, setInventory, settings, setSettings, sold, flash }) {
+function MarketingTab({ inventory, setInventory, settings, setSettings, sold, reviews = [], setReviews = () => {}, flash }) {
+  const [respondingTo, setRespondingTo] = useState(null);
+  const [responseText, setResponseText] = useState('');
   const [importText, setImportText] = useState('');
   const [importPreview, setImportPreview] = useState(null);
 
@@ -3229,33 +3371,132 @@ function MarketingTab({ inventory, setInventory, settings, setSettings, sold, fl
         )}
       </Card>
 
-      {/* Review Management */}
+      {/* Reputation Management */}
       <Card className="p-6">
         <div className="flex items-center gap-2 mb-1">
           <ThumbsUp className="w-4 h-4 text-stone-500" />
-          <h2 className="font-display text-xl font-medium">Review Management</h2>
+          <h2 className="font-display text-xl font-medium">Reputation Management</h2>
         </div>
-        <p className="text-sm text-stone-500 mb-5">Reviews drive 89% of luxury car shoppers. Automate the ask.</p>
+        <p className="text-sm text-stone-500 mb-5">Reviews drive 89% of luxury car shoppers. Automate the ask, then respond fast.</p>
 
-        <div className="grid md:grid-cols-3 gap-4 mb-5">
-          <div className="p-4 rounded-md" style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.08) 0%, transparent 100%)', border: `1px solid ${GOLD}40` }}>
-            <div className="flex items-center gap-2 mb-1">
-              {[1,2,3,4,5].map(n => <Star key={n} className="w-3.5 h-3.5" fill={GOLD} stroke={GOLD} />)}
+        {/* Hero rating */}
+        <div className="grid md:grid-cols-2 gap-4 mb-6">
+          <div className="p-5 rounded-lg relative overflow-hidden"
+            style={{ background: 'linear-gradient(135deg, rgba(212,175,55,0.12) 0%, transparent 100%)', border: `1px solid ${GOLD}40` }}>
+            <div className="flex items-baseline gap-3">
+              <div className="font-display tabular text-5xl font-medium" style={{ color: '#7A5A0F' }}>4.9</div>
+              <div className="flex-1">
+                <div className="flex items-center gap-0.5 mb-1">
+                  {[1,2,3,4,5].map(n => <Star key={n} className="w-4 h-4" fill={GOLD} stroke={GOLD} />)}
+                </div>
+                <div className="text-[11px] smallcaps text-stone-600">847 Google reviews</div>
+              </div>
             </div>
-            <div className="font-display tabular text-3xl font-medium">4.9</div>
-            <div className="text-[11px] smallcaps text-stone-500 mt-1">Google Rating · 847 reviews</div>
+            <div className="mt-3 inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-semibold"
+              style={{ backgroundColor: '#E8F2EC', color: '#256B40' }}>
+              <TrendingUp className="w-3 h-3" />
+              Above market average (4.2)
+            </div>
           </div>
-          <div className="p-4 rounded-md bg-stone-50">
-            <div className="font-display tabular text-3xl font-medium leading-none">{reviewsCount}</div>
-            <div className="text-[11px] smallcaps text-stone-500 mt-1.5">Reviews Received This Year</div>
-          </div>
-          <div className="p-4 rounded-md bg-stone-50">
-            <div className="font-display tabular text-3xl font-medium leading-none">{pendingReviews}</div>
-            <div className="text-[11px] smallcaps text-stone-500 mt-1.5">Pending Review Requests</div>
+
+          <div className="p-5 rounded-lg bg-stone-50 border border-stone-200">
+            <div className="text-[10px] smallcaps font-semibold text-stone-500 mb-3">Review Request Pipeline</div>
+            <div className="grid grid-cols-2 gap-y-3 gap-x-6">
+              <div>
+                <div className="font-display tabular text-2xl font-medium leading-none">3</div>
+                <div className="text-[10px] smallcaps text-stone-500 mt-1">Pending requests</div>
+              </div>
+              <div>
+                <div className="font-display tabular text-2xl font-medium leading-none">12</div>
+                <div className="text-[10px] smallcaps text-stone-500 mt-1">Sent this month</div>
+              </div>
+              <div>
+                <div className="font-display tabular text-2xl font-medium leading-none" style={{ color: '#256B40' }}>8</div>
+                <div className="text-[10px] smallcaps text-stone-500 mt-1">Reviews received</div>
+              </div>
+              <div>
+                <div className="font-display tabular text-2xl font-medium leading-none" style={{ color: GOLD }}>67%</div>
+                <div className="text-[10px] smallcaps text-stone-500 mt-1">Conversion rate</div>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="space-y-3">
+        {/* Recent reviews feed */}
+        <div className="mb-6">
+          <div className="flex items-center justify-between mb-3">
+            <div className="text-[10px] smallcaps font-semibold text-stone-500">Recent Reviews</div>
+            <a href="#" className="text-[11px] smallcaps font-semibold text-stone-500 hover:text-stone-900">
+              View all on Google <ArrowUpRight className="w-3 h-3 inline" />
+            </a>
+          </div>
+          <div className="space-y-3">
+            {reviews.map(r => (
+              <div key={r.id} className="border border-stone-200 rounded-md p-4 bg-white">
+                <div className="flex items-start justify-between gap-3 mb-2">
+                  <div className="flex items-center gap-3">
+                    <div className="w-9 h-9 rounded-full flex items-center justify-center font-display font-semibold"
+                      style={{ backgroundColor: GOLD_SOFT, color: '#7A5A0F' }}>
+                      {r.author.split(' ').map(p => p[0]).join('').slice(0, 2)}
+                    </div>
+                    <div>
+                      <div className="font-medium text-sm">{r.author}</div>
+                      <div className="flex items-center gap-2">
+                        <div className="flex items-center gap-0.5">
+                          {[1,2,3,4,5].map(n => (
+                            <Star key={n} className="w-3 h-3"
+                              fill={n <= r.rating ? GOLD : 'transparent'}
+                              stroke={n <= r.rating ? GOLD : '#d6d2c8'} strokeWidth={1.5} />
+                          ))}
+                        </div>
+                        <span className="text-[11px] text-stone-400 tabular">· {r.platform} · {relTime(r.date)}</span>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="flex items-center gap-1">
+                    <IconBtn icon={Reply} title="Respond" tone="gold"
+                      onClick={() => { setRespondingTo(r.id); setResponseText(r.response || ''); }} />
+                    <IconBtn icon={Flag} title="Flag inappropriate" tone="danger"
+                      onClick={() => flash('Review flagged for moderation')} />
+                    <IconBtn icon={Share2} title="Share"
+                      onClick={() => flash('Review link copied')} />
+                  </div>
+                </div>
+                <p className="text-[13px] text-stone-700 leading-relaxed mb-2">{r.text}</p>
+
+                {r.response && respondingTo !== r.id && (
+                  <div className="mt-3 pl-4 border-l-2 rounded-l-sm bg-stone-50 p-3 text-[12px] text-stone-700"
+                    style={{ borderColor: GOLD }}>
+                    <div className="text-[10px] smallcaps font-semibold mb-1" style={{ color: '#7A5A0F' }}>Owner response</div>
+                    {r.response}
+                  </div>
+                )}
+
+                {respondingTo === r.id && (
+                  <div className="mt-3 anim-slide">
+                    <Textarea rows={3} value={responseText}
+                      onChange={(e) => setResponseText(e.target.value)}
+                      placeholder="Thanks for the kind words…" />
+                    <div className="flex justify-end gap-2 mt-2">
+                      <Btn size="sm" variant="ghost" onClick={() => { setRespondingTo(null); setResponseText(''); }}>Cancel</Btn>
+                      <Btn size="sm" variant="gold" icon={Send}
+                        onClick={() => {
+                          setReviews(arr => arr.map(x => x.id === r.id ? { ...x, response: responseText, responded: true } : x));
+                          setRespondingTo(null);
+                          setResponseText('');
+                          flash('Response posted to Google');
+                        }}>Post Response</Btn>
+                    </div>
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Auto-toggles */}
+        <div className="pt-5 border-t border-stone-100 space-y-3">
+          <div className="text-[10px] smallcaps font-semibold text-stone-500 mb-2">Automation</div>
           <Toggle checked={settings.marketing.autoReviewRequest}
             onChange={(v) => setSettings(s => ({ ...s, marketing: { ...s.marketing, autoReviewRequest: v } }))}
             label="Auto-send review request 3 days after sale"
