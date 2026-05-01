@@ -27,7 +27,9 @@ export function SideRail({ active, onJump, theme, onThemeToggle, lang, onLangTog
   return (
     <aside className="side-rail" style={{
       position: 'fixed', top: 'var(--banner-h, 0px)', bottom: 0, left: 0, width: 96,
-      background: C.bg, borderRight: `1px solid ${C.rule}`,
+      background: 'var(--c-glass, rgba(9,9,11,0.90))',
+      backdropFilter: 'blur(16px)', WebkitBackdropFilter: 'blur(16px)',
+      borderRight: `1px solid ${C.rule}`,
       zIndex: 40,
       display: 'flex', flexDirection: 'column',
       padding: '20px 0',
@@ -63,12 +65,12 @@ export function SideRail({ active, onJump, theme, onThemeToggle, lang, onLangTog
             display: 'flex', alignItems: 'center', gap: 6,
             padding: '8px 6px', textDecoration: 'none',
             fontFamily: FONT_MONO, fontSize: 9, letterSpacing: 1.5,
-            color: active === id ? C.gold : C.inkLow,
-            borderLeft: `2px solid ${active === id ? C.gold : 'transparent'}`,
-            transition: 'color 200ms, border-color 200ms',
+            color: active === id ? '#2AA5A0' : C.inkLow,
+            borderLeft: `2px solid ${active === id ? '#2AA5A0' : 'transparent'}`,
+            transition: 'color 200ms ease-out, border-color 200ms ease-out',
             marginBottom: 2,
           }}>
-            <span style={{ color: active === id ? C.red : C.inkLow }}>{n}</span>
+            <span style={{ color: active === id ? '#2AA5A0' : C.inkLow }}>{n}</span>
             <span>{l}</span>
           </a>
         ))}

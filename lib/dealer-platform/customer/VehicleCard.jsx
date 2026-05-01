@@ -1,6 +1,5 @@
 'use client';
 import { useEffect, useRef, useState, useMemo } from 'react';
-import Link from 'next/link';
 import {
   C, THEMES, I18N, FONT_DISPLAY, FONT_BODY, FONT_MONO,
   FLEET, monthlyPayment, fmt, fmtMi, useInView, VTag,
@@ -12,12 +11,11 @@ export function FleetCard({ v, url, priceMode, onView, onBuildDeal, isSaved, onT
   const [hover, setHover] = useState(false);
   const monthly = monthlyPayment(v.price);
   const stop = (e) => { e.stopPropagation(); };
-  const stopAndPrevent = (e) => { e.stopPropagation(); e.preventDefault(); };
 
   return (
-    <Link href={url || '#'} style={{ textDecoration: 'none', color: 'inherit', display: 'contents' }}>
     <div
       ref={ref}
+      onClick={() => onView(v)}
       onMouseEnter={() => setHover(true)}
       onMouseLeave={() => setHover(false)}
       style={{
@@ -68,7 +66,7 @@ export function FleetCard({ v, url, priceMode, onView, onBuildDeal, isSaved, onT
         }}>STOCK · {v.id}</div>
 
         {/* HEART (save) — top right */}
-        <button onClick={(e) => { stopAndPrevent(e); onToggleSave(); }}
+        <button onClick={(e) => { stop(e); onToggleSave(); }}
           title={isSaved ? 'Unsave' : 'Save'}
           style={{
             position: 'absolute', top: 10, right: 10, zIndex: 4,
@@ -81,28 +79,24 @@ export function FleetCard({ v, url, priceMode, onView, onBuildDeal, isSaved, onT
             transition: 'background 180ms, color 180ms',
           }}>{isSaved ? '♥' : '♡'}</button>
 
-        {/* hover scrim: Quick View (drawer) + full page link */}
+        {/* hover scrim — "View Details" is an anchor so Google can crawl the vehicle URL */}
         <div style={{
           position: 'absolute', inset: 0,
-          background: 'linear-gradient(0deg, rgba(8,8,10,0.88), rgba(8,8,10,0) 55%)',
+          background: 'linear-gradient(0deg, rgba(8,8,10,0.82), rgba(8,8,10,0) 55%)',
           opacity: hover ? 1 : 0, transition: 'opacity 200ms',
-          display: 'flex', alignItems: 'flex-end', justifyContent: 'center',
-          gap: 8, padding: 14,
+          display: 'flex', alignItems: 'flex-end', justifyContent: 'center', padding: 14,
+          pointerEvents: 'none',
         }}>
-          <button
-            onClick={(e) => { stopAndPrevent(e); onView(v); }}
+          <a
+            href={url}
+            onClick={(e) => { e.preventDefault(); }}
             style={{
-              fontFamily: FONT_DISPLAY, fontSize: 10, letterSpacing: 2, fontWeight: 700,
-              color: C.ink, textTransform: 'uppercase',
-              background: 'transparent', border: `1px solid ${C.rule2}`,
-              padding: '7px 12px', cursor: 'pointer',
+              fontFamily: FONT_DISPLAY, fontSize: 11, letterSpacing: 2, fontWeight: 700,
+              color: '#08080A', textTransform: 'uppercase',
+              background: C.gold, padding: '8px 16px',
+              textDecoration: 'none', pointerEvents: 'auto',
             }}
-          >⚡ Quick View</button>
-          <span style={{
-            fontFamily: FONT_DISPLAY, fontSize: 10, letterSpacing: 2, fontWeight: 700,
-            color: '#08080A', textTransform: 'uppercase',
-            background: C.gold, padding: '8px 14px',
-          }}>Details →</span>
+          >View Details →</a>
         </div>
       </div>
 
@@ -178,7 +172,6 @@ export function FleetCard({ v, url, priceMode, onView, onBuildDeal, isSaved, onT
         </div>
       </div>
     </div>
-    </Link>
   );
 }
 

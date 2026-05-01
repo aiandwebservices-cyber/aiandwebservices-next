@@ -100,8 +100,6 @@ export function CustomerSiteStyles() {
         .warranty-grid { grid-template-columns: 1fr !important; gap: 14px !important; }
         .warranty-grid > div { margin: 0 !important; border-left: 1px solid ${C.rule} !important; }
         .team-grid { grid-template-columns: 1fr 1fr !important; }
-        .team-grid > div:nth-child(2) { border-right: none !important; }
-        .team-grid > div:nth-child(1), .team-grid > div:nth-child(2) { border-bottom: 1px solid ${C.rule} !important; }
         .srv-row3 { grid-template-columns: 1fr 1fr !important; }
       }
       @media (max-width: 760px) {
@@ -121,8 +119,6 @@ export function CustomerSiteStyles() {
         .bodytype-section { padding: 14px 16px 14px 64px !important; }
         .fleet-controls { gap: 8px !important; }
         .team-grid { grid-template-columns: 1fr !important; }
-        .team-grid > div { border-right: none !important; border-bottom: 1px solid ${C.rule} !important; }
-        .team-grid > div:last-child { border-bottom: none !important; }
         .srv-row3 { grid-template-columns: 1fr !important; }
         .hero-grid { padding: 24px 16px 24px 64px !important; }
         .charter-row { grid-template-columns: 60px 1fr !important; gap: 16px !important; }

@@ -51,11 +51,12 @@ export function Warranty() {
         transition: 'opacity 700ms, transform 700ms',
       }}>
         <div style={{ marginBottom: 50, maxWidth: 760 }}>
-          <div style={{
-            fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 3, color: C.cyan, marginBottom: 12,
-          }}>05.5 / WARRANTY PROMISE</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+            <span style={{ width: 28, height: 3, background: '#2AA5A0', borderRadius: 2, display: 'inline-block' }} />
+            <span style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 3, color: '#2AA5A0' }}>05.5 / WARRANTY PROMISE</span>
+          </div>
           <h2 style={{
-            fontFamily: FONT_DISPLAY, fontWeight: 700,
+            fontFamily: FONT_DISPLAY, fontWeight: 800,
             fontSize: 'clamp(2.25rem, 4.5vw, 4rem)', lineHeight: 0.92,
             letterSpacing: '-1.8px', color: C.ink, margin: 0,
             textTransform: 'uppercase', marginBottom: 14,
@@ -68,21 +69,20 @@ export function Warranty() {
         </div>
 
         <div style={{
-          display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 0,
+          display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 12,
           alignItems: 'stretch',
         }} className="warranty-grid">
           {tiers.map((tier, i) => (
             <div key={tier.tag} style={{
               position: 'relative',
-              padding: 32,
+              padding: 32, borderRadius: 12,
               background: tier.featured
                 ? `linear-gradient(160deg, #1A1408 0%, ${C.panel} 100%)`
                 : C.panel,
               border: tier.featured ? `2px solid ${C.gold}` : `1px solid ${C.rule}`,
-              borderLeft: i === 0 ? (tier.featured ? `2px solid ${C.gold}` : `1px solid ${C.rule}`) : (tier.featured ? `2px solid ${C.gold}` : 'none'),
               marginTop: tier.featured ? -8 : 0,
               marginBottom: tier.featured ? -8 : 0,
-              boxShadow: tier.featured ? `0 0 30px ${C.gold}25` : 'none',
+              boxShadow: tier.featured ? `0 0 30px ${C.gold}25, 0 0 0 1px rgba(255,255,255,0.06)` : '0 0 0 1px rgba(255,255,255,0.04)',
               zIndex: tier.featured ? 2 : 1,
               display: 'flex', flexDirection: 'column',
             }}>

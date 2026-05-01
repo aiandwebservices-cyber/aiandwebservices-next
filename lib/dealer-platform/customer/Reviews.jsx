@@ -34,12 +34,12 @@ export function Voices() {
           marginBottom: 50, gap: 24, flexWrap: 'wrap',
         }}>
           <div>
-            <div style={{
-              fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 3, color: C.cyan,
-              marginBottom: 12,
-            }}>07 / VOICES</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+              <span style={{ width: 28, height: 3, background: '#2AA5A0', borderRadius: 2, display: 'inline-block' }} />
+              <span style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 3, color: '#2AA5A0' }}>07 / VOICES</span>
+            </div>
             <h2 style={{
-              fontFamily: FONT_DISPLAY, fontWeight: 700,
+              fontFamily: FONT_DISPLAY, fontWeight: 800,
               fontSize: 'clamp(2.25rem, 4.5vw, 4rem)', lineHeight: 0.92,
               letterSpacing: '-1.8px', color: C.ink, margin: 0,
               textTransform: 'uppercase',
@@ -63,21 +63,21 @@ export function Voices() {
 
         {/* feed — telemetry log style */}
         <div style={{
-          display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 0,
-          border: `1px solid ${C.rule}`,
+          display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 4,
         }} className="voices-grid">
           {REV.map((r, i) => (
             <article key={i} style={{
-              padding: 28,
-              borderRight: i % 2 === 0 ? `1px solid ${C.rule}` : 'none',
-              borderBottom: i < REV.length - 2 ? `1px solid ${C.rule}` : 'none',
+              padding: 28, borderRadius: 12,
+              border: `1px solid ${C.rule}`,
               background: i % 2 === 0 ? C.panel : C.bg2,
+              margin: 8,
+              boxShadow: '0 0 0 1px rgba(255,255,255,0.04)',
             }}>
               <div style={{
                 display: 'flex', justifyContent: 'space-between', alignItems: 'baseline',
                 marginBottom: 14,
               }}>
-                <div style={{ color: C.gold, fontSize: 12, letterSpacing: 1 }}>★★★★★</div>
+                <div style={{ color: '#E2B23C', fontSize: 13, letterSpacing: 2 }}>★★★★★</div>
                 <div style={{
                   fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 1.5, color: C.inkLow,
                 }}>{r.date}</div>

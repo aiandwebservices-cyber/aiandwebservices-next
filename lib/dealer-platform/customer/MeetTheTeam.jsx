@@ -11,11 +11,12 @@ export function MeetTheTeam() {
   const phoneDigits = (cfg.phone || '').replace(/\D/g, '');
   const teamEmail = cfg.email || 'team@example.com';
   const [ref, seen] = useInView();
+  const [hoveredIdx, setHoveredIdx] = useState(-1);
   const team = [
-    { name: 'Carlos Rivera',  role: 'SALES MANAGER',         bio: '15 years helping local drivers find the perfect car.', initials: 'CR', tone: C.gold },
-    { name: 'Maria Santos',   role: 'FINANCE DIRECTOR',      bio: 'Making car ownership affordable for every budget.',    initials: 'MS', tone: C.cyan },
+    { name: 'Carlos Rivera',  role: 'SALES MANAGER',         bio: '15 years helping local drivers find the perfect car.', initials: 'CR', tone: '#2AA5A0' },
+    { name: 'Maria Santos',   role: 'FINANCE DIRECTOR',      bio: 'Making car ownership affordable for every budget.',    initials: 'MS', tone: C.gold },
     { name: 'James Mitchell', role: 'SALES CONSULTANT',      bio: 'Your car, your terms. No pressure, ever.',             initials: 'JM', tone: C.red  },
-    { name: 'Ana Gutierrez',  role: 'SERVICIO EN ESPAÑOL',   bio: 'Aquí para ayudarte en cada paso.',                     initials: 'AG', tone: C.gold },
+    { name: 'Ana Gutierrez',  role: 'SERVICIO EN ESPAÑOL',   bio: 'Aquí para ayudarte en cada paso.',                     initials: 'AG', tone: '#2AA5A0' },
   ];
 
   return (
@@ -31,38 +32,48 @@ export function MeetTheTeam() {
         transition: 'opacity 700ms, transform 700ms',
       }}>
         <div style={{ marginBottom: 56, maxWidth: 760 }}>
-          <div style={{
-            fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 3, color: C.cyan, marginBottom: 12,
-          }}>07.5 / THE CREW</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+            <span style={{ width: 28, height: 3, background: '#2AA5A0', borderRadius: 2, display: 'inline-block' }} />
+            <span style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 3, color: '#2AA5A0' }}>07.5 / THE CREW</span>
+          </div>
           <h2 style={{
-            fontFamily: FONT_DISPLAY, fontWeight: 700,
+            fontFamily: FONT_DISPLAY, fontWeight: 800,
             fontSize: 'clamp(2.25rem, 4.5vw, 4rem)', lineHeight: 0.92,
             letterSpacing: '-1.8px', color: C.ink, margin: 0,
             textTransform: 'uppercase',
-          }}>Meet the <span style={{ color: C.gold }}>team.</span></h2>
+          }}>Meet the <span style={{ color: '#2AA5A0' }}>team.</span></h2>
         </div>
 
         <div style={{
-          display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 0,
-          border: `1px solid ${C.rule}`,
+          display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 4,
         }} className="team-grid">
           {team.map((m, i) => (
-            <div key={m.name} style={{
-              padding: 28, background: i % 2 === 0 ? C.panel : C.bg2,
-              borderRight: i < 3 ? `1px solid ${C.rule}` : 'none',
-              display: 'flex', flexDirection: 'column', gap: 14,
-            }}>
-              {/* avatar */}
+            <div
+              key={m.name}
+              onMouseEnter={() => setHoveredIdx(i)}
+              onMouseLeave={() => setHoveredIdx(-1)}
+              style={{
+                padding: 28, background: C.panel,
+                border: `1px solid ${C.rule}`, borderRadius: 12,
+                margin: 8,
+                display: 'flex', flexDirection: 'column', gap: 14,
+                position: 'relative', overflow: 'hidden',
+                transition: 'box-shadow 200ms ease-out, transform 200ms ease-out',
+                boxShadow: hoveredIdx === i ? `0 8px 24px rgba(0,0,0,0.24), 0 0 0 1px ${m.tone}33` : '0 0 0 1px rgba(255,255,255,0.04)',
+                transform: hoveredIdx === i ? 'translateY(-3px)' : 'none',
+              }}
+            >
+              {/* Avatar — circular */}
               <div style={{
-                width: 72, height: 72, position: 'relative',
-                background: `linear-gradient(135deg, ${m.tone}, ${m.tone}55)`,
-                border: `1px solid ${m.tone}`,
-                clipPath: 'polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%)',
+                width: 72, height: 72, borderRadius: '50%', position: 'relative',
+                background: `linear-gradient(135deg, ${m.tone}33, ${m.tone}66)`,
+                border: `2px solid ${m.tone}`,
                 display: 'grid', placeItems: 'center',
+                flexShrink: 0,
               }}>
                 <span style={{
-                  fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 24,
-                  color: '#08080A', letterSpacing: -0.5,
+                  fontFamily: FONT_DISPLAY, fontWeight: 800, fontSize: 22,
+                  color: m.tone, letterSpacing: -0.5,
                 }}>{m.initials}</span>
               </div>
 
@@ -78,33 +89,35 @@ export function MeetTheTeam() {
               </div>
 
               <p style={{
-                fontFamily: FONT_BODY, fontSize: 13, color: C.inkDim, lineHeight: 1.55,
-                margin: 0, flex: 1,
+                fontFamily: FONT_BODY, fontSize: 13, color: C.inkDim, lineHeight: 1.6,
+                margin: 0, flex: 1, fontStyle: 'italic',
               }}>"{m.bio}"</p>
 
               <div style={{
-                paddingTop: 12, borderTop: `1px dashed ${C.rule2}`,
-                display: 'flex', gap: 6,
+                paddingTop: 12, borderTop: `1px solid ${C.rule}`,
+                display: 'flex', gap: 8,
               }}>
                 <a href={`tel:${phoneDigits}`} title="Call" style={{
-                  flex: 1, padding: '8px',
+                  flex: 1, padding: '9px',
                   background: 'transparent', border: `1px solid ${C.rule2}`,
-                  color: C.gold, textAlign: 'center', textDecoration: 'none',
+                  borderRadius: 6,
+                  color: '#2AA5A0', textAlign: 'center', textDecoration: 'none',
                   fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 1.5, fontWeight: 700,
-                  transition: 'all 180ms',
+                  transition: 'all 200ms ease-out',
                 }}
-                onMouseEnter={e => e.currentTarget.style.borderColor = C.gold}
-                onMouseLeave={e => e.currentTarget.style.borderColor = C.rule2}
+                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(42,165,160,0.1)'; e.currentTarget.style.borderColor = '#2AA5A0'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = C.rule2; }}
                 >📞 CALL</a>
                 <a href={`mailto:${teamEmail}`} title="Email" style={{
-                  flex: 1, padding: '8px',
+                  flex: 1, padding: '9px',
                   background: 'transparent', border: `1px solid ${C.rule2}`,
-                  color: C.cyan, textAlign: 'center', textDecoration: 'none',
+                  borderRadius: 6,
+                  color: '#2AA5A0', textAlign: 'center', textDecoration: 'none',
                   fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 1.5, fontWeight: 700,
-                  transition: 'all 180ms',
+                  transition: 'all 200ms ease-out',
                 }}
-                onMouseEnter={e => e.currentTarget.style.borderColor = C.cyan}
-                onMouseLeave={e => e.currentTarget.style.borderColor = C.rule2}
+                onMouseEnter={e => { e.currentTarget.style.background = 'rgba(42,165,160,0.1)'; e.currentTarget.style.borderColor = '#2AA5A0'; }}
+                onMouseLeave={e => { e.currentTarget.style.background = 'transparent'; e.currentTarget.style.borderColor = C.rule2; }}
                 >✉ EMAIL</a>
               </div>
             </div>

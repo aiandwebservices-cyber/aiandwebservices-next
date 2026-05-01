@@ -25,11 +25,12 @@ export function CountersBlock() {
         display: 'grid', gridTemplateColumns: '1fr 2.5fr', gap: 36, alignItems: 'center',
       }} className="counters-grid">
         <div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 10 }}>
+            <span style={{ width: 24, height: 3, background: '#2AA5A0', borderRadius: 2, display: 'inline-block' }} />
+            <span style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 3, color: '#2AA5A0' }}>SOCIAL PROOF</span>
+          </div>
           <div style={{
-            fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 3, color: C.cyan, marginBottom: 8,
-          }}>SOCIAL PROOF</div>
-          <div style={{
-            fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 'clamp(1.5rem, 3vw, 2.25rem)',
+            fontFamily: FONT_DISPLAY, fontWeight: 800, fontSize: 'clamp(1.5rem, 3vw, 2.25rem)',
             color: C.ink, letterSpacing: -0.8, textTransform: 'uppercase', lineHeight: 1.05,
           }}>The numbers.</div>
           <div style={{

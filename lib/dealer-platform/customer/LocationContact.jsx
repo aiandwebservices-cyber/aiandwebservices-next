@@ -59,12 +59,12 @@ export function Contact() {
         transition: 'opacity 700ms, transform 700ms',
       }}>
         <div style={{ marginBottom: 50, maxWidth: 760 }}>
-          <div style={{
-            fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 3, color: C.cyan,
-            marginBottom: 12,
-          }}>10 / CONTACT</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+            <span style={{ width: 28, height: 3, background: '#2AA5A0', borderRadius: 2, display: 'inline-block' }} />
+            <span style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 3, color: '#2AA5A0' }}>10 / CONTACT</span>
+          </div>
           <h2 style={{
-            fontFamily: FONT_DISPLAY, fontWeight: 700,
+            fontFamily: FONT_DISPLAY, fontWeight: 800,
             fontSize: 'clamp(2.25rem, 4.5vw, 4rem)', lineHeight: 0.92,
             letterSpacing: '-1.8px', color: C.ink, margin: 0,
             textTransform: 'uppercase', marginBottom: 14,
@@ -82,7 +82,7 @@ export function Contact() {
           border: `1px solid ${C.rule}`,
         }} className="contact-split">
           {/* left: location & map */}
-          <div style={{ borderRight: `1px solid ${C.rule}` }}>
+          <div style={{ borderRight: `1px solid ${C.rule}`, overflow: 'hidden', borderRadius: '12px 0 0 0' }}>
             {(() => {
               const fullAddr = [config.address?.street, config.address?.city, config.address?.state, config.address?.zip]
                 .filter(Boolean).join(', ');
@@ -239,13 +239,16 @@ export function Contact() {
                   </div>
                 )}
                 <button onClick={handleContact} disabled={submitting} style={{
-                  marginTop: 8, padding: 16,
-                  background: submitting ? C.rule2 : C.red,
-                  color: submitting ? C.inkLow : C.ink,
+                  marginTop: 8, padding: 16, borderRadius: 8,
+                  background: submitting ? C.rule2 : '#2AA5A0',
+                  color: submitting ? C.inkLow : '#fff',
                   border: 'none', cursor: submitting ? 'not-allowed' : 'pointer',
                   fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 14, letterSpacing: 2,
-                  textTransform: 'uppercase',
-                }}>{submitting ? 'Submitting...' : '▸ TRANSMIT'}</button>
+                  textTransform: 'uppercase', transition: 'all 200ms ease-out',
+                }}
+                onMouseEnter={e => { if (!submitting) { e.currentTarget.style.background = '#238b87'; e.currentTarget.style.transform = 'scale(1.02)'; } }}
+                onMouseLeave={e => { e.currentTarget.style.background = submitting ? C.rule2 : '#2AA5A0'; e.currentTarget.style.transform = 'scale(1)'; }}
+                >{submitting ? 'Submitting...' : '▸ TRANSMIT'}</button>
               </div>
             )}
           </div>

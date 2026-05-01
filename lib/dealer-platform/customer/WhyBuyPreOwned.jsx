@@ -21,11 +21,12 @@ export function WhyPreOwned() {
         transition: 'opacity 700ms, transform 700ms',
       }}>
         <div style={{ marginBottom: 50, maxWidth: 720 }}>
-          <div style={{
-            fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 3, color: C.cyan, marginBottom: 12,
-          }}>03.5 / WHY PRE-OWNED</div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 12 }}>
+            <span style={{ width: 28, height: 3, background: '#2AA5A0', borderRadius: 2, display: 'inline-block' }} />
+            <span style={{ fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 3, color: '#2AA5A0' }}>03.5 / WHY PRE-OWNED</span>
+          </div>
           <h2 style={{
-            fontFamily: FONT_DISPLAY, fontWeight: 700,
+            fontFamily: FONT_DISPLAY, fontWeight: 800,
             fontSize: 'clamp(2.25rem, 4.5vw, 4rem)', lineHeight: 0.92,
             letterSpacing: '-1.8px', color: C.ink, margin: 0,
             textTransform: 'uppercase',
