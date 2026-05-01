@@ -76,14 +76,38 @@ const FONT_MONO    = 'var(--font-mono), "JetBrains Mono", "IBM Plex Mono", monos
 
 /* ─── Inventory ─────────────────────────────────────────── */
 const FLEET = [
-  { id:'P5012', y:2023, mk:'BMW',           md:'X5',                 trim:'xDrive40i',          price:42995, mi:18420, body:'SUV',   ext:'Alpine White',     int:'Black Vernasca',  eng:'3.0L Turbo I6',   tx:'8-spd Auto',     dr:'AWD',  hp:335, sec:'5.3', mpg:23, vin:'WBA••••••3K9L21', img:'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=1400&q=85&auto=format,compress',  flags:['ONE-OWNER','NO ACCIDENTS'] },
-  { id:'P5023', y:2022, mk:'Mercedes-Benz', md:'GLE',                trim:'350 4MATIC',         price:38750, mi:24310, body:'SUV',   ext:'Obsidian Black',   int:'Macchiato Beige', eng:'2.0L Turbo I4',   tx:'9-spd Auto',     dr:'AWD',  hp:255, sec:'6.7', mpg:25, vin:'4JG•••••••N4H88', img:'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=1400&q=85&auto=format,compress', flags:['ONE-OWNER','NO ACCIDENTS'] },
-  { id:'P5031', y:2024, mk:'Audi',          md:'A6',                 trim:'Premium Plus 45 TFSI', price:44900, mi:9870,  body:'Sedan', ext:'Glacier White',    int:'Black Leather',   eng:'2.0L TFSI',       tx:'7-spd S tronic', dr:'AWD',  hp:261, sec:'5.7', mpg:30, vin:'WAU•••••••P201',  img:'https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=1400&q=85&auto=format,compress', flags:['ONE-OWNER','LOW MILEAGE'] },
-  { id:'P5044', y:2021, mk:'Lexus',         md:'RX',                 trim:'350 F Sport',        price:31995, mi:38600, body:'SUV',   ext:'Nori Green Pearl', int:'Circuit Red',     eng:'3.5L V6',         tx:'8-spd Auto',     dr:'AWD',  hp:295, sec:'7.2', mpg:22, vin:'2T2•••••••MC42',  img:'https://images.unsplash.com/photo-1568844293986-8d0400bd4745?w=1400&q=85&auto=format,compress', flags:['NO ACCIDENTS'] },
-  { id:'P5052', y:2023, mk:'Tesla',         md:'Model Y',            trim:'Long Range',         price:36500, mi:14200, body:'SUV',   ext:'Pearl White',      int:'All Black',       eng:'Dual Motor EV',   tx:'1-spd Direct',   dr:'AWD',  hp:384, sec:'4.8', mpg:122,vin:'7SA•••••••P772',  img:'https://images.unsplash.com/photo-1617704548623-340376564e68?w=1400&q=85&auto=format,compress', flags:['ONE-OWNER','EV'] },
-  { id:'P5066', y:2022, mk:'Porsche',       md:'911',                trim:'Carrera S',          price:52800, mi:21400, body:'Coupe', ext:'Carrara White',    int:'Black/Bordeaux',  eng:'3.0L Twin-Turbo Flat-6', tx:'8-spd PDK', dr:'RWD', hp:443, sec:'3.5', mpg:20, vin:'WP0•••••••N005',  img:'https://images.unsplash.com/photo-1614162692292-7ac56d7f7f1e?w=1400&q=85&auto=format,compress', flags:['ONE-OWNER','LUXURY'] },
-  { id:'P5077', y:2023, mk:'Range Rover',   md:'Sport',              trim:'P400 SE',            price:61995, mi:12890, body:'SUV',   ext:'Santorini Black',  int:'Ebony Windsor',   eng:'3.0L Mild-Hybrid I6', tx:'8-spd Auto', dr:'AWD',  hp:395, sec:'5.7', mpg:21, vin:'SAL•••••••P210',  img:'https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=1400&q=85&auto=format,compress', flags:['ONE-OWNER','LOW MILEAGE'] },
-  { id:'P5081', y:2022, mk:'Ford',          md:'F-150',              trim:'King Ranch SuperCrew', price:54900, mi:28900, body:'Truck', ext:'Star White',       int:'Java Leather',    eng:'3.5L EcoBoost V6',tx:'10-spd Auto',    dr:'4WD',  hp:400, sec:'6.5', mpg:18, vin:'1FT•••••••N113',  img:'https://images.unsplash.com/photo-1605559424843-9e4c228bf1c2?w=1400&q=85&auto=format,compress', flags:['NO ACCIDENTS','LUXURY'] },
+  { id:'P5012', y:2023, mk:'BMW',           md:'X5',       trim:'xDrive40i',        price:42995, mi:18420, body:'SUV',   ext:'Alpine White',      int:'Black Vernasca',       eng:'3.0L Turbo I6',          tx:'8-spd Auto',      dr:'AWD', hp:335, sec:'5.3', mpg:23, vin:'WBA••••••3K9L21',
+    img:'https://images.unsplash.com/photo-1555215695-3004980ad54e?w=1400&q=85&auto=format,compress',
+    imgs:['https://images.unsplash.com/photo-1555215695-3004980ad54e?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1635990215241-4d2805d729bb?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1696294586764-6baffd088b71?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1674996047492-6b5cdc2dcf0a?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1661336878277-1d0078e7b3e4?w=1400&q=85&auto=format,compress'],
+    videoId:'F0fiVTMg3Lw', flags:['ONE-OWNER','NO ACCIDENTS'] },
+  { id:'P5023', y:2022, mk:'Mercedes-Benz', md:'GLE',      trim:'350 4MATIC',       price:38750, mi:24310, body:'SUV',   ext:'Obsidian Black',    int:'Macchiato Beige',      eng:'2.0L Turbo I4',          tx:'9-spd Auto',      dr:'AWD', hp:255, sec:'6.7', mpg:25, vin:'4JG•••••••N4H88',
+    img:'https://images.unsplash.com/photo-1611168935847-4bf3f7291cde?w=1400&q=85&auto=format,compress',
+    imgs:['https://images.unsplash.com/photo-1611168935847-4bf3f7291cde?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1669234226129-8ede05b40eff?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1577615792595-d38014354328?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1775848366227-63ba09dddebb?w=1400&q=85&auto=format,compress'],
+    videoId:'5Rb9S1DNjR0', flags:['ONE-OWNER','NO ACCIDENTS'] },
+  { id:'P5031', y:2024, mk:'Audi',          md:'Q5',       trim:'Premium Plus',     price:44900, mi:9870,  body:'SUV',   ext:'Glacier White',     int:'Black Leather',        eng:'2.0L TFSI',              tx:'7-spd S tronic',  dr:'AWD', hp:261, sec:'5.7', mpg:25, vin:'WA1•••••••P201',
+    img:'https://images.unsplash.com/photo-1599912027806-cfec9f5944b6?w=1400&q=85&auto=format,compress',
+    imgs:['https://images.unsplash.com/photo-1599912027806-cfec9f5944b6?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1621349337628-d4f1c1a24114?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1710011115876-301113e1bb61?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1661336878277-1d0078e7b3e4?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1564435147762-f17f9cd384dd?w=1400&q=85&auto=format,compress'],
+    videoId:'2kdEYmsJfx0', flags:['ONE-OWNER','LOW MILEAGE'] },
+  { id:'P5044', y:2021, mk:'Lexus',         md:'RX',       trim:'350 F Sport',      price:31995, mi:38600, body:'SUV',   ext:'Nori Green Pearl',  int:'Circuit Red',          eng:'3.5L V6',                tx:'8-spd Auto',      dr:'AWD', hp:295, sec:'7.2', mpg:22, vin:'2T2•••••••MC42',
+    img:'https://images.unsplash.com/photo-1777015558094-f92d538f9c80?w=1400&q=85&auto=format,compress',
+    imgs:['https://images.unsplash.com/photo-1777015558094-f92d538f9c80?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1742941158083-be03727c216b?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1568844293986-8d0400bd4745?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1698122660398-c4926f451314?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1775848366227-63ba09dddebb?w=1400&q=85&auto=format,compress'],
+    videoId:'ORTqyx8VyM8', flags:['NO ACCIDENTS'] },
+  { id:'P5052', y:2023, mk:'Tesla',         md:'Model Y',  trim:'Long Range',       price:36500, mi:14200, body:'SUV',   ext:'Pearl White',       int:'All Black',            eng:'Dual Motor EV',          tx:'1-spd Direct',    dr:'AWD', hp:384, sec:'4.8', mpg:122,vin:'7SA•••••••P772',
+    img:'https://images.unsplash.com/photo-1617704548623-340376564e68?w=1400&q=85&auto=format,compress',
+    imgs:['https://images.unsplash.com/photo-1617704548623-340376564e68?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1676754568744-7852efc67c40?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1560958089-b8a1929cea89?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1561580125-028ee3bd62eb?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1564435147762-f17f9cd384dd?w=1400&q=85&auto=format,compress'],
+    videoId:'Q6PXeomevhE', flags:['ONE-OWNER','EV'] },
+  { id:'P5066', y:2022, mk:'Porsche',       md:'Cayenne',  trim:'S AWD',            price:52800, mi:21400, body:'SUV',   ext:'Jet Black',         int:'Black/Bordeaux Red',   eng:'2.9L Twin-Turbo V6',     tx:'8-spd Tiptronic', dr:'AWD', hp:434, sec:'4.9', mpg:19, vin:'WP0•••••••N005',
+    img:'https://images.unsplash.com/photo-1699325974549-fd06639650aa?w=1400&q=85&auto=format,compress',
+    imgs:['https://images.unsplash.com/photo-1699325974549-fd06639650aa?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1649296303096-38245976e01e?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1699325929994-b94ae0c8f552?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1654159866298-e3c8ee93e43b?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1654159866743-9775bad1c43d?w=1400&q=85&auto=format,compress'],
+    videoId:'_bG9l1PuT3I', flags:['ONE-OWNER','LUXURY'] },
+  { id:'P5077', y:2023, mk:'Range Rover',   md:'Sport',    trim:'P400 SE',          price:61995, mi:12890, body:'SUV',   ext:'Santorini Black',   int:'Ebony Windsor',        eng:'3.0L Mild-Hybrid I6',    tx:'8-spd Auto',      dr:'AWD', hp:395, sec:'5.7', mpg:21, vin:'SAL•••••••P210',
+    img:'https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=1400&q=85&auto=format,compress',
+    imgs:['https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1679506640590-f0152786dff0?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1638686302275-0e87df720aca?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1604054094723-3a949e4a8993?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1661336878277-1d0078e7b3e4?w=1400&q=85&auto=format,compress'],
+    videoId:'Ry4JkvNJ4AI', flags:['ONE-OWNER','LOW MILEAGE'] },
+  { id:'P5081', y:2022, mk:'Cadillac',      md:'Escalade', trim:'Premium Luxury',   price:58900, mi:28900, body:'SUV',   ext:'Black Raven',       int:'Jet Black Semi-Aniline',eng:'6.2L V8',               tx:'10-spd Auto',     dr:'4WD', hp:420, sec:'6.0', mpg:14, vin:'1GYS4•••••••N113',
+    img:'https://images.unsplash.com/photo-1683778547049-8d969766b441?w=1400&q=85&auto=format,compress',
+    imgs:['https://images.unsplash.com/photo-1683778547049-8d969766b441?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1684208551873-64416367be50?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1684208551877-6595c34bf759?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1564435147762-f17f9cd384dd?w=1400&q=85&auto=format,compress','https://images.unsplash.com/photo-1775848366227-63ba09dddebb?w=1400&q=85&auto=format,compress'],
+    videoId:'tZ-YDLX2mHs', flags:['NO ACCIDENTS','LUXURY'] },
 ];
 
 /* monthly payment math: P = r·PV / (1 − (1+r)^−n)  */
@@ -817,7 +841,7 @@ function DetailDrawer({ v, onClose, onBuildDeal, onReserve, isReserved }) {
   const delValidZip = /^\d{5}$/.test(delZip);
   const delFee = delValidZip ? (delZipFL ? 0 : (parseInt(delZip[2]) > 5 ? 199 : 99)) : null;
 
-  const thumbs = [v.img, v.img, v.img, v.img, v.img];
+  const thumbs = v.imgs || [v.img, v.img, v.img, v.img, v.img];
 
   // anim in
   const [open, setOpen] = useState(false);
@@ -934,50 +958,27 @@ function DetailDrawer({ v, onClose, onBuildDeal, onReserve, isReserved }) {
           </div>
         </div>
 
-        {/* video walkaround placeholder */}
+        {/* video walkaround */}
         <div style={{ padding: '28px 28px 0' }}>
           <div style={{
-            position: 'relative', aspectRatio: '21/9',
-            background: `linear-gradient(135deg, #050508 0%, #0E0E12 100%)`,
-            border: `1px solid ${C.rule}`, overflow: 'hidden',
-            display: 'grid', placeItems: 'center', cursor: 'pointer',
+            fontFamily: FONT_MONO, fontSize: 9, letterSpacing: 2, color: C.gold,
+            marginBottom: 8, display: 'flex', alignItems: 'center', gap: 8,
           }}>
-            {/* scan lines */}
-            <div style={{
-              position: 'absolute', inset: 0, pointerEvents: 'none',
-              backgroundImage: `repeating-linear-gradient(0deg, transparent 0 2px, rgba(91,227,255,0.04) 2px 3px)`,
-            }} />
-            {/* play button */}
-            <div style={{
-              position: 'relative', display: 'flex', flexDirection: 'column',
-              alignItems: 'center', gap: 12,
-            }}>
-              <div style={{
-                width: 72, height: 72, borderRadius: '50%',
-                background: 'rgba(226,178,60,0.15)', border: `2px solid ${C.gold}`,
-                display: 'grid', placeItems: 'center',
-                boxShadow: `0 0 40px ${C.gold}40`,
-                animation: 'pulseGlow 2s ease-in-out infinite',
-              }}>
-                <span style={{
-                  marginLeft: 4, color: C.gold, fontSize: 26,
-                }}>▶</span>
-              </div>
-              <div style={{
-                fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 16,
-                color: C.ink, letterSpacing: 0.5, textTransform: 'uppercase',
-              }}>360° Video Walkaround</div>
-              <div style={{
-                fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 2, color: C.gold,
-              }}>2:14 · HD AVAILABLE</div>
-            </div>
-            {/* corner badge */}
-            <div style={{
-              position: 'absolute', top: 12, left: 12,
-              background: C.red, color: '#FFF',
-              fontFamily: FONT_MONO, fontSize: 9, letterSpacing: 1.5, fontWeight: 700,
-              padding: '4px 8px',
-            }}>● LIVE WALKAROUND</div>
+            <span style={{ color: C.red }}>●</span> VIDEO WALKAROUND · {v.y} {v.mk} {v.md}
+          </div>
+          <div style={{
+            position: 'relative', aspectRatio: '16/9',
+            border: `1px solid ${C.rule}`, overflow: 'hidden',
+            background: '#000',
+          }}>
+            <iframe
+              src={`https://www.youtube.com/embed/${v.videoId}?rel=0&modestbranding=1&color=white`}
+              title={`${v.y} ${v.mk} ${v.md} walkaround`}
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+              allowFullScreen
+              loading="lazy"
+              style={{ width: '100%', height: '100%', border: 'none', display: 'block' }}
+            />
           </div>
         </div>
 
