@@ -5218,9 +5218,9 @@ export default function PrimoAutoGroup() {
         }
         .dealer-btn {
           position: fixed;
-          top: 50%;
-          left: 50%;
-          transform: translate(-50%, -50%);
+          top: 38px;
+          left: calc(50% + 48px);
+          transform: translateX(-50%);
           z-index: 90;
           background: #D4AF37;
           color: #0a0a0a;
@@ -5236,11 +5236,11 @@ export default function PrimoAutoGroup() {
           animation: dealerPulse 2.5s ease-in-out infinite;
           transition: filter 0.15s;
         }
-        .dealer-btn:hover { transform: translate(-50%, -50%) scale(1.04); filter: brightness(1.08); }
+        .dealer-btn:hover { transform: translateX(-50%) scale(1.04); filter: brightness(1.08); }
         @media (max-width: 760px) {
           .dealer-btn {
-            top: 14px;
-            right: 14px;
+            top: 38px;
+            left: calc(50% + 32px);
             font-size: 11px;
             padding: 8px 12px;
             animation: none;
