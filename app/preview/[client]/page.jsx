@@ -6,11 +6,18 @@ import { notFound, redirect } from 'next/navigation';
 // value = where their site is hosted
 // ─────────────────────────────────────────────────────────────
 const CLIENTS = {
-  mrs: {
-    name: 'Mitigation Restoration Services',
-    url: 'https://mrs-website-nine.vercel.app',
+  lotcrm: {
+    name: 'LotCRM — Car Dealership Demo',
+    url: 'https://lotpilot.ai/dealers/lotcrm',
   },
-  // 'next-client': { name: 'Next Client Name', url: 'https://...' },
+  example005: {
+    name: 'LotCRM — Car Dealership Demo',
+    url: 'https://lotpilot.ai/dealers/lotcrm',
+  },
+  primo: {
+    name: 'Primo Auto — Dealership Demo',
+    url: 'https://lotpilot.ai/dealers/primo',
+  },
 };
 
 export const metadata = {
