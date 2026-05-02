@@ -13,7 +13,7 @@ const SAMPLES = [
     bg: '#0a0a0a',
     desc: 'Full dealer CRM demo with inventory management, lead tracking, AI follow-up, and finance tools — powered by LotPilot.',
     tags: ['CRM', 'Dealership', 'LotPilot'],
-    href: 'https://lotpilot.ai/dealers/lotcrm',
+    href: '/samples/lotcrm',
   },
   {
     id: 'example001',

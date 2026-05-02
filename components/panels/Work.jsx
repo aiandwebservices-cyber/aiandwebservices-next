@@ -5,8 +5,8 @@ import { ExternalLink } from 'lucide-react';
 
 const samples = [
   {
-    href:     '/samples/example005',
-    domain:   'primoautogroup.aiandwebservices.com',
+    href:     '/samples/lotcrm',
+    domain:   'lotcrm.aiandwebservices.com',
     label:    'Car Dealership',
     emoji:    '🚗',
     accent:   '#D4AF37',
