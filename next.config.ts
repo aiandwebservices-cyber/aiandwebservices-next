@@ -108,9 +108,11 @@ const nextConfig: NextConfig = {
         destination: 'https://blog.aiandwebservices.com/:slug*',
         permanent: true,
       },
-      // LotPilot moved to its own domain — only redirect when traffic arrives
-      // on the AIandWEBservices domains, so local dev and the lotpilot.ai
-      // domain itself can serve /lotpilot/* directly.
+      // LotPilot lives in a SEPARATE Vercel project (lotpilot-next, repo:
+      // github.com/aiandwebservices-cyber/lotpilot-next). All LotPilot
+      // marketing + dealer code lives there — DO NOT add an app/lotpilot/
+      // tree here, it will only confuse future edits. These redirects send
+      // any aiandwebservices.com/lotpilot/* hits to the canonical domain.
       { source: '/dealers/:path*',                has: [{ type: 'host', value: '(www\\.)?aiandwebservices\\.com' }], destination: 'https://lotpilot.ai/dealers/:path*',  permanent: true },
       { source: '/samples/example005',            has: [{ type: 'host', value: '(www\\.)?aiandwebservices\\.com' }], destination: 'https://lotpilot.ai/dealers/lotcrm',           permanent: true },
       { source: '/samples/example005/:path*',     has: [{ type: 'host', value: '(www\\.)?aiandwebservices\\.com' }], destination: 'https://lotpilot.ai/dealers/lotcrm/:path*',   permanent: true },
