@@ -59,3 +59,9 @@ templates/rendered/
 *.backup-*
 *.bak-*
 *.backup2-*
+
+# next-pwa auto-generated service worker artifacts
+/public/sw.js
+/public/workbox-*.js
+/public/sw.js.map
+/public/workbox-*.js.map

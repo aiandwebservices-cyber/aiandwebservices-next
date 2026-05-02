@@ -108,15 +108,18 @@ const nextConfig: NextConfig = {
         destination: 'https://blog.aiandwebservices.com/:slug*',
         permanent: true,
       },
-      // LotPilot moved to its own domain
-      { source: '/dealers/:path*',                destination: 'https://lotpilot.ai/dealers/:path*',  permanent: true },
-      { source: '/samples/example005',            destination: 'https://lotpilot.ai/dealers/lotcrm',           permanent: true },
-      { source: '/samples/example005/:path*',     destination: 'https://lotpilot.ai/dealers/lotcrm/:path*',   permanent: true },
-      { source: '/lotpilot/:path*',               destination: 'https://lotpilot.ai/:path*',          permanent: true },
-      { source: '/embed/:path*',                  destination: 'https://lotpilot.ai/embed/:path*',    permanent: true },
-      { source: '/api/dealer/:path*',             destination: 'https://lotpilot.ai/api/dealer/:path*', permanent: true },
+      // LotPilot moved to its own domain — only redirect when traffic arrives
+      // on the AIandWEBservices domains, so local dev and the lotpilot.ai
+      // domain itself can serve /lotpilot/* directly.
+      { source: '/dealers/:path*',                has: [{ type: 'host', value: '(www\\.)?aiandwebservices\\.com' }], destination: 'https://lotpilot.ai/dealers/:path*',  permanent: true },
+      { source: '/samples/example005',            has: [{ type: 'host', value: '(www\\.)?aiandwebservices\\.com' }], destination: 'https://lotpilot.ai/dealers/lotcrm',           permanent: true },
+      { source: '/samples/example005/:path*',     has: [{ type: 'host', value: '(www\\.)?aiandwebservices\\.com' }], destination: 'https://lotpilot.ai/dealers/lotcrm/:path*',   permanent: true },
+      { source: '/lotpilot/:path*',               has: [{ type: 'host', value: '(www\\.)?aiandwebservices\\.com' }], destination: 'https://lotpilot.ai/:path*',          permanent: true },
+      { source: '/embed/:path*',                  has: [{ type: 'host', value: '(www\\.)?aiandwebservices\\.com' }], destination: 'https://lotpilot.ai/embed/:path*',    permanent: true },
+      { source: '/api/dealer/:path*',             has: [{ type: 'host', value: '(www\\.)?aiandwebservices\\.com' }], destination: 'https://lotpilot.ai/api/dealer/:path*', permanent: true },
     ];
   },
+
   async headers() {
     return [
       {
