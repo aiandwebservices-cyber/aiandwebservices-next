@@ -14,10 +14,6 @@ const CLIENTS = {
     name: 'LotCRM — Car Dealership Demo',
     url: 'https://lotpilot.ai/dealers/lotcrm',
   },
-  primo: {
-    name: 'Primo Auto — Dealership Demo',
-    url: 'https://lotpilot.ai/dealers/primo',
-  },
 };
 
 export const metadata = {

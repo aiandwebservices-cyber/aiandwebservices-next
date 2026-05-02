@@ -22,12 +22,12 @@ export default clerkMiddleware(async (auth, req) => {
     await auth.protect()
   }
 
-  // Dealer admin pages — requires auth unless ?demo=true on the primo dealer
+  // Dealer admin pages — requires auth unless ?demo=true on the lotcrm dealer
   if (isDealerAdminPage(req)) {
     const url = req.nextUrl
     const isDemo =
       url.searchParams.get('demo') === 'true' &&
-      url.pathname.startsWith('/dealers/primo/admin')
+      url.pathname.startsWith('/dealers/lotcrm/admin')
     if (!isDemo) {
       await auth.protect()
     }
