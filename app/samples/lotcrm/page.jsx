@@ -174,7 +174,7 @@ function SideRail({ active, onJump, theme, onThemeToggle, lang, onLangToggle, sa
         <div style={{
           fontFamily: FONT_MONO, fontSize: 8, letterSpacing: 1.5,
           textAlign: 'center', marginTop: 8, color: C.gold,
-        }}>PRIMO//MIA</div>
+        }}>LOTCRM//MIA</div>
       </a>
 
       {/* section list */}
@@ -317,7 +317,7 @@ function Hero({ onCTA, lang = 'en' }) {
         WebkitTextStroke: `1px ${C.rule2}`,
         letterSpacing: '-8px', textTransform: 'uppercase',
         userSelect: 'none', whiteSpace: 'nowrap',
-      }}>PRIMO</div>
+      }}>LOTCRM</div>
 
       {/* content grid */}
       <div style={{
@@ -1684,7 +1684,7 @@ function TradeIn() {
             <span style={{ width: 8, height: 8, borderRadius: '50%', background: '#28CA41' }} />
             <span style={{
               flex: 1, textAlign: 'center', fontSize: 10, color: C.inkLow, letterSpacing: 1,
-            }}>primo://trade-est ~ session 0501</span>
+            }}>lotcrm://trade-est ~ session 0501</span>
           </div>
 
           {/* form rows */}
@@ -1922,7 +1922,7 @@ function Charter() {
       position: 'relative', padding: '100px 0',
       background: C.bg2, borderTop: `1px solid ${C.rule}`,
     }}>
-      <VTag num={5} label="THE PRIMO CHARTER" color={C.gold} />
+      <VTag num={5} label="THE LOTCRM CHARTER" color={C.gold} />
 
       <div style={{
         paddingLeft: 96, paddingRight: 48,
@@ -2068,10 +2068,10 @@ function Voices() {
   const [ref, seen] = useInView();
   const REV = [
     { name: 'Marcus J.',  car: '2023 BMW X5',           date: '2026-04-18', text: 'Found my BMW online, got pre-approved in literally 90 seconds, and drove it home the next day. Zero pressure. The CARFAX was clean and the price was already below market.' },
-    { name: 'Daniela R.', car: '2022 Mercedes GLE',     date: '2026-04-11', text: 'I was dreading the dealership experience. PRIMO was a different planet. Sam in finance got me 4.1% APR with my 680 score — better than my credit union. They delivered to my house in Coral Gables.' },
+    { name: 'Daniela R.', car: '2022 Mercedes GLE',     date: '2026-04-11', text: 'I was dreading the dealership experience. LOTCRM was a different planet. Sam in finance got me 4.1% APR with my 680 score — better than my credit union. They delivered to my house in Coral Gables.' },
     { name: 'Anthony C.', car: '2024 Audi Q5',          date: '2026-04-03', text: 'Test drove three SUVs in one afternoon. No salesperson hovering. Honest answers, transparent pricing. Bought the Q5, took the trade-in offer for my Civic — all-in done in under 3 hours.' },
     { name: 'Priya S.',   car: '2023 Tesla Model Y',    date: '2026-03-28', text: 'Honestly the best used car experience I\'ve had. Inspection report was on the windshield. They even let me bring it to my own mechanic for a second look before signing.' },
-    { name: 'Jorge L.',   car: '2022 Cadillac Escalade',date: '2026-03-21', text: 'Hablan español, lo cual fue clave para mi mamá. Trato profesional, sin presión, y el precio fue justo. Recomiendo Primo a cualquier familia latina.' },
+    { name: 'Jorge L.',   car: '2022 Cadillac Escalade',date: '2026-03-21', text: 'Hablan español, lo cual fue clave para mi mamá. Trato profesional, sin presión, y el precio fue justo. Recomiendo LotCRM a cualquier familia latina.' },
   ];
 
   return (
@@ -2592,14 +2592,14 @@ function Footer() {
       background: '#040406', borderTop: `1px solid ${C.rule}`,
       padding: '48px 48px 24px 96px',
     }}>
-      {/* big PRIMO type */}
+      {/* big LOTCRM type */}
       <div aria-hidden style={{
         fontFamily: FONT_DISPLAY, fontWeight: 700,
         fontSize: 'clamp(4rem, 12vw, 9rem)',
         lineHeight: 0.85, letterSpacing: '-4px',
         color: 'transparent', WebkitTextStroke: `1px ${C.rule2}`,
         textTransform: 'uppercase', marginBottom: 36,
-      }}>PRIMO AUTO MIA</div>
+      }}>LOTCRM AUTO MIA</div>
 
       <div style={{
         display: 'grid', gridTemplateColumns: '1.4fr 1fr 1fr 1fr', gap: 36,
@@ -2664,7 +2664,7 @@ function Footer() {
         flexWrap: 'wrap', gap: 14,
         fontFamily: FONT_MONO, fontSize: 10, letterSpacing: 1.5, color: C.inkLow,
       }}>
-        <div>© {new Date().getFullYear()} PRIMO AUTO GROUP · ALL RIGHTS RESERVED</div>
+        <div>© {new Date().getFullYear()} LOTCRM AUTO GROUP · ALL RIGHTS RESERVED</div>
         <div style={{ display: 'flex', gap: 18 }}>
           {['PRIVACY POLICY', 'TERMS', 'ACCESSIBILITY', 'SITEMAP'].map(l => (
             <a key={l} href="#" style={{ color: C.inkLow, textDecoration: 'none' }}>{l}</a>
@@ -2745,7 +2745,7 @@ function QRBlock({ seed = 'P0000', size = 132 }) {
 function TextUsButton() {
   return (
     <a
-      href="sms:3055550199?&body=Hi, I'm interested in a vehicle at Primo Auto Group"
+      href="sms:3055550199?&body=Hi, I'm interested in a vehicle at LotCRM Auto Group"
       className="textus-btn"
       style={{
         position: 'fixed', left: 96, top: '50%',
@@ -2980,7 +2980,7 @@ function AIChatWidget({ open, onToggle }) {
               <div style={{
                 fontFamily: FONT_DISPLAY, fontWeight: 700, fontSize: 14,
                 color: C.ink, letterSpacing: 0.3,
-              }}>PRIMO BOT</div>
+              }}>LOTCRM BOT</div>
               <div style={{
                 fontFamily: FONT_MONO, fontSize: 9, letterSpacing: 1.5, color: C.cyan,
                 display: 'flex', alignItems: 'center', gap: 5,
@@ -4761,7 +4761,7 @@ function MeetTheTeam() {
                 onMouseEnter={e => e.currentTarget.style.borderColor = C.gold}
                 onMouseLeave={e => e.currentTarget.style.borderColor = C.rule2}
                 >📞 CALL</a>
-                <a href="mailto:team@primoauto.com" title="Email" style={{
+                <a href="mailto:team@lotcrmauto.com" title="Email" style={{
                   flex: 1, padding: '8px',
                   background: 'transparent', border: `1px solid ${C.rule2}`,
                   color: C.cyan, textAlign: 'center', textDecoration: 'none',
@@ -5010,7 +5010,7 @@ function AccessibilityWidget({ a11y, setA11y }) {
 }
 
 /* ─── Page Composition ───────────────────────────── */
-export default function PrimoAutoGroup() {
+export default function LotCRMAutoGroup() {
   const [priceMode, setPriceMode] = useState('price');
   const [active, setActive] = useState(null);
   const [section, setSection] = useState('top');
