@@ -1,0 +1,14 @@
+{
+  "name": "@aiandweb/agent-actions",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Shared action registry for agent surfaces. Vendor this folder; each site keeps its own actions and facts.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "files": ["src", "README.md"],
+  "peerDependencies": {
+    "zod": ">=3"
+  }
+}

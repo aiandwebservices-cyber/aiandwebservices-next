@@ -1,20 +1,9 @@
 'use client';
 import { useState } from 'react';
 import { motion, AnimatePresence, useReducedMotion } from 'framer-motion';
-import Link from 'next/link';
+import { HOMEPAGE_FAQS as faqs } from '@/lib/homepage-faq';
 
 const TEAL = '#2AA5A0';
-
-const faqs = [
-  { q:'How long does it take to go live?',                a:'Most AI systems and websites are live within 7–14 days. A basic AI chatbot can be live in 3–5 days. Complex CRM integrations or full funnels take 2–3 weeks. We set a realistic timeline on the free audit call — no surprises.' },
-  { q:'Do I need any technical knowledge?',               a:'None at all. You explain your business, I build the tech. Most clients have zero technical background and are live in under 2 weeks. You never touch a line of code.' },
-  { q:'What if I want to cancel?',                        a:"No lock-in, no penalties. Give 30 days written notice and you're done. No contracts, no cancellation fees, no awkward conversations. You own everything we built — it's yours." },
-  { q:'Will the AI actually sound like a human?',         a:"Modern AI is indistinguishable in most conversations. Your chatbot is trained specifically on your business — your tone, your FAQs, your pricing, your service area. It's not a generic bot — it knows your business." },
-  { q:'How long before SEO shows results?',               a:"SEO is a long-term investment — most clients see meaningful movement in 3–6 months. That said, technical fixes and Google Business Profile optimisation can show results much faster. I focus on sustainable rankings, not tricks that get penalised later." },
-  { q:'Can you work with my existing website?',           a:"Yes — I can optimise what you have or build from scratch. The recommendation depends on what's holding you back. If your site is slow, outdated, or built on a platform I can't properly optimise, a rebuild is usually the faster and cheaper path long-term." },
-  { q:"What's included in the free AI audit?",            a:"A plain-English breakdown of where AI, SEO, or a better website would have the biggest impact on your business. I look at your site, your competitors, your Google visibility, and your current lead process. No pitch, no pressure — just honest advice." },
-  { q:'Do you accept crypto payment?',                    a:'Yes. I accept Bitcoin, USDC, and major stablecoins. I also build crypto payment infrastructure for businesses that want to accept crypto from their own customers.' },
-];
 
 const blogs = [
   { href:'https://blog.aiandwebservices.com/how-ai-works-while-you-sleep',                 tag:'AI Automation', title:'How AI Works While You Sleep',          desc:'Discover how automated AI systems handle leads, follow-ups, and customer queries around the clock — without you lifting a finger.' },

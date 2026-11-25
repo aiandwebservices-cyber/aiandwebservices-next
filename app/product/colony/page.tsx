@@ -5,6 +5,8 @@ import FeatureBlock from './components/FeatureBlock'
 import FAQItem from './components/FAQItem'
 import RequestAccessForm from './components/RequestAccessForm'
 import { BreadcrumbSchema } from '@/components/Schema'
+import { MEETING_URL } from '@/lib/contact-channels'
+import { COLONY_FAQS, COLONY_INCLUDED, COLONY_STEPS } from '@/lib/product-colony'
 
 const BASE = 'https://www.aiandwebservices.com'
 const BREADCRUMB_ITEMS = [
@@ -24,34 +26,6 @@ export const metadata: Metadata = {
     images: [{ url: '/colony-screenshots/home.png', width: 1280, height: 800 }],
   },
 }
-
-const FAQS = [
-  {
-    question: 'What data does Colony have access to?',
-    answer:
-      'Colony connects to the systems we already set up for your business during onboarding: your lead pipeline, your CRM records, and your AI agent activity logs. It reads and displays that data. It does not access your email inbox, financial accounts, or any data outside your AIandWEBservices setup.',
-  },
-  {
-    question: 'How is this different from a CRM like HubSpot?',
-    answer:
-      'A traditional CRM is a place you manually log activity. Colony is a live feed of what your AI agents are doing right now. It surfaces leads the moment they arrive, shows you drafted outreach before it goes out, and tracks which agents ran and what they found. You are watching your workforce, not entering data.',
-  },
-  {
-    question: 'Can I use my existing CRM alongside Colony?',
-    answer:
-      'Yes. Colony integrates with EspoCRM and can sit alongside whatever CRM you already use for human-driven activity. Your AI agents feed into Colony, and your team continues using the tools they already know.',
-  },
-  {
-    question: 'What happens if I cancel?',
-    answer:
-      'If you cancel your Revenue Engine or AI-First plan, your Colony access ends. All your lead and activity data remains in your EspoCRM instance, which you can export at any time.',
-  },
-  {
-    question: 'Is my data isolated from other customers?',
-    answer:
-      'Completely. Every Colony instance is scoped to a single cohort. Your agents, your leads, your reports. Nothing is shared, nothing is blended.',
-  },
-]
 
 export default function ColonyMarketingPage() {
   return (
@@ -99,7 +73,7 @@ export default function ColonyMarketingPage() {
                   Request Access
                 </a>
                 <a
-                  href="https://cal.com/aiandwebservices/30min"
+                  href={MEETING_URL}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="rounded-xl px-7 py-3.5 font-semibold text-sm transition-all"
@@ -196,10 +170,10 @@ export default function ColonyMarketingPage() {
           <p className="text-base" style={{ color: '#64748b' }}>
             Colony is included with our{' '}
             <span className="font-semibold text-white">
-              Revenue Engine ($249/month)
+              {COLONY_INCLUDED[0].plan} (${COLONY_INCLUDED[0].monthlyFee}/month)
             </span>{' '}
             and{' '}
-            <span className="font-semibold text-white">AI-First ($349/month)</span>{' '}
+            <span className="font-semibold text-white">{COLONY_INCLUDED[1].plan} (${COLONY_INCLUDED[1].monthlyFee}/month)</span>{' '}
             plans.{' '}
             <Link
               href="/services/compare"
@@ -225,11 +199,7 @@ export default function ColonyMarketingPage() {
             From zero to a live AI workforce in three steps.
           </p>
           <div className="space-y-10">
-            {[
-              'We install your agent system and connect it to your business.',
-              'Your agents run on a schedule, finding leads and drafting outreach 24 hours a day, seven days a week.',
-              'You log into Colony each morning to see what they did and what needs your attention today.',
-            ].map((text, i) => (
+            {COLONY_STEPS.map((text, i) => (
               <div key={i} className="flex items-start gap-6">
                 <div
                   className="shrink-0 w-10 h-10 rounded-full flex items-center justify-center text-sm font-black"
@@ -266,7 +236,7 @@ export default function ColonyMarketingPage() {
             Questions
           </h2>
           <div>
-            {FAQS.map((faq, i) => (
+            {COLONY_FAQS.map((faq, i) => (
               <FAQItem key={i} question={faq.question} answer={faq.answer} />
             ))}
           </div>

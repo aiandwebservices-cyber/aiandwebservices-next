@@ -2,6 +2,7 @@ export const consultingContent = {
   metaTitle: 'À la Carte AI & Web Services | Build Your Own Package | AIandWEBservices',
   metaDescription: 'Pick the services you need — website, AI automation, voice AI, SEO, or chatbot — with no monthly plan required. Custom quote, no lock-in. Serving Florida businesses.',
   deliveryTime: 'Custom quote within 24 hours',
+  startingPrice: 99,
   pricingCta: 'Get a Quote',
 
   hero: {

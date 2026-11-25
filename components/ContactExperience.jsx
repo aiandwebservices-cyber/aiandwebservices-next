@@ -4,6 +4,7 @@ import { motion, useReducedMotion } from 'framer-motion';
 import { Mail, Phone, Zap, MessageCircle } from 'lucide-react';
 import dynamic from 'next/dynamic';
 import ContactForm from '@/components/ContactForm';
+import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_TEL, CONTACT_TELEGRAM_HANDLE, CONTACT_TELEGRAM_URL } from '@/lib/contact-channels';
 
 const CalContactEmbed = dynamic(() => import('@/components/CalContactEmbed'), { ssr: false });
 
@@ -159,17 +160,17 @@ export default function ContactExperience({ standalone = false }) {
         {/* Contact strip */}
         <motion.div {...fade(0.08)} style={{ flexShrink: 0 }}>
           <div className="contact-strip" style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(0, 1fr))', gap: 'clamp(12px, 2vw, 24px)', alignItems: 'center' }}>
-            <a href="mailto:david@aiandwebservices.com" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px', color: 'inherit' }}>
+            <a href={`mailto:${CONTACT_EMAIL}`} style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px', color: 'inherit' }}>
               <div style={{ width: '38px', height: '38px', minWidth: '38px', borderRadius: '10px', background: 'rgba(37,99,235,.15)', border: '1px solid rgba(37,99,235,.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#60a5fa' }}><Mail size={17} strokeWidth={1.75} /></div>
-              <div><div style={{ fontSize: 12, fontWeight: 600, color: '#fff', marginBottom: 2 }}>Email</div><div style={{ fontSize: 12, color: '#60a5fa', fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>david@aiandwebservices.com</div></div>
+              <div><div style={{ fontSize: 12, fontWeight: 600, color: '#fff', marginBottom: 2 }}>Email</div><div style={{ fontSize: 12, color: '#60a5fa', fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{CONTACT_EMAIL}</div></div>
             </a>
-            <a href="tel:+13155720710" className="contact-phone-cell" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px', color: 'inherit' }}>
+            <a href={`tel:${CONTACT_PHONE_TEL}`} className="contact-phone-cell" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px', color: 'inherit' }}>
               <div style={{ width: '38px', height: '38px', minWidth: '38px', borderRadius: '10px', background: 'rgba(37,99,235,.15)', border: '1px solid rgba(37,99,235,.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#60a5fa' }}><Phone size={17} strokeWidth={1.75} /></div>
-              <div><div style={{ fontSize: 12, fontWeight: 600, color: '#fff', marginBottom: 2 }}>Phone</div><div style={{ fontSize: 12, color: '#60a5fa', fontWeight: 500 }}>(315) 572-0710</div></div>
+              <div><div style={{ fontSize: 12, fontWeight: 600, color: '#fff', marginBottom: 2 }}>Phone</div><div style={{ fontSize: 12, color: '#60a5fa', fontWeight: 500 }}>{CONTACT_PHONE_DISPLAY}</div></div>
             </a>
-            <a href="https://t.me/aiandwebservices" target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px', color: 'inherit' }}>
+            <a href={CONTACT_TELEGRAM_URL} target="_blank" rel="noopener noreferrer" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '10px', color: 'inherit' }}>
               <div style={{ width: '38px', height: '38px', minWidth: '38px', borderRadius: '10px', background: 'rgba(37,99,235,.15)', border: '1px solid rgba(37,99,235,.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#60a5fa' }}><MessageCircle size={17} strokeWidth={1.75} /></div>
-              <div><div style={{ fontSize: 12, fontWeight: 600, color: '#fff', marginBottom: 2 }}>Telegram</div><div style={{ fontSize: 12, color: '#60a5fa', fontWeight: 500 }}>@aiandwebservices</div></div>
+              <div><div style={{ fontSize: 12, fontWeight: 600, color: '#fff', marginBottom: 2 }}>Telegram</div><div style={{ fontSize: 12, color: '#60a5fa', fontWeight: 500 }}>{CONTACT_TELEGRAM_HANDLE}</div></div>
             </a>
             <div style={{ display: 'flex', alignItems: 'center', gap: '10px' }}>
               <div style={{ width: '38px', height: '38px', minWidth: '38px', borderRadius: '10px', background: 'rgba(245,158,11,.15)', border: '1px solid rgba(245,158,11,.3)', display: 'flex', alignItems: 'center', justifyContent: 'center', color: '#f59e0b' }}><Zap size={17} strokeWidth={1.75} /></div>

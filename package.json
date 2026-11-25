@@ -7,7 +7,9 @@
     "build": "next build --webpack",
     "analyze": "ANALYZE=true next build --webpack",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "typecheck": "tsc --noEmit",
+    "test": "node --experimental-strip-types --test --test-reporter spec test/**/*.test.ts"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.91.0",

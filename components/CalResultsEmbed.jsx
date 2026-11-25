@@ -1,5 +1,6 @@
 'use client';
 import { useEffect } from 'react';
+import { MEETING_PATH } from '@/lib/contact-channels';
 
 export default function CalResultsEmbed({ name = '', email = '' }) {
   useEffect(() => {
@@ -37,7 +38,7 @@ export default function CalResultsEmbed({ name = '', email = '' }) {
         layout: 'month_view',
         prefill: { name, email },
       },
-      calLink: 'aiandwebservices/30min',
+      calLink: MEETING_PATH,
     });
     Cal.ns['30min']('ui', {
       theme: 'light',
