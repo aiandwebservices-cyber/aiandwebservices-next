@@ -1,5 +1,6 @@
 'use client';
 import { useEffect } from 'react';
+import { MEETING_PATH } from '@/lib/contact-channels';
 
 export default function CalInlineEmbed() {
   useEffect(() => {
@@ -34,7 +35,7 @@ export default function CalInlineEmbed() {
     Cal.ns['30min']('inline', {
       elementOrSelector: '#cal-inline-embed',
       config: { layout: 'month_view' },
-      calLink: 'aiandwebservices/30min',
+      calLink: MEETING_PATH,
     });
     Cal.ns['30min']('ui', {
       theme: 'light',

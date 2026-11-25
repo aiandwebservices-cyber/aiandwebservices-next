@@ -1,3 +1,5 @@
+import { SCHEMA_FAQS as HOME_FAQS } from '@/lib/homepage-faq';
+
 const PRICE_VALID_UNTIL = `${new Date().getFullYear() + 1}-12-31`;
 
 /**
@@ -263,41 +265,6 @@ export function HomepageServiceSchema() {
 }
 
 // ─── 4. FAQ schema — homepage FAQ section ─────────────────────────────────────
-
-const HOME_FAQS = [
-  {
-    q: 'How long does it take to build an AI automation system?',
-    a: 'Most AI automation systems and chatbots are live within 7–14 days. The timeline depends on complexity — a basic inquiry bot is faster than a full CRM-integrated voice AI system. We discuss timelines during your free audit.',
-  },
-  {
-    q: 'Do I need technical knowledge to work with you?',
-    a: 'None at all. David handles everything from strategy to build to launch. You explain your business, we build the systems. Most clients have zero technical background.',
-  },
-  {
-    q: 'What happens if I want to cancel my monthly retainer?',
-    a: 'No lock-in, no penalties. Just give 30 days written notice and you\'re done. No contracts, no hoops to jump through.',
-  },
-  {
-    q: 'Will the AI chatbot actually sound like a human?',
-    a: 'Modern AI conversations are indistinguishable from human responses in most cases. Your chatbot is trained specifically on your business — your tone, your FAQs, your offers. It\'s not a generic bot.',
-  },
-  {
-    q: 'How does SEO work and how long before I see results?',
-    a: 'SEO is a long-term play — most clients see meaningful movement in 3–6 months. Technical fixes and Google Business Profile optimisation can show results faster.',
-  },
-  {
-    q: 'Can you work with my existing website or do I need a new one?',
-    a: 'Both. David can optimise and improve an existing site, or build a new one from scratch. The recommendation depends on what\'s holding you back — covered in the free audit.',
-  },
-  {
-    q: "What's included in the free AI audit?",
-    a: 'A plain-English breakdown of where your biggest opportunities are — whether that\'s SEO, a chatbot, automation, or your website. No pitch, no pressure. Just an honest assessment.',
-  },
-  {
-    q: 'Do you offer crypto payment options?',
-    a: 'Yes. We accept Bitcoin, stablecoins, and major cryptocurrencies for all services. We also build crypto payment infrastructure for businesses that want to accept crypto from their own customers.',
-  },
-];
 
 export function HomepageFAQSchema() {
   return (

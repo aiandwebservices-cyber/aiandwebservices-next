@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { CONTACT_EMAIL, CONTACT_SERVICE_OPTIONS } from '@/lib/contact-channels';
 
 function formatPhone(value) {
   const digits = value.replace(/\D/g, '').slice(0, 10);
@@ -144,12 +145,7 @@ export default function ContactForm() {
           onFocus={e => e.target.style.borderColor = 'rgba(37,99,235,.5)'}
           onBlur={e => e.target.style.borderColor = 'rgba(255,255,255,.1)'}>
           <option value="">Select one...</option>
-          <option>AI Automation (lead capture, chatbots, workflows)</option>
-          <option>Website &amp; Design (redesign, conversion optimization)</option>
-          <option>SEO (rankings, traffic, visibility)</option>
-          <option>Full Package (AI + Website + SEO)</option>
-          <option>Strategy Consulting (roadmap, audit)</option>
-          <option>Not sure yet (let&apos;s explore)</option>
+          {CONTACT_SERVICE_OPTIONS.map((option) => <option key={option}>{option}</option>)}
         </select>
         <div style={{ fontSize: 12, color: 'rgba(255,255,255,.45)', marginTop: 4 }}>Helps us prepare for the audit</div>
       </div>
@@ -186,7 +182,7 @@ export default function ContactForm() {
         justifyContent: 'center',
         gap: '8px',
       }}>
-        {status === 'sending' ? 'Sending...' : status === 'error' ? 'Error — email david@aiandwebservices.com' : <><span>Get My Free Audit</span> <ArrowRight size={16} /></>}
+        {status === 'sending' ? 'Sending...' : status === 'error' ? `Error — email ${CONTACT_EMAIL}` : <><span>Get My Free Audit</span> <ArrowRight size={16} /></>}
       </button>
 
       <p style={{ fontSize: 11, color: 'rgba(255,255,255,.35)', marginTop: 16, lineHeight: 1.5 }}>

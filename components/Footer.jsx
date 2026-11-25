@@ -1,5 +1,6 @@
 'use client';
 import Link from 'next/link';
+import { CONTACT_EMAIL, CONTACT_PHONE_DISPLAY, CONTACT_PHONE_TEL, FOOTER_TELEGRAM_LABEL, FOOTER_TELEGRAM_URL } from '@/lib/contact-channels';
 
 export default function Footer() {
   return (
@@ -43,18 +44,18 @@ export default function Footer() {
           <h4 className="footer-heading">Contact</h4>
           <div className="footer-contact">
             <div className="footer-contact-item">
-              <a href="mailto:david@aiandwebservices.com" className="footer-contact-link">
-                david@aiandwebservices.com
+              <a href={`mailto:${CONTACT_EMAIL}`} className="footer-contact-link">
+                {CONTACT_EMAIL}
               </a>
             </div>
             <div className="footer-contact-item">
-              <a href="tel:+13155720710" className="footer-contact-link">
-                (315) 572-0710
+              <a href={`tel:${CONTACT_PHONE_TEL}`} className="footer-contact-link">
+                {CONTACT_PHONE_DISPLAY}
               </a>
             </div>
             <div className="footer-contact-item">
-              <a href="https://t.me/aiandwebservice" className="footer-contact-link" target="_blank" rel="noopener noreferrer">
-                @aiandwebservices on Telegram
+              <a href={FOOTER_TELEGRAM_URL} className="footer-contact-link" target="_blank" rel="noopener noreferrer">
+                {FOOTER_TELEGRAM_LABEL}
               </a>
             </div>
             <p className="footer-promise">6-hour response guarantee</p>

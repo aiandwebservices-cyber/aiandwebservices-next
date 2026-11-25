@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { motion, useInView, useScroll, useReducedMotion } from 'framer-motion';
 import { Check, X, ArrowRight, Zap, Star } from 'lucide-react';
 import { TIERS } from '@/lib/pricing';
+import { COMPARE_TIER_ORDER, FEATURE_ROWS, GROUP_ORDER } from '@/lib/comparison';
 
 const ACCENT = '#2AA5A0';
 
@@ -25,28 +26,7 @@ function ProgressBar() {
   return <motion.div style={{ position: 'fixed', top: 0, left: 0, right: 0, height: '3px', zIndex: 300, background: `linear-gradient(90deg,${ACCENT},#33BDB8)`, scaleX: scrollYProgress, transformOrigin: '0%' }} />;
 }
 
-const TIER_ORDER = ['ai-automation-starter','presence','growth','revenue-engine','ai-first'];
-const TIERS_SORTED = TIER_ORDER.map(slug => TIERS.find(t => t.slug === slug)).filter(Boolean);
-
-const FEATURE_ROWS = [
-  { label: 'Professional website (5 pages)',              group: 'Website & SEO',        tiers: ['presence','growth','revenue-engine','ai-first'] },
-  { label: 'Local SEO + Google Business Profile',         group: 'Website & SEO',        tiers: ['presence','growth','revenue-engine','ai-first'] },
-  { label: 'Basic AI assistant',                          group: 'AI & Automation',       tiers: ['ai-automation-starter','growth','revenue-engine','ai-first'] },
-  { label: 'AI automation system (lead qualify)',         group: 'AI & Automation',       tiers: ['ai-automation-starter','growth','revenue-engine','ai-first'] },
-  { label: 'Calendar + CRM integration',                  group: 'AI & Automation',       tiers: ['ai-automation-starter','growth','revenue-engine','ai-first'] },
-  { label: 'Monthly performance report',                  group: 'AI & Automation',       tiers: ['ai-automation-starter','growth','revenue-engine','ai-first'] },
-  { label: 'Monthly SEO + site health report',            group: 'Website & SEO',        tiers: ['presence','growth','revenue-engine','ai-first'] },
-  { label: 'Email marketing + welcome sequence',          group: 'Marketing & Growth',    tiers: ['growth','revenue-engine','ai-first'] },
-  { label: 'SEO content (2 articles/month)',              group: 'Website & SEO',        tiers: ['growth','revenue-engine','ai-first'] },
-  { label: 'Sales funnel design + build',                 group: 'Marketing & Growth',    tiers: ['revenue-engine','ai-first'] },
-  { label: 'Workflow automation',                         group: 'AI & Automation',       tiers: ['revenue-engine','ai-first'] },
-  { label: 'Paid ads management (client funds spend)',    group: 'Marketing & Growth',    tiers: ['revenue-engine','ai-first'] },
-  { label: 'Advanced AI assistant (knowledge base)',      group: 'AI & Automation',       tiers: ['revenue-engine','ai-first'] },
-  { label: 'Voice AI (answers calls)',                    group: 'AI & Automation',       tiers: ['ai-first'] },
-  { label: 'Social media AI scheduling',                  group: 'AI & Automation',       tiers: ['ai-first'] },
-];
-
-const GROUP_ORDER = ['Website & SEO', 'AI & Automation', 'Marketing & Growth', 'Strategy & Analytics'];
+const TIERS_SORTED = COMPARE_TIER_ORDER.map(slug => TIERS.find(t => t.slug === slug)).filter(Boolean);
 
 export default function CompareAllPlansPage() {
   const [view, setView] = useState('list');
