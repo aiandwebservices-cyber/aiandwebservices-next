@@ -36,9 +36,12 @@ export default clerkMiddleware(async (auth, req) => {
 
 export const config = {
   matcher: [
-    // Public no-JS /forms/* surfaces must not enter Clerk (a document GET
-    // otherwise 307s to the dev-browser handshake). Every other route stays matched.
-    '/((?!_next|forms(?:/|$)|[^?]*\\.(?:html?|css|js(?!on)|jpe?g|webp|png|gif|svg|ttf|woff2?|ico|csv|docx?|xlsx?|zip|webmanifest)).*)',
-    '/(api|trpc)(.*)',
+    // Clerk only where a route reads auth or renders Clerk. A document GET
+    // that enters this middleware 307s to the dev-browser handshake, so public
+    // marketing routes (including /forms) stay unmatched.
+    '/((?:colony|desktop|invite)(?:/.*)?)',
+    '/dealers/:dealerId/admin(/.*)?',
+    '/api/colony(/.*)?',
+    '/api/dealer/:dealerId/admin(/.*)?',
   ],
 }
